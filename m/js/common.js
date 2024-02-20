@@ -426,13 +426,13 @@ function itemlistwish(gs_id) {
         bv_shop_url+"/ajax.wishupdate.php",
         { gs_id: gs_id },
         function(data) {
-			if(data == 'INSERT') {
-				$("."+gs_id).attr('class',gs_id+' zzim on');
-			} else if(data == 'DELETE') {
-				$("."+gs_id).attr('class',gs_id+' zzim');
-			} else {
-				alert(data);
-			}
+          if(data == 'INSERT') {
+            $("."+gs_id).addClass('on');
+          } else if(data == 'DELETE') {
+            $("."+gs_id).removeClass('on');
+          } else {
+            alert(data);
+          }
         }
     );
 }

@@ -60,21 +60,21 @@ for($i=0; $i<count($gw_msort); $i++) {
         </div>
       </div>
 
-      <div class="container">
-        <div class="dp-top">
-          <div class="txt-board-cnt">총 <span class="cnt"><?php echo number_format($total_count); ?></span>건</div>
-          <div class="cp-sort">  
-            <span class="cp-sort__btn"><?php echo $sort_name; ?></span>
-          </div>
-          <div class="cp-sort__list">
-            <h2>상품 정렬</h2>
-            <ul>
-              <?php echo $sort_str; // 탭메뉴 ?>
-            </ul>
-            <span class="ionicons ion-ios-close-empty cp-sort__close"></span>
-          </div>
-          <div class="cp-sort__bg"></div>
+      <div class="container dp-top">
+        <div class="txt-board-cnt">총 <span class="cnt"><?php echo number_format($total_count); ?></span>건</div>
+        <div class="cp-sort">  
+          <span class="cp-sort__btn"><?php echo $sort_name; ?></span>
         </div>
+        <!--
+        <div class="cp-sort__list">
+          <h2>상품 정렬</h2>
+          <ul>
+            <?php // echo $sort_str; // 탭메뉴 ?>
+          </ul>
+          <span class="ionicons ion-ios-close-empty cp-sort__close"></span>
+        </div>
+        <div class="cp-sort__bg"></div>
+        -->
       </div>
 
       <div class="container prod-dp-ct">
@@ -113,6 +113,18 @@ for($i=0; $i<count($gw_msort); $i++) {
   </div>
 </div>
 
+<div class="pop-bottom cp-sort__list">
+  <div class="top">
+    <span class="tit">상품 정렬</span>
+    <button type="button" class="ui-btn close-btn"></button>
+  </div>
+  <div class="ct">
+    <ul class="cp-sort-ct">
+      <?php echo $sort_str; // 탭메뉴 ?>
+    </ul>
+  </div>
+</div>
+
 <script type="module">
 import * as f from '/src/js/function.js';
 
@@ -120,26 +132,4 @@ import * as f from '/src/js/function.js';
 let caMenuActive = '<?php echo $_GET['ca_id']?>';
 const caMenuTarget = '.prod-list__category .category-wrap';
 const caMenu = f.hrizonMenu(caMenuTarget, caMenuActive);
-
-//Sort
-$(function() {
-	let mbheight = $(window).height();
-  const cpSort = ".cp-sort";
-  const cpSortBtn = ".cp-sort__btn";
-  const cpSortClose = ".cp-sort__close";
-  const cpSortList = ".cp-sort__list";
-  const cpSortBg = ".cp-sort__bg";
-
-	$(cpSortBtn).click(function(){
-		$(cpSortBg).fadeIn(300);
-		$(cpSortList).slideDown('fast');
-		$('html').css({'height':mbheight+'px', 'overflow':'hidden'});
-	});
-
-	$(`${cpSortBg}, ${cpSortClose}`).click(function(){
-		$(cpSortBg).fadeOut(300);
-		$(cpSortList).slideUp('fast');
-		$('html').css({'height':'100%', 'overflow':'scroll'});
-	});
-});
 </script>
