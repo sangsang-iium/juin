@@ -102,6 +102,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu1('c10', '카테고리 관리'); ?>
 		<?php echo printMenu2('c10', ADMIN_MENU4_01, BV_ADMIN_URL.'/category.php?code=list'); ?>
 		<?php echo printMenu2('c10', ADMIN_MENU4_02, BV_ADMIN_URL.'/category.php?code=view'); ?>
+		<?php echo printMenu2('c10', ADMIN_MENU4_03, BV_ADMIN_URL.'/category.php?code=main'); ?>
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU5) {

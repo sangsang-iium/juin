@@ -13,6 +13,7 @@ if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
 
 if($code == "list") $pg_title2 = ADMIN_MENU4_01;
 if($code == "view") $pg_title2 = ADMIN_MENU4_02;
+if($code == "main") $pg_title2 = ADMIN_MENU4_03;
 
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>
