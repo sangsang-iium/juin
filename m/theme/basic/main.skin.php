@@ -3,7 +3,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 ?>
 
 <!-- contents { -->
-<div id="contents" class="main-contents a123123">
+<span>hi</span>
+<div id="contents" class="main-contents b123123">
 
 <?php if($main_topbnr_slider = mobile_slider(0, $pt_id)) { ?>
 <div class="section mtb-wrap">
