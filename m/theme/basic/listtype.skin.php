@@ -50,7 +50,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             $it_sprice = $sale = '';
             if($row['normal_price'] > $it_amount && !$is_uncase) {
               $sett = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
-              $sale = '<span class="sale">['.number_format($sett,0).'%]</span>';
+              $sale = number_format($sett,0).'%';
               $it_sprice = display_price2($row['normal_price']);
             }
 

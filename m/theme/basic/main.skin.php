@@ -35,25 +35,25 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <!-- 상품 카테고리 바로가기 { -->
 <div class="container section main_category">
   <div class="cp-quick-category">
-    <a href="./sub/product-list.html" class="ui-btn">
+    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">
       <i class="icon">
         <img src="/src/img/category-a.png" alt="농수산">
       </i>
       <p class="name">농수산</p>
     </a>
-    <a href="./sub/product-list.html" class="ui-btn">
+    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">
       <i class="icon">
         <img src="/src/img/category-b.png" alt="축산(육가공)">
       </i>
       <p class="name">축산<br>(육가공)</p>
     </a>
-    <a href="./sub/product-list.html" class="ui-btn">
+    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">
       <i class="icon">
         <img src="/src/img/category-c.png" alt="위생/주방용품">
       </i>
       <p class="name">위생/주방<br>용품</p>
     </a>
-    <a href="./sub/product-list.html" class="ui-btn">
+    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">
       <i class="icon">
         <img src="/src/img/category-d.png" alt="종합 식자재">
       </i>

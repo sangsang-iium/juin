@@ -202,11 +202,6 @@ $(document).ready(function () {
     }
   });
 
-  //Product List Category
-  let prodCateActive = '';
-  const prodCateTarget = '.prod-list__category .category-wrap';
-  const prodCate = f.hrizonMenu(prodCateTarget, prodCateActive);
-
   //Product Detail Thumb Slide
   const prodDetailThumbTarget = '.prod-detailThumb .swiper-container';
   const prodDetailThumbOptions = {
@@ -227,11 +222,22 @@ $(document).ready(function () {
   const prodDetailThumbSlider = f.slider(prodDetailThumbTarget, prodDetailThumbOptions);
 
   //Product Detail Info
-  const prodDetailInfo = $(".dtinfo-box");
-  const prodDetailMoreBtn = prodDetailInfo.find(".more-btn");
+  const heightCont = $(".ht-cont");
+  const heightWrap = $(".ht-wrap");
+  const heightView = $(".ht-view");
+  const heightWrap_h = parseInt(heightWrap.height());
+  const heightView_h = parseInt(heightView.height());
+  const heightContMoreBtn = heightCont.find(".more-btn");
 
-  prodDetailMoreBtn.on('click', function(){
-    prodDetailInfo.addClass("on");
+  if(heightWrap_h < heightView_h) {
+    heightContMoreBtn.show();
+  } else {
+    heightContMoreBtn.remove();
+    heightWrap.addClass("non-hidden");
+  }
+
+  heightContMoreBtn.on('click', function(){
+    heightCont.addClass("on");
   });
 
 

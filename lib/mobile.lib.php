@@ -41,6 +41,32 @@ function mobile_tree_category($catecode)
 	}
 }
 
+// 5차카테고리
+function mobile_horizon_category($catecode)
+{
+	global $pt_id;
+
+	$t_catecode = $catecode;
+
+	$sql_common = " from shop_category ";
+	$sql_where  = " where cateuse = '0' and find_in_set('$pt_id', catehide) = '0' ";
+	$sql_order  = " order by caterank, catecode ";
+
+	$sql = " select count(*) as cnt {$sql_common} {$sql_where} and upcate = '$catecode' ";
+	$res = sql_fetch($sql);
+	if($res['cnt'] < 1) {
+		$catecode = substr($catecode,0,-3);
+	}
+
+	$sql = "select * {$sql_common} {$sql_where} and upcate = '$catecode' {$sql_order} ";
+	$result = sql_query($sql);
+  echo "<a href='".BV_MSHOP_URL."/list.php?ca_id=".$catecode."' data-id='".$catecode."' class=\"swiper-slide btn\">전체</a>";
+	for($i=0; $row=sql_fetch_array($result); $i++) {
+		$href = BV_MSHOP_URL.'/list.php?ca_id='.$row['catecode'];
+		echo "<a href=\"{$href}\" data-id=\"{$row['catecode']}\" class=\"swiper-slide btn\">{$row['catename']}</a>\n";
+	}
+}
+
 // mobile_display_goods("영역", "출력수", "타이틀", "클래스명")
 function mobile_display_goods($type, $rows, $mtxt, $li_css='')
 {
