@@ -54,13 +54,12 @@ export const hrizonMenu = function(t, a) {
     swiper.slideTo(activeMenuIndex);
     // swiper.slides[activeMenuIndex].classList.add('active');
     swiper.slides.forEach((slide, index) => {
-      console.log(index, activeMenuIndex)
       if (index === activeMenuIndex) {
           slide.classList.add('active');
       } else {
           slide.classList.remove('active');
       }
-  });
+    });
 
     return {
       el: el,

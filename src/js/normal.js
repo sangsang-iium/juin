@@ -58,22 +58,6 @@ $(document).ready(function () {
   };
   const mainPopBannerSlider = f.slider(mainPopBannerTarget, mainPopBannerOptions);
 
-  //Main Popup
-  const mainPopUp = $('.main-popup');
-  const mainPopUpClose = $('.mpb-close-btn');
-  const mainPopOnlyToday = $('.onlytodayshow');
-
-  mainPopUp.addClass('active');
-
-  if(mainPopUp.hasClass('active')) {
-    popDim.show();
-  }
-  
-  mainPopUpClose.on('click',function(){
-    popDim.fadeOut(500);
-    mainPopUp.removeClass('active');
-  });
-
   //Main Visual Slide
   const mainVisualTarget = '.main_visual .swiper-container';
   const mainVisualOptions = {
@@ -288,8 +272,8 @@ $(document).ready(function () {
   });
 
   //Product Detail Share
-  const prodShareOpenBtn = $(".prod-smInfo__head .share-btn");
   const prodSharePop = $("#prodShare");
+  const prodShareOpenBtn = $(".prod-smInfo__head .share-btn");
   const prodShareCloseBtn = prodSharePop.find(".close-btn");
 
   prodShareOpenBtn.on('click', function(){
@@ -299,6 +283,31 @@ $(document).ready(function () {
 
   prodShareCloseBtn.on('click', function(){
     prodSharePop.removeClass('on');
+    popDim.fadeOut(200);
+  });
+
+  //All menu
+  const depth1Btn = $('.all-ct-depth1-list > li');
+  depth1Btn.on('click',function(){
+    depth1Btn.removeClass('active');
+    $(this).addClass('active');
+    let idx = $(this).data('d1');
+    $('.all-ct-right').find('.all-ct-depth2-list').hide();
+    $('.all-ct-right').find(`.all-ct-depth2-list[data-d1=${idx}]`).show();
+  });
+
+  //Sort
+  const cpSortList = $(".cp-sort__list");
+  const cpSortBtn = $(".cp-sort__btn");
+  const cpSortClose = cpSortList.find(".close-btn");
+  
+  cpSortBtn.on('click', function(){
+    cpSortList.addClass('on');
+    popDim.fadeIn(200);
+  });
+
+  cpSortClose.on('click', function(){
+    cpSortList.removeClass('on');
     popDim.fadeOut(200);
   });
 
@@ -315,16 +324,11 @@ $(document).ready(function () {
       prodSharePop.removeClass('on');
       popDim.fadeOut(200);
     }
-  });
 
-  //All menu
-  const depth1Btn = $('.all-ct-depth1-list > li');
-  depth1Btn.on('click',function(){
-    depth1Btn.removeClass('active');
-    $(this).addClass('active');
-    let idx = $(this).data('d1');
-    $('.all-ct-right').find('.all-ct-depth2-list').hide();
-    $('.all-ct-right').find(`.all-ct-depth2-list[data-d1=${idx}]`).show();
+    if(cpSortList.hasClass('on')){
+      cpSortList.removeClass('on');
+      popDim.fadeOut(200);
+    }
   });
 
   //Scroll Event

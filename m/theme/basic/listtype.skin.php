@@ -1,5 +1,22 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
+
+$qstr1 = 'type='.$type.'&sort='.$sort.'&sortodr='.$sortodr;
+$qstr2 = 'type='.$type;
+
+$sort_str = '';
+for($i=0; $i<count($gw_msort); $i++) {
+	list($tsort, $torder, $tname) = $gw_msort[$i];
+
+	$sct_sort_href = $_SERVER['SCRIPT_NAME'].'?'.$qstr2.'&sort='.$tsort.'&sortodr='.$torder;
+
+	if($sort == $tsort && $sortodr == $torder)
+		$sort_name = $tname;
+	if($i==0 && !($sort && $sortodr))
+		$sort_name = $tname;
+
+	$sort_str .= '<li><a href="'.$sct_sort_href.'">'.$tname.'</a></li>'.PHP_EOL;
+}
 ?>
 
 <div id="contents" class="sub-contents prodList">

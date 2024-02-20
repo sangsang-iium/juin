@@ -92,7 +92,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                 </div>
                 <?php } ?>
               </div>
-              <p class="price"><?php echo number_format($row['ct_price']); ?>원<span class="dc-price"><?php echo number_format($row['ct_supply_price']); ?>원</span></p>
+              <p class="price"><?php echo number_format($row['ct_price']); ?>원<span class="dc-price"><?php echo number_format('99999'); ?>원</span></p>
             </div>
           </div>
         </div>
@@ -223,7 +223,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
       <div id="od-dtn" class="bottomBlank">
         <div class="container">
-          <div class="od-top">
+          <div class="arcodianBtn od-top active">
             <button type="button" class="ui-btn od-toggle-btn">
               <span class="od-tit">배송지</span>
             </button>
@@ -243,7 +243,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
       <div id="od-prod" class="bottomBlank">
         <div class="container">
-          <div class="od-top">
+          <div class="arcodianBtn od-top active">
             <button type="button" class="ui-btn od-toggle-btn">
               <span class="od-tit">주문상품</span>
             </button>
@@ -256,7 +256,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
       <div id="od-benf" class="bottomBlank">
         <div class="container">
-          <div class="od-top">
+          <div class="arcodianBtn od-top active">
             <button type="button" class="ui-btn od-toggle-btn">
               <span class="od-tit">할인/혜택적용</span>
             </button>
@@ -312,7 +312,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
       <div id="od-prc" class="bottomBlank">
         <div class="container">
-          <div class="od-top">
+          <div class="arcodianBtn od-top active">
             <button type="button" class="ui-btn od-toggle-btn">
               <span class="od-tit">결제금액</span>
             </button>
@@ -370,7 +370,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
       <div id="od-pay">
         <div class="container">
-          <div class="od-top">
+          <div class="arcodianBtn od-top active">
             <button type="button" class="ui-btn od-toggle-btn">
               <span class="od-tit">결제수단</span>
             </button>

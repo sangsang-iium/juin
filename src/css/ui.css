@@ -387,8 +387,15 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .type02 .pop-inner .pop-content {max-height: calc(100% - 4.48rem);}
 .type02 .pop-inner .pop-top .close {width: 2rem; height: 2rem; background: url('../img/icon-close.svg') no-repeat center center/cover; font-size: 0; border: none; background-color: transparent; position: absolute; top: 50%; right: 0; transform: translateY(-50%);}
 
+/* Bottom Popup */
+.pop-bottom {position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%); z-index: 560; width: var(--max-width); max-width: 100%; background-color: var(--color-white); border-radius: 2rem 2rem 0 0; box-shadow: 0 0 3.2rem 0 rgba(0,0,0,0.1); transition: 0.3s ease-out;}
+.pop-bottom.on {bottom: 0;}
+.pop-bottom .top {display: flex; align-items: center; width: 100%; position: relative; height: 8rem; border-bottom: 1px solid var(--color-gray10);}
+.pop-bottom .top .tit {display: block; width: 100%; font-size: 2.4rem; font-weight: 500; color: var(--color-black3); text-align: center;}
+.pop-bottom .top .close-btn {display: block; position: absolute; top: 50%; right: 2.4rem; z-index: 10; transform: translateY(-50%); width: 2rem; height: 2rem; background: url('../img/mtb-close-black.png') no-repeat center/contain;}
+.pop-bottom .ct {padding: 5rem 2.4rem;}
+
 /* Cart */
-.cp-cart {padding: 0 2.4rem;}
 .cp-cart .cp-cart-item {padding: 2.8rem 0;}
 .cp-cart .cp-cart-item ~ .cp-cart-item {margin-top: 2rem; border-top: 0.16rem solid #E9E9E9;}
 .cp-cart .cp-cart-head {display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.16rem;}
@@ -534,9 +541,10 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .cp-sort {position:relative;}
 .cp-sort__btn {display:inline-block; padding-right: 3rem; font-size: 2.08rem; font-weight: 500; color: var(--color-black3); cursor:pointer;}
 .cp-sort__btn:after {content:'\f107'; position:absolute; top:50%; right:0; transform: translateY(-50%); font-family:'FontAwesome'; font-size: 2.6rem; color:var(--color-black3);}
-.cp-sort__list {border-top:1px solid #bbb;z-index:9000;position:fixed;bottom:0;left:0;right:0;background-color:#fff;overflow:hidden;display:none;}
-.cp-sort__list h2 {padding:12px 20px;font-size:15px;font-weight:600;border-bottom:1px solid #ddd;background-color:#f8f8f8;text-align:left;display:block;}
-.cp-sort__list li:first-child a {border-top:0;}
-.cp-sort__list li a {font-size:13px;padding:12px 20px;border-top:1px solid #e1e1e1;display:block;position:relative;text-decoration:none !important;}
-.cp-sort__close {color:#999;font-size:35px;position:absolute;top:3px;right:20px;}
-.cp-sort__bg {width:100%;height:100%;background-color:rgba(0,0,0,0.6);position:fixed;top:0;left:0;z-index:8900;display:none;}
+
+.cp-sort__list .ct {padding: 2rem 2.4rem;}
+.cp-sort-ct {}
+.cp-sort-ct > li {border-top: 1px solid var(--color-gray10);}
+.cp-sort-ct > li:first-child {border-top: 0;}
+.cp-sort-ct > li > a {display: block; padding: 1.5rem 0; font-size: 2rem; font-weight: 400; color: var(--color-gray2);}
+

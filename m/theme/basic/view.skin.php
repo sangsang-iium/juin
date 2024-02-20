@@ -23,13 +23,21 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div class="prod-detailThumb">
     <div class="swiper-container">
       <div class="swiper-wrapper">
+        <?php 
+        for($i = 2; $i <= 6; $i++) { 
+          if($gs['simg'.$i]) {
+        ?>
         <div class="swiper-slide item">
           <a href="" class="link">
             <figure class="image">
-              <img src="<?php echo get_it_image_url($gs_id, $gs['simg2'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
+              <img src="<?php echo get_it_image_url($gs_id, $gs['simg'.$i], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
             </figure>
           </a>
         </div>
+        <?php 
+          } //End if
+        } //End for
+        ?>
       </div>
       <div class="round swiper-control">
         <div class="pagination"></div>
@@ -390,6 +398,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </div>
       </div>
       <?php } ?>
+      <?php if($rel_count == 0) echo "<p class=\"empty_list\">연관상품이 없습니다.</p>"; ?>
     </div>
   </div>
 
@@ -469,7 +478,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </div>
 
         <div class="prod-buy__btns">
-          <button type="button" class="ui-btn wish-btn <?php echo zzimCheck($gs_id);?>" title="관심상품 등록하기" onclick="itemlistwish('<?php echo $gs_id;?>')"></button>
+          <button type="button" class="<?php echo $gs_id;?> ui-btn wish-btn <?php echo zzimCheck($gs_id);?>" title="관심상품 등록하기" onclick="itemlistwish('<?php echo $gs_id;?>')"></button>
           <?php echo mobile_buy_button($script_msg, $gs_id); ?>
         </div>
         <?php if($naverpay_button_js) { ?>
@@ -480,7 +489,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     <div class="dfBox">
       <div class="container">
         <div class="prod-buy__btns">
-          <button type="button" class="ui-btn wish-btn <?php echo zzimCheck($gs_id);?>" title="관심상품 등록하기" onclick="itemlistwish('<?php echo $gs_id;?>')"></button>
+          <button type="button" class="<?php echo $gs_id;?> ui-btn wish-btn <?php echo zzimCheck($gs_id);?>" title="관심상품 등록하기" onclick="itemlistwish('<?php echo $gs_id;?>')"></button>
           <button type="button" class="ui-btn round stBlack buy-btn dp">구매하기</button>
         </div>
       </div>

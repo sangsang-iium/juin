@@ -138,11 +138,11 @@
 .prod-detailRel .title {margin-bottom: 2.8rem; font-size: 3.2rem; font-weight: 600; color: var(--color-black2); line-height: 1;}
 .prod-detailRel-slide .cp-item {width: 22rem; margin-right: 2rem;}
 
-.prod-buy_area {overflow: hidden; position: fixed; bottom: 0; left: 0; z-index: 550; width: 100%; height: auto; border-radius: 2rem 2rem 0 0; background-color: #fff; box-shadow: 0 0 3.2rem 0 rgba(0,0,0,0.1);}
+.prod-buy_area {overflow: hidden; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 550; width: var(--max-width); max-width: 100%; height: auto; border-radius: 2rem 2rem 0 0; background-color: #fff; box-shadow: 0 0 3.2rem 0 rgba(0,0,0,0.1);}
 
 .prod-buy__btns {display: flex; flex-flow: row wrap; align-items: center; justify-content: center; gap: 0 1.2rem; width: 100%; height: 10rem;}
 
-.prod-buy_area .actBox {overflow: hidden; height: 0; transform: translate3d(0,150%,0); transition: 0.3s; opacity: 0; visibility: hidden;}
+.prod-buy_area .actBox {overflow: hidden; height: 0; transform: translate3d(0,100%,0); transition: 0.3s; opacity: 0; visibility: hidden;}
 .prod-buy_area .actBox .cart-btn {display: block; width: calc(50% - 4.6rem); height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
 .prod-buy_area .actBox .buy-btn {display: block; width: calc(50% - 4.6rem); height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
 
@@ -161,10 +161,6 @@
 .prod-buy__options #sit_tot_views .sp_tot {margin-top: 2rem;}
 
 .prod-buy_area.on .actBox {height: auto; transform: translate3d(0,0,0); opacity: 1; visibility: visible;}
-
-#prodShare {position: fixed; bottom: -100%; left: 0; z-index: 560; width: 100%; transition: 0.3s ease-out;}
-#prodShare.on {bottom: 0;}
-#prodShare .ct {padding: 5rem 2.4rem;}
 
 /* 기획전 */
 .exhib-item {display: block;}
@@ -343,8 +339,9 @@
 .prodOrder {margin: 0 !important;}
 
 .od-top {}
-.od-toggle-btn {display: block; width: 100%; padding: 3rem 0; background: url('../img/arrow-down4.svg') no-repeat center right/1.5rem auto; text-align: left;}
+.od-toggle-btn {display: block; width: 100%; padding: 3rem 0; background: url('../img/arrow-up4.svg') no-repeat center right/1.5rem auto; text-align: left;}
 .od-tit {font-size: 2.4rem; font-weight: 600; color: var(--color-black2);}
+.od-top.active .od-toggle-btn {background-image: url('../img/arrow-down4.svg');}
 
 .od-ct {padding-bottom: 4rem;}
 
