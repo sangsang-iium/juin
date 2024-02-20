@@ -38,6 +38,7 @@ define('ADMIN_MENU3_06',	'공급사 일괄메일발송');
 define('ADMIN_MENU4',		'카테고리 관리');
 define('ADMIN_MENU4_01',	'카테고리 관리');
 define('ADMIN_MENU4_02',	'카테고리 순위');
+define('ADMIN_MENU4_03',	'카테고리 메인');
 
 define('ADMIN_MENU5',		'상품관리');
 define('ADMIN_MENU5_01',	'전체 상품관리');
