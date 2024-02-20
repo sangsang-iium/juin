@@ -148,49 +148,51 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       <div class="container prod-detailInfo__body">
         <div class="dtinfo-box">
           <div class="dtinfo-inner">
-            <div id="v1">
-              <div class="sp_vbox img_fix2">
-                <?php echo conv_content($gs['memo'], 1); ?>
+            <div class="ht-cont">
+              <div class="ht-wrap">
+                <div class="ht-view prod-memo">
+                  <?php echo conv_content($gs['memo'], 1); ?>
+                </div>
               </div>
+              <button type="button" class="ui-btn round stWhite more-btn" data="stIconRight">
+                <span class="txt">더보기</span>
+                <i class="icn"></i>
+              </button>
+            </div>
 
-              <div class="prod-report">
-                <button type="button" class="ui-btn sizeM stWhite prod-report__btn" onclick="chk_show('extra');">
-                  <span>전자상거래 등에서의 상품정보제공 고시</span>
-                  <span id="extra">보기</span>
-                </button>
+            <div class="prod-report">
+              <button type="button" class="ui-btn sizeM stWhite prod-report__btn" onclick="chk_show('extra');">
+                <span>전자상거래 등에서의 상품정보제공 고시</span>
+                <span id="extra">보기</span>
+              </button>
 
+              <?php
+              if($gs['info_value']) {
+                $info_data = unserialize(stripslashes($gs['info_value']));
+                if(is_array($info_data)) {
+                  $gubun = $gs['info_gubun'];
+                  $info_array = $item_info[$gubun]['article'];
+              ?>
+              <div class="info-list" id="ids_extra" style="display:none;">
                 <?php
-                if($gs['info_value']) {
-                  $info_data = unserialize(stripslashes($gs['info_value']));
-                  if(is_array($info_data)) {
-                    $gubun = $gs['info_gubun'];
-                    $info_array = $item_info[$gubun]['article'];
+                foreach($info_data as $key=>$val) {
+                  $ii_title = $info_array[$key][0];
+                  $ii_value = $val;
                 ?>
-                <div class="info-list" id="ids_extra" style="display:none;">
-                  <?php
-                  foreach($info_data as $key=>$val) {
-                    $ii_title = $info_array[$key][0];
-                    $ii_value = $val;
-                  ?>
-                  <div class="info-item">
-                    <p class="tit"><?php echo $ii_title; ?></p>
-                    <p class="cont"><?php echo $ii_value; ?></p>
-                  </div>
-                  <?php
-                  } //foreach
-                  ?>
+                <div class="info-item">
+                  <p class="tit"><?php echo $ii_title; ?></p>
+                  <p class="cont"><?php echo $ii_value; ?></p>
                 </div>
                 <?php
-                  } //array
-                } //if
+                } //foreach
                 ?>
               </div>
+              <?php
+                } //array
+              } //if
+              ?>
             </div>
           </div>
-          <button type="button" class="ui-btn round stWhite more-btn" data="stIconRight">
-            <span class="txt">더보기</span>
-            <i class="icn"></i>
-          </button>
         </div>
       </div>
     </div>
