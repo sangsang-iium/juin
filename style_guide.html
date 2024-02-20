@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주인장</title>
+
+  <!-- src > css, js 연결 -->
+  <link rel="stylesheet" href="./src/plugin/swiper/swiper-bundle.min.css">
+  <link rel="stylesheet" href="./src/css/fonts.css">
+  <link rel="stylesheet" href="./src/css/common.css">
+  <link rel="stylesheet" href="./src/css/ui.css">
+  <link rel="stylesheet" href="./src/css/normal.css">
+  <link rel="stylesheet" href="./src/css/responsive.css">
+
+  <script src="./src/js/jquery-3.7.0.min.js" defer></script>
+  <script src="./src/plugin/feather.min.js" defer></script>
+  <script src="./src/plugin/prefixfree.min.js" defer></script>
+  <script src="./src/plugin/matchheight/jquery.matchHeight.js" defer></script>
+  <script src="./src/plugin/swiper/swiper-bundle.min.js" defer></script>
+  <script src="./src/js/common.js" defer></script>
+  <script src="./src/js/normal.js" type="module" defer></script>
+
+  <!-- 스타일가이드 페이지용 css -->
+  <style>
+    body {background-color: #f9f9f9;}
+    #document > .container {padding-top: 6.25rem; padding-bottom: 6.25rem;}
+    .section {padding: 3.125rem 0;}
+    .section > h3 {margin-bottom: 4rem;}
+    .sb_section {margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #000;}
+    .sb_section.bg2 {background-color: #cccccc;}
+    .sb_section > h5 {margin-bottom: 2rem;}
+    .ui_con {margin-top: 10px;}
+
+    .page-title {color: var(--color-main);}
+    .flex {display: flex; flex-flow: row wrap; align-items: flex-start; justify-content: flex-start;}
+    .gap {gap: 15px;}
+
+    #cp-dockbar {position: inherit; transform: none;}
+  </style>
+</head>
+<body>
+
+<div id="document">
+  <div class="container">
+
+    <h1 class="page-title">UI Style Guide</h1>
+
+    <div class="section">
+      <h3>#Typography</h3>
+      <div class="sb_section">
+        <h1>H1 - Extra bold, 5rem</h1>
+        <h2>H2 - Bold, 4rem</h2>
+        <h3>H3 - Bold, 3rem</h3>
+        <h4>H4 - Medium, 2.5rem</h4>
+        <h5>H5 - Medium, 2rem</h5>
+        <h6>H6 - Medium, 1.6rem</h6>
+      </div>
+      <div class="sb_section">
+        <p class="tp-expl">Body Text</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>#Buttons</h3>
+      <div class="sb_section">
+        <h5>-- Size</h5>
+        <ul class="ui_con flex">
+          <li class="flex gap">
+            <button type="button" class="ui-btn stBlack sizeL">Button</button>
+            <button type="button" class="ui-btn stBlack sizeM">Button</button>
+            <button type="button" class="ui-btn stBlack sizeS">Button</button>
+          </li>
+        </ul>
+      </div>
+      <div class="sb_section">
+        <h5>-- Round</h5>
+        <ul class="ui_con flex">
+          <li class="flex gap">
+            <button type="button" class="ui-btn stBlack sizeM round5">Button</button>
+            <button type="button" class="ui-btn stBlack sizeM round10">Button</button>
+            <button type="button" class="ui-btn stBlack sizeM round25">Button</button>
+            <a href="" class="ui-btn stBlack sizeM round5">Link</a>
+          </li>
+        </ul>
+      </div>
+      <div class="sb_section">
+        <h5>-- Style</h5>
+        <ul class="ui_con flex">
+          <li class="flex gap">
+            <button type="button" class="ui-btn stBlack sizeM">Button</button>
+            <button type="button" class="ui-btn stWhite sizeM">Button</button>
+            <button type="button" class="ui-btn st1 sizeM">Button</button>
+            <button type="button" class="ui-btn st2 sizeM">Button</button>
+            <button type="button" class="ui-btn st3">Button</button>
+          </li>
+        </ul>
+      </div>
+      <div class="sb_section">
+        <h5>-- Active & Disabled</h5>
+        <ul class="ui_con flex">
+          <li class="flex gap">
+            <button type="button" class="ui-btn active sizeM">Button</button>
+            <button type="button" class="ui-btn disabled sizeM">Button</button>
+            <button type="button" class="ui-btn sizeM" disabled>Button</button>
+          </li>
+        </ul>
+      </div>
+      <div class="sb_section">
+        <h5>-- Icon</h5>
+        <ul class="ui_con flex">
+          <li class="flex gap">
+            <button type="button" class="ui-btn stBlack sizeM" data="stIconLeft" >
+              <i data-feather="github" class="icn"></i>
+              <span class="txt">Button</span>
+            </button>
+            <button type="button" class="ui-btn stBlack sizeM" data="stIconRight" >
+              <span class="txt">Button</span>
+              <i data-feather="gitlab" class="icn"></i>
+            </button>
+            <button type="button" class="ui-btn stBlack sizeM" data="stIconLeft2" >
+              <i data-feather="chevron-left" class="icn"></i>
+              <span class="txt">Button</span>
+            </button>
+            <button type="button" class="ui-btn stBlack sizeM" data="stIconRight2" >
+              <span class="txt">Button</span>
+              <i data-feather="chevron-down" class="icn"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="sb_section">
+        <h5>-- More Link</h5>
+        <ul class="ui_con">
+          <li class="flex">
+            <a href="" class="ui-btn more">전체보기</a>
+          </li>
+          <li>
+            <a href="" class="ui-btn round20 moreLong">
+              <span class="text">오늘만 할인상품 전체보기</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="sb_section">
+        <h5>-- Tag</h5>
+        <ul class="ui_con">
+          <li class="flex gap">
+            <span class="tag coupon">쿠폰</span>
+            <span class="tag freeDelivery">무료배송</span>
+            <span class="tag on">진행/완료</span>
+            <span class="tag off">종료/대기</span>
+          </li>
+        </ul>
+      </div>
+      <div class="sb_section">
+        <h5>-- Etc</h5>
+        <ul class="ui_con">
+          <li class="flex">
+            <button type="button" class="ui-btn gnb-btn black">
+              <span class="bar"></span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>#Form Elements</h3>
+      <div class="sb_section">
+        <h5>-- Basic</h5>
+        <ul class="ui_con flex">
+          <li class="flex gap">
+            <input type="text" name="" id="" class="frm-input" placeholder="텍스트 입력">
+            <input type="text" name="" id="" class="frm-input" placeholder="텍스트 입력" disabled>
+            <select name="" id="" class="frm-select">
+              <option value="">옵션 선택</option>
+              <option value="">옵션 A</option>
+              <option value="">옵션 B</option>
+            </select>
+            <select name="" id="" class="frm-select" disabled>
+              <option value="" disabled>옵션 선택</option>
+              <option value="">옵션 A</option>
+              <option value="">옵션 B</option>
+            </select>
+          </li>
+        </ul>
+        <br/>
+        <ul class="ui_con flex">
+          <li class="flex gap">
+            <div class="frm-choice">
+              <input type="checkbox" name="chk" id="chk1" value="">
+              <label for="chk1">체크버튼</label>
+            </div>
+            <div class="frm-choice">
+              <input type="checkbox" name="chk" id="chkActive1" value="" checked>
+              <label for="chkActive1">체크버튼</label>
+            </div>
+            <div class="frm-choice">
+              <input type="radio" name="radio" id="radio1" value="">
+              <label for="radioActive1">라디오버튼</label>
+            </div>
+            <div class="frm-choice">
+              <input type="radio" name="radio" id="radioActive1" value="" checked>
+              <label for="radioActive1">라디오버튼</label>
+            </div>
+          </li>
+        </ul>
+        <br/>
+        <textarea name="" id="" class="frm-txtar w-per100" placeholder="내용 입력"></textarea>
+        <br/>
+        <div class="search">
+          <input type="text" class="w-per100 round100 keyword">
+          <button type="submit" class="ui-btn submit" title="검색하기"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>#Components</h3>
+      <div class="sb_section">
+        <h5>-- Header(기본형)</h5>
+        <div id="header" class="container default">
+          <h1 class="logo">
+            <a href="">
+              <img src="./src/img/logo-white.svg" alt="주인장터 로고">
+            </a>
+          </h1>
+          <div class="container util">
+            <button type="button" class="ui-btn gnb-btn">
+              <span class="bar"></span>
+            </button>
+            <div class="search">
+              <input type="text" class="w-per100 round100 keyword" placeholder="사장님이 왕이되는 식자재 장터">
+              <button type="submit" class="ui-btn submit" title="검색하기"></button>
+            </div>
+            <ul class="gbtn_wrap">
+              <li>
+                <a href="" class="gbtn cart-btn"></a>
+              </li>
+              <li>
+                <a href="" class="gbtn alarm-btn on"></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="sb_section">
+        <h5>-- Header(상세형)</h5>
+        <div id="header" class="container detail">
+          <button type="button" class="ui-btn back-btn"></button>
+          <span class="pg-name">텍스트</span>
+          <div class="util">
+            <ul class="gbtn_wrap">
+              <li>
+                <a href="" class="gbtn search-btn"></a>
+              </li>
+              <li>
+                <a href="" class="gbtn cart-btn"></a>
+              </li>
+              <li>
+                <a href="" class="gbtn alarm-btn on"></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="sb_section">
+        <h5>-- 가로스크롤 메뉴</h5>
+        <div id="" class="cp-horizon-menu">
+          <div class="swiper-wrapper">
+            <a href="" data-id="home" class="swiper-slide btn">홈</a>
+            <a href="" data-id="best" class="swiper-slide btn">베스트</a>
+            <a href="" data-id="new" class="swiper-slide btn">신상품</a>
+            <a href="" data-id="today" class="swiper-slide btn">오늘만</a>
+            <a href="" data-id="live" class="swiper-slide btn">라이브</a>
+            <a href="" data-id="exhibition" class="swiper-slide btn">기획전</a>
+            <a href="" data-id="raffle" class="swiper-slide btn">래플응모</a>
+            <a href="" data-id="memberHall" class="swiper-slide btn">전용관</a>
+            <a href="" data-id="regularDelivery" class="swiper-slide btn">정기배송</a>
+            <a href="" data-id="customerService" class="swiper-slide btn">고객센터</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 가로스크롤 메뉴(2)</h5>
+        <div id="" class="cp-horizon-menu2">
+          <div class="swiper-wrapper">
+            <a href="" data-id="all" class="swiper-slide btn">전체</a>
+            <a href="" data-id="a" class="swiper-slide btn">가공식품</a>
+            <a href="" data-id="b" class="swiper-slide btn">냉장식품</a>
+            <a href="" data-id="c" class="swiper-slide btn">조미료/소스</a>
+            <a href="" data-id="d" class="swiper-slide btn">김치/반찬</a>
+            <a href="" data-id="e" class="swiper-slide btn">생수/음료</a>
+            <a href="" data-id="f" class="swiper-slide btn">쌀/잡곡</a>
+            <a href="" data-id="g" class="swiper-slide btn">과일/채소</a>
+            <a href="" data-id="h" class="swiper-slide btn">정육/계란</a>
+            <a href="" data-id="i" class="swiper-slide btn">수산/건어물</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 탭버튼</h5>
+        <div class="cp-tab-menu">
+          <div class="inner">
+            <button type="button" class="ui-btn tab-btn on">상품정보</button>
+            <button type="button" class="ui-btn tab-btn">리뷰<small class="cnt">(513)</small></button>
+            <button type="button" class="ui-btn tab-btn">문의<small class="cnt">(86)</small></button>
+            <button type="button" class="ui-btn tab-btn">교환/반품</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 퀙메뉴</h5>
+        <div class="cp-quick-category">
+          <a href="" class="ui-btn">
+            <i class="icon">
+              <img src="./src/img/category-a.png" alt="가공식품">
+            </i>
+            <p class="name">가공식품</p>
+          </a>
+          <a href="" class="ui-btn">
+            <i class="icon">
+              <img src="./src/img/category-b.png" alt="냉장식품">
+            </i>
+            <p class="name">냉장식품</p>
+          </a>
+          <a href="" class="ui-btn">
+            <i class="icon">
+              <img src="./src/img/category-c.png" alt="조미료/소스">
+            </i>
+            <p class="name">조미료/소스</p>
+          </a>
+          <a href="" class="ui-btn">
+            <i class="icon">
+              <img src="./src/img/category-d.png" alt="김치/반찬">
+            </i>
+            <p class="name">김치/반찬</p>
+          </a>
+          <a href="" class="ui-btn">
+            <i class="icon">
+              <img src="./src/img/category-e.png" alt="생수/음료">
+            </i>
+            <p class="name">생수/음료</p>
+          </a>
+          <a href="" class="ui-btn">
+            <i class="icon">
+              <img src="./src/img/category-f.png" alt="쌀/잡곡">
+            </i>
+            <p class="name">쌀/잡곡</p>
+          </a>
+          <a href="" class="ui-btn">
+            <i class="icon">
+              <img src="./src/img/category-g.png" alt="과일/채소">
+            </i>
+            <p class="name">과일/채소</p>
+          </a>
+          <a href="" class="ui-btn">
+            <i class="icon">
+              <img src="./src/img/category-h.png" alt="정육/계란">
+            </i>
+            <p class="name">정육/계란</p>
+          </a>
+          <a href="" class="ui-btn">
+            <i class="icon">
+              <img src="./src/img/category-i.png" alt="수산/건어물">
+            </i>
+            <p class="name">수산/건어물</p>
+          </a>
+          <a href="" class="ui-btn viewAll">
+            <i class="icon"></i>
+            <p class="name">전체보기</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 상품 카드</h5>
+        <div class="flex gap">
+          <div class="cp-item" style="width: 30rem;">
+            <div class="round50 prod-thumb_area">
+              <a href="" class="thumb">
+                <img src="./src/img/t-product1.jpg" alt="">
+              </a>
+              <button type="button" class="ui-btn wish-btn" title="관심상품 등록하기"></button>
+            </div>
+            <a href="" class="prod-info_area">
+              <p class="tRow2 name">(기본)한끼으뜸쌀 20kg</p>
+              <p class="dc-price">30,000원</p>
+              <p class="price-box">
+                <span class="dc-percent">10%</span>
+                <span class="sale-price">27,000원</span>
+              </p>
+            </a>
+            <div class="prod-tag_area">
+              <span class="tag coupon">쿠폰</span>
+              <span class="tag freeDelivery">무료배송</span>
+            </div>
+          </div>
+
+          <div class="cp-item" style="width: 30rem;">
+            <div class="round50 prod-thumb_area">
+              <span class="num">1</span>
+              <a href="" class="thumb">
+                <img src="./src/img/t-product1.jpg" alt="">
+              </a>
+              <button type="button" class="ui-btn wish-btn" title="관심상품 등록하기"></button>
+            </div>
+            <a href="" class="prod-info_area">
+              <p class="tRow2 name">(인덱스)한끼으뜸쌀 20kg</p>
+              <p class="dc-price">30,000원</p>
+              <p class="price-box">
+                <span class="dc-percent">10%</span>
+                <span class="sale-price">27,000원</span>
+              </p>
+            </a>
+            <div class="prod-tag_area">
+              <span class="tag coupon">쿠폰</span>
+              <span class="tag freeDelivery">무료배송</span>
+            </div>
+          </div>
+
+          <div class="cp-item time" style="width: 30rem;">
+            <div class="round50 prod-thumb_area">
+              <a href="" class="thumb">
+                <img src="./src/img/t-product1.jpg" alt="">
+              </a>
+              <div class="cp-timer">
+                <div class="cp-timer-wrap white">
+                  <i class="cp-timer__icon"></i>
+                  <span class="cp-timer__num" data-deadline="2024-02-01 23:59:59">00:00:00</span>
+                  <span class="cp-timer__text">남음</span>
+                </div>
+              </div>
+            </div>
+            <a href="" class="prod-info_area">
+              <p class="tRow2 name">(타임)한끼으뜸쌀 20kg</p>
+              <p class="dc-price">30,000원</p>
+              <p class="price-box">
+                <span class="dc-percent">10%</span>
+                <span class="sale-price">27,000원</span>
+              </p>
+            </a>
+            <div class="prod-tag_area">
+              <span class="tag coupon">쿠폰</span>
+              <span class="tag freeDelivery">무료배송</span>
+            </div>
+          </div>
+
+          <div class="cp-item time" style="width: 30rem;">
+            <div class="round50 prod-thumb_area">
+              <a href="" class="thumb">
+                <img src="./src/img/t-product1.jpg" alt="">
+              </a>
+            </div>
+            <a href="" class="prod-info_area small">
+              <p class="tRow2 name">(작은텍스트)한끼으뜸쌀 20kg</p>
+              <p class="dc-price">30,000원</p>
+              <p class="price-box">
+                <span class="dc-percent">10%</span>
+                <span class="sale-price">27,000원</span>
+              </p>
+            </a>
+            <div class="prod-tag_area">
+              <span class="tag coupon">쿠폰</span>
+              <span class="tag freeDelivery">무료배송</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 라이브</h5>
+        <a href="" class="cp-live" style="width: 44rem;">
+          <div class="round50 prod-thumb_area">
+            <div href="" class="thumb">
+              <img src="./src/img/t-live.jpg" alt="">
+            </div>
+          </div>
+          <div class="prod-info_area">
+            <div class="round60 live-reserv">
+              <span class="round60 t1">LIVE</span>
+              <span class="t2">1/20 오후 1:00</span>
+            </div>
+            <div class="live-title">주인장 잡곡세트 5종</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 하단 고정 메뉴</h5>
+        <nav href="" id="cp-dockbar">
+          <a href="" id="dockbar-shop" class="btn on">
+            <span class="icon"></span>
+            <p class="text">장보기</p>
+          </a>
+          <a href="" id="dockbar-member" class="btn">
+            <span class="icon"></span>
+            <p class="text">회원사현황</p>
+          </a>
+          <a href="" id="dockbar-home" class="btn">
+            <span class="icon"></span>
+            <p class="text">홈</p>
+          </a>
+          <a href="" id="dockbar-market" class="btn">
+            <span class="icon"></span>
+            <p class="text">중고장터</p>
+          </a>
+          <a href="" id="dockbar-affiliate" class="btn">
+            <span class="icon"></span>
+            <p class="text">제휴서비스</p>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 타이틀</h5>
+        <div class="cp-title">
+          <div class="left">
+            <div class="icon-box"></div>
+            <div class="text-box">
+              <h3>베스트</h3>
+              <p class="tp-expl">주인장에서 제일 잘 나가요!</p>
+            </div>
+          </div>
+          <div class="right">
+            <a href="" class="ui-btn more">전체보기</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 배너(라운드형)</h5>
+        <div class="cp-banner__round">
+          <img src="./src/img/t-main-visual_1.jpg" alt="" class="fitCover">
+        </div>
+      </div>
+
+      <div class="sb_section bg2">
+        <h5>-- 타이머(yyyy-MM-dd HH:mm:ss)</h5>
+        <ul class="ui_con flex">
+          <li class="flex gap">
+            <div class="cp-timer">
+              <div class="cp-timer-wrap">
+                <i class="cp-timer__icon"></i>
+                <span class="cp-timer__num" data-deadline="2024-02-01 23:59:59">00:00:00</span>
+                <span class="cp-timer__text">남음</span>
+              </div>
+            </div>
+            <div class="cp-timer">
+              <div class="cp-timer-wrap white">
+                <i class="cp-timer__icon"></i>
+                <span class="cp-timer__num">00:00:00</span>
+                <span class="cp-timer__text">남음</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 리뷰 요약 정보</h5>
+        <div class="prod-review_area">
+          <i class="rv-star cnt-only"></i>
+          <span class="rv-rating">5.0</span>
+          <button type="button" class="ui-btn rv-move-btn">513개 리뷰</button>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 쿠폰 다운로드 영역(버튼)</h5>
+        <div class="prod-cupon_area">
+          <button type="button" class="ui-btn round st2 cupon-downlad-btn" data="stIconRight"><span class="txt">할인 쿠폰 받고 구매하기</span><i class="icn"></i></button>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 리뷰 이미지 리스트</h5>
+        <div class="rv-img-list">
+          <a href="" class="rv-img-item">
+            <div class="rv-img">
+              <img src="./src/img/pd-rv-img01.png" alt="">
+            </div>
+          </a>
+          <a href="" class="rv-img-item">
+            <div class="rv-img">
+              <img src="./src/img/pd-rv-img02.png" alt="">
+            </div>
+          </a>
+          <a href="" class="rv-img-item">
+            <div class="rv-img">
+              <img src="./src/img/pd-rv-img01.png" alt="">
+            </div>
+          </a>
+          <a href="" class="rv-img-item more-item">
+            <div class="rv-img">
+              <img src="./src/img/pd-rv-img02.png" alt="">
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 리뷰 타이틀</h5>
+        <div class="rv-title">
+          <p class="title">
+            리뷰(513)
+          </p>
+          <div class="rv-sort-wr">
+            <div class="rv-sort-list">
+              <div class="rv-sort-item active">
+                <button type="button">최신순</button>
+              </div>
+              <div class="rv-sort-item">
+                <button type="button">평점높은순</button>
+              </div>
+              <div class="rv-sort-item">
+                <button type="button">평점낮은순</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 리뷰 게시글</h5>
+        <div class="rv-item-list">
+          <div class="rv-item">
+            <div class="rv-top">
+              <div class="left">
+                <div class="point">
+                  <img src="./src/img/icon-point4.svg" alt="">
+                </div>
+                <p class="name">abc***</p>
+              </div>
+              <div class="right">
+                <p class="date">2023.12.20</p>
+              </div>
+            </div>
+            <div class="rv-option-wr">
+              <div class="rv-option-item">
+                <p class="tit">옵션</p>
+                <p class="cont">옵션내용 표시</p>
+              </div>
+              <div class="rv-option-item">
+                <p class="tit">옵션2</p>
+                <p class="cont">옵션내용2 표시</p>
+              </div>
+            </div>
+            <div class="rv-content-wr">
+              <!-- 이미지 없을 경우 생략가능 { -->
+              <div class="rv-img-list">
+                <div class="rv-img-item">
+                  <div class="rv-img">
+                    <img src="./src/img/pd-rv-img01.png" alt="">
+                  </div>
+                </div>
+                <div class="rv-img-item">
+                  <div class="rv-img">
+                    <img src="./src/img/pd-rv-img02.png" alt="">
+                  </div>
+                </div>
+              </div>
+              <!-- } 이미지 없을 경우 생략가능 -->
+              <div class="content">
+                리뷰내용영역입니다. 리뷰내용영역입니다. 리뷰내용영역입니다. 리뷰내용영역입니다. 리뷰내용영역입니다. 리뷰내용영역입니다. 리뷰내용영역입니다. 리뷰내용영역입니다. 리뷰내용영역입니다.
+              </div>
+              <button type="button" class="cont-more-btn">더보기+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 문의 타이틀</h5>
+        <div class="iq-title">
+          <p class="title">문의(86)</p>
+          <div class="iq-sort-wr">
+            <div class="frm-choice">
+              <input type="checkbox" name="chk" id="myInqSort" value="">
+              <label for="myInqSort">내 문의 보기</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 문의 게시글</h5>
+        <div class="iq-list">
+          <div class="iq-item">
+            <div class="iq-top">
+              <div class="left">
+                <p class="name">abc***</p>
+              </div>
+              <div class="right">
+                <p class="date">2023.12.20</p>
+              </div>
+            </div>
+            <div class="iq-content-wr">
+              <div class="iq-content-top">
+                <div class="iq-content-title">
+                  <p class="cate">[배송문의]</p>
+                  <p class="tRow1 title">문의글 제목이 표시됩니다. 문의글 제목이 표시됩니다. 문의글 제목이 표시됩니다.</p>
+                </div>
+                <div class="iq-content-status">
+                  <!-- <span class="status wait">대기</span> -->
+                  <span class="status com">완료</span>
+                </div>
+              </div>
+              <div class="iq-content">
+                <div class="iq-content-q-wr">
+                  문의내용 영역입니다. 문의내용 영역입니다. 문의내용 영역입니다. 문의내용 영역입니다. 문의내용 영역입니다.
+                </div>
+                <div class="iq-content-a-wr">
+                  <div class="icon">A.</div>
+                  <p>답변내용 영역입니다. 답변내용 영역입니다. 답변내용 영역입니다. 답변내용 영역입니다. 답변내용 영역입니다.  답변내용 영역입니다. </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 정보 텍스트 스타일</h5>
+        <div class="info-list">
+          <div class="info-item">
+            <p class="tit">배송정보</p>
+            <p class="cont">배송비 3,000원</p>
+          </div>
+          <div class="info-item">
+            <p class="tit">용량</p>
+            <p class="cont">14kg</p>
+          </div>
+          <div class="info-item">
+            <p class="tit">원산지</p>
+            <p class="cont">국내산</p>
+          </div>
+          <div class="info-item">
+            <p class="tit">종류</p>
+            <p class="cont">조미료/소스</p>
+          </div>
+          <div class="info-item">
+            <p class="tit">제조사</p>
+            <p class="cont">삼오종합식품(주)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 팝업 레이아웃</h5>
+        <!--
+          * 팝업 사용시 pop-imsi 는 삭제
+          * .popup의 css중 position: fixed;로 변경 하여 사용
+        -->
+        <div class="pop-imsi">
+          <div class="popup pop-bg" id="">
+            <div class="pop-inner">
+              <div class="pop-top">
+                <button type="button">닫기</button>
+              </div>
+              <div class="pop-inner-content" style="height: 1500px;">
+                <span style="display: block; text-align: center; font-weight: 700; font-size: 2.5rem;">팝업 내용이 들어갈 공간입니다.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 장바구니 카드</h5>
+        <div class="cp-cart">
+          <div class="cp-cart-item">
+            <div class="cp-cart-head">
+              <div class="title">
+                <div class="frm-choice">
+                  <input type="checkbox" name="chk" id="cartChk1" value="">
+                  <label for="cartChk1"></label>
+                </div>
+                <p class="name">백설 스팸&식용유 선물세트</p>
+              </div>
+              <button class="delete ui-btn">닫기</button>
+            </div>
+            <div class="cp-cart-body">
+              <div class="thumb round60">
+                <img src="./src/img/t-product3.jpg" alt="제품 이미지">
+              </div>
+              <div class="content">
+                <div class="count">
+                  <div class="box">
+                    <button class="minus ui-btn st3">-</button>
+                    <input type="text" name="" id="" class="" value="1">
+                    <button class="plus ui-btn st3">+</button>
+                  </div>
+                  <button class="change ui-btn st3">옵션변경</button>
+                </div>
+                <div class="info">
+                  <div class="set">
+                    <p>1개</p>
+                    <p>1세트</p>
+                  </div>
+                  <p class="price">27,000원<span class="dc-price">30,000원</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cp-cart-item">
+            <div class="cp-cart-head">
+              <div class="title">
+                <div class="frm-choice">
+                  <input type="checkbox" name="chk" id="cartChk1" value="">
+                  <label for="cartChk1"></label>
+                </div>
+                <p class="name">백설 스팸&식용유 선물세트</p>
+              </div>
+              <button class="delete ui-btn">닫기</button>
+            </div>
+            <div class="cp-cart-body">
+              <div class="thumb round60">
+                <img src="./src/img/t-product3.jpg" alt="제품 이미지">
+              </div>
+              <div class="content">
+                <div class="count">
+                  <div class="box">
+                    <button class="minus ui-btn st3">-</button>
+                    <input type="text" name="" id="" class="" value="1">
+                    <button class="plus ui-btn st3">+</button>
+                  </div>
+                  <button class="change ui-btn st3">옵션변경</button>
+                </div>
+                <div class="info">
+                  <div class="set">
+                    <p>1개</p>
+                    <p>1세트</p>
+                  </div>
+                  <p class="price">27,000원<span class="dc-price">30,000원</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 주문/결제 카드</h5>
+        <div class="cp-cart order">
+          <div class="cp-cart-item">
+            <div class="cp-cart-body">
+              <div class="thumb round60">
+                <img src="./src/img/t-product3.jpg" alt="제품 이미지">
+              </div>
+              <div class="content">
+                <p class="name">백설 스팸&식용유 선물세트</p>
+                <div class="info">
+                  <div class="set">
+                    <p>1개</p>
+                    <p>1세트</p>
+                  </div>
+                  <p class="price">27,000원<span class="dc-price">30,000원</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cp-cart-item">
+            <div class="cp-cart-body">
+              <div class="thumb round60">
+                <img src="./src/img/t-product3.jpg" alt="제품 이미지">
+              </div>
+              <div class="content">
+                <p class="name">백설 스팸&식용유 선물세트</p>
+                <div class="info">
+                  <div class="set">
+                    <p>1개</p>
+                    <p>1세트</p>
+                  </div>
+                  <p class="price">27,000원<span class="dc-price">30,000원</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 배송지</h5>
+        <div class="dv-add-wr">
+          <div class="dv-add-top">
+            <p class="dv-add-name">홍길동(집)</p>
+            <div class="dv-add-config">기본배송지</div>
+          </div>
+          <div class="dv-add-cont">
+            <div class="dv-add-left">
+              <p class="dv-address">대전광역시 서구 한밭대로 570번길 8,  전원빌딩 4층 상상이음</p>
+              <p class="dv-address-num">010-1234-5678</p>
+            </div>
+            <div class="dv-add-right">
+              <button type="button" class="ui-btn st3">변경</button>
+            </div>
+          </div>
+          <div class="dv-add-msg">
+            <select name="" id="" class="frm-select">
+              <option value="">배송 메모를 입력해주세요.</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="module">
+import * as f from './src/js/function.js';
+
+let horizonMenuTarget = '.cp-horizon-menu';
+let horizonMenuActive = 'home';
+let horizonMenu = f.hrizonMenu(horizonMenuTarget, horizonMenuActive);
+
+let horizonMenu2Target = '.cp-horizon-menu2';
+let horizonMenu2Active = 'all';
+let horizonMenu2 = f.hrizonMenu(horizonMenu2Target, horizonMenu2Active);
+
+// f.timeSale('.timeView');
+f.timeSale('.cp-timer__num');
+</script>
+
+
+</body>
+</html>

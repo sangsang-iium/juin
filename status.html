@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Markup</title>
+
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <style>
+  /* reset */
+  html,body{width:100%;height:100%;overflow:overlay;}
+  html{font-size:10px;}
+  body{font-family:'Pretendard Variable';padding:0;margin:0;line-height:1;font-size:1.4rem;}
+  div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var, b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup, menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;vertical-align:baseline;font-style:normal;}
+  dl,ul,ol,menu,li{list-style:none}
+  blockquote,q{quotes:none}
+  blockquote:before,blockquote:after,q:before,q:after{content:none}
+  table{table-layout:fixed;border-collapse:collapse;border-spacing:0;}
+  fieldset,img{border:0 none;vertical-align:middle}
+  hr{display:none}
+  input,select,textarea,button,label{vertical-align:middle;font-family:inherit}
+  input,select,textarea{border:1px #bdbdbd solid}
+  input[type=radio],input[type=checkbox]{width:1.4rem;height:1.4rem;margin:0;padding:0;border:none;vertical-align:middle}
+  textarea{resize:none;}
+  button{border:0 none;background-color:transparent;cursor:pointer}
+  address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal}
+  legend, caption{text-indent:-9999px;top:-9999px;left:-9999px;height:0}
+
+  *{box-sizing:border-box;}
+  /**/
+  a{text-decoration:none;color:inherit;}
+  input{border:1px solid #aaa;}
+  button,input{outline:none;}
+  .t_center {text-align:center;}
+
+  /* style */
+  body{background:#fff;color:#111;height:100%;overflow:overlay;}
+  .page-top {display: flex; justify-content: space-between; align-items: flex-end; padding:0 2rem; margin-bottom:2rem;}
+  .projectTit{font-size:3rem;font-weight:bold;color:#ea5404;}
+  .link-btn{display: block; padding: 10px; background-color: #333; color: #fff; text-align: center; font-weight: bold;}
+
+  .prInfo {margin-bottom:2rem; padding: 0 2rem; }
+  .prInfo-in {padding: 2rem; border: 1px solid #eee; background-color: #f9f9f9;}
+  .prInfo-in p {font-size: 1.4rem; color: #000;}
+  .prInfo-in p:before {content: "-";}
+  .prInfo-in p:not(:first-child) {margin-top: 10px;}
+
+  .wrapper{padding:5rem 0;}
+  .wrapper > .container{display:flex;align-items:stretch;position:relative;}
+  .wrapper > .container > .right{flex:1;padding:0 2rem;}
+  .wrapper > .container > .right h2.title{margin:0 0 2rem;font-weight:400;font-size:1.8rem;color:#111;position:relative;padding-left:2rem;}
+  .wrapper > .container > .right h2.title:before{content:'';position:absolute;left:0;width:.4rem;height:100%;background-color: #ea5404;}
+  .wrapper > .container > .right h2.title .counter {display: block; margin-top: 5px; font-size:1.4rem;color:#000;}
+  .wrapper > .container > .right table{width:100%;font-size:1.4rem;line-height:1.4;}.wrapper table th{padding:1rem;}
+  .wrapper > .container > .right table td{padding:0;}
+  .wrapper > .container > .right table thead{}
+  .wrapper > .container > .right table thead th{vertical-align: middle;font-weight:400;background-color:#ea5404;padding:1rem;font-size:1.4rem;color:rgba(255,255,255,.9);}
+  .wrapper > .container > .right table thead th+th{border-left:1px solid rgba(255,255,255,.3)}
+  .wrapper > .container > .right table thead th:first-child{border-radius:1.5rem 0 0 0;}
+  .wrapper > .container > .right table thead th:last-child{border-radius:0 1.5rem 0 0;}
+  .wrapper > .container > .right table tbody tr{color:#000000;position:relative;background-color:#ffffff;}
+  .wrapper > .container > .right table tbody td{padding:.8rem .8rem;word-break:keep-all;word-wrap:break-word;vertical-align:middle;color:inherit;font-size:1.4rem;border-bottom:1px solid #ccc;}
+  .wrapper > .container > .right table tbody td + td{border-left:1px solid #ccc;}
+  .wrapper > .container > .right table tbody td.btn{text-align:center}
+  .wrapper > .container > .right table tbody td.btn a{display:inline-flex;width:5rem;height:2.5rem;background-color:#999;color:#fff;justify-content:center;align-items:center;border-radius:.5rem;font-size:1.3rem;line-height: 2.5rem;margin:2px 0;}
+  .wrapper > .container > .right table tbody td.btn a:hover{background-color:#111;}
+  .wrapper > .container > .right table tbody td .link{color:inhert;font-weight:normal;font-size:1.3rem;}
+  .wrapper > .container > .right table tbody td .comment li{position:relative;padding-left:1rem;color:#666;font-size:1.3rem;}
+  .wrapper > .container > .right table tbody td .comment li:before{content:'#';position:absolute;top:.1px;left:0;color:#999;}
+  .wrapper > .container > .right table + .title{margin:4rem 0 2rem;}
+  .wrapper > .container > .right table tbody tr.mod{color:#111;background-color:#fdf2da;}
+  .wrapper > .container > .right table tbody tr.mod .link,
+  .wrapper > .container > .right table tbody tr.mod .comment li,
+  .wrapper > .container > .right table tbody tr.mod .comment li strong{color:#666;font-size:1.3rem;}
+  .wrapper > .container > .right table tbody tr.fin{color:#111;background-color:#e5f4fd;}
+  .wrapper > .container > .right table tbody tr.fin .link,
+  .wrapper > .container > .right table tbody tr.fin .comment li,
+  .wrapper > .container > .right table tbody tr.fin .comment li strong{color:#666;font-size:1.3rem;}
+  .wrapper > .container > .right table tbody tr.del{color:#999;background-color:#ffcaca;text-decoration: line-through;}
+  .wrapper > .container > .right table tbody tr.del .link,
+  .wrapper > .container > .right table tbody tr.del .comment li,
+  .wrapper > .container > .right table tbody tr.del .comment li strong{color:#999;font-size:1.3rem;}
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="page-top">
+      <h1 class="projectTit">프로젝트명 홈페이지</h1>
+      <a href="./style_guide.html" class="link-btn" target="_blank">Style Guide</a>
+    </div>
+
+    <div class="prInfo">
+      <div class="prInfo-in">
+        <p>퍼블 마감일 : yyyy-mm-dd(월)</p>
+        <hr>
+        <br/>
+        <b>&lt;작업내역 요약&gt;</b>
+        <p>yyyy-mm-dd(월) : 레이아웃(헤더, 푸터), 스타일가이드 완료</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="right">
+        <h2 class="title">
+          사용자 페이지
+          <div class="counter">
+            <span class="fin"></span> / <span class="total"></span>
+            (진행률 <span class="percent"></span>%)
+          </div>
+        </h2>
+        <table>
+          <colgroup>
+            <col style="width:25%">
+            <col style="width:6%">
+            <col style="width:13%">
+            <col style="width:6%">
+            <col style="width:5%">
+            <col style="width:5%">
+            <col style="width:5%">
+            <col style="width:*">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>MENU</th>
+              <th>TYPE</th>
+              <th>PATH</th>
+              <th>VIEW</th>
+              <th>디자인</th>
+              <th>퍼블(PC)</th>
+              <th>퍼블(MO)</th>
+              <th>COMMENT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!--
+              tr 클래스
+              fin : 완료
+              mod : 최근 소스 전달일 기준으로 수정사항이 있음 (다음 전달일자에 초기화)
+              del : 페이지 삭제됨
+            -->
+            <tr class="fin">
+              <td>메인</td>
+              <td class="t_center">메인</td>
+              <td><p class="target"><span class='link'>/index.html</span></p></td>
+              <td class="btn">
+                <a class="btnPc" href="./index.html" target="_blank">View</a>
+              </td>
+              <td class="t_center"></td>
+              <td class="t_center"></td>
+              <td class="t_center"></td>
+              <td>
+                <ul class="comment">
+                  <!-- <li>
+                    <b></b>
+                    <p></p>
+                  </li> -->
+                </ul>
+              </td>
+            </tr>
+            <tr class="">
+              <td>회사소개>인사말</td>
+              <td class="t_center">콘텐츠</td>
+              <td><p class="target"><span class='link'>/sub/greeting.html</span></p></td>
+              <td class="btn">
+                <a class="btnPc" href="./sub/greeting.html" target="_blank">View</a>
+              </td>
+              <td class="t_center"></td>
+              <td class="t_center"></td>
+              <td class="t_center"></td>
+              <td>
+                <ul class="comment">
+                </ul>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      </div>
+  </div>
+
+
+  <script>
+  $(document).ready(function() {
+
+    var _fin = $('.wrapper > .container > .right table tbody tr.fin').length
+    var _del = $('.wrapper > .container > .right table tbody tr.del').length
+    var _total = $('.wrapper > .container > .right table tbody td.btn a').length
+    var _total_page = _total - _del
+
+    $('.counter .fin').text(_fin)
+    $('.counter .total').text(_total_page)
+
+    var ing_percent = _fin / _total_page *100
+    var _percent =  Math.round(ing_percent);
+
+    $('.counter .percent').text(_percent);
+
+  });
+  </script>
+</body>
+</html>
