@@ -378,8 +378,6 @@ strong, b {font-weight:600;}
 .pg a.pg_next {background-position:-174px 0;}
 .pg a.pg_end {background-position:-203px 0;}
 .pg span.pg_start {background-position:0 0;}
-.pg span.pg_prev {background-position:-29px 0;}
-.pg span.pg_next {background-position:-58px 0;}
 .pg span.pg_end {background-position:-87px 0;}
 
 /*콘텐츠 공통*/

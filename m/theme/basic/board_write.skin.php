@@ -228,11 +228,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 </div>
 
-<!-- Footer 숨김 -->
-<style>
-	#footer {display: none;}
-</style>
-
 <script>
 function fwrite_submit(f) {
 	<?php if(!$is_member) { ?>

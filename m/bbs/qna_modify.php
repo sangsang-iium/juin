@@ -37,7 +37,8 @@ if($_POST['mode'] == 'w') {
 	$value['ip']			 = $_SERVER['REMOTE_ADDR'];
 	update("shop_qa", $value," where index_no='$index_no'");
 
-	goto_url(BV_MBBS_URL."/qna_read.php?index_no=$index_no");
+	// goto_url(BV_MBBS_URL."/qna_read.php?index_no=$index_no");
+	goto_url(BV_MBBS_URL."/qna_list.php");
 }
 
 $tb['title'] = '1:1 상담문의';
