@@ -152,3 +152,26 @@ export const arcodianF = () => {
     });
   }
 }
+
+// 링크 복사
+export const clipCopy = (str) => {
+  var tempElement = document.createElement("textarea");
+
+  tempElement.value = str;
+
+  document.body.appendChild(tempElement);
+
+  tempElement.select();
+
+  tempElement.setAttribute("readonly", "");
+  tempElement.setAttribute("contenteditable", "false");
+  tempElement.style.position = 'absolute';
+  tempElement.style.left = '-9999px';
+  tempElement.setSelectionRange(0, tempElement.value.length);
+
+  document.execCommand('copy');
+
+  document.body.removeChild(tempElement);
+
+  alert("링크가 복사되었습니다.");
+}

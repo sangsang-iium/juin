@@ -162,6 +162,13 @@
 
 .prod-buy_area.on .actBox {height: auto; transform: translate3d(0,0,0); opacity: 1; visibility: visible;}
 
+#prodShare .ct {padding: 0 2.4rem 1.36rem;}
+#prodShare .way > li {}
+#prodShare .way > li > a{display: block; padding: 1.2rem 1.04rem;}
+#prodShare .way > li ~ li {border-top: 1px solid var(--color-gray10);}
+#prodShare .way > li img {width: 3.8rem;}
+#prodShare .way > li .txt {width: calc(100% - 3.8rem); padding-left: 1.48rem; font-size: 2.16rem; font-weight: 400; color: var(--color-black3); vertical-align: middle;}
+
 /* 기획전 */
 .exhib-item {display: block;}
 .exhib-item ~ .exhib-item {margin-top: 4rem;}

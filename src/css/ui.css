@@ -361,6 +361,8 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .iq-content-a-wr {background-color: #fafafa; display: flex; align-items: flex-start; border-radius: 1.2rem; padding: 2.4rem 2.5rem 2.6rem; gap: 1.2rem; margin-top: 2.8rem;}
 .iq-content-a-wr .icon {font-weight: 500; font-size: 1.84rem; color: var(--color-black3);}
 .iq-content-a-wr .text {font-weight: 300; font-size: 2rem; line-height: 1.6; color: var(--color-gray2);}
+.iq-item .mngArea {display: flex; flex-flow: row wrap; align-items: center; justify-content: flex-start; gap: 0.5rem; margin-top: 2rem;}
+.iq-item .mngArea .ui-btn {height: auto; padding: 0.5rem 2rem; font-size: 1.8rem;}
 
 /* dvex(교환/반훔) */
 .dvex-title {display: flex; align-items: center; justify-content: space-between;}
