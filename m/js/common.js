@@ -372,9 +372,6 @@ function share_sns(id, url) {
 		case 'twitter' : 
 			window.open(url, "win_twitter", "menubar=0,resizable=1,width=600,height=400"); 
 			break;
-		case 'googleplus' : 
-			window.open(url, "win_googleplus", "menubar=0,resizable=1,width=600,height=600"); 
-			break;
 		case 'naverband' :
 			window.open(url, "win_naverband", "menubar=0,resizable=1,width=410,height=540"); 
 			break;
@@ -386,9 +383,6 @@ function share_sns(id, url) {
 			break;
 		case 'pinterest' :
 			window.open(url, "win_tumblr", "menubar=0,resizable=1,width=600,height=400"); 
-			break;
-		case 'tumblr' :
-			window.open(url, "win_tumblr", "menubar=0,resizable=1,width=540,height=600"); 
 			break;
 	}
     return false;

@@ -505,9 +505,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     <button type="button" class="ui-btn close-btn"></button>
   </div>
   <div class="ct">
-    <div class="way">
+    <ul class="way">
       <?php echo $sns_share_links; ?>
-    </div>
+    </ul>
   </div>
 </div>
 
@@ -718,5 +718,13 @@ function chgimg(ergfun) {
 
 		document.slideshow.src = slide[num];
 	}
+}
+</script>
+
+<script type="module">
+import * as f from '/src/js/function.js';
+
+function copyLink(url) {
+  f.clipCopy(url);
 }
 </script>

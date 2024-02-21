@@ -811,46 +811,41 @@ function get_sns_share_link($sns, $url, $title, $image_url)
 		case 'facebook':
 			$facebook_url = $sns_send.'&amp;sns=facebook';
 			$str = 'share_sns(\'facebook\', \''.$facebook_url.'\'); return false;';
-			$str = '<a href="'.$facebook_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"></a>'.PHP_EOL;
-            break;
-        case 'twitter':
+			$str = '<a href="'.$facebook_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"><span class="txt">페이스북 공유하기</span></a>'.PHP_EOL;
+      break;
+    case 'twitter':
 			$twitter_url = $sns_send.'&amp;sns=twitter';
 			$str = 'share_sns(\'twitter\', \''.$twitter_url.'\'); return false;';
-			$str = '<a href="'.$twitter_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"></a>'.PHP_EOL;
+			$str = '<a href="'.$twitter_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"><span class="txt">트위터 공유하기</span></a>'.PHP_EOL;
 			break;
-        case 'naver':
+    case 'naver':
 			$naver_url = $sns_send.'&amp;sns=naver';
 			$str = 'share_sns(\'naver\',\''.$naver_url.'\'); return false;';
-			$str = '<a href="'.$naver_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'" alt="Naver"></a>'.PHP_EOL;
-            break;
-		//case 'googleplus':
-		//	$gplus_url = $sns_send.'&amp;sns=googleplus';
-        //	$str = 'share_sns(\'googleplus\',\''.$gplus_url.'\'); return false;';
-		//	$str = '<a href="'.$gplus_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"></a>'.PHP_EOL;
-        //	break;
+			$str = '<a href="'.$naver_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'" alt="Naver"><span class="txt">네이버블로그 공유하기</span></a>'.PHP_EOL;
+      break;
 		case 'kakaostory':
 			$kakaostory_url = $sns_send . '&amp;sns=kakaostory';
-            $str = 'share_sns(\'kakaostory\',\'' . $kakaostory_url . '\'); return false;';
-			$str = '<a href="'.$kakaostory_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"></a>'.PHP_EOL;
-            break;
+      $str = 'share_sns(\'kakaostory\',\'' . $kakaostory_url . '\'); return false;';
+			$str = '<a href="'.$kakaostory_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"><span class="txt">카카오스토리 공유하기</span></a>'.PHP_EOL;
+      break;
 		case 'naverband':
 			$naverband_url = $sns_send . '&amp;sns=naverband';
-            $str = 'share_sns(\'naverband\',\'' . $naverband_url . '\'); return false;';
-			$str = '<a href="'.$naverband_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"></a>'.PHP_EOL;
-            break;
+      $str = 'share_sns(\'naverband\',\'' . $naverband_url . '\'); return false;';
+			$str = '<a href="'.$naverband_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"><span class="txt">네이버밴드 공유하기</span></a>'.PHP_EOL;
+      break;
 		case 'pinterest':
 			$pinterest_url = $sns_send . '&amp;sns=pinterest';
-            $str = 'share_sns(\'pinterest\',\'' . $pinterest_url . '\'); return false;';
-			$str = '<a href="'.$pinterest_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"></a>'.PHP_EOL;
-            break;
+      $str = 'share_sns(\'pinterest\',\'' . $pinterest_url . '\'); return false;';
+			$str = '<a href="'.$pinterest_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"><span class="txt">핀터레스트 공유하기</span></a>'.PHP_EOL;
+      break;
 		case 'tumblr':
 			$tumblr_url = $sns_send.'&amp;sns=tumblr';
 			$str = 'share_sns(\'tumblr\',\''.$tumblr_url.'\'); return false;';
-			$str = '<a href="'.$tumblr_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"></a>'.PHP_EOL;
-            break;
+			$str = '<a href="'.$tumblr_url.'" onclick="'.$str.'" target="_blank"><img src="'.$image_url.'"><span class="txt"></span></a>'.PHP_EOL;
+      break;
 		case 'kakaotalk':
 			if($default['de_kakao_js_apikey'])
-                $str = '<a href="javascript:kakaolink_send(\''.str_replace('+', ' ', urlencode($title)).'\', \''.urlencode($url).'\');"><img src="'.$image_url.'"></a>'.PHP_EOL;
+        $str = '<a href="javascript:kakaolink_send(\''.str_replace('+', ' ', urlencode($title)).'\', \''.urlencode($url).'\');"><img src="'.$image_url.'"><span class="txt">카카오톡 공유하기</span></a>'.PHP_EOL;
 			break;
     }
 

@@ -302,6 +302,17 @@ $(document).ready(function () {
     popDim.fadeOut(200);
   });
 
+  // > Copy Link
+  const copyLinkBtn = $(".copyLink-btn");
+
+  copyLinkBtn.on('click', function(){
+    let url = $(this).data('url');
+
+    f.clipCopy(url);
+    prodSharePop.removeClass('on');
+    popDim.fadeOut(200);
+  });
+
   //All menu
   const depth1Btn = $('.all-ct-depth1-list > li');
   depth1Btn.on('click',function(){
