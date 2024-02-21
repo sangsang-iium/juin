@@ -571,3 +571,8 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .joinDetail-head .popup .pop-search {margin-bottom: 2rem;}
 .joinDetail-head .popup .ui-btn.st3 {height: 5.6rem;}
 #popMemberSch .pop-inner .pop-content {max-height: calc(100% - 22.4rem);}
+
+/* > 아이디/비밀번호 찾기 */
+.passwordLost {}
+.passwordLost-wrap {}
+.passwordLost-text {margin-bottom: 3.2rem; padding: 2.8rem 3.16rem; font-size: 2rem; font-weight: 300; color: var(--color-gray2); background: var(--color-gray8);}
