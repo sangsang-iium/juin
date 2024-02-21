@@ -419,7 +419,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     <div class="popup type01" id="sod_fin_cancelfrm">
       <div class="pop-inner">
         <div class="pop-top">
-          <p class="tit">팝업 제목</p>
+          <p class="tit">취소 사유</p>
         </div>
         <div class="pop-content">
           <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquirycancel.php" onsubmit="return fcancel_check(this);">
@@ -430,9 +430,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             <input type="submit" value="확인" class="btn_small"> -->
             <div class="form-row">
               <div class="form-head">
-                <p class="title">취소사유<b>*</b></p>
+                <p class="title">취소 사유<b>*</b></p>
               </div>
-              <div class="form-body id-confirm">
+              <div class="form-body input-button">
                 <input type="text" name="cancel_memo" id="cancel_memo" required class="frm-input" maxlength="100" placeholder="취소사유를 입력해주세요.">
                 <input type="submit" value="확인" class="ui-btn st3">
               </div>
@@ -441,7 +441,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </form>
         </div>
         <div class="pop-btm">
-          <button type="button" class="ui-btn close">취소</button>
+          <button type="button" class="ui-btn round stBlack close">취소</button>
         </div>
       </div>
     </div>
@@ -792,10 +792,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 <script>
 const popUp = () => {
-  let popBtn = $('.order-cancel-btn');
-  let popLayer = $('#sod_fin_cancelfrm');
-  let popDim = $('.popDim');
-  let popClose = popLayer.find('.close');;
+  let popBtn = $('.order-cancel-btn'); // 팝업 버튼
+  let popLayer = $('#sod_fin_cancelfrm'); // 팝업 레이어
+  let popDim = $('.popDim'); // 팝업 배경
+  let popClose = popLayer.find('.close'); // 팝업 닫기 버튼
 
   popBtn.on('click',function(){
     popDim.show();
