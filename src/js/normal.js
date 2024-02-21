@@ -26,7 +26,9 @@ $(document).ready(function () {
   const popCloseBtn = $('.popup .close');
   popCloseBtn.on('click',function(){
     const closePopup = $(this).closest('.popup');
-    popDim.fadeOut(200);
+    if(!$(this).closest(".popup").hasClass('add-in-popup')){
+      popDim.fadeOut(200);
+    }
     f.popupClose(closePopup);
   });
 

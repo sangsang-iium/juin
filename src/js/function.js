@@ -155,12 +155,12 @@ export const arcodianF = () => {
 
 //팝업 열기
 export const popupOpen = (id) => {
-  $('#' + id).fadeIn(200);
+  $('#' + id).fadeIn(200).addClass("on");
 }
 
 //팝업 닫기
 export const popupClose = (t) => {
-  t.fadeOut(200);
+  t.fadeOut(200).removeClass("on");
 }
 
 // 링크 복사

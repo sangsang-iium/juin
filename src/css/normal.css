@@ -169,6 +169,21 @@
 #prodShare .way > li img {width: 3.8rem;}
 #prodShare .way > li .txt {width: calc(100% - 3.8rem); padding-left: 1.48rem; font-size: 2.16rem; font-weight: 400; color: var(--color-black3); vertical-align: middle;}
 
+.add-popup {top: 55%; transition: top 0.3s ease-in-out;}
+.add-popup.on {top: 50%;}
+
+.add-in-popup {top: 50%; left: 55%; transition: left 0.3s ease-in-out;}
+.add-in-popup.on {left: 50%;}
+.add-in-popup .pop-inner .pop-top .close {right: inherit; left: 0; width: 2.08rem; height: 3.48rem; background: url('../img/icon-back.svg') no-repeat center/contain;}
+
+#sod_addr .win_desc {margin: 0;}
+#sod_addr .sod_addr_li > li {position:relative; padding: 2rem 0; border-bottom:1px solid var(--color-gray10);}
+#sod_addr .sod_addr_li > li:first-child {padding-top: 0;}
+#sod_addr .od-dtn-btns {display: flex; flex-flow: row wrap; align-items: flex-start; justify-content: space-between; margin-top: 1rem;}
+#sod_addr .mngArea {display: flex; flex-flow: row wrap; align-items: center; justify-content: flex-start; gap: 0.5rem;}
+#sod_addr .mngArea .ui-btn {height: auto; padding: 1rem 2rem; font-size: 1.8rem;}
+#sod_addr #btn_sel {width: 100%; height: auto; padding: 1rem 2rem; font-size: 1.8rem; background: var(--color-main) !important; color: var(--color-white) !important; border: 0;}
+
 /* 기획전 */
 .exhib-item {display: block;}
 .exhib-item ~ .exhib-item {margin-top: 4rem;}
