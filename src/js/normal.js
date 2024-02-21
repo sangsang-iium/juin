@@ -14,6 +14,22 @@ $(document).ready(function () {
   // Arcodian Function
   f.arcodianF();
 
+  // Popup Open
+  const popOpenBtn = $('.popup-open');
+  popOpenBtn.on('click', function(){
+    const openPopup = $(this).attr('data-popupId');
+    popDim.fadeIn(200);
+    f.popupOpen(openPopup);
+  });
+  
+  // Popup Close
+  const popCloseBtn = $('.popup .close');
+  popCloseBtn.on('click',function(){
+    const closePopup = $(this).closest('.popup');
+    popDim.fadeOut(200);
+    f.popupClose(closePopup);
+  });
+
   //Main Top Banner
   const mainTopBannerTarget = '.mtb-wrap .swiper-container';
   const mainTopBannerOptions = {
