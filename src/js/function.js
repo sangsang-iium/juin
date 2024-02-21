@@ -152,3 +152,13 @@ export const arcodianF = () => {
     });
   }
 }
+
+//팝업 열기
+export const popupOpen = (id) => {
+  $('#' + id).fadeIn(200);
+}
+
+//팝업 닫기
+export const popupClose = (t) => {
+  t.fadeOut(200);
+}
