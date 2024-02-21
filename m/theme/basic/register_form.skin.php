@@ -29,7 +29,7 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-head">
 							<p class="title"><label for="reg_mb_id">아이디</label><b>*</b></p>
 						</div>
-						<div class="form-body id-confirm">
+						<div class="form-body input-button id-confirm">
 							<input type="text" name="mb_id" value="<?php echo $member['id'] ?>" id="reg_mb_id"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input" size="20" maxlength="20" placeholder="아이디를 입력해주세요.">
 							<span id="msg_mb_id"></span>
 							<button type="button" class="ui-btn st3">중복확인</button>
@@ -101,9 +101,9 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-body phone">
 							<input type="text" name="mb_hp" value="<?php echo get_text($member['cellphone']); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="20">
 							<span class="hyphen">-</span>
-							<input type="text" name="" id="" class="frm-input">
+							<input type="text" name="" class="frm-input">
 							<span class="hyphen">-</span>
-							<input type="text" name="" id="" class="frm-input">
+							<input type="text" name="" class="frm-input">
 							<div class="frm-choice">
 								<input type="checkbox" name="mb_sms" id="chk-sms" value="Y"<?php echo ($w=='' || $member['smsser'] == 'Y')?' checked':''; ?>>
 								<label for="chk-sms">핸드폰 문자메세지를 받겠습니다.</label>
@@ -116,13 +116,13 @@ if(!defined('_BLUEVATION_')) exit;
 					<?php } ?>
 					<div class="form-row">
 						<div class="form-head">
-							<p class="title"><label for="reg_mb_email">E-mail</label><b>*</b></p>
+							<p class="title"><label for="reg_mb_email">이메일</label><b>*</b></p>
 						</div>
 						<div class="form-body email">
 							<input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
 							<input type="text" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input required" size="40" maxlength="100" placeholder="이메일을 입력해주세요.">
 							<span class="at">@</span>
-							<select name="" id="" class="frm-select">
+							<select name="" class="frm-select">
 								<option value="">선택하세요.</option>
 								<option value="">gmail.com</option>
 								<option value="">naver.com</option>
@@ -162,7 +162,40 @@ if(!defined('_BLUEVATION_')) exit;
 			<div class="joinDetail-box">
 				<div class="joinDetail-head">
 					<p class="joinDetail-title">중앙회원정보</p>
-					<button type="button" class="ui-btn st3 w-per100">중앙회원 조회하기</button>
+					<button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">중앙회원 조회하기</button>
+					<!-- 중앙회원 조회하기 팝업 { -->
+          <div class="popup type01" id="popMemberSch">
+            <div class="pop-inner">
+              <div class="pop-top">
+                <p class="tit">중앙회원 조회하기</p>
+              </div>
+							<div class="pop-search input-button">
+								<input type="text" name="" value="" class="frm-input" size="20" maxlength="20" placeholder="고유번호를 입력해주세요.">
+								<button type="button" class="ui-btn st3">회원조회</button>
+							</div>
+              <div class="pop-content line">
+                <div class="pop-content-in" style="height: 500px;">
+                  <div class="pop-result">
+                    <div class="pop-result-item">
+                      <p class="pop-result-title">회원이름영역</p>
+                      <p class="pop-result-text">고유번호 : 22012617052419</p>
+                      <p class="pop-result-text">사업자등록번호 : 000-00-00000</p>
+                    </div>
+                    <div class="pop-result-item">
+                      <p class="pop-result-title">회원이름영역</p>
+                      <p class="pop-result-text">고유번호 : 22012617052419</p>
+                      <p class="pop-result-text">사업자등록번호 : 000-00-00000</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pop-btm">
+                <button type="button" class="ui-btn round stBlack">확인</button>
+                <button type="button" class="ui-btn round stWhite close">취소</button>
+              </div>
+            </div>
+          </div>
+					<!-- } 중앙회원 조회하기 팝업 -->
 				</div>
 				<div class="joinDetail-body">
 					<div class="form-row">
@@ -170,7 +203,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">이름<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" id="" class="frm-input w-per100" readonly value="홍길동">
+							<input type="text" name="" class="frm-input w-per100" readonly value="홍길동">
 						</div>
 					</div>
 					<div class="form-row">
@@ -178,7 +211,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">고유번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" id="" class="frm-input w-per100" readonly value="123456789">
+							<input type="text" name="" class="frm-input w-per100" readonly value="123456789">
 						</div>
 					</div>
 					<div class="form-row">
@@ -186,7 +219,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" id="" class="frm-input w-per100" readonly value="123-45-67890">
+							<input type="text" name="" class="frm-input w-per100" readonly value="123-45-67890">
 						</div>
 					</div>
 				</div>
@@ -204,7 +237,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" id="" class="frm-input w-per100" readonly value="123-45-67890">
+							<input type="text" name="" class="frm-input w-per100" readonly value="123-45-67890">
 							<div class="joinDetail-btn-box">
 								<button type="button" class="ui-btn st3">중복확인</button>
 								<button type="button" class="ui-btn st3">휴/폐업조회</button>
@@ -216,7 +249,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">상호명<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" id="" class="frm-input w-per100" readonly value="상호명">
+							<input type="text" name="" class="frm-input w-per100" readonly value="상호명">
 						</div>
 					</div>
 					<div class="form-row">
@@ -224,7 +257,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">업종/업태<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" id="" class="frm-input w-per100" readonly value="업종/업태">
+							<input type="text" name="" class="frm-input w-per100" readonly value="업종/업태">
 						</div>
 					</div>
 					<div class="form-row">
@@ -232,7 +265,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">대표자<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" id="" class="frm-input w-per100" readonly value="대표자">
+							<input type="text" name="" class="frm-input w-per100" readonly value="대표자">
 						</div>
 					</div>
 					<div class="form-row">
@@ -240,11 +273,11 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">대표번호<b>*</b></p>
 						</div>
 						<div class="form-body phone">
-							<input type="text" name="" id="" class="frm-input" readonly value="010">
+							<input type="text" name="" class="frm-input" readonly value="010">
 							<span class="hyphen">-</span>
-							<input type="text" name="" id="" class="frm-input" readonly value="1234">
+							<input type="text" name="" class="frm-input" readonly value="1234">
 							<span class="hyphen">-</span>
-							<input type="text" name="" id="" class="frm-input" readonly value="5678">
+							<input type="text" name="" class="frm-input" readonly value="5678">
 						</div>
 					</div>
 					<div class="form-row">
@@ -252,8 +285,8 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">주소</p>
 						</div>
 						<div class="form-body address">
-							<input type="text" name="" id="" class="frm-input w-per100" readonly value="매장주소">
-							<input type="text" name="" id="" class="frm-input w-per100" readonly value="매장주소">
+							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
+							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
 						</div>
 					</div>
 				</div>
