@@ -269,7 +269,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <div class="rv-item-list">
             <?php echo mobile_goods_review("구매후기", $item_use_count, $gs_id); ?>
           </div>
-          <a href="<?php echo BV_MSHOP_URL.'/view_user.php?gs_id='.$gs_id; ?>" class="ui-btn round moreLong">
+          <!-- <a href="<?php echo BV_MSHOP_URL.'/view_user.php?gs_id='.$gs_id; ?>" class="ui-btn round moreLong">
+            <span class="text">전체보기</span>
+          </a> -->
+          <button type="button" class="ui-btn round moreLong rv-all-btn">
             <span class="text">전체보기</span>
           </a>
         </div>
@@ -511,6 +514,12 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   </div>
 </div>
 
+<!-- 리뷰 전체보기 팝업 { -->
+<div id="rv-all-pop">
+  <?php include_once(BV_MSHOP_PATH."/view_user.php"); ?>
+</div>
+<!-- } 리뷰 전체보기 팝업 -->
+
 <script>
 // 상품보관
 function item_wish(f)
@@ -719,6 +728,29 @@ function chgimg(ergfun) {
 		document.slideshow.src = slide[num];
 	}
 }
+
+// 팝업
+const popUp = () => {
+  let popBtn = $('.rv-all-btn');
+  let popLayer = $('#rv-all-pop');
+  let popDim = $('.popDim');
+  let popClose = $('.rv-all-close');
+  let body = $('body');
+
+  popBtn.on('click',function(){
+    // popDim.show();
+    popLayer.fadeIn(200);
+    body.css({'overflow':'hidden'});
+  });
+
+  popClose.on('click',function(){
+    // popDim.hide();
+    popLayer.fadeOut();
+    body.css({'overflow':'visible'});
+  });
+}
+
+popUp();
 </script>
 
 <script type="module">
