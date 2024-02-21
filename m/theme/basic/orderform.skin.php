@@ -230,9 +230,12 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
           </div>
           <div class="od-ct">
             <div class="od-dtn-info">
-              <p class="od-dtn__name">홍길동(집)<span class="tag">기본배송지</span></p>
-              <p class="od-dtn__addr">대전광역시 서구 한밭대로 570번길 8, 전원빌딩 4층 상상이음</p>
-              <p class="od-dtn__contact">010-1234-5678</p>
+              <p class="od-dtn__name">
+                <span class="nm"><?php echo $member['name']; ?></span>
+                <span class="tag">기본배송지</span>
+              </p>
+              <p class="od-dtn__addr"><?php echo print_address($member['addr1'], $member['addr2'], $member['addr3'], $member['addr_jibeon']); ?></p>
+              <p class="od-dtn__contact"><?php echo $member['cellphone']; ?></p>
             </div>
             <div class="od-dtn-btns">
               <button type="button" class="ui-btn st3 od-dtn__change">변경</button>
@@ -534,7 +537,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       </div>
       
       <!-- 주문자 및 수령자 기본형식 { -->
-      <section id="sod_frm_orderer" style="display: none !important;">
+      <section id="sod_frm_orderer" >
         <h2 class="anc_tit">주문하시는 분</h2>
         <div class="odf_tbl">
           <table>
@@ -589,7 +592,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
         </div>
       </section>
 
-      <section id="sod_frm_taker" style="display: none !important;">
+      <section id="sod_frm_taker" >
         <h2 class="anc_tit">받으시는 분</h2>
         <div class="odf_tbl">
           <table>
@@ -672,8 +675,68 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
   </div>
 </div>
 
-<script>
+<!-- 배송지 목록 팝업 { -->
+<div id="delv-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">배송지 목록</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in"></div>
+    </div>
+  </div>
+</div>
+<!-- } 배송지 목록 팝업 -->
+
+<!-- 배송지 추가 팝업 { -->
+<div id="delv-write-popup" class="popup type02 add-popup add-in-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">배송지 추가</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in"></div>
+    </div>
+  </div>
+</div>
+<!-- } 배송지 추가 팝업 -->
+
+
+<script type="module">
+  import * as f from '/src/js/function.js';
+
   $(function () {
+    //배송지 목록 팝업
+    const delvPopId = "delv-popup";
+
+    $(".od-dtn__change").on("click", function () {
+      // win_open('./orderaddress.php','win_address');
+
+      $.ajax({
+        url: './orderaddress.php',
+        success: function (data) {
+          $(`#${delvPopId}`).find(".pop-content-in").html(data);
+          $(".popDim").show();
+          f.popupOpen(delvPopId);
+        }
+      });
+    });
+
+    //배송지 추가 팝업
+    const delvWritePopId = "delv-write-popup";
+
+    $(`#${delvPopId}`).on("click", ".od-dtn__add", function () {
+      $.ajax({
+        url: './orderaddress_write.php',
+        success: function (data) {
+          $(`#${delvWritePopId}`).find(".pop-content-in").html(data);
+          f.popupOpen(delvWritePopId);
+        }
+      });
+    });
+
     var zipcode = "";
 
     $("input[name=b_addr2]").focus(function () {
@@ -690,11 +753,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       calculate_sendcost(code);
     });
 
-    //배송지변경
-    $(".od-dtn__change").on("click", function () {
-      win_open('./orderaddress.php','win_address');
-    });
-
+    //배송요청사항
     $("select[name=sel_memo]").change(function () {
       $("textarea[name=memo]").val($(this).val());
     });
