@@ -82,6 +82,25 @@
 .order-list-wr .cp-cart-body {padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 0.16rem dashed #e9e9e9;}
 .order-list-wr .cp-cart-body:last-child {padding-bottom: 0; margin-bottom: 0; border-bottom: none;}
 
+/* 주문 배송 조회 상세 */
+#sod_fin .prc-tot {display: block; width: 100%;}
+#sod_fin .prc-tot > li {display: flex; flex-flow: row wrap; align-items: center; justify-content: space-between; margin-top: 1.4rem; padding-top: 1.4rem; border-top: 1px solid var(--color-gray10);}
+#sod_fin .prc-tot > li:first-child {margin-top: 0; padding-top: 0; border-top: 0;}
+#sod_fin .prc-tot .lt-txt {width: 50%; font-size: 2.16rem; font-weight: 500; color: var(--color-gray2); text-align: left;}
+#sod_fin .prc-tot .rt-txt {width: 50%; font-size: 2.32rem; font-weight: 500; color: var(--color-black2); text-align: right;}
+#sod_fin .prc-tot > li.rst .lt-txt {color: var(--color-main);}
+#sod_fin .prc-tot > li.rst .rt-txt {font-size: 2.88rem; font-weight: 700; color: var(--color-main);}
+#sod_fin .cp-btnbar__btns .container {display: flex; align-items: center; justify-content: space-between; gap: 1rem;}
+#sod_fin .cp-btnbar__btns .ui-btn {line-height: 6.8rem; font-weight: 500; font-size: 2.16rem; width: 50%;}
+
+#sod_fin .cp-btnbar__btns .container.oneBtn .ui-btn {width: 100%;}
+
+#sod_fin .prc-tot.wl330 .lt-txt {width: 13.2rem;}
+#sod_fin .prc-tot.wl330 .rt-txt {width: calc(100% - 13.2rem); text-align: left;}
+
+#sod_fin_cancelfrm {margin: 0; padding: 0; background-color: #fff; position: fixed; z-index: 550; height: auto;}
+#sod_fin_cancelfrm .pop-inner {height: auto; max-height: none;}
+
 @media screen and (max-width:960px) {
   html {font-size: 50%;}
 
