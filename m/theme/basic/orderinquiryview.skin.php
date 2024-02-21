@@ -314,7 +314,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
     </div>
 
-    <div id="sod_fin_orderer" class="">
+    <div id="sod_fin_orderer" style="display: none;">
       <div class="container">
         <div class="arcodianBtn od-top active">
           <button type="button" class="ui-btn od-toggle-btn">
@@ -348,7 +348,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
     </div>
 
-    <div id="sod_fin_receiver" style="display: none;">
+    <div id="sod_fin_receiver">
       <div class="container">
         <div class="arcodianBtn od-top active">
           <button type="button" class="ui-btn od-toggle-btn">
@@ -441,7 +441,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </form>
         </div>
         <div class="pop-btm">
-          <button type="button" class="btn close">취소</button>
+          <button type="button" class="ui-btn close">취소</button>
         </div>
       </div>
     </div>

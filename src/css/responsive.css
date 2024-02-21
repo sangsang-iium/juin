@@ -101,6 +101,9 @@
 #sod_fin_cancelfrm {margin: 0; padding: 0; background-color: #fff; position: fixed; z-index: 550; height: auto;}
 #sod_fin_cancelfrm .pop-inner {height: auto; max-height: none;}
 
+/* 상품 상세 리뷰 전체보기 */
+#rv-all-pop {z-index: 550; position: fixed; display: none; top: 0; left: 50%; transform: translateX(-50%); background-color: #fff; max-width: 1440px; width: 100%; height: 100%; overflow-y: auto;}
+
 @media screen and (max-width:960px) {
   html {font-size: 50%;}
 
