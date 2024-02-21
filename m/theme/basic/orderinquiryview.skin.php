@@ -296,12 +296,12 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                     $cash_receipt_script = 'window.open(\''.BV_CASH_RECEIPT_URL.$default['de_kcp_mid'].'&orderid='.$od_id.'&bill_yn=Y&authno='.$cash['receipt_no'].'\', \'taxsave_receipt\', \'width=360,height=647,scrollbars=0,menus=0\');';
                   }
                 ?>
-                  <a href="javascript:;" onclick="<?php echo $cash_receipt_script; ?>" class="btn_small">현금영수증 확인하기</a>
+                  <a href="javascript:;" onclick="<?php echo $cash_receipt_script; ?>" class="ui-btn stBlack sizeS round25">현금영수증 확인하기</a>
                 <?php
                 }
                 else {
                 ?>
-                  <a href="javascript:;" onclick="window.open('<?php echo BV_MSHOP_URL; ?>/taxsave.php?od_id=<?php echo $od_id; ?>', 'taxsave', 'width=550,height=400,scrollbars=1,menus=0');" class="btn_small">현금영수증 발급하기</a>
+                  <a href="javascript:;" onclick="window.open('<?php echo BV_MSHOP_URL; ?>/taxsave.php?od_id=<?php echo $od_id; ?>', 'taxsave', 'width=550,height=400,scrollbars=1,menus=0');" class="ui-btn stBlack sizeS round25">현금영수증 발급하기</a>
                 <?php } ?>
               </span>
             </li>
