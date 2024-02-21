@@ -93,21 +93,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     }
     // } 내용
 
-    // 수정 팝업 변환
-    echo '<div class="popup type01" id="">';
-    echo '<div class="pop-inner">';
-    echo '<div class="pop-top">';
-    echo '<p class="tit">팝업 제목</p>';
-    echo '</div>';
-    echo '<div class="pop-content">';
-    include_once(BV_MSHOP_URL."/orderreview.php");
-    echo '</div>';
-    echo '<div class="pop-btm">';
-    echo '<button type="button" class="btn">취소</button>';
-    echo '</div>';
-    echo '</div>';
-    echo '</div>';
-
     echo "</div>\n";
 	}
 
