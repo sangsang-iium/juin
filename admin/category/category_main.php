@@ -25,7 +25,7 @@ $sql_order = " order by caterank, catecode ";
 	</colgroup>
 	<tbody>
 	<tr>
-		<th scope="row">카테고리 소속</th>
+		<th scope="row">카테고리</th>
 		<td>
 			<?php echo get_category_select_1('sel_ca1', $sel_ca1); ?>
 			<?php echo get_category_select_2('sel_ca2', $sel_ca2); ?>
