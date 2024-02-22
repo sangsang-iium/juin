@@ -66,6 +66,30 @@ if(!defined('_BLUEVATION_')) exit;
 </form>
 
 <script>
+// 도서/산간 배송비 검사
+function calculate_sendcost(code) {
+  $.post(
+    bv_shop_url+"/ordersendcost.php",
+    { zipcode: code },
+    function(data) {
+      $("input[name=baesong_price2]").val(data);
+      $("#send_cost2").text(number_format(String(data)));
+
+      calculate_order_price();
+    }
+  );
+}
+
+function calculate_order_price() {
+  var sell_price = parseInt($("input[name=org_price]").val()); // 합계금액
+	var send_cost2 = parseInt($("input[name=baesong_price2]").val()); // 추가배송비
+	var mb_coupon  = parseInt($("input[name=coupon_total]").val()); // 쿠폰할인
+	var mb_point   = parseInt($("input[name=use_point]").val().replace(/[^0-9]/g, "")); //포인트결제
+	var tot_price  = sell_price + send_cost2 - (mb_coupon + mb_point);
+
+	$("input[name=tot_price]").val(number_format(String(tot_price)));
+}
+
 $(function() {
   $(".sel_address").on("click", function () {
     var addr = $(this).siblings("input").val().split(String.fromCharCode(30));
