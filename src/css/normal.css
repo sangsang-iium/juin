@@ -184,6 +184,8 @@
 #sod_addr .mngArea .ui-btn {height: auto; padding: 1rem 2rem; font-size: 1.8rem;}
 #sod_addr #btn_sel {width: 100%; height: auto; padding: 1rem 2rem; font-size: 1.8rem; background: var(--color-main) !important; color: var(--color-white) !important; border: 0;}
 
+.set_df_addr_wrap {margin-top: 2rem;}
+
 /* 기획전 */
 .exhib-item {display: block;}
 .exhib-item ~ .exhib-item {margin-top: 4rem;}

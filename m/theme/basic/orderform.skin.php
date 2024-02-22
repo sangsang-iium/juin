@@ -537,7 +537,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       </div>
       
       <!-- 주문자 및 수령자 기본형식 { -->
-      <section id="sod_frm_orderer" >
+      <section id="sod_frm_orderer" style="display: none !important;">
         <h2 class="anc_tit">주문하시는 분</h2>
         <div class="odf_tbl">
           <table>
@@ -592,7 +592,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
         </div>
       </section>
 
-      <section id="sod_frm_taker" >
+      <section id="sod_frm_taker" style="display: none !important;">
         <h2 class="anc_tit">받으시는 분</h2>
         <div class="odf_tbl">
           <table>
