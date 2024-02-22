@@ -50,7 +50,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 					<div class="order-num-box">
 						<p class="text">주문번호</p>
 						<p class="num"><?php echo $rw['od_id']; ?></p>
-						<span class="tag <?php echo $gw_status[$rw['dan']] == '배송완료'?'on':'off'; ?>"><?php echo $gw_status[$rw['dan']]; ?></span>
+						<span class="tag <?php echo $gw_status[$rw['dan']] == '배송중'?'on':'off'; ?>"><?php echo $gw_status[$rw['dan']]; ?></span>
 					</div>
 				</div>
 				<?php } ?>

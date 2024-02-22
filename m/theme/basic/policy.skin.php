@@ -2,7 +2,7 @@
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 ?>
 
-<h2 class="pop_title">
+<!-- <h2 class="pop_title">
 	<?php echo $tb['title']; ?>
 	<a href="javascript:window.close();" class="btn_small bx-white">창닫기</a>
 </h2>
@@ -11,4 +11,14 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 <div class="btn_confirm">
 	<button type="button" onclick="window.close();" class="btn_medium bx-white">창닫기</button>
+</div> -->
+
+<div id="contents">
+
+	<div class="m_agree">
+		<div class="container">
+			<?php echo nl2br($config['shop_policy']); ?>
+		</div>
+	</div>
+
 </div>

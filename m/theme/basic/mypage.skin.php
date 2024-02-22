@@ -101,6 +101,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 				<li><a href="<?php echo BV_MBBS_URL;?>/review.php">상품후기</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/board_list.php?boardid=13">공지사항</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/faq.php">자주 묻는 질문</a></li>
+				<li><a href="<?php echo BV_MBBS_URL;?>/policy.php">개인정보처리방침</a></li>
+				<li class="pdb0"><a href="<?php echo BV_MBBS_URL;?>/provision.php">이용약관</a></li>
 			</ul>
 		</div>
 	</div>

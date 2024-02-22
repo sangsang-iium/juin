@@ -1066,14 +1066,24 @@ html.no-overflowscrolling #mod_option_frm {height:auto;max-height:10000px !impor
 #scp_list .li_target {padding:0 10px 10px;color:#029d9f;display:inline-block;}
 
 /*찜한상품&최근본상품*/
-#sod_ws {background:#fff;padding:10px 10px 30px;}
+#sod_ws {background:#fff;}
 #sod_ws .ws_wrap table {width:100%;border-top:1px solid #e9e9e9;}
 #sod_ws .ws_wrap tr {border-bottom:1px solid #e9e9e9;}
-#sod_ws .ws_wrap th {width:30px;padding:10px 0 0 2px;text-align:center;vertical-align:top;background-color:#fff !important;}
-#sod_ws .ws_wrap td.wish_img {width:60px;padding:10px 7px;text-align:center;vertical-align:top;}
-#sod_ws .ws_wrap td.wish_info {position:relative;width:auto;padding:10px 7px 10px 0;vertical-align:top;}
-#sod_ws .ws_wrap td.wish_info .wish_gname{color:#555;}
-#sod_ws .ws_wrap td.wish_info .wish_del{position:absolute;bottom:10px;right:0;}
+#sod_ws .ws_wrap th {width:4rem; padding: 2rem 0;text-align:center;vertical-align:top;background-color:#fff !important;}
+#sod_ws .ws_wrap th .frm-choice input[type='checkbox'] + label {padding-left: 0;}
+#sod_ws .ws_wrap th .frm-choice input[type='checkbox'] + label:before {position: inherit; top: inherit; left: inherit; transform: none;}
+#sod_ws .ws_wrap td {padding-top: 2rem; padding-bottom: 2rem;}
+#sod_ws .ws_wrap td.wish_img {width:14rem;text-align:center;vertical-align:top;}
+#sod_ws .ws_wrap td.wish_img .thumb {display: inline-block; vertical-align: top; width: 14rem; height: 14rem; padding: 0; border: 1px solid var(--color-gray5); overflow: hidden;}
+#sod_ws .ws_wrap td.wish_info {position:relative;width:auto; padding-left: 1.6rem; padding-right: 4rem; vertical-align:top;}
+#sod_ws .ws_wrap td.wish_info .wish_gname{}
+#sod_ws .ws_wrap td.wish_info .wish_gname .gname {font-size: 2.16rem; font-weight: 500; color: var(--color-black2);}
+#sod_ws .ws_wrap td.wish_info .wish_gname .gprc {margin-top: 1.5rem;}
+#sod_ws .ws_wrap td.wish_info .wish_gname .gprc span.mpr {font-size: 2.48rem; font-weight: 700; color: var(--color-black2);}
+#sod_ws .ws_wrap td.wish_info .wish_gname .gprc span.mpr span {font-size: 2.08rem; font-weight: 600;}
+#sod_ws .ws_wrap td.wish_info .wish_del {display: block; position:absolute; top: 2rem; right: 0; z-index: 10; width: 2rem; height: 2rem; background: url('/src/img/icon-close.svg') no-repeat center center/cover; font-size: 0;}
+#sod_ws .btn_confirm {display: flex; flex-flow: row wrap; align-items: center; justify-content: center; gap: 0.4rem; margin-top: 2rem;}
+#sod_ws .btn_confirm .ui-btn {width: calc(100% / 2 - 0.4rem); height: 7.2rem; margin: 0; font-size: 2.16rem; font-weight: 500;}
 
 /*포인트*/
 #point {margin:15px;}
