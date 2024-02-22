@@ -8,22 +8,36 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	<a class="btn_small bx-white rv-all-close">전체상품보기</a>
 </h2>
 
+<div id="review_top">
+  <select name="" id="" class="frm-select review_select">
+    <option value="">1개월</option>
+    <option value="">3개월</option>
+    <option value="">6개월</option>
+    <option value="">1년</option>
+  </select>
+  <p class="review_cnt">내가 작성한 상품후기 <span>3</span>건</p>
+</div>
+
 <div id="sit_review">
-	<table class="tbl_review">
-	<colgroup>
-		<col width="80px">
-		<col>
-	</colgroup>
-	<tbody>
-	<tr>
-		<td class="image"><?php echo get_it_image($gs_id, $gs['simg1'], 80, 80); ?></td>
-		<td class="gname">
-			<?php echo get_text($gs['gname']); ?>
-			<p class="bold mart5"><?php echo mobile_price($gs_id); ?></p>
-		</td>
-	</tr>
-	</tbody>
-	</table>
+  <div class="cp-cart order">
+    <div class="cp-cart-item">
+      <div class="cp-cart-body">
+        <div class="thumb round60">
+          <?php echo get_it_image($gs_id, $gs['simg1'], 140, 140); ?>
+        </div>
+        <div class="content">
+          <p class="name"><?php echo get_text($gs['gname']); ?></p>
+          <div class="info">
+            <!-- <div class="set">
+              <p>1개</p>
+              <p>1세트</p>
+            </div> -->
+            <p class="price"><?php echo mobile_price($gs_id); ?></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 	<?php
 	echo "<ul>\n";
@@ -65,6 +79,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
     //내용 {
     echo "<div class='rv-content-wr'>";
+    echo "<div class='content'>$row[memo]</div>";
 
     //이미지가 있다면 {
     echo "<div class='rv-img-list'>";
@@ -81,7 +96,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     echo "</div>";
     // } 이미지가 있다면
 
-    echo "<div class='content'>$row[memo]</div>";
     echo "<button type='button' class='cont-more-btn'>더보기+</button>";
     echo "</div>";
 
@@ -105,8 +119,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
 	?>
 	<div class="btn_confirm">
-		<a href="javascript:window.open('<?php echo BV_MSHOP_URL; ?>/orderreview.php?gs_id=<?php echo $gs_id; ?>');" class="btn_medium">구매후기쓰기</a>
-		<a href="javascript:window.close();" class="btn_medium bx-white rv-all-close">창닫기</a>
+		<a href="javascript:window.open('<?php echo BV_MSHOP_URL; ?>/orderreview.php?gs_id=<?php echo $gs_id; ?>');" class="ui-btn round stBlack">구매후기쓰기</a>
+		<a href="javascript:window.close();" class="ui-btn round stWhite rv-all-close">창닫기</a>
 	</div>
 </div>
 

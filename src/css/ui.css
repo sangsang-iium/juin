@@ -579,3 +579,26 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .passwordLost {}
 .passwordLost-wrap {}
 .passwordLost-text {margin-bottom: 3.2rem; padding: 2.8rem 3.16rem; font-size: 2rem; font-weight: 300; color: var(--color-gray2); background: var(--color-gray8);}
+
+/* 상품후기 */
+#review_top {padding: 2.56rem 2.4rem 1.6rem; border-bottom: 1.2rem solid var(--color-gray9);}
+#review_top .review_select {width: 100%;}
+#review_top .review_cnt {margin-top: 2.4rem; font-size: 2rem; font-weight: 500; color: var(--color-black2);}
+#review_top .review_cnt span {font-weight: 700; color: var(--color-main);}
+
+#sit_review {margin: 0; padding: 2rem 2.4rem;}
+#sit_review .cp-cart-item {padding-top: 1rem; border-bottom: 1px solid var(--color-gray10);}
+#sit_review .rv-item {padding-top: 2rem; padding-bottom: 3.2rem;}
+#sit_review .rv-content-wr .rv-img-list {margin-top: 2rem; margin-bottom: 2rem;}
+#sit_review .btn_confirm {display: flex; justify-content: center; margin-top: 2rem; font-size: 0; gap: 0.4rem;}
+#sit_review .btn_confirm .ui-btn {width: 50%; height: 7.2rem; margin: 0; padding: 0 2.8rem; line-height: 7.2rem; font-size: 2.16rem;}
+
+.reviewList #review_top {padding-top: 0.56rem;}
+#sod_review {margin: 0;}
+#sod_review .cp-cart {border-bottom: 1.2rem solid var(--color-gray9);}
+#sod_review .cp-cart-item {padding: 2.8rem 2.4rem 0;}
+#sod_review .cp-cart.order .cp-cart-body {padding-bottom: 2.8rem; border-bottom: 1px solid var(--color-gray10);}
+#sod_review .rv-item {padding: 2.4rem 2.4rem 3.2rem;}
+#sod_review .rv-item .content {display: block; width: 100%; padding-left: 0;}
+#sod_review .rv-content-wr {padding-top: 0;}
+#sod_review .rv-content-wr .rv-img-list {margin-top: 0; margin-bottom: 2rem;}
