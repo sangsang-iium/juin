@@ -35,6 +35,10 @@ if(!defined('_BLUEVATION_')) exit;
         <input type="text" name="" id="" class="frm-input address-input_2">
         <input type="text" name="" id="" class="frm-input address-input_3" placeholder="나머지 주소를 입력하세요.">
       </div>
+      <div class="frm-choice set_df_addr_wrap">
+        <input type="checkbox" name="chk" id="set_df_addr" value="">
+        <label for="set_df_addr">기본배송지로 설정</label>
+      </div>
     </div>
   </div>
 
