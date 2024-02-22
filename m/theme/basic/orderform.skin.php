@@ -703,40 +703,43 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 </div>
 <!-- } 배송지 추가 팝업 -->
 
-
 <script type="module">
-  import * as f from '/src/js/function.js';
+import * as f from '/src/js/function.js';
 
+$(function () {
+  //배송지 목록 팝업
+  const delvPopId = "delv-popup";
+
+  $(".od-dtn__change").on("click", function () {
+    // win_open('./orderaddress.php','win_address');
+
+    $.ajax({
+      url: './orderaddress.php',
+      success: function (data) {
+        $(`#${delvPopId}`).find(".pop-content-in").html(data);
+        $(".popDim").show();
+        f.popupOpen(delvPopId);
+      }
+    });
+  });
+
+  //배송지 추가 팝업
+  const delvWritePopId = "delv-write-popup";
+
+  $(`#${delvPopId}`).on("click", ".od-dtn__add", function () {
+    $.ajax({
+      url: './orderaddress_write.php',
+      success: function (data) {
+        $(`#${delvWritePopId}`).find(".pop-content-in").html(data);
+        f.popupOpen(delvWritePopId);
+      }
+    });
+  });
+});
+</script>
+
+<script>
   $(function () {
-    //배송지 목록 팝업
-    const delvPopId = "delv-popup";
-
-    $(".od-dtn__change").on("click", function () {
-      // win_open('./orderaddress.php','win_address');
-
-      $.ajax({
-        url: './orderaddress.php',
-        success: function (data) {
-          $(`#${delvPopId}`).find(".pop-content-in").html(data);
-          $(".popDim").show();
-          f.popupOpen(delvPopId);
-        }
-      });
-    });
-
-    //배송지 추가 팝업
-    const delvWritePopId = "delv-write-popup";
-
-    $(`#${delvPopId}`).on("click", ".od-dtn__add", function () {
-      $.ajax({
-        url: './orderaddress_write.php',
-        success: function (data) {
-          $(`#${delvWritePopId}`).find(".pop-content-in").html(data);
-          f.popupOpen(delvWritePopId);
-        }
-      });
-    });
-
     var zipcode = "";
 
     $("input[name=b_addr2]").focus(function () {
