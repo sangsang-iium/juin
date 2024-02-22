@@ -4,23 +4,28 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 <div id="contents">
 
-	<div class="faq-cate">
-		<div class="container">
-			<div id="" class="cp-horizon-menu">
-				<input type="hidden" id="menuId" value="<?php echo $qacate > 0? $qacate:'all'; ?>">
-				<div class="swiper-wrapper">
-					<a href="<?php echo BV_MBBS_URL; ?>/qna_list.php" data-id="all" class="swiper-slide btn">전체</a>
-					<?php
-					$sql = "select * from shop_qa_cate order by index_no asc";
-					$res = sql_query($sql);
-					for($i=0; $row=sql_fetch_array($res); $i++) {
-					?>
-					<a href="<?php echo BV_MBBS_URL; ?>/qna_list.php?qacate=<?php echo $row['index_no']; ?>" data-id="<?php echo $row['index_no']; ?>" class="swiper-slide btn"><?php echo $row['catename']; ?></a>
-					<?php } ?>
+	<!-- 검색 { -->
+	<form name="searchform" method="get">
+		<input type="hidden" name="boardid" value="<?php echo $boardid; ?>">
+		<div class="bottom_sch">
+			<div class="container">
+				<select name="sfl">
+				<?php
+				for($i=0;$i<sizeof($gw_search_value);$i++) {
+					echo "<option value='{$gw_search_value[$i]}'".get_selected($gw_search_value[$i], $sfl).">{$gw_search_text[$i]}</option>\n";
+				}
+				?>
+				</select>
+				<!-- <input type="text" name="stx" class="frm_input" value="<?php echo $stx; ?>">
+				<input type="submit" value="검색" class="btn_small grey"> -->
+				<div class="search">
+					<input type="text" name="stx" class="w-per100 round100 keyword" value="<?php echo $stx; ?>" placeholder="검색어를 입력하세요.">
+					<button type="submit" class="ui-btn submit" title="검색하기" value="검색"></button>
 				</div>
 			</div>
 		</div>
-	</div>
+	</form>
+	<!-- } 검색 -->
 
 	<div class="txt-board-list" id="qna">
 		<div class="container">
@@ -40,9 +45,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 				</li> -->
 				<div class="qa-board-item">
 					<div class="q-cont arcodianBtn">
-						<div class="ic"><img src="/src/img/qa-icon-top.png" alt=""></div>
+						<div class="tag <?php echo $row['result_yes'] == 0 ? 'off' : 'on'; ?>"><?php echo $row['result_yes'] == 0 ? '대기' : '완료'; ?></div>
 						<p class="cate">[<?php echo $row['catename']; ?>]</p>
 						<p class="tRow1 tit"><?php echo cut_str($row['subject'],60); ?></p>
+						<p class="date"><?php echo date('Y.m.d',strtotime($row['wdate'])); ?></p>
 					</div>
 					<div class="a-cont">
 						<p class="q-text">
