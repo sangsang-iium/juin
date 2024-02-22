@@ -19,7 +19,7 @@ if($w == "") {
 		goto_url(BV_MURL);
 	}
 
-	// 본사쇼핑몰에서 회원가입을 받지 않을때
+	// 본사쇼핑몰에서 회원가입을 받지 않을때  
 	$config['admin_reg_msg'] = str_replace("\r\n", "\\r\\n", $config['admin_reg_msg']);
 	if($config['admin_reg_yes'] && $pt_id == 'admin') {
 		alert($config['admin_reg_msg'], BV_MURL);
