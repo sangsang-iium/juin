@@ -90,23 +90,60 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 				<div class="form-row">
 					<div class="form-head">
-						<p class="title">제목<b>*</b></p>
+						<p class="title">문의제목<b>*</b></p>
 					</div>
 					<div class="form-body">
-						<input type="text" name="subject" required itemname="제목" class="frm-input">
+						<input type="text" name="subject" required itemname="문의제목" class="frm-input" placeholder="제목을 입력해주세요.">
 					</div>
 				</div>
 
 				<div class="form-row">
 					<div class="form-head">
-						<p class="title">질문내용<b>*</b></p>
+						<p class="title">문의내용<b>*</b></p>
 					</div>
 					<div class="form-body">
-						<textarea name="memo" required rows="7" itemname="질문내용" class="frm-txtar w-per100"></textarea>
+						<textarea name="memo" required rows="7" itemname="문의내용" class="frm-txtar w-per100" placeholder="내용을 입력해주세요."></textarea>
 					</div>
 				</div>
 
 				<div class="form-row">
+					<div class="form-head">
+						<p class="title">핸드폰번호<b>*</b></p>
+					</div>
+					<div class="form-body phone">
+						<input type="text" name="" id="" class="frm-input" readonly>
+						<span class="hyphen">-</span>
+						<input type="text" name="" id="" class="frm-input" readonly>
+						<span class="hyphen">-</span>
+						<input type="text" name="" id="" class="frm-input" readonly>
+						<div class="frm-choice">
+							<input type="checkbox" name="sms_send_yes" value="1" id="sms_send_yes" class="css-checkbox lrg">
+							<label for="sms_send_yes">답변 여부를 문자로 받아보시겠습니까?</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-row">
+					<div class="form-head">
+						<p class="title">이메일<b>*</b></p>
+					</div>
+					<div class="form-body email">
+						<input type="text" name="" id="" class="frm-input" placeholder="이메일을 입력해주세요.">
+						<span class="at">@</span>
+						<select name="" id="" class="frm-select">
+							<option value="">선택하세요.</option>
+							<option value="">옵션 A</option>
+							<option value="">옵션 B</option>
+						</select>
+						<div class="frm-choice">
+							<input type="checkbox" name="email_send_yes" value="1" id="email_send_yes" class="css-checkbox lrg">
+							<label for="email_send_yes">답변 내용을 메일로 받아보시겠습니까?</label>
+						</div>
+					</div>
+				</div>
+
+				<!-- 기존 이메일 / 핸드폰 번호 위의 스타일로 개발 필요 -->
+				<!-- <div class="form-row">
 					<div class="form-head">
 						<p class="title">이메일</p>
 					</div>
@@ -130,7 +167,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 							<label for="sms_send_yes">답변 여부를 문자로 받아보시겠습니까?</label>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<div class="cp-btnbar">
 					<div class="container">
