@@ -16,7 +16,7 @@ $sql_order = " order by caterank, catecode ";
 <form name="fcategoryform" method="post" action="./category/category_main_update.php" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="token" value="">
-
+ㅁㄴㅇㄹㅁㄴㅇㄹㄴㅁㅇㄹ
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
@@ -41,10 +41,6 @@ $sql_order = " order by caterank, catecode ";
 			});
 			</script>
 		</td>
-	</tr>
-	<tr>
-		<th scope="row">카테고리명</th>
-		<td><input type="text" name="catename" required itemname="카테고리명" class="frm_input required" size="50"></td>
 	</tr>
 	<tr>
 		<th scope="row">카테고리 메인 이미지</th>
