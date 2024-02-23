@@ -118,7 +118,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 	echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
 	?>
-	<div class="btn_confirm">
+	<div class="btn_confirm btn_confirm_2">
 		<a href="javascript:window.open('<?php echo BV_MSHOP_URL; ?>/orderreview.php?gs_id=<?php echo $gs_id; ?>');" class="ui-btn round stBlack">구매후기쓰기</a>
 		<a href="javascript:window.close();" class="ui-btn round stWhite rv-all-close">창닫기</a>
 	</div>
