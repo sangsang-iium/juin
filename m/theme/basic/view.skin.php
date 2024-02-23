@@ -77,7 +77,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       <div class="prod-review_area">
         <i class="rv-star cnt_only"></i>
         <span class="rv-rating"><?php echo $star_score; ?></span>
-        <button type="button" class="ui-btn rv-move-btn"><?php echo number_format($item_use_count); ?>개 리뷰</button>
+        <button type="button" class="ui-btn rv-move-btn" onclick="chk_tab('#prod-detailTab__review');"><?php echo number_format($item_use_count); ?>개 리뷰</button>
       </div>
       <?php if(!$is_only && !$is_pr_msg && !$is_buy_only && !$is_soldout && $cp_used) { ?>
       <div class="prod-cupon_area">
@@ -269,12 +269,13 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <div class="rv-item-list">
             <?php echo mobile_goods_review("구매후기", $item_use_count, $gs_id); ?>
           </div>
-          <!-- <a href="<?php echo BV_MSHOP_URL.'/view_user.php?gs_id='.$gs_id; ?>" class="ui-btn round moreLong">
+          <!-- 팝업작업: 기본 소스 참고
+          <a href="<?php echo BV_MSHOP_URL.'/view_user.php?gs_id='.$gs_id; ?>" class="ui-btn round moreLong">
             <span class="text">전체보기</span>
           </a> -->
           <button type="button" class="ui-btn round moreLong rv-all-btn">
             <span class="text">전체보기</span>
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -515,10 +516,43 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 
 <!-- 리뷰 전체보기 팝업 { -->
-<div id="rv-all-pop">
-  <?php include_once(BV_MSHOP_PATH."/view_user.php"); ?>
+<!-- <div id="rv-all-pop">
+  <?php //include_once(BV_MSHOP_PATH."/view_user.php"); ?>
+</div> -->
+
+<div id="review-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">리뷰 목록</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+        
+      </div>
+    </div>
+  </div>
 </div>
 <!-- } 리뷰 전체보기 팝업 -->
+
+<script type="module">
+import * as f from '/src/js/function.js';
+
+function copyLink(url) {
+  f.clipCopy(url);
+}
+
+$(document).ready(function(){
+  //리뷰 전체보기 팝업
+  const reviewPopId = "review-popup";
+
+  $(".rv-all-btn").on("click", function () {
+    $(".popDim").show().css({"z-index":"580"});
+    f.popupOpen(reviewPopId);
+  });
+});
+</script>
+
 
 <script>
 // 상품보관
@@ -727,36 +761,5 @@ function chgimg(ergfun) {
 
 		document.slideshow.src = slide[num];
 	}
-}
-
-// 팝업
-const popUp = () => {
-  let popBtn = $('.rv-all-btn');
-  let popLayer = $('#rv-all-pop');
-  let popDim = $('.popDim');
-  let popClose = $('.rv-all-close');
-  let body = $('body');
-
-  popBtn.on('click',function(){
-    // popDim.show();
-    popLayer.fadeIn(200);
-    body.css({'overflow':'hidden'});
-  });
-
-  popClose.on('click',function(){
-    // popDim.hide();
-    popLayer.fadeOut();
-    body.css({'overflow':'visible'});
-  });
-}
-
-popUp();
-</script>
-
-<script type="module">
-import * as f from '/src/js/function.js';
-
-function copyLink(url) {
-  f.clipCopy(url);
 }
 </script>
