@@ -272,7 +272,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <!-- 팝업작업: 기본 소스 참고
           <a href="<?php echo BV_MSHOP_URL.'/view_user.php?gs_id='.$gs_id; ?>" class="ui-btn round moreLong">
             <span class="text">전체보기</span>
-          </a> -->
+          </a> 
+          -->
           <button type="button" class="ui-btn round moreLong rv-all-btn">
             <span class="text">전체보기</span>
           </button>
@@ -516,10 +517,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 
 <!-- 리뷰 전체보기 팝업 { -->
-<!-- <div id="rv-all-pop">
-  <?php //include_once(BV_MSHOP_PATH."/view_user.php"); ?>
-</div> -->
-
 <div id="review-popup" class="popup type02 add-popup">
   <div class="pop-inner">
     <div class="pop-top">
@@ -528,12 +525,26 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     </div>
     <div class="pop-content line">
       <div class="pop-content-in">
-        
       </div>
     </div>
   </div>
 </div>
 <!-- } 리뷰 전체보기 팝업 -->
+
+<!-- 리뷰 작성 팝업 { -->
+<div id="review-write-popup" class="popup type02 add-popup add-in-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">리뷰 쓰기</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- } 리뷰 작성 팝업 -->
 
 <script type="module">
 import * as f from '/src/js/function.js';
@@ -543,12 +554,65 @@ function copyLink(url) {
 }
 
 $(document).ready(function(){
-  //리뷰 전체보기 팝업
-  const reviewPopId = "review-popup";
+  const callData = (popid, rqurl, rqm, rqd) => {
+    $(popid).find(".pop-content-in").html("");
 
+    if(rqm == "GET") {
+      $.get(rqurl, rqd)
+      .done(function(data, status) {
+        $(popid).find(".pop-content-in").html(data);
+
+        if (shouldOpenPopup) {
+          $(".popDim").show().css({"z-index":"560"});
+          $(popid).fadeIn(200).addClass("on")
+        }
+      })
+      .fail(function(jqXHR, textStatus, errorThrown) {
+        console.error('Request failed:', textStatus, errorThrown);
+      });
+    } else if(rqm == "POST") {
+      $.post(rqurl, rqd)
+      .done(function(data, status) {
+        $(popid).find(".pop-content-in").html(data);
+
+        if (shouldOpenPopup) {
+          $(".popDim").show().css({"z-index":"560"});
+          $(popid).fadeIn(200).addClass("on")
+        }
+      })
+      .fail(function(jqXHR, textStatus, errorThrown) {
+        console.error('Request failed:', textStatus, errorThrown);
+      });
+    }
+  }
+
+  let shouldOpenPopup = false;
+
+  //리뷰 전체보기 팝업
   $(".rv-all-btn").on("click", function () {
-    $(".popDim").show().css({"z-index":"580"});
-    f.popupOpen(reviewPopId);
+    const gsId = "<?php echo $gs_id;?>";
+
+    const popId = "#review-popup";
+    const reqPathUrl = "./view_user.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId };
+
+    callData(popId, reqPathUrl, reqMethod, reqData);
+    shouldOpenPopup = true;
+  });
+
+  //리뷰 작성 팝업
+  $("#review-popup").on("click", ".rv-write-btn", function () {
+    console.log("test")
+    const gsId = "<?php echo $gs_id;?>";
+
+    const popId = "#review-write-popup";
+    const reqPathUrl = "./orderreview.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId };
+
+    callData(popId, reqPathUrl, reqMethod, reqData);
+    shouldOpenPopup = true;
   });
 });
 </script>

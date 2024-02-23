@@ -1,8 +1,8 @@
 <?php
 include_once("./_common.php");
 
-$tb['title'] = "구매후기";
-include_once(BV_MPATH."/head.sub.php");
+// $tb['title'] = "구매후기";
+// include_once(BV_MPATH."/head.sub.php");
 
 $gs = get_goods($gs_id);
 
@@ -29,5 +29,5 @@ $result = sql_query($sql);
 
 include_once(BV_MTHEME_PATH."/view_user.skin.php");
 
-include_once(BV_MPATH."/tail.sub.php");
+// include_once(BV_MPATH."/tail.sub.php");
 ?>
