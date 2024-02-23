@@ -29,15 +29,20 @@ if ($sel_ca4) {
   $cm_ca_id = $sel_ca4;
 }
 
+$sql = "SELECT * FROM shop_category WHERE catecode = '{$cm_ca_id}'";
+$row = sql_fetch($sql);
+
 unset($value);
 if ($_FILES['headimg']['name']) {
   $value['cm_img'] = $upload_file->upload($_FILES['headimg']);
 }
+$new_next = get_next_wr_num("iu_category_main", "cm_rank");
 
-$value['upcate']     = $cm_ca_id;
-$value['caterank']   = $new_next;
+$value['cm_ca_id']    = $cm_ca_id;
+$value['cm_catename'] = $row['catename'];
+$value['cm_rank']     = $new_next;
 
-$table = "iu_category_main";
+$table         = "iu_category_main";
 $cateMainModel = new IUD_Model();
 $cateMainModel->insert($table, $value);
 

@@ -11,12 +11,12 @@ $q1 = $query_string;
 
 $sql_order = " order by caterank, catecode ";
 ?>
+<script src="<?php echo BV_JS_URL; ?>/categoryform.js?ver=<?php echo BV_JS_VER; ?>"></script>
 
 <h2>카테고리 등록</h2>
 <form name="fcategoryform" method="post" action="./category/category_main_update.php" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="token" value="">
-ㅁㄴㅇㄹㅁㄴㅇㄹㄴㅁㅇㄹ
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
@@ -55,32 +55,34 @@ $sql_order = " order by caterank, catecode ";
 </div>
 </form>
 
-<div class="sho_cate_bx mart30">
-	<form name="frm_sel_ca1" method="post" target="hiddenframe">
-			<input type="hidden" name="W" value="sel_ca1">
-			<select multiple name="sel_ca1[]" id="sel_ca1" class="multiple-select2">
+<div class="sho_cate_bx mart30" style="display: flex;">
+	<div style="width: 50%; display: flex; flex-direction: row;">
+		<form name="frm_sel_ca1" method="post" target="hiddenframe" style="width: 100%;">
+			<input type="hidden" name="W" value="sel_ca_1">
+			<select multiple name="sel_ca_1[]" id="sel_ca_1" class="multiple-select2">
 			<?php
-			$sql = " select catecode, catename
-					   from shop_category
-					  where length(catecode) = '3'
-					  order by caterank, catecode ";
+			$sql = " select *
+							from iu_category_main
+						order by cm_rank, cm_ca_id ";
 			$result = sql_query($sql);
 			for($i=0; $row=sql_fetch_array($result); $i++) {
-				echo '<option value="'.$row['catecode'].'">'.$row['catename'].'</option>'.PHP_EOL;
+				echo '<option value="'.$row['cm_ca_id'].'">'.$row['cm_catename'].'</option>'.PHP_EOL;
 			}
 			?>
 			</select>
-			<div class="btn_confirm03">
-				<button type="button" class="btn_small bx-white" onclick="category_move('sel_ca1', 'prev')">▲ 위로</button>
-				<button type="button" class="btn_small bx-white" onclick="category_move('sel_ca1', 'next')">▼ 아래로</button>
+			<div class="btn_confirm03" style="display: flex;">
+				<button type="button" class="btn_small bx-white" onclick="category_move('sel_ca_1', 'prev')">▲ 위로</button>
+				<button type="button" class="btn_small bx-white" onclick="category_move('sel_ca_1', 'next')">▼ 아래로</button>
 				<button type="button" class="btn_small sel_submit">저장</button>
 			</div>
-			</form>
-
-			<div id="load_sel_ca<?php echo $i; ?>">
-				<div class="sit_selbox_info"></div>
-			</div>
-
+		</form>
+	</div>
+	<div style="width: 50%;" style="display: flex; align-items: center;">
+		<div id="viewImgAndDel" >
+			<img src="" alt="">
+			<a href="" style="display:block">삭제</a>
+		</div>
+	</div>
 </div>
 
 <script>
@@ -111,15 +113,15 @@ $(function(){
 	opt += "<button type=\"button\" class=\"btn_small\">저장</button>\n";
 	opt += "</div>";
 
-	// 2~5차 분류는 초기값으로 세팅
+	// // 2~5차 분류는 초기값으로 세팅
 	$(".sit_selbox_info").empty().html(opt);
 
 	// 분류 클릭에 따른 적용값
-	$("#sel_ca1, #sel_ca2, #sel_ca3, #sel_ca4").live("change", function() {
+	$("#sel_ca_1").live("change", function() {
 		var opt_id = $(this).attr("id");
 		var opt_nm = opt_id.replace(/[^0-9]/g, "");
 		var opt_st = opt_id.replace(/[^a-z_]/g, "");
-		var sel_id = opt_st + (parseInt(opt_nm) + 1);
+		var sel_id = opt_st + parseInt(opt_nm);
 		var catecode = $("#"+opt_id+" option:selected").val();
 
 		var obj = { load_sel_ca2:2, load_sel_ca3:3, load_sel_ca4:4, load_sel_ca5:5 };
@@ -130,9 +132,17 @@ $(function(){
 		});
 
 		$.post(
-			"./category/category_view_select.php",
+			"./category/category_main_view_select.php",
 			{ catecode: catecode, sel_id: sel_id },
 			function(data) {
+				data = JSON.parse(data);
+				if(data.cm_img != null){
+					$("#viewImgAndDel img").attr("src","/data/category/"+data.cm_img);
+				} else {
+					$("#viewImgAndDel img").attr("src","/data/category/");
+				}
+				$("#viewImgAndDel a").attr("href","/admin/category/category_main_delete.php?idx="+data.idx);
+
 				$("#load_"+sel_id).empty().html(data);
 			}
 		);
@@ -152,7 +162,7 @@ $(function(){
 			alert("처리할 항목이 없습니다");
 			return;
 		} else {
-			$(this).closest("form").attr('action', './category/category_view_update.php').submit();
+			$(this).closest("form").attr('action', './category/category_main_view_update.php').submit();
 		}
 	});
 });
