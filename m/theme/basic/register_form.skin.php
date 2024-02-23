@@ -16,6 +16,8 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
 <input type="hidden" name="cert_no" value="">
 
+<input type="hidden" name="chk_id_res" value="0" id="chk_id_res">
+
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
 		<div class="container">
@@ -32,7 +34,7 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-body input-button id-confirm">
 							<input type="text" name="mb_id" value="<?php echo $member['id'] ?>" id="reg_mb_id"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input" size="20" maxlength="20" placeholder="아이디를 입력해주세요.">
 							<span id="msg_mb_id"></span>
-							<button type="button" class="ui-btn st3">중복확인</button>
+							<button type="button" class="ui-btn st3" onclick="chk_id()">중복확인</button>
 						</div>
 					</div>
 					<div class="form-row">
@@ -302,6 +304,41 @@ if(!defined('_BLUEVATION_')) exit;
 		</div>
 	</div>
 </form>
+
+<script>
+  // 아이디 중복검사 _20240223_SY
+  function chk_id() {
+    let idFocus = document.querySelector('#reg_mb_id');
+    let getId   = document.querySelector('#reg_mb_id').value;
+    let chkId   = document.querySelector('#chk_id_res').value;
+
+    if(chkId == 0) {
+
+      if(getId.length > 2) {
+        $.ajax({
+          url: bv_url+"/m/bbs/ajax.register_chkId.php",
+          type: "POST",
+          data: { "id" : getId },
+          dataType: "JSON",
+          success: function(data) {
+            console.log(data)
+            if(data.res == 'pass') {
+              chkId.value = '1';
+              alert('사용가능한 아이디 입니다.');
+            } else if(data.res == "reject") {
+              alert('다른 회원이 사용 중인 아이디입니다.');
+              idFocus.focus();
+              return false;
+            }
+          }
+        });
+      } else {
+        alert('회원아이디는 최소 3글자 이상 입력하세요.')
+        return false;
+      }
+    }
+  }
+</script>
 
 <script>
 $(function() {
