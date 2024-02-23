@@ -14,6 +14,9 @@ $(document).ready(function () {
   // Arcodian Function
   f.arcodianF();
 
+  // Score Function
+  f.scoreF();
+
   // Popup Open
   const popOpenBtn = $('.popup-open');
   popOpenBtn.on('click', function(){

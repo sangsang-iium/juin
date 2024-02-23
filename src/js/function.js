@@ -185,3 +185,19 @@ export const clipCopy = (str) => {
 
   alert("링크가 복사되었습니다.");
 }
+
+export const scoreF = () => {
+  const scoreInput = document.querySelectorAll('.score-list input[type="radio"]');
+  const scoreView = document.querySelector('.score-add');
+  
+  scoreInput.forEach(radio => {
+    radio.addEventListener('change', function() {
+      scoreView.textContent = this.value;
+    });
+  });
+  
+  const scoreResult = document.querySelector('.score-list input[type="radio"]:checked');
+  if (scoreResult) {
+    scoreView.textContent = scoreResult.value;
+  }
+}
