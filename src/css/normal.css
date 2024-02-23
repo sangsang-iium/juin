@@ -125,9 +125,12 @@
 #prod-detailTab__review .rv-body {position: relative; margin-top: 3.6rem; padding-top: 2.8rem;}
 #prod-detailTab__review .rv-body:before {content: ""; display: block; position: absolute; top: 0; left: -2.4rem; z-index: -1; width: calc(100% + 4.8rem); border-top: 0.16rem solid var(--color-gray10);}
 #prod-detailTab__review .rv-item-list {margin-top: 1.2rem;}
-#prod-detailTab__review .ui-btn.moreLong {margin-top: 3.6rem;}
+#prod-detailTab__review .empty_box {margin-bottom: 3.6rem;}
 
-#review-popup {z-index: 600;}
+#review-popup .pop-inner {padding-left: 0; padding-right: 0;}
+#review-popup .pop-inner .pop-top .close {right: 1.96rem;}
+#review-popup #review_top {padding-top: 0;}
+#review-popup #review_top .writeBtn {display: block; width: 100%; height: 6.8rem; margin: 0 0 2rem; font-size: 2.16rem; font-weight: 500;}
 
 #prod-detailTab__inquiry .iq-wbtn {display: flex; align-items: center; justify-content: center; width: 100%; height: 7.2rem; border-width: 0.2rem; font-size: 2.16rem; font-weight: 500;}
 #prod-detailTab__inquiry .iq-wtext {margin-top: 1.2rem; font-size: 2rem; font-weight: 300; color: var(--color-gray2); text-align: center;}
@@ -154,6 +157,7 @@
 .prod-buy_area .dfBox .buy-btn {display: block; width: calc(100% - 8rem); height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
 .prod-buy_area .wish-btn {display: block; width: 6.8rem; height: 6.8rem; border: 0.16rem solid var(--color-gray5); border-radius: 50%; background: url('../img/wish-gray.png') no-repeat center/2.48rem auto;}
 .prod-buy_area .wish-btn.on {background-image: url("../img/wish-fill.png"); background-color: var(--color-white); border-color: var(--color-main);}
+.prod-buy_area.on {z-index: 570;}
 
 .prod-buy__options {display: block; width: 100%;}
 .prod-buy__options .close-btn {display: block; width: 100%; padding: 2rem 0 2.8rem; text-align: center; outline: none;}

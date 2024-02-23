@@ -2,20 +2,18 @@
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 ?>
 
-<h2 class="pop_title">
-	<?php echo $tb['title']; ?> <span class="fc_red">(<?php echo number_format($total_count); ?>)</span>
-	<!-- <a href="javascript:cl_list();" class="btn_small bx-white">전체상품보기</a> -->
-	<a class="btn_small bx-white rv-all-close">전체상품보기</a>
-</h2>
-
 <div id="review_top">
+  <div class="btn_confirm">
+		<!-- <button type="button" onclick="window.open('<?php echo BV_MSHOP_URL; ?>/orderreview.php?gs_id=<?php echo $gs_id; ?>');" class="ui-btn round stBlack writeBtn rv-write-btn">구매후기쓰기</button> -->
+    <button type="button" class="ui-btn round stBlack writeBtn rv-write-btn">구매후기쓰기</button>
+	</div>
   <select name="" id="" class="frm-select review_select">
     <option value="">1개월</option>
     <option value="">3개월</option>
     <option value="">6개월</option>
     <option value="">1년</option>
   </select>
-  <p class="review_cnt">내가 작성한 상품후기 <span>3</span>건</p>
+  <p class="review_cnt">총 <span><?php echo number_format($total_count); ?></span>개의 상품후기가 있습니다. </p>
 </div>
 
 <div id="sit_review">
@@ -79,7 +77,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
     //내용 {
     echo "<div class='rv-content-wr'>";
-    echo "<div class='content'>$row[memo]</div>";
 
     //이미지가 있다면 {
     echo "<div class='rv-img-list'>";
@@ -95,6 +92,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     echo "</div>";
     echo "</div>";
     // } 이미지가 있다면
+
+    echo "<div class='content'>$row[memo]</div>";
 
     echo "<button type='button' class='cont-more-btn'>더보기+</button>";
     echo "</div>";
@@ -118,10 +117,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 	echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
 	?>
-	<div class="btn_confirm">
-		<a href="javascript:window.open('<?php echo BV_MSHOP_URL; ?>/orderreview.php?gs_id=<?php echo $gs_id; ?>');" class="ui-btn round stBlack">구매후기쓰기</a>
-		<a href="javascript:window.close();" class="ui-btn round stWhite rv-all-close">창닫기</a>
-	</div>
 </div>
 
 <script>
