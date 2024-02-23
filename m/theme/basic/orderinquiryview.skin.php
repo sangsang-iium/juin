@@ -6,7 +6,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div id="sod_fin">
 
     <!-- 주문 완료 { -->
-    <div id="orderComplete">
+    <div id="orderComplete" style="display: none;">
       <div class="container">
         <p class="od-cmp_tit"><span>주문완료</span> 되었습니다.</p>
         <div class="od-cmp-info">
@@ -38,63 +38,62 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     </div>
     <!-- } 주문 완료 -->
 
-    <div id="sod_fin_list" class="bottomBlank">
+    <!-- 주문내역상세 { -->
+    <div id="sod_fin_list">
       <div class="order-list-wr">
-        <div class="container">
-          <div class="cp-cart order">
-            <!-- loop -->
-            <?php
-            $st_count1 = $st_count2 = $st_cancel_price = 0;
-            $custom_cancel = false;
-
-            $sql = " select * from shop_cart where od_id = '$od_id' group by gs_id order by index_no ";
-            $result = sql_query($sql);
-            for($i=0; $row=sql_fetch_array($result); $i++) {
-              $rw = get_order($row['od_no']);
-              $gs = unserialize($rw['od_goods']);
-
-              $hash = md5($rw['gs_id'].$rw['od_no'].$rw['od_id']);
-              $dlcomp = explode('|', trim($rw['delivery']));
-              $href = BV_MSHOP_URL.'/view.php?gs_id='.$rw['gs_id'];
-
-              unset($it_name);
-              $it_options = mobile_print_complete_options($row['gs_id'], $row['od_id']);
-              if($it_options){
-                $it_name = '<div class="li_name_od">'.$it_options.'</div>';
-              }
-
-              $li_btn = '';
-              if($rw['dan'] == 5) {
-                if(is_null_time($rw['user_date']))
-                  $li_btn .= '<a href="javascript:final_confirm(\''.$hash.'\');" class="btn_ssmall red">구매확정</a>'.PHP_EOL;
-                $li_btn .= '<a href="'.BV_MSHOP_URL.'/orderreview.php?gs_id='.$rw['gs_id'].'" onclick="win_open(this, \'winorderreview\');return false;" class="btn_ssmall bx-white">구매후기</a>'.PHP_EOL;
-              }
-
-              if($dlcomp[1] && $rw['delivery_no']) {
-                $li_btn .= get_delivery_inquiry($rw['delivery'], $rw['delivery_no'], 'btn_ssmall bx-white');
-              }
-
-              if($li_btn)
-                $li_btn = '<div class="li_btn">'.$li_btn.'</div>';
-            ?>
-            <div class="cp-cart-item">
-
+        <div id="smb_order">
+          <div class="bottomBlank cp-orderWrap">
+            <div class="container">
               <div class="order-info">
                 <div class="order-info-box">
-                  <p class="order-date"><?php echo date("Y.m.d", strtotime($rw['od_time'])); ?></p>
+                  <p class="order-date"><?php echo date("Y.m.d", strtotime($od['od_time'])); ?></p>
                 </div>
                 <div class="order-num-box">
                   <p class="text">주문번호</p>
-                  <p class="num"><?php echo $rw['od_id']; ?></p>
-                  <span class="tag <?php echo $gw_status[$rw['dan']] == '배송중'?'on':'off'; ?>"><?php echo $gw_status[$rw['dan']]; ?></span>
+                  <p class="num"><?php echo $od_id; ?></p>
                 </div>
               </div>
+              <!-- loop -->
+              <?php
+              $st_count1 = $st_count2 = $st_cancel_price = 0;
+              $custom_cancel = false;
 
-              <div class="cp-cart-body">
+              $sql = " select * from shop_cart where od_id = '$od_id' group by gs_id order by index_no ";
+              $result = sql_query($sql);
+              for($i=0; $row=sql_fetch_array($result); $i++) {
+                $rw = get_order($row['od_no']);
+                $gs = unserialize($rw['od_goods']);
+
+                $hash = md5($rw['gs_id'].$rw['od_no'].$rw['od_id']);
+                $dlcomp = explode('|', trim($rw['delivery']));
+                $href = BV_MSHOP_URL.'/view.php?gs_id='.$rw['gs_id'];
+
+                unset($it_name);
+                $it_options = mobile_print_complete_options($row['gs_id'], $row['od_id']);
+                if($it_options){
+                  $it_name = '<div class="li_name_od">'.$it_options.'</div>';
+                }
+
+                $li_btn = '';
+                if($rw['dan'] == 5) {
+                  if(is_null_time($rw['user_date']))
+                    $li_btn .= '<a href="javascript:final_confirm(\''.$hash.'\');" class="btn_ssmall red">구매확정</a>'.PHP_EOL;
+                  $li_btn .= '<a href="'.BV_MSHOP_URL.'/orderreview.php?gs_id='.$rw['gs_id'].'" onclick="win_open(this, \'winorderreview\');return false;" class="btn_ssmall bx-white">구매후기</a>'.PHP_EOL;
+                }
+
+                if($dlcomp[1] && $rw['delivery_no']) {
+                  $li_btn .= get_delivery_inquiry($rw['delivery'], $rw['delivery_no'], 'btn_ssmall bx-white');
+                }
+
+                if($li_btn)
+                  $li_btn = '<div class="li_btn">'.$li_btn.'</div>';
+              ?>
+              <div class="cp-orderItem">
                 <div class="thumb round60">
                   <img src="<?php echo get_it_image_url($rw['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>">
                 </div>
                 <div class="content">
+                  <span class="tag <?php echo $gw_status[$rw['dan']] == '배송중'?'on':'off'; ?>" style="display: inline-block;"><?php echo $gw_status[$rw['dan']]; ?></span>
                   <a href="<?php echo $href; ?>" class="name"><?php echo get_text($gs['gname']); ?></a>
                   <div class="info">
                     <div class="set">
@@ -107,23 +106,20 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                   </div>
                 </div>
               </div>
+              <!-- loop -->
+              <?php
+                $st_count1++;
+                if(in_array($rw['dan'], array('1','2','3')))
+                  $st_count2++;
 
-            </div>
-            <!-- loop -->
-            <?php
-              $st_count1++;
-              if(in_array($rw['dan'], array('1','2','3')))
-                $st_count2++;
+                $st_cancel_price += $rw['cancel_price'];
+              }
 
-              $st_cancel_price += $rw['cancel_price'];
-            }
-
-            // 주문상태가 배송중 이전 단계이면 고객 취소 가능
-            if($st_count1 > 0 && $st_count1 == $st_count2)
-              $custom_cancel = true;
-            ?>
-          </div>
-        </div>
+              // 주문상태가 배송중 이전 단계이면 고객 취소 가능
+              if($st_count1 > 0 && $st_count1 == $st_count2)
+                $custom_cancel = true;
+              ?>
+        </div><!-- smb_order -->
       </div>
     </div>
 
@@ -786,7 +782,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </table>
       </div>
     </section> -->
-
+    <!-- } 주문내역상세 -->
   </div>
 </div>
 
