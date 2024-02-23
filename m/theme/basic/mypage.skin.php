@@ -10,7 +10,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 				<p class="tit">
 					<?php echo $member['name']; ?>님, 반가워요!
 				</p>
-				<a href="<?php echo BV_BBS_URL; ?>/member_confirm.php?url=register_form.php" class="ui-btn sizeM" data="stIconLeft" >
+				<a href="<?php echo BV_MBBS_URL; ?>/member_confirm.php?url=register_form.php" class="ui-btn sizeM" data="stIconLeft" >
 					<img src="/src/img/icon-write.svg" alt="정보수정" class="icn">
 					<span class="txt">정보수정</span>
 				</a>
@@ -88,7 +88,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		<div class="smb-my-url-wrap">
 			<ul class="pdc smb-my-url-list">
 				<li class="pdt0"><a href="<?php echo BV_MSHOP_URL; ?>/wish.php">관심상품</a></li>
-				<li class="pdb0"><a href="<?php echo BV_MSHOP_URL; ?>/gift.php">쿠폰인증</a></li>
+				<li class="pdb0"><a href="<?php echo BV_MSHOP_URL; ?>/card.php">카드관리</a></li>
 			</ul>
 		</div>
 	</div>
@@ -110,7 +110,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	<div class="my-sec container border-none">
 		<div class="smb-my-url-wrap">
 			<ul class="pdc smb-my-url-list">
-				<li class="pdb0 pdt0"><a href="<?php echo BV_MBBS_URL;?>/logout.php">로그아웃</a></li>
+				<li class="pdb0 pdt0"><a href="<?php echo BV_MBBS_URL;?>/logout.php" class="non-arrow">로그아웃</a></li>
 			</ul>
 		</div>
 	</div>
