@@ -3,10 +3,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 ?>
 
 <div class="sub-contents orderReview">
-	<h2 class="pop_title">
+	<!-- <h2 class="pop_title">
 		<?php echo $tb['title']; ?>
 		<a href="javascript:window.close();" class="btn_small bx-white">창닫기</a>
-	</h2>
+	</h2> -->
 
 	<form name="forderreview" id="sit_review" method="post" action="<?php echo $form_action_url; ?>" onsubmit="return forderreview_submit(this);">
 	<input type="hidden" name="w" value="<?php echo $w; ?>">
@@ -59,36 +59,34 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			</div>
 			<div class="form-body">
 				<div class="img-upload">
-					<div class="img-upload-item">
-						<input type="file" name="" id="imgUpload1">
-						<label for="imgUpload1" class="img-upload-view">
+					<div class="img-upload-list">
+						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-						</label>
-					</div>
-					<div class="img-upload-item">
-						<input type="file" name="" id="imgUpload2">
-						<label for="imgUpload2" class="img-upload-view">
+							<input type="file" name="" id="imgUpload1" class="img-upload-input">
+							<label for="imgUpload1" class="img-upload-view"></label>
+						</div>
+						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-						</label>
-					</div>
-					<div class="img-upload-item">
-						<input type="file" name="" id="imgUpload3">
-						<label for="imgUpload3" class="img-upload-view">
+							<input type="file" name="" id="imgUpload2" class="img-upload-input">
+							<label for="imgUpload2" class="img-upload-view"></label>
+						</div>
+						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-						</label>
-					</div>
-					<div class="img-upload-item">
-						<input type="file" name="" id="imgUpload4">
-						<label for="imgUpload4" class="img-upload-view">
+							<input type="file" name="" id="imgUpload3" class="img-upload-input">
+							<label for="imgUpload3" class="img-upload-view"></label>
+						</div>
+						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-						</label>
-					</div>
-					<div class="img-upload-item">
-						<input type="file" name="" id="imgUpload5" onchange="previewImage(this)">
-						<label for="imgUpload5" class="img-upload-view">
+							<input type="file" name="" id="imgUpload4" class="img-upload-input">
+							<label for="imgUpload4" class="img-upload-view"></label>
+						</div>
+						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-						</label>
+							<input type="file" name="" id="imgUpload5" class="img-upload-input">
+							<label for="imgUpload5" class="img-upload-view"></label>
+						</div>
 					</div>
+					<p class="img-upload-desc">사진은 10MB이하의 jpg, png, gif 파일만 첨부 가능합니다.</p>
 				</div>
 			</div>
 		</div>
@@ -119,21 +117,5 @@ function forderreview_submit(f) {
 		return false;
 
     return true;
-}
-
-function previewImage(input) {
-  const inputId = input.id;
-  const previewId = inputId.replace('imgUpload', 'previewImg');
-  const preview = document.getElementById(previewId);
-  const file = input.files[0];
-  const reader = new FileReader();
-
-	console.log(input.id);
-
-  reader.onload = function(event) {
-    preview.src = event.target.result;
-  };
-
-  reader.readAsDataURL(file);
 }
 </script>
