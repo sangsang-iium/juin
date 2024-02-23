@@ -21,8 +21,8 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .ui-btn.st1 {color: var(--color-white); background-color: var(--color-main);}
 .ui-btn.st2 {border: 0.16rem solid var(--color-main); color: var(--color-main); background-color: var(--color-white);}
 .ui-btn.st3 {height: 5.6rem; padding: 0 2.8rem; background: var(--color-gray8); border: 1px solid var(--color-gray5); font-size: 2.16rem; font-weight: 500; color: var(--color-black3); border-radius: 0.8rem;}
-.ui-btn.stBlack {color: var(--color-white); background-color: var(--color-black);}
-.ui-btn.stWhite {color: var(--color-black); background-color: var(--color-white); border: 1px solid var(--color-black);}
+.ui-btn.stBlack {color: var(--color-white); background-color: var(--color-black4);}
+.ui-btn.stWhite {color: var(--color-black3); background-color: var(--color-white); border: 1px solid var(--color-black4);}
 
 .ui-btn.active {color: var(--color-white); background-color: var(--color-main);}
 .ui-btn:disabled,
@@ -85,7 +85,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .frm-choice input[type='radio']:checked + label:before {border-color: var(--color-main);}
 .frm-choice input[type='radio']:checked + label:after {background: var(--color-main);}
 
-.frm-txtar {padding: 2.8rem 3.16rem; border: 1px solid var(--color-gray8); background: var(--color-gray8); font-size: 2rem; font-weight: 300; color: var(--color-gray2);}
+.frm-txtar {padding: 2.8rem 3.16rem; border: 1px solid var(--color-gray8); background: var(--color-gray8); font-size: 2rem; font-weight: 300; color: var(--color-gray2); resize: none;}
 .frm-txtar:focus {border-color: var(--color-main); box-shadow: 0 0 0.5rem var(--color-main);}
 .frm-txtar::placeholder {font-weight: 300; color: var(--color-gray3);}
 
@@ -606,13 +606,6 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 #review_top .review_cnt {margin-top: 2.4rem; font-size: 2rem; font-weight: 500; color: var(--color-black2);}
 #review_top .review_cnt span {font-weight: 700; color: var(--color-main);}
 
-#sit_review {margin: 0; padding: 2rem 2.4rem;}
-#sit_review .cp-cart-item {padding-top: 1rem; padding-bottom: 2.8rem; border-bottom: 1px solid var(--color-gray10);}
-#sit_review .rv-item {padding-top: 2rem; padding-bottom: 3.2rem;}
-#sit_review .rv-content-wr .rv-img-list {margin-top: 2rem; margin-bottom: 2rem;}
-
-.orderReview #sit_review .cp-cart-item {border-bottom: none;}
-
 .reviewList #review_top {padding-top: 0.56rem;}
 #sod_review {margin: 0;}
 #sod_review .cp-cart {border-bottom: 1.2rem solid var(--color-gray9);}
@@ -623,3 +616,11 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 #sod_review .rv-content-wr {padding-top: 0;}
 #sod_review .rv-content-wr .rv-img-list {margin-top: 0; margin-bottom: 2rem;}
 
+#sit_review {margin: 0; padding: 2rem 2.4rem;}
+#sit_review .cp-cart-item {padding-top: 1rem; padding-bottom: 2.8rem; border-bottom: 1px solid var(--color-gray10);}
+#sit_review .rv-item {padding-top: 2rem; padding-bottom: 3.2rem;}
+#sit_review .rv-content-wr .rv-img-list {margin-top: 2rem; margin-bottom: 2rem;}
+
+/* 상품후기 작성 */
+.orderReview #sit_review .cp-cart-item {border-bottom: none;}
+.orderReview .frm-txtar {height: 20rem; font-weight: 400;}
