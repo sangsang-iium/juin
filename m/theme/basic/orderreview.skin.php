@@ -33,11 +33,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 	<div class="score">
 		<div class="score-list">
-			<input type="radio" id="star5" name="wr_score" value="5" <?php echo get_checked($wr_score, '5'); ?>><label for="star5">5점(<?php echo $gw_star[5]; ?>)</label>
-			<input type="radio" id="star4" name="wr_score" value="4" <?php echo get_checked($wr_score, '4'); ?>><label for="star4">4점(<?php echo $gw_star[4]; ?>)</label>
-			<input type="radio" id="star3" name="wr_score" value="3" <?php echo get_checked($wr_score, '3'); ?>><label for="star3">3점(<?php echo $gw_star[3]; ?>)</label>
-			<input type="radio" id="star2" name="wr_score" value="2" <?php echo get_checked($wr_score, '2'); ?>><label for="star2">2점(<?php echo $gw_star[2]; ?>)</label>
-			<input type="radio" id="star1" name="wr_score" value="1" <?php echo get_checked($wr_score, '1'); ?>><label for="star1">1점(<?php echo $gw_star[1]; ?>)</label>
+			<input type="radio" id="scoreStar5" name="wr_score" value="5" <?php echo get_checked($wr_score, '5'); ?>><label for="scoreStar5">5점(<?php echo $gw_star[5]; ?>)</label>
+			<input type="radio" id="scoreStar4" name="wr_score" value="4" <?php echo get_checked($wr_score, '4'); ?>><label for="scoreStar4">4점(<?php echo $gw_star[4]; ?>)</label>
+			<input type="radio" id="scoreStar3" name="wr_score" value="3" <?php echo get_checked($wr_score, '3'); ?>><label for="scoreStar3">3점(<?php echo $gw_star[3]; ?>)</label>
+			<input type="radio" id="scoreStar2" name="wr_score" value="2" <?php echo get_checked($wr_score, '2'); ?>><label for="scoreStar2">2점(<?php echo $gw_star[2]; ?>)</label>
+			<input type="radio" id="scoreStar1" name="wr_score" value="1" <?php echo get_checked($wr_score, '1'); ?>><label for="scoreStar1">1점(<?php echo $gw_star[1]; ?>)</label>
 		</div>
 		<div class="score-text">
 			<span class="score-add">0</span>/ 5
@@ -59,7 +59,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			</div>
 			<div class="form-body">
 				<div class="img-upload">
-					
+					<div class="img-upload-item">
+						<input type="file" name="" id="imgUpload1">
+						<label for="imgUpload1"></label>
+					</div>
 				</div>
 			</div>
 		</div>
