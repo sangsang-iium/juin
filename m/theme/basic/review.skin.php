@@ -67,7 +67,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 						</div>
 						<!-- } 이미지 없을 경우 생략가능 -->
 						<div class="content">
-							<?php echo cut_str($gs['gname'], 55); ?>
+							<?php echo cut_str($row['memo'], 55); ?>
 						</div>
 						<button type="button" class="cont-more-btn">더보기+</button>
 					</div>

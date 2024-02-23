@@ -61,7 +61,33 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 				<div class="img-upload">
 					<div class="img-upload-item">
 						<input type="file" name="" id="imgUpload1">
-						<label for="imgUpload1"></label>
+						<label for="imgUpload1" class="img-upload-view">
+							<span class="img-upload-delete">삭제</span>
+						</label>
+					</div>
+					<div class="img-upload-item">
+						<input type="file" name="" id="imgUpload2">
+						<label for="imgUpload2" class="img-upload-view">
+							<span class="img-upload-delete">삭제</span>
+						</label>
+					</div>
+					<div class="img-upload-item">
+						<input type="file" name="" id="imgUpload3">
+						<label for="imgUpload3" class="img-upload-view">
+							<span class="img-upload-delete">삭제</span>
+						</label>
+					</div>
+					<div class="img-upload-item">
+						<input type="file" name="" id="imgUpload4">
+						<label for="imgUpload4" class="img-upload-view">
+							<span class="img-upload-delete">삭제</span>
+						</label>
+					</div>
+					<div class="img-upload-item">
+						<input type="file" name="" id="imgUpload5" onchange="previewImage(this)">
+						<label for="imgUpload5" class="img-upload-view">
+							<span class="img-upload-delete">삭제</span>
+						</label>
 					</div>
 				</div>
 			</div>
@@ -93,5 +119,21 @@ function forderreview_submit(f) {
 		return false;
 
     return true;
+}
+
+function previewImage(input) {
+  const inputId = input.id;
+  const previewId = inputId.replace('imgUpload', 'previewImg');
+  const preview = document.getElementById(previewId);
+  const file = input.files[0];
+  const reader = new FileReader();
+
+	console.log(input.id);
+
+  reader.onload = function(event) {
+    preview.src = event.target.result;
+  };
+
+  reader.readAsDataURL(file);
 }
 </script>

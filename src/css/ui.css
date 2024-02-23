@@ -425,7 +425,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 
 .cp-cart .cp-cart-body {padding-left: 4.4rem; font-size: 0;}
 .cp-cart .thumb {display: inline-block; vertical-align: top; width: 14rem; height: 14rem; padding: 0; border: 1px solid var(--color-gray5); overflow: hidden;}
-.cp-cart .thumb img {width: auto; height: auto;}
+.cp-cart .thumb img {/*width: auto; height: auto;*/}
 .cp-cart .content {display: inline-block; vertical-align: top; width: calc(100% - 14rem); padding-left: 2.32rem;}
 .cp-cart .count {display: flex; align-items: center; gap: 1.28rem;}
 .cp-cart .box {display: flex; align-items: center;}
@@ -582,6 +582,13 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .score-text {display: inline-block; vertical-align: middle; height: 2.8rem; line-height: 2.8rem; font-size: 2.8rem; font-weight: 700; color: var(--color-gray7);}
 .score-text .score-add {display: inline-block; min-width: 3.2rem; color: var(--color-black3); text-align: center;}
 .score > div ~ div {margin-left: 1.4rem;}
+
+/* 이미지 등록(미리보기/삭제) */
+.img-upload {}
+.img-upload-item {}
+.img-upload-item input[type="file"] {}
+.img-upload-item .img-upload-view {position: relative; display: inline-block; vertical-align: middle; width: 10rem; height: 10rem; border: 1px solid var(--color-gray4); border-radius: 0.8rem;}
+.img-upload-item .img-upload-delete {position: absolute; right: 0; top: 0; display: inline-block; width: 3.6rem; height: 3.6rem; background: rgba(0,0,0,0.7); border-radius: 0 0.8rem 0 0.8rem; font-size: 0;}
 
 
 
