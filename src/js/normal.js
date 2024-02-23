@@ -34,6 +34,20 @@ $(document).ready(function () {
     }
     f.popupClose(closePopup);
   });
+  
+  // Image Upload (Preview)
+  const imgUpload = $(".img-upload-input");
+  imgUpload.on('change', function(event){
+    f.previewImage(event);
+  });
+
+  // Image Upload (Preview Delete)
+  const imgDelete = $('.img-upload-delete');
+  imgDelete.on('click', function(e) {
+    const imgIndex = $(this).index('.img-upload-delete') + 1;
+    f.deleteImage(imgIndex);
+    e.stopPropagation();
+  });
 
   //Main Top Banner
   const mainTopBannerTarget = '.mtb-wrap .swiper-container';

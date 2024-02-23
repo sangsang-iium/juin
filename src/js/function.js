@@ -186,6 +186,7 @@ export const clipCopy = (str) => {
   alert("링크가 복사되었습니다.");
 }
 
+// 별점 기능
 export const scoreF = () => {
   const scoreInput = document.querySelectorAll('.score-list input[type="radio"]');
   const scoreView = document.querySelector('.score-add');
@@ -199,5 +200,37 @@ export const scoreF = () => {
   const scoreResult = document.querySelector('.score-list input[type="radio"]:checked');
   if (scoreResult) {
     scoreView.textContent = scoreResult.value;
+  }
+}
+
+// 이미지 업로드 (미리보기)
+export const previewImage = (event) => {
+  const imgUploadInput = event.target;
+  const imgUploadItem = imgUploadInput.parentElement;
+  const imgUploadFile = imgUploadInput.files[0];
+  const imgReader = new FileReader();
+
+  imgReader.onload = function() {
+    const imgUploadView = imgUploadItem.querySelector('.img-upload-view');
+    imgUploadView.classList.add('active');
+    imgUploadView.style.backgroundImage = `url(${imgReader.result})`;
+    imgUploadItem.querySelector('.img-upload-delete').style.display = 'block';
+  }
+  imgReader.readAsDataURL(imgUploadFile);
+}
+
+// 이미지 업로드 (삭제)
+export const deleteImage = (index) => {
+  const imgUploadInput = document.querySelector(`#imgUpload${index}`);
+  const imgUploadItem = imgUploadInput.parentElement;
+  const imgUploadDel = imgUploadItem.querySelector('.img-upload-delete');
+  const imgUploadView = imgUploadItem.querySelector('.img-upload-view');
+
+  const confirmDelete = confirm("해당 이미지를 삭제하시겠습니까?");
+  if (confirmDelete) {
+    imgUploadView.classList.remove('active');
+    imgUploadView.style.backgroundImage = '';
+    imgUploadInput.value = '';
+    imgUploadDel.style.display = 'none';
   }
 }
