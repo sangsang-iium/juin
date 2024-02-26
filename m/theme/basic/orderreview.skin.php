@@ -93,8 +93,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	</div>
 
 	<div class="btn_confirm btn_confirm_2">
-		<button type="submit" class="ui-btn round stBlack">등록</button>
-		<button type="button" onclick="window.close();" class="ui-btn round stWhite">취소</button>
+		<button type="submit" class="ui-btn round stBlack">등록하기</button>
 	</div>
 	</form>
 </div>

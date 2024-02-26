@@ -555,14 +555,15 @@ function copyLink(url) {
 
 $(document).ready(function(){
   const callData = (popid, rqurl, rqm, rqd) => {
-    $(popid).find(".pop-content-in").html("");
+    let result = "";
 
     if(rqm == "GET") {
       $.get(rqurl, rqd)
       .done(function(data, status) {
-        $(popid).find(".pop-content-in").html(data);
+        result = data;
 
         if (shouldOpenPopup) {
+          $(popid).find(".pop-content-in").html(data);
           $(".popDim").show().css({"z-index":"560"});
           $(popid).fadeIn(200).addClass("on")
         }
@@ -573,9 +574,10 @@ $(document).ready(function(){
     } else if(rqm == "POST") {
       $.post(rqurl, rqd)
       .done(function(data, status) {
-        $(popid).find(".pop-content-in").html(data);
+        result = data;
 
         if (shouldOpenPopup) {
+          $(popid).find(".pop-content-in").html(data);
           $(".popDim").show().css({"z-index":"560"});
           $(popid).fadeIn(200).addClass("on")
         }
@@ -584,6 +586,8 @@ $(document).ready(function(){
         console.error('Request failed:', textStatus, errorThrown);
       });
     }
+
+    return result;
   }
 
   let shouldOpenPopup = false;
