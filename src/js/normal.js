@@ -37,15 +37,14 @@ $(document).ready(function () {
   
   // Image Upload (Preview)
   const imgUpload = $(".img-upload-input");
-  imgUpload.on('change', function(event){
-    f.previewImage(event);
+  imgUpload.on('change', function(e){
+    f.previewImage(e);
   });
 
   // Image Upload (Preview Delete)
   const imgDelete = $('.img-upload-delete');
   imgDelete.on('click', function(e) {
-    const imgIndex = $(this).index('.img-upload-delete') + 1;
-    f.deleteImage(imgIndex);
+    f.deleteImage(e);
     e.stopPropagation();
   });
 

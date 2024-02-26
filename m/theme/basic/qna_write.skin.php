@@ -168,6 +168,44 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 						</div>
 					</div>
 				</div> -->
+				
+				<div class="form-row">
+					<div class="form-head">
+						<p class="title">이미지등록</p>
+					</div>
+					<div class="form-body">
+						<div class="img-upload">
+							<div class="img-upload-list">
+								<div class="img-upload-item">
+									<span class="img-upload-delete">삭제</span>
+									<input type="file" name="" id="imgUpload1" class="img-upload-input">
+									<label for="imgUpload1" class="img-upload-view"></label>
+								</div>
+								<div class="img-upload-item">
+									<span class="img-upload-delete">삭제</span>
+									<input type="file" name="" id="imgUpload2" class="img-upload-input">
+									<label for="imgUpload2" class="img-upload-view"></label>
+								</div>
+								<div class="img-upload-item">
+									<span class="img-upload-delete">삭제</span>
+									<input type="file" name="" id="imgUpload3" class="img-upload-input">
+									<label for="imgUpload3" class="img-upload-view"></label>
+								</div>
+								<div class="img-upload-item">
+									<span class="img-upload-delete">삭제</span>
+									<input type="file" name="" id="imgUpload4" class="img-upload-input">
+									<label for="imgUpload4" class="img-upload-view"></label>
+								</div>
+								<div class="img-upload-item">
+									<span class="img-upload-delete">삭제</span>
+									<input type="file" name="" id="imgUpload5" class="img-upload-input">
+									<label for="imgUpload5" class="img-upload-view"></label>
+								</div>
+							</div>
+							<p class="img-upload-desc">사진은 10MB이하의 jpg, png, gif 파일만 첨부 가능합니다.</p>
+						</div>
+					</div>
+				</div>
 
 				<div class="cp-btnbar">
 					<div class="container">

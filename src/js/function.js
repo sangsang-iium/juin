@@ -132,7 +132,7 @@ export const dcPercent = (supPrice, salePrice) => {
   return percent;
 }
 
-//아코디언 메뉴
+// 아코디언 메뉴
 export const arcodianF = () => {
   let arcoBtn = $('.arcodianBtn');
   arcoBtn.on('click',function(){
@@ -153,12 +153,12 @@ export const arcodianF = () => {
   }
 }
 
-//팝업 열기
+// 팝업 열기
 export const popupOpen = (id) => {
   $('#' + id).fadeIn(200).addClass("on");
 }
 
-//팝업 닫기
+// 팝업 닫기
 export const popupClose = (t) => {
   t.fadeOut(200).removeClass("on");
 }
@@ -203,12 +203,37 @@ export const scoreF = () => {
   }
 }
 
+// 파일 용량 체크
+const checkFileSize = (file, fileSize) => {
+  if (!file || file.size > fileSize * 1024 * 1024) {
+    alert('파일이 존재하지 않거나 '+fileSize+'MB를 초과합니다.');
+    return false;
+  }
+  return true;
+}
+
+// 이미지 확장자 체크
+const checkFileImg = (fileName) => {
+  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+  const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+  if (!allowedExtensions.includes(fileExtension)) {
+    alert('jpg, jpeg, png, gif 확장자만 첨부 가능합니다.');
+    return false;
+  }
+  return true;
+}
+
 // 이미지 업로드 (미리보기)
-export const previewImage = (event) => {
-  const imgUploadInput = event.target;
+export const previewImage = (el) => {
+  const imgUploadInput = el.target;
   const imgUploadItem = imgUploadInput.parentElement;
   const imgUploadFile = imgUploadInput.files[0];
   const imgReader = new FileReader();
+
+  // > 파일 용량 및 확장자 체크
+  if (!checkFileSize(imgUploadFile,10) || !checkFileImg(imgUploadFile.name)) {
+    return;
+  }
 
   imgReader.onload = function() {
     const imgUploadView = imgUploadItem.querySelector('.img-upload-view');
@@ -219,11 +244,11 @@ export const previewImage = (event) => {
   imgReader.readAsDataURL(imgUploadFile);
 }
 
-// 이미지 업로드 (삭제)
-export const deleteImage = (index) => {
-  const imgUploadInput = document.querySelector(`#imgUpload${index}`);
-  const imgUploadItem = imgUploadInput.parentElement;
+// 이미지 업로드 (미리보기 삭제)
+export const deleteImage = (el) => {
+  const imgUploadItem = el.target.closest('.img-upload-item');
   const imgUploadDel = imgUploadItem.querySelector('.img-upload-delete');
+  const imgUploadInput = imgUploadItem.querySelector('.img-upload-input');
   const imgUploadView = imgUploadItem.querySelector('.img-upload-view');
 
   const confirmDelete = confirm("해당 이미지를 삭제하시겠습니까?");
