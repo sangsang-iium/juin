@@ -22,5 +22,5 @@ $total_count = sql_num_rows($result);
 $form_action_url = BV_HTTPS_MSHOP_URL.'/gift_update.php';
 include_once(BV_MTHEME_PATH."/gift.skin.php");
 
-include_once("./_tail.php");
+//include_once("./_tail.php");
 ?>

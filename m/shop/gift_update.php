@@ -51,5 +51,5 @@ update("shop_gift", $value, "where gi_num = '$gi_num' ");
 // 포인트적립
 insert_point($member['id'], $cp['gr_price'], $cp['gr_subject']." 쿠폰", "@gift", $member['id'], $gi_num);
 
-alert("정상적으로 처리 되었습니다.", BV_MSHOP_URL."/gift.php");
+alert("정상적으로 처리 되었습니다.", BV_MSHOP_URL."/coupon.php");
 ?>
