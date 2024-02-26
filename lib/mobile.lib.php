@@ -121,11 +121,10 @@ function mobile_display_goods($type, $rows, $mtxt, $li_css='')
 	echo "<p class=\"sct_btn\"><a href=\"".BV_MSHOP_URL."/listtype.php?type=$type\" class=\"btn_lsmall bx-white wfull\">더보기 <i class=\"fa fa-angle-right marl3\"></i></a></p>\n";
 }
 
-// mobile_display_today_goods("영역", "출력수", "타이틀", "클래스명")
-function mobile_display_today_goods_with_slide($type, $rows,$li_css = '') {
+function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
   global $default, $pt_id;
 
-  // echo "<h2 class=\"mtit\"><span>{$mtxt}</span></h2>\n";
+                                             // echo "<h2 class=\"mtit\"><span>{$mtxt}</span></h2>\n";
   echo "<div class=\"swiper-container\">\n"; // 추가된 부분: 슬라이드 컨테이너 시작
   echo "<div class=\"swiper-wrapper\">\n";   // 추가된 부분: 슬라이드 래퍼 시작
 
@@ -144,9 +143,9 @@ function mobile_display_today_goods_with_slide($type, $rows,$li_css = '') {
 
     $it_sprice = $sale = '';
 
-    if ($row['normal_price'] > $it_amount ) {
+    if ($row['normal_price'] > $it_amount) {
       $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
-      $sale      = '<span class="dc-percent">'. number_format($sett, 1) .'%</span>';
+      $sale      = '<span class="dc-percent">' . number_format($sett, 1) . '%</span>';
       $it_sprice = display_price2($row['normal_price']);
     }
 
@@ -159,7 +158,7 @@ function mobile_display_today_goods_with_slide($type, $rows,$li_css = '') {
     echo "<div class=\"cp-timer-wrap white\">\n";
     echo "<i class=\"cp-timer__icon\"></i>\n";
     echo "<span class=\"cp-timer__num\" data-deadline=\"2024-02-26 23:59:59\">00:00:00</span>\n"; // 타이머 추가
-		// echo "<span class=\"cp-timer__text\">남음</span>\n";
+                                                                                                  // echo "<span class=\"cp-timer__text\">남음</span>\n";
     echo "</div>\n";
     echo "</div>\n";
     echo "</div>\n";
@@ -201,7 +200,7 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 		$it_sprice = $sale = '';
 		if($row['normal_price'] > $it_amount && !is_uncase($row['index_no'])) {
 			$sett = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
-			$sale = number_format($sett,1).'%';
+			$sale = number_format($sett,0).'%';
 			$it_sprice = display_price2($row['normal_price']);
 		}
 
