@@ -91,7 +91,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title"><label for="reg_mb_tel">전화번호</label><?php echo $config['register_req_tel']?'<b>*</b>':''; ?></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="20" placeholder="전화번호를 입력해주세요.">
+							<input type="text" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="autoHyphen2(this)">
 						</div>
 					</div>
 					<?php } ?>
@@ -310,9 +310,10 @@ if(!defined('_BLUEVATION_')) exit;
   function chk_id() {
     let idFocus = document.querySelector('#reg_mb_id');
     let getId   = document.querySelector('#reg_mb_id').value;
-    let chkId   = document.querySelector('#chk_id_res').value;
+    let chkId   = document.querySelector('#chk_id_res');
+    let idValue = chkId.value
 
-    if(chkId == 0) {
+    if(idValue == 0) {
 
       if(getId.length > 2) {
         $.ajax({
@@ -321,7 +322,6 @@ if(!defined('_BLUEVATION_')) exit;
           data: { "id" : getId },
           dataType: "JSON",
           success: function(data) {
-            console.log(data)
             if(data.res == 'pass') {
               chkId.value = '1';
               alert('사용가능한 아이디 입니다.');
@@ -338,6 +338,52 @@ if(!defined('_BLUEVATION_')) exit;
       }
     }
   }
+
+// 전화번호 하이픈(-) _20240226_SY
+const autoHyphen2 = (target) => { 
+  let phNum = phoneNumber(target.value);
+  
+  target.value = phNum
+}
+
+// 전화번호 정규식 _20240226_SY
+function phoneNumber(value) {
+  if (!value) {
+    return "";
+  }
+
+  value = value.replace(/[^0-9]/g, "");
+
+  let result = [];
+  let restNumber = "";
+
+  // 지역번호와 나머지 번호로 나누기
+  if (value.startsWith("02")) {
+    // 서울 02 지역번호
+    result.push(value.substr(0, 2));
+    restNumber = value.substring(2);
+  } else if (value.startsWith("1")) {
+    // 지역 번호가 없는 경우
+    // 1xxx-yyyy
+    restNumber = value;
+  } else {
+    // 나머지 3자리 지역번호
+    // 0xx-yyyy-zzzz
+    result.push(value.substr(0, 3));
+    restNumber = value.substring(3);
+  }
+
+  if (restNumber.length === 7) {
+    // 7자리만 남았을 때는 xxx-yyyy
+    result.push(restNumber.substring(0, 3));
+    result.push(restNumber.substring(3));
+  } else {
+    result.push(restNumber.substring(0, 4));
+    result.push(restNumber.substring(4));
+  }
+
+  return result.filter((val) => val).join("-");
+}
 </script>
 
 <script>
@@ -398,6 +444,16 @@ function fregisterform_submit(f)
 			return false;
 		}
 	}
+
+  // 회원아이디 중복확인 여부 _20240223_SY
+  if(f.w.value == "") {
+    if(f.chk_id_res.value == 0) {
+      alert("아이디 중복을 확인해 주십시오.");
+			f.mb_id.focus();
+			return false;
+    }
+  }
+  
 
 	if(f.w.value == "") {
 		if(f.mb_password.value.length < 4) {
