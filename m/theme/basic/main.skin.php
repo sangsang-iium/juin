@@ -36,16 +36,16 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <div class="container section main_category">
   <div class="cp-quick-category">
     <?php
-      $cate_sql = "SELECT * FROM iu_category_main order by cm_rank asc";
+      $cate_sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = 3 ORDER BY caterank asc";
       $cate_res = sql_query($cate_sql);
 
       while ($cate_row = sql_fetch_array($cate_res)) {
     ?>
-    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id='.$cate_row["cm_ca_id"];?>" class="ui-btn">
+    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id='.$cate_row["catecode"];?>" class="ui-btn">
       <i class="icon">
-        <img src="/data/category/<?php echo $cate_row['cm_img']?>" alt="<?php echo $cate_row['cm_catename'] ?>">
+        <img src="/data/category/<?php echo $cate_row['cateimg1']?>" alt="<?php echo $cate_row['catename'] ?>">
       </i>
-      <p class="name"><?php echo $cate_row['cm_catename'] ?></p>
+      <p class="name"><?php echo $cate_row['catename'] ?></p>
     </a>
     <?php } ?>
     <!-- <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">

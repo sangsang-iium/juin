@@ -90,7 +90,6 @@ $ca = sql_fetch("select * from shop_category where index_no='$ca_no'");
 			<input type="checkbox" name="cateuse" value="1" id="cateuse"<?php echo ($ca['cateuse'])?" checked='checked'":""; ?>> <label for="cateuse">카테고리 숨김</label>
 		</td>
 	</tr>
-	<?php /* ?>
 	<tr>
 		<th scope="row">카테고리 아이콘</th>
 		<td>
@@ -116,7 +115,7 @@ $ca = sql_fetch("select * from shop_category where index_no='$ca_no'");
 			?>
 		</td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<th scope="row">카테고리 아이콘 (ON)</th>
 		<td>
 			<input type="file" name="cateimg2">
@@ -140,10 +139,9 @@ $ca = sql_fetch("select * from shop_category where index_no='$ca_no'");
 			}
 			?>
 		</td>
-	</tr>
-	<?php */ ?>
+	</tr> -->
 	<?php if(strlen($ca['catecode']) == 3) { ?>
-	<tr>
+	<!-- <tr>
 		<th scope="row">카테고리 상단배너</th>
 		<td>
 			<input type="file" name="headimg">
@@ -167,11 +165,11 @@ $ca = sql_fetch("select * from shop_category where index_no='$ca_no'");
 			}
 			?>
 		</td>
-	</tr>
-	<tr>
+	</tr> -->
+	<!-- <tr>
 		<th scope="row">카테고리 상단배너 링크</th>
 		<td><input type="text" name="headimgurl" value="<?php echo $ca['headimgurl']; ?>" class="frm_input" size="50"></td>
-	</tr>
+	</tr> -->
 	<?php } ?>
 	</tbody>
 	</table>

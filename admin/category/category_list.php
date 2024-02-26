@@ -47,16 +47,16 @@ $sql_order = " order by caterank, catecode ";
 		<td><input type="text" name="catename" required itemname="카테고리명" class="frm_input required" size="50"></td>
 	</tr>
 	<tr>
-		<th scope="row">카테고리 상단배너</th>
-		<td><input type="file" name="headimg"></td>
+		<th scope="row">카테고리 아이콘</th>
+		<td><input type="file" name="cateimg1"></td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<th scope="row">카테고리 상단배너 링크</th>
 		<td>
 			<input type="text" name="headimgurl" class="frm_input" size="50">
 			<?php echo help('예시) /shop/view.php?index_no=1'); ?>
 		</td>
-	</tr>
+	</tr> -->
 	</tbody>
 	</table>
 </div>
