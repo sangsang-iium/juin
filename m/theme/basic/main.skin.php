@@ -35,13 +35,20 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <!-- 상품 카테고리 바로가기 { -->
 <div class="container section main_category">
   <div class="cp-quick-category">
-    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">
+    <?php
+      $cate_sql = "SELECT * FROM iu_category_main order by cm_rank asc";
+      $cate_res = sql_query($cate_sql);
+
+      while ($cate_row = sql_fetch_array($cate_res)) {
+    ?>
+    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id='.$cate_row["cm_ca_id"];?>" class="ui-btn">
       <i class="icon">
-        <img src="/src/img/category-a.png" alt="농수산">
+        <img src="/data/category/<?php echo $cate_row['cm_img']?>" alt="<?php echo $cate_row['cm_catename'] ?>">
       </i>
-      <p class="name">농수산</p>
+      <p class="name"><?php echo $cate_row['cm_catename'] ?></p>
     </a>
-    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">
+    <?php } ?>
+    <!-- <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">
       <i class="icon">
         <img src="/src/img/category-b.png" alt="축산(육가공)">
       </i>
@@ -70,7 +77,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         <img src="/src/img/category-f.png" alt="회원 전용관">
       </i>
       <p class="name">회원<br>전용관</p>
-    </a>
+    </a> -->
   </div>
 </div>
 <!-- } 상품 카테고리 바로가기 -->
