@@ -101,11 +101,11 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title"><label for="reg_mb_hp">핸드폰번호</label><b>*</b></p>
 						</div>
 						<div class="form-body phone">
-							<input type="text" name="mb_hp" value="<?php echo get_text($member['cellphone']); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="20">
+							<input type="text" name="mb_hp[]" value="<?php echo get_text($member['cellphone']); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="3">
 							<span class="hyphen">-</span>
-							<input type="text" name="" class="frm-input">
+							<input type="text" name="mb_hp[]" class="frm-input" maxlength="4">
 							<span class="hyphen">-</span>
-							<input type="text" name="" class="frm-input">
+							<input type="text" name="mb_hp[]" class="frm-input" maxlength="4">
 							<div class="frm-choice">
 								<input type="checkbox" name="mb_sms" id="chk-sms" value="Y"<?php echo ($w=='' || $member['smsser'] == 'Y')?' checked':''; ?>>
 								<label for="chk-sms">핸드폰 문자메세지를 받겠습니다.</label>
@@ -503,8 +503,32 @@ function fregisterform_submit(f)
 	}
 	<?php } ?>
 
+
+  // 휴대폰 유효성 검사 수정 _20240226_SY
+  let chkPhoneNum = [];
+  <?php if(($config['register_use_hp'] || $config['cf_cert_hp']) && $config['register_req_hp']) { ?>
+  
+    let getPhone = document.querySelectorAll("input[name='mb_hp[]']");
+    getPhone.forEach(function(key, index) {
+      let phoneNumber = key.value;
+      chkPhoneNum[index] = phoneNumber;
+    });
+    let strPhoneNum = chkPhoneNum.join('-');
+
+
+    // 휴대폰번호 체크
+    var msg = reg_mb_hp_check();
+    if(msg) {
+      alert(msg);
+      f.reg_mb_hp.select();
+      return false;
+    }
+	<?php } ?>
+
+
 	// E-mail 검사
 	if((f.w.value == "") || (f.w.value == "u" && f.mb_email.defaultValue != f.mb_email.value)) {
+    console.log(f.mb_email);
 		var msg = reg_mb_email_check();
 		if(msg) {
 			alert(msg);
@@ -513,15 +537,7 @@ function fregisterform_submit(f)
 		}
 	}
 
-	<?php if(($config['register_use_hp'] || $config['cf_cert_hp']) && $config['register_req_hp']) { ?>
-	// 휴대폰번호 체크
-	var msg = reg_mb_hp_check();
-	if(msg) {
-		alert(msg);
-		f.reg_mb_hp.select();
-		return false;
-	}
-	<?php } ?>
+	
 
 	if(typeof(f.mb_recommend) != "undefined" && f.mb_recommend.value) {
 		if(f.mb_id.value == f.mb_recommend.value) {
