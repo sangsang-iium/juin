@@ -150,116 +150,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div class="container left main_today-slide">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide cp-item time">
-          <div class="round50 prod-thumb_area">
-            <a href="" class="thumb">
-              <img src="/src/img/t-product3.jpg" alt="">
-            </a>
-            <div class="cp-timer">
-              <div class="cp-timer-wrap white">
-                <i class="cp-timer__icon"></i>
-                <span class="cp-timer__num" data-deadline="2024-02-01 23:59:59">00:00:00</span>
-                <span class="cp-timer__text">남음</span>
-              </div>
-            </div>
-          </div>
-          <a href="" class="prod-info_area">
-            <p class="tRow2 name">백설 스팸&식용유 선물세트</p>
-            <p class="dc-price">30,000원</p>
-            <p class="price-box">
-              <span class="dc-percent">10%</span>
-              <span class="sale-price">27,000원</span>
-            </p>
-          </a>
-        </div>
-        <div class="swiper-slide cp-item time">
-          <div class="round50 prod-thumb_area">
-            <a href="" class="thumb">
-              <img src="/src/img/t-product8.jpg" alt="">
-            </a>
-            <div class="cp-timer">
-              <div class="cp-timer-wrap white">
-                <i class="cp-timer__icon"></i>
-                <span class="cp-timer__num" data-deadline="2024-02-01 23:59:59">00:00:00</span>
-                <span class="cp-timer__text">남음</span>
-              </div>
-            </div>
-          </div>
-          <a href="" class="prod-info_area">
-            <p class="tRow2 name">바다소리 건어물 선물세트 2호</p>
-            <p class="dc-price">30,000원</p>
-            <p class="price-box">
-              <span class="dc-percent">10%</span>
-              <span class="sale-price">27,000원</span>
-            </p>
-          </a>
-        </div>
-        <div class="swiper-slide cp-item time">
-          <div class="round50 prod-thumb_area">
-            <a href="" class="thumb">
-              <img src="/src/img/t-product3.jpg" alt="">
-            </a>
-            <div class="cp-timer">
-              <div class="cp-timer-wrap white">
-                <i class="cp-timer__icon"></i>
-                <span class="cp-timer__num" data-deadline="2024-02-01 23:59:59">00:00:00</span>
-                <span class="cp-timer__text">남음</span>
-              </div>
-            </div>
-          </div>
-          <a href="" class="prod-info_area">
-            <p class="tRow2 name">백설 스팸&식용유 선물세트</p>
-            <p class="dc-price">30,000원</p>
-            <p class="price-box">
-              <span class="dc-percent">10%</span>
-              <span class="sale-price">27,000원</span>
-            </p>
-          </a>
-        </div>
-        <div class="swiper-slide cp-item time">
-          <div class="round50 prod-thumb_area">
-            <a href="" class="thumb">
-              <img src="/src/img/t-product8.jpg" alt="">
-            </a>
-            <div class="cp-timer">
-              <div class="cp-timer-wrap white">
-                <i class="cp-timer__icon"></i>
-                <span class="cp-timer__num" data-deadline="2024-02-01 23:59:59">00:00:00</span>
-                <span class="cp-timer__text">남음</span>
-              </div>
-            </div>
-          </div>
-          <a href="" class="prod-info_area">
-            <p class="tRow2 name">바다소리 건어물 선물세트 2호</p>
-            <p class="dc-price">30,000원</p>
-            <p class="price-box">
-              <span class="dc-percent">10%</span>
-              <span class="sale-price">27,000원</span>
-            </p>
-          </a>
-        </div>
-        <div class="swiper-slide cp-item time">
-          <div class="round50 prod-thumb_area">
-            <a href="" class="thumb">
-              <img src="/src/img/t-product3.jpg" alt="">
-            </a>
-            <div class="cp-timer">
-              <div class="cp-timer-wrap white">
-                <i class="cp-timer__icon"></i>
-                <span class="cp-timer__num" data-deadline="2024-02-01 23:59:59">00:00:00</span>
-                <span class="cp-timer__text">남음</span>
-              </div>
-            </div>
-          </div>
-          <a href="" class="prod-info_area">
-            <p class="tRow2 name">백설 스팸&식용유 선물세트</p>
-            <p class="dc-price">30,000원</p>
-            <p class="price-box">
-              <span class="dc-percent">10%</span>
-              <span class="sale-price">27,000원</span>
-            </p>
-          </a>
-        </div>
+        <?php echo mobile_display_today_goods_with_slide('2', '20', 'container left main_popular-slide') ?>
       </div>
       <div class="swiper-control2">
         <button type="button" class="arrow prev"></button>
@@ -280,3 +171,29 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <!-- } -->
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var timers = document.querySelectorAll('.cp-timer__num');
+  timers.forEach(function(timer) {
+    var deadline = timer.getAttribute('data-deadline');
+    var countdown = new Date(deadline).getTime();
+    var x = setInterval(function() {
+      var now = new Date().getTime();
+      var distance = countdown - now;
+      if (distance <= 0) {
+        clearInterval(x);
+        timer.innerHTML = '만료';
+      } else {
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        hours = String(hours).padStart(2, '0');
+        minutes = String(minutes).padStart(2, '0');
+        seconds = String(seconds).padStart(2, '0');
+        timer.innerHTML = hours + ':' + minutes + ':' + seconds ;
+      }
+    }, 1000);
+  });
+});
+</script>

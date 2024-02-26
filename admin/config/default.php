@@ -189,7 +189,7 @@ $(function(){
 	</table>
 </div>
 
-<h2>도메인 설정</h2>
+<!-- <h2>도메인 설정</h2>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
@@ -215,7 +215,7 @@ $(function(){
 	</tr>
 	</tbody>
 	</table>
-</div>
+</div> -->
 
 <h2>스킨 설정</h2>
 <div class="tbl_frm01">
@@ -293,7 +293,7 @@ $(function(){
 	</tbody>
 	</table>
 </div>
-
+<!--
 <h2>폐쇄몰설정</h2>
 <div class="tbl_frm01">
 	<table>
@@ -320,9 +320,9 @@ $(function(){
 	</tr>
 	</tbody>
 	</table>
-</div>
+</div> -->
 
-<h2>정보노출설정</h2>
+<!-- <h2>정보노출설정</h2>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
@@ -340,7 +340,7 @@ $(function(){
 	</tr>
 	</tbody>
 	</table>
-</div>
+</div> -->
 
 <h2>포인트 설정</h2>
 <div class="tbl_frm01">

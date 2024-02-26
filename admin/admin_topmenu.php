@@ -8,7 +8,6 @@ if(!defined('_BLUEVATION_')) exit;
 		<div id="logo"><a href="<?php echo BV_ADMIN_URL; ?>/"><img src="<?php echo BV_ADMIN_URL; ?>/img/logo.gif" alt="<?php echo $config['shop_name']; ?> 관리자"></a></div>
 		<div id="tnb">
 			<ul>
-				<li><?php echo BV_VERSION; ?></li>
 				<li><?php echo $super['vi_history']; ?></li>
 				<li><a href="<?php echo BV_ADMIN_URL; ?>/config.php?code=super">관리자정보</a></li>
 				<li><a href="<?php echo BV_ADMIN_URL; ?>/">관리자홈</a></li>
@@ -23,9 +22,9 @@ if(!defined('_BLUEVATION_')) exit;
 				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU1){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=list" class="gnb_1da"><?php echo ADMIN_MENU1; ?></a>
 				</li>
-				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU2){ ?> active<?php } ?>">
+				<!-- <li class="gnb_1dli<?php if($pg_title == ADMIN_MENU2){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/partner.php?code=plist" class="gnb_1da"><?php echo ADMIN_MENU2; ?></a>
-				</li>
+				</li> -->
 				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU3){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/seller.php?code=list" class="gnb_1da"><?php echo ADMIN_MENU3; ?></a>
 				</li>

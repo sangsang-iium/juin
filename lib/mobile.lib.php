@@ -121,6 +121,63 @@ function mobile_display_goods($type, $rows, $mtxt, $li_css='')
 	echo "<p class=\"sct_btn\"><a href=\"".BV_MSHOP_URL."/listtype.php?type=$type\" class=\"btn_lsmall bx-white wfull\">더보기 <i class=\"fa fa-angle-right marl3\"></i></a></p>\n";
 }
 
+// mobile_display_today_goods("영역", "출력수", "타이틀", "클래스명")
+function mobile_display_today_goods_with_slide($type, $rows,$li_css = '') {
+  global $default, $pt_id;
+
+  // echo "<h2 class=\"mtit\"><span>{$mtxt}</span></h2>\n";
+  echo "<div class=\"swiper-container\">\n"; // 추가된 부분: 슬라이드 컨테이너 시작
+  echo "<div class=\"swiper-wrapper\">\n";   // 추가된 부분: 슬라이드 래퍼 시작
+
+  $result = display_itemtype($pt_id, $type, $rows);
+  for ($i = 0; $row = sql_fetch_array($result); $i++) {
+    $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
+    $it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
+    $it_name     = get_text($row['gname']);
+    $it_price    = mobile_price($row['index_no']);
+    $it_amount   = get_sale_price($row['index_no']);
+    $it_point    = display_point($row['gpoint']);
+
+    $is_uncase        = is_uncase($row['index_no']);
+    $is_free_baesong  = is_free_baesong($row);
+    $is_free_baesong2 = is_free_baesong2($row);
+
+    $it_sprice = $sale = '';
+
+    if ($row['normal_price'] > $it_amount ) {
+      $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
+      $sale      = '<span class="dc-percent">'. number_format($sett, 1) .'%</span>';
+      $it_sprice = display_price2($row['normal_price']);
+    }
+
+    echo "<div class=\"swiper-slide cp-item time\">\n"; // 추가된 부분: 각 슬라이드의 시작
+    echo "<div class=\"round50 prod-thumb_area\">\n";
+    echo "<a href=\"{$it_href}\" class=\"thumb\">\n";
+    echo "<img src=\"{$it_imageurl}\" alt=\"\">\n";
+    echo "</a>\n";
+    echo "<div class=\"cp-timer\">\n";
+    echo "<div class=\"cp-timer-wrap white\">\n";
+    echo "<i class=\"cp-timer__icon\"></i>\n";
+    echo "<span class=\"cp-timer__num\" data-deadline=\"2024-02-26 23:59:59\">00:00:00</span>\n"; // 타이머 추가
+		// echo "<span class=\"cp-timer__text\">남음</span>\n";
+    echo "</div>\n";
+    echo "</div>\n";
+    echo "</div>\n";
+    echo "<a href=\"{$it_href}\" class=\"prod-info_area\">\n";
+    echo "<p class=\"tRow2 name\">{$it_name}</p>\n";
+    echo "<p class=\"dc-price\">{$it_sprice}</p>\n";
+    echo "<p class=\"price-box\">\n";
+    echo "{$sale}<span class=\"sale-price\">{$it_price}</span>\n";
+    echo "</p>\n";
+    echo "</a>\n";
+    echo "</div>\n"; // 추가된 부분: 각 슬라이드의 끝
+  }
+
+  echo "</div>\n"; // 추가된 부분: 슬라이드 래퍼 종료
+  echo "</div>\n"; // 추가된 부분: 슬라이드 컨테이너 종료
+  echo "<p class=\"sct_btn\"><a href=\"" . BV_MSHOP_URL . "/listtype.php?type={$type}\" class=\"btn_lsmall bx-white wfull\">더보기 <i class=\"fa fa-angle-right marl3\"></i></a></p>\n";
+}
+
 // mobile_slide_goods("영역", "출력수", "타이틀", "클래스명")
 function mobile_slide_goods($type, $rows, $addclass='', $size='')
 {
@@ -144,7 +201,7 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 		$it_sprice = $sale = '';
 		if($row['normal_price'] > $it_amount && !is_uncase($row['index_no'])) {
 			$sett = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
-			$sale = number_format($sett,0).'%';
+			$sale = number_format($sett,1).'%';
 			$it_sprice = display_price2($row['normal_price']);
 		}
 
