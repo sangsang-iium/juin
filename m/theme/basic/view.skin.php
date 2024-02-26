@@ -531,11 +531,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 <!-- } 리뷰 전체보기 팝업 -->
 
-<!-- 리뷰 작성 팝업 { -->
+<!-- 리뷰 전체보기 팝업 내 작성(수정) 팝업 { -->
 <div id="review-write-popup" class="popup type02 add-popup add-in-popup">
   <div class="pop-inner">
     <div class="pop-top">
-      <p class="tit">리뷰 쓰기</p>
+      <p class="tit">리뷰 작성</p>
       <button type="button" class="btn close"></button>
     </div>
     <div class="pop-content line">
@@ -545,6 +545,21 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   </div>
 </div>
 <!-- } 리뷰 작성 팝업 -->
+
+<!-- 리뷰 수정 팝업 { -->
+  <div id="review-edit-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">리뷰 수정</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- } 리뷰 수정 팝업 -->
 
 <script type="module">
 import * as f from '/src/js/function.js';
@@ -605,15 +620,46 @@ $(document).ready(function(){
     shouldOpenPopup = true;
   });
 
-  //리뷰 작성 팝업
+  //리뷰 전체보기 팝업 내 작성 팝업
   $("#review-popup").on("click", ".rv-write-btn", function () {
-    console.log("test")
     const gsId = "<?php echo $gs_id;?>";
 
     const popId = "#review-write-popup";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
     const reqData = { gs_id: gsId };
+
+    callData(popId, reqPathUrl, reqMethod, reqData);
+    shouldOpenPopup = true;
+
+    $(popId).find('.pop-top .tit').text("리뷰 작성");
+  });
+
+  //리뷰 전체보기 팝업 내 수정 팝업
+  $("#review-popup").on("click", ".rv-inEdit-btn", function () {
+    const gsId = "<?php echo $gs_id;?>";
+    const meId = $(this).data('me-id');
+
+    const popId = "#review-write-popup";
+    const reqPathUrl = "./orderreview.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId, me_id: meId, w: 'u' };
+
+    callData(popId, reqPathUrl, reqMethod, reqData);
+    shouldOpenPopup = true;
+
+    $(popId).find('.pop-top .tit').text("리뷰 수정");
+  });
+
+  //리뷰 수정 팝업
+  $(".rv-edit-btn").on("click", function () {
+    const gsId = "<?php echo $gs_id;?>";
+    const meId = $(this).data('me-id');
+
+    const popId = "#review-edit-popup";
+    const reqPathUrl = "./orderreview.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId, me_id: meId, w: 'u' };
 
     callData(popId, reqPathUrl, reqMethod, reqData);
     shouldOpenPopup = true;
