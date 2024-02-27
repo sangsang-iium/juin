@@ -201,7 +201,7 @@ for($i=2; $i<=6; $i++) { // 슬라이드 이미지
 
 $slide_url = implode('|', $slide_img);
 $slide_cnt = count($slide_img);
-///home/juin/www/m/theme/basic/view.skin.php
+///home/juin/www/m/theme/basic/view.skin.php // 스킨경로 안내
 include_once(BV_MTHEME_PATH.'/view.skin.php');
 
 include_once("./_tail.php");
