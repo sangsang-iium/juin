@@ -53,14 +53,14 @@ var reg_mb_email_check = function() {
     return result;
 }
 
-
-var reg_mb_hp_check = function() {
+// value추가 _20240226_SY
+var reg_mb_hp_check = function(value) {
     var result = "";
     $.ajax({
         type: "POST",
         url: bv_bbs_url+"/ajax.mb_hp.php",
         data: {
-            "reg_mb_hp": $("#reg_mb_hp").val(),
+            "reg_mb_hp": value,
             "reg_mb_id": encodeURIComponent($("#reg_mb_id").val())
         },
         cache: false,

@@ -91,7 +91,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title"><label for="reg_mb_tel">전화번호</label><?php echo $config['register_req_tel']?'<b>*</b>':''; ?></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="autoHyphen2(this)">
+							<input type="text" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); autoHyphen2(this)">
 						</div>
 					</div>
 					<?php } ?>
@@ -101,11 +101,11 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title"><label for="reg_mb_hp">핸드폰번호</label><b>*</b></p>
 						</div>
 						<div class="form-body phone">
-							<input type="text" name="mb_hp[]" value="<?php echo get_text($member['cellphone']); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="3">
+							<input type="text" name="mb_hp[]" value="<?php echo get_text($member['cellphone']); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							<span class="hyphen">-</span>
-							<input type="text" name="mb_hp[]" class="frm-input" maxlength="4">
+							<input type="text" name="mb_hp[]" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							<span class="hyphen">-</span>
-							<input type="text" name="mb_hp[]" class="frm-input" maxlength="4">
+							<input type="text" name="mb_hp[]" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							<div class="frm-choice">
 								<input type="checkbox" name="mb_sms" id="chk-sms" value="Y"<?php echo ($w=='' || $member['smsser'] == 'Y')?' checked':''; ?>>
 								<label for="chk-sms">핸드폰 문자메세지를 받겠습니다.</label>
@@ -129,6 +129,7 @@ if(!defined('_BLUEVATION_')) exit;
 								<option value="">gmail.com</option>
 								<option value="">naver.com</option>
 								<option value="">hanmail.net</option>
+								<option value="">직접입력</option>
 							</select>
 							<div class="frm-choice">
 								<input type="checkbox" name="mb_mailling" value="Y" id="reg_mb_mailling"<?php echo ($w=='' || $member['mailser'] == 'Y')?' checked':''; ?>>
@@ -174,13 +175,13 @@ if(!defined('_BLUEVATION_')) exit;
                 <p class="tit">중앙회원 조회하기</p>
               </div>
 							<div class="pop-search input-button">
-								<input type="text" name="" value="" class="frm-input" size="20" maxlength="20" placeholder="고유번호를 입력해주세요.">
-								<button type="button" class="ui-btn st3">회원조회</button>
+								<input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="고유번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+								<button type="button" class="ui-btn st3" onclick="getKFIAMember()">회원조회</button>
 							</div>
               <div class="pop-content line">
                 <div class="pop-content-in" style="height: 500px;">
                   <div class="pop-result">
-                    <div class="pop-result-item">
+                    <!-- <div class="pop-result-item">
                       <p class="pop-result-title">회원이름영역</p>
                       <p class="pop-result-text">고유번호 : 22012617052419</p>
                       <p class="pop-result-text">사업자등록번호 : 000-00-00000</p>
@@ -189,12 +190,12 @@ if(!defined('_BLUEVATION_')) exit;
                       <p class="pop-result-title">회원이름영역</p>
                       <p class="pop-result-text">고유번호 : 22012617052419</p>
                       <p class="pop-result-text">사업자등록번호 : 000-00-00000</p>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
               <div class="pop-btm">
-                <button type="button" class="ui-btn round stBlack">확인</button>
+                <button type="button" class="ui-btn round stBlack" id="info_ok">확인</button>
                 <button type="button" class="ui-btn round stWhite close">취소</button>
               </div>
             </div>
@@ -207,7 +208,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">이름<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="홍길동">
+							<input type="text" name="nm" id="nm" class="frm-input w-per100" readonly value="홍길동">
 						</div>
 					</div>
 					<div class="form-row">
@@ -215,7 +216,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">고유번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="123456789">
+							<input type="text" name="u_no" id="u_no" class="frm-input w-per100" readonly value="123456789">
 						</div>
 					</div>
 					<div class="form-row">
@@ -223,7 +224,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="123-45-67890">
+							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" readonly value="123-45-67890">
 						</div>
 					</div>
 				</div>
@@ -467,6 +468,52 @@ function phoneNumber(value) {
 
   return result.filter((val) => val).join("-");
 }
+
+
+// 외식업중앙회원 조회하기 _20240227_SY
+function getKFIAMember() {
+  let search_input = document.querySelector('#KFIA_search');
+  let search_words = search_input.value;
+
+  let search_resIn = document.querySelector('.pop-result');
+  
+  if(search_words.length > 0) {
+    $.ajax({
+      url: bv_url+"/m/bbs/ajax.KFIA_info.php",
+      type: "POST",
+      data: { "b_num" : search_words },
+      dataType: "JSON",
+      success: function(data) {
+        console.log(data)
+        let html = '';
+
+        for(let i=0; i<data.res.length; i++) {
+          html += '<div class="pop-result-item">';
+          html += '<p class="pop-result-title">' + data.res[i].nm + '</p>';
+          html += '<p class="pop-result-text">고유번호 : ' + data.res[i].u_no + '</p>';
+          html += '<p class="pop-result-text">사업자등록번호 : ' + data.res[i].b_no + '</p>';
+          html += '</div>';
+        }
+        search_resIn.innerHTML = html;
+        
+        $('.pop-result').on('click', '.pop-result-item', function() {  
+          let nm   = $(this).find('.pop-result-title').text();
+          let u_no = $(this).find('.pop-result-text:eq(0)').text().split(':')[1].trim();
+          let b_no = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
+          
+          $('#nm').val(nm);
+          $('#u_no').val(u_no);
+          $('#b_no').val(b_no);
+          
+          // 팝업 닫기 필요
+        });
+      }
+    });
+  } else {
+    return false;
+  }
+}
+
 </script>
 
 <script>
@@ -600,7 +647,7 @@ function fregisterform_submit(f)
 
 
     // 휴대폰번호 체크
-    var msg = reg_mb_hp_check();
+    var msg = reg_mb_hp_check(strPhoneNum);
     if(msg) {
       alert(msg);
       f.reg_mb_hp.select();

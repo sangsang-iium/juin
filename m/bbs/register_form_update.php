@@ -5,6 +5,9 @@ include_once(BV_LIB_PATH.'/mailer.lib.php');
 
 check_demo();
 
+print_r2($_POST);
+exit;
+
 if(!($w == '' || $w == 'u')) {
     alert('w 값이 제대로 넘어오지 않았습니다.');
 }
