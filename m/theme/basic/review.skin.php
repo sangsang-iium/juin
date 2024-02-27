@@ -10,7 +10,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			<option value="">6개월</option>
 			<option value="">1년</option>
 		</select>
-		<p class="review_cnt">총 <span><?php echo number_format($total_count); ?></span>개의 상품후기가 있습니다. </p>
+		<p class="review_cnt">내가 작성한 상품후기 <span><?php echo number_format($total_count); ?></span>건</p>
 	</div>
 
 	<div id="sod_review">
