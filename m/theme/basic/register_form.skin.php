@@ -245,7 +245,7 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-body">
 							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" readonly value="">
 							<div class="joinDetail-btn-box">
-								<button type="button" class="ui-btn st3" onclick="">중복확인</button>
+								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
 								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
 							</div>
 						</div>
@@ -411,7 +411,7 @@ function execDaumPostcode() {
               chkId.value = '1';
               alert('사용가능한 아이디 입니다.');
             } else if(data.res == "reject") {
-              alert('다른 회원이 사용 중인 아이디입니다.');
+              alert('사용할 수 없는 아이디입니다.');
               idFocus.focus();
               return false;
             }
@@ -485,6 +485,7 @@ function getKFIAMember() {
       data: { "b_num" : search_words },
       dataType: "JSON",
       success: function(data) {
+        console.log("외식업중앙회원 조회");
         console.log(data)
         let html = '';
 
@@ -536,6 +537,28 @@ function chkClosed() {
 
           // 조회 후 결과값에 따라 화면에 어떻게 나타낼건지 작업 필요
           alert(data.res.b_stt)
+        }
+    });
+  } else {
+    alert("사업자등록번호가 존재하지 않습니다.")
+    return false;
+  }
+}
+
+
+// 사업자번호 중복체크 _20240227_SY
+function chkDuBnum() {
+  b_num = document.querySelector('#b_no').value;
+
+  if(b_num.length > 0) {
+    $.ajax({
+        url: bv_url+"/m/bbs/ajax.duplication_check.php",
+        type: "POST",
+        data: { "b_num" : b_num },
+        dataType: "JSON",
+        success: function(data) {
+          console.log("사업자번호 중복체크");
+          console.log(data)
         }
     });
   } else {
