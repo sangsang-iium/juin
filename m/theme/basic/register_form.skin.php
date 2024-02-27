@@ -17,6 +17,7 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="cert_no" value="">
 
 <input type="hidden" name="chk_id_res" value="0" id="chk_id_res">
+<input type="hidden" name="chk_cb_res" value="0" id="chk_cb_res">
 
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
@@ -123,14 +124,14 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-body email">
 							<input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
 							<input type="text" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input required" size="40" maxlength="100" placeholder="이메일을 입력해주세요.">
-							<span class="at">@</span>
+							<!-- <span class="at">@</span>
 							<select name="" class="frm-select">
 								<option value="">선택하세요.</option>
 								<option value="">gmail.com</option>
 								<option value="">naver.com</option>
 								<option value="">hanmail.net</option>
 								<option value="">직접입력</option>
-							</select>
+							</select> -->
 							<div class="frm-choice">
 								<input type="checkbox" name="mb_mailling" value="Y" id="reg_mb_mailling"<?php echo ($w=='' || $member['mailser'] == 'Y')?' checked':''; ?>>
 								<label for="reg_mb_mailling">정보 메일을 받겠습니다.</label>
@@ -208,7 +209,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">이름<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="nm" id="nm" class="frm-input w-per100" readonly value="홍길동">
+							<input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" readonly value="홍길동">
 						</div>
 					</div>
 					<div class="form-row">
@@ -216,7 +217,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">고유번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="u_no" id="u_no" class="frm-input w-per100" readonly value="123456789">
+							<input type="text" name="pop_u_no" id="pop_u_no" class="frm-input w-per100" readonly value="123456789">
 						</div>
 					</div>
 					<div class="form-row">
@@ -224,7 +225,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" readonly value="123-45-67890">
+							<input type="text" name="pop_b_no" id="pop_b_no" class="frm-input w-per100" readonly value="123-45-67890">
 						</div>
 					</div>
 				</div>
@@ -242,10 +243,10 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="123-45-67890">
+							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" readonly value="">
 							<div class="joinDetail-btn-box">
-								<button type="button" class="ui-btn st3">중복확인</button>
-								<button type="button" class="ui-btn st3">휴/폐업조회</button>
+								<button type="button" class="ui-btn st3" onclick="">중복확인</button>
+								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
 							</div>
 						</div>
 					</div>
@@ -501,8 +502,10 @@ function getKFIAMember() {
           let u_no = $(this).find('.pop-result-text:eq(0)').text().split(':')[1].trim();
           let b_no = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
           
-          $('#nm').val(nm);
-          $('#u_no').val(u_no);
+          $('#pop_nm').val(nm);
+          $('#pop_u_no').val(u_no);
+          $('#pop_b_no').val(b_no);
+
           $('#b_no').val(b_no);
           
           // 팝업 닫기 필요
@@ -510,6 +513,33 @@ function getKFIAMember() {
       }
     });
   } else {
+    return false;
+  }
+}
+
+// 휴/폐업 조회 _20240227_SY
+let b_num = '';
+function chkClosed() {
+  b_num = document.querySelector('#b_no').value;
+  
+  let b_stt_cd = "";
+  let end_dt   = "";
+  
+  if(b_num.length > 0) {
+    $.ajax({
+        url: bv_url+"/m/bbs/ajax.closed_check.php",
+        type: "POST",
+        data: { "b_num" : b_num },
+        dataType: "JSON",
+        success: function(data) {
+          $('#chk_cb_res').val(data.res.b_stt_cd);
+
+          // 조회 후 결과값에 따라 화면에 어떻게 나타낼건지 작업 필요
+          alert(data.res.b_stt)
+        }
+    });
+  } else {
+    alert("사업자등록번호가 존재하지 않습니다.")
     return false;
   }
 }
@@ -658,7 +688,6 @@ function fregisterform_submit(f)
 
 	// E-mail 검사
 	if((f.w.value == "") || (f.w.value == "u" && f.mb_email.defaultValue != f.mb_email.value)) {
-    console.log(f.mb_email);
 		var msg = reg_mb_email_check();
 		if(msg) {
 			alert(msg);
@@ -667,8 +696,14 @@ function fregisterform_submit(f)
 		}
 	}
 
-	
+  // 휴/폐업 검사 _20240227_SY
+  if((f.w.value == "") || (f.w.value == "u" && f.chk_cb_res.defaultValue != f.chk_cb_res.value)) {
+    if(f.chk_cb_res.value != "01") {
+      // 휴/폐업일때 어떤 작업 필요한지 확인 필요
+    };
+  }
 
+  
 	if(typeof(f.mb_recommend) != "undefined" && f.mb_recommend.value) {
 		if(f.mb_id.value == f.mb_recommend.value) {
 			alert("본인을 추천할 수 없습니다.");
