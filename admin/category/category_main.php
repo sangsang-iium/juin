@@ -28,9 +28,9 @@ $sql_order = " order by caterank, catecode ";
 		<th scope="row">카테고리 소속</th>
 		<td>
 			<?php echo get_category_select_1('sel_ca1', $sel_ca1); ?>
-			<?php echo get_category_select_2('sel_ca2', $sel_ca2); ?>
-			<?php echo get_category_select_3('sel_ca3', $sel_ca3); ?>
-			<?php echo get_category_select_4('sel_ca4', $sel_ca4); ?>
+			<!-- <?php echo get_category_select_2('sel_ca2', $sel_ca2); ?> -->
+			<!-- <?php echo get_category_select_3('sel_ca3', $sel_ca3); ?> -->
+			<!-- <?php echo get_category_select_4('sel_ca4', $sel_ca4); ?> -->
 
 			<script>
 			$(function() {
@@ -44,7 +44,7 @@ $sql_order = " order by caterank, catecode ";
 	</tr>
 	<tr>
 		<th scope="row">카테고리 메인 이미지</th>
-		<td><input type="file" name="headimg"></td>
+		<td><input type="file" name="cateimg1"></td>
 	</tr>
 
 	</tbody>

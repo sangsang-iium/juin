@@ -102,7 +102,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu1('c10', '카테고리 관리'); ?>
 		<?php echo printMenu2('c10', ADMIN_MENU4_01, BV_ADMIN_URL.'/category.php?code=list'); ?>
 		<?php echo printMenu2('c10', ADMIN_MENU4_02, BV_ADMIN_URL.'/category.php?code=view'); ?>
-		<?php echo printMenu2('c10', ADMIN_MENU4_03, BV_ADMIN_URL.'/category.php?code=main'); ?>
+		<!-- <?php echo printMenu2('c10', ADMIN_MENU4_03, BV_ADMIN_URL.'/category.php?code=main'); ?> -->
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU5) {
@@ -117,7 +117,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('g10', ADMIN_MENU5_01, BV_ADMIN_URL.'/goods.php?code=list'); ?>
 		<?php echo printMenu2('g10', ADMIN_MENU5_18, BV_ADMIN_URL.'/goods.php?code=supply', $goods1); ?>
 		<?php echo printMenu2('g10', ADMIN_MENU5_24, BV_ADMIN_URL.'/goods.php?code=supply2', $goods2); ?>
-		<?php echo printMenu2('g10', ADMIN_MENU5_19, BV_ADMIN_URL.'/goods.php?code=userlist'); ?>
+		<!-- <?php echo printMenu2('g10', ADMIN_MENU5_19, BV_ADMIN_URL.'/goods.php?code=userlist'); ?> -->
 		<?php echo printMenu2('g10', ADMIN_MENU5_02, BV_ADMIN_URL.'/goods.php?code=type'); ?>
 		<?php echo printMenu2('g10', ADMIN_MENU5_03, BV_ADMIN_URL.'/goods.php?code=brand_list'); ?>
 		<?php echo printMenu2('g10', ADMIN_MENU5_04, BV_ADMIN_URL.'/goods.php?code=plan'); ?>

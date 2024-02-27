@@ -100,7 +100,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
     if(is_admin() || ($member['id'] == $row['mb_id'])) { // 수정, 삭제 버튼
       echo "<div class='mngArea'>";
-      echo "<a href=\"javascript:window.open('".BV_MSHOP_URL."/orderreview.php?gs_id=$row[gs_id]&me_id=$row[index_no]&w=u');\" class='ui-btn st3'>수정</a>";
+      echo "<a href=\"javascript:void(0);\" data-me-id='".$row[index_no]."' class='ui-btn st3 rv-inEdit-btn'>수정</a>";
       echo "<a href=\"".BV_MSHOP_URL."/orderreview_update.php?gs_id=$row[gs_id]&me_id=$row[index_no]&w=d&hash=$hash&p=1\" class='ui-btn st3 itemqa_delete'>삭제</a>";
       echo "</div>";
     }

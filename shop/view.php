@@ -16,7 +16,7 @@ $sql = " select a.*, b.cateuse
 			and find_in_set('$pt_id', b.catehide) = '0' ";
 $gs = sql_fetch($sql);
 if(!$gs['index_no'])
-	alert('등록된 상품이 없습니다');
+	alert('등록된 상품이 없습니다.');
 if($gs['shop_state'] || $gs['cateuse']) {
 	if(!is_seller($member['id'])) {
 		if(!is_admin())

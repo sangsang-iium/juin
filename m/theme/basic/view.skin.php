@@ -23,8 +23,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div class="prod-detailThumb">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <?php 
-        for($i = 2; $i <= 6; $i++) { 
+        <?php
+        for($i = 2; $i <= 6; $i++) {
           if($gs['simg'.$i]) {
         ?>
         <div class="swiper-slide item">
@@ -34,7 +34,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             </figure>
           </a>
         </div>
-        <?php 
+        <?php
           } //End if
         } //End for
         ?>
@@ -53,13 +53,13 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
       <button type="button" class="ui-btn share-btn"></button>
       <div class="prod-info_area">
-        <?php 
+        <?php
         // (시중가 - 할인판매가) / 시중가 X 100 = 할인률%
         $gs_amount = get_sale_price($gs['index_no']);
         $gs_sprice = $gs_sale = '';
         if($gs['normal_price'] > $gs_amount && !is_uncase($gs['index_no'])) {
           $gs_sett = ($gs['normal_price'] - $gs_amount) / $gs['normal_price'] * 100;
-          $gs_sale = number_format($gs_sett,0).'%';
+          $gs_sale = number_format($gs_sett,1).'%';
           $gs_sprice = display_price2($gs['normal_price']);
         }
         ?>
@@ -272,7 +272,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <!-- 팝업작업: 기본 소스 참고
           <a href="<?php echo BV_MSHOP_URL.'/view_user.php?gs_id='.$gs_id; ?>" class="ui-btn round moreLong">
             <span class="text">전체보기</span>
-          </a> 
+          </a>
           -->
           <button type="button" class="ui-btn round moreLong rv-all-btn">
             <span class="text">전체보기</span>
@@ -419,16 +419,16 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             <?php if(!$is_only && !$is_pr_msg && !$is_buy_only && !$is_soldout) { ?>
             <?php if($option_item || $supply_item) { ?>
             <div class="cp-option__select">
-              <?php if($option_item) { 
+              <?php if($option_item) {
                 echo $option_item; //주문옵션 : 필수옵션
               } ?>
 
-              <?php if($supply_item) { 
+              <?php if($supply_item) {
                 $supply_item; //추가구성 : 선택옵션
               } ?>
             </div>
             <?php } ?>
-            
+
 
             <!-- 선택된 옵션 시작 { -->
             <div id="option_set_list" class="cp-selected__option">
@@ -531,11 +531,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 <!-- } 리뷰 전체보기 팝업 -->
 
-<!-- 리뷰 작성 팝업 { -->
+<!-- 리뷰 전체보기 팝업 내 작성(수정) 팝업 { -->
 <div id="review-write-popup" class="popup type02 add-popup add-in-popup">
   <div class="pop-inner">
     <div class="pop-top">
-      <p class="tit">리뷰 쓰기</p>
+      <p class="tit">리뷰 작성</p>
       <button type="button" class="btn close"></button>
     </div>
     <div class="pop-content line">
@@ -545,6 +545,21 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   </div>
 </div>
 <!-- } 리뷰 작성 팝업 -->
+
+<!-- 리뷰 수정 팝업 { -->
+  <div id="review-edit-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">리뷰 수정</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- } 리뷰 수정 팝업 -->
 
 <script type="module">
 import * as f from '/src/js/function.js';
@@ -605,15 +620,46 @@ $(document).ready(function(){
     shouldOpenPopup = true;
   });
 
-  //리뷰 작성 팝업
+  //리뷰 전체보기 팝업 내 작성 팝업
   $("#review-popup").on("click", ".rv-write-btn", function () {
-    console.log("test")
     const gsId = "<?php echo $gs_id;?>";
 
     const popId = "#review-write-popup";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
     const reqData = { gs_id: gsId };
+
+    callData(popId, reqPathUrl, reqMethod, reqData);
+    shouldOpenPopup = true;
+
+    $(popId).find('.pop-top .tit').text("리뷰 작성");
+  });
+
+  //리뷰 전체보기 팝업 내 수정 팝업
+  $("#review-popup").on("click", ".rv-inEdit-btn", function () {
+    const gsId = "<?php echo $gs_id;?>";
+    const meId = $(this).data('me-id');
+
+    const popId = "#review-write-popup";
+    const reqPathUrl = "./orderreview.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId, me_id: meId, w: 'u' };
+
+    callData(popId, reqPathUrl, reqMethod, reqData);
+    shouldOpenPopup = true;
+
+    $(popId).find('.pop-top .tit').text("리뷰 수정");
+  });
+
+  //리뷰 수정 팝업
+  $(".rv-edit-btn").on("click", function () {
+    const gsId = "<?php echo $gs_id;?>";
+    const meId = $(this).data('me-id');
+
+    const popId = "#review-edit-popup";
+    const reqPathUrl = "./orderreview.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId, me_id: meId, w: 'u' };
 
     callData(popId, reqPathUrl, reqMethod, reqData);
     shouldOpenPopup = true;

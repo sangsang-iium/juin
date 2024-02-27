@@ -3,6 +3,7 @@ include_once("./_common.php");
 
 $is_seometa = 'it'; // SEO 메타태그
 
+
 // 상품의 정보를 얻음
 $sql = " select a.*, b.cateuse
 		   from shop_goods a, shop_category b
@@ -11,6 +12,7 @@ $sql = " select a.*, b.cateuse
 			and find_in_set('$pt_id', a.use_hide) = '0'
 			and find_in_set('$pt_id', b.catehide) = '0' ";
 $gs = sql_fetch($sql);
+
 if(!$gs['index_no'])
 	alert('등록된 상품이 없습니다');
 if($gs['shop_state'] || $gs['cateuse']) {

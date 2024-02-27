@@ -62,7 +62,7 @@ $pg_anchor = <<<EOF
 	<li><a href="#anc_sitfrm_ini">기본정보</a></li>
 	<li><a href="#anc_sitfrm_option">옵션정보</a></li>
 	<li><a href="#anc_sitfrm_cost">가격 및 재고</a></li>
-	<li><a href="#anc_sitfrm_pay">가맹점수수료</a></li>
+	<!-- <li><a href="#anc_sitfrm_pay">가맹점수수료</a></li> -->
 	<li><a href="#anc_sitfrm_sendcost">배송비</a></li>
 	<li><a href="#anc_sitfrm_compact">요약정보</a></li>
 	<li><a href="#anc_sitfrm_relation">관련상품</a></li>
@@ -82,6 +82,7 @@ EOF;
 <input type="hidden" name="ca_id" value="">
 <input type="hidden" name="ca_id2" value="">
 <input type="hidden" name="ca_id3" value="">
+
 
 <section id="anc_sitfrm_cate">
 <h2>카테고리</h2>
@@ -699,13 +700,13 @@ EOF;
 			<span class="fc_197 marl5">시중에 판매되는 가격 (판매가보다 크지않으면 시중가 표시안함)</span>
 		</td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<th scope="row">공급가격</th>
 		<td>
 			<input type="text" name="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
 			<span class="fc_197 marl5">사입처에서 공급받은 가격</span>
 		</td>
-	</tr>
+	</tr> -->
 	<tr>
 		<th scope="row">판매가격</th>
 		<td>
@@ -786,10 +787,10 @@ EOF;
 
 <?php echo $frm_submit; ?>
 
-<section id="anc_sitfrm_pay">
-<h2>가맹점수수료</h2>
-<?php echo $pg_anchor; ?>
-<div class="tbl_frm02">
+<!-- <section id="anc_sitfrm_pay">
+<h2>가맹점수수료</h2> -->
+<?php // echo $pg_anchor; ?>
+<!-- <div class="tbl_frm02">
 	<table>
 	<colgroup>
 		<col class="w180">
@@ -823,9 +824,9 @@ EOF;
 	</tbody>
 	</table>
 </div>
-</section>
+</section> -->
 
-<?php echo $frm_submit; ?>
+<!-- <?php echo $frm_submit; ?> -->
 
 <section id="anc_sitfrm_sendcost">
 <h2>배송비</h2>
