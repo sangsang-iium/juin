@@ -16,7 +16,6 @@
   transition: .1s;
 }
 
-
 /* top menu */
 #topMenu {display: flex; align-items: center; margin-top: 2rem; background-color: var(--color-white);}
 #topMenu .qk-menu {width: 100%;}
@@ -199,6 +198,27 @@
 .popup.add-in-popup {top: 50%; left: 55%; transition: left 0.3s ease-in-out;}
 .popup.add-in-popup.on {left: 50%;}
 .popup.add-in-popup .pop-inner .pop-top .close {right: inherit; left: 0; width: 2.08rem; height: 3.48rem; background: url('../img/arrow-left2.svg') no-repeat center/contain;}
+
+#sit_coupon .coupon-item .cp-cart-item {padding: 0;}
+#sit_coupon .coupon-item .cp-cart-body {padding-left: 0;}
+
+#sit_coupon .coupon_cau {margin-top: 1.2rem; padding: 2.8rem 2.4rem; font-size: 2rem; font-weight: 300; color: var(--color-gray2); background-color: var(--color-gray8); line-height: 1.4;}
+
+#sit_coupon .cp-list-item {display: flex; flex-flow: row wrap; padding-left: 0; padding-right: 0; margin-bottom: 0; margin-top: 1.2rem;}
+#sit_coupon .cp-list-item .coupon-lt {width: calc(100% - 12.6rem); padding: 0 2.8rem;}
+#sit_coupon .cp-list-item .coupon-rt {width: 12.6rem; border-left: 1px dashed var(--color-gray5); text-align: center;}
+#sit_coupon .cp-list-item .btn-flex {display: flex; align-items: center; justify-content: center; height: 100%;}
+#sit_coupon .cp-list-item .cp-name {font-size: 2rem;}
+#sit_coupon .cp-list-item .rate {font-size: 4rem; margin: 1.8rem 0;}
+#sit_coupon .cp-list-item .rate .unit {font-size: 2.8rem;}
+#sit_coupon .cp-list-item .use-date {font-size: 1.84rem;}
+.cp-coupon-download {}
+.cp-coupon-download .icon{display: block; width: 5.6rem; height: 5.6rem; margin: 0 auto; border-radius: 50%; background: url('../img/icon-download.png') no-repeat center/1.52rem auto, var(--color-gray5);}
+.cp-coupon-download .txt{margin-top: 1.36rem; font-size: 1.76rem; font-weight: 500; color: var(--color-gray3);}
+
+#sit_coupon .cp-list-item.on .cp-coupon-download .icon  {background-color: var(--color-main);}
+#sit_coupon .cp-list-item.on .cp-coupon-download .txt {color: var(--color-main);}
+
 
 #sod_addr .win_desc {margin: 0;}
 #sod_addr .sod_addr_li > li {position:relative; padding: 2rem 0; border-bottom:1px solid var(--color-gray10);}
