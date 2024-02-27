@@ -89,8 +89,8 @@ $agree  = preg_replace('#[^0-9]#', '', $agree);
 $agree2 = preg_replace('#[^0-9]#', '', $agree2);
 
 // add_javascript('js 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
-if($config['register_use_addr'])
-    add_javascript(BV_POSTCODE_JS, 0); //다음 주소 js
+// if($config['register_use_addr'])
+//     add_javascript(BV_POSTCODE_JS, 0); //다음 주소 js
 
 $register_action_url = BV_HTTPS_MBBS_URL.'/register_form_update.php';
 include_once(BV_MTHEME_PATH.'/register_form.skin.php');

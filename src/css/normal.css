@@ -1,6 +1,22 @@
 /* etc */
 .popup #document {overflow-y: auto; position: fixed; top: 50%; left: 50%; z-index: 500; transform: translate(-50%, -50%); width: 95%; max-height: 90%; background-color: var(--color-white);}
 
+#post_wrap {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 510;
+  width: 95%;
+  max-width: 95%;
+  height: 300px;
+  max-height: 90vh;
+  border: 1px solid;
+  transition: .1s;
+}
+
+
 /* top menu */
 #topMenu {display: flex; align-items: center; margin-top: 2rem; background-color: var(--color-white);}
 #topMenu .qk-menu {width: 100%;}
