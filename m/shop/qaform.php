@@ -5,8 +5,8 @@ if(!$is_member) {
 	alert_close("로그인 후 작성 가능합니다.");
 }
 
-$tb['title'] = '상품문의 쓰기';
-include_once(BV_MPATH."/head.sub.php");
+// $tb['title'] = '상품문의 쓰기';
+// include_once(BV_MPATH."/head.sub.php");
 
 $gs = get_goods($gs_id);
 
@@ -32,5 +32,5 @@ set_session("ss_token", $token);
 $form_action_url = BV_HTTPS_MSHOP_URL.'/qaform_update.php';
 include_once(BV_MTHEME_PATH.'/qaform.skin.php');
 
-include_once(BV_MPATH."/tail.sub.php");
+// include_once(BV_MPATH."/tail.sub.php");
 ?>

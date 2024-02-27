@@ -85,7 +85,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .frm-choice input[type='radio']:checked + label:before {border-color: var(--color-main);}
 .frm-choice input[type='radio']:checked + label:after {background: var(--color-main);}
 
-.frm-txtar {padding: 2.8rem 3.16rem; border: 1px solid var(--color-gray8); background: var(--color-gray8); font-size: 2rem; font-weight: 300; color: var(--color-gray2); resize: none;}
+.frm-txtar {padding: 2.6rem; border: 1px solid var(--color-gray4); border-radius: 0.8rem; background: var(--color-white); font-size: 2rem; font-weight: 300; color: var(--color-black2); resize: none;}
 .frm-txtar:focus {border-color: var(--color-main); box-shadow: 0 0 0.5rem var(--color-main);}
 .frm-txtar::placeholder {font-weight: 300; color: var(--color-gray3);}
 

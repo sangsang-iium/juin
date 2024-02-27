@@ -152,7 +152,7 @@
 #prod-detailTab__inquiry .iq-wtext .link {font-weight: 400; border-bottom: 1px solid var(--color-gray2);}
 #prod-detailTab__inquiry .iq-body {position: relative; margin-top: 3.6rem; padding-top: 2.8rem;}
 #prod-detailTab__inquiry .iq-body:before {content: ""; display: block; position: absolute; top: 0; left: -2.4rem; z-index: -1; width: calc(100% + 4.8rem); border-top: 0.16rem solid var(--color-gray10);}
-#prod-detailTab__inquiry .empty_box {margin-top: 2rem;}
+#prod-detailTab__inquiry .empty_box {margin-top: 2rem; margin-bottom: 3.6rem;}
 
 #prod-detailTab__dvex .dvex-title {margin-bottom: 2rem;}
 
@@ -219,6 +219,7 @@
 #sit_coupon .cp-list-item.on .cp-coupon-download .icon  {background-color: var(--color-main);}
 #sit_coupon .cp-list-item.on .cp-coupon-download .txt {color: var(--color-main);}
 
+#sit_qa_list .iq-item:first-child {padding-top: 0;}
 
 #sod_addr .win_desc {margin: 0;}
 #sod_addr .sod_addr_li > li {position:relative; padding: 2rem 0; border-bottom:1px solid var(--color-gray10);}
