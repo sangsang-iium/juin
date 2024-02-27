@@ -36,14 +36,14 @@ $(document).ready(function () {
   });
   
   // Image Upload (Preview)
-  const imgUpload = $(".img-upload-input");
-  imgUpload.on('change', function(e){
+  const imgUpload = ".img-upload-input";
+  $("#document").on('change', imgUpload, function(e){
     f.previewImage(e);
   });
 
   // Image Upload (Preview Delete)
-  const imgDelete = $('.img-upload-delete');
-  imgDelete.on('click', function(e) {
+  const imgDelete = '.img-upload-delete';
+  $("#document").on('click', imgDelete, function(e) {
     f.deleteImage(e);
     e.stopPropagation();
   });
@@ -354,6 +354,24 @@ $(document).ready(function () {
   cpSortClose.on('click', function(){
     cpSortList.removeClass('on');
     popDim.fadeOut(200);
+  });
+
+  //Review More Contents
+  const reviewItem = $(".rv-item");
+  const reviewConMoreBtn = $(".rv-content-wr .cont-more-btn");
+
+  reviewItem.each(function(){
+    let reviewCon = $(this).find(".content_in");
+    let reviewConMore = $(this).find(".cont-more-btn");
+    let reviewConMax = parseInt(reviewCon.css('max-height'));
+    
+    if(reviewCon.height() < reviewConMax) {
+      reviewConMore.remove();
+    }
+  });
+
+  reviewConMoreBtn.on('click', function(){
+    $(this).siblings('.content').addClass('auto');
   });
 
   //popup dim click event

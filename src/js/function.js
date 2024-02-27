@@ -163,6 +163,51 @@ export const popupClose = (t) => {
   t.fadeOut(200).removeClass("on");
 }
 
+/**
+ * 레이어팝업으로 불러오기
+ * @param {*} popid : 팝업 ID (#포함)
+ * @param {*} rqurl : 요청 주소 (PATH or URL)
+ * @param {*} rqm : 요청 방식 (GET or POST)
+ * @param {object} rqd : 전달 데이터
+ * @param {boolean} shouldOpenPopup : 팝업 표시 여부
+ * @returns result : 반환 데이터
+ */
+export const callData = (popid, rqurl, rqm, rqd, shouldOpenPopup = false) => {
+  let result = "";
+
+  if(rqm == "GET") {
+    $.get(rqurl, rqd)
+    .done(function(data, status) {
+      result = data;
+
+      if (shouldOpenPopup) {
+        $(popid).find(".pop-content-in").html(data);
+        $(".popDim").show().css({"z-index":"560"});
+        $(popid).fadeIn(200).addClass("on")
+      }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      console.error('Request failed:', textStatus, errorThrown);
+    });
+  } else if(rqm == "POST") {
+    $.post(rqurl, rqd)
+    .done(function(data, status) {
+      result = data;
+
+      if (shouldOpenPopup) {
+        $(popid).find(".pop-content-in").html(data);
+        $(".popDim").show().css({"z-index":"560"});
+        $(popid).fadeIn(200).addClass("on")
+      }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      console.error('Request failed:', textStatus, errorThrown);
+    });
+  }
+
+  return result;
+}
+
 // 링크 복사
 export const clipCopy = (str) => {
   var tempElement = document.createElement("textarea");
@@ -229,6 +274,8 @@ export const previewImage = (el) => {
   const imgUploadItem = imgUploadInput.parentElement;
   const imgUploadFile = imgUploadInput.files[0];
   const imgReader = new FileReader();
+
+  // console.log(imgUploadFile, "file view test");
 
   // > 파일 용량 및 확장자 체크
   if (!checkFileSize(imgUploadFile,10) || !checkFileImg(imgUploadFile.name)) {

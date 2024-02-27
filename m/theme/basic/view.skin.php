@@ -624,45 +624,6 @@ function copyLink(url) {
 }
 
 $(document).ready(function(){
-  const callData = (popid, rqurl, rqm, rqd) => {
-    let result = "";
-
-    if(rqm == "GET") {
-      $.get(rqurl, rqd)
-      .done(function(data, status) {
-        result = data;
-
-        if (shouldOpenPopup) {
-          $(popid).find(".pop-content-in").html(data);
-          $(".popDim").show().css({"z-index":"560"});
-          $(popid).fadeIn(200).addClass("on")
-        }
-      })
-      .fail(function(jqXHR, textStatus, errorThrown) {
-        console.error('Request failed:', textStatus, errorThrown);
-      });
-    } else if(rqm == "POST") {
-      $.post(rqurl, rqd)
-      .done(function(data, status) {
-        result = data;
-
-        if (shouldOpenPopup) {
-          $(popid).find(".pop-content-in").html(data);
-          $(".popDim").show().css({"z-index":"560"});
-          $(popid).fadeIn(200).addClass("on")
-        }
-      })
-      .fail(function(jqXHR, textStatus, errorThrown) {
-        console.error('Request failed:', textStatus, errorThrown);
-      });
-    }
-
-    return result;
-  }
-
-  let shouldOpenPopup = false;
-
-  
   //할인쿠폰받기 팝업
   $(".cupon-downlad-btn").on("click", function () {
     const gsId = "<?php echo $gs_id;?>";
@@ -672,8 +633,7 @@ $(document).ready(function(){
     const reqMethod = "GET";
     const reqData = { gs_id: gsId };
 
-    callData(popId, reqPathUrl, reqMethod, reqData);
-    shouldOpenPopup = true;
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
 
   //리뷰 전체보기 팝업
@@ -685,8 +645,7 @@ $(document).ready(function(){
     const reqMethod = "GET";
     const reqData = { gs_id: gsId };
 
-    callData(popId, reqPathUrl, reqMethod, reqData);
-    shouldOpenPopup = true;
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
 
   //리뷰 전체보기 팝업 내 작성 팝업
@@ -698,8 +657,7 @@ $(document).ready(function(){
     const reqMethod = "GET";
     const reqData = { gs_id: gsId };
 
-    callData(popId, reqPathUrl, reqMethod, reqData);
-    shouldOpenPopup = true;
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
 
     $(popId).find('.pop-top .tit').text("리뷰 작성");
   });
@@ -714,8 +672,7 @@ $(document).ready(function(){
     const reqMethod = "GET";
     const reqData = { gs_id: gsId, me_id: meId, w: 'u' };
 
-    callData(popId, reqPathUrl, reqMethod, reqData);
-    shouldOpenPopup = true;
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
 
     $(popId).find('.pop-top .tit').text("리뷰 수정");
   });
@@ -730,8 +687,7 @@ $(document).ready(function(){
     const reqMethod = "GET";
     const reqData = { gs_id: gsId, me_id: meId, w: 'u' };
 
-    callData(popId, reqPathUrl, reqMethod, reqData);
-    shouldOpenPopup = true;
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
 
   //상품문의작성 팝업
@@ -743,8 +699,7 @@ $(document).ready(function(){
     const reqMethod = "GET";
     const reqData = { gs_id: gsId };
 
-    callData(popId, reqPathUrl, reqMethod, reqData);
-    shouldOpenPopup = true;
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
 
   //상품문의목록 팝업
@@ -756,8 +711,7 @@ $(document).ready(function(){
     const reqMethod = "GET";
     const reqData = { gs_id: gsId };
 
-    callData(popId, reqPathUrl, reqMethod, reqData);
-    shouldOpenPopup = true;
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
 });
 </script>
