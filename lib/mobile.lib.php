@@ -617,7 +617,7 @@ function mobile_goods_review($name, $cnt, $gs_id, $rows=10)
     echo "</div>";
     // } 이미지가 있다면
 
-    echo "<div class='content'>$row[memo]</div>";
+    echo "<div class='content'><div class='content_in'>$row[memo]</div></div>";
     echo "<button type='button' class='cont-more-btn'>더보기+</button>";
     echo "</div>";
 

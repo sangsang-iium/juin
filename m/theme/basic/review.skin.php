@@ -67,10 +67,24 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 						</div>
 						<!-- } 이미지 없을 경우 생략가능 -->
 						<div class="content">
-							<?php echo cut_str($row['memo'], 55); ?>
+              <div class="tRow2 content_in">
+                <?php 
+                echo $row['memo']; 
+                // echo cut_str($row['memo'], 55); 
+                ?>
+              </div>
 						</div>
 						<button type="button" class="cont-more-btn">더보기+</button>
 					</div>
+          <?php 
+          if(is_admin() || ($member['id'] == $row['mb_id'])) { // 수정, 삭제 버튼 
+            $hash = md5($row['index_no'].$row['reg_time'].$row['mb_id']);
+          ?>
+          <div class="mngArea">
+            <a href="javascript:void(0);" data-gs-id="<?php echo $row['gs_id'];?>" data-me-id="<?php echo $row['index_no'];?>" class="ui-btn st3 rv-edit-btn">수정</a>
+            <a href="<?php echo BV_MSHOP_URL."/orderreview_update.php?gs_id=".$row[gs_id]."&me_id=".$row[index_no]."&w=d&hash=".$hash;?>" class="ui-btn st3 itemqa_delete">삭제</a>
+          </div>
+          <?php } ?>
 				</div>
 			</div>
 			<?php } ?>
@@ -80,3 +94,37 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		<?php } ?>
 	</div>
 </div>
+
+<!-- 리뷰 수정 팝업 { -->
+<div id="review-edit-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">리뷰 수정</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- } 리뷰 수정 팝업 -->
+
+<script type="module">
+import * as f from '/src/js/function.js';
+
+//리뷰 수정 팝업
+$(".rv-edit-btn").on("click", function () {
+  const gsId = $(this).data('gs-id');
+  const meId = $(this).data('me-id');
+
+  console.log(gsId, meId, "wu")
+
+  const popId = "#review-edit-popup";
+  const reqPathUrl = "<?php echo BV_MSHOP_URL;?>/orderreview.php";
+  const reqMethod = "GET";
+  const reqData = { gs_id: gsId, me_id: meId, w: 'u' };
+
+  f.callData(popId, reqPathUrl, reqMethod, reqData, true);
+});
+</script>
