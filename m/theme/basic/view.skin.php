@@ -81,7 +81,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
       <?php if(!$is_only && !$is_pr_msg && !$is_buy_only && !$is_soldout && $cp_used) { ?>
       <div class="prod-cupon_area">
-        <?php echo $cp_btn; ?>
+        <!--팝업작업: 기본 소스 참고
+        <?php // echo $cp_btn; ?>
+        -->
+
+        <button type="button" class="ui-btn round st2 cupon-downlad-btn" data="stIconRight"><span class="txt">할인 쿠폰 받고 구매하기</span><i class="icn"></i></button>
       </div>
       <?php } ?>
     </div>
@@ -294,7 +298,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
       <div class="container prod-detailInfo__body">
         <div class="iq-head">
+          <!--팝업작업: 기본 소스 참고
           <a href="<?php echo BV_MSHOP_URL.'/qaform.php?gs_id='.$gs_id; ?>" class="ui-btn round st2 iq-wbtn">문의하기</a>
+          -->
+          <button type="button" class="ui-btn round st2 iq-wbtn">문의하기</button>
           <p class="iq-wtext">배송 및 주문관련 문의는 <a href="<?php echo BV_MBBS_URL.'/qna_list.php'; ?>" class="link">FAQ 또는 1:1문의</a>를 이용해주세요.</p>
         </div>
         <div class="iq-body">
@@ -311,6 +318,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <div class="iq-list">
             <?php echo mobile_goods_qa("Q&A", $itemqa_count, $gs_id); ?>
           </div>
+          <button type="button" class="ui-btn round moreLong iq-all-btn">
+            <span class="text">전체보기</span>
+          </button>
         </div>
       </div>
     </div>
@@ -516,6 +526,21 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   </div>
 </div>
 
+<!-- 할인쿠폰받기 팝업 { -->
+  <div id="coupon-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">쿠폰 받기</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- } 할인쿠폰받기 팝업 -->
+
 <!-- 리뷰 전체보기 팝업 { -->
 <div id="review-popup" class="popup type02 add-popup">
   <div class="pop-inner">
@@ -544,7 +569,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     </div>
   </div>
 </div>
-<!-- } 리뷰 작성 팝업 -->
+<!-- } 리뷰 전체보기 팝업 내 작성(수정) 팝업 -->
 
 <!-- 리뷰 수정 팝업 { -->
   <div id="review-edit-popup" class="popup type02 add-popup">
@@ -560,6 +585,36 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   </div>
 </div>
 <!-- } 리뷰 수정 팝업 -->
+
+<!-- 상품문의작성 팝업 { -->
+  <div id="inquiry-write-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">문의 작성</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- } 상품문의작성 팝업 -->
+
+<!-- 상품문의목록 팝업 { -->
+  <div id="inquiry-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">문의 목록</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- } 상품문의목록 팝업 -->
 
 <script type="module">
 import * as f from '/src/js/function.js';
@@ -606,6 +661,20 @@ $(document).ready(function(){
   }
 
   let shouldOpenPopup = false;
+
+  
+  //할인쿠폰받기 팝업
+  $(".cupon-downlad-btn").on("click", function () {
+    const gsId = "<?php echo $gs_id;?>";
+
+    const popId = "#coupon-popup";
+    const reqPathUrl = "./pop_coupon.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId };
+
+    callData(popId, reqPathUrl, reqMethod, reqData);
+    shouldOpenPopup = true;
+  });
 
   //리뷰 전체보기 팝업
   $(".rv-all-btn").on("click", function () {
@@ -660,6 +729,32 @@ $(document).ready(function(){
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
     const reqData = { gs_id: gsId, me_id: meId, w: 'u' };
+
+    callData(popId, reqPathUrl, reqMethod, reqData);
+    shouldOpenPopup = true;
+  });
+
+  //상품문의작성 팝업
+  $(".iq-wbtn").on("click", function () {
+    const gsId = "<?php echo $gs_id;?>";
+
+    const popId = "#inquiry-write-popup";
+    const reqPathUrl = "./qaform.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId };
+
+    callData(popId, reqPathUrl, reqMethod, reqData);
+    shouldOpenPopup = true;
+  });
+
+  //상품문의목록 팝업
+  $(".iq-all-btn").on("click", function () {
+    const gsId = "<?php echo $gs_id;?>";
+
+    const popId = "#inquiry-popup";
+    const reqPathUrl = "./qalist.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId };
 
     callData(popId, reqPathUrl, reqMethod, reqData);
     shouldOpenPopup = true;

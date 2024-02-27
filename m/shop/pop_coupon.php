@@ -9,8 +9,8 @@ if(!$is_member) {
 	alert_close('회원만 이용가능한 서비스 입니다');
 }
 
-$tb['title'] = "쿠폰 다운받기";
-include_once(BV_MPATH."/head.sub.php");
+// $tb['title'] = "쿠폰 다운받기";
+// include_once(BV_MPATH."/head.sub.php");
 
 $gs = get_goods($gs_id);
 $cp_list = is_used_coupon('0', $gs_id, $member['id']);
@@ -38,5 +38,5 @@ set_session('ss_token', $token);
 
 include_once(BV_MTHEME_PATH.'/pop_coupon.skin.php');
 
-include_once(BV_MPATH."/tail.sub.php");
+// include_once(BV_MPATH."/tail.sub.php");
 ?>
