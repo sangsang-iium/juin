@@ -81,7 +81,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
       <?php if(!$is_only && !$is_pr_msg && !$is_buy_only && !$is_soldout && $cp_used) { ?>
       <div class="prod-cupon_area">
-        <?php echo $cp_btn; ?>
+        <!--팝업작업: 기본 소스 참고
+        <?php // echo $cp_btn; ?>
+        -->
+
+        <button type="button" class="ui-btn round st2 cupon-downlad-btn" data="stIconRight"><span class="txt">할인 쿠폰 받고 구매하기</span><i class="icn"></i></button>
       </div>
       <?php } ?>
     </div>
@@ -516,6 +520,21 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   </div>
 </div>
 
+<!-- 할인쿠폰받기 팝업 { -->
+  <div id="coupon-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">쿠폰 받기</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- } 할인쿠폰받기 팝업 -->
+
 <!-- 리뷰 전체보기 팝업 { -->
 <div id="review-popup" class="popup type02 add-popup">
   <div class="pop-inner">
@@ -544,7 +563,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     </div>
   </div>
 </div>
-<!-- } 리뷰 작성 팝업 -->
+<!-- } 리뷰 전체보기 팝업 내 작성(수정) 팝업 -->
 
 <!-- 리뷰 수정 팝업 { -->
   <div id="review-edit-popup" class="popup type02 add-popup">
@@ -606,6 +625,20 @@ $(document).ready(function(){
   }
 
   let shouldOpenPopup = false;
+
+  
+  //할인쿠폰받기 팝업
+  $(".cupon-downlad-btn").on("click", function () {
+    const gsId = "<?php echo $gs_id;?>";
+
+    const popId = "#coupon-popup";
+    const reqPathUrl = "./pop_coupon.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId };
+
+    callData(popId, reqPathUrl, reqMethod, reqData);
+    shouldOpenPopup = true;
+  });
 
   //리뷰 전체보기 팝업
   $(".rv-all-btn").on("click", function () {
