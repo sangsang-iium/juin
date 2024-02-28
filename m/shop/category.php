@@ -29,15 +29,12 @@ include_once("./_head.php");
         <ul data-d1="<?php echo $cateHtml['cateArr'][$i] ?>" class="all-ct-depth2-list">
           <?php
             $cateHtml2 = category_depth('2', $cateHtml['cateArr'][$i]);
-            for ($j = 0; $j < count($cateHtml2['cateArr'][$i]); $j++) {
+            for ($j = 0; $j < count($cateHtml2['cateArr']); $j++) {
           ?>
           <li>
-            <?php echo $cateHtml2['html_head'][$j] ?>
+            <?php echo $cateHtml2['html_head'][$j]; ?>
             <ul class="all-ct-depth3-list">
-              <?php
-              for ($k = 0; $k < count($cateHtml2['html']); $k++) {
-                echo $cateHtml2['html'][$k];
-               } ?>
+              <?php echo $cateHtml2['html'][$j]; ?>
             </ul>
           </li>
           <?php } ?>

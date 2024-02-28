@@ -1,5 +1,7 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
+
+$previous_page_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
 ?>
 
 <div id="contents" class="sub-contents login">
@@ -11,6 +13,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			<!-- <div class="mb_login"> -->
 				<form name="flogin" action="<?php echo $login_action_url; ?>" onsubmit="return flogin_submit(this);" method="post">
 				<input type="hidden" name="url" value="<?php echo $login_url; ?>">
+				<input type="hidden" name="ref_url" value="<?php echo $previous_page_url; ?>">
 				<section class="login_fs">
         	<div class="login-input">
 						<label for="login_id" class="sound_only">회원아이디</label>
@@ -60,7 +63,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 						<label for="od_id" class="sound_only">주문번호</label>
 						<input type="text" name="od_id" class="frm-input" id="od_id" placeholder="주문번호">
 						<label for="od_pwd" class="sound_only">비밀번호</label>
-						<input type="password" name="od_pwd" class="frm-input" id="od_pwd" placeholder="비밀번호">	
+						<input type="password" name="od_pwd" class="frm-input" id="od_pwd" placeholder="비밀번호">
         	</div>
         	<div class="login-btn">
 						<button type="submit" class="ui-btn round stBlack login-btn">확인</button>

@@ -2,7 +2,7 @@
 if(!defined('_BLUEVATION_')) exit;
 
 if(!$is_member) {
-	goto_url(BV_BBS_URL.'/login.php?url='.$urlencode);
+	goto_url(BV_MBBS_URL.'/login.php?url='.$urlencode);
 }
 
 // admin 세션 변수에 등록
