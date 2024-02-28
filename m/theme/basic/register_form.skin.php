@@ -391,41 +391,41 @@ function execDaumPostcode() {
 </script>
 
 <script>
-  // 아이디 중복검사 _20240223_SY
-  function chk_id() {
-    let idFocus = document.querySelector('#reg_mb_id');
-    let getId   = document.querySelector('#reg_mb_id').value;
-    let chkId   = document.querySelector('#chk_id_res');
-    let idValue = chkId.value
+// 아이디 중복검사 _20240223_SY
+function chk_id() {
+  let idFocus = document.querySelector('#reg_mb_id');
+  let getId   = document.querySelector('#reg_mb_id').value;
+  let chkId   = document.querySelector('#chk_id_res');
+  let idValue = chkId.value
 
-    if(idValue == 0) {
 
-      if(getId.length > 2) {
-        $.ajax({
-          url: bv_url+"/m/bbs/ajax.register_chkId.php",
-          type: "POST",
-          data: { "id" : getId },
-          dataType: "JSON",
-          success: function(data) {
-            sessionStorage.setItem("chkId", data.res );
-            sessionStorage.setItem("ID", getId );
-            
-            if(data.res == 'pass') {
-              alert('사용가능한 아이디 입니다.');
-            } else if(data.res == "reject") {
-              alert('사용할 수 없는 아이디입니다.');
-              idFocus.focus();
-              return false;
-            }
-            console.log(sessionStorage)
+    if(getId.length > 2) {
+      $.ajax({
+        url: bv_url+"/m/bbs/ajax.register_chkId.php",
+        type: "POST",
+        data: { "id" : getId },
+        dataType: "JSON",
+        success: function(data) {
+          // 세션 추가 _20240228_SY
+          sessionStorage.setItem("chkId", data.res );
+          sessionStorage.setItem("ID", getId );
+          
+          if(data.res == 'pass') {
+            alert('사용가능한 아이디 입니다.');
+            chkId.value = '1';
+          } else if(data.res == "reject") {
+            alert('사용할 수 없는 아이디입니다.');
+            chkId.value = '0';
+            idFocus.focus();
+            return false;
           }
-        });
-      } else {
-        alert('회원아이디는 최소 3글자 이상 입력하세요.')
-        return false;
-      }
+        }
+      });
+    } else {
+      alert('회원아이디는 최소 3글자 이상 입력하세요.')
+      return false;
     }
-  }
+}
 
 // 전화번호 하이픈(-) _20240226_SY
 const autoHyphen2 = (target) => { 
@@ -636,14 +636,26 @@ function fregisterform_submit(f)
 	}
 
   // 회원아이디 중복확인 여부 _20240223_SY
+  let ss_Id     = sessionStorage.getItem("ID");
+  let ss_Id_chk = sessionStorage.getItem("chkId");
+  
   if(f.w.value == "") {
     if(f.chk_id_res.value == 0) {
       alert("아이디 중복을 확인해 주십시오.");
 			f.mb_id.focus();
 			return false;
     }
+
+    // 세션 추가 _20240228_SY
+    if(f.chk_id_res.value == 1) {
+      if(ss_Id != f.reg_mb_id.value) {
+        alert("아이디 중복을 확인해 주십시오");
+        f.mb_id.focus();
+        return false;
+      }
+    }
   }
-  
+
 
 	if(f.w.value == "") {
 		if(f.mb_password.value.length < 4) {
@@ -751,7 +763,7 @@ function fregisterform_submit(f)
 
 	document.getElementById("btn_submit").disabled = "disabled";
 
-    return true;
+    return false;
 }
 </script>
 <!-- } 회원정보 입력/수정 끝 -->
