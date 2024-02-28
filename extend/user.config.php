@@ -285,12 +285,12 @@ function category_depth($depth, $upcate = ""){
   }
 
   $data = array(
-    cateArr => $cateArr,
-    cateArrUp => $cateArrUp,
-    cateNameArr => $cateNameArr,
-    cateImg => $cateImg,
-    html => $htmlArr,
-    html_head => $htmlHeadArr
+    'cateArr' => $cateArr,
+    'cateArrUp' => $cateArrUp,
+    'cateNameArr' => $cateNameArr,
+    'cateImg' => $cateImg,
+    'html' => $htmlArr,
+    'html_head' => $htmlHeadArr
   );
 
   return $data;
