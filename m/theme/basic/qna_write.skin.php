@@ -127,14 +127,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 					<div class="form-head">
 						<p class="title">이메일<b>*</b></p>
 					</div>
-					<div class="form-body email">
-						<input type="text" name="" id="" class="frm-input" placeholder="이메일을 입력해주세요.">
-						<span class="at">@</span>
-						<select name="" id="" class="frm-select">
-							<option value="">선택하세요.</option>
-							<option value="">옵션 A</option>
-							<option value="">옵션 B</option>
-						</select>
+					<div class="form-body">
+						<input type="text" name="" id="" class="frm-input w-per100" placeholder="이메일을 입력해주세요.">
 						<div class="frm-choice">
 							<input type="checkbox" name="email_send_yes" value="1" id="email_send_yes" class="css-checkbox lrg">
 							<label for="email_send_yes">답변 내용을 메일로 받아보시겠습니까?</label>
