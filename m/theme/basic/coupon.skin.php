@@ -101,8 +101,31 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		</div>
 	</div>
 
-	<!-- 쿠폰 등록 폼 { -->
-	<?php include_once(BV_MSHOP_PATH."/gift.php"); ?>
+	<!-- 쿠폰 등록 폼 (개발시 gift.php 활용) { -->
+	<?php //include_once(BV_MSHOP_PATH."/gift.php"); ?>
+  <div class="cp-form">
+    <div class="container">
+      <div class="form-row">
+        <form name="fcouponcard" action="">
+          <div class="form-head">
+            <p class="title">쿠폰인증</p>
+          </div>
+          <div class="form-body coupon">
+            <input type="text" name="gi_num1" id="gi_num1" class="gi_num frm-input" maxlength="4" onkeyup="if(this.value.length==4) document.fcouponcard.gi_num2.focus();">
+            <span class="hyphen">-</span>
+            <input type="text" name="gi_num2" id="gi_num2" class="gi_num frm-input" maxlength="4" onkeyup="if(this.value.length==4) document.fcouponcard.gi_num3.focus();">
+            <span class="hyphen">-</span>
+            <input type="text" name="gi_num3" id="gi_num3" class="gi_num frm-input" maxlength="4" onkeyup="if(this.value.length==4) document.fcouponcard.gi_num4.focus();">
+            <span class="hyphen">-</span>
+            <input type="text" name="gi_num4" id="gi_num4" class="gi_num frm-input" maxlength="4">		
+          </div>
+          <div class="cp-btn">
+            <button type="submit" id="btn_submit" class="btn wset">쿠폰등록</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 	<!-- } 쿠폰 등록 폼 -->
 	
 	<div class="cp-tab-wrap">
