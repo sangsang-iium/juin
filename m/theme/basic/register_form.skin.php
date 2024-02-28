@@ -121,9 +121,9 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-head">
 							<p class="title"><label for="reg_mb_email">이메일</label><b>*</b></p>
 						</div>
-						<div class="form-body email">
+						<div class="form-body">
 							<input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
-							<input type="text" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input required" size="40" maxlength="100" placeholder="이메일을 입력해주세요.">
+							<input type="text" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요.">
 							<!-- <span class="at">@</span>
 							<select name="" class="frm-select">
 								<option value="">선택하세요.</option>
@@ -407,14 +407,17 @@ function execDaumPostcode() {
           data: { "id" : getId },
           dataType: "JSON",
           success: function(data) {
+            sessionStorage.setItem("chkId", data.res );
+            sessionStorage.setItem("ID", getId );
+            
             if(data.res == 'pass') {
-              chkId.value = '1';
               alert('사용가능한 아이디 입니다.');
             } else if(data.res == "reject") {
               alert('사용할 수 없는 아이디입니다.');
               idFocus.focus();
               return false;
             }
+            console.log(sessionStorage)
           }
         });
       } else {
@@ -485,7 +488,6 @@ function getKFIAMember() {
       data: { "b_num" : search_words },
       dataType: "JSON",
       success: function(data) {
-        console.log("외식업중앙회원 조회");
         console.log(data)
         let html = '';
 
@@ -557,8 +559,13 @@ function chkDuBnum() {
         data: { "b_num" : b_num },
         dataType: "JSON",
         success: function(data) {
-          console.log("사업자번호 중복체크");
           console.log(data)
+          if(data.res > 0 ) {
+            alert("이미 등록된 사업자등록번호입니다")
+            return false;
+          } else {
+
+          }
         }
     });
   } else {

@@ -4,13 +4,12 @@ include_once("./_common.php");
 $b_no = $_POST['b_num'];
 
 
-$res = [];
-
-$msg = "DB 데이터 조회 작업 필요";
-
 $du_sel = " SELECT * FROM shop_member WHERE ju_b_num = '{$b_no}' ";
 $du_res = sql_query($du_sel);
 $du_cnt = sql_num_rows($du_res);
+
+$msg = "사업자등록번호 중복 확인";
+$res = $du_cnt;
 
 
 echo json_encode(array("res" => $res, "msg" => $msg));
