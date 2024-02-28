@@ -700,13 +700,13 @@ EOF;
 			<span class="fc_197 marl5">시중에 판매되는 가격 (판매가보다 크지않으면 시중가 표시안함)</span>
 		</td>
 	</tr>
-	<!-- <tr>
+	<tr>
 		<th scope="row">공급가격</th>
 		<td>
 			<input type="text" name="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
 			<span class="fc_197 marl5">사입처에서 공급받은 가격</span>
 		</td>
-	</tr> -->
+	</tr>
 	<tr>
 		<th scope="row">판매가격</th>
 		<td>

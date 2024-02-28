@@ -7,7 +7,7 @@ if(is_admin() && !$boardid) {
 }
 
 if(!$is_member) {
-	alert('로그인 후 이용하세요.', BV_BBS_URL.'/login.php');
+	alert('로그인 후 이용하세요.', BV_MBBS_URL.'/login.php');
 }
 
 if(is_partner($member['id'])) {
@@ -21,7 +21,7 @@ if(is_partner($member['id'])) {
 		$partner_term = '<em>(가맹점 만료일: '.$member['term_date'].')</em>';
 	}
 } else {
-	$admin_shop_url = set_http($config['admin_shop_url']);
+	$admin_shop_url = "/";
 }
 ?>
 <!doctype html>

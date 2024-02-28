@@ -83,6 +83,9 @@ if($url) {
 } else  {
     $link = BV_MURL;
 }
+if($ref_url){
+    $link = $ref_url;
+}
 
 goto_url($link);
 ?>
