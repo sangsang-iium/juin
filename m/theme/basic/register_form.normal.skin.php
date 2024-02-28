@@ -16,9 +16,8 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
 <input type="hidden" name="cert_no" value="">
 
-<input type="hidden" name="reg_type" value="1">
+<input type="hidden" name="reg_type" value="2">
 <input type="hidden" name="chk_id_res" value="0" id="chk_id_res">
-<input type="hidden" name="chk_cb_res" value="0" id="chk_cb_res">
 
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
@@ -162,143 +161,7 @@ if(!defined('_BLUEVATION_')) exit;
 					<?php } ?>
 				</div>
 			</div>
-
-      
 			<!-- } 기본정보 -->
-			<!-- 중앙회원정보 { -->
-			<div class="joinDetail-box">
-				<div class="joinDetail-head">
-					<p class="joinDetail-title">중앙회원정보</p>
-					<button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">중앙회원 조회하기</button>
-					<!-- 중앙회원 조회하기 팝업 { -->
-          <div class="popup type01" id="popMemberSch">
-            <div class="pop-inner">
-              <div class="pop-top">
-                <p class="tit">중앙회원 조회하기</p>
-              </div>
-							<div class="pop-search input-button">
-								<input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="고유번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-								<button type="button" class="ui-btn st3" onclick="getKFIAMember()">회원조회</button>
-							</div>
-              <div class="pop-content line">
-                <div class="pop-content-in" style="height: 500px;">
-                  <div class="pop-result">
-                    <!-- <div class="pop-result-item">
-                      <p class="pop-result-title">회원이름영역</p>
-                      <p class="pop-result-text">고유번호 : 22012617052419</p>
-                      <p class="pop-result-text">사업자등록번호 : 000-00-00000</p>
-                    </div>
-                    <div class="pop-result-item">
-                      <p class="pop-result-title">회원이름영역</p>
-                      <p class="pop-result-text">고유번호 : 22012617052419</p>
-                      <p class="pop-result-text">사업자등록번호 : 000-00-00000</p>
-                    </div> -->
-                  </div>
-                </div>
-              </div>
-              <div class="pop-btm">
-                <button type="button" class="ui-btn round stBlack" id="info_ok">확인</button>
-                <button type="button" class="ui-btn round stWhite close">취소</button>
-              </div>
-            </div>
-          </div>
-					<!-- } 중앙회원 조회하기 팝업 -->
-				</div>
-				<div class="joinDetail-body">
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">이름<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" readonly value="홍길동">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">고유번호<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="pop_u_no" id="pop_u_no" class="frm-input w-per100" readonly value="123456789">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">사업자등록번호<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="pop_b_no" id="pop_b_no" class="frm-input w-per100" readonly value="123-45-67890">
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- } 중앙회원정보 -->
-			<!-- 사업자정보 { -->
-			<div class="joinDetail-box">
-				<div class="joinDetail-head">
-					<p class="joinDetail-title">사업자정보</p>
-					<button type="button" class="ui-btn st3 w-per100">사업자 정보 불러오기</button>
-				</div>
-				<div class="joinDetail-body">
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">사업자등록번호<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" readonly value="">
-							<div class="joinDetail-btn-box">
-								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
-								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
-							</div>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">상호명<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="상호명">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">업종/업태<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="업종/업태">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">대표자<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="대표자">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">대표번호<b>*</b></p>
-						</div>
-						<div class="form-body phone">
-							<input type="text" name="" class="frm-input" readonly value="010">
-							<span class="hyphen">-</span>
-							<input type="text" name="" class="frm-input" readonly value="1234">
-							<span class="hyphen">-</span>
-							<input type="text" name="" class="frm-input" readonly value="5678">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">주소</p>
-						</div>
-						<div class="form-body address">
-							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
-							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- } 사업자정보 -->
 		</div>
 	</div>
 	<div class="cp-btnbar">
@@ -474,107 +337,6 @@ function phoneNumber(value) {
   return result.filter((val) => val).join("-");
 }
 
-
-// 외식업중앙회원 조회하기 _20240227_SY
-function getKFIAMember() {
-  let search_input = document.querySelector('#KFIA_search');
-  let search_words = search_input.value;
-
-  let search_resIn = document.querySelector('.pop-result');
-  
-  if(search_words.length > 0) {
-    $.ajax({
-      url: bv_url+"/m/bbs/ajax.KFIA_info.php",
-      type: "POST",
-      data: { "b_num" : search_words },
-      dataType: "JSON",
-      success: function(data) {
-        console.log(data)
-        let html = '';
-
-        for(let i=0; i<data.res.length; i++) {
-          html += '<div class="pop-result-item">';
-          html += '<p class="pop-result-title">' + data.res[i].nm + '</p>';
-          html += '<p class="pop-result-text">고유번호 : ' + data.res[i].u_no + '</p>';
-          html += '<p class="pop-result-text">사업자등록번호 : ' + data.res[i].b_no + '</p>';
-          html += '</div>';
-        }
-        search_resIn.innerHTML = html;
-        
-        $('.pop-result').on('click', '.pop-result-item', function() {  
-          let nm   = $(this).find('.pop-result-title').text();
-          let u_no = $(this).find('.pop-result-text:eq(0)').text().split(':')[1].trim();
-          let b_no = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
-          
-          $('#pop_nm').val(nm);
-          $('#pop_u_no').val(u_no);
-          $('#pop_b_no').val(b_no);
-
-          $('#b_no').val(b_no);
-          
-          // 팝업 닫기 필요
-        });
-      }
-    });
-  } else {
-    return false;
-  }
-}
-
-// 휴/폐업 조회 _20240227_SY
-let b_num = '';
-function chkClosed() {
-  b_num = document.querySelector('#b_no').value;
-  
-  let b_stt_cd = "";
-  let end_dt   = "";
-  
-  if(b_num.length > 0) {
-    $.ajax({
-        url: bv_url+"/m/bbs/ajax.closed_check.php",
-        type: "POST",
-        data: { "b_num" : b_num },
-        dataType: "JSON",
-        success: function(data) {
-          $('#chk_cb_res').val(data.res.b_stt_cd);
-
-          // 조회 후 결과값에 따라 화면에 어떻게 나타낼건지 작업 필요
-          alert(data.res.b_stt)
-        }
-    });
-  } else {
-    alert("사업자등록번호가 존재하지 않습니다.")
-    return false;
-  }
-}
-
-
-// 사업자번호 중복체크 _20240227_SY
-function chkDuBnum() {
-  b_num = document.querySelector('#b_no').value;
-
-  if(b_num.length > 0) {
-    $.ajax({
-        url: bv_url+"/m/bbs/ajax.duplication_check.php",
-        type: "POST",
-        data: { "b_num" : b_num },
-        dataType: "JSON",
-        success: function(data) {
-          console.log(data)
-          if(data.res > 0 ) {
-            alert("이미 등록된 사업자등록번호입니다")
-            return false;
-          } else {
-
-          }
-        }
-    });
-  } else {
-    alert("사업자등록번호가 존재하지 않습니다.")
-    return false;
-  }
-}
-
 </script>
 
 <script>
@@ -738,13 +500,6 @@ function fregisterform_submit(f)
 			return false;
 		}
 	}
-
-  // 휴/폐업 검사 _20240227_SY
-  if((f.w.value == "") || (f.w.value == "u" && f.chk_cb_res.defaultValue != f.chk_cb_res.value)) {
-    if(f.chk_cb_res.value != "01") {
-      // 휴/폐업일때 어떤 작업 필요한지 확인 필요
-    };
-  }
 
   
 	if(typeof(f.mb_recommend) != "undefined" && f.mb_recommend.value) {
