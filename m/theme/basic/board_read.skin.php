@@ -7,7 +7,15 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 		<div class="txt-board-view" id="notice">
 			<div class="tb-view-title">
-				<p class="tit"><?php echo $bo_subject; ?></p>
+				<p class="tit">
+          <?php 
+          if($write['btype'] != '1') {
+            echo $bo_subject;
+          } else {
+            echo '<strong class="fc_eb7">[공지]</strong> '.$bo_subject;
+          }
+          ?>
+        </p>
 				<p class="date"><?php echo $bo_wdate; ?></p>
 			</div>
 			<div class="tb-view-cont">

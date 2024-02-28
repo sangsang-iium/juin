@@ -499,7 +499,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .txt-board-cnt .cnt {font-weight: 700; font-size: 2.16rem; color: var(--color-main);}
 .txt-board {border-top: 0.16rem solid #e9e9e9;}
 .txt-board-item {border-bottom: 0.16rem solid #e9e9e9; padding: 3.2rem 0 2.8rem;}
-.txt-board-item .link {display: block; background: url('/src/img/txt-board-arr-icon.png') no-repeat center right 0.76rem/1.52rem; padding-right: 2.1rem;}
+.txt-board-item .link {display: block; background: url('/src/img/txt-board-arr-icon.png') no-repeat center right 0.76rem/1.52rem; padding-right: 4rem;}
 .txt-board-item .link .tit {font-weight: 400; font-size: 2.16rem; color: #0f0f0f; line-height: 1;}
 .txt-board-item .link .date {font-weight: 400; font-size: 2rem; color: #999; line-height: 1; padding-top: 1.8rem;}
 
@@ -534,7 +534,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 /* 자주묻는질문 게시글 */
 .qa-board {border-top: 0.16rem solid #e9e9e9;}
 .qa-board-item {padding: 3.2rem 0 2rem; border-bottom: 0.16rem solid #e9e9e9;}
-.qa-board-item .q-cont {position: relative; padding-right: 1.52rem; cursor: pointer;}
+.qa-board-item .q-cont {position: relative; padding-right: 4rem; cursor: pointer;}
 .qa-board-item .q-cont .ic {position: absolute; top: 1.98rem; right: 0; width: 1.52rem; transition: .3s;}
 .qa-board-item .q-cont .cate {font-weight: 400; font-size: 2rem; color: #999;}
 .qa-board-item .q-cont .tit {font-weight: 400; font-size: 2.16rem; color: #0f0f0f; line-height: 1.48; margin-bottom: 1.2rem;}

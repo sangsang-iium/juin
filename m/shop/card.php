@@ -37,7 +37,7 @@ include_once("./_head.php");
         </div>
       </div>
       <div class="btn_confirm">
-        <button type="button" class="ui-btn round stBlack add-btn">결제카드 추가</button>
+        <a href="./card_write.php" class="ui-btn round stBlack add-btn">결제카드 추가</a>
       </div>
     </form>
   </div>
