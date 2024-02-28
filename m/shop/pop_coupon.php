@@ -6,7 +6,7 @@ if(!$config['coupon_yes']) {
 }
 
 if(!$is_member) {
-	alert_close('회원만 이용가능한 서비스 입니다');
+    alert_close('회원만 이용가능한 서비스 입니다');
 }
 
 // $tb['title'] = "쿠폰 다운받기";
@@ -25,7 +25,7 @@ $sql = " select count(*) as cnt $sql_common $sql_search ";
 $row = sql_fetch($sql);
 $total_count = $row['cnt'];
 
-$rows = 5;
+$rows = 1005;
 $total_page = ceil($total_count / $rows); // 전체 페이지 계산
 if($page == "") { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
