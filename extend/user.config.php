@@ -250,6 +250,7 @@ function category_depth($depth, $upcate = ""){
       $cateArrUp[] = $row['upcate'];
     }
   } else {
+    //ddd
     for ($i = 0; $row = sql_fetch_array($res); $i++) {
       $html      = "";
       $html_head = "";
