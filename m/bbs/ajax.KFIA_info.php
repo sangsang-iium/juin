@@ -14,6 +14,6 @@ for($i=0; $i<2; $i++) {
   ];
 }
 
-$msg = "API 및 데이터 작업 필요";
+$msg = "외식업중앙회원 API 및 데이터 작업 필요";
 
 echo json_encode(array("res" => $res, "msg" => $msg));
