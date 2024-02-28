@@ -10,6 +10,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			</div>
 			<div class="joinAgree-body">
 				<form  name="fregister" id="fregister" action="<?php echo $register_action_url; ?>" onsubmit="return fregister_submit(this);" method="POST" autocomplete="off">
+          
+          <!-- 일반 & 사업자 구분 _20240228_SY -->
+          <input type="hidden" name="reg_type" value="<?php echo $_GET['type']?>">
+
 					<?php if($default['de_sns_login_use']) { ?>
 					<div class="sns_box">
 						<h3 class="fr_tit">SNS 계정으로 가입</h3>

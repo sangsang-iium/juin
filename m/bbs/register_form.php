@@ -92,8 +92,15 @@ $agree2 = preg_replace('#[^0-9]#', '', $agree2);
 // if($config['register_use_addr'])
 //     add_javascript(BV_POSTCODE_JS, 0); //다음 주소 js
 
+
 $register_action_url = BV_HTTPS_MBBS_URL.'/register_form_update.php';
-include_once(BV_MTHEME_PATH.'/register_form.skin.php');
+
+// 일반 & 사업자 구분 _20240228_SY
+if($reg_type == '2') {
+  include_once(BV_MTHEME_PATH.'/register_form.normal.skin.php');
+} else {
+  include_once(BV_MTHEME_PATH.'/register_form.skin.php');
+}
 
 include_once("./_tail.php");
 ?>
