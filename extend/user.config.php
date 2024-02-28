@@ -186,3 +186,111 @@ function shuffle2() {
 
   return $shuffle;
 }
+
+function category_depth($depth, $upcate = ""){
+  if(!$depth) {
+    return false;
+  }
+  $AND = "";
+  switch ($depth) {
+    case 1:
+      $catecodeLength = 3;
+      $AND = "";
+      break;
+    case 2:
+      $catecodeLength = 6;
+      $AND = "AND upcate = '{$upcate}'";
+      break;
+    case 3:
+      $catecodeLength = 9;
+      $AND = "AND upcate = '{$upcate}'";
+      break;
+    case 4:
+      $catecodeLength = 12;
+      $AND = "AND upcate = '{$upcate}'";
+      break;
+
+  }
+  // $sql_chk = "SELECT * FROM shop_category WHERE catecode = '{$upcate}' ORDER BY caterank asc";
+  // $row_chk = sql_fetch($sql_chk);
+
+  $sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = {$catecodeLength} {$AND} ORDER BY caterank asc";
+  $res = sql_query($sql);
+  $maxRow = sql_num_rows($res);
+
+  if($maxRow > 0){
+    for($i = 0; $row = sql_fetch_array($res); $i++) {
+      $html      = "";
+      $html_head = "";
+      if($depth == 1){
+        if( $i == 0 ){
+          $html .= "<li data-d1='{$row['catecode']}' class='active'>{$row['catename']}</li>";
+        } else {
+          $html .= "<li data-d1='{$row['catecode']}' class=''>{$row['catename']}</li>";
+        }
+      } else {
+        $sql2 = "SELECT * FROM shop_category WHERE catecode = '{$upcate}'";
+        $row2 = sql_fetch($sql2);
+        if( $i == 0 ){
+          $html_head .="<a href='/m/shop/list.php?ca_id={$upcate}'>";
+          $html_head .="  <span class='ic'><img src='/data/category/{$row2['cateimg1']}' alt=''></span>";
+          $html_head .="  <span>{$row2['catename']}</span>";
+          $html_head .="  <span class='ic-right'><img src='/src/img/ct-dep2-right.png' alt=''></span>";
+          $html_head .="</a>";
+          $html .= "<li><a href='/m/shop/list.php?ca_id={$row['catecode']}'>{$row['catename']}</a></li>";
+        } else {
+          $html .= "<li><a href='/m/shop/list.php?ca_id={$row['catecode']}'>{$row['catename']}</a></li>";
+        }
+      }
+      $htmlArr[] = $html;
+      $htmlHeadArr[] = $html_head;
+      $cateArr[] = $row['catecode'];
+      $cateNameArr[] = $row['catename'];
+      $cateImg[] = $row['cateimg1'];
+      $cateArrUp[] = $row['upcate'];
+    }
+  } else {
+    for ($i = 0; $row = sql_fetch_array($res); $i++) {
+      $html      = "";
+      $html_head = "";
+      if ($depth == 1) {
+        if ($i == 0) {
+          $html .= "<li data-d1='{$row['catecode']}' class='active'>{$row['catename']}</li>";
+        } else {
+          $html .= "<li data-d1='{$row['catecode']}' class=''>{$row['catename']}</li>";
+        }
+      } else {
+        $sql2 = "SELECT * FROM shop_category WHERE catecode = '{$upcate}'";
+        $row2 = sql_fetch($sql2);
+        if ($i == 0) {
+          $html_head .= "<a href='/m/shop/list.php?ca_id={$upcate}'>";
+          $html_head .= "  <span class='ic'><img src='/data/category/{$row2['cateimg1']}' alt=''></span>";
+          $html_head .= "  <span>{$row2['catename']}</span>";
+          $html_head .= "  <span class='ic-right'><img src='/src/img/ct-dep2-right.png' alt=''></span>";
+          $html_head .= "</a>";
+          $html .= "<li><a href='/m/shop/list.php?ca_id={$row['catecode']}'>{$row['catename']}</a></li>";
+        } else {
+          $html .= "<li><a href='/m/shop/list.php?ca_id={$row['catecode']}'>{$row['catename']}</a></li>";
+        }
+      }
+      $htmlArr[]     = $html;
+      $htmlHeadArr[] = $html_head;
+      $cateArr[]     = $row['catecode'];
+      $cateNameArr[] = $row['catename'];
+      $cateImg[]     = $row['cateimg1'];
+      $cateArrUp[]   = $row['upcate'];
+    }
+
+  }
+
+  $data = array(
+    cateArr => $cateArr,
+    cateArrUp => $cateArrUp,
+    cateNameArr => $cateNameArr,
+    cateImg => $cateImg,
+    html => $htmlArr,
+    html_head => $htmlHeadArr
+  );
+
+  return $data;
+}

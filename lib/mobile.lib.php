@@ -149,6 +149,8 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
       $it_sprice = display_price2($row['normal_price']);
     }
 
+		$it_today = date("Y-m-d 23:59:59");
+
     echo "<div class=\"swiper-slide cp-item time\">\n"; // 추가된 부분: 각 슬라이드의 시작
     echo "<div class=\"round50 prod-thumb_area\">\n";
     echo "<a href=\"{$it_href}\" class=\"thumb\">\n";
@@ -157,7 +159,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
     echo "<div class=\"cp-timer\">\n";
     echo "<div class=\"cp-timer-wrap white\">\n";
     echo "<i class=\"cp-timer__icon\"></i>\n";
-    echo "<span class=\"cp-timer__num\" data-deadline=\"2024-02-26 23:59:59\">00:00:00</span>\n"; // 타이머 추가
+    echo "<span class=\"cp-timer__num\" data-deadline=\"{$it_today}\">00:00:00</span>\n"; // 타이머 추가
                                                                                                   // echo "<span class=\"cp-timer__text\">남음</span>\n";
     echo "</div>\n";
     echo "</div>\n";
@@ -200,7 +202,7 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 		$it_sprice = $sale = '';
 		if($row['normal_price'] > $it_amount && !is_uncase($row['index_no'])) {
 			$sett = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
-			$sale = number_format($sett,0).'%';
+			$sale = number_format($sett,1).'%';
 			$it_sprice = display_price2($row['normal_price']);
 		}
 
@@ -1126,6 +1128,9 @@ function mobile_banner_rows($code, $mb_id)
 }
 
 function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale, $it_price, $it_size) {
+
+	$coupon_chk = coupon_chk($it_idx);
+
   echo "<div class=\"swiper-slide cp-item\">\n";
   echo "<div class=\"round50 prod-thumb_area\">\n";
   echo "<span class=\"num\"></span>\n";
@@ -1143,9 +1148,74 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
   echo "</p>\n";
   echo "</a>\n";
   echo "<div class=\"prod-tag_area\">\n";
-  echo "<span class=\"tag coupon\">쿠폰</span>\n";
+	if(!$coupon_chk['is_only'] && !$coupon_chk['is_pr_msg'] && !$coupon_chk['is_buy_only'] && !$coupon_chk['is_soldout'] && $coupon_chk['cp_used']){
+		echo "<span class=\"tag coupon\">쿠폰</span>\n";
+	}
   echo "<span class=\"tag freeDelivery\">무료배송</span>\n";
   echo "</div>\n";
   echo "</div>\n";
+}
+
+function coupon_chk($it_idx){
+	global $member;
+
+		// 상품의 정보를 얻음
+	$sql = " select a.*, b.cateuse
+					from shop_goods a, shop_category b
+					where a.index_no = '$it_idx'
+						and a.ca_id = b.catecode";
+	$gs = sql_fetch($sql);
+	// 수량체크
+	if (!$gs['stock_mod']) {
+		$gs['stock_qty'] = 999999999;
+	}
+
+	if ($gs['odr_min']) // 최소구매수량
+	{
+		$odr_min = (int) $gs['odr_min'];
+	} else {
+		$odr_min = 1;
+	}
+
+	if ($gs['odr_max']) // 최대구매수량
+	{
+		$odr_max = (int) $gs['odr_max'];
+	} else {
+		$odr_max = 0;
+	}
+
+	$is_only       = false;
+	$is_buy_only   = false;
+	$is_pr_msg     = false;
+	$is_social_end = false;
+	$is_social_ing = false;
+
+	// 품절체크
+	$is_soldout = is_soldout($it_idx);
+
+	if ($is_soldout) {
+		$script_msg = "현재상품은 품절 상품입니다.";
+	} else {
+		if ($gs['price_msg']) {
+			$is_pr_msg  = true;
+		} else if ($gs['buy_only'] == 1 && $member['grade'] > $gs['buy_level']) {
+			$is_only    = true;
+		} else if ($gs['buy_only'] == 0 && $member['grade'] > $gs['buy_level']) {
+			if (!$is_member) {
+				$is_buy_only = true;
+			}
+		}
+	}
+	$cp_used = is_used_coupon('0', $it_idx, $member['id']);
+
+	$data = array(
+		is_only => $is_only,
+		is_pr_msg => $is_pr_msg,
+		is_buy_only => $is_buy_only,
+		is_soldout => $is_soldout,
+		cp_used => $cp_used
+	);
+
+	return $data;
 }
 ?>
