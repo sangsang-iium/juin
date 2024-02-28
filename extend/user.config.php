@@ -283,7 +283,7 @@ function category_depth($depth, $upcate = ""){
     }
 
   }
-
+//@@
   $data = array(
     'cateArr' => $cateArr,
     'cateArrUp' => $cateArrUp,
