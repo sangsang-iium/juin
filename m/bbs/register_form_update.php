@@ -5,9 +5,6 @@ include_once(BV_LIB_PATH.'/mailer.lib.php');
 
 check_demo();
 
-print_r2($_POST);
-exit;
-
 if(!($w == '' || $w == 'u')) {
     alert('w 값이 제대로 넘어오지 않았습니다.');
 }
@@ -31,8 +28,20 @@ $mb_password_re = trim($_POST['mb_password_re']);
 $mb_name        = trim($_POST['mb_name']);
 $mb_email       = trim($_POST['mb_email']);
 $mb_tel         = isset($_POST['mb_tel'])           ? trim($_POST['mb_tel'])         : "";
-$mb_hp          = isset($_POST['mb_hp'])            ? trim($_POST['mb_hp'])          : "";
-$mb_zip			= isset($_POST['mb_zip'])           ? trim($_POST['mb_zip'])		 : "";
+
+// mb_hp 배열로 들어옴 _20240228_SY
+if(is_array($_POST['mb_hp'])) {
+  foreach($_POST['mb_hp'] as $val) {
+    if(!next($_POST['mb_hp'])) {
+      $mb_hp .= trim($val) ;
+    } else {
+      $mb_hp .= trim($val)."-";
+    }
+  }
+} else {
+  $mb_hp        = isset($_POST['mb_hp'])            ? trim($_POST['mb_hp'])          : "";
+}
+$mb_zip			    = isset($_POST['mb_zip'])           ? trim($_POST['mb_zip'])		     : "";
 $mb_addr1       = isset($_POST['mb_addr1'])         ? trim($_POST['mb_addr1'])       : "";
 $mb_addr2       = isset($_POST['mb_addr2'])         ? trim($_POST['mb_addr2'])       : "";
 $mb_addr3       = isset($_POST['mb_addr3'])         ? trim($_POST['mb_addr3'])       : "";
@@ -44,7 +53,7 @@ $mb_sms         = isset($_POST['mb_sms'])           ? trim($_POST['mb_sms'])    
 $mb_name        = clean_xss_tags($mb_name);
 $mb_email       = get_email_address($mb_email);
 $mb_tel         = clean_xss_tags($mb_tel);
-$mb_zip			= preg_replace('/[^0-9]/', '', $mb_zip);
+$mb_zip			    = preg_replace('/[^0-9]/', '', $mb_zip);
 $mb_addr1       = clean_xss_tags($mb_addr1);
 $mb_addr2       = clean_xss_tags($mb_addr2);
 $mb_addr3       = clean_xss_tags($mb_addr3);
@@ -183,6 +192,13 @@ if($w == '') {
 	$value['login_ip']		= $_SERVER['REMOTE_ADDR']; //최근 로그인IP
 	$value['mailser']		= $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 	$value['smsser']		= $mb_sms ? $mb_sms : 'N'; //SMS를 수신
+
+  if($reg_type == 1) {
+    $value['ju_name']       = $pop_nm;
+    $value['ju_unique_num'] = $pop_u_no;
+    $value['ju_b_num']      = $b_no;
+    $value['ju_closed']     = $chk_cb_res;
+  }
 
     // 관리자인증을 사용하지 않는다면 인증으로 간주함.
     if(!$config['cert_admin_yes'])
