@@ -197,10 +197,10 @@ EOF;
 		<th scope="row">상품명</th>
 		<td><input type="text" name="gname" value="<?php echo $gs['gname']; ?>" required itemname="상품명" class="required frm_input" size="80"></td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<th scope="row">짧은설명</th>
 		<td><input type="text" name="explan" value="<?php echo $gs['explan']; ?>" class="frm_input" size="80"></td>
-	</tr>
+	</tr> -->
 	<tr>
 		<th scope="row">검색키워드</th>
 		<td>
