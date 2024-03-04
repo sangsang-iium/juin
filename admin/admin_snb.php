@@ -236,6 +236,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('q10', ADMIN_MENU10_06, BV_ADMIN_URL.'/config.php?code=sms'); ?>
 		<?php echo printMenu2('q10', ADMIN_MENU10_07, BV_ADMIN_URL.'/config.php?code=supply'); ?>
 		<?php echo printMenu2('q10', ADMIN_MENU10_08, BV_ADMIN_URL.'/config.php?code=super'); ?>
+		<?php echo printMenu2('q10', '앱 관리', BV_ADMIN_URL.'/config.php?code=app'); ?>
 		<?php echo printMenu1('q20', '결제관리'); ?>
 		<?php echo printMenu2('q20', ADMIN_MENU10_09, BV_ADMIN_URL.'/config.php?code=pg'); ?>
 		<?php //echo printMenu2('q20', ADMIN_MENU10_10, BV_ADMIN_URL.'/config.php?code=kakaopay'); ?>
