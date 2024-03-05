@@ -62,6 +62,36 @@ var bv_is_member = "<?php echo $is_member; ?>";
 var bv_is_mobile = "<?php echo BV_IS_MOBILE; ?>";
 var bv_cookie_domain = "<?php echo BV_COOKIE_DOMAIN; ?>";
 </script>
+<!-- APP WebView 통신 _20240305_SY -->
+<script>
+function putWebInfo() {
+
+  let webInfo = {
+    "is_member" : bv_is_member,
+    "cart_cnt"  : "<?php echo get_cart_count(); ?>",
+    "cate_info" : [
+      { code: "001001", name: "베스트" },
+      { code: "001002", name: "특가" }
+    ]
+  };
+  console.log(webInfo)
+  
+
+  // if (isMobile.any()) {
+  //   if (isMobile.Android()) {
+  //     SBC.showToast(id);
+  //   }
+  //   if (isMobile.IOS()) {
+  //     window.webkit.messageHandlers.sbc.postMessage(id);
+  //   }
+  // }
+  }
+
+document.addEventListener("DOMContentLoaded", function() {
+  putWebInfo();
+});
+</script>
+
 <script src="<?php echo BV_JS_URL; ?>/jquery-1.8.3.min.js"></script>
 <script src="<?php echo BV_JS_URL; ?>/jquery-ui-1.10.3.custom.js"></script>
 <script src="<?php echo BV_JS_URL; ?>/slick.js"></script>
