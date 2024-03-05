@@ -132,8 +132,8 @@ if(!sql_num_rows($result))
 				</div>
 			</div>
 			<div class="btn_confirm">
-				<button type="button" id="mod_option_close" class="btn_medium btn-buy white">취소</button>
-				<input type="submit" value="확인" class="btn_medium btn-buy">
+				<button type="button" id="mod_option_close" class="ui-btn btn-cancel white">취소</button>
+				<input type="submit" value="확인" class="ui-btn btn-confirm">
 			</div>
 		</div>
 		</form>
