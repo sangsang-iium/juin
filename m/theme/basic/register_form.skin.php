@@ -23,6 +23,7 @@ if(!defined('_BLUEVATION_')) exit;
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
 		<div class="container">
+
 			<!-- 기본정보 { -->
 			<div class="joinDetail-box">
 				<div class="joinDetail-head">
@@ -162,10 +163,9 @@ if(!defined('_BLUEVATION_')) exit;
 					<?php } ?>
 				</div>
 			</div>
-
-      
 			<!-- } 기본정보 -->
-			<!-- 중앙회원정보 { -->
+
+			<!-- 중앙회원정보 / 개인 회원가입일 경우 노출 { -->
 			<div class="joinDetail-box">
 				<div class="joinDetail-head">
 					<p class="joinDetail-title">중앙회원정보</p>
@@ -231,14 +231,33 @@ if(!defined('_BLUEVATION_')) exit;
 					</div>
 				</div>
 			</div>
-			<!-- } 중앙회원정보 -->
+			<!-- } 중앙회원정보 / 개인 회원가입일 경우 노출 -->
+
 			<!-- 사업자정보 { -->
 			<div class="joinDetail-box">
 				<div class="joinDetail-head">
 					<p class="joinDetail-title">사업자정보</p>
+					<!-- 개인 회원가입일 경우 노출 { -->
 					<button type="button" class="ui-btn st3 w-per100">사업자 정보 불러오기</button>
+					<!-- } 개인 회원가입일 경우 노출 -->
 				</div>
 				<div class="joinDetail-body">
+					<!-- 사업자 회원가입일 경우 노출 { -->
+					<div class="form-row">
+						<div class="form-head">
+							<p class="title">사업자등록번호<b>*</b></p>
+						</div>
+						<div class="form-body">
+							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" readonly value="">
+							<div class="joinDetail-btn-box joinDetail-btn-box3">
+								<button type="button" class="ui-btn st3" onclick="">중앙회원조회</button>
+								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
+								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
+							</div>
+						</div>
+					</div>
+					<!-- } 사업자 회원가입일 경우 노출 -->
+					<!-- 개인 회원가입일 경우 { -->
 					<div class="form-row">
 						<div class="form-head">
 							<p class="title">사업자등록번호<b>*</b></p>
@@ -296,6 +315,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
 						</div>
 					</div>
+					<!-- } 개인 회원가입일 경우 -->
 				</div>
 			</div>
 			<!-- } 사업자정보 -->
