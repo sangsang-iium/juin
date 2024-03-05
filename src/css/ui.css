@@ -173,7 +173,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .cp-quick-category .icon {display: block; overflow: hidden; position: relative; width: 100%; height: 0; padding-bottom: 100%; border-radius: 50%; background-color: var(--color-gray);}
 .cp-quick-category .icon.st1 {background-color: var(--color-main);}
 .cp-quick-category .icon img {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 90%;}
-.cp-quick-category .name {margin-top: 1.2rem; font-size: 1.92rem; font-weight: 400; color: var(--color-black3); line-height: 1.25;}
+.cp-quick-category .name {margin-top: 1.2rem; font-size: 1.92rem; font-weight: 400; color: var(--color-black3); line-height: 1.25; word-break: break-all;}
 
 .cp-quick-category .viewAll .icon:before {content: ""; display: block; width: 8rem; border-top: 0.4rem solid #999; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);}
 .cp-quick-category .viewAll .icon:after {content: ""; display: block; height: 8rem; border-left: 0.4rem solid #999; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);}
