@@ -1,6 +1,6 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
-
+//testCommit
 require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 ?>
 
