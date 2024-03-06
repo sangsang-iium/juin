@@ -1,5 +1,8 @@
 <?php
-if(!defined('_BLUEVATION_')) exit; // 개별 페이지 접근 불가
+if (!defined('_BLUEVATION_')) {
+  exit;
+}
+// 개별 페이지 접근 불가
 class CallApi {
 
   private $apiKey;
@@ -49,7 +52,7 @@ class CallApi {
 
     if ($method == "POST") {
       $options[CURLOPT_CUSTOMREQUEST] = 'POST';
-      $options[CURLOPT_POSTFIELDS]    = $queryParams; // 수정된 부분
+      $options[CURLOPT_POSTFIELDS]    = $queryParams;
     }
 
     // 추가적인 헤더 설정
@@ -187,26 +190,26 @@ function shuffle2() {
   return $shuffle;
 }
 
-function category_depth($depth, $upcate = ""){
-  if(!$depth) {
+function category_depth($depth, $upcate = "") {
+  if (!$depth) {
     return false;
   }
   $catecodeLength = 3 * $depth;
-  $AND = $depth > 1 ? "AND upcate = '{$upcate}'" : "";
+  $AND            = $depth > 1 ? "AND upcate = '{$upcate}'" : "";
 
   $sql_chk = "SELECT * FROM shop_category WHERE catecode = '{$upcate}' ORDER BY caterank asc";
   $res_chk = sql_query($sql_chk);
 
-  $sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = {$catecodeLength} {$AND} ORDER BY caterank asc";
-  $res = sql_query($sql);
+  $sql    = "SELECT * FROM shop_category WHERE LENGTH(catecode) = {$catecodeLength} {$AND} ORDER BY caterank asc";
+  $res    = sql_query($sql);
   $maxRow = sql_num_rows($res);
 
-  if($maxRow > 0){
-    for($i = 0; $row = sql_fetch_array($res); $i++) {
+  if ($maxRow > 0) {
+    for ($i = 0; $row = sql_fetch_array($res); $i++) {
       $html      = "";
       $html_head = "";
-      if($depth == 1){
-        if( $i == 0 ){
+      if ($depth == 1) {
+        if ($i == 0) {
           $html .= "<li data-d1='{$row['catecode']}' class='active'>{$row['catename']}</li>";
         } else {
           $html .= "<li data-d1='{$row['catecode']}' class=''>{$row['catename']}</li>";
@@ -214,30 +217,28 @@ function category_depth($depth, $upcate = ""){
       } else {
         $sql2 = "SELECT * FROM shop_category WHERE catecode = '{$upcate}'";
         $row2 = sql_fetch($sql2);
-        if( $i == 0 ){
-          $html_head .="<a href='/m/shop/list.php?ca_id={$upcate}'>";
-          $html_head .="  <span class='ic'><img src='/data/category/{$row2['cateimg1']}' alt=''></span>";
-          $html_head .="  <span>{$row2['catename']}</span>";
-          $html_head .="  <span class='ic-right'><img src='/src/img/ct-dep2-right.png' alt=''></span>";
-          $html_head .="</a>";
+        if ($i == 0) {
+          $html_head .= "<a href='/m/shop/list.php?ca_id={$upcate}'>";
+          $html_head .= "  <span class='ic'><img src='/data/category/{$row2['cateimg1']}' alt=''></span>";
+          $html_head .= "  <span>{$row2['catename']}</span>";
+          $html_head .= "  <span class='ic-right'><img src='/src/img/ct-dep2-right.png' alt=''></span>";
+          $html_head .= "</a>";
           $html .= "<li><a href='/m/shop/list.php?ca_id={$row['catecode']}'>{$row['catename']}</a></li>";
         } else {
           $html .= "<li><a href='/m/shop/list.php?ca_id={$row['catecode']}'>{$row['catename']}</a></li>";
         }
       }
-      $htmlArr[] = $html;
+      $htmlArr[]     = $html;
       $htmlHeadArr[] = $html_head;
-      $cateArr[] = $row['catecode'];
+      $cateArr[]     = $row['catecode'];
       $cateNameArr[] = $row['catename'];
-      $cateImg[] = $row['cateimg1'];
-      $cateArrUp[] = $row['upcate'];
+      $cateImg[]     = $row['cateimg1'];
+      $cateArrUp[]   = $row['upcate'];
     }
   } else {
     for ($j = 0; $row2 = sql_fetch_array($res_chk); $j++) {
       $html      = "";
       $html_head = "";
-
-
 
       if ($j == 0) {
         $html_head .= "<a href='/m/shop/list.php?ca_id={$upcate}'>";
@@ -261,13 +262,62 @@ function category_depth($depth, $upcate = ""){
 
   }
   $data = array(
-    'cateArr' => $cateArr,
-    'cateArrUp' => $cateArrUp,
+    'cateArr'     => $cateArr,
+    'cateArrUp'   => $cateArrUp,
     'cateNameArr' => $cateNameArr,
-    'cateImg' => $cateImg,
-    'html' => $htmlArr,
-    'html_head' => $htmlHeadArr
+    'cateImg'     => $cateImg,
+    'html'        => $htmlArr,
+    'html_head'   => $htmlHeadArr,
   );
 
   return $data;
+}
+
+// 토스 자동결제(빌링)
+class Tosspay {
+  private $uid;
+  private $auth = "test_ak_ZORzdMaqN3wQd5k6ygr5AkYXQGwy";
+
+  function __construct() {
+    $this->uid = uniqid();
+  }
+
+  function getBilling($card, $y, $m, $pw, $birth, $name, $email) {
+
+    $secretKey = 'test_ak_ZORzdMaqN3wQd5k6ygr5AkYXQGwy';
+
+    $url = 'https://api.tosspayments.com/v1/billing/authorizations/card';
+
+    $data = array(
+      'customerKey'         => $this->uid,
+      'cardNumber'          => $card,
+      'cardExpirationYear'  => $y,
+      'cardExpirationMonth' => $m,
+      'cardPassword'        => $pw,
+      'customerBirthday'    => $birth,
+      'customerName'        => $name,
+      'customerEmail'       => $email
+    );
+
+    $credential = base64_encode($secretKey . ':');
+
+    $curlHandle = curl_init($url);
+
+    curl_setopt_array($curlHandle, [
+      CURLOPT_POST           => TRUE,
+      CURLOPT_RETURNTRANSFER => TRUE,
+      CURLOPT_HTTPHEADER     => [
+        'Authorization: Basic ' . $credential,
+        'Content-Type: application/json',
+      ],
+      CURLOPT_POSTFIELDS     => json_encode($data),
+    ]);
+
+    $response = curl_exec($curlHandle);
+
+    $httpCode     = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
+    $isSuccess    = $httpCode == 200;
+
+    return $responseJson = json_decode($response);
+  }
 }
