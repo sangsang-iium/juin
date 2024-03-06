@@ -107,6 +107,23 @@ for($i=0; $i<count($gs_id); $i++) {
 		$baesong_price2 = 0;
 	}
 
+
+	if($_POST['zip']){
+		$order_info_query = "
+				, zip					= '{$_POST['zip']}'
+				 , addr1				= '{$_POST['addr1']}'
+				 , addr2				= '{$_POST['addr2']}'
+				 , addr3				= '{$_POST['addr3']}'
+		";
+	}else{
+		$order_info_query = "
+				 , zip				= '{$_POST['b_zip']}'
+				 , addr1				= '{$_POST['b_addr1']}'
+				 , addr2				= '{$_POST['b_addr2']}'
+				 , addr3				= '{$_POST['b_addr3']}'
+		";
+	}
+
 	$sql = "insert into shop_order
 			   set od_id				= '{$od_id}'
 			     , od_no				= '{$od_no}'
@@ -115,18 +132,19 @@ for($i=0; $i<count($gs_id); $i++) {
 				 , cellphone			= '{$_POST['cellphone']}'
 				 , telephone			= '{$_POST['telephone']}'
 				 , email				= '{$_POST['email']}'
-				 , zip					= '{$_POST['zip']}'
-				 , addr1				= '{$_POST['addr1']}'
-				 , addr2				= '{$_POST['addr2']}'
-				 , addr3				= '{$_POST['addr3']}'
+				 
+				  $order_info_query
+				 
 				 , addr_jibeon			= '{$_POST['addr_jibeon']}'
 				 , b_name				= '{$_POST['b_name']}'
 				 , b_cellphone			= '{$_POST['b_cellphone']}'
 				 , b_telephone			= '{$_POST['b_telephone']}'
+				 
 				 , b_zip				= '{$_POST['b_zip']}'
 				 , b_addr1				= '{$_POST['b_addr1']}'
 				 , b_addr2				= '{$_POST['b_addr2']}'
 				 , b_addr3				= '{$_POST['b_addr3']}'
+
 				 , b_addr_jibeon		= '{$_POST['b_addr_jibeon']}'
 				 , gs_id				= '{$gs_id[$i]}'
 				 , gs_notax				= '{$gs_notax[$i]}'
