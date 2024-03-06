@@ -1,14 +1,23 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
+//echo test;
 ?>
 
 <form name="forderaddress" method="post">
-<div id="sod_addr" class="new_win">
-  <div class="win_desc">
-    <ul class="sod_addr_li">
-      <?php
+    <div id="sod_addr" class="new_win">
+        <div class="win_desc">
+            <ul class="sod_addr_li">
+                <?php
       $sep = chr(30);
       $k = 0; $ar_mk = array();
+
+	$mb_id = $member['id'];
+
+
+	$sql = "select * from b_address where mb_id='$mb_id' ";
+	//echo $sql;
+	$result = sql_query($sql);
+
       for($i=0; $row=sql_fetch_array($result); $i++)
       {
         $info = array();
@@ -19,7 +28,7 @@ if(!defined('_BLUEVATION_')) exit;
         $info[] = $row['b_addr1'];
         $info[] = $row['b_addr2'];
         $info[] = $row['b_addr3'];
-        $info[] = $row['b_addr_jibeon'];
+
 
         $addr = implode($sep, $info);			
         $addr = get_text($addr);
@@ -28,27 +37,35 @@ if(!defined('_BLUEVATION_')) exit;
           $k++;
           $ar_mk[$i] = $addr;
       ?>
-      <li>
-        <div class="od-dtn-info">
-          <p class="od-dtn__name">
-            <span class="nm"><?php echo $row['b_name']; ?></span>
-            <span class="tag">기본배송지</span>
-          </p>
-          <p class="od-dtn__addr"><?php echo print_address($row['b_addr1'], $row['b_addr2'], $row['b_addr3'], $row['b_addr_jibeon']); ?></p>
-          <p class="od-dtn__contact"><?php echo $row['b_cellphone']; ?></p>
-        </div>
-        <ul class="od-dtn-btns">
-          <li class="mngArea">
-            <button type="button" class="ui-btn st3">수정</button>
-            <button type="button" class="ui-btn st3">삭제</button>
-          </li>
-          <li class="mngArea">
-            <input type="hidden" value="<?php echo $addr; ?>">
-            <button type="button" id="btn_sel" class="ui-btn st3 sel_address">선택</button>
-          </li>
-        </ul>
-      </li>
-      <?php
+                <li>
+                    <div class="od-dtn-info">
+                        <p class="od-dtn__name">
+                            <span class="nm"><?php echo $row['b_name']; ?></span>
+                            <?php
+								if($row['b_base']=="1"){
+								?>
+								<span class="tag">기본배송지</span>
+								<?php
+								}
+							?>
+							
+	
+                        </p>
+                        <p class="od-dtn__addr"><?php echo print_address($row['b_addr1'], $row['b_addr2'], $row['b_addr3'], $row['b_addr_jibeon']); ?></p>
+                        <p class="od-dtn__contact"><?php echo $row['b_cellphone']; ?></p>
+                    </div>
+                    <ul class="od-dtn-btns">
+                        <li class="mngArea">
+                            <button type="button" class="ui-btn st3">수정</button>
+                            <button type="button" class="ui-btn st3">삭제</button>
+                        </li>
+                        <li class="mngArea">
+                            <input type="hidden" value="<?php echo $addr; ?>">
+                            <button type="button" id="btn_sel" class="ui-btn st3 sel_address">선택</button>
+                        </li>
+                    </ul>
+                </li>
+                <?php
         }
       }
 
@@ -56,70 +73,75 @@ if(!defined('_BLUEVATION_')) exit;
         echo '<li class="empty_list">자료가 없습니다.</li>';
       }
       ?>
-    </ul>
-  </div>
+            </ul>
+        </div>
 
-  <div class="pop-btm">
-    <button type="button" class="ui-btn round stBlack od-dtn__add">배송지 추가</button>
-  </div>
-</div>
+        <div class="pop-btm">
+            <button type="button" class="ui-btn round stBlack od-dtn__add">배송지 추가</button>
+        </div>
+    </div>
 </form>
 
 <script>
-// 도서/산간 배송비 검사
-function calculate_sendcost(code) {
-  $.post(
-    bv_shop_url+"/ordersendcost.php",
-    { zipcode: code },
-    function(data) {
-      $("input[name=baesong_price2]").val(data);
-      $("#send_cost2").text(number_format(String(data)));
+    // 도서/산간 배송비 검사
+    function calculate_sendcost(code) {
+        $.post(bv_shop_url + "/ordersendcost.php", {
+            zipcode: code
+        }, function (data) {
+            $("input[name=baesong_price2]").val(data);
+            $("#send_cost2").text(number_format(String(data)));
 
-      calculate_order_price();
-    }
-  );
-}
-
-function calculate_order_price() {
-  var sell_price = parseInt($("input[name=org_price]").val()); // 합계금액
-	var send_cost2 = parseInt($("input[name=baesong_price2]").val()); // 추가배송비
-	var mb_coupon  = parseInt($("input[name=coupon_total]").val()); // 쿠폰할인
-	var mb_point   = parseInt($("input[name=use_point]").val().replace(/[^0-9]/g, "")); //포인트결제
-	var tot_price  = sell_price + send_cost2 - (mb_coupon + mb_point);
-
-	$("input[name=tot_price]").val(number_format(String(tot_price)));
-}
-
-$(function() {
-  $(".sel_address").on("click", function () {
-    var addr = $(this).siblings("input").val().split(String.fromCharCode(30));
-
-    // var f = window.opener.buyform;
-    var f = buyform;
-
-    f.b_name.value = addr[0];
-    f.b_cellphone.value = addr[1];
-    f.b_telephone.value = addr[2];
-    f.b_zip.value = addr[3];
-    f.b_addr1.value = addr[4];
-    f.b_addr2.value = addr[5];
-    f.b_addr3.value = addr[6];
-    f.b_addr_jibeon.value = addr[7];
-
-    $("#od-dtn .od-dtn__name .nm").text(addr[0]);
-    $("#od-dtn .od-dtn__addr").text(addr[4]+", "+addr[5]+" "+addr[6]);
-    $("#od-dtn .od-dtn__contact").text(addr[1]);
-
-    var zip = addr[3].replace(/[^0-9]/g, "");
-    if (zip != "") {
-      var code = String(zip);
-      // window.opener.calculate_sendcost(code);
-      calculate_sendcost(code);
+            calculate_order_price();
+        });
     }
 
-    // window.close();
-    $(".popDim").fadeOut(200);
-    $("#delv-popup").fadeOut(200).removeClass("on");
-  });
-});
+    function calculate_order_price() {
+        var sell_price = parseInt($("input[name=org_price]").val()); // 합계금액
+        var send_cost2 = parseInt($("input[name=baesong_price2]").val()); // 추가배송비
+        var mb_coupon = parseInt($("input[name=coupon_total]").val()); // 쿠폰할인
+        var mb_point = parseInt(
+            $("input[name=use_point]").val().replace(/[^0-9]/g, "")
+        ); //포인트결제
+        var tot_price = sell_price + send_cost2 - (mb_coupon + mb_point);
+
+        $("input[name=tot_price]").val(number_format(String(tot_price)));
+    }
+
+    $(function () {
+        $(".sel_address").on("click", function () {
+            var addr = $(this)
+                .siblings("input")
+                .val()
+                .split(String.fromCharCode(30));
+
+            // var f = window.opener.buyform;
+            var f = buyform;
+
+            f.b_name.value = addr[0];
+            f.b_cellphone.value = addr[1];
+            f.b_telephone.value = addr[2];
+            f.b_zip.value = addr[3];
+            f.b_addr1.value = addr[4];
+            f.b_addr2.value = addr[5];
+            f.b_addr3.value = addr[6];
+            f.b_addr_jibeon.value = addr[7];
+
+            $("#od-dtn .od-dtn__name .nm").text(addr[0]);
+            $("#od-dtn .od-dtn__addr").text(addr[4] + ", " + addr[5] + " " + addr[6]);
+            $("#od-dtn .od-dtn__contact").text(addr[1]);
+
+            var zip = addr[3].replace(/[^0-9]/g, "");
+            if (zip != "") {
+                var code = String(zip);
+                // window.opener.calculate_sendcost(code);
+                calculate_sendcost(code);
+            }
+
+            // window.close();
+            $(".popDim").fadeOut(200);
+            $("#delv-popup")
+                .fadeOut(200)
+                .removeClass("on");
+        });
+    });
 </script>

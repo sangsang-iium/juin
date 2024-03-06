@@ -1,6 +1,6 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
-//testCommit
+
 require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 ?>
 
@@ -230,7 +230,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
           </div>
 
 		   <!-- 주문자 및 수령자 기본형식 { -->
-      <section id="sod_frm_orderer" style="display:none !important;">
+      <section id="sod_frm_orderer" style="display:none;">
         <h2 class="anc_tit">주문하시는 분</h2>
         <div class="odf_tbl">
           <table>
@@ -285,7 +285,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
         </div>
       </section>
 
-      <section id="sod_frm_taker" style="">
+      <section id="sod_frm_taker" style="display:none">
 <!--         <h2 class="anc_tit">받으시는 분</h2> -->
         <div class="odf_tbl">
           <table>
@@ -307,7 +307,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 <!--                 <th scope="row">이름</th> -->
                 <td>
 				
-				<input type="text" name="b_name" required class="frm_input required od-dtn__contact"  placeholder="이름">
+				<input type="text" name="b_name"  class="frm_input required od-dtn__contact"  placeholder="이름">
 						<span class="tags1">기본배송지</span>
 
 										<span class="od-dtn-btns">
@@ -317,7 +317,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               </tr>
               <tr>
        <!--          <th scope="row">핸드폰</th> -->
-                <td><input type="text" name="b_cellphone" required class="frm_input required od-dtn__contact" placeholder="핸드폰"></td>
+                <td><input type="text" name="b_cellphone"  class="frm_input required od-dtn__contact" placeholder="핸드폰"></td>
               </tr>
               <tr>
 <!--                 <th scope="row">전화번호</th> -->
@@ -326,11 +326,11 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               <tr>
        <!--          <th scope="row">주소</th> -->
                 <td>
-                  <input type="text" name="b_zip" required class="frm_input required od-dtn__contact" size="5" maxlength="5" placeholder="우편번호">
+                  <input type="text" name="b_zip"  class="frm_input required od-dtn__contact" size="5" maxlength="5" placeholder="우편번호">
                   <button type="button"
                     onclick="win_zip('buyform', 'b_zip', 'b_addr1', 'b_addr2', 'b_addr3', 'b_addr_jibeon');"
                     class="btn_ btn_search" style="padding:0.8rem">주소검색</button><br>
-                  <input type="text" name="b_addr1" required class="frm_input frm_address required od-dtn__contact"><br>
+                  <input type="text" name="b_addr1"  class="frm_input frm_address required od-dtn__contact"><br>
                   <input type="text" name="b_addr2" class="frm_input frm_address od-dtn__contact"><br>
                   <input type="text" name="b_addr3" class="frm_input frm_address od-dtn__contact" readonly><br>
                   <input type="hidden" name="b_addr_jibeon" value="">
@@ -359,14 +359,31 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
           <div class="od-ct">
             <div class="od-dtn-info">
+			<?php
+			$mb_id = $member['id'];
+		
+					$sqlb_address = "select * from b_address where mb_id='$mb_id'  and b_base='1' ";
+					$res = sql_fetch($sqlb_address);
+			?>
               <p class="od-dtn__name">
-                <span class="nm"><?php echo $member['name']; ?></span>
-                <span class="tag">기본배송지</span>
+                <span class="nm"><?php echo $member['name']; ?></span> 
+                <?php 
+				 
+					if($res['b_base']=='1'){
+						echo '<span class="tag">기본배송지</span>';
+						?>
 
+					
               </p>
-              <p class="od-dtn__addr"><?php echo print_address($member['addr1'], $member['addr2'], $member['addr3'], $member['addr_jibeon']); ?></p>
-              <p class="od-dtn__contact"><?php echo $member['cellphone']; ?></p>
-            </div>
+              <p class="od-dtn__addr"><?php echo print_address($res['b_addr1'], $res['b_addr2'], $res['b_addr3'], $res['b_addr_jibeon']); ?></p>
+              <p class="od-dtn__contact"><?php echo $res['b_cellphone']; ?></p>
+            	<?php
+					}else{
+						echo "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
+					}
+				?> 
+			</div>
+
             <div class="od-dtn-btns">
               <button type="button" class="ui-btn st3 od-dtn__change">변경</button>
             </div>
@@ -811,6 +828,11 @@ $(function () {
     var mb_coupon = parseInt(f.coupon_total.value);
     var mb_point = parseInt(f.mb_point.value);
     var tot_price = sell_price + send_cost2 - mb_coupon;
+
+	if(f.b_zip.value==''){
+		alert('배송지를 지정해 주십시요');
+		return false;
+	}
 
     if (f.use_point.value == '') {
       alert('포인트사용 금액을 입력하세요. 사용을 원치 않을경우 0을 입력하세요.');
