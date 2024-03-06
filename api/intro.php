@@ -2,7 +2,6 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization');
-header('Content-Type: application/json');
 
 include_once '/home/juin/www/common.php';
 
@@ -35,7 +34,11 @@ $data = array(
     'name'           => $row['ia_iname'],
     'value'          => $row['ia_ivalue'],
   ),
+  'keyword' => array (
+    '미국산','고기','소고기'
+  )
 );
+header('Content-Type: application/json');
 
 if (in_array($requestMethod, ["GET"])) {
   http_response_code(200);
