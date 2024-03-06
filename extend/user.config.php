@@ -275,19 +275,27 @@ function category_depth($depth, $upcate = "") {
 
 // 토스 자동결제(빌링)
 class Tosspay {
-  private $uid;
   private $auth = "test_ak_ZORzdMaqN3wQd5k6ygr5AkYXQGwy";
+
 
   function __construct() {
     $this->uid = uniqid();
   }
 
+  /**
+   * 카드 등록을 요청합니다.
+   *
+   * @param  string   $card  등록할 카드 번호
+   * @param  string   $y     카드 만료 연도 (YY)
+   * @param  string   $m     카드 만료 월 (MM)
+   * @param  string   $pw    카드 비밀번호
+   * @param  string   $birth 고객 생년월일
+   * @param  string   $name  고객 이름
+   * @param  string   $email 고객 이메일
+   * @return stdClass API 응답
+   */
   function getBilling($card, $y, $m, $pw, $birth, $name, $email) {
-
-    $secretKey = 'test_ak_ZORzdMaqN3wQd5k6ygr5AkYXQGwy';
-
-    $url = 'https://api.tosspayments.com/v1/billing/authorizations/card';
-
+    $url  = 'https://api.tosspayments.com/v1/billing/authorizations/card';
     $data = array(
       'customerKey'         => $this->uid,
       'cardNumber'          => $card,
@@ -296,13 +304,48 @@ class Tosspay {
       'cardPassword'        => $pw,
       'customerBirthday'    => $birth,
       'customerName'        => $name,
-      'customerEmail'       => $email
+      'customerEmail'       => $email,
     );
 
-    $credential = base64_encode($secretKey . ':');
+    return $this->callApi($url, $data);
+  }
 
+  /**
+   * 결제를 승인합니다.
+   *
+   * @param  string   $bk      결제 키
+   * @param  string   $ck      고객 키
+   * @param  string   $od_id   주문 ID
+   * @param  string   $amount  결제 금액
+   * @param  string   $email   고객 이메일
+   * @param  string   $u_name  고객 이름
+   * @param  string   $od_name 주문명
+   * @return stdClass API 응답
+   */
+  function billingApprove($bk, $ck, $od_id, $amount, $email, $u_name, $od_name) {
+    $url  = 'https://api.tosspayments.com/v1/billing/' . $bk;
+    $data = array(
+      'orderId'       => $od_id,
+      'amount'        => $amount,
+      'customerKey'   => $ck,
+      'customerEmail' => $email,
+      'customerName'  => $u_name,
+      'orderName'     => $od_name,
+    );
+
+    return $this->callApi($url, $data);
+  }
+
+  /**
+   * API를 호출합니다.
+   *
+   * @param  string   $url  API 엔드포인트 URL
+   * @param  array    $data 전송할 데이터
+   * @return stdClass API 응답
+   */
+  private function callApi($url, $data) {
+    $credential = base64_encode($this->auth . ':');
     $curlHandle = curl_init($url);
-
     curl_setopt_array($curlHandle, [
       CURLOPT_POST           => TRUE,
       CURLOPT_RETURNTRANSFER => TRUE,
@@ -312,12 +355,9 @@ class Tosspay {
       ],
       CURLOPT_POSTFIELDS     => json_encode($data),
     ]);
-
     $response = curl_exec($curlHandle);
+    curl_close($curlHandle);
 
-    $httpCode     = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
-    $isSuccess    = $httpCode == 200;
-
-    return $responseJson = json_decode($response);
+    return json_decode($response);
   }
 }
