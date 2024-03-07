@@ -2,6 +2,10 @@
 include_once("./_common.php");
 include_once(BV_LIB_PATH."/mailer.lib.php");
 
+
+error_reporting( E_ALL );
+ini_set( "display_errors", 1 );
+
 if($is_member) {
     alert('이미 로그인중입니다.');
 }
@@ -70,7 +74,10 @@ $content .= '<a href="'.$href.'" target="_blank" style="display:block;padding:30
 $content .= '</div>';
 $content .= '</div>';
 
-mailer($config['company_name'], $super['email'], $mb['email'], $subject, $content, 1);
+
+echo mailer($config['company_name'], $super['email'], $mb['email'], $subject, $content, 1);
+
+exit;
 
 alert($email.' 메일로 회원아이디와 비밀번호를 인증할 수 있는 메일이 발송 되었습니다.\\n\\n메일을 확인하여 주십시오.', BV_MBBS_URL.'/login.php');
 ?>

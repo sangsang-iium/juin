@@ -1,12 +1,15 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
+
 include_once(BV_PHPMAILER_PATH.'/PHPMailerAutoload.php');
+
 
 // 메일 보내기 (파일 여러개 첨부 가능)
 // type : text=0, html=1, text+html=2
 function mailer($fname, $fmail, $to, $subject, $content, $type=0, $file="", $cc="", $bcc="")
-{
+{;
+
     if($type != 1)
         $content = nl2br($content);
 
@@ -17,6 +20,7 @@ function mailer($fname, $fmail, $to, $subject, $content, $type=0, $file="", $cc=
         if(defined('BV_SMTP_PORT') && BV_SMTP_PORT)
             $mail->Port = BV_SMTP_PORT;
     }
+    $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;
     $mail->CharSet = 'UTF-8';
     $mail->From = $fmail;
     $mail->FromName = $fname;
@@ -34,6 +38,7 @@ function mailer($fname, $fmail, $to, $subject, $content, $type=0, $file="", $cc=
             $mail->addAttachment($f['path'], $f['name']);
         }
     }
+
     return $mail->send();
 }
 

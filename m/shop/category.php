@@ -18,7 +18,6 @@ include_once("./_head.php");
               echo $cateHtml['html'][$i];
             }
           ?>
-
         </ul>
       </div>
       <div class="all-ct-right">
