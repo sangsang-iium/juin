@@ -56,8 +56,8 @@ if(!defined('_BLUEVATION_')) exit;
                     </div>
                     <ul class="od-dtn-btns">
                         <li class="mngArea">
-                            <button type="button" class="ui-btn st3">수정</button>
-                            <button type="button" class="ui-btn st3">삭제</button>
+                            <button type="button" class="ui-btn st3 " onclick="edit_address(<?php echo $row['wr_id'] ?>)">수정</button>
+                            <button type="button" class="ui-btn st3 " onclick="del_address(<?php echo $row['wr_id'] ?>)">삭제</button>
                         </li>
                         <li class="mngArea">
                             <input type="hidden" value="<?php echo $addr; ?>">
@@ -144,4 +144,59 @@ if(!defined('_BLUEVATION_')) exit;
                 .removeClass("on");
         });
     });
+
+
+	//del_address
+	function del_address(wr_id){
+		console.log("del_address" ,wr_id);
+
+	
+		$.ajax({
+		  url: './del_address.php',
+		  data:{"wr_id":wr_id},
+		  success: function (data) { 
+				orderaddress_open();
+		  }
+		}); 
+	}
+
+	//edit_address 
+	function edit_address(wr_id){
+		console.log("edit_address",wr_id);
+			var delvWritePopId1 = 'delv-write-popup';
+		   $.ajax({
+			  url: './orderaddress_write.php',
+		      data:{'wr_id':wr_id},
+			  success: function (data) {
+				$(`#${delvWritePopId1}`).find(".pop-content-in").html(data);
+				popupOpen1(delvWritePopId1);
+			  }
+			});
+
+	}
+
+	function orderaddress_open(){
+		  $.ajax({
+      url: './orderaddress.php',
+      success: function (data) {
+		  	var popid = "delv-popup"; 
+			$(`#${popid}`).find(".pop-content-in").html(data); 
+			console.log(data);
+      }
+    });
+	}
+
+
+	
+// 팝업 열기
+popupOpen1 = (id) => {
+  $('#' + id).fadeIn(200).addClass("on");
+}
+
+// 팝업 닫기
+ popupClose1 = (t) => {
+  t.fadeOut(200).removeClass("on");
+}
+
+
 </script>

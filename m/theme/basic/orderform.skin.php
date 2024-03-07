@@ -246,32 +246,23 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               <?php } ?>
               <tr>
                 <th scope="row">이름</th>
-                <td><input type="text" name="name" value="<?php echo $member['name']; ?>" 
-                    class="frm_input " maxlength="20"></td>
+                <td><input type="text" name="name" value="<?php echo $member['name']; ?>"   class="frm_input " maxlength="20"></td>
               </tr>
               <tr>
                 <th scope="row">핸드폰</th>
-                <td><input type="text" name="cellphone" value="<?php echo $member['cellphone']; ?>" 
-                    class="frm_input " maxlength="20"></td>
+                <td><input type="text" name="cellphone" value="<?php echo $member['cellphone']; ?>"      class="frm_input " maxlength="20"></td>
               </tr>
               <tr>
                 <th scope="row">전화번호</th>
-                <td><input type="text" name="telephone" value="<?php echo $member['telephone']; ?>" class="frm_input"
-                    maxlength="20"></td>
+                <td><input type="text" name="telephone" value="<?php echo $member['telephone']; ?>" class="frm_input"     maxlength="20"></td>
               </tr>
               <tr>
                 <th scope="row">주소</th>
                 <td>
-                  <input type="text" name="zip" value="<?php echo $member['zip']; ?>"  class="frm_input "
-                    size="5" maxlength="5">
-                  <button type="button" onclick="win_zip('buyform', 'zip', 'addr1', 'addr2', 'addr3', 'addr_jibeon');"
-                    class="btn_small grey">주소검색</button><br>
-                  <input type="text" name="addr1" value="<?php echo $member['addr1']; ?>" 
-                    class="frm_input frm_address "><br>
-                  <input type="text" name="addr2" value="<?php echo $member['addr2']; ?>"
-                    class="frm_input frm_address"><br>
-                  <input type="text" name="addr3" value="<?php echo $member['addr3']; ?>" class="frm_input frm_address"
-                    readonly><br>
+                  <input type="text" name="zip" value="<?php echo $member['zip']; ?>"  class="frm_input "    size="5" maxlength="5">
+                  <button type="button" onclick="win_zip('buyform', 'zip', 'addr1', 'addr2', 'addr3', 'addr_jibeon');"   class="frm_input frm_address "><br>
+                  <input type="text" name="addr2" value="<?php echo $member['addr2']; ?>"    class="frm_input frm_address"><br>
+                  <input type="text" name="addr3" value="<?php echo $member['addr3']; ?>" class="frm_input frm_address"      readonly><br>
                   <input type="hidden" name="addr_jibeon" value="<?php echo $member['addr_jibeon']; ?>">
                 </td>
               </tr>
@@ -286,7 +277,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       </section>
 
       <section id="sod_frm_taker" style="display:none">
-<!--         <h2 class="anc_tit">받으시는 분</h2> -->
+<h2 class="anc_tit">받으시는 분</h2>
         <div class="odf_tbl">
           <table>
             <tbody>

@@ -1,9 +1,31 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 //echo test;
+
+if($wr_id){
+	$sql = "select * from b_address where wr_id='$wr_id' ";
+	echo $sql;
+	$res = sql_fetch($sql);	
+
+	$wr_id = $res['wr_id'];
+	$mb_id = $res['mb_id'];
+	$b_cellphone = $res['b_cellphone'];
+	$b_telephone = $res['b_telephone'];
+	$b_zip = $res['b_zip'];
+	$b_addr1 = $res['b_addr1'];
+	$b_addr2 = $res['b_addr2'];
+	$b_addr3 = $res['b_addr3'];
+	$b_addr_jibun = $res['b_addr_jibun'];
+	$b_name = $res['b_name'];
+	$b_base = $res['b_base'];
+	$b_addr_jibeon = $res['b_addr_jibeon'];
+}
+
+
 ?> 
 
 <form name="b_saveform" id="b_saveform">
+<input type="hidden" name = "wr_id" value="<?=$wr_id?>">
     <div id="sod_addr_write">
         <div class="form-wrap">
             <div class="form-row">
@@ -12,20 +34,33 @@ if(!defined('_BLUEVATION_')) exit;
                     </p>
                 </div>
                 <div class="form-body">
-                    <input type="text" name="b_name" id="b_name_save" class="w-per100 frm-input">
+                    <input type="text" name="b_name" id="b_name_save" value="<?=$b_name?>" class="w-per100 frm-input">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-head">
-                    <p class="title">휴대폰 번호<b>*</b>
+                    <p class="title">휴대폰 번호
+					<?php  
+					//echo $b_cellphone;
+					if($b_cellphone){
+							$phone = explode("-",$b_cellphone);
+							$phone0 = $phone[0];
+							$phone1 = $phone[1];
+							$phone2 = $phone[2];
+					}
+					
+						
+					?>
+					<b>*</b>
                     </p>
                 </div>
                 <div class="form-body phone">
-                    <input type="text" name="b_cellphone" id="b_cellphone1_save" class="frm-input">
+					
+                    <input type="text" name="b_cellphone" id="b_cellphone1_save" class="frm-input" value="<?=$phone0?>";>
                     <span class="hyphen">-</span>
-                    <input type="text" name="b_cellphone" id="b_cellphone2_save" class="frm-input">
+                    <input type="text" name="b_cellphone" id="b_cellphone2_save" class="frm-input" value="<?=$phone1?>";>
                     <span class="hyphen">-</span>
-                    <input type="text" name="b_cellphone" id="b_cellphone3_save" class="frm-input">
+                    <input type="text" name="b_cellphone" id="b_cellphone3_save" class="frm-input"  value="<?=$phone2?>";>
                 </div>
             </div>
             <div class="form-row">
@@ -34,14 +69,14 @@ if(!defined('_BLUEVATION_')) exit;
                     </p>
                 </div>
                 <div class="form-body address">
-                    <input type="text" name="b_zip" id="b_zip_save" class="frm-input address-input_1">
+                    <input type="text" name="b_zip" id="b_zip_save"  value="<?=$b_zip?>" class="frm-input address-input_1">
                     <button type="button" class="ui-btn st3" onclick="execDaumPostcode()" >주소검색</button>
-                    <input type="text" name="b_addr1" id="b_addr1_save" class="frm-input address-input_2">
-                    <input                         type="text"                       name="b_addr2"                        id="b_addr2_save"                        class="frm-input address-input_3"                        placeholder="나머지 주소를 입력하세요.">
+                    <input type="text" name="b_addr1" id="b_addr1_save"  value="<?=$b_addr1?>" class="frm-input address-input_2">
+                    <input                         type="text"                       name="b_addr2"                        id="b_addr2_save"                        class="frm-input address-input_3"          value="<?=$b_addr2?>"               placeholder="나머지 주소를 입력하세요.">
 					                    <input                         type="hidden"                       name="b_addr_jibeon"                        id="b_addr_jibeon_save"                        class="frm-input address-input_3"                        placeholder="나머지 주소를 입력하세요.">
                 </div>
                 <div class="frm-choice set_df_addr_wrap">
-                    <input type="checkbox" name="b_base" id="set_df_addr" value="1">
+                    <input type="checkbox" name="b_base" id="set_df_addr" value="1" <?php if($b_base=="1") echo "checked"; ?>>
                     <label for="set_df_addr">기본배송지로 설정</label>
                 </div>
             </div>
