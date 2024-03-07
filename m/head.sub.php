@@ -51,28 +51,6 @@ if($config['add_meta'])
 <link rel="shortcut icon" href="<?php echo $ico; ?>" type="image/x-icon">
 <?php } ?>
 
-<?php // APP 전달용 카테고리 _20240307_SY
-  $cate_1st_depth = category_depth('1');
-  $json_1st_depth = json_encode($cate_1st_depth);
-  $cate_2nd_arr = [];
-  
-  for($c=0; $c<count($cate_1st_depth['cateArr']); $c++) {
-    $cate_2nd_depth[] = category_depth('2', $cate_1st_depth['cateArr'][$c]);
-    for($a=0; $a<=count($cate_2nd_depth[$c]['cateArr']); $a++) {
-      $cate_2nd_arr[$cate_2nd_depth[$c]['cateArr'][$a]] = $cate_2nd_depth[$c]['cateNameArr'][$a];
-    }
-  }
-  
-  foreach ($cate_2nd_arr as $key => $val) {
-    if(!empty($key) || $key != '') {
-      $new_2nd_arr[] = ["gs_id" => $key, "name" => $val];
-    }
-  }
-  
-  $json_2nd_depth = json_encode($cate_2nd_depth);
-  $json_2nd_arr   = json_encode($new_2nd_arr);
-?>
-
 <script>
 var bv_url = "<?php echo BV_URL; ?>";
 var bv_bbs_url = "<?php echo BV_BBS_URL; ?>";
@@ -83,42 +61,47 @@ var bv_mobile_shop_url = "<?php echo BV_MSHOP_URL; ?>";
 var bv_is_member = "<?php echo $is_member; ?>";
 var bv_is_mobile = "<?php echo BV_IS_MOBILE; ?>";
 var bv_cookie_domain = "<?php echo BV_COOKIE_DOMAIN; ?>";
-var login_check = ( bv_is_member == 1 ) ? true : false ;
+// var login_check = ( bv_is_member == 1 ) ? true : false ;
 </script>
 
 <!-- APP WebView 통신 _20240305_SY -->
+<!-- APP 카테고리 통신 안씀 _ 20240307_SY -->
 <script>
-function putWebInfo() {
-  let cate_1st = <?php echo $json_1st_depth; ?>;
-  let cate_2nd = <?php echo $json_2nd_arr; ?>;
-  
-  let ca_info = cate_1st.cateArr.map((ca_id, index) => {
-    return { ca_id: ca_id, name: cate_1st.cateNameArr[index]};
-  })
-  
-  let webInfo = {
-    "is_member" : login_check,
-    "cart_cnt"  : <?php echo get_cart_count(); ?>,
-    "cate_info" : ca_info,
-    "gs_info"   : cate_2nd
-  };
-  console.log(webInfo)
-  
 
-  // if (isMobile.any()) {
-  //   if (isMobile.Android()) {
-  //     SBC.showToast(id);
-  //   }
-  //   if (isMobile.IOS()) {
-  //     window.webkit.messageHandlers.sbc.postMessage(id);
-  //   }
-  // }
-}
+// userAgent : MASTER_AOS
+// var isMobile = {
+//   Android: function() {
+//     return /MASTER_AOS/i.test(navigator.userAgent);
+//   },
+//   IOS: function() {
+//     return /MASTER_AOS/i.test(navigator.userAgent);
+//   },
+//   any: function() {
+//     return (isMobile.Android() || isMobile.IOS());
+//   }
+// };
 
-document.addEventListener("DOMContentLoaded", function() {
-  putWebInfo();
-});
+// function sendMenuCode(data) {
+  
+//   $.ajax({
+//     url: bv_url+"/m/bbs/ajax.app_cate.php",
+//     type: "POST",
+//     data: { "data" : data },
+//     dataType: "JSON",
+//     success: function(data) {
+//       SBC.showToast(data.res);
+//     }
+//   });
+// }
+
+
+// function caIdValueCallback(caIdValue) {
+//   console.log('Received caIdValue:', caIdValue);
+//   sendMenuCode(caIdValue)
+// }
+
 </script>
+
 
 <script src="<?php echo BV_JS_URL; ?>/jquery-1.8.3.min.js"></script>
 <script src="<?php echo BV_JS_URL; ?>/jquery-ui-1.10.3.custom.js"></script>

@@ -16,15 +16,15 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 				<div class="form-head">
 					<p class="title"><label for="reg_mb_email">이메일</label><b>*</b></p>
 				</div>
-				<div class="form-body email">
-					<input type="text" name="mb_email" id="mb_email" required email class="frm-input" itemname="E-mail 주소" placeholder="E-mail 주소">
-					<span class="at">@</span>
+				<div class="form-body">
+					<input type="text" name="mb_email" id="mb_email" required email class="frm-input w-per100" itemname="E-mail 주소" placeholder="E-mail 주소">
+					<!-- <span class="at">@</span>
 					<select name="" class="frm-select">
 						<option value="">선택하세요.</option>
 						<option value="">gmail.com</option>
 						<option value="">naver.com</option>
 						<option value="">hanmail.net</option>
-					</select>
+					</select> -->
 				</div>
 			</div>
 		</div>
