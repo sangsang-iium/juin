@@ -158,6 +158,7 @@ $(document).ready(function () {
     navigation: {
       nextEl: `${mainTodayTarget} .next`,
       prevEl: `${mainTodayTarget} .prev`,
+      disabledClass: 'disabled_swiper_button'
     },
     pagination: {
       el: `${mainTodayTarget} .pagination`,
