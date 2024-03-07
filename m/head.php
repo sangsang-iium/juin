@@ -12,6 +12,7 @@ $filename = str_replace('.php', '', basename($current_url));
 
 switch ($filename) {
   case 'index':
+  case 'list':
   case 'listtype':
   case 'plan':
   case 'timesale':

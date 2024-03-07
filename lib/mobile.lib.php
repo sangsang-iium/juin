@@ -124,7 +124,7 @@ function mobile_display_goods($type, $rows, $mtxt, $li_css='')
 function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
   global $default, $pt_id;
 
-                                             // echo "<h2 class=\"mtit\"><span>{$mtxt}</span></h2>\n";
+  // echo "<h2 class=\"mtit\"><span>{$mtxt}</span></h2>\n";
   echo "<div class=\"swiper-container\">\n"; // 추가된 부분: 슬라이드 컨테이너 시작
   echo "<div class=\"swiper-wrapper\">\n";   // 추가된 부분: 슬라이드 래퍼 시작
 
@@ -160,7 +160,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
     echo "<div class=\"cp-timer-wrap white\">\n";
     echo "<i class=\"cp-timer__icon\"></i>\n";
     echo "<span class=\"cp-timer__num\" data-deadline=\"{$it_today}\">00:00:00</span>\n"; // 타이머 추가
-                                                                                                  // echo "<span class=\"cp-timer__text\">남음</span>\n";
+    // echo "<span class=\"cp-timer__text\">남음</span>\n";
     echo "</div>\n";
     echo "</div>\n";
     echo "</div>\n";
@@ -176,7 +176,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 
   echo "</div>\n"; // 추가된 부분: 슬라이드 래퍼 종료
   echo "</div>\n"; // 추가된 부분: 슬라이드 컨테이너 종료
-  echo "<p class=\"sct_btn\"><a href=\"" . BV_MSHOP_URL . "/listtype.php?type={$type}\" class=\"btn_lsmall bx-white wfull\">더보기 <i class=\"fa fa-angle-right marl3\"></i></a></p>\n";
+  // echo "<p class=\"sct_btn\"><a href=\"" . BV_MSHOP_URL . "/listtype.php?type={$type}\" class=\"btn_lsmall bx-white wfull\">더보기 <i class=\"fa fa-angle-right marl3\"></i></a></p>\n";
 }
 
 // mobile_slide_goods("영역", "출력수", "타이틀", "클래스명")
@@ -1127,7 +1127,7 @@ function mobile_banner_rows($code, $mb_id)
 	return $str;
 }
 
-function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale, $it_price, $it_size) {
+function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale, $it_price, $it_size, $eb_date = "") {
 
 	$coupon_chk = coupon_chk($it_idx);
 
@@ -1137,6 +1137,19 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
   echo "<a href=\"{$it_href}\" class=\"thumb\">\n";
   echo "<img src=\"{$it_imageurl}\" alt=\"\">\n";
   echo "</a>\n";
+
+  if($eb_date) {
+    $it_today = date($eb_date." 23:59:59");
+
+    echo "<div class=\"cp-timer\">\n";
+    echo "<div class=\"cp-timer-wrap white\">\n";
+    echo "<i class=\"cp-timer__icon\"></i>\n";
+    echo "<span class=\"cp-timer__num\" data-deadline=\"{$it_today}\">00:00:00</span>\n"; // 타이머 추가
+    // echo "<span class=\"cp-timer__text\">남음</span>\n";
+    echo "</div>\n";
+    echo "</div>\n";
+  }
+
   echo "<button type=\"button\" onclick=\"javascript:itemlistwish('$it_idx')\" id='$it_idx' class='$it_idx ui-btn wish-btn ".zzimCheck($it_idx)."' title=\"관심상품 등록하기\"></button>\n";
   echo "</div>\n";
   echo "<a href=\"{$it_href}\" class=\"prod-info_area {$it_size}\">\n";
