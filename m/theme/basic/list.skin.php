@@ -13,26 +13,19 @@ for($i=0; $i<count($gw_msort); $i++) {
 	if($sort == $tsort && $sortodr == $torder)
 		$sort_name = $tname;
 	if($i==0 && !($sort && $sortodr))
-		$sort_name = $tname;
+		$sort_name = '상품 정렬';
 
 	$sort_str .= '<li><a href="'.$sct_sort_href.'">'.$tname.'</a></li>'.PHP_EOL;
 }
 ?>
 
 <div id="contents" class="sub-contents prodList">
+  <?php if($category_visual_slider = mobile_slider(2, $pt_id)) { ?>
   <!-- 상단 롤링 배너 { -->
   <div class="container section prod-topBanner">
     <div class="cp-banner__round swiper-container">
       <div class="swiper-wrapper">
-        <!-- loop { -->
-        <div class="swiper-slide item">
-          <a href="" class="link">
-            <figure class="image">
-              <img src="/src/img/t-product-topBanner_1.jpg" alt="어묵&amp;떡볶이 할인기획전" class="fitCover">
-            </figure>
-          </a>
-        </div>
-        <!-- } loop -->
+        <?php echo $category_visual_slider; ?>
       </div>
       <div class="round swiper-control">
         <div class="pagination"></div>
@@ -41,6 +34,7 @@ for($i=0; $i<count($gw_msort); $i++) {
     </div>
   </div>
   <!-- } 상단 롤링 배너 -->
+  <?php } ?>
   
   <div class="prod-dp">
     <div class="prod-dp-wrap">
@@ -65,16 +59,6 @@ for($i=0; $i<count($gw_msort); $i++) {
         <div class="cp-sort">  
           <span class="cp-sort__btn"><?php echo $sort_name; ?></span>
         </div>
-        <!--
-        <div class="cp-sort__list">
-          <h2>상품 정렬</h2>
-          <ul>
-            <?php // echo $sort_str; // 탭메뉴 ?>
-          </ul>
-          <span class="ionicons ion-ios-close-empty cp-sort__close"></span>
-        </div>
-        <div class="cp-sort__bg"></div>
-        -->
       </div>
 
       <div class="container prod-dp-ct">

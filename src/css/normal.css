@@ -16,6 +16,12 @@
   transition: .1s;
 }
 
+.disabled_swiper_button {
+  display: none !important;
+  cursor: auto;
+  pointer-events: none;
+}
+
 /* top menu */
 #topMenu {display: flex; align-items: center; margin-top: 2rem; background-color: var(--color-white);}
 #topMenu .qk-menu {width: 100%;}
@@ -105,6 +111,8 @@
 .prod-dp__title h3 {font-size: 3.6rem; font-weight: 600; color: var(--color-black2);}
 .prod-dp-ct {display: flex; flex-flow: row wrap; align-items: flex-start; justify-content: flex-start; gap: 4.8rem 2.4rem; margin-top: 2rem;}
 .prod-dp-ct .cp-item {width: calc(100% / 2 - 2.4rem / 2);}
+
+.todaySaleList .cp-item .cp-timer {display: none !important;}
 
 /* > detail */
 .prodDetail {margin-top: 0 !important;}

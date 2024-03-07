@@ -13,7 +13,7 @@ for($i=0; $i<count($gw_msort); $i++) {
 	if($sort == $tsort && $sortodr == $torder)
 		$sort_name = $tname;
 	if($i==0 && !($sort && $sortodr))
-		$sort_name = $tname;
+		$sort_name = '상품 정렬';
 
 	$sort_str .= '<li><a href="'.$sct_sort_href.'">'.$tname.'</a></li>'.PHP_EOL;
 }
@@ -37,16 +37,24 @@ for($i=0; $i<count($gw_msort); $i++) {
   <!-- } 상단 롤링 배너 -->
   <?php } ?>
 
-  <div class="container prod-dp">
+  <div class="prod-dp">
     <div class="prod-dp-wrap">
-      <div class="cp-title prod-dp__title">
+      <div class="container cp-title prod-dp__title">
         <div class="left">
           <div class="text-box">
             <h3><?php echo $tb['title']; ?></h3>
           </div>
         </div>
       </div>
-      <div class="prod-dp-ct">
+
+      <div class="container dp-top">
+        <div class="txt-board-cnt">총 <span class="cnt"><?php echo number_format($total_count); ?></span>건</div>
+        <div class="cp-sort">  
+          <span class="cp-sort__btn"><?php echo $sort_name; ?></span>
+        </div>
+      </div>
+
+      <div class="container prod-dp-ct">
         <?php
         if(!$total_count) {
           echo "<p class=\"empty_list\">자료가 없습니다.</p>";
@@ -77,5 +85,17 @@ for($i=0; $i<count($gw_msort); $i++) {
         ?>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="pop-bottom cp-sort__list">
+  <div class="top">
+    <span class="tit">상품 정렬</span>
+    <button type="button" class="ui-btn close-btn"></button>
+  </div>
+  <div class="ct">
+    <ul class="cp-sort-ct">
+      <?php echo $sort_str; // 탭메뉴 ?>
+    </ul>
   </div>
 </div>
