@@ -4,43 +4,28 @@ include_once "./_common.php";
 $authKey = $_GET['authKey'];
 $customerKey = $_GET['customerKey'];
 // 빌링키 발급
-function issueBillingKey($authKey, $customerKey) {
-  $url       = 'https://api.tosspayments.com/v1/billing/authorizations/issue';
-  $secretKey = 'test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R'; // 시크릿 키
 
-  $headers = array(
-    'Authorization: Basic ' . base64_encode($secretKey . ':'),
-    'Content-Type: application/json',
-  );
 
-  $data = array(
-    'authKey'     => $authKey,
-    'customerKey' => $customerKey,
-  );
 
-  $curl = curl_init();
-  curl_setopt_array($curl, array(
-    CURLOPT_URL            => $url,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_CUSTOMREQUEST  => 'POST',
-    CURLOPT_POSTFIELDS     => json_encode($data),
-    CURLOPT_HTTPHEADER     => $headers,
-  ));
+$table = "iu_card_reg";
 
-  $response = curl_exec($curl);
-  $err      = curl_error($curl);
-
-  curl_close($curl);
-
-  if ($err) {
-    return false; // 요청 실패
-  } else {
-    return json_decode($response); // 요청 성공
-  }
+$sql = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+$res = sql_query($sql);
+$card_chk = array();
+while ($row = sql_fetch_array($res)) {
+  $card_chk[] = $row['cr_use'];
+}
+if(in_array("Y", $card_chk)){
+  $CardStatus  = new IUD_Model();
+  $db_update['cr_use'] = "N";
+  $update_where = "WHERE mb_id = '{$member['id']}'";
+  $CardStatus->update($table, $db_update, $update_where);
 }
 
 // 빌링키 발급 성공
-$issueResult = issueBillingKey($_GET['authKey'], $_GET['customerKey']);
+$Toss = new Tosspay();
+$secretKey = 'test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R'; // 시크릿 키
+$issueResult = $Toss->issueBillingKey($authKey, $customerKey, $secretKey);
 if ($issueResult !== false) {
 	$db_input["mb_id"] = $member['id'];
 	$db_input["cr_company"] = $issueResult->cardCompany;
@@ -57,7 +42,6 @@ if ($issueResult !== false) {
 	$db_input["wdate"] = $issueResult->authenticatedAt;
 
   $Card = new IUD_Model();
-  $table = "iu_card_reg";
   $Card->insert($table, $db_input);
 
   goto_url("/m/shop/card.php?res=suc");
