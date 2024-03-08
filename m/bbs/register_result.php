@@ -6,7 +6,9 @@ if(isset($_SESSION['ss_mb_reg']))
 
 // 회원정보가 없다면 초기 페이지로 이동
 if(!$mb['id'])
-    goto_url(BV_MURL);
+    // goto_url(BV_MURL);
+  // 수정 _20240308_SY
+    goto_url(BV_MBBS_URL."login.php");
 
 $tb['title'] = '회원가입 완료';
 include_once('./_head.php');
