@@ -11,11 +11,11 @@ $current_url = $_SERVER['PHP_SELF'];
 $filename = str_replace('.php', '', basename($current_url));
 
 switch ($filename) {
+  // case 'list':
+  // case 'listtype':
+  // case 'plan':
+  // case 'timesale':
   case 'index':
-  case 'list':
-  case 'listtype':
-  case 'plan':
-  case 'timesale':
     include_once(BV_PATH.'/include/topMenu.php');
     break;
   default: 
