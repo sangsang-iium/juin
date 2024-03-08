@@ -33,7 +33,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title"><label for="reg_mb_id">아이디</label><b>*</b></p>
 						</div>
 						<div class="form-body input-button id-confirm">
-							<input type="text" name="mb_id" value="<?php echo $member['id'] ?>" id="reg_mb_id"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input" size="20" maxlength="20" placeholder="아이디를 입력해주세요.">
+							<input type="text" name="mb_id" value="<?php echo $member['id'] ?>" id="reg_mb_id"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input" size="20" maxlength="20" placeholder="아이디를 입력해주세요." autocapitalize="off">
 							<span id="msg_mb_id"></span>
 							<button type="button" class="ui-btn st3" onclick="chk_id()">중복확인</button>
 						</div>
@@ -59,7 +59,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title"><label for="reg_mb_name">이름</label><b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" placeholder="이름을 입력해주세요.">
+							<input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" placeholder="이름을 입력해주세요." autocapitalize="off">
 							<?php
 							$cert_str = '';
 							if($config['cf_cert_use']) {
@@ -92,7 +92,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title"><label for="reg_mb_tel">전화번호</label><?php echo $config['register_req_tel']?'<b>*</b>':''; ?></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); autoHyphen2(this)">
+							<input type="tel" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); autoHyphen2(this)">
 						</div>
 					</div>
 					<?php } ?>
@@ -102,11 +102,11 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title"><label for="reg_mb_hp">핸드폰번호</label><b>*</b></p>
 						</div>
 						<div class="form-body phone">
-							<input type="text" name="mb_hp[]" value="<?php echo get_text($member['cellphone']); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<input type="tel" name="mb_hp[]" value="<?php echo get_text($member['cellphone']); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							<span class="hyphen">-</span>
-							<input type="text" name="mb_hp[]" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<input type="tel" name="mb_hp[]" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							<span class="hyphen">-</span>
-							<input type="text" name="mb_hp[]" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<input type="tel" name="mb_hp[]" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							<div class="frm-choice">
 								<input type="checkbox" name="mb_sms" id="chk-sms" value="Y"<?php echo ($w=='' || $member['smsser'] == 'Y')?' checked':''; ?>>
 								<label for="chk-sms">핸드폰 문자메세지를 받겠습니다.</label>
@@ -123,7 +123,7 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 						<div class="form-body">
 							<input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
-							<input type="text" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요.">
+							<input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
 							<!-- <span class="at">@</span>
 							<select name="" class="frm-select">
 								<option value="">선택하세요.</option>
@@ -141,18 +141,18 @@ if(!defined('_BLUEVATION_')) exit;
 					<?php if($config['register_use_addr']) { ?>
 					<div class="form-row">
 						<div class="form-head">
-							<p class="title">주소</p>
+							<p class="title">주소<b>*</b></p>
 						</div>
 						<div class="form-body address">
               <label for="reg_mb_zip" class="sound_only">우편번호</label>
-							<input type="text" name="mb_zip" value="<?php echo $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호">
+							<input type="tel" name="mb_zip" value="<?php echo $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호">
 							<button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
 							
-							<input type="text" name="mb_addr1" value="<?php echo get_text($member['addr1']); ?>" id="reg_mb_addr1"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_2 <?php echo $config['register_req_addr']?' required':''; ?> frm_address" size="60" placeholder="기본주소">
+							<input type="text" name="mb_addr1" value="<?php echo get_text($member['addr1']); ?>" id="reg_mb_addr1"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_2 <?php echo $config['register_req_addr']?' required':''; ?> frm_address" size="60" placeholder="기본주소" autocapitalize="off">
 							<label for="reg_mb_addr1" class="sound_only">기본주소</label>
-							<input type="text" name="mb_addr2" value="<?php echo get_text($member['addr2']); ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소">
+							<input type="text" name="mb_addr2" value="<?php echo get_text($member['addr2']); ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
 							<label for="reg_mb_addr2" class="sound_only">상세주소</label>
-							<input type="text" name="mb_addr3" value="<?php echo get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly">
+							<input type="text" name="mb_addr3" value="<?php echo get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
 							<label for="reg_mb_addr3" class="sound_only">참고항목</label>
 
 							<input type="hidden" name="mb_addr_jibeon" value="<?php echo get_text($member['addr_jibeon']); ?>">
@@ -171,6 +171,14 @@ if(!defined('_BLUEVATION_')) exit;
 			</div>
 		</div>
 	</div>
+
+  <?php if($w != '') { ?>
+    <div class="joinDetail-box">
+      <div class="joinDetail-body">
+        <button type="button" onclick="member_leave()">회원탈퇴하기</button>
+      </div>
+    </div>
+  <?php } ?>
 
   <div id="post_wrap" >
     <img src="/src/img/post_close.png" id="btnFoldWrap"
@@ -521,5 +529,10 @@ function fregisterform_submit(f)
 
     return true;
 }
+
+function member_leave() {  // 회원 탈퇴 tto
+  if (confirm("회원에서 탈퇴 하시겠습니까?"))
+    location.href = '<?php echo BV_MBBS_URL ?>/leave_form_update.php';
+ }
 </script>
 <!-- } 회원정보 입력/수정 끝 -->

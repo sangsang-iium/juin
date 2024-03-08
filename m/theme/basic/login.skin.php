@@ -74,7 +74,7 @@ $previous_page_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] 
 			<!-- </div> -->
 		</div>
 	</div>
-	<div class="sns-wrap">
+	<!-- <div class="sns-wrap">
 		<div class="container">
 			<div class="sns-head">
 				<p class="sns-title">간편로그인</p>
@@ -85,7 +85,7 @@ $previous_page_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] 
 				<a href="" class="sns-link kakao">카카오 로그인</a>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </div>
 
 <script>

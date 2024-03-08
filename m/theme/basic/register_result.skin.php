@@ -15,7 +15,8 @@ if(!defined('_BLUEVATION_')) exit; // 개별 페이지 접근 불가
             </div>
             <div class="joinComplete-body">
                 <!-- <a href="" class="ui-btn stWhite round joinComplete-btn">로그인 하기</a> -->
-                <a href="<?php echo BV_MURL; ?>" class="ui-btn stBlack round joinComplete-btn">메인으로 돌아가기</a>
+                <!-- <a href="<?php echo BV_MURL; ?>" class="ui-btn stBlack round joinComplete-btn">메인으로 돌아가기</a> -->
+                <a href="<?php echo BV_MURL."/bbs/login.php"; ?>" class="ui-btn stBlack round joinComplete-btn">확인</a>
                 <p class="joinComplete-explan">회원정보는 마이페이지에서 확인 및 수정하실 수 있습니다.</p>
             </div>
         </div>

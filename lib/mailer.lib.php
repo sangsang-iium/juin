@@ -20,7 +20,7 @@ function mailer($fname, $fmail, $to, $subject, $content, $type=0, $file="", $cc=
         if(defined('BV_SMTP_PORT') && BV_SMTP_PORT)
             $mail->Port = BV_SMTP_PORT;
     }
-    $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;
+    // $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;
     $mail->CharSet = 'UTF-8';
     $mail->From = $fmail;
     $mail->FromName = $fname;
