@@ -2,6 +2,12 @@
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 $previous_page_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
+
+
+// 회원가인 후 로그인시 오류때문에 추가 _20240308_SY
+if($previous_page_url == BV_MBBS_URL."/register_result.php") {
+  $previous_page_url = BV_MURL;
+}
 ?>
 
 <div id="contents" class="sub-contents login">
@@ -17,9 +23,9 @@ $previous_page_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] 
 				<section class="login_fs">
         	<div class="login-input">
 						<label for="login_id" class="sound_only">회원아이디</label>
-						<input type="text" name="mb_id" class="frm-input" id="login_id" maxLength="20" placeholder="아이디를 입력하세요.">
+						<input type="text" name="mb_id" class="frm-input" id="login_id" maxLength="20" placeholder="아이디를 입력하세요." autocapitalize="off">
 						<label for="login_pw" class="sound_only">비밀번호</label>
-						<input type="password" name="mb_password" class="frm-input" id="login_pw" maxLength="20" placeholder="비밀번호를 입력하세요.">
+						<input type="password" name="mb_password" class="frm-input" id="login_pw" maxLength="20" placeholder="비밀번호를 입력하세요." autocapitalize="off">
         	</div>
         	<div class="login-ctrl">
           	<div class="login-save frm-choice">
