@@ -8,6 +8,10 @@ $previous_page_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] 
 if($previous_page_url == BV_MBBS_URL."/register_result.php") {
   $previous_page_url = BV_MURL;
 }
+
+if ($gs_id) {
+	$previous_page_url = $_SERVER['HTTP_REFERER']."?gs_id=".$gs_id;
+}
 ?>
 
 <div id="contents" class="sub-contents login">

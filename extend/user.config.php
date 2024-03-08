@@ -337,14 +337,36 @@ class Tosspay {
   }
 
   /**
+   * 빌링키 발급.
+   *
+   * @param  string   $authKey      결제 키
+   * @param  string   $customerKey      고객 키
+   * @param  string   $credential      고객 키
+   * @return stdClass API 응답
+   */
+  function issueBillingKey($authKey, $customerKey, $credential) {
+    $url       = 'https://api.tosspayments.com/v1/billing/authorizations/issue';
+    $data = array(
+      'authKey'     => $authKey,
+      'customerKey' => $customerKey,
+    );
+
+    return $this->callApi($url, $data, $credential);
+  }
+
+  /**
    * API를 호출합니다.
    *
    * @param  string   $url  API 엔드포인트 URL
    * @param  array    $data 전송할 데이터
    * @return stdClass API 응답
    */
-  private function callApi($url, $data) {
-    $credential = base64_encode($this->auth . ':');
+  private function callApi($url, $data, $credential="") {
+    if(empty($credential)){
+      $credential = base64_encode($this->auth . ':');
+    }else {
+      $credential = base64_encode($credential . ':');
+    }
     $curlHandle = curl_init($url);
     curl_setopt_array($curlHandle, [
       CURLOPT_POST           => TRUE,
@@ -356,8 +378,13 @@ class Tosspay {
       CURLOPT_POSTFIELDS     => json_encode($data),
     ]);
     $response = curl_exec($curlHandle);
+    $err      = curl_error($curlHandle);
     curl_close($curlHandle);
 
-    return json_decode($response);
+    if ($err) {
+      return false; // 요청 실패
+    } else {
+      return json_decode($response); // 요청 성공
+    }
   }
 }
