@@ -59,7 +59,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         $gs_sprice = $gs_sale = '';
         if($gs['normal_price'] > $gs_amount && !is_uncase($gs['index_no'])) {
           $gs_sett = ($gs['normal_price'] - $gs_amount) / $gs['normal_price'] * 100;
-          $gs_sale = number_format($gs_sett,1).'%';
+          $gs_sale = number_format($gs_sett,0).'%';
           $gs_sprice = display_price2($gs['normal_price']);
         }
         ?>

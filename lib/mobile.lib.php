@@ -145,7 +145,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 
     if ($row['normal_price'] > $it_amount) {
       $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
-      $sale      = '<span class="dc-percent">' . number_format($sett, 1) . '%</span>';
+      $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
       $it_sprice = display_price2($row['normal_price']);
     }
 
@@ -202,7 +202,7 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 		$it_sprice = $sale = '';
 		if($row['normal_price'] > $it_amount && !is_uncase($row['index_no'])) {
 			$sett = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
-			$sale = number_format($sett,1).'%';
+			$sale = number_format($sett,0).'%';
 			$it_sprice = display_price2($row['normal_price']);
 		}
 
