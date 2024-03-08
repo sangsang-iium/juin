@@ -320,6 +320,14 @@ if(!defined('_BLUEVATION_')) exit;
 			</div>
 			<!-- } 사업자정보 -->
 		</div>
+
+    <?php if($w != '') { ?>
+    <div class="joinDetail-box">
+        <div class="joinDetail-body">
+          <button type="button" class="ui-btn mb-leave_btn" onclick="member_leave()">회원탈퇴하기<img src="/src/img/arrow-right2.svg" alt=""></button>
+        </div>
+    </div>
+  <?php } ?>
 	</div>
 	<div class="cp-btnbar">
 		<div class="container">
@@ -329,13 +337,7 @@ if(!defined('_BLUEVATION_')) exit;
 		</div>
 	</div>
 
-  <?php if($w != '') { ?>
-    <div class="joinDetail-box">
-        <div class="joinDetail-body">
-          <button type="button" onclick="member_leave()">회원탈퇴하기</button>
-        </div>
-    </div>
-  <?php } ?>
+  
 
   <div id="post_wrap" >
     <img src="/src/img/post_close.png" id="btnFoldWrap"

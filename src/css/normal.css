@@ -342,6 +342,8 @@
 .joinDetail-btn-box .ui-btn.st3 {display: inline-block; vertical-align: middle; width: calc((100% - 0.8rem) / 2);}
 .joinDetail-btn-box .ui-btn.st3 ~ .ui-btn.st3 {margin-left: 0.8rem;}
 .joinDetail-btn-box.joinDetail-btn-box3 .ui-btn.st3 {width: calc((100% - 1.6rem) / 3);}
+.mb-leave_btn {font-size: 2rem; font-weight: 400; color: var(--color-gray3);}
+.mb-leave_btn img {width: 0.9rem; margin: -3px 0 0 0.8rem; vertical-align: middle;}
 
 /* > 회원가입 - 가입완료 */
 #contents.joinComplete {padding-top: 6.68rem;}
