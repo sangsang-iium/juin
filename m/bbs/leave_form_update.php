@@ -7,9 +7,11 @@ if(!$is_member) {
     alert('회원만 접근하실 수 있습니다.');
 }
 
-$mb_password = trim($_POST['mb_password']);
-if(!($mb_password && check_password($mb_password, $member['passwd'])))
-    alert('비밀번호가 틀립니다.');
+if($HTTP_REFERER != BV_MBBS_URL."/register_form.php") {
+  $mb_password = trim($_POST['mb_password']);
+  if(!($mb_password && check_password($mb_password, $member['passwd'])))
+      alert('비밀번호가 틀립니다.');
+}
 
 if($member['id'] == 'admin') {
 	alert('최고 관리자는 탈퇴하실 수 없습니다.', BV_MURL);

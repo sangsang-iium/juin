@@ -174,12 +174,12 @@ if($config['cf_cert_use'] && $cert_type && $md5_cert_no) {
 $msg = "";
 
 if($w == '') {
-	$value['id']			= $mb_id; //회원아이디
+	$value['id']			  = $mb_id; //회원아이디
 	$value['passwd']		= $mb_password; //비밀번호
 	$value['name']			= $mb_name; //이름
 	$value['email']			= $mb_email; //이메일
-	$value['telephone']		= $mb_tel;	 //전화번호
-	$value['zip']			= $mb_zip; //우편번호
+  $value['telephone']	= $mb_tel;	 //전화번호
+	$value['zip']			  = $mb_zip; //우편번호
 	$value['addr1']			= $mb_addr1; //주소
 	$value['addr2']			= $mb_addr2; //상세주소
 	$value['addr3']			= $mb_addr3; //참고항목
@@ -189,9 +189,10 @@ if($w == '') {
 	$value['mb_ip']			= $_SERVER['REMOTE_ADDR']; //IP
 	$value['grade']			= '9'; //레벨
 	$value['pt_id']			= $mb_recommend; //추천인아이디
-	$value['login_ip']		= $_SERVER['REMOTE_ADDR']; //최근 로그인IP
+	$value['login_ip']	= $_SERVER['REMOTE_ADDR']; //최근 로그인IP
 	$value['mailser']		= $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 	$value['smsser']		= $mb_sms ? $mb_sms : 'N'; //SMS를 수신
+  $value['ju_mem']    = $reg_type; // 사업자 여부
 
   if($reg_type == 1) {
     $value['ju_name']       = $pop_nm;
@@ -241,7 +242,8 @@ if($w == '') {
 	if($config['cert_admin_yes'])
 		$msg = "회원가입이 완료 되었으며 승인 처리 이후 로그인 가능합니다";
 	else
-		set_session('ss_mb_id', $mb_id);
+    // 회원가입 후 바로 로그인 처리 _20240308_SY
+		// set_session('ss_mb_id', $mb_id);
 
 	set_session('ss_mb_reg', $mb_id);
 

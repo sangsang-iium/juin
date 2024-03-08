@@ -33,4 +33,4 @@ if($cate_table == "ca_id") {
 }
 $msg = "카테고리";
 
-echo json_encode(array("res" => $res, "msg" => $msg));
+// echo json_encode(array("res" => $res, "msg" => $msg));
