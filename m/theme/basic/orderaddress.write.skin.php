@@ -4,7 +4,6 @@ if(!defined('_BLUEVATION_')) exit;
 
 if($wr_id){
 	$sql = "select * from b_address where wr_id='$wr_id' ";
-	echo $sql;
 	$res = sql_fetch($sql);	
 
 	$wr_id = $res['wr_id'];
