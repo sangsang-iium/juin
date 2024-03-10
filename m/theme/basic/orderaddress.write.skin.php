@@ -1,7 +1,7 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 //echo test;
-  //echo SEND GIT TEST2
+  //echo SEND GIT TEST5
 
 if($wr_id){
 	$sql = "select * from b_address where wr_id='$wr_id' ";
