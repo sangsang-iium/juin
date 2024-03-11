@@ -3,7 +3,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 $previous_page_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '/';
 
-
 // 회원가인 후 로그인시 오류때문에 추가 _20240308_SY
 if($previous_page_url == BV_MBBS_URL."/register_result.php") {
   $previous_page_url = BV_MURL;

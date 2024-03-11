@@ -2,7 +2,8 @@
 if(!defined('_BLUEVATION_')) exit;
 ?>
 
-<form name="fregform" method="post" action="./config/register_update.php">
+<!-- <form name="fregform" method="post" action="./config/register_update.php"> -->
+<form name="fregform" method="post" onsubmit="return fregform_submit(this);">
 <input type="hidden" name="token" value="">
 
 <h2>기본설정</h2>
@@ -82,7 +83,10 @@ if(!defined('_BLUEVATION_')) exit;
 	</tr>
 	<tr>
 		<th scope="row">개인정보처리방침</th>
-		<td><textarea name="shop_policy" class="frm_textbox wfull" rows="7"><?php echo preg_replace("/\\\/", "", $config['shop_policy']); ?></textarea></td>
+    <!-- <td><textarea name="shop_policy" class="frm_textbox wfull" rows="7"><?php //echo preg_replace("/\\\/", "", $config['shop_policy']); ?></textarea></td> -->
+    <td>
+      <?php echo editor_html('shop_policy', get_text(stripslashes($config['shop_policy']), 0)); ?>	
+    </td>
 	</tr>
 	</tbody>
 	</table>
@@ -92,3 +96,12 @@ if(!defined('_BLUEVATION_')) exit;
 	<input type="submit" value="저장" class="btn_large" accesskey="s">
 </div>
 </form>
+
+<script>
+function fregform_submit(f) {
+	<?php echo get_editor_js('shop_policy'); ?>
+
+	f.action = "./config/register_update.php";
+    return true;
+}
+</script>
