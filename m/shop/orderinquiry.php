@@ -31,6 +31,9 @@ $total_page = ceil($total_count / $rows); // 전체 페이지 계산
 if($page == "") { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
+if($from_record < 0) {
+  $from_record = 0;
+}
 // 비회원 주문확인의 경우 바로 주문서 상세조회로 이동
 if(!$is_member) {
     $sql = " select od_id, od_time, od_ip from shop_order where od_id = '$od_id' and od_pwd = '$od_pwd' ";

@@ -85,6 +85,12 @@ if ($act == "buy") {
       sql_query($sql);
     }
   }
+} else if($act == "deleteItem") {
+  // 장바구니 개별 삭제 _20240312_SY
+  $del_table = "shop_cart";
+  $del_where = " WHERE index_no = '{$index_no}' ";
+  $CART_DELETE = new IUD_Model;
+  $CART_DELETE->delete($del_table, $del_where);
 } else // 장바구니에 담기
 {
 	$count = count($_POST['gs_id']);

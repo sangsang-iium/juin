@@ -116,7 +116,7 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="name"><?php echo stripslashes($gs['gname']); ?></p>
             </div>
             <!-- 각 삭제 버튼 개발 필요 -->
-            <button type="button" class="delete ui-btn">닫기</button>
+            <button type="button" class="delete ui-btn" onclick="remove_cartItem(<?php echo $row['index_no']?>)">닫기</button>
           </div>
           <div class="cp-cart-body">
             <div class="thumb round60">
@@ -352,6 +352,31 @@ function form_check(act) {
     }
 
     return true;
+}
+
+// 장바구니 개별 삭제 _20240312_SY
+function remove_cartItem(e) {
+  var form = document.createElement('form');
+  form.method = 'POST';
+  form.action = bv_url + '/m/shop/cartupdate.php';
+
+  
+  var actInput = document.createElement('input');
+  actInput.type = 'hidden';
+  actInput.name = 'act';
+  actInput.value = 'deleteItem';
+  form.appendChild(actInput);
+
+  var indexNoInput = document.createElement('input');
+  indexNoInput.type = 'hidden';
+  indexNoInput.name = 'index_no';
+  indexNoInput.value = e;
+  form.appendChild(indexNoInput);
+
+  
+  document.body.appendChild(form);
+  form.submit();
+
 }
 </script>
 <!-- } 장바구니 끝 -->
