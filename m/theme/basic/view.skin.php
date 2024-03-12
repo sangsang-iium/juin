@@ -514,6 +514,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 </form>
 
+<!--
 <div id="prodShare" class="pop-bottom">
   <div class="top">
     <span class="tit">공유하기</span>
@@ -523,6 +524,23 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     <ul class="way">
       <?php echo $sns_share_links; ?>
     </ul>
+  </div>
+</div>
+-->
+
+<div id="prodShare" class="popup type02">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <span class="tit">공유하기</span>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="ct">
+        <ul class="way">
+          <?php echo $sns_share_links; ?>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 

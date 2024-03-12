@@ -312,14 +312,14 @@ $(document).ready(function () {
   const prodShareCloseBtn = prodSharePop.find(".close-btn");
 
   prodShareOpenBtn.on('click', function(){
-    prodSharePop.addClass('on');
+    prodSharePop.fadeIn(200).addClass("on");
     popDim.fadeIn(200);
   });
 
-  prodShareCloseBtn.on('click', function(){
-    prodSharePop.removeClass('on');
-    popDim.fadeOut(200);
-  });
+  // prodShareCloseBtn.on('click', function(){
+  //   prodSharePop.removeClass('on');
+  //   popDim.fadeOut(200);
+  // });
 
   // > Copy Link
   const copyLinkBtn = $(".copyLink-btn");
@@ -343,18 +343,13 @@ $(document).ready(function () {
   });
 
   //Sort
-  const cpSortList = $(".cp-sort__list");
+  const cpSortList = $("#cp-sort__list");
   const cpSortBtn = $(".cp-sort__btn");
   const cpSortClose = cpSortList.find(".close-btn");
   
   cpSortBtn.on('click', function(){
-    cpSortList.addClass('on');
+    cpSortList.fadeIn(200).addClass("on");
     popDim.fadeIn(200);
-  });
-
-  cpSortClose.on('click', function(){
-    cpSortList.removeClass('on');
-    popDim.fadeOut(200);
   });
 
   //Review More Contents

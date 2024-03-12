@@ -193,6 +193,11 @@
 
 .prod-buy_area.on .actBox {height: auto; transform: translate3d(0,0,0); opacity: 1; visibility: visible;}
 
+#prodShare {display: none; height: auto;}
+#prodShare .pop-inner {position: relative; top: 0; left: 0; transform: none; padding-left: 0; padding-right: 0; margin: 0 auto;}
+#prodShare .pop-inner .pop-top {}
+#prodShare .pop-inner .pop-top .tit {}
+#prodShare .pop-inner .pop-top .close {right: 1.96rem;}
 #prodShare .ct {padding: 0 2.4rem 1.36rem;}
 #prodShare .way > li {}
 #prodShare .way > li > a{display: block; padding: 1.2rem 1.04rem;}
