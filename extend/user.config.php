@@ -275,8 +275,7 @@ function category_depth($depth, $upcate = "") {
 
 // 토스 자동결제(빌링)
 class Tosspay {
-  private $auth = "test_ak_ZORzdMaqN3wQd5k6ygr5AkYXQGwy";
-
+  private $auth = "test_sk_DpexMgkW36ZvQYYo5Rx93GbR5ozO";
 
   function __construct() {
     $this->uid = uniqid();
@@ -285,26 +284,26 @@ class Tosspay {
   /**
    * 카드 등록을 요청합니다.
    *
-   * @param  string   $card  등록할 카드 번호
-   * @param  string   $y     카드 만료 연도 (YY)
-   * @param  string   $m     카드 만료 월 (MM)
-   * @param  string   $pw    카드 비밀번호
-   * @param  string   $birth 고객 생년월일
+   * @param  string   $customerKey  고객키
+   * @param  string   $amount     결제 금액 (구분자 없음)
+   * @param  string   $orderId     주문번호(솔루션 코드)
+   * @param  string   $orderName    주문자
+   * @param  string   $taxFreeAmount 과세 구분 (기본값은 0)
    * @param  string   $name  고객 이름
    * @param  string   $email 고객 이메일
    * @return stdClass API 응답
    */
-  function getBilling($card, $y, $m, $pw, $birth, $name, $email) {
+  function getBilling($customerKey, $amount, $orderId, $orderName, $taxFreeAmount, $name, $email) {
     $url  = 'https://api.tosspayments.com/v1/billing/authorizations/card';
     $data = array(
-      'customerKey'         => $this->uid,
-      'cardNumber'          => $card,
-      'cardExpirationYear'  => $y,
-      'cardExpirationMonth' => $m,
-      'cardPassword'        => $pw,
-      'customerBirthday'    => $birth,
-      'customerName'        => $name,
-      'customerEmail'       => $email,
+      'customerKey'        => $customerKey,
+      'amount'             => $amount,
+      'orderId'            => $orderId,
+      'orderName'          => $orderName,
+      'taxFreeAmount'      => $taxFreeAmount,
+      'taxExemptionAmount' => 0,
+      'customerName'       => $name,
+      'customerEmail'      => $email,
     );
 
     return $this->callApi($url, $data);
@@ -339,13 +338,13 @@ class Tosspay {
   /**
    * 빌링키 발급.
    *
-   * @param  string   $authKey      결제 키
-   * @param  string   $customerKey      고객 키
-   * @param  string   $credential      고객 키
+   * @param  string   $authKey     결제 키
+   * @param  string   $customerKey 고객 키
+   * @param  string   $credential  고객 키
    * @return stdClass API 응답
    */
   function issueBillingKey($authKey, $customerKey, $credential) {
-    $url       = 'https://api.tosspayments.com/v1/billing/authorizations/issue';
+    $url  = 'https://api.tosspayments.com/v1/billing/authorizations/issue';
     $data = array(
       'authKey'     => $authKey,
       'customerKey' => $customerKey,
@@ -361,10 +360,10 @@ class Tosspay {
    * @param  array    $data 전송할 데이터
    * @return stdClass API 응답
    */
-  private function callApi($url, $data, $credential="") {
-    if(empty($credential)){
+  private function callApi($url, $data, $credential = "") {
+    if (empty($credential)) {
       $credential = base64_encode($this->auth . ':');
-    }else {
+    } else {
       $credential = base64_encode($credential . ':');
     }
     $curlHandle = curl_init($url);
