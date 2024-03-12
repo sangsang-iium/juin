@@ -24,7 +24,7 @@ if(in_array("Y", $card_chk)){
 
 // 빌링키 발급 성공
 $Toss = new Tosspay();
-$secretKey = 'test_sk_DpexMgkW36ZvQYYo5Rx93GbR5ozO'; // 시크릿 키
+$secretKey = $default['de_toss_skey']; // 시크릿 키
 $issueResult = $Toss->issueBillingKey($authKey, $customerKey, $secretKey);
 if ($issueResult !== false) {
 	$db_input["mb_id"] = $member['id'];

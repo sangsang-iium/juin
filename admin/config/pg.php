@@ -31,10 +31,10 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">결제 테스트</th>
 		<td class="td_label">
-			<input type="radio" name="de_card_test" value="0" id="de_card_test_1" 
+			<input type="radio" name="de_card_test" value="0" id="de_card_test_1"
 			<?php echo get_checked($default['de_card_test'], "0"); ?>>
 			<label for="de_card_test_1">실결제</label>
-			<input type="radio" name="de_card_test" value="1" id="de_card_test_2" 
+			<input type="radio" name="de_card_test" value="1" id="de_card_test_2"
 			<?php echo get_checked($default['de_card_test'], "1"); ?>>
 			<label for="de_card_test_2">테스트결제</label>
 			<?php echo help('PG사의 결제 테스트를 하실 경우에 체크하세요. 결제단위 최소 1,000원'); ?>
@@ -42,19 +42,20 @@ if(!defined('_BLUEVATION_')) exit;
 	</tr>
 	<tr>
 		<th scope="row"><label for="de_pg_service">결제대행사</label></th>
-		<td> 
+		<td>
 			<select name="de_pg_service" id="de_pg_service">
 				<?php echo option_selected("kcp", $default['de_pg_service'], "NHN KCP"); ?>
-				<?php echo option_selected("lg",  $default['de_pg_service'], "LG유플러스"); ?>	
+				<?php echo option_selected("lg",  $default['de_pg_service'], "LG유플러스"); ?>
 				<?php echo option_selected("inicis", $default['de_pg_service'], "KG이니시스"); ?>
-			</select> 
+				<?php echo option_selected("toss", $default['de_pg_service'], "Toss"); ?>
+			</select>
 			<?php echo help('쇼핑몰에서 사용할 결제대행사를 선택합니다.'); ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">복합과세 결제</th>
 		<td>
-			<input type="checkbox" name="de_tax_flag_use" value="1" id="de_tax_flag_use" 
+			<input type="checkbox" name="de_tax_flag_use" value="1" id="de_tax_flag_use"
 			<?php echo get_checked($default['de_tax_flag_use'], "1"); ?>>
 			<label for="de_tax_flag_use">사용함</label>
 			<?php echo help("복합과세(과세, 비과세) 결제를 사용하려면 체크하십시오.<br>복합과세 결제를 사용하기 전 PG사에 별도로 결제 신청을 해주셔야 합니다. 사용시 PG사로 문의하여 주시기 바랍니다."); ?>
@@ -63,7 +64,7 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">현금영수증 발급사용</th>
 		<td>
-			<input type="checkbox" name="de_taxsave_use" value="1" id="de_taxsave_use" 
+			<input type="checkbox" name="de_taxsave_use" value="1" id="de_taxsave_use"
 			<?php echo get_checked($default['de_taxsave_use'], "1"); ?>>
 			<label for="de_taxsave_use">사용함</label>
 			<?php echo help("현금영수증 발급 취소는 PG사에서 지원하는 현금영수증 취소 기능을 사용하시기 바랍니다."); ?>
@@ -72,7 +73,7 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">신용카드 무이자할부사용</th>
 		<td>
-			<input type="checkbox" name="de_card_noint_use" value="1" id="de_card_noint_use" 
+			<input type="checkbox" name="de_card_noint_use" value="1" id="de_card_noint_use"
 			<?php echo get_checked($default['de_card_noint_use'], "1"); ?>>
 			<label for="de_card_noint_use">사용함</label>
 			<?php echo help("주문시 신용카드 무이자할부를 가능하게 할것인지를 설정합니다.<br>사용함으로 설정하시면 PG사 가맹점 관리자 페이지에서 설정하신 무이자할부 설정이 적용됩니다.<br>사용안함으로 설정하시면 PG사 무이자 이벤트 카드를 제외한 모든 카드의 무이자 설정이 적용되지 않습니다."); ?>
@@ -81,7 +82,7 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">PG사 간편결제 버튼사용</th>
 		<td>
-			<input type="checkbox" name="de_easy_pay_use" value="1" id="de_easy_pay_use" 
+			<input type="checkbox" name="de_easy_pay_use" value="1" id="de_easy_pay_use"
 			<?php echo get_checked($default['de_easy_pay_use'], "1"); ?>>
 			<label for="de_easy_pay_use">사용함</label>
 			<?php echo help("주문서 작성 페이지에 PG사 간편결제(PAYCO, PAYNOW, KPAY) 버튼의 별도 사용 여부를 설정합니다."); ?>
@@ -103,7 +104,7 @@ if(!defined('_BLUEVATION_')) exit;
 		<tr>
 			<th scope="row"><label for="de_kcp_mid">NHN KCP SITE CODE</label></th>
 			<td>
-				<input type="text" name="de_kcp_mid" value="<?php echo $default['de_kcp_mid']; ?>" id="de_kcp_mid" class="frm_input" size="10">					
+				<input type="text" name="de_kcp_mid" value="<?php echo $default['de_kcp_mid']; ?>" id="de_kcp_mid" class="frm_input" size="10">
 				<a href="http://www.kcp.co.kr/main.do" target="_blank" class="btn_small blue">NHN KCP서비스신청하기</a>
 				<?php echo help('NHN KCP에서 발급받으신 사이트코드를 입력해 주세요.'); ?>
 			</td>
@@ -114,12 +115,12 @@ if(!defined('_BLUEVATION_')) exit;
 				<input type="text" name="de_kcp_site_key" value="<?php echo $default['de_kcp_site_key']; ?>" id="de_kcp_site_key" class="frm_input" size="40">
 				<?php echo help("25자리 영대소문자와 숫자 - 그리고 _ 로 이루어 집니다. SITE KEY 발급 NHN KCP 전화: 1544-8660<br>예) 1Q9YRV83gz6TukH8PjH0xFf__"); ?>
 			</td>
-		</tr>			
+		</tr>
 		<tr>
 			<th scope="row">가상계좌 입금통보 URL</th>
 			<td>
 				<?php echo BV_SHOP_URL; ?>/settle_kcp_common.php
-				<?php echo help('위 주소를 <strong><a href="http://admin.kcp.co.kr" target="_blank">NHN KCP 관리자</a> &gt; 상점정보관리 &gt; 정보변경 &gt; 공통URL 정보 &gt; 공통URL 변경</strong>후에 입력하셔야 자동으로 입금 통보됩니다.'); ?>		
+				<?php echo help('위 주소를 <strong><a href="http://admin.kcp.co.kr" target="_blank">NHN KCP 관리자</a> &gt; 상점정보관리 &gt; 정보변경 &gt; 공통URL 정보 &gt; 공통URL 변경</strong>후에 입력하셔야 자동으로 입금 통보됩니다.'); ?>
 			</td>
 		</tr>
 		</tbody>
@@ -150,7 +151,7 @@ if(!defined('_BLUEVATION_')) exit;
 				<em>예) 95160cce09854ef44d2edb2bfb05f9f3</em>
 				<?php echo help('상점MertKey는 LG유플러스 상점관리자 <strong>[계약정보 &gt; 상점정보관리 &gt; 시스템연동정보]</strong>에서 확인하실 수 있습니다.'); ?>
 			</td>
-		</tr>			
+		</tr>
 		</tbody>
 		</table>
 	</div>
@@ -172,8 +173,8 @@ if(!defined('_BLUEVATION_')) exit;
 				<a href="https://www.inicis.com/" target="_blank" class="btn_small blue">KG이니시스 서비스신청하기</a>
 				<?php echo help('KG이니시스로 부터 발급 받으신 상점아이디(MID)를 입력해 주십시오.'); ?>
 			</td>
-		</tr>			
-		<tr> 
+		</tr>
+		<tr>
 			<th scope="row"><label for="de_inicis_admin_key">KG이니시스 키패스워드</label></th>
 			<td>
 				<input type="text" name="de_inicis_admin_key" value="<?php echo $default['de_inicis_admin_key']; ?>" id="de_inicis_admin_key" class="frm_input" size="5" maxlength="4">
@@ -182,24 +183,61 @@ if(!defined('_BLUEVATION_')) exit;
 		</tr>
 		<tr>
 			<th scope="row"><label for="de_inicis_sign_key">KG이니시스 웹결제 사인키</label></th>
-			<td>					
+			<td>
 				<input type="text" name="de_inicis_sign_key" value="<?php echo $default['de_inicis_sign_key']; ?>" id="de_inicis_sign_key" class="frm_input" size="40" maxlength="50">
 				<?php echo help('KG이니시스에서 발급받은 웹결제 사인키를 입력합니다.<br>관리자 페이지의 상점정보 > 계약정보 > 부가정보의 웹결제 signkey생성 조회 버튼 클릭, 팝업창에서 생성 버튼 클릭 후 해당 값을 입력합니다.'); ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row">KG이니시스 삼성페이 버튼</th>
-			<td>					
+			<td>
 				<input type="checkbox" name="de_samsung_pay_use" value="1" id="de_samsung_pay_use"<?php echo get_checked($default['de_samsung_pay_use'], "1"); ?>>
 				<label for="de_samsung_pay_use">사용함</label>
 				<?php echo help('주문서 작성 페이지에 KG이니시스 삼성페이 버튼의 별도 사용 여부를 설정합니다.'); ?>
 			</td>
-		</tr>	
+		</tr>
 		<tr>
 			<th scope="row">가상계좌 입금통보 URL</th>
 			<td>
 				<?php echo BV_SHOP_URL; ?>/settle_inicis_common.php
 				<?php echo help('위 주소를 <strong><a href="https://iniweb.inicis.com" target="_blank">KG이니시스 관리자</a> &gt; 거래조회 &gt; 가상계좌 &gt; 입금통보방식선택 &gt; URL 수신 설정</strong>에 입력하셔야 자동으로 입금 통보됩니다.'); ?>
+			</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="pg_info_fld toss_info_fld">
+	<h2>Tosspayment 계약정보</h2>
+	<div class="tbl_frm01">
+		<table>
+		<colgroup>
+			<col class="w180">
+			<col>
+		</colgroup>
+		<tbody>
+		<tr>
+			<th scope="row"><label for="de_toss_mid">Tosspayment 상점아이디</label></th>
+			<td>
+				<input type="text" name="de_toss_mid" value="<?php echo $default['de_toss_mid']; ?>" id="de_toss_mid" class="frm_input" size="10" maxlength="20">
+				<!-- <a href="http://ecredit.uplus.co.kr/" target="_blank" class="btn_small blue">LG유플러스 서비스신청하기</a> -->
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="de_toss_skey">Tosspayment 시크릿키</label></th>
+			<td>
+				<input type="text" name="de_toss_skey" value="<?php echo $default['de_toss_skey']; ?>" id="de_toss_skey" class="frm_input" size="40" maxlength="50">
+				<em>예) 95160cce09854ef44d2edb2bfb05f9f3</em>
+				<!-- <?php echo help('상점MertKey는 LG유플러스 상점관리자 <strong>[계약정보 &gt; 상점정보관리 &gt; 시스템연동정보]</strong>에서 확인하실 수 있습니다.'); ?> -->
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><label for="de_toss_ckey">Tosspayment 클라이언트키</label></th>
+			<td>
+				<input type="text" name="de_toss_ckey" value="<?php echo $default['de_toss_ckey']; ?>" id="de_toss_ckey" class="frm_input" size="40" maxlength="50">
+				<em>예) 95160cce09854ef44d2edb2bfb05f9f3</em>
+				<!-- <?php echo help('상점MertKey는 LG유플러스 상점관리자 <strong>[계약정보 &gt; 상점정보관리 &gt; 시스템연동정보]</strong>에서 확인하실 수 있습니다.'); ?> -->
 			</td>
 		</tr>
 		</tbody>
@@ -217,7 +255,7 @@ if(!defined('_BLUEVATION_')) exit;
 	<tbody>
 	<tr>
 		<th scope="row">에스크로 사용</th>
-		<td> 
+		<td>
 			<input type="radio" name="de_escrow_use" value="0" id="de_escrow_use_no"<?php echo get_checked($default['de_escrow_use'], "0"); ?>>
 			<label for="de_escrow_use_no">일반결제 사용</label>
 			<input type="radio" name="de_escrow_use" value="1" id="de_escrow_use_yes"<?php echo get_checked($default['de_escrow_use'], "1"); ?>>
@@ -276,7 +314,7 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 
 <script>
-$(function() { 
+$(function() {
     $(".pg_info_fld").hide();
     <?php if($default['de_pg_service']) { ?>
     $(".<?php echo $default['de_pg_service']; ?>_info_fld").show();
@@ -349,45 +387,45 @@ if($default['de_iche_use'] || $default['de_vbank_use'] || $default['de_hp_use'] 
         }
     }
 
-    // 이니시스의 경우 log 디렉토리 체크
-    if($default['de_pg_service'] == 'inicis') {
-        if(!function_exists('xml_set_element_handler')) {
-            echo '<script>'.PHP_EOL;
-            echo 'alert("XML 관련 함수를 사용할 수 없습니다.\n서버 관리자에게 문의해 주십시오.");'.PHP_EOL;
-            echo '</script>'.PHP_EOL;
-        }
+    // // 이니시스의 경우 log 디렉토리 체크
+    // if($default['de_pg_service'] == 'inicis') {
+    //     if(!function_exists('xml_set_element_handler')) {
+    //         echo '<script>'.PHP_EOL;
+    //         echo 'alert("XML 관련 함수를 사용할 수 없습니다.\n서버 관리자에게 문의해 주십시오.");'.PHP_EOL;
+    //         echo '</script>'.PHP_EOL;
+    //     }
 
-        if(!function_exists('openssl_get_publickey')) {
-            echo '<script>'.PHP_EOL;
-            echo 'alert("OPENSSL 관련 함수를 사용할 수 없습니다.\n서버 관리자에게 문의해 주십시오.");'.PHP_EOL;
-            echo '</script>'.PHP_EOL;
-        }
+    //     if(!function_exists('openssl_get_publickey')) {
+    //         echo '<script>'.PHP_EOL;
+    //         echo 'alert("OPENSSL 관련 함수를 사용할 수 없습니다.\n서버 관리자에게 문의해 주십시오.");'.PHP_EOL;
+    //         echo '</script>'.PHP_EOL;
+    //     }
 
-        if(!function_exists('socket_create')) {
-            echo '<script>'.PHP_EOL;
-            echo 'alert("SOCKET 관련 함수를 사용할 수 없습니다.\n서버 관리자에게 문의해 주십시오.");'.PHP_EOL;
-            echo '</script>'.PHP_EOL;
-        }
+    //     if(!function_exists('socket_create')) {
+    //         echo '<script>'.PHP_EOL;
+    //         echo 'alert("SOCKET 관련 함수를 사용할 수 없습니다.\n서버 관리자에게 문의해 주십시오.");'.PHP_EOL;
+    //         echo '</script>'.PHP_EOL;
+    //     }
 
-        if(!function_exists('mcrypt_module_open')) {
-            echo '<script>'.PHP_EOL;
-            echo 'alert("MCRYPT 관련 함수를 사용할 수 없습니다.\n서버 관리자에게 문의해 주십시오.");'.PHP_EOL;
-            echo '</script>'.PHP_EOL;
-        }
+    //     if(!function_exists('mcrypt_module_open')) {
+    //         echo '<script>'.PHP_EOL;
+    //         echo 'alert("MCRYPT 관련 함수를 사용할 수 없습니다.\n서버 관리자에게 문의해 주십시오.");'.PHP_EOL;
+    //         echo '</script>'.PHP_EOL;
+    //     }
 
-        $log_path = BV_SHOP_PATH.'/inicis/log';
+    //     $log_path = BV_SHOP_PATH.'/inicis/log';
 
-        if(!is_dir($log_path)) {
-            echo '<script>'.PHP_EOL;
-            echo 'alert("'.str_replace(BV_PATH.'/', '', BV_SHOP_PATH).'/inicis 폴더 안에 log 폴더를 생성하신 후 쓰기권한을 부여해 주십시오.\n> mkdir log\n> chmod 707 log");'.PHP_EOL;
-            echo '</script>'.PHP_EOL;
-        } else {
-            if(!is_writable($log_path)) {
-                echo '<script>'.PHP_EOL;
-                echo 'alert("'.str_replace(BV_PATH.'/', '',$log_path).' 폴더에 쓰기권한을 부여해 주십시오.\n> chmod 707 log");'.PHP_EOL;
-                echo '</script>'.PHP_EOL;
-            }
-        }
-    }
+    //     if(!is_dir($log_path)) {
+    //         echo '<script>'.PHP_EOL;
+    //         echo 'alert("'.str_replace(BV_PATH.'/', '', BV_SHOP_PATH).'/inicis 폴더 안에 log 폴더를 생성하신 후 쓰기권한을 부여해 주십시오.\n> mkdir log\n> chmod 707 log");'.PHP_EOL;
+    //         echo '</script>'.PHP_EOL;
+    //     } else {
+    //         if(!is_writable($log_path)) {
+    //             echo '<script>'.PHP_EOL;
+    //             echo 'alert("'.str_replace(BV_PATH.'/', '',$log_path).' 폴더에 쓰기권한을 부여해 주십시오.\n> chmod 707 log");'.PHP_EOL;
+    //             echo '</script>'.PHP_EOL;
+    //         }
+    //     }
+    // }
 }
 ?>

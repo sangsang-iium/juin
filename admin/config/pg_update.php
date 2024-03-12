@@ -36,6 +36,9 @@ $value['de_inicis_mid']			= $_POST['de_inicis_mid']; // KG이니시스 상점아
 $value['de_inicis_admin_key']	= $_POST['de_inicis_admin_key']; // KG이니시스 키패스워드
 $value['de_inicis_sign_key']	= $_POST['de_inicis_sign_key']; // KG이니시스 웹결제 사인키
 $value['de_samsung_pay_use']	= $_POST['de_samsung_pay_use']; // KG이니시스 삼성페이 버튼
+$value['de_toss_mid']	= $_POST['de_toss_mid']; // 토스 상점 아이디
+$value['de_toss_skey']	= $_POST['de_toss_skey']; // 토스 시크릿 키
+$value['de_toss_ckey']	= $_POST['de_toss_ckey']; // 토스 클라이언트키
 update("shop_default", $value);
 
 goto_url(BV_ADMIN_URL.'/config.php?code=pg');
