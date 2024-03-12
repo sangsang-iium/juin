@@ -52,7 +52,7 @@ include_once("./_head.php");
 <!-- <button class="button is-link" onclick="billing('카드',jsons.card);">자동결제</button> -->
   <script>
     // ------ 클라이언트 키로 객체 초기화 ------
-    var clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
+    var clientKey = 'test_ck_LkKEypNArWLnNb4bORWa8lmeaxYG';
     var tossPayments = TossPayments(clientKey);
 
     var amount = 4900;
