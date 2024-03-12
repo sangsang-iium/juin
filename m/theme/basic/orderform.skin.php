@@ -97,8 +97,8 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
           </div>
         </div>
       </div>
-      
-      <!-- 기존소스 { 
+
+      <!-- 기존소스 {
       <li class="sod_li">
         <input type="hidden" name="gs_id[<?php //echo $i; ?>]" value="<?php //echo $row['gs_id']; ?>">
         <input type="hidden" name="gs_notax[<?php //echo $i; ?>]" value="<?php //echo $gs['notax']; ?>">
@@ -268,7 +268,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               </tr>
               <tr>
                 <th scope="row">E-mail</th>
-                <td><input type="text" name="email" value="<?php echo $member['email']; ?>" 
+                <td><input type="text" name="email" value="<?php echo $member['email']; ?>"
                     class="frm_input  wfull"></td>
               </tr>
             </tbody>
@@ -297,7 +297,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               <tr>
 <!--                 <th scope="row">이름</th> -->
                 <td>
-				
+
 				<input type="text" name="b_name"  class="frm_input required od-dtn__contact"  placeholder="이름">
 						<span class="tags1">기본배송지</span>
 
@@ -352,19 +352,19 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             <div class="od-dtn-info">
 			<?php
 			$mb_id = $member['id'];
-		
+
 					$sqlb_address = "select * from b_address where mb_id='$mb_id'  and b_base='1' ";
 					$res = sql_fetch($sqlb_address);
 			?>
               <p class="od-dtn__name">
-                <span class="nm"><?php echo $member['name']; ?></span> 
-                <?php 
-				 
+                <span class="nm"><?php echo $member['name']; ?></span>
+                <?php
+
 					if($res['b_base']=='1'){
 						echo '<span class="tag">기본배송지</span>';
 						?>
 
-					
+
               </p>
               <p class="od-dtn__addr"><?php echo print_address($res['b_addr1'], $res['b_addr2'], $res['b_addr3'], $res['b_addr_jibeon']); ?></p>
               <p class="od-dtn__contact"><?php echo $res['b_cellphone']; ?></p>
@@ -372,7 +372,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 					}else{
 						echo "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
 					}
-				?> 
+				?>
 			</div>
 
             <div class="od-dtn-btns">
@@ -424,7 +424,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                 </div>
               </div>
               <?php } ?>
-              
+
               <?php if($is_member && $config['usepoint_yes']) { ?>
               <div class="form-row">
                 <div class="form-head">
@@ -437,7 +437,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                   </div>
                   <div class="od-esPoint">
                     <span class="t1">구매시 예상 적립금</span>
-                    <span class="t2">100원</span>
+                    <span class="t2"><?php echo number_format($tot_point); ?>원</span>
                   </div>
                   <div class="form-itxt">
                     <p>예상 적립금은 최종 결제 금액에서 사용하신 적립금을 제외한 결제금액을 기준으로 지급됩니다.</p>
@@ -462,15 +462,15 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             <ul class="prc-tot">
               <li>
                 <span class="lt-txt">총 상품금액</span>
-                <span class="rt-txt">54,000원</span>
+                <span class="rt-txt"><?php echo number_format($tot_sell_price) ?>원</span>
               </li>
               <li>
                 <span class="lt-txt">배송비</span>
-                <span class="rt-txt">+3,000원</span>
+                <span class="rt-txt"><?php echo number_format($tot_send_cost) ?>원</span>
                 <ul class="prc-tot2">
                   <li>
                     <span class="lt-txt">기본배송비</span>
-                    <span class="rt-txt">+3,000원</span>
+                    <span class="rt-txt"><?php echo number_format($tot_send_cost) ?>원</span>
                   </li>
                   <li>
                     <span class="lt-txt">추가배송비</span>
@@ -560,6 +560,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             if($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
               $multi_settle .= "<option value='삼성페이'>삼성페이</option>\n";
             }
+
             ?>
 
             <section id="sod_frm_pay">
@@ -673,10 +674,10 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
           </div>
         </div>
       </div>
-      
-     
 
-      
+
+
+
 
       <div class="btn_confirm">
         <div class="container">
@@ -686,7 +687,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             <p class="price">
               <span class="spr">92,000<span class="won">원</span></span>
               <span class="txt"> 구매하기</span>
-            </p> 
+            </p>
           </button>
           -->
         </div>
@@ -889,7 +890,7 @@ $(function () {
         check_field(f.company_addr, "사업장소재지를 입력하세요");
         check_field(f.company_item, "업태를 입력하세요");
         check_field(f.company_service, "종목을 입력하세요");
-      } 
+      }
     <?php } ?>
 
     if (errmsg) {
@@ -976,7 +977,7 @@ $(function () {
       $("#bank_section").show();
       $("input[name=use_point]").val(0);
       $("input[name=use_point]").attr("readonly", false);
-      calculate_order_price(); 
+      calculate_order_price();
       <?php if (!$config['company_type']) { ?>
         $("#taxsave_section").show();
       <?php } ?>
