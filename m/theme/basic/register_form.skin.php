@@ -98,17 +98,20 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 					</div>
 					<?php } ?>
-					<?php if($config['register_use_hp'] || $config['cf_cert_hp']) { ?>
+					<?php if($config['register_use_hp'] || $config['cf_cert_hp']) { 
+            // 휴대폰 번호 분리 _20240312_SY
+            $cell_phone = explode("-", $member['cellphone']);
+          ?>
 					<div class="form-row">
 						<div class="form-head">
 							<p class="title"><label for="reg_mb_hp">핸드폰번호</label><b>*</b></p>
 						</div>
 						<div class="form-body phone">
-							<input type="tel" name="mb_hp[]" value="<?php echo get_text($member['cellphone']); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[0]); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							<span class="hyphen">-</span>
-							<input type="tel" name="mb_hp[]" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[1]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							<span class="hyphen">-</span>
-							<input type="tel" name="mb_hp[]" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[2]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							<div class="frm-choice">
 								<input type="checkbox" name="mb_sms" id="chk-sms" value="Y"<?php echo ($w=='' || $member['smsser'] == 'Y')?' checked':''; ?>>
 								<label for="chk-sms">핸드폰 문자메세지를 받겠습니다.</label>

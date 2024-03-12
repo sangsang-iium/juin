@@ -80,3 +80,17 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     ?>
   </div>
 </div>
+
+
+<div id="review-write-popup" class="popup type02 add-popup add-in-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">리뷰 작성</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+      </div>
+    </div>
+  </div>
+</div>
