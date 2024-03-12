@@ -76,7 +76,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     </div>
 
     <?php 
-    echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?page='); 
+      echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?page='); 
     ?>
   </div>
 </div>
