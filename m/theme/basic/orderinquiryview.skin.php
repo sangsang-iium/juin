@@ -6,7 +6,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div id="sod_fin">
 
     <!-- 주문 완료 { -->
-    <div id="orderComplete" style="display: none;">
+    <div id="orderComplete" style="display: block;">
       <div class="container">
         <p class="od-cmp_tit"><span>주문완료</span> 되었습니다.</p>
         <div class="od-cmp-info">

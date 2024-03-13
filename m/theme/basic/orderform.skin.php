@@ -198,6 +198,9 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
     <?php
     $content = ob_get_contents();
     ob_end_clean();
+
+    $sql_card = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}' AND cr_use = 'Y'";
+    $row_card = sql_fetch($sql_card);
     ?>
   </div>
 
@@ -207,6 +210,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       onsubmit="return fbuyform_submit(this);" autocomplete="off">
       <input type="hidden" name="ss_cart_id" value="<?php echo $ss_cart_id; ?>">
       <input type="hidden" name="mb_point" value="<?php echo $member['point']; ?>">
+      <input type="hidden" name="card_id" value="<?php echo $row_card['idx'] ?>">
       <input type="hidden" name="pt_id" value="<?php echo $mb_recommend; ?>">
       <input type="hidden" name="shop_id" value="<?php echo $pt_id; ?>">
       <input type="hidden" name="coupon_total" value="0">
@@ -815,11 +819,19 @@ $(function () {
 
     var min_point = parseInt("<?php echo $config['usepoint']; ?>");
     var temp_point = parseInt(no_comma(f.use_point.value));
+    var card_id = f.card_id.value.trim();
     var sell_price = parseInt(f.org_price.value);
     var send_cost2 = parseInt(f.baesong_price2.value);
     var mb_coupon = parseInt(f.coupon_total.value);
     var mb_point = parseInt(f.mb_point.value);
     var tot_price = sell_price + send_cost2 - mb_coupon;
+    // 무통장 예외 처리 필요
+    if(card_id === '' || card_id === null){
+      var card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록이후 구매 하시겠습니까?");
+      if(card_confirm){
+        window.location.href = "/m/shop/card.php";
+      }
+    }
 
 	if(f.b_zip.value==''){
 		alert('배송지를 지정해 주십시요');
