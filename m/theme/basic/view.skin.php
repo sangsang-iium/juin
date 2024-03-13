@@ -645,7 +645,11 @@ $(document).ready(function(){
   //할인쿠폰받기 팝업
   $(".cupon-downlad-btn").on("click", function () {
     const gsId = "<?php echo $gs_id;?>";
-
+    var mb_id = '<?=$member['mb_id']?>';
+    if(!mb_id){
+      alert('회원만 이용가능한 서비스 입니다.');
+      return false;
+    }
     const popId = "#coupon-popup";
     const reqPathUrl = "./pop_coupon.php";
     const reqMethod = "GET";

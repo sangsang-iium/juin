@@ -25,7 +25,7 @@ if($wr_id){
 ?> 
 
 <form name="b_saveform" id="b_saveform">
-<input type="hidden" name = "wr_id" value="<?=$wr_id?>">
+<input type="hidden" name = "wr_id" id="b_wr_id" value="<?=$wr_id?>">
     <div id="sod_addr_write">
         <div class="form-wrap">
             <div class="form-row">
@@ -158,12 +158,14 @@ if($wr_id){
 				'b_addr1':$("#b_addr1_save").prop('value'),
 				'b_addr2':$("#b_addr2_save").prop('value'),
 					'b_base':$("#set_df_addr").prop('value'),
+					'b_wr_id':$("#b_wr_id").prop('value'),
             },
             dataType:"text",
             success:function(result){ 
                 console.log(result);
 				if(result!="fail")
 					{
+					  //console.log(result);
 						alert("기본 배송지가 등록되었습니다.");
 						//cupondownladbtnevt();
 						return false;
