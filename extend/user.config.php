@@ -293,8 +293,8 @@ class Tosspay {
    * @param  string   $email 고객 이메일
    * @return stdClass API 응답
    */
-  function autoPay($customerKey, $amount, $orderId, $orderName, $taxFreeAmount, $name, $email) {
-    $url  = 'https://api.tosspayments.com/v1/billing/authorizations/card';
+  function autoPay($customerKey, $amount, $orderId, $orderName, $taxFreeAmount, $name, $email, $billingKey) {
+    $url  = 'https://api.tosspayments.com/v1/billing/'.$billingKey;
     $data = array(
       'customerKey'        => $customerKey,
       'amount'             => $amount,
