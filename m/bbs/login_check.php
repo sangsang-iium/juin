@@ -84,7 +84,13 @@ if($url) {
     $link = BV_MURL;
 }
 if($ref_url){
+  // 로그아웃 후 로그인 시 생기는 오류 _20240313_SY
+  $last_object = end(explode("/", $ref_url));
+  if($last_object == "logout.php") {
+    $link = BV_MURL;
+  } else {
     $link = $ref_url;
+  }
 }
 
 goto_url($link);

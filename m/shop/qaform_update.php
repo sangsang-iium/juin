@@ -2,6 +2,9 @@
 include_once("./_common.php");
 include_once(BV_LIB_PATH."/mailer.lib.php");
 
+error_reporting( E_ALL );
+ini_set( "display_errors", 1 );
+
 check_demo();
 
 if(!$is_member) {
