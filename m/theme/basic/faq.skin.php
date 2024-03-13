@@ -52,9 +52,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			if($faqcate) $sql .= " where cate='$faqcate'";
 			$sql.= " order by index_no asc ";
 			$rst = sql_query($sql);
+      // 총 개수 _20240313_SY
+      $sql_count = sql_num_rows($rst);
 			?>
 			<div class="txt-board-cnt">
-				총 <span class="cnt">160</span>건
+				총 <span class="cnt"><?php echo $sql_count ?></span>건
 			</div>
 			<div class="qa-board">
 				<?php

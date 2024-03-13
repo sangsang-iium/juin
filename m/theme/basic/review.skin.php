@@ -31,11 +31,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			<div class="cp-cart order">
 				<div class="cp-cart-item">
 					<div class="cp-cart-body">
-						<a href="<?php echo $href; ?>" target="_blank" class="thumb round60">
+						<a href="<?php echo $href; ?>" class="thumb round60">
 							<img src="<?php echo get_it_image_url($row['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
 						</a>
 						<div class="content">
-							<a href="<?php echo $href; ?>" target="_blank" class="name"><?php echo cut_str($gs['gname'], 55); ?></a>
+							<a href="<?php echo $href; ?>" class="name"><?php echo cut_str($gs['gname'], 55); ?></a>
 						</div>
 					</div>
 				</div>
