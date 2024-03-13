@@ -259,13 +259,13 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             <div class="rv-sort-wr">
               <div class="rv-sort-list">
                 <div class="rv-sort-item active">
-                  <button type="button">최신순</button>
+                  <button type="button" class="btn" >최신순</button>
                 </div>
                 <div class="rv-sort-item">
-                  <button type="button">평점높은순</button>
+                  <button type="button" class="btn" >평점높은순</button>
                 </div>
                 <div class="rv-sort-item">
-                  <button type="button">평점낮은순</button>
+                  <button type="button" class="btn" >평점낮은순</button>
                 </div>
               </div>
             </div>
