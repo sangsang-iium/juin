@@ -55,6 +55,9 @@ if((int)$_POST['tot_price'] == 0) { // 총 결제금액이 0 이면
 		$_POST['paymethod'] = '포인트';
 	}
 }
+if($_POST['paymethod'] == '신용카드'){
+	$dan = 2;
+}
 
 set_session('tot_price', (int)$_POST['tot_price']);
 set_session('use_point', (int)$_POST['use_point']);
@@ -426,8 +429,8 @@ if(in_array($_POST['paymethod'],array('무통장','포인트'))) {
 	$or_insert['taxFreeAmount'] = $toss_run->taxFreeAmount;
 	$or_insert['method'] = $toss_run->method;
 	$or_insert['version'] = $toss_run->version;
-	$or_where = "WHERE od_id = {$od_id}";
-	$tran_id = $orderInsert->insert('toss_transactions', $or_insert, $or_where);
+	// $or_where = "WHERE od_id = {$od_id}";
+	$tran_id = $orderInsert->insert('toss_transactions', $or_insert);
 
 	goto_url(BV_MSHOP_URL . '/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid.'&tran_id='.$tran_id);
 } else {

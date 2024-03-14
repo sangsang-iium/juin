@@ -284,17 +284,17 @@ class Tosspay {
   /**
    * 카드 등록을 요청합니다.
    *
-   * @param  string   $customerKey  고객키
-   * @param  string   $amount     결제 금액 (구분자 없음)
-   * @param  string   $orderId     주문번호(솔루션 코드)
-   * @param  string   $orderName    주문자
+   * @param  string   $customerKey   고객키
+   * @param  string   $amount        결제 금액 (구분자 없음)
+   * @param  string   $orderId       주문번호(솔루션 코드)
+   * @param  string   $orderName     주문자
    * @param  string   $taxFreeAmount 과세 구분 (기본값은 0)
-   * @param  string   $name  고객 이름
-   * @param  string   $email 고객 이메일
+   * @param  string   $name          고객 이름
+   * @param  string   $email         고객 이메일
    * @return stdClass API 응답
    */
   function autoPay($customerKey, $amount, $orderId, $orderName, $taxFreeAmount, $name, $email, $billingKey) {
-    $url  = 'https://api.tosspayments.com/v1/billing/'.$billingKey;
+    $url  = 'https://api.tosspayments.com/v1/billing/' . $billingKey;
     $data = array(
       'customerKey'        => $customerKey,
       'amount'             => $amount,
@@ -310,29 +310,23 @@ class Tosspay {
   }
 
   /**
-   * 결제를 승인합니다.
+   * 결제 취소
    *
-   * @param  string   $bk      결제 키
-   * @param  string   $ck      고객 키
-   * @param  string   $od_id   주문 ID
-   * @param  string   $amount  결제 금액
-   * @param  string   $email   고객 이메일
-   * @param  string   $u_name  고객 이름
-   * @param  string   $od_name 주문명
+   * @param  string   $paymentKey   결제 키
+   * @param  string   $cancelReason 취소 사유
+   * @param  string   $cancelAmount 빈값은 전체 취소 값이 있으면 부분 취소
    * @return stdClass API 응답
    */
-  function billingApprove($bk, $ck, $od_id, $amount, $email, $u_name, $od_name) {
-    $url  = 'https://api.tosspayments.com/v1/billing/' . $bk;
+  function cancel($paymentKey, $cancelReason, $cancelAmount = '') {
+    $url  = 'https://api.tosspayments.com/v1/payments/' . $paymentKey . '/cancel';
     $data = array(
-      'orderId'       => $od_id,
-      'amount'        => $amount,
-      'customerKey'   => $ck,
-      'customerEmail' => $email,
-      'customerName'  => $u_name,
-      'orderName'     => $od_name,
+      'cancelReason' => $cancelReason,
+      'cancelAmount' => $cancelAmount,
     );
 
-    return $this->callApi($url, $data);
+    $credential = $this->auth;
+
+    return $this->callApi($url, $data, $credential);
   }
 
   /**

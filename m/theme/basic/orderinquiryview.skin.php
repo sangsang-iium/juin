@@ -6,8 +6,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div id="sod_fin">
 
     <!-- 주문 완료 { -->
-    <div id="orderComplete" style="display: block;">
+    <div id="orderComplete" >
       <div class="container">
+        <?php  ?>
         <p class="od-cmp_tit"><span>주문완료</span> 되었습니다.</p>
         <div class="od-cmp-info">
           <ul>
@@ -53,7 +54,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                   <p class="num"><?php echo $od_id; ?></p>
                 </div>
               </div>
-              <!-- loop -->
+
               <?php
               $st_count1 = $st_count2 = $st_cancel_price = 0;
               $custom_cancel = false;
@@ -106,7 +107,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                   </div>
                 </div>
               </div>
-              <!-- loop -->
+
               <?php
                 $st_count1++;
                 if(in_array($rw['dan'], array('1','2','3')))
@@ -119,7 +120,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               if($st_count1 > 0 && $st_count1 == $st_count2)
                 $custom_cancel = true;
               ?>
-        </div><!-- smb_order -->
+        </div>
       </div>
     </div>
 
@@ -787,6 +788,15 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 
 <script>
+var listchk = '<?php echo isset($_GET['list']) ? $_GET['list'] : "" ?>';
+
+if (listchk === "" || listchk === null) {
+  document.getElementById("orderComplete").style.display = "block";
+  document.getElementById("sod_fin_list").style.display = "none";
+} else {
+  document.getElementById("orderComplete").style.display = "none";
+  document.getElementById("sod_fin_list").style.display = "block";
+}
 const popUp = () => {
   let popBtn = $('.order-cancel-btn'); // 팝업 버튼
   let popLayer = $('#sod_fin_cancelfrm'); // 팝업 레이어
