@@ -1,7 +1,6 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+
 include_once("./_common.php");
 include_once(BV_LIB_PATH.'/mailer.lib.php');
 
@@ -379,10 +378,6 @@ if(in_array($_POST['paymethod'],array('무통장','포인트'))) {
 	$toss_run = $TossRun->autoPay($t_ckey, $t_amount, $t_orderid, $t_ordername, $t_taxfreeamount, $t_name, $t_email, $billingkey);
 
 
-	print_r($toss_run);
-
-
-
 	$orderInsert = new IUD_Model();
 	$or_insert['mId'] = $toss_run->mId;
 	$or_insert['lastTransactionKey'] = $toss_run->lastTransactionKey;
@@ -434,7 +429,7 @@ if(in_array($_POST['paymethod'],array('무통장','포인트'))) {
 	$or_where = "WHERE od_id = {$od_id}";
 	$tran_id = $orderInsert->insert('toss_transactions', $or_insert, $or_where);
 
-	// goto_url(BV_MSHOP_URL . '/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid.'&tran_id='.$tran_id);
+	goto_url(BV_MSHOP_URL . '/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid.'&tran_id='.$tran_id);
 } else {
 	if($default['de_pg_service'] == 'kcp')
 		goto_url(BV_MSHOP_URL.'/orderkcp.php?od_id='.$od_id);
