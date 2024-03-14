@@ -478,7 +478,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                 <div class="form-body">
                   <span id="dc_coupon">
 
-                    <a href="javascript:window.open('<?php echo BV_MSHOP_URL; ?>/ordercoupon.php');" class="ui-btn st2">사용 가능 쿠폰</a>
+<!--                    <a href="javascript:window.open('<?php echo BV_MSHOP_URL; ?>/ordercoupon.php');" class="ui-btn st2">사용 가능 쿠폰</a>-->
                     <a href="javascript:(0)" class="ui-btn st2 couponopen">사용 가능 쿠폰</a>
 
                   </span>
