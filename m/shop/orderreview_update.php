@@ -44,7 +44,9 @@ if($w == "")
 
 	sql_query("update shop_goods set m_count = m_count + 1 where index_no='$gs_id'");
 
-	alert("정상적으로 등록 되었습니다.","replace");
+  // 완료 후 링크 이동 수정 _20240314_SY
+	// alert("정상적으로 등록 되었습니다.","replace");
+	alert("정상적으로 등록 되었습니다.",$_SERVER['HTTP_REFERER']);
 }
 else if($w == "u")
 {
@@ -54,7 +56,9 @@ else if($w == "u")
 			  where index_no = '$me_id' ";
     sql_query($sql);
 
-	alert("정상적으로 수정 되었습니다.","replace");
+  // 완료 후 링크 이동 수정 _20240314_SY
+	// alert("정상적으로 수정 되었습니다.","replace");
+  alert("정상적으로 등록 되었습니다.",$_SERVER['HTTP_REFERER']);
 }
 else if($w == "d")
 {
