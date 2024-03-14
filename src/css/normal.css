@@ -669,6 +669,8 @@
 .pg .pg_start {display: none!important;}
 .pg .pg_end {display: none!important;}
 .pg .pg_prev {width: 4.4rem; height: 4.4rem; border: 0.16rem solid #ddd!important; border-radius: 50%; background: url('/src/img/pg-prev.png') no-repeat center; background-size: 0.72rem 1.6rem; margin-right: 0.48rem;}
+/* a.pg_prev 추가 */
+.pg a.pg_prev {background-position: center;}
 .pg .pg_next {width: 4.4rem; height: 4.4rem; border: 0.16rem solid #ddd!important; border-radius: 50%; background: url('/src/img/pg-next.png') no-repeat center; background-size: 0.72rem 1.6rem; margin-left: 0.48rem;}
 .pg a:focus, .pg a:hover {border: none;}
 .pg a.pg_next {background-position: center;}
