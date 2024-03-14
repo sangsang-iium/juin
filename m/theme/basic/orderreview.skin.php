@@ -31,7 +31,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		</div>
 	</div>
 
-	<div class="score">
+	<div class="score" id="score">
 		<div class="score-list">
 			<input type="radio" id="scoreStar5" name="wr_score" value="5" <?php echo get_checked($wr_score, '5'); ?>><label for="scoreStar5">5점(<?php echo $gw_star[5]; ?>)</label>
 			<input type="radio" id="scoreStar4" name="wr_score" value="4" <?php echo get_checked($wr_score, '4'); ?>><label for="scoreStar4">4점(<?php echo $gw_star[4]; ?>)</label>
@@ -106,14 +106,22 @@ function forderreview_submit(f) {
 		return false;
 	}
 
-	if(!getSelectVal(f["wr_score"])){
+	// if(!getSelectVal(f["wr_score"])){
+  //   alert('평점을 선택하세요.');
+  //   f.wr_score.focus();
+  // 	return false;
+  // }
+    
+  // 평점입력 오류나서 수정 _20240314_SY
+  if(f["wr_score"].value == "" || f["wr_score"].value == undefined) {
 		alert('평점을 선택하세요.');
-		f.wr_score.focus();
+    $("#score").attr("tabindex", -1).focus();
 		return false;
 	}
 
-	if(confirm("등록 하시겠습니까?") == false)
+	if(confirm("등록 하시겠습니까?") == false) {
 		return false;
+  }
 
     return true;
 }
