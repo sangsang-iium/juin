@@ -826,7 +826,7 @@ $(function () {
     var mb_point = parseInt(f.mb_point.value);
     var tot_price = sell_price + send_cost2 - mb_coupon;
     // 무통장 예외 처리 필요
-    if(card_id === '' || card_id === null){
+    if(getSelectVal(f["paymethod"]) == '신용카드'&& card_id === '' || card_id === null){
       var card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록이후 구매 하시겠습니까?");
       if(card_confirm){
         window.location.href = "/m/shop/card.php";
