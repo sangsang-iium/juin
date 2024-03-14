@@ -7,27 +7,27 @@ if(!$is_member) {
 var_dump($member);
 $mb_id = $member['id'];
 
-if($wr_id){
+if($b_wr_id){
 	//update
 	$sql = "
 	 update b_address
 		 set
-		 $mb_id = '$mb_id'
-		,$b_cellphone = '$b_cellphone'
-		,$b_telephone = '$b_telephone'
-		,$b_zip = '$b_zip'
-		,$b_addr1 = '$b_addr1'
-		,$b_addr2 = '$b_addr2'
-		,$b_addr3 = '$b_addr3'
-		,$b_addr_jibun = '$b_addr_jibun'
-		,$b_name = '$b_name'
-		,$b_base = '$b_base'
-		,$b_addr_jibeon = '$b_addr_jibeon'
+		 mb_id = '$mb_id'
+		,b_cellphone = '$b_cellphone'
+		,b_telephone = '$b_telephone'
+		,b_zip = '$b_zip'
+		,b_addr1 = '$b_addr1'
+		,b_addr2 = '$b_addr2'
+		,b_addr3 = '$b_addr3'
+		,b_addr_jibun = '$b_addr_jibun'
+		,b_name = '$b_name'
+		,b_base = '$b_base'
+		,b_addr_jibeon = '$b_addr_jibeon'
 
 		where wr_id = '$wr_id'
 	";
 	sql_query($sql);
-	echo $wr_id;
+	echo "updateok";
 }else{
 	//	입력
 	$sql= "insert into b_address
@@ -49,7 +49,7 @@ if($wr_id){
 			sql_query("update b_address set b_base=1 where wr_id='$wr_id' ");
 
 		}
-		echo $wr_id;
+		echo "insertok";
 	}else{
 		echo "fail";
 	}
