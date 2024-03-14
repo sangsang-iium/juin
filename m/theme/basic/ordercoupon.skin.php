@@ -88,7 +88,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	</div>
 	<div class="btn_confirm">
 		<div class="container">
-			<button type="button" onclick="cp_submit();return false;" class="btn_medium btn-buy">쿠폰적용하기</button>
+			<button type="button" onclick="cp_submit2();return false;" class="btn_medium btn-buy">쿠폰적용하기</button>
 			<!-- <button type="button" onclick="window.close();" class="btn_medium bx-white">창닫기</button> -->
 		</div>
 	</div>

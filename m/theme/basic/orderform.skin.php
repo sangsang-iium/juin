@@ -3,7 +3,66 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 ?>
+<script>
+  function cp_submit2() {
+    var f = document.flist;
+    var tot_price = 0;
+    var tot_price = document.buyform.tot_price.value;
 
+    if(f.sum_dc_amt.value == 0 || !f.sum_dc_amt.value) {
+      alert("상품에 쿠폰을 선택해주세요.");
+      return false;
+    }
+
+    if(parseInt(no_comma(tot_price)) < f.sum_dc_amt.value) {
+      alert("쿠폰 할인 금액이 결제금액을 초과하였습니다.");
+      return false;
+    }
+
+    if(!confirm("쿠폰적용을 하시겠습니까?"))
+      return false;
+
+
+    var tmp_dc_amt	= '';
+    var tmp_lo_id	= '';
+    var tmp_cp_id	= '';
+    var chk_dc_amt	= '';
+    var chk_lo_id	= '';
+    var chk_cp_id	= '';
+    var comma		= '';
+    for(i = 0; i < max_layer; i++) {
+      chk_dc_amt	= eval("f.gd_dc_amt_"+i).value ? eval("f.gd_dc_amt_"+i).value : 0;
+      chk_lo_id   = eval("f.gd_cp_idx_"+i).value ? eval("f.gd_cp_idx_"+i).value : 0;
+      chk_cp_id	= eval("f.gd_cp_no_"+i).value ? eval("f.gd_cp_no_"+i).value : 0;
+
+      tmp_dc_amt += comma + chk_dc_amt;
+      tmp_lo_id  += comma + chk_lo_id;
+      tmp_cp_id  += comma + chk_cp_id;
+      comma = '|';
+    }
+
+    // 로그
+    document.buyform.coupon_price.value = tmp_dc_amt;
+    document.buyform.coupon_lo_id.value = tmp_lo_id;
+    document.buyform.coupon_cp_id.value = tmp_cp_id;
+
+    // 총 할인액
+    document.buyform.coupon_total.value = f.sum_dc_amt.value;
+    document.getElementById("dc_amt").innerText = number_format(String(f.sum_dc_amt.value));
+    document.getElementById("totdc_amt").innerText = number_format(String(f.sum_dc_amt.value));
+    document.getElementById("cpdc_amt").innerText = number_format(String(f.sum_dc_amt.value));
+    //document.getElementById("dc_cancel").style.display = "";
+    //document.getElementById("dc_coupon").style.display = "none";
+
+    tot_price = parseInt(no_comma(tot_price)) - f.sum_dc_amt.value;
+
+    // 최종 결제금액
+    document.buyform.tot_price.value = number_format(String(tot_price));
+    $(".pop-content-in").empty();
+    $("#coupon-popup").hide();
+  }
+
+</script>
 <div id="contents" class="sub-contents prodOrder">
   <div id="sod_approval_frm">
     <?php
@@ -418,7 +477,10 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                 </div>
                 <div class="form-body">
                   <span id="dc_coupon">
+
                     <a href="javascript:window.open('<?php echo BV_MSHOP_URL; ?>/ordercoupon.php');" class="ui-btn st2">사용 가능 쿠폰</a>
+                    <a href="javascript:(0)" class="ui-btn st2 couponopen">사용 가능 쿠폰</a>
+
                   </span>
                   <span id="dc_amt">0원
                     <span id="dc_cancel" style="display:none;">
@@ -484,15 +546,15 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               </li>
               <li>
                 <span class="lt-txt">총 할인금액</span>
-                <span class="rt-txt">-500원</span>
+                <span class="rt-txt totdc_amt" id="totdc_amt">-500원</span>
                 <ul class="prc-tot2">
                   <li>
                     <span class="lt-txt">즉시할인</span>
                     <span class="rt-txt">0</span>
                   </li>
                   <li>
-                    <span class="lt-txt">쿠폰할인</span>
-                    <span class="rt-txt">-500</span>
+                    <span class="lt-txt ">쿠폰할인</span>
+                    <span class="rt-txt cpdc_amt" id="cpdc_amt">-500</span>
                   </li>
                 </ul>
               </li>
@@ -700,6 +762,19 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
   </div>
 </div>
 
+  <!--쿠폰 팝업 { -->
+<div id="coupon-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">쿠폰선택</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in"></div>
+    </div>
+  </div>
+</div>
+
 <!-- 배송지 목록 팝업 { -->
 <div id="delv-popup" class="popup type02 add-popup">
   <div class="pop-inner">
@@ -760,6 +835,27 @@ $(function () {
       }
     });
   });
+
+
+
+  $(".couponopen").on("click", function () {
+    const couponpop = "coupon-popup";
+    $.ajax({
+      url: './ordercoupon.php',
+      success: function (data) {
+        $(`#${couponpop}`).find(".pop-content-in").html(data);
+        //$(".popDim").show();
+        f.popupOpen(couponpop);
+      }
+    });
+  });
+
+
+    // win_open('./orderaddress.php','win_address');
+
+
+
+
 });
 </script>
 
