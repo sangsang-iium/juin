@@ -6,10 +6,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div class="order-list-wr">
     <div id="smb_order">
       <?php
-      for($i=0; $row=sql_fetch_array($result); $i++){			
+      for($i=0; $row=sql_fetch_array($result); $i++){
         echo '<div class="bottomBlank cp-orderWrap">'.PHP_EOL;
         echo '<div class="container">'.PHP_EOL;
-        
+
         $sql = " select * from shop_cart where od_id = '$row[od_id]' ";
         $sql.= " group by gs_id order by io_type asc, index_no asc ";
         $res = sql_query($sql);
@@ -18,9 +18,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           $gs = unserialize($rw['od_goods']);
 
           $href = BV_MSHOP_URL.'/view.php?gs_id='.$rw['gs_id'];
-          
+
           $dlcomp = explode('|', trim($rw['delivery']));
-          
+
           $delivery_str = '';
           if($dlcomp[0] && $rw['delivery_no']) {
             $delivery_str = get_text($dlcomp[0]).' '.get_text($rw['delivery_no']);
@@ -33,7 +33,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       <div class="order-info">
         <div class="order-info-box">
           <p class="order-date"><?php echo date("Y.m.d", strtotime($rw['od_time'])); ?></p>
-          <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $rw['od_id']; ?>&uid=<?php echo $uid; ?>" class="view">
+          <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $rw['od_id']; ?>&uid=<?php echo $uid; ?>&list=Y" class="view">
             <span>상세보기</span>
             <span><img src="/src/img/order-view-right.png" alt="상세보기"></span>
           </a>
@@ -76,8 +76,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
     </div>
 
-    <?php 
-      echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?page='); 
+    <?php
+      echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?page=');
     ?>
   </div>
 </div>
