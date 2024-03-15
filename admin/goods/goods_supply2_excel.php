@@ -149,8 +149,7 @@ $excel->setActiveSheetIndex(0)
 	->setCellValue($char++.'1', '중이미지4')
 	->setCellValue($char++.'1', '중이미지5')
 	->setCellValue($char++.'1', '상세설명')
-	->setCellValue($char++.'1', '관리자메모')
-	->setCellValue($char++.'1', '가맹점상품코드');
+	->setCellValue($char++.'1', '관리자메모');
 
 for($i=2; $row=sql_fetch_array($result); $i++)
 {
@@ -201,8 +200,7 @@ for($i=2; $row=sql_fetch_array($result); $i++)
 		->setCellValueExplicit($char++.$i, $row['simg5'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['simg6'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['memo'], PHPExcel_Cell_DataType::TYPE_STRING)
-		->setCellValueExplicit($char++.$i, $row['admin_memo'], PHPExcel_Cell_DataType::TYPE_STRING)
-		->setCellValueExplicit($char++.$i, $row['sgcode'], PHPExcel_Cell_DataType::TYPE_STRING);
+		->setCellValueExplicit($char++.$i, $row['admin_memo'], PHPExcel_Cell_DataType::TYPE_STRING);
 }
 
 // Rename worksheet
