@@ -13,7 +13,7 @@ if(!$ss_cart_id)
 	alert_close("장바구니에 담긴 상품이 없습니다.");
 
 $tb['title'] = "쿠폰적용 및 조회";
-include_once(BV_MPATH."/head.sub.php");
+// include_once(BV_MPATH."/head.sub.php");
 
 $is_possible = array();
 $cp_tmp = array();
@@ -38,5 +38,5 @@ $cart_count = sql_num_rows($result2);
 
 include_once(BV_MTHEME_PATH.'/ordercoupon.skin.php');
 
-include_once(BV_MPATH."/tail.sub.php");
+// include_once(BV_MPATH."/tail.sub.php");
 ?>
