@@ -172,7 +172,8 @@ $value['ec_mall_pid']	= $_POST['ec_mall_pid']; //네이버쇼핑 상품ID
 $value['update_time']	= BV_TIME_YMDHIS; //수정일시
 
 if($w == "") {
-	$value['gcode'] = $_POST['gcode']; //상품코드
+	$value['gcode']  = $_POST['gcode']; //상품코드
+	$value['sgcode'] = $_POST['sgcode']; //가맹점 상품코드 추가 _20240315_SY
 	$value['reg_time'] = BV_TIME_YMDHIS; //등록일시
 	insert("shop_goods", $value);
 	$gs_id = sql_insert_id();
