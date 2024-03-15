@@ -104,21 +104,22 @@ if($_FILES['excelfile']['tmp_name']) {
 		$gpoint			= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 포인트
 		$sb_date		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 판매기간 시작일
 		$eb_date		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 판매기간 종료일
-		$buy_level		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 구매가능레벨
+		$buy_level	= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 구매가능레벨
 		$buy_only		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 가격공개
 		$sc_type		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비유형
-		$sc_method		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비결제
+		$sc_method	= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비결제
 		$sc_amt			= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 기본배송비
-		$sc_minimum		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 조건배송비
-		$simg_type		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 이미지등록방식
+		$sc_minimum	= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 조건배송비
+		$simg_type	= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 이미지등록방식
 		$simg1			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 소이미지
 		$simg2			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지1
 		$simg3			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지2
 		$simg4			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지3
 		$simg5			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지4
 		$simg6			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지5
-		$memo			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 상세설명
-		$admin_memo		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 관리자메모
+		$memo			  = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 상세설명
+		$admin_memo	= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 관리자메모
+		$sgcode		  = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 가맹점상품코드 _20240315_SY
 
         if(!$mb_id || !$gcode || !$gname) {
             $fail_count++;
@@ -181,6 +182,7 @@ if($_FILES['excelfile']['tmp_name']) {
 		$value['simg6']			= $simg6; // 중이미지5
 		$value['memo']			= $memo; // 상세설명
 		$value['admin_memo']	= $admin_memo; // 관리자메모
+		$value['sgcode']	    = $sgcode; //가맹점상품코드 _20240315_SY
 		$value['reg_time']		= BV_TIME_YMDHIS; //등록일시
 		$value['update_time']	= BV_TIME_YMDHIS; //수정일시
 		insert("shop_goods", $value);
