@@ -196,8 +196,7 @@ EOF;
 	<tr>
 		<th scope="row">가맹점 상품코드</th>
 		<td>
-			<input type="text" name="sgcode" value="<?php echo $gs['sgcode']; ?>" required itemname="가맹점 상품코드" class="required frm_input"<?php echo $readonly; ?>>
-			<?php if($w == "u") { ?><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $gs_id; ?>" target="_blank" class="btn_small">미리보기</a><?php } ?>
+			<input type="text" name="sgcode" value="<?php echo $gs['sgcode']; ?>" required itemname="가맹점 상품코드" class="required frm_input"<?php //echo $readonly; ?>>
 		</td>
 	</tr>
 	<tr>
