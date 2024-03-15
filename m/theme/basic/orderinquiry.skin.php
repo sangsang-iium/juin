@@ -62,7 +62,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </div>
         </div>
         <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
-        <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>">상품후기쓰기</button>
+        <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>">상품후기 작성</button>
       </div>
       <?php
         }
@@ -85,7 +85,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 <!-- review _20240313_SY -->
 
-<div id="review-popup" class="popup type02 add-popup add-in-popup">
+<div id="review-popup" class="popup type02 add-popup">
   <div class="pop-inner">
     <div class="pop-top">
       <p class="tit">리뷰 작성</p>
