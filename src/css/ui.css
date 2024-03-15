@@ -447,7 +447,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .cp-cart.order .cp-cart-item:first-child {padding-top: 0;}
 .cp-cart.order .cp-cart-item:last-child {border-bottom: 0; padding-bottom: 0;}
 .cp-cart.order .cp-cart-item ~ .cp-cart-item {margin: 0; border-top: 0;}
-.ord-review__btn {display: block; height: 5.6rem; line-height: 5.6rem; margin-top: 2.2rem; border: 1px solid var(--color-gray5); border-radius: 0.8rem; font-size: 2.16rem; font-weight: 500; color: var(--color-black3); background-color: var(--color-gray8); box-sizing: content-box;}
+.ord-review__btn {display: block; width: 100%; height: 5.6rem; line-height: 5.6rem; margin-top: 2.2rem; border: 1px solid var(--color-gray5); border-radius: 0.8rem; font-size: 2.16rem; font-weight: 500; color: var(--color-black3); background-color: var(--color-gray8); box-sizing: content-box;}
 
 .cp-qty {overflow: hidden; display: flex; align-items: center; border: 1px solid var(--color-gray5); border-radius: 0.8rem;}
 .cp-qty .ui-btn {position: relative; width: 5.2rem; height: 5.2rem; padding: 0; border: 0; color: var(--color-gray2); text-indent: -9999px;}
