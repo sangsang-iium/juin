@@ -479,6 +479,39 @@
 
 #buyform .btn_confirm {position: fixed; bottom: 0; left: 0; margin: 0; padding: 1.6rem 0; border-radius: 2rem 2rem 0 0; background-color: #fff; width: 100%; box-shadow: 0 0 3.2rem rgba(0,0,0,0.1);}
 
+#sod_coupon .coupon-item .cp-cart-item {padding: 0;}
+#sod_coupon .coupon-item .cp-cart-body {padding-left: 0;}
+
+#sod_coupon .cp_avail_button {margin-top: 1rem;}
+#sod_coupon .cp_avail_button .ui-btn {width: 100%; height: 4rem; font-size: 1.8rem; font-weight: 500;}
+
+#sod_coupon .coupon_cau {margin-top: 1.2rem; padding: 2.8rem 2.4rem; font-size: 2rem; font-weight: 300; color: var(--color-gray2); background-color: var(--color-gray8); line-height: 1.4;}
+
+#sod_coupon .info-list {}
+#sod_coupon .info-item {justify-content: space-between; align-items: center; border-bottom: 0.16rem solid #e9e9e9; padding: 1rem 0;}
+#sod_coupon .info-item .tit {width: auto; font-weight: 500; font-size: 2.16rem; color: #0f0f0f;}
+#sod_coupon .info-item .cont {width: auto; font-weight: 500; font-size: 2.32rem; color: #0f0f0f;}
+#sod_coupon .info-item .cont .won {font-weight: 600; font-size: 2.08rem;}
+#sod_coupon .info-item.main-color {}
+#sod_coupon .info-item.main-color .tit {color: var(--color-main);}
+#sod_coupon .info-item.main-color .cont {color: var(--color-main); font-size: 2.88rem;}
+#sod_coupon .bsk-caption {font-weight: 300; font-size: 2rem; color: #666; line-height: 1.4; padding-top: 2rem;}
+
+#sod_coupon .sod_cpuse {margin: 1rem 0;}
+#sod_coupon .to_wrap {margin: 0;}
+#sod_coupon .to_box .to_tline:after {content: ""; display: table; clear: both;}
+#sod_coupon .btn_confirm {margin-top: 2rem;}
+
+.coupon-in-popup {width: 100%; height: 100%; max-height: none; max-width: none;}
+.coupon-in-popup .pop-inner {width: 100%;}
+
+.coupon-in-popup .cp-list .cp-list-item .rate {font-size: 3rem; margin: 1.2rem 0;}
+.coupon-in-popup .cp-list .cp-list-item {display: block;}
+.coupon-in-popup .cp-list input[type='radio']:checked + .cp-list-item {border-color: var(--color-main);}
+.coupon-in-popup .cp-list input[type='radio']:checked + .cp-list-item .cp-name {color: var(--color-black3);}
+.coupon-in-popup .cp-list input[type='radio']:checked + .cp-list-item .rate {color: var(--color-main);}
+.coupon-in-popup .cp-list input[type='radio']:checked + .cp-list-item .text01 {color: var(--color-gray2);}
+
 /* 주문 완료 */
 #orderComplete {padding: 8rem 0 4rem;}
 .od-cmp_tit {font-size: 3.6rem; font-weight: 700; color: var(--color-black2); text-align: center;}

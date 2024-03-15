@@ -2,23 +2,11 @@
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 ?>
 
-<h2 class="pop_title">
-	<p class="tit"><?php echo $tb['title']; ?></p>
-	<a href="javascript:window.close();" id="cp-pop-close" class="btn_small bx-white"></a>
-</h2>
-
 <form name="flist" method="post">
 <input type="hidden" name="sum_dc_amt">
 <input type="hidden" name="layer_cnt">
 
 <div id="sod_coupon">
-	<div class="scope">
-		1, 중복할인 가능 이외의 쿠폰은 개별 상품만 적용 가능합니다.<br>
-		2, 쿠폰적용시 배송비는 할인되지 않습니다.<br>
-		3, 주문을 (취소/반품) 하실 경우에는 쿠폰은 자동소멸 됩니다.<br>
-		4, 발행된 쿠폰은 마이페이지에서 확인 할 수 있습니다.
-	</div>
-
 	<?php
 	$tot_price = 0;
 	for($i=0; $row=sql_fetch_array($result2); $i++) {
@@ -40,25 +28,39 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		$ca_list = get_extract($row['gs_id']);
 		$cp_tmp[] = $price ."|". $row['gs_id'] ."|". $ca_list ."|". $gs['use_aff'];
 	?>
+
+  <div class="cp-cart coupon-item">
+    <div class="cp-cart-item">
+      <div class="cp-cart-body">
+        <div class="thumb round60">
+          <img src="<?php echo get_it_image_url($gs['index_no'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
+        </div>
+        <div class="content">
+          <p class="name"><?php echo get_text($gs['gname']); ?></p>
+          <div class="info">
+            <p class="price"><?php echo mobile_price($gs['index_no']); ?></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="cp_avail_button_<?php echo $i; ?>" class="cp_avail_button">
+    <button type="button" class="ui-btn st1 round" onclick="show_coupon('<?php echo $i; ?>');return false;">적용가능 쿠폰선택</button>
+  </div>
+
+  <div class="coupon_cau">
+    1. 중복할인 가능 이외의 쿠폰은 개별 상품만 적용 가능합니다.<br>
+		2. 쿠폰적용시 배송비는 할인되지 않습니다.<br>
+		3. 주문을 (취소/반품) 하실 경우에는 쿠폰은 자동소멸 됩니다.<br>
+		4. 발행된 쿠폰은 마이페이지에서 확인 할 수 있습니다.
+  </div>
+
 	<div class="sod_cpuse">
 		<input type="hidden" name="gd_dc_amt_<?php echo $i; ?>">
 		<input type="hidden" name="gd_cp_info_<?php echo $i; ?>">
 		<input type="hidden" name="gd_cp_no_<?php echo $i; ?>">
 		<input type="hidden" name="gd_cp_idx_<?php echo $i; ?>">
-		<table class="us_box">
-		<tbody>
-		<tr>
-			<td class="mi_dt"><?php echo get_it_image($row['gs_id'], $gs['simg1'], 60, 60); ?></td>
-			<td class="mi_bt">
-				<?php echo get_text($gs['gname']); ?><br>
-				<span class="strong"><?php echo display_price($price); ?></span>
-			</td>
-		</tr>
-		<tr id="cp_avail_button_<?php echo $i; ?>">
-			<td colspan='2'><button type="button" class="avail_button" onclick="show_coupon('<?php echo $i; ?>');return false;">적용가능 쿠폰선택</button></td>
-		</tr>
-		</tbody>
-		</table>
 
 		<table class="th_box">
 		<tbody>
@@ -87,10 +89,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		</dl>
 	</div>
 	<div class="btn_confirm">
-		<div class="container">
 			<button type="button" onclick="cp_submit2();return false;" class="btn_medium btn-buy">쿠폰적용하기</button>
-			<!-- <button type="button" onclick="window.close();" class="btn_medium bx-white">창닫기</button> -->
-		</div>
 	</div>
 </div>
 
@@ -158,54 +157,56 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
 $result2 = sql_query($sql2);
 for($i=0; $row=sql_fetch_array($result2); $i++) {
 ?>
-<div id="cp_list<?php echo $i; ?>" class="mw" style='display:none;'>
-	<div class="bg"></div>
-	<div class="fg">
-		<table class="ty_box">
-		<tr>
-			<td class="tal">※ 적용할 쿠폰선택</td>
-			<td class="tar"><a href="#" onclick="hide_cp_list('<?php echo $i; ?>'); return false;" class="btn_small bx-white">닫기</a></td>
-		</tr>
-		</table>
+<div id="cp_list<?php echo $i; ?>" class="popup type02 add-popup add-in-popup coupon-in-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">적용할 쿠폰선택</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+        <div class="cp-list">
+          <?php
+          //5|1|8|0|10%|37496
+          // 상품주키|쿠폰주키|쿠폰번호|동시사용 여부|할인금액(율)|할인가
+          $chk = 0;
+          for($j=0; $j<count($is_possible); $j++) {
+            $arr = explode("|", $is_possible[$j]);
+            if($row['gs_id'] == $arr[0]) {
+              $chk++;
+          ?>
+          <input id="ids_shown<?php echo $j; ?>" type="radio" name="use_cp_<?php echo $row['gs_id']; ?>_<?php echo $row['index_no']?>" value="<?php echo $arr[2]; ?>|<?php echo $arr[5]; ?>|<?php echo $arr[1]; ?>|<?php echo $arr[3]; ?>" style="display: none;">
+          <label for="ids_shown<?php echo $j; ?>" class="cp-list-item">
+            <p class="cp-name"><?php echo $arr[2]; ?></p>
+            <p class="rate">
+              <?php echo $arr[4]; ?>
+            </p>
+            <p class="text01">할인금액 : <?php echo display_price($arr[5]); ?></p>
+          </label>
+          <!-- <tr>
+            <td class="tac">
+              <input id="ids_shown<?php echo $j; ?>" type="radio" name="use_cp_<?php echo $row['gs_id']; ?>_<?php echo $row['index_no']?>" value="<?php echo $arr[2]; ?>|<?php echo $arr[5]; ?>|<?php echo $arr[1]; ?>|<?php echo $arr[3]; ?>">
+              <label for="ids_shown<?php echo $j; ?>"><?php echo $arr[2]; ?></label>
+            </td>
+            <td class="tac"><?php echo $arr[4]; ?></td>
+            <td class="tac"><?php echo display_price($arr[5]); ?></td>
+          </tr> -->
+          <?php
+            }
+          }
 
-		<table class="ly_box mart5">
-		<tbody>
-		<tr>
-			<td class="cell">쿠폰번호</td>
-			<td class="cell">할인</td>
-			<td class="cell">할인가</td>
-		</tr>
-		<?php
-		//5|1|8|0|10%|37496
-		// 상품주키|쿠폰주키|쿠폰번호|동시사용 여부|할인금액(율)|할인가
-		$chk = 0;
-		for($j=0; $j<count($is_possible); $j++) {
-			$arr = explode("|", $is_possible[$j]);
-			if($row['gs_id'] == $arr[0]) {
-				$chk++;
-		?>
-		<tr>
-			<td class="tac">
-        <input id="ids_shown<?php echo $j; ?>" type="radio" name="use_cp_<?php echo $row['gs_id']; ?>_<?php echo $row['index_no']?>" value="<?php echo $arr[2]; ?>|<?php echo $arr[5]; ?>|<?php echo $arr[1]; ?>|<?php echo $arr[3]; ?>">
-			  <label for="ids_shown<?php echo $j; ?>"><?php echo $arr[2]; ?></label>
-      </td>
-			<td class="tac"><?php echo $arr[4]; ?></td>
-			<td class="tac"><?php echo display_price($arr[5]); ?></td>
-		</tr>
-		<?php
-			}
-		}
+          if(!$chk) {
+          ?>
+          <tr><div class="empty_list">사용할 수 있는 쿠폰이 없습니다.</div></tr>
+          <?php } ?>
+        </div>
 
-		if(!$chk) {
-		?>
-		<tr><td colspan="3" class="empty_list">사용할 수 있는 쿠폰이 없습니다.</td></tr>
-		<?php } ?>
-		<tbody>
-		</table>
+        <div class="btn_confirm">
+          <button type="button" onclick="return applycoupon('<?php echo $row['gs_id']; ?>','<?php echo $row['index_no']; ?>','<?php echo $i; ?>');" class="btn_medium red">쿠폰적용하기</button>
+        </div>
 
-		<div class="btn_confirm">
-			<button type="button" onclick="return applycoupon('<?php echo $row['gs_id']; ?>','<?php echo $row['index_no']; ?>','<?php echo $i; ?>');" class="btn_medium red">쿠폰적용하기</button>
-		</div>
+      </div>
+    </div>
 	</div>
 </div>
 <?php } ?>
@@ -311,13 +312,17 @@ function coupon_cancel(gs_id, cart_id, layer_idx){
 }
 
 function show_coupon(idx) {
-	var coupon_layer = document.getElementById("cp_list"+idx);
-	var IpopTop = (document.body.clientHeight - coupon_layer.offsetHeight) / 2;
-	var IpopLeft = (document.body.clientWidth - coupon_layer.offsetWidth) / 2;
+	// var coupon_layer = document.getElementById("cp_list"+idx);
+	// var IpopTop = (document.body.clientHeight - coupon_layer.offsetHeight) / 2;
+	// var IpopLeft = (document.body.clientWidth - coupon_layer.offsetWidth) / 2;
 
-	coupon_layer.style.left=IpopLeft / 2 + document.body.scrollLeft;
-	coupon_layer.style.top=IpopTop / 2 + document.body.scrollTop;
- 	coupon_layer.style.display = "block";
+	// coupon_layer.style.left=IpopLeft / 2 + document.body.scrollLeft;
+	// coupon_layer.style.top=IpopTop / 2 + document.body.scrollTop;
+ 	// coupon_layer.style.display = "block";
+
+  const coupon_layer = $("#cp_list"+idx);
+
+  coupon_layer.addClass('on').fadeIn(200);
 }
 
 function hide_cp_list(idx) {
@@ -380,6 +385,12 @@ function cp_submit() {
 
 	self.close();
 }
+
+$(document).ready(function(){
+  $(".coupon-in-popup .close").on('click', function(){
+    $(".coupon-in-popup").fadeOut(200).removeClass("on");
+  })
+});
 
 // 쿠폰팝업 닫기
 // $('#cp-pop-close').on('click',function(){

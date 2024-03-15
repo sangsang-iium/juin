@@ -60,6 +60,8 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
     document.buyform.tot_price.value = number_format(String(tot_price));
     $(".pop-content-in").empty();
     $("#coupon-popup").hide();
+
+    $(".popDim").fadeOut(200);
   }
 
 </script>
@@ -836,26 +838,28 @@ $(function () {
     });
   });
 
-
-
+  //쿠폰 적용 팝업
   $(".couponopen").on("click", function () {
-    const couponpop = "coupon-popup";
-    $.ajax({
-      url: './ordercoupon.php',
-      success: function (data) {
-        $(`#${couponpop}`).find(".pop-content-in").html(data);
-        //$(".popDim").show();
-        f.popupOpen(couponpop);
-      }
-    });
+    // const couponpop = "coupon-popup";
+    // $.ajax({
+    //   url: './ordercoupon.php',
+    //   success: function (data) {
+    //     $(`#${couponpop}`).find(".pop-content-in").html(data);
+    //     //$(".popDim").show();
+    //     f.popupOpen(couponpop);
+    //   }
+    // });
+
+    const popId = "#coupon-popup";
+    const reqPathUrl = "./ordercoupon.php";
+    const reqMethod = "GET";
+    const reqData = "";
+
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
+  // win_open('./orderaddress.php','win_address');
 
-
-    // win_open('./orderaddress.php','win_address');
-
-
-
-
+  
 });
 </script>
 
