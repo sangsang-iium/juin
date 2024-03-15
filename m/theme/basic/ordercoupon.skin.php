@@ -29,54 +29,56 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		$cp_tmp[] = $price ."|". $row['gs_id'] ."|". $ca_list ."|". $gs['use_aff'];
 	?>
 
-  <div class="cp-cart coupon-item">
-    <div class="cp-cart-item">
-      <div class="cp-cart-body">
-        <div class="thumb round60">
-          <img src="<?php echo get_it_image_url($gs['index_no'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
-        </div>
-        <div class="content">
-          <p class="name"><?php echo get_text($gs['gname']); ?></p>
-          <div class="info">
-            <p class="price"><?php echo mobile_price($gs['index_no']); ?></p>
+  <div class="coupon-group">
+    <div class="cp-cart coupon-item">
+      <div class="cp-cart-item">
+        <div class="cp-cart-body">
+          <div class="thumb round60">
+            <img src="<?php echo get_it_image_url($gs['index_no'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
+          </div>
+          <div class="content">
+            <p class="name"><?php echo get_text($gs['gname']); ?></p>
+            <div class="info">
+              <p class="price"><?php echo mobile_price($gs['index_no']); ?></p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="cp_avail_button_<?php echo $i; ?>" class="cp_avail_button">
-    <button type="button" class="ui-btn st1 round" onclick="show_coupon('<?php echo $i; ?>');return false;">적용가능 쿠폰선택</button>
-  </div>
+    <div id="cp_avail_button_<?php echo $i; ?>" class="cp_avail_button">
+      <button type="button" class="ui-btn st1 round" onclick="show_coupon('<?php echo $i; ?>');return false;">적용가능 쿠폰선택</button>
+    </div>
 
-  <div class="coupon_cau">
-    1. 중복할인 가능 이외의 쿠폰은 개별 상품만 적용 가능합니다.<br>
-		2. 쿠폰적용시 배송비는 할인되지 않습니다.<br>
-		3. 주문을 (취소/반품) 하실 경우에는 쿠폰은 자동소멸 됩니다.<br>
-		4. 발행된 쿠폰은 마이페이지에서 확인 할 수 있습니다.
-  </div>
+    <div class="coupon_cau">
+      1. 중복할인 가능 이외의 쿠폰은 개별 상품만 적용 가능합니다.<br>
+      2. 쿠폰적용시 배송비는 할인되지 않습니다.<br>
+      3. 주문을 (취소/반품) 하실 경우에는 쿠폰은 자동소멸 됩니다.<br>
+      4. 발행된 쿠폰은 마이페이지에서 확인 할 수 있습니다.
+    </div>
 
-	<div class="sod_cpuse">
-		<input type="hidden" name="gd_dc_amt_<?php echo $i; ?>">
-		<input type="hidden" name="gd_cp_info_<?php echo $i; ?>">
-		<input type="hidden" name="gd_cp_no_<?php echo $i; ?>">
-		<input type="hidden" name="gd_cp_idx_<?php echo $i; ?>">
+    <div class="sod_cpuse">
+      <input type="hidden" name="gd_dc_amt_<?php echo $i; ?>">
+      <input type="hidden" name="gd_cp_info_<?php echo $i; ?>">
+      <input type="hidden" name="gd_cp_no_<?php echo $i; ?>">
+      <input type="hidden" name="gd_cp_idx_<?php echo $i; ?>">
 
-		<table class="th_box">
-		<tbody>
-		<tr>
-			<td class="tal">수량</td>
-			<td class="tar"><?php echo display_qty($sum['qty']); ?></td>
-		</tr>
-		<tr>
-			<td class="tal">할인금액</td>
-			<td class="tar">
-				<span id="dc_amt_<?php echo $i; ?>">0</span>원
-				<span id="dc_cancel_bt_<?php echo $i; ?>" style="display:none">&nbsp;<a href="javascript:coupon_cancel('<?php echo $row['gs_id']; ?>','<?php echo $row['index_no']; ?>','<?php echo $i; ?>');" class='btn_ssmall bx-white'>삭제</a></span>
-			</td>
-		</tr>
-		</tbody>
-		</table>
+      <table class="th_box">
+      <tbody>
+      <tr>
+        <td class="tal">수량</td>
+        <td class="tar"><?php echo display_qty($sum['qty']); ?></td>
+      </tr>
+      <tr>
+        <td class="tal">할인금액</td>
+        <td class="tar">
+          <span id="dc_amt_<?php echo $i; ?>">0</span>원
+          <span id="dc_cancel_bt_<?php echo $i; ?>" style="display:none">&nbsp;<a href="javascript:coupon_cancel('<?php echo $row['gs_id']; ?>','<?php echo $row['index_no']; ?>','<?php echo $i; ?>');" class='btn_ssmall bx-white'>삭제</a></span>
+        </td>
+      </tr>
+      </tbody>
+      </table>
+    </div>
 	</div>
 	<?php } ?>
 
