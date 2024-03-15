@@ -118,6 +118,7 @@ if($_FILES['excelfile']['tmp_name']) {
 		$simg6			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지5
 		$memo			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 상세설명
 		$admin_memo		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 관리자메모
+    $sgcode		  = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 가맹점상품코드 _20240315_SY
 
         if(!$gcode || !$gname) {
             $fail_count++;
@@ -182,6 +183,7 @@ if($_FILES['excelfile']['tmp_name']) {
 		$value['simg6']			= $simg6; // 중이미지5
 		$value['memo']			= $memo; // 상세설명
 		$value['admin_memo']	= $admin_memo; // 관리자메모
+    $value['sgcode']	    = $sgcode; //가맹점상품코드 _20240315_SY
 		$value['reg_time']		= BV_TIME_YMDHIS; //등록일시
 		$value['update_time']	= BV_TIME_YMDHIS; //수정일시
 		insert("shop_goods", $value);

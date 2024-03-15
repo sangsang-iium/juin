@@ -170,6 +170,7 @@ $value['update_time']	= BV_TIME_YMDHIS; //수정일시
 if($w == "") {
 	$value['shop_state'] = $config['seller_reg_auto']; //자동승인여부
 	$value['gcode'] = $_POST['gcode']; //상품코드
+	$value['sgcode'] = $_POST['sgcode']; //상품코드
 	$value['reg_time'] = BV_TIME_YMDHIS; //등록일시
 	insert("shop_goods", $value);
 	$gs_id = sql_insert_id();
