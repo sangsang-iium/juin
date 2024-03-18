@@ -19,6 +19,7 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="reg_type" value="1">
 <input type="hidden" name="chk_id_res" value="0" id="chk_id_res">
 <input type="hidden" name="chk_cb_res" value="0" id="chk_cb_res">
+<input type="hidden" name="chk_bn_res" value="0" id="chk_bn_res">
 
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
@@ -251,7 +252,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" readonly value="">
+							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" <?php //echo ($w == 'u') ? 'readonly' : '' ?> value="">
 							<div class="joinDetail-btn-box joinDetail-btn-box3">
 								<button type="button" class="ui-btn st3" onclick="">중앙회원조회</button>
 								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
@@ -568,11 +569,17 @@ function chkClosed() {
         type: "POST",
         data: { "b_num" : b_num },
         dataType: "JSON",
-        success: function(data) {
-          $('#chk_cb_res').val(data.res.b_stt_cd);
-
-          // 조회 후 결과값에 따라 화면에 어떻게 나타낼건지 작업 필요
-          alert(data.res.b_stt)
+        success: function(res) {
+          // API 값 호출 _20240318_SY
+          if (res.hasOwnProperty('match_cnt')) {
+            $('#chk_cb_res').val(res.data[0].b_stt_cd);
+            let msg = res.data[0].b_stt;
+            alert(msg);
+          } else {
+            $('#chk_cb_res').val('0');
+            let msg = res.data[0].tax_type;
+            alert(msg);
+          }
         }
     });
   } else {
@@ -593,12 +600,13 @@ function chkDuBnum() {
         data: { "b_num" : b_num },
         dataType: "JSON",
         success: function(data) {
-          console.log(data)
           if(data.res > 0 ) {
-            alert("이미 등록된 사업자등록번호입니다")
+            $('#chk_bn_res').val('0');
+            alert("이미 등록된 사업자등록번호입니다");
             return false;
           } else {
-
+            alert("가입 가능한 사업자등록번호입니다");
+            $('#chk_bn_res').val('1');
           }
         }
     });
@@ -690,7 +698,6 @@ function fregisterform_submit(f)
     }
   }
 
-
 	if(f.w.value == "") {
 		if(f.mb_password.value.length < 4) {
 			alert("비밀번호를 4글자 이상 입력하십시오.");
@@ -772,10 +779,24 @@ function fregisterform_submit(f)
 		}
 	}
 
+  
+  // 사업자번호 중복체크 _20240318_SY
+  if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
+    if(f.chk_bn_res.value == "0") {
+      alert('사업자등록번호 중복 확인을 해 주십시오');
+      f.b_no.select();
+      return false;
+    };
+  }
+
+
   // 휴/폐업 검사 _20240227_SY
   if((f.w.value == "") || (f.w.value == "u" && f.chk_cb_res.defaultValue != f.chk_cb_res.value)) {
-    if(f.chk_cb_res.value != "01") {
+    if(f.chk_cb_res.value == '0') {
       // 휴/폐업일때 어떤 작업 필요한지 확인 필요
+      alert('휴/폐업조회를 해 주십시오.');
+      f.b_no.select();
+      return false;
     };
   }
 
