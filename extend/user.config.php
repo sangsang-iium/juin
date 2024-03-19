@@ -317,16 +317,13 @@ class Tosspay {
    * @param  string   $cancelAmount 빈값은 전체 취소 값이 있으면 부분 취소
    * @return stdClass API 응답
    */
-  function cancel($paymentKey, $cancelReason, $cancelAmount = '') {
-    $url  = 'https://api.tosspayments.com/v1/payments/' . $paymentKey . '/cancel';
+  function cancel($paymentKey, $cancelReason) {
+    $url  = "https://api.tosspayments.com/v1/payments/{$paymentKey}/cancel";
     $data = array(
       'cancelReason' => $cancelReason,
-      'cancelAmount' => $cancelAmount,
     );
 
-    $credential = $this->auth;
-
-    return $this->callApi($url, $data, $credential);
+    return $this->callApi($url, $data);
   }
 
   /**
@@ -375,7 +372,7 @@ class Tosspay {
     curl_close($curlHandle);
 
     if ($err) {
-      return false; // 요청 실패
+      return json_decode($err); // 요청 실패
     } else {
       return json_decode($response); // 요청 성공
     }

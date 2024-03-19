@@ -14,7 +14,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         $sql.= " group by gs_id order by io_type asc, index_no asc ";
         $res = sql_query($sql);
         for($k=0; $ct=sql_fetch_array($res); $k++) {
-          $rw = get_order($ct['od_no']);
+          $rw = get_order($ct['od_id']);
           $gs = unserialize($rw['od_goods']);
 
           $href = BV_MSHOP_URL.'/view.php?gs_id='.$rw['gs_id'];
