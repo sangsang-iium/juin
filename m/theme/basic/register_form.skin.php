@@ -18,6 +18,7 @@ if(!defined('_BLUEVATION_')) exit;
 
 <input type="hidden" name="reg_type" value="1">
 <input type="hidden" name="chk_id_res" value="0" id="chk_id_res">
+<input type="hidden" name="chk_em_res" value="0" id="chk_em_res">
 <input type="hidden" name="chk_cb_res" value="0" id="chk_cb_res">
 <input type="hidden" name="chk_bn_res" value="0" id="chk_bn_res">
 
@@ -128,8 +129,11 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title"><label for="reg_mb_email">이메일</label><b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
-							<input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
+              <div class="input-button id-confirm">
+                <input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
+                <input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
+                <button type="button" class="ui-btn st3" onclick="chk_email()">중복확인</button>
+              </div>
 							<!-- <span class="at">@</span>
 							<select name="" class="frm-select">
 								<option value="">선택하세요.</option>
@@ -462,6 +466,45 @@ function chk_id() {
     }
 }
 
+// 이메일 중복체크 _20240319_SY
+function chk_email() {
+  let emFocus  = document.querySelector('#reg_mb_email');
+  let chkEm    = document.querySelector('#reg_mb_email').value;
+  let chkEmRes = document.querySelector('#chk_em_res');
+  let emValue  = chkEmRes.value;
+  
+  // 이메일 유효성 검사
+  let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+
+  if (re.test(String(chkEm).toLowerCase()) == true) {
+    $.ajax({
+      url: bv_url + "/m/bbs/ajax.register_chkEm.php",
+      type: "POST",
+      data: { "email": chkEm },
+      dataType: "JSON",
+      success: function(data) {
+        sessionStorage.setItem("chkEm", data.res);
+        sessionStorage.setItem("Email", chkEm);
+        
+        if (data.res === 'pass') {
+          alert('사용가능한 이메일입니다.');
+          chkEmRes.value = '1';
+        } else if (data.res === "reject") {
+          alert('사용할 수 없는 이메일입니다.');
+          chkEmRes.value = '0';
+          emFocus.focus();
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error(xhr.responseText);
+      }
+    });
+  } else {
+    alert('옳바른 이메일을 입력하여 주십시오.');
+    emFocus.focus();
+  }
+}
+
 // 전화번호 하이픈(-) _20240226_SY
 const autoHyphen2 = (target) => { 
   let phNum = phoneNumber(target.value);
@@ -507,7 +550,6 @@ function phoneNumber(value) {
 
   return result.filter((val) => val).join("-");
 }
-
 
 // 외식업중앙회원 조회하기 _20240227_SY
 function getKFIAMember() {
@@ -778,6 +820,26 @@ function fregisterform_submit(f)
 			return false;
 		}
 	}
+
+  // 이메일 중복확인 여부 _20240319_SY
+  let ss_em     = sessionStorage.getItem("Email");
+  let ss_em_chk = sessionStorage.getItem('chkEm');
+  
+  if(f.w.value == "") {
+    if(f.chk_em_res.value == 0) {
+      alert('이메일 중복을 확인해 주십시오.');
+      f.mb_email.focus();
+      return false;
+    }
+  }
+
+  if(f.chk_em_res.value == 1) {
+    if(ss_em != f.reg_mb_email.value) {
+      alert("이메일 중복을 확인해 주십시오.")
+      f.mb_email.focus();
+      return false;
+    }
+  }
 
   
   // 사업자번호 중복체크 _20240318_SY
