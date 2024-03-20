@@ -879,17 +879,30 @@ EOF;
 	<tr>
 		<th scope="row">배송가능 지역</th>
 		<td>
-			<select name="zone">
-				<?php echo option_selected('전국', $gs['zone'], '전국'); ?>
-				<?php echo option_selected('강원도', $gs['zone'], '강원도'); ?>
-				<?php echo option_selected('경기도', $gs['zone'], '경기도'); ?>
-				<?php echo option_selected('경상도', $gs['zone'], '경상도'); ?>
-				<?php echo option_selected('서울/경기도', $gs['zone'], '서울/경기도'); ?>
-				<?php echo option_selected('서울특별시', $gs['zone'], '서울특별시'); ?>
-				<?php echo option_selected('전라도', $gs['zone'], '전라도'); ?>
-				<?php echo option_selected('제주도', $gs['zone'], '제주도'); ?>
-				<?php echo option_selected('충청도', $gs['zone'], '충청도'); ?>
+			<select id="zone" name="zone" onchange="subZone(this.value);">
+				<?php
+					$sql_zone = "SELECT areacode, areaname FROM area
+												GROUP BY areacode ";
+					$res_zone = sql_query($sql_zone);
+
+					while ($row_zone = sql_fetch_array($res_zone)) {
+						echo option_selected($row_zone['areaname'], $gs['zone'], $row_zone['areaname']);
+					}
+				?>
 			</select>
+			<select id="zone2" name="zone2">
+			</select>
+			<!-- <select name="zone">
+				<?php //echo option_selected('전국', $gs['zone'], '전국'); ?>
+				<?php //echo option_selected('강원도', $gs['zone'], '강원도'); ?>
+				<?php //echo option_selected('경기도', $gs['zone'], '경기도'); ?>
+				<?php //echo option_selected('경상도', $gs['zone'], '경상도'); ?>
+				<?php //echo option_selected('서울/경기도', $gs['zone'], '서울/경기도'); ?>
+				<?php //echo option_selected('서울특별시', $gs['zone'], '서울특별시'); ?>
+				<?php //echo option_selected('전라도', $gs['zone'], '전라도'); ?>
+				<?php //echo option_selected('제주도', $gs['zone'], '제주도'); ?>
+				<?php //echo option_selected('충청도', $gs['zone'], '충청도'); ?>
+			</select> -->
 		</td>
 	</tr>
 	<tr>
@@ -1285,6 +1298,31 @@ function chk_ppay_dan(no, index){
 			$("#chk_ppay_auto").empty().html(data);
 		}
 	);
+}
+
+const subZone = (areaname) => {
+	$.ajax({
+    type: "POST",
+    url: "/admin/goods/ajax.subarea.php",
+    data: {
+      'areaname': areaname,
+     },
+    success: function (res) {
+      res = JSON.parse(res);
+			console.log(res);
+			let htmlView = "";
+			$("#zone2" + " option").remove();
+			for(i=0; i < res.length; i++){
+				htmlView += `<option value="${res[i].areaname2}">${res[i].areaname2}</option>`;
+			}
+
+			$("#zone2").append(htmlView);
+    },
+    error: function (xhr, status, error) {
+      alert(error);
+    }
+  });
+
 }
 </script>
 
