@@ -673,11 +673,13 @@ $(document).ready(function(){
   //리뷰 전체보기 팝업 내 작성 팝업
   $("#review-popup").on("click", ".rv-write-btn", function () {
     const gsId = "<?php echo $gs_id;?>";
+    let mb_id = "<?php echo $is_member ? $member['pt_id'] : ''; ?>";
 
     const popId = "#review-write-popup";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
-    const reqData = { gs_id: gsId };
+    // mb_id 추가 _20240320_SY
+    const reqData = { gs_id: gsId, mb_id: mb_id };
 
     f.callData(popId, reqPathUrl, reqMethod, reqData, true);
 
@@ -715,11 +717,13 @@ $(document).ready(function(){
   //상품문의작성 팝업
   $(".iq-wbtn").on("click", function () {
     const gsId = "<?php echo $gs_id;?>";
+    let mb_id = "<?php echo $is_member ? $member['pt_id'] : ''; ?>";
 
     const popId = "#inquiry-write-popup";
     const reqPathUrl = "./qaform.php";
     const reqMethod = "GET";
-    const reqData = { gs_id: gsId };
+    // mb_id 추가 _20240320_SY
+    const reqData = { gs_id: gsId, mb_id: mb_id };
 
     f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });

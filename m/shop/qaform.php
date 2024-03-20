@@ -2,7 +2,9 @@
 include_once("./_common.php");
 
 if(!$is_member) {
-	alert_close("로그인 후 작성 가능합니다.");
+	// alert_close("로그인 후 작성 가능합니다.");
+  // 링크 추가 _20240320_SY
+	alert("로그인 후 작성 가능합니다.", BV_MBBS_URL.'/login.php?url='.$urlencode);
 }
 
 // $tb['title'] = '상품문의 쓰기';

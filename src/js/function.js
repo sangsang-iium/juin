@@ -175,6 +175,17 @@ export const popupClose = (t) => {
 export const callData = (popid, rqurl, rqm, rqd, shouldOpenPopup = false) => {
   let result = "";
 
+  // 로그인여부(mb_chk) 추가 _20240320_SY
+  let mb_chk = true;
+  
+  if ('mb_id' in rqd) {
+    if(rqd.mb_id.length > 0) {
+      mb_chk = true
+    } else {
+      mb_chk = false;
+    }
+  }
+  
   if(rqm == "GET") {
     $.get(rqurl, rqd)
     .done(function(data, status) {
@@ -182,8 +193,10 @@ export const callData = (popid, rqurl, rqm, rqd, shouldOpenPopup = false) => {
 
       if (shouldOpenPopup) {
         $(popid).find(".pop-content-in").html(data);
-        $(".popDim").show().css({"z-index":"560"});
-        $(popid).fadeIn(200).addClass("on")
+        if(mb_chk == true) {
+          $(".popDim").show().css({"z-index":"560"});
+          $(popid).fadeIn(200).addClass("on")
+        }
       }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
