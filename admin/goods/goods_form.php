@@ -82,7 +82,137 @@ EOF;
 <input type="hidden" name="ca_id" value="">
 <input type="hidden" name="ca_id2" value="">
 <input type="hidden" name="ca_id3" value="">
+<style>
+	.icon-plus {
+  width: 47px;
+  height: 47px;
 
+  &.w25 {
+    width: 25px;
+    height: 25px;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+    &:after {
+      width: 18px;
+      height: 4px;
+      left: 4px;
+      top: 11px;
+    }
+
+    &:before {
+      width: 4px;
+      height: 18px;
+      left: 11px;
+      top: 4px;
+    }
+  }
+
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+
+  position: relative;
+
+  &.orange {
+    background: #FD7901;
+  }
+
+  &.blue {
+    background: #7c7c7d;
+  }
+
+  &:after, &:before {
+    content: '';
+    position: absolute;
+    background: #FFF;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+
+  &:after {
+    width: 25px;
+    height: 6px;
+    left: 11px;
+    top: 20px;
+  }
+
+  &:before {
+    width: 6px;
+    height: 25px;
+    left: 20px;
+    top: 11px;
+  }
+}
+.icon-miners {
+  width: 47px;
+  height: 47px;
+	margin-left: 6px;
+
+  &.w25 {
+    width: 25px;
+    height: 25px;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+    &:after {
+      width: 18px;
+      height: 4px;
+      left: 4px;
+      top: 11px;
+    }
+
+    /* &:before {
+      width: 4px;
+      height: 18px;
+      left: 11px;
+      top: 4px;
+    } */
+  }
+
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+
+  position: relative;
+
+  &.orange {
+    background: #FD7901;
+  }
+
+  &.blue {
+    background: #7c7c7d;
+  }
+
+  &:after, &:before {
+    content: '';
+    position: absolute;
+    background: #FFF;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+
+  &:after {
+    width: 25px;
+    height: 6px;
+    left: 11px;
+    top: 20px;
+  }
+
+  /* &:before {
+    width: 6px;
+    height: 25px;
+    left: 20px;
+    top: 11px;
+  } */
+}
+</style>
 
 <section id="anc_sitfrm_cate">
 <h2>카테고리</h2>
@@ -843,7 +973,7 @@ EOF;
 	<p>※ <span>유료배송) : 고객이 동일 판매자의 상품을 복수 구매시 가장 큰 값의 (기본 배송비) 금액을 산출하여 최종배송비가 자동 적용 됩니다.</span></p>
 </div>
 <div class="tbl_frm02">
-	<table>
+	<table id="add_row">
 	<colgroup>
 		<col class="w180">
 		<col>
@@ -877,9 +1007,14 @@ EOF;
 		</td>
 	</tr>
 	<tr>
+		<th scope="row">추가설명</th>
+		<td><input type="text" name="zone_msg" value="<?php echo $gs['zone_msg']; ?>" class="frm_input" size="50" placeholder="예 : 제주 (도서지역 제외)"></td>
+	</tr>
+	<?php if($w != 'u'){ ?>
+	<tr>
 		<th scope="row">배송가능 지역</th>
 		<td>
-			<select id="zone" name="zone" onchange="subZone(this.value);">
+			<select id="zone" name="zone[]" onchange="subZone(this, this.value);">
 				<?php
 					$sql_zone = "SELECT areacode, areaname FROM area
 												GROUP BY areacode ";
@@ -890,25 +1025,52 @@ EOF;
 					}
 				?>
 			</select>
-			<select id="zone2" name="zone2">
+			<select name="zone2[]">
 			</select>
-			<!-- <select name="zone">
-				<?php //echo option_selected('전국', $gs['zone'], '전국'); ?>
-				<?php //echo option_selected('강원도', $gs['zone'], '강원도'); ?>
-				<?php //echo option_selected('경기도', $gs['zone'], '경기도'); ?>
-				<?php //echo option_selected('경상도', $gs['zone'], '경상도'); ?>
-				<?php //echo option_selected('서울/경기도', $gs['zone'], '서울/경기도'); ?>
-				<?php //echo option_selected('서울특별시', $gs['zone'], '서울특별시'); ?>
-				<?php //echo option_selected('전라도', $gs['zone'], '전라도'); ?>
-				<?php //echo option_selected('제주도', $gs['zone'], '제주도'); ?>
-				<?php //echo option_selected('충청도', $gs['zone'], '충청도'); ?>
-			</select> -->
+			<button type="button" class="icon-plus blue w25" onclick="addRow(event)"></button>
 		</td>
 	</tr>
+	<?php } else {
+		$gs_zone_arr = explode("||", $gs['zone']);
+		for ($z = 0; $z < count($gs_zone_arr); $z++) {
+			$gs_zone = explode(",", $gs_zone_arr[$z]);
+			?>
 	<tr>
-		<th scope="row">추가설명</th>
-		<td><input type="text" name="zone_msg" value="<?php echo $gs['zone_msg']; ?>" class="frm_input" size="50" placeholder="예 : 제주 (도서지역 제외)"></td>
+		<th scope="row">배송가능 지역</th>
+		<td>
+
+			<select id="zone" name="zone[]" onchange="subZone(this, this.value);">
+				<?php
+					$sql_zone = "SELECT areacode, areaname FROM area
+												GROUP BY areacode ";
+					$res_zone = sql_query($sql_zone);
+
+					while ($row_zone = sql_fetch_array($res_zone)) {
+						echo option_selected($row_zone['areaname'], $gs_zone[0], $row_zone['areaname']);
+					}
+				?>
+			</select>
+			<select name="zone2[]">
+				<?php
+					$sql_zone = "SELECT areacode2 , areaname2 FROM `area`
+												WHERE areaname = '{$gs_zone[0]}'
+												GROUP BY areacode2 ";
+					$res_zone = sql_query($sql_zone);
+
+					while ($row_zone = sql_fetch_array($res_zone)) {
+						echo option_selected($row_zone['areaname2'], $gs_zone[1], $row_zone['areaname2']);
+					}
+					?>
+			</select>
+			<?php if($z == 0){ ?>
+			<button type="button" class="icon-plus blue w25" onclick="addRow(event)"></button>
+			<?php } else {?>
+				<button type='button' class='icon-miners blue w25' onclick='deleteRow(this)'></button>
+				<?php } ?>
+		</td>
 	</tr>
+		<?php }
+	} ?>
 	</tbody>
 	</table>
 </div>
@@ -949,6 +1111,41 @@ EOF;
 	</table>
 </div>
 <script>
+	function deleteRow(button) {
+    var row = button.parentNode.parentNode; // 버튼의 부모인 td의 부모인 tr 요소 가져오기
+    row.parentNode.removeChild(row); // tr 요소 삭제
+	}
+	let rowIndex = 0;
+	function addRow(e) {
+		let _this = e.target.closest('tr');
+		// _this.style.background = "red";
+    var table = document.getElementById("add_row");
+    var newRow = table.insertRow(table.rows.length);
+    var cell1 = newRow.insertCell(0);
+    var cell2 = newRow.insertCell(1);
+		// var newRowHTML = "<tr><th scope='row'>배송가능 지역</th><td><select id='zone' name='zone[]' onchange='subZone(this, this.value);'></select><select name='zone2[]'></select></td></tr>";
+    cell1.innerHTML = "<th scope='row'>배송가능 지역</th>";
+    cell2.innerHTML = "<td><select id='zone' name='zone[]' onchange='subZone(this, this.value);'></select><select name='zone2[]'></select><button type='button' class='icon-miners blue w25' onclick='deleteRow(this)'></button></td>";
+
+		cell1.style.cssText=`background: #f8f8f8; font-weight: 600;`;
+
+		// 새로 추가된 셀렉트 태그에 옵션을 추가
+    var selectElement = cell2.querySelector('#zone');
+		<?php
+			$sql_zone = "SELECT areacode, areaname FROM area
+										GROUP BY areacode ";
+			$res_zone = sql_query($sql_zone);
+
+			for ($i = 0; $row_zone = sql_fetch_array($res_zone); $i++) {
+				?>
+				var option<?php echo $i+1?> = document.createElement('option');
+				option<?php echo $i+1?>.value = '<?php echo $row_zone['areaname']?>';
+				option<?php echo $i+1?>.text = '<?php echo $row_zone['areaname']?>';
+				selectElement.appendChild(option<?php echo $i+1 ?>);
+		<? } ?>
+
+		rowIndex++;
+	}
 $(function(){
 	// 상품정보제공 상품군선택
 	$(document).on("change", "#info_gubun", function() {
@@ -1300,29 +1497,31 @@ function chk_ppay_dan(no, index){
 	);
 }
 
-const subZone = (areaname) => {
-	$.ajax({
-    type: "POST",
-    url: "/admin/goods/ajax.subarea.php",
-    data: {
-      'areaname': areaname,
-     },
-    success: function (res) {
-      res = JSON.parse(res);
-			console.log(res);
-			let htmlView = "";
-			$("#zone2" + " option").remove();
-			for(i=0; i < res.length; i++){
-				htmlView += `<option value="${res[i].areaname2}">${res[i].areaname2}</option>`;
-			}
+const subZone = (target, areaname) => {
+		let _this = target.nextElementSibling;
 
-			$("#zone2").append(htmlView);
-    },
-    error: function (xhr, status, error) {
-      alert(error);
-    }
-  });
+    $.ajax({
+        type: "POST",
+        url: "/admin/goods/ajax.subarea.php",
+        data: {
+            'areaname': areaname,
+        },
+        success: function (res) {
+            res = JSON.parse(res);
+            console.log(res);
+						let newOption = "";
 
+						_this.options.length=0;
+
+            for (let i = 0; i < res.length; i++) {
+								newOption = new Option(res[i].areaname2, res[i].areaname2);
+								_this.append(newOption);
+            }
+        },
+        error: function (xhr, status, error) {
+            alert(error);
+        }
+    });
 }
 </script>
 

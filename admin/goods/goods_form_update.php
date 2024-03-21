@@ -122,6 +122,17 @@ if($_POST['simg_type']) { // URL 입력
 	}
 }
 
+$zone_all = "";
+for ($z = 0; $z < count($_POST['zone']); $z++) {
+    if($_POST['zone'][$z] && $_POST['zone2'][$z]){
+        if($z == 0){
+            $zone_all = $_POST['zone'][$z].','.$_POST['zone2'][$z];
+        }else {
+            $zone_all = $zone_all."||".$_POST['zone'][$z].','.$_POST['zone2'][$z];
+        }
+    }
+}
+
 $value['ca_id']			= $_POST['ca_id']; //대표카테고리
 $value['ca_id2']		= $_POST['ca_id2']; //추가카테고리2
 $value['ca_id3']		= $_POST['ca_id3']; //추가카테고리3
@@ -150,7 +161,7 @@ $value['noti_qty']		= conv_number($_POST['noti_qty']); //재고 통보수량
 $value['brand_uid']		= $_POST['brand_uid']; //브랜드주키
 $value['brand_nm']		= get_brand($_POST['brand_uid']); //브랜드명
 $value['notax']			= $_POST['notax']; //과세구분
-$value['zone']			= $_POST['zone']; //판매가능지역
+$value['zone']			= $zone_all; //판매가능지역
 $value['zone_msg']		= $_POST['zone_msg']; //판매가능지역 추가설명
 $value['sc_type']		= $_POST['sc_type']; //배송비 유형	0:공통설정, 1:무료, 2:조건부 무료, 3:유료
 $value['sc_method']		= $_POST['sc_method']; //배송비 결제	0:선불, 1:착불, 2:사용자선택
