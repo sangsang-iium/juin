@@ -139,7 +139,29 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </div>
         <div class="info-item">
           <p class="tit">배송가능지역</p>
-          <p class="cont"><?php echo $gs['zone']; ?> <?php echo $gs['zone_msg']; ?></p>
+          <?php
+          $regions = explode("||", $gs['zone']);
+          $regionMap = [];
+
+          foreach ($regions as $region) {
+            list($province, $city) = explode(",", $region);
+            if (!isset($regionMap[$province])) {
+              $regionMap[$province] = [];
+            }
+            $regionMap[$province][] = $city;
+          }
+
+          $res_data = [];
+          foreach ($regionMap as $province => $cities) {
+            $cityString = implode("/", $cities);
+            $res_data[]   = $province . " " . $cityString;
+          }
+
+          $gszone = implode(", ", $res_data);
+
+
+          ?>
+          <p class="cont"><?php echo $gszone; ?> <?php echo $gs['zone_msg']; ?></p>
         </div>
       </div>
     </div>
