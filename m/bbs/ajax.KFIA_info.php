@@ -1,19 +1,21 @@
-<?php // 외식산업중앙회 회원조회 _20240227_SY
+<?php // 외식산업중앙회 회원조회 _20240328_SY
 include_once("./_common.php");
 
 $b_no = $_POST['b_num'];
 
-// API 결과값이 2개 나온다는 가정하게 작업 _20240227_SY
-$res = [];
-for($i=0; $i<2; $i++) {
-  $res[] = [
-    "idx" => $i,
-    "nm" => "회원이름영역_{$i}",
-    "u_no" => "202402271423",
-    "b_no" => "123-12-98765"
-  ];
-}
+$b_no_preg = preg_replace("/[ #\&\+\-%@=\/\\\:;,\.'\"\^`~\_|\!\?\*$#<>()\[\]\{\}]/i", "", $b_no);
 
-$msg = "외식업중앙회원 API 및 데이터 작업 필요";
+// 테스트용 사업자 번호 : 1010185855;
 
-echo json_encode(array("res" => $res, "msg" => $msg));
+$url = "http://222.237.78.230:9080/api/v1/center/member/find.do?bizNo={$b_no_preg}";
+
+$ch = curl_init();                                 //CURL 세션 초기화
+curl_setopt($ch, CURLOPT_URL, $url);               //URL 지정
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);       //connection timeout 3초
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);    //요청 결과를 문자열로 반환
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   // 원격 서버의 인증서가 유효한지 검사 여부
+
+$response = curl_exec($ch);                        //쿼리 실행
+curl_close($ch);
+
+echo $response;
