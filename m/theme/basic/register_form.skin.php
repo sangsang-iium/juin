@@ -17,8 +17,6 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="cert_no" value="">
 
 <input type="hidden" name="reg_type" value="1">
-<input type="hidden" name="chk_id_res" value="0" id="chk_id_res">
-<input type="hidden" name="chk_em_res" value="0" id="chk_em_res">
 <input type="hidden" name="chk_cb_res" value="0" id="chk_cb_res">
 <input type="hidden" name="chk_bn_res" value="0" id="chk_bn_res">
 
@@ -256,9 +254,9 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" <?php //echo ($w == 'u') ? 'readonly' : '' ?> value="">
+							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" <?php //echo ($w == 'u') ? 'readonly' : '' ?> value="" placeholder="***-**-*****" maxlength="12">
 							<div class="joinDetail-btn-box joinDetail-btn-box3">
-								<button type="button" class="ui-btn st3" onclick="">중앙회원조회</button>
+								<button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
 								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
 								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
 							</div>
@@ -431,11 +429,10 @@ function execDaumPostcode() {
 
 <script>
 // 아이디 중복검사 _20240223_SY
+var chkId = false;
 function chk_id() {
   let idFocus = document.querySelector('#reg_mb_id');
   let getId   = document.querySelector('#reg_mb_id').value;
-  let chkId   = document.querySelector('#chk_id_res');
-  let idValue = chkId.value
 
 
     if(getId.length > 2) {
@@ -451,10 +448,10 @@ function chk_id() {
           
           if(data.res == 'pass') {
             alert('사용가능한 아이디 입니다.');
-            chkId.value = '1';
+            chkId = true;
           } else if(data.res == "reject") {
             alert('사용할 수 없는 아이디입니다.');
-            chkId.value = '0';
+            chkId = false;
             idFocus.focus();
             return false;
           }
@@ -467,11 +464,10 @@ function chk_id() {
 }
 
 // 이메일 중복체크 _20240319_SY
+var chkEmRes = false;
 function chk_email() {
   let emFocus  = document.querySelector('#reg_mb_email');
   let chkEm    = document.querySelector('#reg_mb_email').value;
-  let chkEmRes = document.querySelector('#chk_em_res');
-  let emValue  = chkEmRes.value;
   
   // 이메일 유효성 검사
   let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
@@ -488,10 +484,10 @@ function chk_email() {
         
         if (data.res === 'pass') {
           alert('사용가능한 이메일입니다.');
-          chkEmRes.value = '1';
+          chkEmRes = true;
         } else if (data.res === "reject") {
           alert('사용할 수 없는 이메일입니다.');
-          chkEmRes.value = '0';
+          chkEmRes = false;
           emFocus.focus();
         }
       },
@@ -552,50 +548,110 @@ function phoneNumber(value) {
 }
 
 // 외식업중앙회원 조회하기 _20240227_SY
-function getKFIAMember() {
-  let search_input = document.querySelector('#KFIA_search');
-  let search_words = search_input.value;
+// function getKFIAMember() {
+//   let search_input = document.querySelector('#KFIA_search');
+//   let search_words = search_input.value;
 
-  let search_resIn = document.querySelector('.pop-result');
+//   let search_resIn = document.querySelector('.pop-result');
   
-  if(search_words.length > 0) {
+//   if(search_words.length > 0) {
+//     $.ajax({
+//       url: bv_url+"/m/bbs/ajax.KFIA_info.php",
+//       type: "POST",
+//       data: { "b_num" : search_words },
+//       dataType: "JSON",
+//       success: function(data) {
+//         console.log(data)
+//         let html = '';
+
+//         for(let i=0; i<data.res.length; i++) {
+//           html += '<div class="pop-result-item">';
+//           html += '<p class="pop-result-title">' + data.res[i].nm + '</p>';
+//           html += '<p class="pop-result-text">고유번호 : ' + data.res[i].u_no + '</p>';
+//           html += '<p class="pop-result-text">사업자등록번호 : ' + data.res[i].b_no + '</p>';
+//           html += '</div>';
+//         }
+//         search_resIn.innerHTML = html;
+        
+//         $('.pop-result').on('click', '.pop-result-item', function() {  
+//           let nm   = $(this).find('.pop-result-title').text();
+//           let u_no = $(this).find('.pop-result-text:eq(0)').text().split(':')[1].trim();
+//           let b_no = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
+          
+//           $('#pop_nm').val(nm);
+//           $('#pop_u_no').val(u_no);
+//           $('#pop_b_no').val(b_no);
+
+//           $('#b_no').val(b_no);
+          
+//           // 팝업 닫기 필요
+//         });
+//       }
+//     });
+//   } else {
+//     return false;
+//   }
+// }
+
+
+
+// 외식업중앙회원 조회하기 _20240328_SY
+var chkKFIA = false;
+function getKFIAMember() {
+  let inputNum = document.querySelector('#b_no').value;
+
+  if(inputNum.length > 0) {
     $.ajax({
       url: bv_url+"/m/bbs/ajax.KFIA_info.php",
       type: "POST",
-      data: { "b_num" : search_words },
+      data: { "b_num" : inputNum },
       dataType: "JSON",
-      success: function(data) {
-        console.log(data)
-        let html = '';
-
-        for(let i=0; i<data.res.length; i++) {
-          html += '<div class="pop-result-item">';
-          html += '<p class="pop-result-title">' + data.res[i].nm + '</p>';
-          html += '<p class="pop-result-text">고유번호 : ' + data.res[i].u_no + '</p>';
-          html += '<p class="pop-result-text">사업자등록번호 : ' + data.res[i].b_no + '</p>';
-          html += '</div>';
+      success: function(res) {
+        console.log(res.data)
+        if(res.data == null) {
+          alert('사업자 정보 조회 실패')
+          chkKFIA = false;
+          return false;
+        } else {
+          alert(`조회 성공 : ${res.data.MEMBER_NAME}`)
+          chkKFIA = true;
         }
-        search_resIn.innerHTML = html;
-        
-        $('.pop-result').on('click', '.pop-result-item', function() {  
-          let nm   = $(this).find('.pop-result-title').text();
-          let u_no = $(this).find('.pop-result-text:eq(0)').text().split(':')[1].trim();
-          let b_no = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
-          
-          $('#pop_nm').val(nm);
-          $('#pop_u_no').val(u_no);
-          $('#pop_b_no').val(b_no);
-
-          $('#b_no').val(b_no);
-          
-          // 팝업 닫기 필요
-        });
       }
     });
   } else {
     return false;
   }
+  
 }
+
+
+// 사업자번호 중복체크 _20240227_SY
+function chkDuBnum() {
+  b_num = document.querySelector('#b_no').value;
+
+  if(b_num.length > 0) {
+    $.ajax({
+        url: bv_url+"/m/bbs/ajax.duplication_check.php",
+        type: "POST",
+        data: { "b_num" : b_num },
+        dataType: "JSON",
+        success: function(data) {
+          if(data.res > 0 ) {
+            $('#chk_bn_res').val('0');
+            alert("이미 등록된 사업자등록번호입니다");
+            return false;
+          } else {
+            alert("가입 가능한 사업자등록번호입니다");
+            $('#chk_bn_res').val('1');
+          }
+        }
+    });
+  } else {
+    alert("사업자등록번호가 존재하지 않습니다.")
+    return false;
+  }
+}
+
 
 // 휴/폐업 조회 _20240227_SY
 let b_num = '';
@@ -631,36 +687,6 @@ function chkClosed() {
 }
 
 
-// 사업자번호 중복체크 _20240227_SY
-function chkDuBnum() {
-  b_num = document.querySelector('#b_no').value;
-
-  if(b_num.length > 0) {
-    $.ajax({
-        url: bv_url+"/m/bbs/ajax.duplication_check.php",
-        type: "POST",
-        data: { "b_num" : b_num },
-        dataType: "JSON",
-        success: function(data) {
-          if(data.res > 0 ) {
-            $('#chk_bn_res').val('0');
-            alert("이미 등록된 사업자등록번호입니다");
-            return false;
-          } else {
-            alert("가입 가능한 사업자등록번호입니다");
-            $('#chk_bn_res').val('1');
-          }
-        }
-    });
-  } else {
-    alert("사업자등록번호가 존재하지 않습니다.")
-    return false;
-  }
-}
-
-</script>
-
-<script>
 $(function() {
 	<?php if($config['cf_cert_use'] && $config['cf_cert_ipin']) { ?>
 	// 아이핀인증
@@ -724,14 +750,14 @@ function fregisterform_submit(f)
   let ss_Id_chk = sessionStorage.getItem("chkId");
   
   if(f.w.value == "") {
-    if(f.chk_id_res.value == 0) {
+    if(chkId == false) {
       alert("아이디 중복을 확인해 주십시오.");
 			f.mb_id.focus();
 			return false;
     }
 
     // 세션 추가 _20240228_SY
-    if(f.chk_id_res.value == 1) {
+    if(chkId == true) {
       if(ss_Id != f.reg_mb_id.value) {
         alert("아이디 중복을 확인해 주십시오");
         f.mb_id.focus();
@@ -826,14 +852,14 @@ function fregisterform_submit(f)
   let ss_em_chk = sessionStorage.getItem('chkEm');
   
   if(f.w.value == "") {
-    if(f.chk_em_res.value == 0) {
+    if(chkEmRes == false) {
       alert('이메일 중복을 확인해 주십시오.');
       f.mb_email.focus();
       return false;
     }
   }
 
-  if(f.chk_em_res.value == 1) {
+  if(chkEmRes == true) {
     if(ss_em != f.reg_mb_email.value) {
       alert("이메일 중복을 확인해 주십시오.")
       f.mb_email.focus();
@@ -841,6 +867,12 @@ function fregisterform_submit(f)
     }
   }
 
+  // 중앙회원조회 _20240328_SY
+  if(chkKFIA == false) {
+    alert('중앙회원이 아닐 경우 사업자회원으로 가입하실 수 없습니다.')
+    f.b_no.focus();
+    return false;
+  }
   
   // 사업자번호 중복체크 _20240318_SY
   if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
