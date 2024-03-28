@@ -380,12 +380,12 @@ $(document).ready(function () {
     }
 
     if(prodSharePop.hasClass('on')){
-      prodSharePop.removeClass('on');
+      prodSharePop.fadeOut(200).removeClass('on');
       popDim.fadeOut(200);
     }
 
     if(cpSortList.hasClass('on')){
-      cpSortList.removeClass('on');
+      cpSortList.fadeOut(200).removeClass('on');
       popDim.fadeOut(200);
     }
   });

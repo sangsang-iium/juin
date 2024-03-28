@@ -178,7 +178,7 @@ function pad(n, width) {
   </div>
 </div>
 
-<div class="pop-bottom cp-sort__list">
+<!-- <div class="pop-bottom cp-sort__list">
   <div class="top">
     <span class="tit">상품 정렬</span>
     <button type="button" class="ui-btn close-btn"></button>
@@ -187,6 +187,22 @@ function pad(n, width) {
     <ul class="cp-sort-ct">
       <?php echo $sort_str; // 탭메뉴 ?>
     </ul>
+  </div>
+</div> -->
+
+<div id="cp-sort__list" class="popup type02">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <span class="tit">상품 정렬</span>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="ct">
+        <ul class="cp-sort-ct">
+          <?php echo $sort_str; // 탭메뉴 ?>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 
