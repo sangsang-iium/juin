@@ -172,12 +172,11 @@ export const popupClose = (t) => {
  * @param {boolean} shouldOpenPopup : 팝업 표시 여부
  * @returns result : 반환 데이터
  */
+let mb_chk = false;
 export const callData = (popid, rqurl, rqm, rqd, shouldOpenPopup = false) => {
   let result = "";
 
   // 로그인여부(mb_chk) 추가 _20240320_SY
-  let mb_chk = true;
-  
   if ('mb_id' in rqd) {
     if(rqd.mb_id.length > 0) {
       mb_chk = true
@@ -185,7 +184,6 @@ export const callData = (popid, rqurl, rqm, rqd, shouldOpenPopup = false) => {
       mb_chk = false;
     }
   }
-  
   if(rqm == "GET") {
     $.get(rqurl, rqd)
     .done(function(data, status) {
@@ -193,7 +191,14 @@ export const callData = (popid, rqurl, rqm, rqd, shouldOpenPopup = false) => {
 
       if (shouldOpenPopup) {
         $(popid).find(".pop-content-in").html(data);
-        if(mb_chk == true) {
+        
+        // 로그인 체크 오류 수정 _20240328_SY
+        if($(popid).selector == '#review-write-popup' ) {
+          if(mb_chk == true) {
+            $(".popDim").show().css({"z-index":"560"});
+            $(popid).fadeIn(200).addClass("on")
+          }
+        } else {
           $(".popDim").show().css({"z-index":"560"});
           $(popid).fadeIn(200).addClass("on")
         }
