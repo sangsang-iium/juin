@@ -160,7 +160,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     </div>
   </div>
   <div class="container bottom_box">
-    <a href="" class="ui-btn round moreLong">
+    <a href="<?php echo BV_MSHOP_URL;?>/timesale.php?menu=timesale" class="ui-btn round moreLong">
       <span class="text">전체보기</span>
     </a>
   </div>

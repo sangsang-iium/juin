@@ -39,18 +39,45 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			</div>
 			<!-- 이전글 / 다음글 개발 필요 { -->
 			<div class="tb-nb">
+      <?php 
+        $sql = "SELECT * FROM shop_board_{$boardid} WHERE wdate > '{$write['wdate']}' {$sql_search2}";
+        if($sfl && $stx)
+          $sql .= " and $sfl like '%$stx%'";
+        $sql .= " order by wdate asc limit 0,1";
+        $res = sql_query($sql);
+        if(sql_num_rows($res)) {
+          $row = sql_fetch_array($res);
+          $prev_no = $row['index_no'];
+          $prev_subject = $row['subject'];
+          $prev_tailcount = $row['tailcount'];
+          $prev_href = "./board_read.php?index_no=$prev_no&boardid=$boardid$qstr&page=$page";
+        ?>
 				<div class="tb-nb-item tb-nb-prv">
 					<p class="nb-tit">이전글</p>
-					<a href="" class="tRow1 link">
-						이전글 제목 영역입니다.이전글 제목 영역입니다.
+					<a href="<?php echo $prev_href ?>" class="tRow1 link">
+						<?php echo $prev_subject; ?>
 					</a>
 				</div>
+      <?php } 
+        $sql = "select * from shop_board_{$boardid} where wdate < '{$write['wdate']}' {$sql_search2}";
+        if($sfl && $stx)
+          $sql .= " and $sfl like '%$stx%'";
+        $sql .= " order by wdate asc limit 0,1";
+        $res = sql_query($sql);
+        if(sql_num_rows($res)) {
+          $row = sql_fetch_array($res);
+          $next_no = $row['index_no'];
+          $next_subject = $row['subject'];
+          $next_tailcount = $row['tailcount'];
+          $next_href = "./board_read.php?index_no=$next_no&boardid=$boardid$qstr&page=$page";
+      ?>
 				<div class="tb-nb-item tb-nb-nxt">
 					<p class="nb-tit">다음글</p>
-					<a href="" class="tRow1 link">
-						다음글 제목 영역입니다.다음글 제목 영역입니다.
+					<a href="<?php echo $next_href ?>" class="tRow1 link">
+            <?php echo $next_subject; ?>
 					</a>
 				</div>
+      <?php } ?>
 			</div>
 			<!-- } 이전글 / 다음글 개발 필요 -->
 
