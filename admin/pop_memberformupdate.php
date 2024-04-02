@@ -88,6 +88,9 @@ $mfrm['auth_8']			= $_POST['auth_8'];
 $mfrm['auth_9']			= $_POST['auth_9'];
 $mfrm['auth_10']		= $_POST['auth_10'];
 
+// 정산일 _20240402_SY
+$mfrm['ju_settle']  = $_POST['ju_settle'];
+
 if($_POST['passwd']) {
 	$mfrm['passwd'] = $_POST['passwd']; // 패스워드
 }

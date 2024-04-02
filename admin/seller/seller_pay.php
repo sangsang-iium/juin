@@ -110,6 +110,7 @@ EOF;
 		<col class="w90">
 		<col class="w90">
 		<col class="w60">
+		<col class="w60">
 	</colgroup>
 	<thead>
 	<tr>
@@ -126,6 +127,7 @@ EOF;
 		<th scope="col" class="th_bg">실정산액</th>
 		<th scope="col">가맹점수수료</th>
 		<th scope="col">본사마진</th>
+		<th scope="col">정산일</th>
 		<th scope="col">내역</th>
 	</tr>
 	</thead>
@@ -223,6 +225,7 @@ EOF;
 		<td class="tar fc_00f bold"><?php echo number_format($tot_seller); ?></td>
 		<td class="tar"><?php echo number_format($tot_partner); ?></td>
 		<td class="tar fc_red bold"><?php echo number_format($tot_admin); ?></td>
+		<td class="tar"></td>
 		<td><a href="<?php echo BV_ADMIN_URL; ?>/pop_sellerorder.php?mb_id=<?php echo $row['mb_id']; ?>&order_idx=<?php echo $temp_idx; ?>" onclick="win_open(this,'pop_sellerorder','1200','600','yes');return false;" class="btn_small">내역</a></td>
 	</tr>
 	<?php
