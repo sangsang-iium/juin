@@ -48,6 +48,9 @@ if($config['add_meta'])
 <?php if($ico = display_logo_url('favicon_ico')) { // 파비콘 ?>
 <link rel="shortcut icon" href="<?php echo $ico; ?>" type="image/x-icon">
 <?php } ?>
+
+<link rel="stylesheet" href="/src/css/fonts.css?ver=<?php echo BV_CSS_VER;?>">
+
 <script>
 var bv_url = "<?php echo BV_URL; ?>";
 var bv_bbs_url = "<?php echo BV_BBS_URL; ?>";
@@ -63,6 +66,7 @@ var bv_cookie_domain = "<?php echo BV_COOKIE_DOMAIN; ?>";
 <script src="<?php echo BV_JS_URL; ?>/jquery-ui-1.10.3.custom.js"></script>
 <script src="<?php echo BV_JS_URL; ?>/common.js?ver=<?php echo BV_JS_VER;?>"></script>
 <script src="<?php echo BV_JS_URL; ?>/slick.js"></script>
+
 <?php if($config['mouseblock_yes']) { // 마우스 우클릭 방지 ?>
 <script>
 $(document).ready(function(){
@@ -74,6 +78,7 @@ $(document).bind('selectstart',function() {return false;});
 $(document).bind('dragstart',function(){return false;});
 </script>
 <?php } ?>
+
 <?php
 if($config['head_script']) { // head 내부태그
     echo $config['head_script'].PHP_EOL;

@@ -8,16 +8,6 @@ if(defined('_INDEX_')) { // index에서만 실행
 
 <div id="wrapper">
 	<div id="header">
-    <!-- 숨김
-		<?php if(!get_cookie("ck_hd_banner")) { // 상단 큰배너 ?>
-		<div id="hd_banner">
-			<?php if($hd_banner = display_banner_bg(0, $pt_id)) { // 배너가 있나? ?>
-			<?php echo $hd_banner; ?>
-			<img src="<?php echo BV_IMG_URL; ?>/bt_close.gif" id="hd_close">
-			<?php } // banner end ?>
-		</div>
-		<?php } // cookie end ?>
-    -->
 		<div id="tnb">
 			<div id="tnb_inner">
 				<ul class="fr">
@@ -44,13 +34,11 @@ if(defined('_INDEX_')) { // index에서만 실행
 		<div id="hd">
 			<!-- 상단부 영역 시작 { -->
 			<div id="hd_inner">
-        <!-- 숨김
-				<div class="hd_bnr">
-					<span><?php echo display_banner(2, $pt_id); ?></span>
-				</div>
-        -->
 				<h1 class="hd_logo">
-					<?php echo display_logo(); ?>
+					<?php // echo display_logo(); ?>
+          <a href="/mng/">
+            <img src="/img/logo.png" alt="주인장">
+          </a>
 				</h1>
 				<div id="hd_sch">
 					<fieldset class="sch_frm">
@@ -82,7 +70,7 @@ if(defined('_INDEX_')) { // index에서만 실행
 							$mod = 5;
 							$res = sql_query_cgy('all');
 							for($i=0; $row=sql_fetch_array($res); $i++) {
-								$href = BV_SHOP_URL.'/list.php?ca_id='.$row['catecode'];
+								$href = '/mng/?ca_id='.$row['catecode'];
 
 								if($i && $i%$mod == 0) echo "</ul>\n<ul>\n";
 							?>
@@ -127,20 +115,6 @@ if(defined('_INDEX_')) { // index에서만 실행
 						});
 						</script>
 					</div>
-					<div class="gnb_li">
-						<ul>
-						<?php
-						for($i=0; $i<count($gw_menu); $i++) {
-							$seq = ($i+1);
-							$page_url = BV_URL.$gw_menu[$i][1];
-							if(!$default['de_pname_use_'.$seq] || !$default['de_pname_'.$seq])
-								continue;
-
-							echo '<li><a href="'.$page_url.'">'.$default['de_pname_'.$seq].'</a></li>'.PHP_EOL;
-						}
-						?>
-						</ul>
-					</div>
 				</div>
 			</div>
 			<!-- } 상단부 영역 끝 -->
@@ -162,77 +136,13 @@ if(defined('_INDEX_')) { // index에서만 실행
 			});
 			</script>
 		</div>
-
-		<?php
-		if(defined('_INDEX_')) { // index에서만 실행
-			$sql = sql_banner_rows(0, $pt_id);
-			$res = sql_query($sql);
-			$mbn_rows = sql_num_rows($res);
-			if($mbn_rows) {
-		?>
-		<!-- 메인 슬라이드배너 시작 { -->
-		<div id="mbn_wrap">
-			<?php
-			$txt_w = (100 / $mbn_rows);
-			$txt_arr = array();
-			for($i=0; $row=sql_fetch_array($res); $i++)
-			{
-				if($row['bn_text'])
-					$txt_arr[] = $row['bn_text'];
-
-				$a1 = $a2 = $bg = '';
-				$file = BV_DATA_PATH.'/banner/'.$row['bn_file'];
-				if(is_file($file) && $row['bn_file']) {
-					if($row['bn_link']) {
-						$a1 = "<a href=\"{$row['bn_link']}\" target=\"{$row['bn_target']}\">";
-						$a2 = "</a>";
-					}
-
-					$row['bn_bg'] = preg_replace("/([^a-zA-Z0-9])/", "", $row['bn_bg']);
-					if($row['bn_bg']) $bg = "#{$row['bn_bg']} ";
-
-					$file = rpc($file, BV_PATH, BV_URL);
-					echo "<div class=\"mbn_img\" style=\"background:{$bg}url('{$file}') no-repeat top center;\">{$a1}{$a2}</div>\n";
-				}
-			}
-			?>
-		</div>
-		<script>
-		$(document).on('ready', function() {
-			<?php if(count($txt_arr) > 0) { ?>
-			var txt_arr = <?php echo json_encode($txt_arr); ?>;
-
-			$('#mbn_wrap').slick({
-				autoplay: true,
-				autoplaySpeed: 4000,
-				dots: true,
-				fade: true,
-				customPaging: function(slider, i) {
-					return "<span>"+txt_arr[i]+"</span>";
-				}
-			});
-			$('#mbn_wrap .slick-dots li').css('width', '<?php echo $txt_w; ?>%');
-			<?php } else { ?>
-			$('#mbn_wrap').slick({
-				autoplay: true,
-				autoplaySpeed: 4000,
-				dots: true,
-				fade: true
-			});
-			<?php } ?>
-		});
-		</script>
-		<!-- } 메인 슬라이드배너 끝 -->
-		<?php }
-		}
-		?>
 	</div>
 
 	<div id="container">
 		<?php
-		if(!is_mobile()) { // 모바일접속이 아닐때만 노출
-			include_once(BV_THEME_PATH.'/quick.skin.php'); // 퀵메뉴
-		}
+		//if(!is_mobile()) { // 모바일접속이 아닐때만 노출
+		//	include_once(BV_THEME_PATH.'/quick.skin.php'); // 퀵메뉴
+		//}
 
 		if(!defined('_INDEX_')) { // index가 아니면 실행
 			echo '<div class="cont_inner">'.PHP_EOL;

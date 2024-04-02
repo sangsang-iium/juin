@@ -77,6 +77,7 @@ define('BV_DATA_URL',       BV_URL.'/'.BV_DATA_DIR);
 define('BV_IMG_URL',        BV_URL.'/'.BV_IMG_DIR);
 define('BV_JS_URL',         BV_URL.'/'.BV_JS_DIR);
 define('BV_SHOP_URL',       BV_URL.'/'.BV_SHOP_DIR);
+define('BV_MNG_SHOP_URL',   BV_URL.'/mng/'.BV_SHOP_DIR);
 define('BV_LIB_URL',        BV_URL.'/'.BV_LIB_DIR);
 define('BV_PLUGIN_URL',     BV_URL.'/'.BV_PLUGIN_DIR);
 define('BV_MYPAGE_URL',     BV_URL.'/'.BV_MYPAGE_DIR);

@@ -749,7 +749,7 @@ function get_encrypt_string($str)
     } else {
         $encrypt = sql_password($str);
     }
-
+    
     return $encrypt;
 }
 
