@@ -200,6 +200,14 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
 				<?php echo help('위 계좌정보는 수수료 정산시 이용 됩니다. 정확히 입력해주세요.'); ?>
 			</td>
 		</tr>
+    <!-- 정산일 추가 _20240402_SY -->
+    <tr class="pt_pay_fld">
+      <th scope="row" class="th_bg fc_00f">정산일</th>
+      <td colspan="3">
+        <input type="text" name="ju_settle" value="<?php echo $mb['ju_settle']?>" class="frm_input" placeholder="정산일">
+        <?php echo help('매달 입력하신 날짜에 수수료 정산하실 수 있습니다. 숫자만 입력해주세요. ex) 15(◯), 15일(X) 월요일(X)'); ?>
+      </td>
+    </tr>
 		<tr class="pt_pay_fld">
 			<th scope="row" class="th_bg fc_00f">본사지정 권한</th>
 			<td colspan="3">

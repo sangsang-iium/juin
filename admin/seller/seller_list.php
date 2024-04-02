@@ -54,6 +54,7 @@ $btn_frmline = <<<EOF
 <a href="./sms/sms_seller.php" onclick="win_open(this,'allsms','245','360','no');return false" class="btn_lsmall bx-white">전체문자발송</a>
 <a href="./seller/seller_list_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 엑셀저장</a>
 EOF;
+
 ?>
 
 <h2>기본검색</h2>
