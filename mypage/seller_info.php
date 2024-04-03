@@ -92,6 +92,11 @@ include_once("./admin_head.sub.php");
 		<th scope="row">예금주명</th>
 		<td><input type="text" name="bank_holder" value="<?php echo $seller['bank_holder']; ?>" class="frm_input" size="30"></td>
 	</tr>
+  <!-- 정산일 추가 _20240402_SY -->
+	<tr>
+		<th scope="row">정산일</th>
+		<td><input type="text" name="settle" value="<?php echo $seller['settle']; ?>" class="frm_input" size="30"></td>
+	</tr>
 	</tbody>
 	</table>
 </div>

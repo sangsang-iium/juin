@@ -177,13 +177,13 @@ export const callData = (popid, rqurl, rqm, rqd, shouldOpenPopup = false) => {
   let result = "";
 
   // 로그인여부(mb_chk) 추가 _20240320_SY
-  if ('mb_id' in rqd) {
-    if(rqd.mb_id.length > 0) {
-      mb_chk = true
-    } else {
-      mb_chk = false;
-    }
-  }
+  // if ('mb_id' in rqd) {
+  //   if(rqd.mb_id.length > 0) {
+  //     mb_chk = true
+  //   } else {
+  //     mb_chk = false;
+  //   }
+  // }
   if(rqm == "GET") {
     $.get(rqurl, rqd)
     .done(function(data, status) {
@@ -194,10 +194,10 @@ export const callData = (popid, rqurl, rqm, rqd, shouldOpenPopup = false) => {
         
         // 로그인 체크 오류 수정 _20240328_SY
         if($(popid).selector == '#review-write-popup' ) {
-          if(mb_chk == true) {
+          // if(mb_chk == true) {
             $(".popDim").show().css({"z-index":"560"});
             $(popid).fadeIn(200).addClass("on")
-          }
+          // }
         } else {
           $(".popDim").show().css({"z-index":"560"});
           $(popid).fadeIn(200).addClass("on")
