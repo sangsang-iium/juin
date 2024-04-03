@@ -36,7 +36,8 @@ if($page == "") { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 $num = $total_count - (($page-1)*$rows);
 
-$sql = " select a.*, b.mb_id, b.company_name $sql_common $sql_search $sql_order limit $from_record, $rows ";
+// b.settle 추가 _20240402_SY
+$sql = " select a.*, b.mb_id, b.company_name, b.settle $sql_common $sql_search $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
 include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
@@ -147,12 +148,24 @@ EOF;
 		$order_idx	 = array();
 		$order_arr	 = array();
 
+    // if($row['settle'] >= 1) {
+    //   $add_between = " AND od_time 
+    //                BETWEEN CONCAT(YEAR(CURDATE() - INTERVAL 1 MONTH), '-', MONTH(CURDATE() - INTERVAL 1 MONTH), '-', {$row['settle']})
+    //                    AND LAST_DAY(CURDATE()) ";
+    // } else {
+    //   $add_between = " AND od_time 
+    //                BETWEEN CONCAT(YEAR(CURDATE() - INTERVAL 1 MONTH), '-', MONTH(CURDATE() - INTERVAL 1 MONTH), '-', {$row['settle']})
+    //                    AND CONCAT(YEAR(CURDATE()), '-', MONTH(CURDATE()), '-', {$row['settle']} - 1) ";
+    // }
+
+    // 정산일 조건 추가 _20240403_SY
 		$sql2 = " select *
 				    from shop_order
 				   where seller_id = '{$row['seller_id']}'
 				     and dan IN(5,8)
 				     and sellerpay_yes = '0'
-					 and user_ok = '1' ";
+					 and user_ok = '1' 
+           AND od_time < CONCAT(YEAR(CURDATE()), '-', MONTH(CURDATE()), '-', 15) ";
 		if($fr_date && $to_date) {
 			$sql2 .= " and left(od_time,10) between '$fr_date' and '$to_date' ";
 		}
@@ -173,8 +186,7 @@ EOF;
 			$tot_partner += (int)$psum['sum_pay']; // 가맹점수수료
 			$order_idx[] = $row2['index_no'];
 			$order_arr['od_id'] = $row2['od_id'];
-		}
-
+		};
 		/*
 		// 반품.환불건에 포함된 배송비도 합산
 		foreach($order_arr as $key) {
@@ -213,7 +225,7 @@ EOF;
 			<input type="hidden" name="tot_admin[<?php echo $i; ?>]" value="<?php echo $tot_admin; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
-		<td><?php echo $num--; ?></td>
+		<td><?php echo $num--;?></td>
 		<td class="tal"><?php echo get_sideview($row['mb_id'], $row['seller_id']); ?></td>
 		<td class="tal"><?php echo $row['company_name']; ?></td>
 		<td><?php echo count($order_idx); ?></td>
@@ -225,7 +237,7 @@ EOF;
 		<td class="tar fc_00f bold"><?php echo number_format($tot_seller); ?></td>
 		<td class="tar"><?php echo number_format($tot_partner); ?></td>
 		<td class="tar fc_red bold"><?php echo number_format($tot_admin); ?></td>
-		<td class="tar"></td>
+		<td class="tar"><?php echo $row['settle'] ?>일</td>
 		<td><a href="<?php echo BV_ADMIN_URL; ?>/pop_sellerorder.php?mb_id=<?php echo $row['mb_id']; ?>&order_idx=<?php echo $temp_idx; ?>" onclick="win_open(this,'pop_sellerorder','1200','600','yes');return false;" class="btn_small">내역</a></td>
 	</tr>
 	<?php
