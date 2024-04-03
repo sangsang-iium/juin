@@ -176,7 +176,8 @@ for($i=0; $i<count($gw_psort); $i++) {
 
   const addItem = (itid, name, qty, stock, price, opt=null) => {
     const selectedItemBox = $(".sct_cart_wrap .sct_cart_ct_ul");
-    let selectedItemPrice = price * qty;
+    let selectedItemPrice;
+    selectedItemPrice = price * qty;
     let hasItem = duplCheck(itid);
 
     if(!hasItem) { //새로 담는 상품이라면
@@ -206,20 +207,27 @@ for($i=0; $i<count($gw_psort); $i++) {
         </li>
         `);
       } else { //옵션이 있다면
+        let price2 = parseInt(opt.io_price) + parseInt(opt.io_amt);
+        selectedItemPrice = (parseInt(opt.io_price) + parseInt(opt.io_amt)) * qty;
+        let optInfo = opt.io_value.split(','); // 옵션 분할
+        let optInfo1 = opt.io_id.split('');
+
         selectedItemBox.append(`
         <li id="sct_add_goods${itid}" class="sct_add_goods useOpt">
-          <input type="hidden" name="gs_id[]" value="${itid}">
-          <input type="hidden" class="gs_price" value="${price}">
+          <input type="hidden" class="io_id" name="gs_id[]" value="${itid}">
+          <input type="hidden" class="gs_price" value="${price2}">
 
           <input type="hidden" name="io_type[${itid}][]" value="0">
           <input type="hidden" name="io_id[${itid}][]" value="${opt.io_id}">
-          <input type="hidden" name="io_value[${itid}][]" value="${opt.io_value}">
+          <input type="hidden" name="io_value[${itid}][]" value="${opt.io_value}" class="gs_optInfo">
           <input type="hidden" class="io_price" value="${opt.io_price}">
           <input type="hidden" class="io_stock" value="${opt.io_stock}">
 
           <div class="info">
             <p class="subject">${name}</p>
-            <span class="option"><span class="item">옵션 : 김치용</span></span>
+            <span class="option">
+              <span class="item">옵션 : ${optInfo1[0]} (${optInfo[0]}) ${addCommas(optInfo[1])}원</span>
+            </span>
           </div>
           <div class="lot">
             <div class="it_li_add">
@@ -235,7 +243,66 @@ for($i=0; $i<count($gw_psort); $i++) {
 
       selectedItemArray.push(itid);
     } else { //이미 담긴 상품이라면
-      
+      let currentQty = 0;
+
+      if(!opt){ // 옵션이 없다면
+        currentQty = parseInt($(`#sct_add_goods${itid} .qty-input`).val());
+        let newQty = currentQty + qty; 
+        selectedItemPrice = price * newQty;
+
+        $(`#sct_add_goods${itid} .qty-input`).val(newQty);
+        $(`#sct_add_goods${itid} .goods_price`).text(addCommas(selectedItemPrice));
+      }else{ // 옵션이 있다면
+        
+        let optValue = opt.io_value;
+
+        // 이미 그려진 상품들 중에서 동일한 옵션값을 가진 상품이 있는지 확인
+        let existingItem = $(".sct_cart_wrap .sct_cart_ct_ul").find(`.sct_add_goods.useOpt .gs_optInfo[value="${optValue}"]`).closest(".sct_add_goods");
+
+        if (existingItem.length > 0) { // 동일한 상품이 있다면
+          let currentQty = parseInt(existingItem.find('.qty-input').val());
+          let newQty = currentQty + qty;
+          let existingPrice = parseFloat(existingItem.find('.gs_price').val());
+          selectedItemPrice = existingPrice * newQty;
+
+          existingItem.find('.qty-input').val(newQty);
+          existingItem.find('.goods_price').text(addCommas(selectedItemPrice));
+        } else { // 동일한 상품이 없다면
+          let price2 = parseInt(opt.io_price) + parseInt(opt.io_amt);
+          selectedItemPrice = (parseInt(opt.io_price) + parseInt(opt.io_amt)) * qty;
+          let optInfo = opt.io_value.split(','); // 옵션 분할
+          let optInfo1 = opt.io_id.split('');
+
+          selectedItemBox.append(`
+          <li id="sct_add_goods${itid}" class="sct_add_goods useOpt">
+            <input type="hidden" class="io_id" name="gs_id[]" value="${itid}">
+            <input type="hidden" class="gs_price" value="${price2}">
+
+            <input type="hidden" name="io_type[${itid}][]" value="0">
+            <input type="hidden" name="io_id[${itid}][]" value="${opt.io_id}">
+            <input type="hidden" name="io_value[${itid}][]" value="${opt.io_value}" class="gs_optInfo">
+            <input type="hidden" class="io_price" value="${opt.io_price}">
+            <input type="hidden" class="io_stock" value="${opt.io_stock}">
+
+            <div class="info">
+              <p class="subject">${name}</p>
+              <span class="option">
+                <span class="item">옵션 : ${optInfo1[0]} (${optInfo[0]}) ${addCommas(optInfo[1])}원</span>
+              </span>
+            </div>
+            <div class="lot">
+              <div class="it_li_add">
+                <button type="button" class="qty-btn minus"></button>
+                <input type="text" name="ct_qty[${itid}][]" id="" value="${qty}" class="qty-input">
+                <button type="button" class="qty-btn plus"></button>
+              </div>
+              <p class="goods_price">${addCommas(selectedItemPrice)}</p>
+            </div>
+          </li>
+          `);
+        }
+
+      }
     }
 
     // console.log(selectedItemArray);
@@ -307,16 +374,21 @@ for($i=0; $i<count($gw_psort); $i++) {
       let emptyEl = $(".sct_cart_empty");
 
       if($tgItem.find('.it_li_option').length > 0) { //옵션이 있는 상품이라면
+
+        if($tgItem.find('.it_option').val() == ''){ // 옵션 선택을 안하면
+          alert('필수 옵션을 선택해주세요.');
+          return false;
+        }
+
         let id = "";
         let value, item, sel_opt = false;
         let option = sep = "";
+        let info = $tgItem.find('.it_option:last').val().split(',');
 
-        $tgItem.find('.it_li_option').each(function(index) {
-          // value = $(this).val();
-          value = $tgItem.find('select.it_option').val();
+        $tgItem.find('.it_option').each(function(index) {
+          value = $(this).val();
+          // value = $tgItem.find('.it_option').val();
           item = $(this).closest("dl").find("dt label").text();
-
-          console.log(value)
 
           // 옵션선택정보
           sel_opt = value.split(",")[0];
@@ -330,21 +402,25 @@ for($i=0; $i<count($gw_psort); $i++) {
           }
 
           option += sep + item + ":" + sel_opt;
-          console.log(option)
-
-          /*
-          io_id : '100g',
-          io_value : '무게:100g / 상태:B',
-          io_price : '1000',
-          io_stock : '100'
-          */
-          itemOpt = {
-            io_id : id,
-            io_value : '무게:100g / 상태:B',
-            io_price : '1000',
-            io_stock : '100'
-          }
         });
+
+        price = info[1];
+        stock = info[2];
+        amt = info[3];
+
+        /*
+        io_id : '100g',
+        io_value : '무게:100g / 상태:B',
+        io_price : '1000',
+        io_stock : '100'
+        */
+        itemOpt = {
+          io_id : id,
+          io_value : value,
+          io_price : price,
+          io_stock : stock,
+          io_amt : amt,
+        }
       }
 
       emptyEl.hide();
