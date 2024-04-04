@@ -2,6 +2,8 @@
   <button type="button" id="mo_cart_close"></button>
   <div class="sct_cart_inner">
     <form name="frmcartlist" id="sod_bsk_list" method="post" action="/mng/shop/cartupdate.php">
+    <input type="hidden" name="sw_direct">
+
     <div class="sct_cart_ct">
       <p class="t1">선택상품</p>
       <ul class="sct_cart_ct_ul">
@@ -28,6 +30,14 @@
 function fbuyform_submit(sw_direct)
 {
 	var f = document.frmcartlist;
+
+  f.sw_direct.value = sw_direct;
+
+	if(sw_direct == "cart") {
+		f.sw_direct.value = 0;
+	} else { // 바로구매
+		f.sw_direct.value = 1;
+	}
 
 	f.action = "/mng/shop/cartupdate.php";
 	f.submit();

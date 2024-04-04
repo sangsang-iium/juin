@@ -19,6 +19,93 @@ for($i=0; $i<count($gw_psort); $i++) {
 
 	$sort_str .= '<li><a href="'.$sct_sort_href.'"'.$active.'>'.$tname.'</a></li>'.PHP_EOL;
 }
+
+// 상품 선택옵션
+function get_item_options2($gs_id, $subject)
+{
+  if(!$gs_id || !$subject)
+    return '';
+
+  $amt = get_sale_price($gs_id);
+
+  $sql = " select * from shop_goods_option where io_type = '0' and gs_id = '$gs_id' and io_use = '1' order by io_no asc ";
+  $result = sql_query($sql);
+  if(!sql_num_rows($result))
+    return '';
+
+  $str = '';
+  $subj = explode(',', $subject);
+  $subj_count = count($subj);
+
+  if($subj_count > 1) {
+    $options = array();
+
+    // 옵션항목 배열에 저장
+    for($i=0; $row=sql_fetch_array($result); $i++) {
+      $opt_id = explode(chr(30), $row['io_id']);
+
+      for($k=0; $k<$subj_count; $k++) {
+        if(!is_array($options[$k]))
+          $options[$k] = array();
+
+        if($opt_id[$k] && !in_array($opt_id[$k], $options[$k]))
+          $options[$k][] = $opt_id[$k];
+      }
+    }
+
+    // 옵션선택목록 만들기
+    for($i=0; $i<$subj_count; $i++) {
+      $opt = $options[$i];
+      $opt_count = count($opt);
+      $disabled = '';
+      if($opt_count) {
+        $seq = $i + 1;
+        if($i > 0)
+          $disabled = ' disabled="disabled"';
+        $str .= '<dl>'.PHP_EOL;
+        $str .= '<dt><label for="it_option_'.$seq.'" class="sound_only">'.$subj[$i].'</label></dt>'.PHP_EOL;
+
+        $select  = '<select id="it_option_'.$seq.'" class="it_option wfull"'.$disabled.'>'.PHP_EOL;
+        $select .= '<option value="">'.$subj[$i].'</option>'.PHP_EOL;
+        for($k=0; $k<$opt_count; $k++) {
+          $opt_val = $opt[$k];
+          if($opt_val) {
+            $select .= '<option value="'.$opt_val.'">'.$opt_val.'</option>'.PHP_EOL;
+          }
+        }
+        $select .= '</select>'.PHP_EOL;
+
+        $str .= '<dd class="li_select">'.$select.'</dd>'.PHP_EOL;
+        $str .= '</dl>'.PHP_EOL;
+      }
+    }
+  } else {
+    $str .= '<dl>'.PHP_EOL;
+    $str .= '<dt><label for="it_option_1" class="sound_only">'.$subj[0].'</label></dt>'.PHP_EOL;
+
+    $select  = '<select id="it_option_1" class="it_option wfull">'.PHP_EOL;
+    $select .= '<option value="">'.$subj[0].'</option>'.PHP_EOL;
+    for($i=0; $row=sql_fetch_array($result); $i++) {
+      if($row['io_price'] >= 0)
+        $price = '&nbsp;&nbsp;(+'.display_price($row['io_price']).')';
+      else
+        $price = '&nbsp;&nbsp;('.display_price($row['io_price']).')';
+
+      if(!$row['io_stock_qty'])
+        $soldout = '&nbsp;&nbsp;[품절]';
+      else
+        $soldout = '';
+
+      $select .= '<option value="'.$row['io_id'].','.$row['io_price'].','.$row['io_stock_qty'].','.$amt.'">'.$row['io_id'].$price.$soldout.'</option>'.PHP_EOL;
+    }
+    $select .= '</select>'.PHP_EOL;
+
+    $str .= '<dd class="li_select">'.$select.'</dd>'.PHP_EOL;
+    $str .= '</dl>'.PHP_EOL;
+  }
+
+  return $str;
+}
 ?>
 
 <div class="prod_wrap">
@@ -76,7 +163,7 @@ for($i=0; $i<count($gw_psort); $i++) {
         }
 
         // 필수 옵션
-        $option_item = get_item_options($row['index_no'], $row['opt_subject']);
+        $option_item = get_item_options2($row['index_no'], $row['opt_subject']);
       ?>
         <li id="pr_item<?php echo $row['index_no'];?>" class="pr_item">
           <input type="hidden" name="pr_id" value="<?php echo $row['index_no'];?>">
@@ -174,6 +261,20 @@ for($i=0; $i<count($gw_psort); $i++) {
     return resultBool;
   }
 
+  const stockCheck = (itid, stock) => {
+    let prItemQty = parseInt($(`#pr_item${itid}`).find(".qty-input").val());
+    let sctItemQty = parseInt($(`#sct_add_goods${itid}`).find(".qty-input").val());
+    let tottalQty = sctItemQty ? (prItemQty + sctItemQty) : prItemQty;
+
+    console.log(tottalQty, stock)
+
+    if(tottalQty <= stock) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   const addItem = (itid, name, qty, stock, price, opt=null) => {
     const selectedItemBox = $(".sct_cart_wrap .sct_cart_ct_ul");
     let selectedItemPrice;
@@ -226,7 +327,7 @@ for($i=0; $i<count($gw_psort); $i++) {
           <div class="info">
             <p class="subject">${name}</p>
             <span class="option">
-              <span class="item">옵션 : ${optInfo1[0]} (${optInfo[0]}) ${addCommas(optInfo[1])}원</span>
+              <span class="item">옵션 : ${optInfo1[0]} ${optInfo[0] != optInfo1[0] ? '('+optInfo[0]+')' : ''} ${optInfo[1] != 0 ? '+'+addCommas(optInfo[1])+'원' : ''}</span>
             </span>
           </div>
           <div class="lot">
@@ -242,7 +343,7 @@ for($i=0; $i<count($gw_psort); $i++) {
       }
 
       selectedItemArray.push(itid);
-    } else { //이미 담긴 상품이라면
+    } else { //이미 담긴 상품이라면 (옵션이 달라도 같은 상품일 경우도 해당됨)
       let currentQty = 0;
 
       if(!opt){ // 옵션이 없다면
@@ -287,7 +388,7 @@ for($i=0; $i<count($gw_psort); $i++) {
             <div class="info">
               <p class="subject">${name}</p>
               <span class="option">
-                <span class="item">옵션 : ${optInfo1[0]} (${optInfo[0]}) ${addCommas(optInfo[1])}원</span>
+                <span class="item">옵션 : ${optInfo1[0]} ${optInfo[0] != optInfo1[0] ? '('+optInfo[0]+')' : ''} ${optInfo[1] != 0 ? '+'+addCommas(optInfo[1])+'원' : ''}</span>
               </span>
             </div>
             <div class="lot">
@@ -304,8 +405,6 @@ for($i=0; $i<count($gw_psort); $i++) {
 
       }
     }
-
-    // console.log(selectedItemArray);
   }
 
   $(document).ready(function(){
@@ -315,8 +414,40 @@ for($i=0; $i<count($gw_psort); $i++) {
 
     // 수량 감소
     $(".prod_list").on('click', qtyMinusBtn, function(){
+      let $tgItem = $(this).closest(".pr_item");
+      let $sctItem = $(this).closest(".sct_add_goods");
+
+      // 옵션이 있는 경우 옵션 선택헸는지 체크
+      if($tgItem.find('.it_li_option').length > 0) { 
+        let optionSelected = true;
+
+        $tgItem.find(".it_option").each(function(){
+          if($(this).val() == '') {
+            alert('필수 옵션을 선택해주세요.');
+            optionSelected = false;
+            return false;
+          }
+        });
+
+        if (!optionSelected) {
+          return;
+        }
+      }
+
       let qtyInput = $(this).siblings(".qty-input");
       let curQty = qtyInput.val();
+
+      // 담긴 상품의 재고량 체크
+      if($sctItem) {
+        let stock = parseInt($sctItem.find('.io_stock').val());
+
+        if(curQty >= stock){
+          alert("재고수량은 "+stock+"개 입니다.");
+
+          return false;
+        }
+      }
+
       let chgQty = qtyMinus(curQty);
 
       qtyInput.val(chgQty);
@@ -339,8 +470,40 @@ for($i=0; $i<count($gw_psort); $i++) {
 
     // 수량 증가
     $(".prod_list").on('click', qtyPlusBtn, function(){
+      let $tgItem = $(this).closest(".pr_item");
+      let $sctItem = $(this).closest(".sct_add_goods");
+
+      // 옵션이 있는 경우 옵션 선택헸는지 체크
+      if($tgItem && $tgItem.find('.it_li_option').length > 0) {
+        let optionSelected = true;
+
+        $tgItem.find(".it_option").each(function(){
+          if($(this).val() == '') {
+            alert('필수 옵션을 선택해주세요.');
+            optionSelected = false;
+            return false;
+          }
+        });
+
+        if (!optionSelected) {
+          return;
+        }
+      }
+
       let qtyInput = $(this).siblings(".qty-input");
       let curQty = qtyInput.val();
+
+      // 담긴 상품의 재고량 체크
+      if($sctItem) {
+        let stock = parseInt($sctItem.find('.io_stock').val());
+
+        if(curQty >= stock){
+          alert("재고수량은 "+stock+"개 입니다.");
+
+          return false;
+        }
+      }
+
       let chgQty = qtyPlus(curQty);
 
       qtyInput.val(chgQty);
@@ -372,6 +535,8 @@ for($i=0; $i<count($gw_psort); $i++) {
       let itemPrice = reNumber(itemPriceText);
       let itemOpt = "";
       let emptyEl = $(".sct_cart_empty");
+
+      let price, stock, amt = 0;
 
       if($tgItem.find('.it_li_option').length > 0) { //옵션이 있는 상품이라면
 
@@ -408,12 +573,6 @@ for($i=0; $i<count($gw_psort); $i++) {
         stock = info[2];
         amt = info[3];
 
-        /*
-        io_id : '100g',
-        io_value : '무게:100g / 상태:B',
-        io_price : '1000',
-        io_stock : '100'
-        */
         itemOpt = {
           io_id : id,
           io_value : value,
@@ -421,11 +580,19 @@ for($i=0; $i<count($gw_psort); $i++) {
           io_stock : stock,
           io_amt : amt,
         }
+      } else {
+        stock = itemStock;
+      }
+
+      // 선택 상품
+      let stockConfm = stockCheck(itemId, stock);  
+      if(!stockConfm) {
+        alert("재고수량은 "+stock+"개 입니다.");
+
+        return false;
       }
 
       emptyEl.hide();
-
-      // 선택 상품
       addItem(itemId, itemName, itemQty, itemStock, itemPrice, itemOpt);
 
       // 총 가격

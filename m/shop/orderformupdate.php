@@ -4,6 +4,8 @@
 include_once("./_common.php");
 include_once(BV_LIB_PATH.'/mailer.lib.php');
 
+$resulturl = $_POST['resulturl'];
+
 // 삼성페이 요청으로 왔다면 현재 삼성페이는 이니시스 밖에 없으므로
 if( $_POST['paymethod'] == '삼성페이' && $default['de_pg_service'] != 'inicis') {
     alert("이니시스를 사용중일때만 삼성페이 결제가 가능합니다.", BV_MSHOP_URL."/cart.php");
@@ -349,7 +351,12 @@ function truncateString($string, $length) {
 
 
 if(in_array($_POST['paymethod'],array('무통장','포인트'))) {
-	goto_url(BV_MSHOP_URL.'/orderinquiryview.php?od_id='.$od_id.'&uid='.$uid);
+	
+  if($resulturl == 'pc') {
+    goto_url(BV_URL.'/mng/shop/orderinquiryview.php?od_id='.$od_id.'&uid='.$uid);
+  } else {
+    goto_url(BV_MSHOP_URL.'/orderinquiryview.php?od_id='.$od_id.'&uid='.$uid);
+  }
 } else if($_POST['paymethod'] == 'KAKAOPAY') {
 	goto_url(BV_MSHOP_URL.'/orderkakaopay.php?od_id='.$od_id);
 } else if($_POST['paymethod'] == '삼성페이') {
@@ -432,7 +439,11 @@ if(in_array($_POST['paymethod'],array('무통장','포인트'))) {
 	// $or_where = "WHERE od_id = {$od_id}";
 	$tran_id = $orderInsert->insert('toss_transactions', $or_insert);
 
-	goto_url(BV_MSHOP_URL . '/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid.'&tran_id='.$tran_id);
+  if($resulturl == 'pc') {
+    goto_url(BV_URL.'/mng/shop/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid.'&tran_id='.$tran_id);
+  } else {
+    goto_url(BV_MSHOP_URL . '/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid.'&tran_id='.$tran_id);
+  }
 } else {
 	if($default['de_pg_service'] == 'kcp')
 		goto_url(BV_MSHOP_URL.'/orderkcp.php?od_id='.$od_id);

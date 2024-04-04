@@ -150,7 +150,7 @@ if($wr_id){
 			var frm = $("#b_saveform").serialize();
 			$.ajax({ 
             type:"POST", 
-            url:"./orderaddress.save.php",
+            url:"/m/shop/orderaddress.save.php",
             data: {
                 'b_name':$("#b_name_save").prop('value'),
 				'b_cellphone':$("#b_cellphone1_save").prop('value')+"-"+$("#b_cellphone2_save").prop('value')+"-"+$("#b_cellphone3_save").prop('value'),

@@ -26,7 +26,7 @@ if(!defined('_BLUEVATION_')) exit;
 		</dd>
 		<dd><button type="submit" class="btn_large">로그인</button></dd>
 		<?php if(preg_match("/orderform.php/", $url)) { ?>
-		<dd><a href="<?php echo BV_SHOP_URL; ?>/orderform.php" class="btn_large red wfull">비회원으로 구매하기</a></dd>
+		<dd><a href="<?php echo BV_MNG_SHOP_URL; ?>/orderform.php" class="btn_large red wfull">비회원으로 구매하기</a></dd>
 		<?php } ?>
 		<dd class="log_op">
 			<span><input type="checkbox" name="auto_login" id="login_auto_login"> <label for="login_auto_login">자동로그인</label></span>	

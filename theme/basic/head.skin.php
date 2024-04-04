@@ -19,12 +19,9 @@ if(defined('_INDEX_')) { // index에서만 실행
 						$tnb[] = '<li><a href="'.BV_BBS_URL.'/logout.php">로그아웃</a></li>';
 					} else {
 						$tnb[] = '<li><a href="'.BV_BBS_URL.'/login.php?url='.$urlencode.'">로그인</a></li>';
-						$tnb[] = '<li><a href="'.BV_BBS_URL.'/register.php">회원가입</a></li>';
 					}
-					$tnb[] = '<li><a href="'.BV_SHOP_URL.'/mypage.php">마이페이지</a></li>';
-					$tnb[] = '<li><a href="'.BV_SHOP_URL.'/cart.php">장바구니<span class="ic_num">'. get_cart_count().'</span></a></li>';
-					$tnb[] = '<li><a href="'.BV_SHOP_URL.'/orderinquiry.php">주문/배송조회</a></li>';
-					$tnb[] = '<li><a href="'.BV_BBS_URL.'/faq.php?faqcate=1">고객센터</a></li>';
+					$tnb[] = '<li><a href="'.BV_MNG_SHOP_URL.'/cart.php">장바구니<span class="ic_num">'. get_cart_count().'</span></a></li>';
+					$tnb[] = '<li><a href="'.BV_MNG_SHOP_URL.'/orderinquiry.php">주문/배송조회</a></li>';
 					$tnb_str = implode(PHP_EOL, $tnb);
 					echo $tnb_str;
 					?>
@@ -40,7 +37,7 @@ if(defined('_INDEX_')) { // index에서만 실행
             <img src="/img/logo.png" alt="주인장">
           </a>
 				</h1>
-				<div id="hd_sch">
+				<!-- <div id="hd_sch">
 					<fieldset class="sch_frm">
 						<legend>사이트 내 전체검색</legend>
 						<form name="fsearch" id="fsearch" method="post" action="<?php echo BV_SHOP_URL; ?>/search.php" onsubmit="return fsearch_submit(this);" autocomplete="off">
@@ -58,7 +55,7 @@ if(defined('_INDEX_')) { // index에서만 실행
 						}
 						</script>
 					</fieldset>
-				</div>
+				</div> -->
 			</div>
 			<div id="gnb">
 				<div id="gnb_inner">
