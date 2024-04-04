@@ -254,10 +254,12 @@ table .spr,.total_price .spr {display:inline-block;}
 .sct_cart_wrap .sct_cart_inner {padding: 20px;}
 
 .sct_cart_ct .t1 {padding-bottom: 5px; font-size: 18px; font-weight: 600; color: #0f0f0f; border-bottom: 2px solid #333;}
+.sct_cart_ct_ul {overflow-y: auto; max-height: 600px;}
 
 .sct_add_goods {padding: 15px 0;}
 .sct_add_goods ~ .sct_add_goods {border-top: 1px solid #ddd;}
 .sct_add_goods .subject {font-size: 15px; font-weight: 500; color: #0f0f0f;}
+.sct_add_goods .option {display: block; margin-top: 3px; font-size: 12px; font-weight: 400; color: #666;}
 .sct_add_goods .lot {display: flex; flex-flow: row wrap; align-items: center; justify-content: space-between; margin-top: 10px;}
 .sct_add_goods .lot .it_li_add {position: inherit; bottom: inherit; left: inherit; width: 50%; margin-top: 0; text-align: left;}
 .sct_add_goods .lot .it_li_add .qty-input {width: calc(100% - 90px);}

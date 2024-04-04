@@ -34,9 +34,9 @@ if($act == "buy")
 	set_session('ss_cart_id', $ss_cart_id);
 
    if($is_member) // 회원인 경우
-        goto_url(BV_SHOP_URL."/orderform.php");
+        goto_url(BV_MNG_SHOP_URL."/orderform.php");
     else
-		goto_url(BV_BBS_URL.'/login.php?url='.urlencode('/shop/orderform.php'));
+		goto_url(BV_BBS_URL.'/login.php?url='.urlencode('/mng/shop/orderform.php'));
 }
 else if($act == "alldelete") // 모두 삭제이면
 {
@@ -222,7 +222,7 @@ if($sw_direct) {
     if($is_member)
 		goto_url(BV_MNG_SHOP_URL."/orderform.php");
     else
-    	goto_url(BV_BBS_URL.'/login.php?url='.urlencode('/shop/orderform.php'));
+    	goto_url(BV_BBS_URL.'/login.php?url='.urlencode('/mng/shop/orderform.php'));
 } else {
    goto_url(BV_MNG_SHOP_URL."/cart.php");
 }
