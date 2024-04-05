@@ -40,6 +40,6 @@ $from_record = ($page - 1) * $rows; // 시작 열을 구함
 $sql = " select * $sql_common $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
-include_once(BV_THEME_PATH.'/list.skin.php');
+include_once(BV_PATH.'/mng/skin/list.skin.php');
 include_once("../_tail.php");
 ?>

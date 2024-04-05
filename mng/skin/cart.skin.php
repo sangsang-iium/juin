@@ -256,7 +256,7 @@ if(!defined('_BLUEVATION_')) exit;
 	<input type="hidden" name="records" value="<?php echo $i; ?>">
 	<input type="hidden" name="act" value="">
 	<button type="button" onclick="return form_check('buy');" class="btn_large wset">선택상품주문</button>
-	<a href="<?php echo BV_SHOP_URL; ?>/list.php?ca_id=<?php echo $continue_ca_id; ?>" class="btn_large bx-white">쇼핑계속하기</a>
+	<a href="<?php echo BV_URL; ?>/mng/" class="btn_large bx-white">쇼핑계속하기</a>
 	<?php if($naverpay_button_js) { ?>
 	<div class="cart-naverpay"><?php echo $naverpay_request_js.$naverpay_button_js; ?></div>
 	<?php } ?>

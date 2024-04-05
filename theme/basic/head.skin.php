@@ -12,14 +12,11 @@ if(defined('_INDEX_')) { // index에서만 실행
 			<div id="tnb_inner">
 				<ul class="fr">
 					<?php
+          if($is_member) {
+            echo '<li><span style="color: blue;">'.$member['name'].'</span>님</li>';
+          }
+
 					$tnb = array();
-					if($is_admin)
-						$tnb[] = '<li><a href="'.$is_admin.'" target="_blank" class="fc_eb7">관리자</a></li>';
-					if($is_member) {
-						$tnb[] = '<li><a href="'.BV_BBS_URL.'/logout.php">로그아웃</a></li>';
-					} else {
-						$tnb[] = '<li><a href="'.BV_BBS_URL.'/login.php?url='.$urlencode.'">로그인</a></li>';
-					}
 					$tnb[] = '<li><a href="'.BV_MNG_SHOP_URL.'/cart.php">장바구니<span class="ic_num">'. get_cart_count().'</span></a></li>';
 					$tnb[] = '<li><a href="'.BV_MNG_SHOP_URL.'/orderinquiry.php">주문/배송조회</a></li>';
 					$tnb_str = implode(PHP_EOL, $tnb);
