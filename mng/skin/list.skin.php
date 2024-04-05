@@ -137,11 +137,28 @@ function tree_category_pc($catecode)
 		if($t_catecode==$row['catecode'])
 			$addclass = ' class="active"';
 
-		$href = BV_MNG_SHOP_URL.'/list.php?ca_id='.$row['catecode'];
+		$href = BV_URL.'/mng/?ca_id='.$row['catecode'];
 		$str .= "<li style=\"width:{$li_width}%\"{$addclass}><a href=\"{$href}\">{$row['catename']}</a></li>".PHP_EOL;
 	}
 
 	if($i > 0) $str .= '</ul>'.PHP_EOL;
+
+	return $str;
+}
+
+function get_move_pc($ca_id)
+{
+	$str = "";
+
+	$len = strlen($ca_id);
+	for($i=1;$i<=($len/3);$i++) {
+		$cut_id = substr($ca_id,0,($i*3));
+		$row = sql_fetch("select * from shop_category where catecode='$cut_id' ");
+
+		$href = BV_URL.'/mng/?ca_id='.$row['catecode'];
+
+		$str = $str." <i class=\"ionicons ion-ios-arrow-right\"></i> "."<a href='{$href}'>{$row['catename']}</a>";
+	}
 
 	return $str;
 }
@@ -150,7 +167,7 @@ function tree_category_pc($catecode)
 <div class="prod_wrap">
   <h2 class="pg_tit">
     <span><?php echo $ca['catename']; ?></span>
-    <p class="pg_nav">HOME<?php echo get_move($ca_id); ?></p>
+    <p class="pg_nav">HOME<?php echo get_move_pc($ca_id); ?></p>
   </h2>
 
   <?php
@@ -165,11 +182,11 @@ function tree_category_pc($catecode)
     <ul>
       <?php echo $sort_str; // 탭메뉴 ?>
     </ul>
-    <select id="page_rows" onchange="location='<?php echo "{$_SERVER['SCRIPT_NAME']}?{$qstr3}";?>&page_rows='+this.value;">
-      <?php echo option_selected(($mod*5),  $page_rows, '5줄 정렬'); ?>
-      <?php echo option_selected(($mod*10), $page_rows, '10줄 정렬'); ?>
-      <?php echo option_selected(($mod*15), $page_rows, '15줄 정렬'); ?>
-    </select>
+    <!-- <select id="page_rows" onchange="location='<?php //echo "{$_SERVER['SCRIPT_NAME']}?{$qstr3}";?>&page_rows='+this.value;">
+      <?php //echo option_selected(($mod*5),  $page_rows, '5줄 정렬'); ?>
+      <?php //echo option_selected(($mod*10), $page_rows, '10줄 정렬'); ?>
+      <?php //echo option_selected(($mod*15), $page_rows, '15줄 정렬'); ?>
+    </select> -->
   </div>
 
   <div class="cf contents prod_list">
@@ -304,8 +321,6 @@ function tree_category_pc($catecode)
     let prItemQty = parseInt($(`#pr_item${itid}`).find(".qty-input").val());
     let sctItemQty = parseInt($(`#sct_add_goods${itid}`).find(".qty-input").val());
     let tottalQty = sctItemQty ? (prItemQty + sctItemQty) : prItemQty;
-
-    console.log(tottalQty, stock)
 
     if(tottalQty <= stock) {
       return true;
@@ -450,6 +465,7 @@ function tree_category_pc($catecode)
     const addListBtn = $(".add-list-btn");
     const qtyMinusBtn = ".qty-btn.minus";
     const qtyPlusBtn = ".qty-btn.plus";
+    const qtyInputs = ".qty-input";
 
     // 수량 감소
     $(".prod_list").on('click', qtyMinusBtn, function(){
@@ -513,7 +529,7 @@ function tree_category_pc($catecode)
       let $sctItem = $(this).closest(".sct_add_goods");
 
       // 옵션이 있는 경우 옵션 선택헸는지 체크
-      if($tgItem && $tgItem.find('.it_li_option').length > 0) {
+      if($tgItem.length > 0 && $tgItem.find('.it_li_option').length > 0) {
         let optionSelected = true;
 
         $tgItem.find(".it_option").each(function(){
@@ -531,16 +547,21 @@ function tree_category_pc($catecode)
 
       let qtyInput = $(this).siblings(".qty-input");
       let curQty = qtyInput.val();
+      let stock = 0;
 
       // 담긴 상품의 재고량 체크
-      if($sctItem) {
-        let stock = parseInt($sctItem.find('.io_stock').val());
+      if($sctItem.length > 0) {
+        stock = parseInt($sctItem.find('.io_stock').val());
+      } else if($tgItem.length > 0) {
+        stock = parseInt($tgItem.find('.io_stock').val());
+      } else {
+        console.log("재고 데이터가 없습니다.")
+      }
 
-        if(curQty >= stock){
-          alert("재고수량은 "+stock+"개 입니다.");
+      if(curQty >= stock){
+        alert("재고수량은 "+stock+"개 입니다.");
 
-          return false;
-        }
+        return false;
       }
 
       let chgQty = qtyPlus(curQty);
@@ -640,54 +661,111 @@ function tree_category_pc($catecode)
 
       $totalEl.text(addCommas(totalPrice));
     });
-  });
 
-  // 옵션 선택 이벤트
-  $("select.it_option").on('change', function(){
-    let $tgItem = $(this).closest('.pr_item');
-    let sel_count = $tgItem.find("select.it_option").size();
-    let idx = parseInt($(this).attr('id').slice(-1));
-    let val = $(this).val();
-    let gs_id = $tgItem.find("input[name='pr_id']").val();
+    // 옵션 선택 이벤트
+    $("select.it_option").on('change', function(){
+      let $tgItem = $(this).closest('.pr_item');
+      let sel_count = $tgItem.find("select.it_option").size();
+      let idx = parseInt($(this).attr('id').slice(-1));
+      let val = $(this).val();
+      let gs_id = $tgItem.find("input[name='pr_id']").val();
 
-    // 선택값이 없을 경우 하위 옵션은 disabled
-    if(val == "") {
-      $tgItem.find("select.it_option:gt("+(idx - 1)+")").val("").attr("disabled", true);
-      return;
-    }
+      // 선택값이 없을 경우 하위 옵션은 disabled
+      if(val == "") {
+        $tgItem.find("select.it_option:gt("+(idx - 1)+")").val("").attr("disabled", true);
+        return;
+      }
 
-    if(sel_count > 1 && idx < sel_count) {
-      let opt_id = "";
+      if(sel_count > 1 && idx < sel_count) {
+        let opt_id = "";
 
-      // 상위 옵션의 값을 읽어 옵션id 만듬
-      if((idx - 1) > 0) {
-        $("select.it_option:lt("+(idx - 1)+")").each(function() {
-          if(!opt_id)
-            opt_id = $(this).val();
-          else
-            opt_id += String.fromCharCode(30)+$(this).val();
-        });
+        // 상위 옵션의 값을 읽어 옵션id 만듬
+        if((idx - 1) > 0) {
+          $("select.it_option:lt("+(idx - 1)+")").each(function() {
+            if(!opt_id)
+              opt_id = $(this).val();
+            else
+              opt_id += String.fromCharCode(30)+$(this).val();
+          });
 
-        opt_id += String.fromCharCode(30)+val;
-      } else if((idx - 1) == 0) {
-        opt_id = val;
+          opt_id += String.fromCharCode(30)+val;
+        } else if((idx - 1) == 0) {
+          opt_id = val;
+        }
+        
+        $.post(
+          "/mng/shop/list_option.php",
+          { gs_id: gs_id, opt_id: opt_id, idx: (idx - 1), sel_count: sel_count },
+          function(data) {
+            $tgItem.find("select#it_option_"+(idx + 1)).empty().html(data).attr("disabled", false);
+
+            // select의 옵션이 변경됐을 경우 하위 옵션 disabled
+            if(idx < sel_count) {
+              let idx2 = idx;
+
+              $tgItem.find("select.it_option:gt("+idx2+")").val("").attr("disabled", true);
+            }
+          }
+        );
+      }
+      let $optionSelect = $tgItem.find('.it_option');
+      let lastIndex = $optionSelect.length - 1;
+      let curIndex = $(this).closest("dl").index();
+
+      if(curIndex == lastIndex){
+        $optionSelectLast = $tgItem.find('.it_option:last');
+        let info = $optionSelectLast.val().split(',');
+        let stock = info[2];
+
+        $tgItem.find('.io_stock').val(stock);
       }
       
-      $.post(
-        "/mng/shop/list_option.php",
-        { gs_id: gs_id, opt_id: opt_id, idx: (idx - 1), sel_count: sel_count },
-        function(data) {
-          $tgItem.find("select#it_option_"+(idx + 1)).empty().html(data).attr("disabled", false);
+    });
 
-          // select의 옵션이 변경됐을 경우 하위 옵션 disabled
-          if(idx < sel_count) {
-            let idx2 = idx;
+    let prevValue = "";
 
-            $tgItem.find("select.it_option:gt("+idx2+")").val("").attr("disabled", true);
+    $(".prod_list").on('keyup', qtyInputs, function(){
+      let $qtyInput = $(this);
+      let currentValue = $qtyInput.val();
+      let $tgItem = $qtyInput.closest('.pr_item');
+
+      if (currentValue !== prevValue) {
+        if($tgItem.length > 0 && $tgItem.find('.it_li_option').length > 0) {
+          let optionSelected = true;
+
+          $tgItem.find(".it_option").each(function(){
+            if($(this).val() == '') {
+              alert('필수 옵션을 선택해주세요.');
+              optionSelected = false;
+              return false;
+            }
+          });
+
+          if (!optionSelected) {
+            $qtyInput.val(prevValue);
+            return false;
           }
         }
-      );
-    }
-  })
+
+        // 담긴 상품의 재고량 체크
+        let curQty = parseInt($qtyInput.val());
+        let stock = parseInt($tgItem.find('.io_stock').val());
+        
+        if(curQty > stock){
+          alert("재고수량은 "+stock+"개 입니다.");
+
+          $qtyInput.val(prevValue);
+          return false;
+        }
+      }
+
+      if(prevValue == "") {
+        prevValue = 1;
+      } else {
+        prevValue = currentValue;
+      }
+      
+    });
+  });
   </script>
 </div>
