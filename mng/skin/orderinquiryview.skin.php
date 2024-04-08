@@ -48,7 +48,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 				$hash = md5($rw['gs_id'].$rw['od_no'].$rw['od_id']);
 				$dlcomp = explode('|', trim($rw['delivery']));
 
-				$href = BV_SHOP_URL.'/view.php?index_no='.$rw['gs_id'];
+				$href = BV_MNG_SHOP_URL.'/view.php?index_no='.$rw['gs_id'];
 
 				unset($it_name);
 				$it_options = print_complete_options($ct['gs_id'], $ct['od_id']);

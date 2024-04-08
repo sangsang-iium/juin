@@ -329,16 +329,19 @@ function get_move_pc($ca_id)
     }
   }
 
-  const addItem = (itid, name, qty, stock, price, opt=null) => {
+  const addItem = (itid, name, qty, stock, price, optval, optid, opt=null) => {
     const selectedItemBox = $(".sct_cart_wrap .sct_cart_ct_ul");
     let selectedItemPrice;
+
     selectedItemPrice = price * qty;
-    let hasItem = duplCheck(itid);
+
+    let goodsId = optid ? itid+"-"+optid : itid;
+    let hasItem = duplCheck(goodsId);
 
     if(!hasItem) { //새로 담는 상품이라면
       if(!opt){ //옵션이 없다면
         selectedItemBox.append(`
-        <li id="sct_add_goods${itid}" class="sct_add_goods">
+        <li id="sct_add_goods${goodsId}" class="sct_add_goods" data-goods-id="${goodsId}">
           <input type="hidden" name="gs_id[]" value="${itid}">
           <input type="hidden" class="gs_price" value="${price}">
 
@@ -359,6 +362,7 @@ function get_move_pc($ca_id)
             </div>
             <p class="goods_price">${addCommas(selectedItemPrice)}</p>
           </div>
+          <button type="button" class="remove">삭제</button>
         </li>
         `);
       } else { //옵션이 있다면
@@ -368,13 +372,13 @@ function get_move_pc($ca_id)
         let optInfo1 = opt.io_id.split('');
 
         selectedItemBox.append(`
-        <li id="sct_add_goods${itid}" class="sct_add_goods useOpt">
+        <li id="sct_add_goods${goodsId}" class="sct_add_goods useOpt" data-goods-id="${goodsId}">
           <input type="hidden" class="io_id" name="gs_id[]" value="${itid}">
           <input type="hidden" class="gs_price" value="${price2}">
 
           <input type="hidden" name="io_type[${itid}][]" value="0">
           <input type="hidden" name="io_id[${itid}][]" value="${opt.io_id}">
-          <input type="hidden" name="io_value[${itid}][]" value="${opt.io_value}" class="gs_optInfo">
+          <input type="hidden" name="io_value[${itid}][]" value="${optval}" class="gs_optInfo">
           <input type="hidden" class="io_price" value="${opt.io_price}">
           <input type="hidden" class="io_stock" value="${opt.io_stock}">
 
@@ -392,11 +396,12 @@ function get_move_pc($ca_id)
             </div>
             <p class="goods_price">${addCommas(selectedItemPrice)}</p>
           </div>
+          <button type="button" class="remove">삭제</button>
         </li>
         `);
       }
 
-      selectedItemArray.push(itid);
+      selectedItemArray.push(goodsId);
     } else { //이미 담긴 상품이라면 (옵션이 달라도 같은 상품일 경우도 해당됨)
       let currentQty = 0;
 
@@ -408,11 +413,10 @@ function get_move_pc($ca_id)
         $(`#sct_add_goods${itid} .qty-input`).val(newQty);
         $(`#sct_add_goods${itid} .goods_price`).text(addCommas(selectedItemPrice));
       }else{ // 옵션이 있다면
-        
-        let optValue = opt.io_value;
+        let optValue = optval;
 
         // 이미 그려진 상품들 중에서 동일한 옵션값을 가진 상품이 있는지 확인
-        let existingItem = $(".sct_cart_wrap .sct_cart_ct_ul").find(`.sct_add_goods.useOpt .gs_optInfo[value="${optValue}"]`).closest(".sct_add_goods");
+        let existingItem = $(".sct_cart_wrap .sct_cart_ct_ul").find(`#sct_add_goods${goodsId}`);
 
         if (existingItem.length > 0) { // 동일한 상품이 있다면
           let currentQty = parseInt(existingItem.find('.qty-input').val());
@@ -428,14 +432,16 @@ function get_move_pc($ca_id)
           let optInfo = opt.io_value.split(','); // 옵션 분할
           let optInfo1 = opt.io_id.split('');
 
+          goodsId = itid+"-"+optid;
+
           selectedItemBox.append(`
-          <li id="sct_add_goods${itid}" class="sct_add_goods useOpt">
+          <li id="sct_add_goods${goodsId}" class="sct_add_goods useOpt" data-goods-id="${goodsId}">
             <input type="hidden" class="io_id" name="gs_id[]" value="${itid}">
             <input type="hidden" class="gs_price" value="${price2}">
 
             <input type="hidden" name="io_type[${itid}][]" value="0">
             <input type="hidden" name="io_id[${itid}][]" value="${opt.io_id}">
-            <input type="hidden" name="io_value[${itid}][]" value="${opt.io_value}" class="gs_optInfo">
+            <input type="hidden" name="io_value[${itid}][]" value="${optval}" class="gs_optInfo">
             <input type="hidden" class="io_price" value="${opt.io_price}">
             <input type="hidden" class="io_stock" value="${opt.io_stock}">
 
@@ -453,6 +459,7 @@ function get_move_pc($ca_id)
               </div>
               <p class="goods_price">${addCommas(selectedItemPrice)}</p>
             </div>
+            <button type="button" class="remove">삭제</button>
           </li>
           `);
         }
@@ -584,6 +591,35 @@ function get_move_pc($ca_id)
       }
     });
 
+    // 담긴 상품 삭제하기
+    const removeListBtn = ".sct_add_goods .remove";
+    const emptyEl = $(".sct_cart_empty");
+
+    $(".sct_cart_ct_ul").on('click', removeListBtn, function(){
+      let $goodsItem = $(this).closest(".sct_add_goods");
+      let goodsId = String($goodsItem.data("goods-id"));
+
+      $goodsItem.remove();
+
+      for(let i = 0; i < selectedItemArray.length; i++) {
+        if(selectedItemArray[i] === goodsId)  {
+          selectedItemArray.splice(i, 1);
+          i--;
+        }
+      }
+
+      let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
+
+      if($(".sct_add_goods").length == 0) {
+        emptyEl.show();
+        $totalEl.text(0);
+      } else {
+        let totalPrice = totalCalc('.sct_add_goods', '.goods_price');
+
+        $totalEl.text(addCommas(totalPrice));
+      }
+    });
+
     // 상품 선택하기
     addListBtn.on('click', function(){
       let $tgItem = $(this).closest('.pr_item');
@@ -594,12 +630,12 @@ function get_move_pc($ca_id)
       let itemPriceText = $tgItem.find('.mpr').text();
       let itemPrice = reNumber(itemPriceText);
       let itemOpt = "";
-      let emptyEl = $(".sct_cart_empty");
+      let itemValue = "";
+      let optId = "";
 
       let price, stock, amt = 0;
 
       if($tgItem.find('.it_li_option').length > 0) { //옵션이 있는 상품이라면
-
         if($tgItem.find('.it_option').val() == ''){ // 옵션 선택을 안하면
           alert('필수 옵션을 선택해주세요.');
           return false;
@@ -611,6 +647,16 @@ function get_move_pc($ca_id)
         let info = $tgItem.find('.it_option:last').val().split(',');
 
         $tgItem.find('.it_option').each(function(index) {
+          let selectedIndex = $(this).prop('selectedIndex');
+
+          if(index == 0) {
+            optId = selectedIndex;
+          } else {
+            optId = optId+"_"+selectedIndex;
+          }
+
+          
+
           value = $(this).val();
           // value = $tgItem.find('.it_option').val();
           item = $(this).closest("dl").find("dt label").text();
@@ -627,6 +673,8 @@ function get_move_pc($ca_id)
           }
 
           option += sep + item + ":" + sel_opt;
+
+          itemValue = option;
         });
 
         price = info[1];
@@ -653,7 +701,7 @@ function get_move_pc($ca_id)
       }
 
       emptyEl.hide();
-      addItem(itemId, itemName, itemQty, itemStock, itemPrice, itemOpt);
+      addItem(itemId, itemName, itemQty, itemStock, itemPrice, itemValue, optId, itemOpt);
 
       // 총 가격
       let totalPrice = totalCalc('.sct_add_goods', '.goods_price');

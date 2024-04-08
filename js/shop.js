@@ -263,7 +263,7 @@ function sel_option_process(add_exec)
     $("select.it_option").each(function(index) {
         value = $(this).val();
         item = $(this).closest(".vi_txt_li dl").find("dt label").text();
-      console.log(value)
+        
         if(!value) {
             run_error = true;
             return false;
@@ -289,8 +289,8 @@ function sel_option_process(add_exec)
 
     price = info[1];
     stock = info[2];
-	amt = info[3];
-
+    amt = info[3];
+    console.log(info)
     if(add_exec) {
         if(same_option_check(option))
             return;
