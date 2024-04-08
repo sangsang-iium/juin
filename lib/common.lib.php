@@ -1941,10 +1941,8 @@ function get_search_date($fr_date, $to_date, $fr_val, $to_val, $is_last=true)
 	$frm[] = '<label for="'.$to_date.'" class="sound_only">종료일</label>'.PHP_EOL;
 	$frm[] = '<input type="text" name="'.$to_date.'" value="'.$to_val.'" id="'.$to_date.'"'.$input_end;
 	$frm[] = '<span class="btn_group">';
-	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="오늘">';
-	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="어제">';
-	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="일주일">';
-	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="지난달">';
+	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="당일">';
+	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="1주일">';
 	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="1개월">';
 	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="3개월">';
 	if($is_last) $frm[] = '<input type="button"'.$js.' class="btn_small white" value="전체">';
@@ -1952,6 +1950,30 @@ function get_search_date($fr_date, $to_date, $fr_val, $to_val, $is_last=true)
 
 	return implode('', $frm);
 }
+// // 날짜검색
+// function get_search_date($fr_date, $to_date, $fr_val, $to_val, $is_last=true)
+// {
+// 	$input_end = ' class="frm_input w80" maxlength="10">'.PHP_EOL;
+// 	$js = " onclick=\"search_date('{$fr_date}','{$to_date}',this.value);\"";
+
+// 	$frm = array();
+// 	$frm[] = '<label for="'.$fr_date.'" class="sound_only">시작일</label>'.PHP_EOL;
+// 	$frm[] = '<input type="text" name="'.$fr_date.'" value="'.$fr_val.'" id="'.$fr_date.'"'.$input_end;
+// 	$frm[] = ' ~ '.PHP_EOL;
+// 	$frm[] = '<label for="'.$to_date.'" class="sound_only">종료일</label>'.PHP_EOL;
+// 	$frm[] = '<input type="text" name="'.$to_date.'" value="'.$to_val.'" id="'.$to_date.'"'.$input_end;
+// 	$frm[] = '<span class="btn_group">';
+// 	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="오늘">';
+// 	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="어제">';
+// 	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="일주일">';
+// 	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="지난달">';
+// 	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="1개월">';
+// 	$frm[] = '<input type="button"'.$js.' class="btn_small white" value="3개월">';
+// 	if($is_last) $frm[] = '<input type="button"'.$js.' class="btn_small white" value="전체">';
+// 	$frm[] = '</span>';
+
+// 	return implode('', $frm);
+// }
 
 // 카테고리정보 불러오기
 function get_cgy_info($gs)

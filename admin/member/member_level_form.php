@@ -19,14 +19,14 @@ $sql = " select * $sql_common $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
 $arr_memo = array();
-$arr_memo[0] = '쇼핑몰 이용회원 (최하위)';
-$arr_memo[1] = '쇼핑몰 이용회원';
-$arr_memo[2] = '쇼핑몰 이용회원 (최상위)';
-$arr_memo[3] = '가맹점 회원 (최하위)';
-$arr_memo[4] = '가맹점 회원';
-$arr_memo[5] = '가맹점 회원';
-$arr_memo[6] = '가맹점 회원';
-$arr_memo[7] = '가맹점 회원 (최상위)';
+$arr_memo[0] = '주인장 이용회원';
+$arr_memo[1] = '주인장 이용회원';
+$arr_memo[2] = '주인장 이용회원';
+$arr_memo[3] = '지회/지부 직원';
+$arr_memo[4] = '입점 업체';
+$arr_memo[5] = '-';
+$arr_memo[6] = '-';
+$arr_memo[7] = '-';
 $arr_memo[8] = '최고 관리자';
 ?>
 
@@ -43,10 +43,10 @@ $arr_memo[8] = '최고 관리자';
 	</colgroup>
 	<thead>
 	<tr>
-		<th scope="col">레벨</th>
-		<th scope="col">레벨명</th>
+		<th scope="col">No</th>
+		<th scope="col">회원 구분</th>
 		<th scope="col">할인률</th>
-		<th scope="col">절삭</th>
+		<th scope="col">판매가 절삭</th>
 		<th scope="col">비고</th>
 	</tr>
 	</thead>
