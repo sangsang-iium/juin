@@ -253,7 +253,10 @@ table .spr,.total_price .spr {display:inline-block;}
 .sct_cart_wrap.bottom {position: absolute; right: 0; top: auto; bottom: 160px;}
 .sct_cart_wrap .sct_cart_inner {padding: 20px;}
 
-.sct_cart_ct .t1 {padding-bottom: 5px; font-size: 18px; font-weight: 600; color: #0f0f0f; border-bottom: 2px solid #333;}
+/* 수정 _20240408_SY */
+/* .sct_cart_ct .t1 {padding-bottom: 5px; font-size: 18px; font-weight: 600; color: #0f0f0f; border-bottom: 2px solid #333;} */
+.sct_cart_ct .t1 {padding-bottom: 5px; font-size: 18px; font-weight: 600; color: #0f0f0f; border-bottom: 2px solid #333; display: flex; justify-content: space-between;}
+.sct_cart_ct .t1 .la_od {padding-bottom: 5px; font-size: 14px; font-weight: 600; color: #0f0f0f; }
 .sct_cart_ct_ul {overflow-y: auto; max-height: 600px;}
 
 .sct_add_goods {padding: 15px 0;}

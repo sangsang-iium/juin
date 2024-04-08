@@ -5,7 +5,10 @@
     <input type="hidden" name="sw_direct">
 
     <div class="sct_cart_ct">
-      <p class="t1">선택상품</p>
+      <p class="t1">
+        <span>선택상품</span>
+        <span class="la_od"><a href="<?php echo BV_URL .'/mng/shop/orderinquiry.php'?>">이전상품 주문</a></span>
+      </p>
       <ul class="sct_cart_ct_ul">
         
         <li class="sct_cart_empty">선택한 상품이  없습니다.</li>
