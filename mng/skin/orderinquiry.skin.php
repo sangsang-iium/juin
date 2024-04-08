@@ -41,14 +41,14 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 
 				$hash = md5($od['gs_id'].$od['od_no'].$od['od_id']);
 				$dlcomp = explode('|', trim($od['delivery']));
-				$href = BV_SHOP_URL.'/view.php?index_no='.$od['gs_id'];
+				$href = BV_MNG_SHOP_URL.'/view.php?index_no='.$od['gs_id'];
 
 				if($k == 0) {
 		?>
 		<tr>
 			<td class="tac" rowspan="<?php echo $rowspan; ?>">
 				<p class="bold"><?php echo substr($od['od_time'],0,10);?></p>
-				<p class="padt5"><a href="<?php echo BV_SHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $od['od_id']; ?>" class="btn_small grey">상세보기</a></p>
+				<p class="padt5"><a href="<?php echo BV_MNG_SHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $od['od_id']; ?>" class="btn_small grey">상세보기</a></p>
 			</td>
 		</tr>
 		<?php } ?>
