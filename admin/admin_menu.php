@@ -3,7 +3,7 @@ define("_BLUEVATION_", TRUE);
 
 define('ADMIN_MENU1',		'회원관리');
 define('ADMIN_MENU1_01',	'회원 정보관리');
-define('ADMIN_MENU1_02',	'회원 레벨관리');
+define('ADMIN_MENU1_02',	'회원 구분관리');
 define('ADMIN_MENU1_03',	'회원 등록하기');
 define('ADMIN_MENU1_04',	'회원 엑셀일괄등록');
 define('ADMIN_MENU1_05',	'월별 가입통계분석');

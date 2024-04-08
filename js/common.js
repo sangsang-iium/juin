@@ -1128,7 +1128,7 @@ function addComma(obj,fLen)
 // 날짜검색
 function search_date(fr_date, to_date, today)
 {
-	if(today == "오늘") {
+	if (today == "오늘" || today == "당일") {
 		var obj1 = document.getElementById(fr_date);
 		var obj2 = document.getElementById(to_date);
 		var mydate = new Date();
@@ -1163,7 +1163,7 @@ function search_date(fr_date, to_date, today)
 
 		obj1.value = formatDate(weekStartDate);
 		obj2.value = formatDate(weekEndDate);
-	} else if(today == "일주일") {
+	} else if (today == "일주일" || today == "1주일") {
 		var obj1 = document.getElementById(fr_date);
 		var obj2 = document.getElementById(to_date);
 		var mydate = new Date();

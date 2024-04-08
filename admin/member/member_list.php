@@ -1,60 +1,68 @@
 <?php
-if(!defined('_BLUEVATION_')) exit;
+if (!defined('_BLUEVATION_')) {
+  exit;
+}
 
-if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fr_date)) $fr_date = '';
-if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $to_date)) $to_date = '';
+if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fr_date)) {
+  $fr_date = '';
+}
+
+if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $to_date)) {
+  $to_date = '';
+}
 
 $query_string = "code=$code$qstr";
-$q1 = $query_string;
-$q2 = $query_string."&page=$page";
+$q1           = $query_string;
+$q2           = $query_string . "&page=$page";
 
 $sql_common = " from shop_member ";
 $sql_search = " where id <> 'admin' ";
 
-if($sfl && $stx) {
-    $sql_search .= " and $sfl like '%$stx%' ";
+if ($sfl && $stx) {
+  $sql_search .= " and $sfl like '%$stx%' ";
 }
 
-if($sst) {
-	$sql_search .= " and grade = '$sst' ";
+if ($sst) {
+  $sql_search .= " and grade = '$sst' ";
 }
 
 // 기간검색
-if($fr_date && $to_date)
-    $sql_search .= " and {$spt} between '$fr_date 00:00:00' and '$to_date 23:59:59' ";
-else if($fr_date && !$to_date)
-	$sql_search .= " and {$spt} between '$fr_date 00:00:00' and '$fr_date 23:59:59' ";
-else if(!$fr_date && $to_date)
-	$sql_search .= " and {$spt} between '$to_date 00:00:00' and '$to_date 23:59:59' ";
+if ($fr_date && $to_date) {
+  $sql_search .= " and {$spt} between '$fr_date 00:00:00' and '$to_date 23:59:59' ";
+} else if ($fr_date && !$to_date) {
+  $sql_search .= " and {$spt} between '$fr_date 00:00:00' and '$fr_date 23:59:59' ";
+} else if (!$fr_date && $to_date) {
+  $sql_search .= " and {$spt} between '$to_date 00:00:00' and '$to_date 23:59:59' ";
+}
 
-if(!$orderby) {
-    $filed = "index_no";
-    $sod = "desc";
+if (!$orderby) {
+  $filed = "index_no";
+  $sod   = "desc";
 } else {
-	$sod = $orderby;
+  $sod = $orderby;
 }
 
 $sql_order = " order by $filed $sod ";
 
 // 테이블의 전체 레코드수만 얻음
-$sql = " select count(*) as cnt $sql_common $sql_search ";
-$row = sql_fetch($sql);
+$sql         = " select count(*) as cnt $sql_common $sql_search ";
+$row         = sql_fetch($sql);
 $total_count = $row['cnt'];
 
-$rows = 30;
+$rows       = 30;
 $total_page = ceil($total_count / $rows); // 전체 페이지 계산
-if($page == "") { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이지)
-$from_record = ($page - 1) * $rows; // 시작 열을 구함
-$num = $total_count - (($page-1)*$rows);
+if ($page == "") {$page = 1;}             // 페이지가 없으면 첫 페이지 (1 페이지)
+$from_record = ($page - 1) * $rows;       // 시작 열을 구함
+$num         = $total_count - (($page - 1) * $rows);
 
-$sql = " select * $sql_common $sql_search $sql_order limit $from_record, $rows ";
+$sql    = " select * $sql_common $sql_search $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
 $is_intro = false;
-$colspan = 11;
-if($config['cert_admin_yes']) {
-	$is_intro = true;
-	$colspan++;
+$colspan  = 11;
+if ($config['cert_admin_yes']) {
+  $is_intro = true;
+  $colspan++;
 }
 
 $btn_frmline = <<<EOF
@@ -64,7 +72,7 @@ $btn_frmline = <<<EOF
 <a href="./member.php?code=register_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 회원추가</a>
 EOF;
 
-include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
+include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 ?>
 
 <h2>기본검색</h2>
@@ -81,11 +89,12 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<th scope="row">검색어</th>
 		<td>
 			<select name="sfl">
+				<?php echo option_selected('ju_restaurant', $sfl, '상호명'); ?>
+				<?php echo option_selected('ju_b_num', $sfl, '사업자번호'); ?>
+				<?php echo option_selected('name', $sfl, '대표자명'); ?>
+				<?php echo option_selected('cellphone', $sfl, '연락처'); ?>
 				<?php echo option_selected('id', $sfl, '아이디'); ?>
-				<?php echo option_selected('name', $sfl, '회원명'); ?>
-				<?php echo option_selected('pt_id', $sfl, '추천인'); ?>
-				<?php echo option_selected('cellphone', $sfl, '핸드폰'); ?>
-				<?php echo option_selected('telephone', $sfl, '전화번호'); ?>
+				<?php echo option_selected('ju_manager', $sfl, '담당직원'); ?>
 			</select>
 			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
 		</td>
@@ -104,6 +113,13 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<th scope="row">레벨검색</th>
 		<td>
 			<?php echo get_search_level('sst', $sst, 2, 9); ?>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">탈퇴,폐업 검색</th>
+		<td>
+			<label><input type="radio" name="ssd" value="탈퇴" >탈퇴</label>
+			<label><input type="radio" name="ssd" value="폐업" >폐업</label>
 		</td>
 	</tr>
 	</tbody>
@@ -134,36 +150,37 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<col class="w60">
 		<col class="w60">
 		<col class="w60">
-		<?php if($is_intro) { ?>
+		<?php if ($is_intro) {?>
 		<col class="w40">
-		<?php } ?>
+		<?php }?>
 		<col class="w90">
 	</colgroup>
 	<thead>
 	<tr>
 		<th scope="col">번호</th>
-		<th scope="col"><?php echo subject_sort_link('name',$q2); ?>회원명</a></th>
-		<th scope="col"><?php echo subject_sort_link('id',$q2); ?>아이디</a></th>
-		<th scope="col"><?php echo subject_sort_link('grade',$q2); ?>레벨</a></th>
-		<th scope="col"><?php echo subject_sort_link('pt_id',$q2); ?>추천인</a></th>
+		<th scope="col"><?php echo subject_sort_link('name', $q2); ?>회원명</a></th>
+		<th scope="col"><?php echo subject_sort_link('id', $q2); ?>아이디</a></th>
+		<th scope="col"><?php echo subject_sort_link('grade', $q2); ?>레벨</a></th>
+		<th scope="col"><?php echo subject_sort_link('pt_id', $q2); ?>추천인</a></th>
 		<th scope="col">핸드폰</th>
-		<th scope="col"><?php echo subject_sort_link('reg_time',$q2); ?>가입일시</a></th>
+		<th scope="col"><?php echo subject_sort_link('reg_time', $q2); ?>가입일시</a></th>
 		<th scope="col">구매수</th>
-		<th scope="col"><?php echo subject_sort_link('login_sum',$q2); ?>로그인</a></th>
-		<th scope="col"><?php echo subject_sort_link('intercept_date',$q2); ?>접근차단</a></th>
-		<?php if($is_intro) { ?>
-		<th scope="col"><?php echo subject_sort_link('use_app',$q2); ?>인증</a></th>
-		<?php } ?>
-		<th scope="col"><?php echo subject_sort_link('point',$q2); ?>포인트</a></th>
+		<th scope="col"><?php echo subject_sort_link('login_sum', $q2); ?>로그인</a></th>
+		<th scope="col"><?php echo subject_sort_link('intercept_date', $q2); ?>접근차단</a></th>
+		<?php if ($is_intro) {?>
+		<th scope="col"><?php echo subject_sort_link('use_app', $q2); ?>인증</a></th>
+		<?php }?>
+		<th scope="col"><?php echo subject_sort_link('point', $q2); ?>포인트</a></th>
 	</tr>
 	</thead>
 	<?php
-	for($i=0; $row=sql_fetch_array($result); $i++) {
-		if($i==0)
-			echo '<tbody class="list">'.PHP_EOL;
+	for ($i = 0; $row = sql_fetch_array($result); $i++) {
+		if ($i == 0) {
+			echo '<tbody class="list">' . PHP_EOL;
+		}
 
-		$bg = 'list'.($i%2);
-	?>
+  	$bg = 'list' . ($i % 2);
+  ?>
 	<tr class="<?php echo $bg; ?>">
 		<td><?php echo $num--; ?></td>
 		<td class="tal"><?php echo get_sideview($row['id'], $row['name']); ?></td>
@@ -174,17 +191,19 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<td><?php echo $row['reg_time']; ?></td>
 		<td><?php echo number_format(shop_count($row['id'])); ?></td>
 		<td><?php echo number_format($row['login_sum']); ?></td>
-		<td><?php echo substr($row['intercept_date'],2,6); ?></td>
-		<?php if($is_intro) { ?>
-		<td><input type="checkbox" name="use_app" value="1"<?php echo ($row['use_app'])?' checked':''; ?> onclick="chk_use_app('<?php echo $row['id']; ?>');"></td>
-		<?php } ?>
+		<td><?php echo substr($row['intercept_date'], 2, 6); ?></td>
+		<?php if ($is_intro) {?>
+		<td><input type="checkbox" name="use_app" value="1"<?php echo ($row['use_app']) ? ' checked' : ''; ?> onclick="chk_use_app('<?php echo $row['id']; ?>');"></td>
+		<?php }?>
 		<td class="tar"><?php echo number_format($row['point']); ?></td>
 	</tr>
 	<?php
+}
+	if ($i == 0) {
+		echo '<tbody><tr><td colspan="' . $colspan . '" class="empty_table">자료가 없습니다.</td></tr>';
 	}
-	if($i==0)
-		echo '<tbody><tr><td colspan="'.$colspan.'" class="empty_table">자료가 없습니다.</td></tr>';
-	?>
+
+?>
 	</tbody>
 	</table>
 </div>
@@ -193,7 +212,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 </div>
 
 <?php
-echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
+echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'] . '?' . $q1 . '&page=');
 ?>
 
 <script>
