@@ -81,6 +81,10 @@ else if($act == "seldelete") // 선택삭제
         }
     }
 }
+else if($act == 'selectorder') {
+  print_r2($_POST);
+  exit;
+}
 else // 장바구니에 담기
 {
 	$count = count($_POST['gs_id']);

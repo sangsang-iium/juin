@@ -78,7 +78,8 @@ if(defined('_INDEX_')) { // index에서만 실행
 										<?php
 										$res2 = sql_query_cgy($row['catecode']);
 										while($row2 = sql_fetch_array($res2)) {
-											$href2 = BV_SHOP_URL.'/list.php?ca_id='.$row2['catecode'];
+											// $href2 = BV_SHOP_URL.'/list.php?ca_id='.$row2['catecode'];
+											$href2 = '/mng/?ca_id='.$row2['catecode'];
 										?>
 										<li><a href="<?php echo $href2; ?>"><?php echo $row2['catename']; ?></a></li>
 										<?php } ?>
