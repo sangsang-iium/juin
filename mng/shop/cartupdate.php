@@ -82,8 +82,32 @@ else if($act == "seldelete") // 선택삭제
     }
 }
 else if($act == 'selectorder') {
-  print_r2($_POST);
-  exit;
+  // 선택 재주문 추가 _20240408_SY
+  $ss_cart_id = "";
+	set_session('ss_cart_id', '');
+
+  $count = count($_POST['chk']);
+  if(!$count) {
+    alert("재주문하실 항목을 하나 이상 체크하세요.");
+  }
+
+  for($i=0; $i<$count; $i++)
+  {
+    $k = $_POST['chk'][$i];
+
+    $mb_id = trim($_POST['mb_id'][$k]);
+    $seller_code = trim($_POST['od_id'][$k]);
+
+    $od_no = cart_uniqid();
+
+
+
+    $sql = " INSERT INTO shop_cart ( ca_id, mb_id, gs_id, ct_direct, ct_time, ct_price, ct_supply_price, ct_qty, ct_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, od_no, ct_ip )
+                  SELECT ca_id, mb_id, gs_id, {$set_cart_id}, '".BV_TIME_YMDHIS."', ct_price, ct_supply_price, ct_qty, ct_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, {$od_no}, ct_ip FROM shop_cart
+                  WHERE od_id = '{$seller_code}'";
+                  echo $sql;
+    $res = sql_query($sql);
+  }
 }
 else // 장바구니에 담기
 {
