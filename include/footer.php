@@ -2,14 +2,15 @@
 
 <div id="footer">
   <nav class="container fnb">
-    <a href="" class="btn on">개인정보처리방침</a>
-    <a href="" class="btn">이용약관</a>
+    <a href="/m/bbs/policy.php" class="btn on">개인정보처리방침</a>
+    <a href="/m/bbs/provision.php" class="btn">이용약관</a>
   </nav>
   <div class="container fbody">
     <p class="cname">(사)한국외식업중앙회 외식가족공제회</p>
     <p class="cinfo">주소 : 서울특별시 중구 동호로12길 87, 3층(신당동)
                     <br/>대표자: 전강식
-                    <br/>사업자등록번호 243-82-00210
+                    <br/>사업자등록번호 : 243-82-00210
+                    <br/>통신판매업번호 : 제 2019-서울중구-0864 호
                     <br/>대표번호 : 1544-3399</p>
     <p class="copyright">Copyright ⓒ 주인장터. All rights reserved.</p>
   </div>
