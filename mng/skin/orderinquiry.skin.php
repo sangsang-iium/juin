@@ -11,8 +11,10 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
       <p class="pg_nav">HOME<i>&gt;</i>마이페이지<i>&gt;</i><?php echo $tb['title']; ?></p>
     </h2>
 
-    <h2 class="anc_tit">상세보기 버튼을 클릭하시면 주문상세내역을 조회하실 수 있습니다.</h2>
-    <h2 class=""><button type="submit">선택상품 장바구니 담기</button></h2>
+    <h2 class="anc_tit fl_between" >
+      <span>상세보기 버튼을 클릭하시면 주문상세내역을 조회하실 수 있습니다.</span>
+      <span><button type="submit" class="btn_small grey">선택상품 장바구니 담기</button></span>
+    </h2>
     <div class="tbl_head02 tbl_wrap">
       <table>
       <colgroup>
@@ -48,10 +50,9 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
           $hash = md5($od['gs_id'].$od['od_no'].$od['od_id']);
           $dlcomp = explode('|', trim($od['delivery']));
           $href = BV_MNG_SHOP_URL.'/view.php?index_no='.$od['gs_id'];
-
           if($k == 0) {
       ?>
-      <tr class="<?php echo $bg; ?>">
+      <tr>
         <td class="tac" rowspan="<?php echo $rowspan; ?>">
           <input type="hidden" name="mb_id[<?php echo $i; ?>]" value="<?php echo $row['mb_id']; ?>">
           <input type="hidden" name="od_id[<?php echo $i; ?>]" value="<?php echo $row['od_id']; ?>">
@@ -100,7 +101,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
           <?php } ?>
         </td>
         <td class="tac">
-          <button type="button" class="btn_small grey">바로구매</button>
+          <a href="../shop/cartupdate.php?sw_direct=1&amp;gs_id=<?php echo $od['gs_id'] ?>" type="button" class="btn_small grey">바로구매</a>
         </td>
       </tr>
       <?php }
@@ -142,7 +143,7 @@ function is_checked(elements_name)
 function reorder_submit(f)
 {
     if(!is_checked("chk[]")) {
-        alert(document.pressed+" 하실 항목을 하나 이상 선택하세요.");
+        alert("재주문하실 항목을 하나 이상 선택하세요.");
         return false;
     }
 
