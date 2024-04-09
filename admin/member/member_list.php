@@ -35,6 +35,13 @@ if ($fr_date && $to_date) {
   $sql_search .= " and {$spt} between '$to_date 00:00:00' and '$to_date 23:59:59' ";
 }
 
+// 탈퇴 검색
+if ($ssd == '탈퇴') {
+  $sql_search .= " and intercept_date <> '' ";
+} else if ($ssd =='폐업') {
+  $sql_search .= " and  ";
+}
+
 if (!$orderby) {
   $filed = "index_no";
   $sod   = "desc";
