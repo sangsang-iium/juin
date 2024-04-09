@@ -5,6 +5,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 ?>
 
 <form name="reorder" id="reorder" method="post" action="../shop/cartupdate.php?act=selectorder" onsubmit="return reorder_submit(this);">
+  <input type="hidden" name="sw_direct">
   <div id="con_lf">
     <h2 class="pg_tit">
       <span><?php echo $tb['title']; ?></span>
@@ -101,7 +102,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
           <?php } ?>
         </td>
         <td class="tac">
-          <a href="../shop/cartupdate.php?sw_direct=1&amp;gs_id=<?php echo $od['gs_id'] ?>" type="button" class="btn_small grey">바로구매</a>
+          <a href="../shop/cartupdate.php?act=reorder&amp;od_no=<?php echo $od['od_no']?>" class="btn_small grey" ">주문하기</a>
         </td>
       </tr>
       <?php }
@@ -155,5 +156,4 @@ function reorder_submit(f)
 
     return true;
 }
-
 </script>

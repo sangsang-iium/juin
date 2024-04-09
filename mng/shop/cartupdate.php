@@ -83,6 +83,7 @@ else if($act == "seldelete") // 선택삭제
 }
 else if($act == 'selectorder') {
   // 선택 재주문 추가 _20240408_SY
+
   $ss_cart_id = "";
 	set_session('ss_cart_id', '');
 
@@ -100,14 +101,63 @@ else if($act == 'selectorder') {
 
     $od_no = cart_uniqid();
 
+    // 추후 제품에 대한 내용이 변경 될 경우 대비
+    $sel_sql = " SELECT * FROM shop_cart a 
+                   JOIN shop_goods b
+                     ON (a.gs_id = b.index_no) 
+                  WHERE od_id = '{$seller_code}' 
+                    AND ct_select = 1 ";
+    $sel_res = sql_query($sel_sql);
+    
+    $re_gsId   = "";
+    $re_price  = "";
+    $re_sprice = "";
+    $re_point  = "";
+    for($j=0; $sel_row = sql_fetch_array($sel_res); $j++) {
+      $re_gsId   = $sel_row['gs_id'];
+      $re_price  = $sel_row['goods_price'];
+      $re_sprice = $sel_row['supply_price'];
+      $re_point  = $sel_row['gpoint'];
+    }
 
+    if(!$re_gsId) {
+      alert("상품이 존재하지 않습니다.");
+    }
 
-    $sql = " INSERT INTO shop_cart ( ca_id, mb_id, gs_id, ct_direct, ct_time, ct_price, ct_supply_price, ct_qty, ct_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, od_no, ct_ip )
-                  SELECT ca_id, mb_id, gs_id, {$set_cart_id}, '".BV_TIME_YMDHIS."', ct_price, ct_supply_price, ct_qty, ct_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, {$od_no}, ct_ip FROM shop_cart
-                  WHERE od_id = '{$seller_code}'";
-                  echo $sql;
-    $res = sql_query($sql);
+      $sql = " INSERT INTO shop_cart ( ca_id, mb_id, gs_id, ct_direct, ct_time, ct_price, ct_supply_price, ct_qty, ct_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, od_no, ct_ip )
+                    SELECT ca_id, mb_id, gs_id, {$set_cart_id}, '".BV_TIME_YMDHIS."', $re_price, $re_sprice, ct_qty, $re_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, {$od_no}, ct_ip FROM shop_cart
+                    WHERE od_id = '{$seller_code}'";
+      $res = sql_query($sql);
+    
   }
+
+  set_session('ss_cart_id', $ss_cart_id);
+} 
+else if($act == 'reorder') {
+  // 1개 재주문 추가 _20240408_SY
+
+  $ss_cart_id = "";
+	set_session('ss_cart_id', '');
+
+  $od_no = cart_uniqid();
+
+  $sel_sql = " SELECT * FROM shop_cart a 
+                 JOIN shop_goods b
+                   ON (a.gs_id = b.index_no) 
+                WHERE od_no = '{$_GET['od_no']}' 
+                  AND ct_select = 1 ";
+  $sel_res = sql_fetch($sel_sql);
+  
+  if(!$sel_res['index_no']) {
+    alert("상품이 존재하지 않습니다.");
+  }
+
+  $sql = " INSERT INTO shop_cart ( ca_id, mb_id, gs_id, ct_direct, ct_time, ct_price, ct_supply_price, ct_qty, ct_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, od_no, ct_ip )
+                SELECT ca_id, mb_id, gs_id, {$set_cart_id}, '".BV_TIME_YMDHIS."', ct_price, ct_supply_price, ct_qty, ct_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, {$od_no}, ct_ip FROM shop_cart
+                WHERE od_no = '{$_GET['od_no']}'";
+  $res = sql_query($sql);
+
+  set_session('ss_cart_id', $ss_cart_id);
 }
 else // 장바구니에 담기
 {
