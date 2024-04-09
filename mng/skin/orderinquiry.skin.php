@@ -1,11 +1,9 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
-include_once(BV_THEME_PATH.'/aside_my.skin.php');
+// include_once(BV_THEME_PATH.'/aside_my.skin.php');
 ?>
 
-<form name="reorder" id="reorder" method="post" action="../shop/cartupdate.php?act=selectorder" onsubmit="return reorder_submit(this);">
-  <input type="hidden" name="sw_direct">
   <div id="con_lf">
     <h2 class="pg_tit">
       <span><?php echo $tb['title']; ?></span>
@@ -14,26 +12,23 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 
     <h2 class="anc_tit fl_between" >
       <span>상세보기 버튼을 클릭하시면 주문상세내역을 조회하실 수 있습니다.</span>
-      <span><button type="submit" class="btn_small grey">선택상품 장바구니 담기</button></span>
     </h2>
     <div class="tbl_head02 tbl_wrap">
       <table>
       <colgroup>
-        <col class="w50">
         <col class="w90">
         <col>
         <col class="w100">
         <col class="w140">
-        <col class="w100">
+        <col class="w140">
       </colgroup>
       <thead>
       <tr>
-        <th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
         <th scope="col">주문일자</th>
         <th scope="col">상품정보</th>
         <th scope="col">결제금액</th>
         <th scope="col">상태</th>
-        <th scope="col">재주문</th>
+        <th scope="col">상태</th>
       </tr>
       </thead>
       <tbody>
@@ -54,11 +49,6 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
           if($k == 0) {
       ?>
       <tr>
-        <td class="tac" rowspan="<?php echo $rowspan; ?>">
-          <input type="hidden" name="mb_id[<?php echo $i; ?>]" value="<?php echo $row['mb_id']; ?>">
-          <input type="hidden" name="od_id[<?php echo $i; ?>]" value="<?php echo $row['od_id']; ?>">
-          <input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
-        </td>
         <td class="tac" rowspan="<?php echo $rowspan; ?>">
           <p class="bold"><?php echo substr($od['od_time'],0,10);?></p>
           <p class="padt5"><a href="<?php echo BV_MNG_SHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $od['od_id']; ?>" class="btn_small grey">상세보기</a></p>
@@ -101,8 +91,29 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
           <p class="padt3"><?php echo get_delivery_inquiry($od['delivery'], $od['delivery_no'], 'btn_ssmall'); ?></p>
           <?php } ?>
         </td>
-        <td class="tac">
-          <a href="../shop/cartupdate.php?act=reorder&amp;od_no=<?php echo $od['od_no']?>" class="btn_small grey" ">주문하기</a>
+        <td id="pr_item<?php echo $ct['gs_id'];?>" class="tac pr_item">
+          <?php // SELECT 상품 정보 _20240409_SY
+            $gs_sel = "SELECT * FROM shop_goods WHERE index_no = '{$ct['gs_id']}' ";
+            $gs_res = sql_fetch($gs_sel);
+
+            $it_name = cut_str($row['gname'], 100);
+
+            if($gs_res) { 
+              if(!$gs_res['stock_mod']) {
+                $gs_res['stock_qty'] = 999999999;
+              }
+            ?>
+              <input type="hidden" name="pr_id" value="<?php echo $gs_res['index_no'];?>">
+              <input type="hidden" class="io_stock" value="<?php echo $gs_res['stock_qty']; ?>">
+              <input type="hidden" class="pname" value="<?php echo $gs_res['gname']; ?>">
+              <input type="hidden" class="mpr" value="<?php echo $gs_res['goods_price']; ?>">
+
+
+              <button type="button" class="qty-btn minus"></button>
+              <input type="text" name="" id="" value="<?php echo $ct['ct_qty'] ?>" class="qty-input">
+              <button type="button" class="qty-btn plus"></button>
+              <button type="button" class="add-list-btn"></button>
+          <?php } ?>
         </td>
       </tr>
       <?php }
@@ -112,48 +123,569 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
       ?>
       </tbody>
       </table>
+      <?php include_once(BV_THEME_PATH.'/sct_sub.php'); ?>
     </div>
-
+    
     <?php
     echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?page=');
     ?>
   </div>
-</form>
+
 
 <script>
-function check_all(f)
-{
-    var chk = document.getElementsByName("chk[]");
+  const selectedItemArray = [];
 
-    for(i=0; i<chk.length; i++)
-        chk[i].checked = f.chkall.checked;
+// 세자리 콤마 추가
+const addCommas = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function is_checked(elements_name)
-{
-    var checked = false;
-    var chk = document.getElementsByName(elements_name);
-    for(var i=0; i<chk.length; i++) {
-        if(chk[i].checked) {
-            checked = true;
-        }
-    }
-    return checked;
+const reNumber = (str) => {
+  let result = parseInt(str.replace(/[^0-9]/g, ''));
+
+  return result;
 }
 
-function reorder_submit(f)
-{
-    if(!is_checked("chk[]")) {
-        alert("재주문하실 항목을 하나 이상 선택하세요.");
-        return false;
-    }
+const qtyMinus = (v) => {
+  if(v <= 1) {
+    alert("최소판매수량보다 작습니다.");
+    return 1;
+  }
 
-    if(document.pressed == "선택삭제") {
-        if(!confirm("선택한 자료를 정말 삭제하시겠습니까?")) {
-            return false;
-        }
-    }
+  v--;
 
+  return v;
+}
+
+const qtyPlus = (v) => {
+  // if(v <= 1) {
+  //   alert("최대판매수량보다 많습니다.");
+  //   return false;
+  // }
+
+  v++;
+
+  return v;
+}
+
+const totalCalc = (targetList, target) => {
+  let total = 0;
+
+  $(targetList).each(function(){
+    let priceText = $(this).find(target).text();
+    let price = reNumber(priceText);
+    
+    total += price;
+  });
+
+  return total;
+}
+
+const duplCheck = (itid) => {
+  let resultBool = selectedItemArray.includes(itid);
+
+  return resultBool;
+}
+
+const stockCheck = (itid, stock) => {
+  let prItemQty = parseInt($(`#pr_item${itid}`).find(".qty-input").val());
+  let sctItemQty = parseInt($(`#sct_add_goods${itid}`).find(".qty-input").val());
+  let tottalQty = sctItemQty ? (prItemQty + sctItemQty) : prItemQty;
+
+  if(tottalQty <= stock) {
     return true;
+  } else {
+    return false;
+  }
 }
+
+const addItem = (itid, name, qty, stock, price, optval, optid, opt=null) => {
+  const selectedItemBox = $(".sct_cart_wrap .sct_cart_ct_ul");
+  let selectedItemPrice;
+
+  selectedItemPrice = price * qty;
+
+  let goodsId = optid ? itid+"-"+optid : itid;
+  let hasItem = duplCheck(goodsId);
+
+  if(!hasItem) { //새로 담는 상품이라면
+    if(!opt){ //옵션이 없다면
+      selectedItemBox.append(`
+      <li id="sct_add_goods${goodsId}" class="sct_add_goods" data-goods-id="${goodsId}">
+        <input type="hidden" name="gs_id[]" value="${itid}">
+        <input type="hidden" class="gs_price" value="${price}">
+
+        <input type="hidden" name="io_type[${itid}][]" value="0">
+        <input type="hidden" name="io_id[${itid}][]" value="">
+        <input type="hidden" name="io_value[${itid}][]" value="${name}">
+        <input type="hidden" class="io_price" value="0">
+        <input type="hidden" class="io_stock" value="${stock}">
+
+        <div class="info">
+          <p class="subject">${name}</p>
+        </div>
+        <div class="lot">
+          <div class="it_li_add">
+            <button type="button" class="qty-btn minus"></button>
+            <input type="text" name="ct_qty[${itid}][]" id="" value="${qty}" class="qty-input">
+            <button type="button" class="qty-btn plus"></button>
+          </div>
+          <p class="goods_price">${addCommas(selectedItemPrice)}</p>
+        </div>
+        <button type="button" class="remove">삭제</button>
+      </li>
+      `);
+    } else { //옵션이 있다면
+      let price2 = parseInt(opt.io_price) + parseInt(opt.io_amt);
+      selectedItemPrice = (parseInt(opt.io_price) + parseInt(opt.io_amt)) * qty;
+      let optInfo = opt.io_value.split(','); // 옵션 분할
+      let optInfo1 = opt.io_id.split('');
+
+      selectedItemBox.append(`
+      <li id="sct_add_goods${goodsId}" class="sct_add_goods useOpt" data-goods-id="${goodsId}">
+        <input type="hidden" class="io_id" name="gs_id[]" value="${itid}">
+        <input type="hidden" class="gs_price" value="${price2}">
+
+        <input type="hidden" name="io_type[${itid}][]" value="0">
+        <input type="hidden" name="io_id[${itid}][]" value="${opt.io_id}">
+        <input type="hidden" name="io_value[${itid}][]" value="${optval}" class="gs_optInfo">
+        <input type="hidden" class="io_price" value="${opt.io_price}">
+        <input type="hidden" class="io_stock" value="${opt.io_stock}">
+
+        <div class="info">
+          <p class="subject">${name}</p>
+          <span class="option">
+            <span class="item">옵션 : ${optInfo1[0]} ${optInfo[0] != optInfo1[0] ? '('+optInfo[0]+')' : ''} ${optInfo[1] != 0 ? '+'+addCommas(optInfo[1])+'원' : ''}</span>
+          </span>
+        </div>
+        <div class="lot">
+          <div class="it_li_add">
+            <button type="button" class="qty-btn minus"></button>
+            <input type="text" name="ct_qty[${itid}][]" id="" value="${qty}" class="qty-input">
+            <button type="button" class="qty-btn plus"></button>
+          </div>
+          <p class="goods_price">${addCommas(selectedItemPrice)}</p>
+        </div>
+        <button type="button" class="remove">삭제</button>
+      </li>
+      `);
+    }
+
+    selectedItemArray.push(goodsId);
+  } else { //이미 담긴 상품이라면 (옵션이 달라도 같은 상품일 경우도 해당됨)
+    let currentQty = 0;
+
+    if(!opt){ // 옵션이 없다면
+      currentQty = parseInt($(`#sct_add_goods${itid} .qty-input`).val());
+      let newQty = currentQty + qty; 
+      selectedItemPrice = price * newQty;
+
+      $(`#sct_add_goods${itid} .qty-input`).val(newQty);
+      $(`#sct_add_goods${itid} .goods_price`).text(addCommas(selectedItemPrice));
+    }else{ // 옵션이 있다면
+      let optValue = optval;
+
+      // 이미 그려진 상품들 중에서 동일한 옵션값을 가진 상품이 있는지 확인
+      let existingItem = $(".sct_cart_wrap .sct_cart_ct_ul").find(`#sct_add_goods${goodsId}`);
+
+      if (existingItem.length > 0) { // 동일한 상품이 있다면
+        let currentQty = parseInt(existingItem.find('.qty-input').val());
+        let newQty = currentQty + qty;
+        let existingPrice = parseFloat(existingItem.find('.gs_price').val());
+        selectedItemPrice = existingPrice * newQty;
+
+        existingItem.find('.qty-input').val(newQty);
+        existingItem.find('.goods_price').text(addCommas(selectedItemPrice));
+      } else { // 동일한 상품이 없다면
+        let price2 = parseInt(opt.io_price) + parseInt(opt.io_amt);
+        selectedItemPrice = (parseInt(opt.io_price) + parseInt(opt.io_amt)) * qty;
+        let optInfo = opt.io_value.split(','); // 옵션 분할
+        let optInfo1 = opt.io_id.split('');
+
+        goodsId = itid+"-"+optid;
+
+        selectedItemBox.append(`
+        <li id="sct_add_goods${goodsId}" class="sct_add_goods useOpt" data-goods-id="${goodsId}">
+          <input type="hidden" class="io_id" name="gs_id[]" value="${itid}">
+          <input type="hidden" class="gs_price" value="${price2}">
+
+          <input type="hidden" name="io_type[${itid}][]" value="0">
+          <input type="hidden" name="io_id[${itid}][]" value="${opt.io_id}">
+          <input type="hidden" name="io_value[${itid}][]" value="${optval}" class="gs_optInfo">
+          <input type="hidden" class="io_price" value="${opt.io_price}">
+          <input type="hidden" class="io_stock" value="${opt.io_stock}">
+
+          <div class="info">
+            <p class="subject">${name}</p>
+            <span class="option">
+              <span class="item">옵션 : ${optInfo1[0]} ${optInfo[0] != optInfo1[0] ? '('+optInfo[0]+')' : ''} ${optInfo[1] != 0 ? '+'+addCommas(optInfo[1])+'원' : ''}</span>
+            </span>
+          </div>
+          <div class="lot">
+            <div class="it_li_add">
+              <button type="button" class="qty-btn minus"></button>
+              <input type="text" name="ct_qty[${itid}][]" id="" value="${qty}" class="qty-input">
+              <button type="button" class="qty-btn plus"></button>
+            </div>
+            <p class="goods_price">${addCommas(selectedItemPrice)}</p>
+          </div>
+          <button type="button" class="remove">삭제</button>
+        </li>
+        `);
+      }
+
+    }
+  }
+}
+
+$(document).ready(function(){
+  const addListBtn = $(".add-list-btn");
+  const qtyMinusBtn = ".qty-btn.minus";
+  const qtyPlusBtn = ".qty-btn.plus";
+  const qtyInputs = ".qty-input";
+
+  // 수량 감소
+  $(".prod_list").on('click', qtyMinusBtn, function(){
+    let $tgItem = $(this).closest(".pr_item");
+    let $sctItem = $(this).closest(".sct_add_goods");
+
+    // 옵션이 있는 경우 옵션 선택헸는지 체크
+    if($tgItem.find('.it_li_option').length > 0) { 
+      let optionSelected = true;
+
+      $tgItem.find(".it_option").each(function(){
+        if($(this).val() == '') {
+          alert('필수 옵션을 선택해주세요.');
+          optionSelected = false;
+          return false;
+        }
+      });
+
+      if (!optionSelected) {
+        return;
+      }
+    }
+
+    let qtyInput = $(this).siblings(".qty-input");
+    let curQty = qtyInput.val();
+
+    // 담긴 상품의 재고량 체크
+    if($sctItem) {
+      let stock = parseInt($sctItem.find('.io_stock').val());
+
+      if(curQty >= stock){
+        alert("재고수량은 "+stock+"개 입니다.");
+
+        return false;
+      }
+    }
+
+    let chgQty = qtyMinus(curQty);
+
+    qtyInput.val(chgQty);
+
+    //선택된 상품이라면 가격까지 계산
+    if($(this).closest("li").hasClass("sct_add_goods")) {
+      let itemPrice = parseInt($(this).closest(".sct_add_goods").find('.gs_price').val());
+      let itemQty = parseInt($(this).closest(".sct_add_goods").find('.qty-input').val());
+      let $itemPriceEl = $(this).closest(".sct_add_goods").find('.goods_price');
+      let itemSubTotal = itemPrice * itemQty;
+
+      $itemPriceEl.text(addCommas(itemSubTotal));
+      
+      let totalPrice = totalCalc('.sct_add_goods', '.goods_price');
+      let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
+
+      $totalEl.text(addCommas(totalPrice));
+    }
+  });
+
+  // 수량 증가
+  $(".prod_list").on('click', qtyPlusBtn, function(){
+    let $tgItem = $(this).closest(".pr_item");
+    let $sctItem = $(this).closest(".sct_add_goods");
+
+    // 옵션이 있는 경우 옵션 선택헸는지 체크
+    if($tgItem.length > 0 && $tgItem.find('.it_li_option').length > 0) {
+      let optionSelected = true;
+
+      $tgItem.find(".it_option").each(function(){
+        if($(this).val() == '') {
+          alert('필수 옵션을 선택해주세요.');
+          optionSelected = false;
+          return false;
+        }
+      });
+
+      if (!optionSelected) {
+        return;
+      }
+    }
+
+    let qtyInput = $(this).siblings(".qty-input");
+    let curQty = qtyInput.val();
+    let stock = 0;
+
+    // 담긴 상품의 재고량 체크
+    if($sctItem.length > 0) {
+      stock = parseInt($sctItem.find('.io_stock').val());
+    } else if($tgItem.length > 0) {
+      stock = parseInt($tgItem.find('.io_stock').val());
+    } else {
+      console.log("재고 데이터가 없습니다.")
+    }
+
+    if(curQty >= stock){
+      alert("재고수량은 "+stock+"개 입니다.");
+
+      return false;
+    }
+
+    let chgQty = qtyPlus(curQty);
+
+    qtyInput.val(chgQty);
+
+    //선택된 상품이라면 가격까지 계산
+    if($(this).closest("li").hasClass("sct_add_goods")) {
+      let itemPrice = parseInt($(this).closest(".sct_add_goods").find('.gs_price').val());
+      let itemQty = parseInt($(this).closest(".sct_add_goods").find('.qty-input').val());
+      let $itemPriceEl = $(this).closest(".sct_add_goods").find('.goods_price');
+      let itemSubTotal = itemPrice * itemQty;
+
+      $itemPriceEl.text(addCommas(itemSubTotal));
+
+      let totalPrice = totalCalc('.sct_add_goods', '.goods_price');
+      let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
+
+      $totalEl.text(addCommas(totalPrice));
+    }
+  });
+
+  // 담긴 상품 삭제하기
+  const removeListBtn = ".sct_add_goods .remove";
+  const emptyEl = $(".sct_cart_empty");
+
+  $(".sct_cart_ct_ul").on('click', removeListBtn, function(){
+    let $goodsItem = $(this).closest(".sct_add_goods");
+    let goodsId = String($goodsItem.data("goods-id"));
+
+    $goodsItem.remove();
+
+    for(let i = 0; i < selectedItemArray.length; i++) {
+      if(selectedItemArray[i] === goodsId)  {
+        selectedItemArray.splice(i, 1);
+        i--;
+      }
+    }
+
+    let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
+
+    if($(".sct_add_goods").length == 0) {
+      emptyEl.show();
+      $totalEl.text(0);
+    } else {
+      let totalPrice = totalCalc('.sct_add_goods', '.goods_price');
+
+      $totalEl.text(addCommas(totalPrice));
+    }
+  });
+
+  // 상품 선택하기
+  addListBtn.on('click', function(){
+    let $tgItem = $(this).closest('.pr_item');
+    let itemId = $tgItem.find('input[name=pr_id]').val();
+    let itemName = $tgItem.find('.pname').val();
+    let itemQty = parseInt($tgItem.find('.qty-input').val());
+    let itemStock = parseInt($tgItem.find('.io_stock').val());
+    let itemPriceText = $tgItem.find('.mpr').val();
+    let itemPrice = reNumber(itemPriceText);
+    let itemOpt = "";
+    let itemValue = "";
+    let optId = "";
+
+    let price, stock, amt = 0;
+
+    if($tgItem.find('.it_li_option').length > 0) { //옵션이 있는 상품이라면
+      if($tgItem.find('.it_option').val() == ''){ // 옵션 선택을 안하면
+        alert('필수 옵션을 선택해주세요.');
+        return false;
+      }
+
+      let id = "";
+      let value, item, sel_opt = false;
+      let option = sep = "";
+      let info = $tgItem.find('.it_option:last').val().split(',');
+
+      $tgItem.find('.it_option').each(function(index) {
+        let selectedIndex = $(this).prop('selectedIndex');
+
+        if(index == 0) {
+          optId = selectedIndex;
+        } else {
+          optId = optId+"_"+selectedIndex;
+        }
+
+        
+
+        value = $(this).val();
+        // value = $tgItem.find('.it_option').val();
+        item = $(this).closest("dl").find("dt label").text();
+
+        // 옵션선택정보
+        sel_opt = value.split(",")[0];
+
+        if(id == "") {
+            id = sel_opt;
+        } else {
+            // id += chr(30)+sel_opt;
+            id += String.fromCharCode(30)+sel_opt;
+            sep = " / ";
+        }
+
+        option += sep + item + ":" + sel_opt;
+
+        itemValue = option;
+      });
+
+      price = info[1];
+      stock = info[2];
+      amt = info[3];
+
+      itemOpt = {
+        io_id : id,
+        io_value : value,
+        io_price : price,
+        io_stock : stock,
+        io_amt : amt,
+      }
+    } else {
+      stock = itemStock;
+    }
+
+    // 선택 상품
+    let stockConfm = stockCheck(itemId, stock);  
+    if(!stockConfm) {
+      alert("재고수량은 "+stock+"개 입니다.");
+
+      return false;
+    }
+
+    emptyEl.hide();
+    addItem(itemId, itemName, itemQty, itemStock, itemPrice, itemValue, optId, itemOpt);
+
+    // 총 가격
+    let totalPrice = totalCalc('.sct_add_goods', '.goods_price');
+    let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
+
+    $totalEl.text(addCommas(totalPrice));
+  });
+
+  // 옵션 선택 이벤트
+  $("select.it_option").on('change', function(){
+    let $tgItem = $(this).closest('.pr_item');
+    let sel_count = $tgItem.find("select.it_option").size();
+    let idx = parseInt($(this).attr('id').slice(-1));
+    let val = $(this).val();
+    let gs_id = $tgItem.find("input[name='pr_id']").val();
+
+    // 선택값이 없을 경우 하위 옵션은 disabled
+    if(val == "") {
+      $tgItem.find("select.it_option:gt("+(idx - 1)+")").val("").attr("disabled", true);
+      return;
+    }
+
+    if(sel_count > 1 && idx < sel_count) {
+      let opt_id = "";
+
+      // 상위 옵션의 값을 읽어 옵션id 만듬
+      if((idx - 1) > 0) {
+        $("select.it_option:lt("+(idx - 1)+")").each(function() {
+          if(!opt_id)
+            opt_id = $(this).val();
+          else
+            opt_id += String.fromCharCode(30)+$(this).val();
+        });
+
+        opt_id += String.fromCharCode(30)+val;
+      } else if((idx - 1) == 0) {
+        opt_id = val;
+      }
+      
+      $.post(
+        "/mng/shop/list_option.php",
+        { gs_id: gs_id, opt_id: opt_id, idx: (idx - 1), sel_count: sel_count },
+        function(data) {
+          $tgItem.find("select#it_option_"+(idx + 1)).empty().html(data).attr("disabled", false);
+
+          // select의 옵션이 변경됐을 경우 하위 옵션 disabled
+          if(idx < sel_count) {
+            let idx2 = idx;
+
+            $tgItem.find("select.it_option:gt("+idx2+")").val("").attr("disabled", true);
+          }
+        }
+      );
+    }
+    let $optionSelect = $tgItem.find('.it_option');
+    let lastIndex = $optionSelect.length - 1;
+    let curIndex = $(this).closest("dl").index();
+
+    if(curIndex == lastIndex){
+      $optionSelectLast = $tgItem.find('.it_option:last');
+      let info = $optionSelectLast.val().split(',');
+      let stock = info[2];
+
+      $tgItem.find('.io_stock').val(stock);
+    }
+    
+  });
+
+  let prevValue = "";
+
+  $(".prod_list").on('keyup', qtyInputs, function(){
+    let $qtyInput = $(this);
+    let currentValue = $qtyInput.val();
+    let $tgItem = $qtyInput.closest('.pr_item');
+
+    if (currentValue !== prevValue) {
+      if($tgItem.length > 0 && $tgItem.find('.it_li_option').length > 0) {
+        let optionSelected = true;
+
+        $tgItem.find(".it_option").each(function(){
+          if($(this).val() == '') {
+            alert('필수 옵션을 선택해주세요.');
+            optionSelected = false;
+            return false;
+          }
+        });
+
+        if (!optionSelected) {
+          $qtyInput.val(prevValue);
+          return false;
+        }
+      }
+
+      // 담긴 상품의 재고량 체크
+      let curQty = parseInt($qtyInput.val());
+      let stock = parseInt($tgItem.find('.io_stock').val());
+      
+      if(curQty > stock){
+        alert("재고수량은 "+stock+"개 입니다.");
+
+        $qtyInput.val(prevValue);
+        return false;
+      }
+    }
+
+    if(prevValue == "") {
+      prevValue = 1;
+    } else {
+      prevValue = currentValue;
+    }
+    
+  });
+});
 </script>
+  </script>
+
+

@@ -103,7 +103,6 @@ function get_item_options2($gs_id, $subject)
     $str .= '<dd class="li_select">'.$select.'</dd>'.PHP_EOL;
     $str .= '</dl>'.PHP_EOL;
   }
-
   return $str;
 }
 
@@ -129,6 +128,7 @@ function tree_category_pc($catecode)
 	$li_width = (int)(100 / $mod);
 
 	$sql = "select * {$sql_common} {$sql_where} and upcate = '$catecode' {$sql_order} ";
+
 	$result = sql_query($sql);
 	for($i=0; $row=sql_fetch_array($result); $i++) {
 		if($i==0) $str .= '<ul class="sub_tree">'.PHP_EOL;
