@@ -66,7 +66,7 @@ if(defined('_INDEX_')) { // index에서만 실행
 							for($i=0; $row=sql_fetch_array($res); $i++) {
 								$href = '/mng/?ca_id='.$row['catecode'];
 
-								if($i && $i%$mod == 0) echo "</ul>\n<ul>\n";
+								// if($i && $i%$mod == 0) echo "</ul>\n<ul>\n";
 							?>
 								<li class="c_box">
 									<a href="<?php echo $href; ?>" class="cate_tit"><?php echo $row['catename']; ?></a>

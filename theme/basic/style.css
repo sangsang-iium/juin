@@ -74,9 +74,9 @@ table .spr,.total_price .spr {display:inline-block;}
 #gnb_inner .all_cate .allc_bt {width:130px;height:47px;font-size:15px;line-height:48px;padding:0 25px;color:#fff;background-color:#222;display:inline-block;text-align:left;cursor:pointer;position:relative;}
 #gnb_inner .all_cate i {width:15px;font-size:18px;margin-right:15px;vertical-align:middle;}
 #gnb_inner .all_cate .ionicons {font-size:40px;}
-#gnb_inner .all_cate .con_bx {width:1000px;max-height:700px;overflow-x:hidden;overflow-y:auto;padding:10px 20px;border:1px solid #222;background-color:#fff;display:none;position:absolute;top:46px;left:0;z-index:1000;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+#gnb_inner .all_cate .con_bx {width:1400px;max-height:700px;overflow-x:hidden;overflow-y:auto;padding:10px 20px;border:1px solid #222;background-color:#fff;display:none;position:absolute;top:46px;left:0;z-index:1000;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
 #gnb_inner .all_cate .con_bx ul {width:100%;display:table;background:#fff;}
-#gnb_inner .all_cate .con_bx .c_box {width:20%;padding:15px 5px;display:table-cell;}
+#gnb_inner .all_cate .con_bx .c_box {width:16.666%;padding:15px 5px;display:table-cell;}
 #gnb_inner .all_cate .con_bx .c_box .cate_tit {line-height:1em;font-size:13px;font-weight:600;color:#000;text-align:left;padding:10px 15px;background-color:#f1f1f1;display:block;}
 #gnb_inner .all_cate .con_bx .c_box ul {margin:12px 0;}
 #gnb_inner .all_cate .con_bx .c_box li {width:100%;height:20px;line-height:1.666;text-align:left;}
