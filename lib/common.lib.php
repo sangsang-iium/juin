@@ -35,7 +35,8 @@ function get_sideview($mb_id, $name)
 	if($phone)
 		$str2.= "<a href=\"".BV_ADMIN_URL."/sms/sms_user.php?ph={$phone}\" onclick=\"win_open(this,'win_sms','300','360','no'); return false;\">SMS보내기</a>\n";
 
-	$str2.= "<a href=\"".BV_ADMIN_URL."/admin_ss_login.php?mb_id={$mb_id}\" target=\"_blank\">쇼핑몰로그인</a>\n";
+	// $str2.= "<a href=\"".BV_ADMIN_URL."/admin_ss_login.php?mb_id={$mb_id}\" target=\"_blank\">쇼핑몰로그인</a>\n";
+	$str2.= "<a href=\"".BV_ADMIN_URL."/admin_ss_login.php?mb_id={$mb_id}&lg_type=M\" target=\"_blank\">쇼핑몰로그인</a>\n";
 
 	if(is_partner($mb_id))
 		$str2.= "<a href=\"".BV_ADMIN_URL."/admin_ss_login.php?mb_id={$mb_id}&lg_type=P\" target=\"_blank\">가맹점로그인</a>\n";

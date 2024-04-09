@@ -66,7 +66,7 @@ if($od['paymethod'] == '신용카드' || $od['paymethod'] == 'KAKAOPAY') {
 $token = md5(uniqid(rand(), true));
 set_session("ss_token", $token);
 
-include_once(BV_THEME_PATH.'/orderinquiryview.skin.php');
+include_once(BV_PATH.'/mng/skin/orderinquiryview.skin.php');
 
 include_once("./_tail.php");
 ?>

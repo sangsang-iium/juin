@@ -66,7 +66,7 @@ if(defined('_INDEX_')) { // index에서만 실행
 							for($i=0; $row=sql_fetch_array($res); $i++) {
 								$href = '/mng/?ca_id='.$row['catecode'];
 
-								if($i && $i%$mod == 0) echo "</ul>\n<ul>\n";
+								// if($i && $i%$mod == 0) echo "</ul>\n<ul>\n";
 							?>
 								<li class="c_box">
 									<a href="<?php echo $href; ?>" class="cate_tit"><?php echo $row['catename']; ?></a>
@@ -78,7 +78,8 @@ if(defined('_INDEX_')) { // index에서만 실행
 										<?php
 										$res2 = sql_query_cgy($row['catecode']);
 										while($row2 = sql_fetch_array($res2)) {
-											$href2 = BV_SHOP_URL.'/list.php?ca_id='.$row2['catecode'];
+											// $href2 = BV_SHOP_URL.'/list.php?ca_id='.$row2['catecode'];
+											$href2 = '/mng/?ca_id='.$row2['catecode'];
 										?>
 										<li><a href="<?php echo $href2; ?>"><?php echo $row2['catename']; ?></a></li>
 										<?php } ?>
