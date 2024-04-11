@@ -1,6 +1,5 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
-
 // include_once(BV_THEME_PATH.'/aside_my.skin.php');
 ?>
 
@@ -113,6 +112,7 @@ if(!defined('_BLUEVATION_')) exit;
               <input type="hidden" class="mpr" value="<?php echo $gs_res['goods_price']; ?>">
               <input type="hidden" class="io_id" value="<?php echo $ct['io_id']; ?>">
               <input type="hidden" class="io_price" value="<?php echo $ct_res['io_price']; ?>">
+              <input type="hidden" class="it_option" value="<?php echo $ct['io_id']; ?>">
 
 
               <!-- <button type="button" class="qty-btn minus"></button> -->
@@ -213,7 +213,6 @@ const stockCheck = (itid, stock) => {
 }
 
 const addItem = (itid, name, qty, stock, price, optval, optid, opt=null) => {
-  console.log(opt)
   const selectedItemBox = $(".sct_cart_wrap .sct_cart_ct_ul");
   let selectedItemPrice;
 
@@ -229,6 +228,7 @@ const addItem = (itid, name, qty, stock, price, optval, optid, opt=null) => {
         <input type="hidden" name="gs_id[]" value="${itid}">
         <input type="hidden" name="gs_price[]" class="gs_price" value="${price}">
 
+        <input type="hidden" name="gs_name[${itid}][]" value="${name}">
         <input type="hidden" name="io_type[${itid}][]" value="0">
         <input type="hidden" name="io_id[${itid}][]" value="">
         <input type="hidden" name="io_value[${itid}][]" value="${name}">
@@ -260,6 +260,7 @@ const addItem = (itid, name, qty, stock, price, optval, optid, opt=null) => {
         <input type="hidden" class="io_id" name="gs_id[]" value="${itid}">
         <input type="hidden" class="gs_price" name="gs_price[]" value="${price2}">
 
+        <input type="hidden" name="gs_name[${itid}][]" value="${name}">
         <input type="hidden" name="io_type[${itid}][]" value="0">
         <input type="hidden" name="io_id[${itid}][]" value="${opt.io_id}">
         <input type="hidden" name="io_value[${itid}][]" value="${optval}" class="gs_optInfo">
@@ -323,6 +324,7 @@ const addItem = (itid, name, qty, stock, price, optval, optid, opt=null) => {
           <input type="hidden" class="io_id" name="gs_id[]" value="${itid}">
           <input type="hidden" class="gs_price" name="gs_price[]"  value="${price2}">
 
+          <input type="hidden" name="gs_name[${itid}][]" value="${name}">
           <input type="hidden" name="io_type[${itid}][]" value="0">
           <input type="hidden" name="io_id[${itid}][]" value="${opt.io_id}">
           <input type="hidden" name="io_value[${itid}][]" value="${optval}" class="gs_optInfo">
@@ -506,7 +508,7 @@ $(document).ready(function(){
 
       $totalEl.text(addCommas(totalPrice));
     }
-    chValue('remove');
+    chValue('remove',goodsId);
 
   });
 
@@ -543,19 +545,17 @@ $(document).ready(function(){
 
       $tgItem.find('.it_option').each(function(index) {
         let selectedIndex = $(this).prop('selectedIndex');
-
         if(index == 0) {
           optId = selectedIndex;
         } else {
           optId = optId+"_"+selectedIndex;
         }
 
-
-
         value = $tgItem.find('.it_option').val();
 
-      });
+        itemValue = value
 
+      });
       price = itemPrice;
       stock = itemStock;
       amt = itemIoPrice;
@@ -580,7 +580,6 @@ $(document).ready(function(){
     }
 
     emptyEl.hide();
-    console.log(itemId, itemName, itemQty, itemStock, itemPrice, itemValue, optId, itemOpt)
     addItem(itemId, itemName, itemQty, itemStock, itemPrice, itemValue, optId, itemOpt);
 
     // 총 가격
@@ -699,19 +698,23 @@ $(document).ready(function(){
 
   });
 
-  const chValue = (r='') => {
+  const chValue = (r='',idx='') => {
+    let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
+    let emptyEl = $(".sct_cart_empty");
+    
     let form = $("#sod_bsk_list").serialize();
     if(r=='remove'){
-      let hiddenField = `<input type="hidden" name="remove" value="${r}">`;
-      form . append(hiddenField);
+      // let hiddenField = `<input type="hidden" name="remove" value="${r}">`;
+      // form . append(hiddenField);
+      form += `&remove=${idx}`;
     }
       $.ajax({
         type: 'POST', // 전송 방식 (POST)
         url: '/mng/shop/orderinquiry.ajax.php', // 폼의 action 속성 값 (submit.php)
         data: form, // 직렬화된 폼 데이터
         success: function(res) {
-          // console.log(res);
-
+          console.log(res)
+          // 세선 비울때 선택한 상품이 없습니다 작업 필요 _20240411_SY
         },
       });
     }
