@@ -596,7 +596,7 @@ table .spr,.total_price .spr {display:inline-block;}
 .tit_navi .ionicons {margin:0 10px;color:#bbb;vertical-align:middle;}
 
 /* 서브페이지 */
-#con_lf {width:calc(100% - 200px);display:inline-block;float:right;margin-bottom:80px;}
+#con_lf {width:calc(100% - 200px);display:inline-block;float:left;margin-bottom:80px;}
 #con_lf img {max-width:100%;height:auto;}
 .pg_tit {margin:0 0 20px;height:36px;border-bottom:1px solid #ddd;position:relative;}
 .pg_tit span {font-size:22px;padding:4px 10px 7px 0;margin:0 0 -1px 0;border-bottom:1px solid #333;display:inline-block;}

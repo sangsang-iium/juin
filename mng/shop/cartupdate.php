@@ -84,7 +84,7 @@ else if($act == "seldelete") // 선택삭제
 else // 장바구니에 담기
 {
 	$count = count($_POST['gs_id']);
-  
+
 	if($count < 1)
 		alert('장바구니에 담을 상품을 선택하여 주십시오.');
 
@@ -172,12 +172,14 @@ else // 장바구니에 담기
 			$io_value = $_POST['io_value'][$gs_id][$k];
 
 			// 주문옵션정보가 존재하는데 선택된 옵션이 없으면 건너뜀
-			if($lst_count && $io_id == '')
+			if($lst_count && $io_id == ''){
 				continue;
+			}
 
 			// 구매할 수 없는 옵션은 건너뜀
-			if($io_id && !$opt_list[$io_type][$io_id]['use'])
+			if($io_id && !$opt_list[$io_type][$io_id]['use']){
 				continue;
+			}
 
 			$io_supply_price = $opt_list[$io_type][$io_id]['supply_price'];
 			$io_price = $opt_list[$io_type][$io_id]['price'];
