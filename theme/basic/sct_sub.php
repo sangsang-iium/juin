@@ -1,6 +1,5 @@
 
 <?php
-
   $myCartArr = $_SESSION['myCart'];
   $totalPrice = 0;
   $htmlView = "";
@@ -9,22 +8,36 @@
       $myCart = $myCartArr[$member['id']];
 
       // 배열 키 추출
+      // name 추가 _20240411_SY
+      $arrKeyName = array_keys($myCart['gs_name']);
+      
       $arrKeyType = array_keys($myCart['io_type']);
       $arrKeyId   = array_keys($myCart['io_id']);
       $arrKeyVal  = array_keys($myCart['io_value']);
       $arrKeyQty  = array_keys($myCart['ct_qty']);
 
+      // option _20240411_SY
+      $options = explode("", $myCart['io_value'][$arrKeyVal[$i]][0]);
+
       // HTML 뷰 생성
       $htmlView .= '<li id="sct_add_goods' . $myCart['gs_id'][$i] . '" class="sct_add_goods" data-goods-id="' . $myCart['gs_id'][$i] . '">';
       $htmlView .= '    <input type="hidden" name="gs_id[]" value="' . $myCart['gs_id'][$i] . '">';
       $htmlView .= '    <input type="hidden" name="gs_price[]" class="gs_price" value="' . $myCart['gs_price'][$i] . '">';
+      $htmlView .= '    <input type="hidden" name="gs_name[' . $arrKeyName[$i] . '][]" value="' . $myCart['gs_name'][$arrKeyName[$i]][0] . '">';
       $htmlView .= '    <input type="hidden" name="io_type[' . $arrKeyType[$i] . '][]" value="' . $myCart['io_type'][$arrKeyType[$i]][0] . '">';
       $htmlView .= '    <input type="hidden" name="io_id[' . $arrKeyId[$i] . '][]" value="' . $myCart['io_id'][$arrKeyId[$i]][0] . '">';
       $htmlView .= '    <input type="hidden" name="io_value[' . $arrKeyVal[$i] . '][]" value="' . $myCart['io_value'][$arrKeyVal[$i]][0] . '">';
       $htmlView .= '    <input type="hidden" name="io_price[]" class="io_price" value="' . $myCart['io_price'][$i] . '">';
       $htmlView .= '    <input type="hidden" name="io_stock[]" class="io_stock" value="' . $myCart['io_stock'][$i] . '">';
       $htmlView .= '    <div class="info">';
-      $htmlView .= '        <p class="subject">' . $myCart['io_value'][$arrKeyVal[$i]][0] . '</p>';
+      $htmlView .= '       <p class="subject">' . $myCart['gs_name'][$arrKeyName[$i]][0] . '</p>';
+
+      if($myCart['gs_name'][$arrKeyName[$i]][0] !== $myCart['io_value'][$arrKeyVal[$i]][0]) {
+        $htmlView .= '         <span class="option">';
+        $htmlView .= '           <span class="item">옵션 : '.$options[0] . ($options[1] != '' ? ", 상태 : {$options[1]}" : '') .'</span>';
+        $htmlView .= '         </span>';
+      }
+
       $htmlView .= '    </div>';
       $htmlView .= '    <div class="lot">';
       $htmlView .= '        <div class="it_li_add">';
@@ -52,9 +65,7 @@
     <div class="sct_cart_ct">
       <p class="t1">
         <span>선택상품</span>
-        <?php if($_SERVER['REQUEST_URI'] !== "/mng/shop/orderinquiry.php" ) { ?>
           <span class="la_od"><a href="<?php echo BV_URL .'/mng/shop/orderinquiry.php'?>">이전상품 주문</a></span>
-        <?php } ?>
       </p>
       <ul class="sct_cart_ct_ul">
 
@@ -62,7 +73,6 @@
           if($myCartArr){
             echo $htmlView;
           } else { ?>
-
             <li class="sct_cart_empty">선택한 상품이  없습니다.</li>
          <?php }
         ?>
