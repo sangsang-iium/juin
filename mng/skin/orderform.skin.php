@@ -93,7 +93,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 #buyform .btn_confirm {position: inherit; bottom: inherit; left: inherit; box-shadow: none;}
 
 #sod_frm_pay .sod_frm_pay_ul {display: flex; flex-flow: row wrap; gap: 10px 20px;}
-#sod_frm .odf_tbl table tbody td, 
+#sod_frm .odf_tbl table tbody td,
 #sod_frm .odf_tbl table tbody th {font-size: 1.8rem; border: 1px solid #ddd}
 </style>
 
@@ -952,7 +952,7 @@ $(function () {
   });
   // win_open('./orderaddress.php','win_address');
 
-  
+
 });
 </script>
 
@@ -980,6 +980,17 @@ $(function () {
     });
   });
 
+  function getSelectVal(selectElement) {
+    // 선택된 라디오 버튼의 값을 반환
+    let selectedValue = '';
+    selectElement.forEach(element => {
+        if (element.checked) {
+            selectedValue = element.value;
+        }
+    });
+    return selectedValue;
+}
+
   // 도서/산간 배송비 검사
   function calculate_sendcost(code) {
     $.post(
@@ -1004,7 +1015,16 @@ $(function () {
 
     $("input[name=tot_price]").val(number_format(String(tot_price)));
   }
-
+  function getSelectVal2(selectElement) {
+      // 선택된 라디오 버튼의 값을 반환
+    let selectedValue = '';
+    selectElement.forEach(element => {
+      if (element.checked) {
+        selectedValue = element.value;
+      }
+    });
+    return selectedValue;
+  }
   function fbuyform_submit(f) {
 
     errmsg = "";
@@ -1018,12 +1038,16 @@ $(function () {
     var mb_coupon = parseInt(f.coupon_total.value);
     var mb_point = parseInt(f.mb_point.value);
     var tot_price = sell_price + send_cost2 - mb_coupon;
+
+    var paymethodRadios = f.querySelectorAll('input[name="paymethod"]');
+    var selectedPaymentMethod = getSelectVal2(paymethodRadios);
     // 무통장 예외 처리 필요
-    if(getSelectVal(f["paymethod"]) == '신용카드'&& card_id === '' || card_id === null){
-      var card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록이후 구매 하시겠습니까?");
-      if(card_confirm){
-        window.location.href = "/m/shop/card.php";
-      }
+    if (selectedPaymentMethod === '신용카드' && (card_id === '' || card_id === null)) {
+        // 카드 등록 여부 확인
+        const card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록 후 구매하시겠습니까?");
+        if (card_confirm) {
+            window.location.href = "/m/shop/card.php";
+        }
     }
 
 	if(f.b_zip.value==''){
@@ -1062,10 +1086,9 @@ $(function () {
       return false;
     }
 
-    if (getSelectVal(f["paymethod"]) == '') {
+    if (selectedPaymentMethod === '') {
       alert("결제방법을 선택하세요.");
-      f.paymethod.focus();
-      return false;
+      paymethodRadios[0] . focus(); // 선택할 라디오 버튼으로 포커스 이동
     }
 
     if (typeof (f.od_pwd) != 'undefined') {

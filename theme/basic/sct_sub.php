@@ -52,9 +52,7 @@
     <div class="sct_cart_ct">
       <p class="t1">
         <span>선택상품</span>
-        <?php if($_SERVER['REQUEST_URI'] !== "/mng/shop/orderinquiry.php" ) { ?>
           <span class="la_od"><a href="<?php echo BV_URL .'/mng/shop/orderinquiry.php'?>">이전상품 주문</a></span>
-        <?php } ?>
       </p>
       <ul class="sct_cart_ct_ul">
 

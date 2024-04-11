@@ -174,8 +174,16 @@ function get_move_pc($ca_id)
   $cgy = get_category_head_image($ca_id);
   echo $cgy['headimg']; // 분류별 상단이미지
 
-  echo tree_category_pc($ca_id); // 하위분류
+  // echo tree_category_pc($ca_id); // 하위분류
   ?>
+  <ul class="sub_tree">
+    <li style="width:20%" class= "<?php echo $ca_id == "001"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=001">농수산</a></li>
+    <li style="width:20%" class= "<?php echo $ca_id == "002"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=002">축산(육가공)</a></li>
+    <li style="width:20%" class= "<?php echo $ca_id == "003"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=003">위생/주방용품</a></li>
+    <li style="width:20%" class= "<?php echo $ca_id == "004"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=004">종합식자재</a></li>
+    <li style="width:20%" class= "<?php echo $ca_id == "005"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=005">수미안 전용관</a></li>
+    <li style="width:20%" class= "<?php echo $ca_id == "006"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=006">회원 전용관</a></li>
+  </ul>
 
   <div class="tab_sort">
     <span class="total">전체상품 <b class="fc_90" id="total"><?php echo number_format($total_count); ?></b>개</span>
@@ -304,7 +312,7 @@ function get_move_pc($ca_id)
     $(targetList).each(function(){
       let priceText = $(this).find(target).text();
       let price = reNumber(priceText);
-      
+
       total += price;
     });
 
@@ -407,7 +415,7 @@ function get_move_pc($ca_id)
 
       if(!opt){ // 옵션이 없다면
         currentQty = parseInt($(`#sct_add_goods${itid} .qty-input`).val());
-        let newQty = currentQty + qty; 
+        let newQty = currentQty + qty;
         selectedItemPrice = price * newQty;
 
         $(`#sct_add_goods${itid} .qty-input`).val(newQty);
@@ -480,7 +488,7 @@ function get_move_pc($ca_id)
       let $sctItem = $(this).closest(".sct_add_goods");
 
       // 옵션이 있는 경우 옵션 선택헸는지 체크
-      if($tgItem.find('.it_li_option').length > 0) { 
+      if($tgItem.find('.it_li_option').length > 0) {
         let optionSelected = true;
 
         $tgItem.find(".it_option").each(function(){
@@ -522,7 +530,7 @@ function get_move_pc($ca_id)
         let itemSubTotal = itemPrice * itemQty;
 
         $itemPriceEl.text(addCommas(itemSubTotal));
-        
+
         let totalPrice = totalCalc('.sct_add_goods', '.goods_price');
         let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
 
@@ -655,7 +663,7 @@ function get_move_pc($ca_id)
             optId = optId+"_"+selectedIndex;
           }
 
-          
+
 
           value = $(this).val();
           // value = $tgItem.find('.it_option').val();
@@ -675,6 +683,7 @@ function get_move_pc($ca_id)
           option += sep + item + ":" + sel_opt;
 
           itemValue = option;
+          console.log(itemValue)
         });
 
         price = info[1];
@@ -693,7 +702,7 @@ function get_move_pc($ca_id)
       }
 
       // 선택 상품
-      let stockConfm = stockCheck(itemId, stock);  
+      let stockConfm = stockCheck(itemId, stock);
       if(!stockConfm) {
         alert("재고수량은 "+stock+"개 입니다.");
 
@@ -740,7 +749,7 @@ function get_move_pc($ca_id)
         } else if((idx - 1) == 0) {
           opt_id = val;
         }
-        
+
         $.post(
           "/mng/shop/list_option.php",
           { gs_id: gs_id, opt_id: opt_id, idx: (idx - 1), sel_count: sel_count },
@@ -767,7 +776,7 @@ function get_move_pc($ca_id)
 
         $tgItem.find('.io_stock').val(stock);
       }
-      
+
     });
 
     let prevValue = "";
@@ -798,7 +807,7 @@ function get_move_pc($ca_id)
         // 담긴 상품의 재고량 체크
         let curQty = parseInt($qtyInput.val());
         let stock = parseInt($tgItem.find('.io_stock').val());
-        
+
         if(curQty > stock){
           alert("재고수량은 "+stock+"개 입니다.");
 
@@ -812,7 +821,7 @@ function get_move_pc($ca_id)
       } else {
         prevValue = currentValue;
       }
-      
+
     });
   });
   </script>

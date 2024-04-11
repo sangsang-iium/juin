@@ -1,13 +1,47 @@
 <?php
 include_once('../common.php');
 
-if(!$ca_id) {
-  $ca_id = '001';
+
+
+if (empty($ca_id)) {
+  // 카테고리 코드 데이터 조회 및 준비
+  $sql_cate_sel = "SELECT * FROM shop_category WHERE LENGTH(catecode) = 3";
+  $res_cate_sel = sql_query($sql_cate_sel);
+  $cateCodeArr  = array();
+  while ($row_cate_sel = sql_fetch_array($res_cate_sel)) {
+    $cateCodeArr[] = $row_cate_sel['catecode'];
+  }
+
+  // 카테고리 코드 데이터를 쉼표로 구분된 문자열로 변환
+  $ca_id  = implode(',', $cateCodeArr);
+  $ca_ids = $cateCodeArr;
+} else {
+  // 주어진 $ca_id에 쉼표가 포함되어 있는지 확인
+  if (strpos($ca_id, ',') !== false) {
+    $ca_ids = explode(",", $ca_id);
+  } else {
+    $ca_ids = array($ca_id); // 쉼표가 포함되어 있지 않은 경우 배열로 변환
+  }
 }
+
+// 검색 조건 생성
+$conditions = array();
+foreach ($ca_ids as $ca_idx) {
+  $conditions[] = "ca_id LIKE '$ca_idx%'";
+  $conditions[] = "ca_id2 LIKE '$ca_idx%'";
+  $conditions[] = "ca_id3 LIKE '$ca_idx%'";
+}
+
+// 생성된 조건을 OR 연산자로 묶음
+$condition_string = implode(" OR ", $conditions);
+
+// 최종 SQL 검색 조건 설정
+$sql_search = "AND (" . $condition_string . ")";
+
 
 $sql = " select *
 		   from shop_category
-		  where catecode = '$ca_id'
+		  where catecode in({$ca_id})
 		    and cateuse = '0'
 			and find_in_set('$pt_id', catehide) = '0' ";
 $ca = sql_fetch($sql);
@@ -17,7 +51,7 @@ if(!$ca['catecode'])
 $tb['title'] = $ca['catename'];
 include_once("../_head.php");
 
-$sql_search = " and (ca_id like '$ca_id%' or ca_id2 like '$ca_id%' or ca_id3 like '$ca_id%') ";
+
 $sql_common = sql_goods_list($sql_search);
 
 // 상품 정렬
