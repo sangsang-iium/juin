@@ -15,7 +15,7 @@ include_once(BV_ADMIN_PATH."/admin_head.php");
 ?>
 
 <div id="sodr_print_pop" class="new_win">
-    <h1>주문서출력</h1>
+    <h1>거래명세서 출력</h1>
 
 	<?php
 	for($i=0; $row=sql_fetch_array($result); $i++)
