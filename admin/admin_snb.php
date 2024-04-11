@@ -115,6 +115,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	<dl>
 		<?php echo printMenu1('g10', '상품관리'); ?>
 		<?php echo printMenu2('g10', ADMIN_MENU5_01, BV_ADMIN_URL.'/goods.php?code=list'); ?>
+		<?php echo printMenu2('g10', ADMIN_MENU5_27, BV_ADMIN_URL.'/goods.php?code=form'); ?>
 		<?php echo printMenu2('g10', ADMIN_MENU5_18, BV_ADMIN_URL.'/goods.php?code=supply', $goods1); ?>
 		<?php echo printMenu2('g10', ADMIN_MENU5_24, BV_ADMIN_URL.'/goods.php?code=supply2', $goods2); ?>
 		<!-- <?php echo printMenu2('g10', ADMIN_MENU5_19, BV_ADMIN_URL.'/goods.php?code=userlist'); ?> -->

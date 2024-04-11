@@ -11,7 +11,7 @@ if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
 	alert("접근권한이 없습니다.");
 }
 
-if($code == "form")					 $pg_title2 = ($w=="u")?'상품 정보수정':'신규 상품등록';
+if($code == "form")					 $pg_title2 = ($w=="u")?'상품 정보수정':'상품등록';
 if($code == "list")					 $pg_title2 = ADMIN_MENU5_01;
 if($code == "type")					 $pg_title2 = ADMIN_MENU5_02;
 if($code == "brand_list")			 $pg_title2 = ADMIN_MENU5_03;

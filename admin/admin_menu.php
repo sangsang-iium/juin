@@ -41,8 +41,8 @@ define('ADMIN_MENU4_02',	'카테고리 순위');
 define('ADMIN_MENU4_03',	'카테고리 메인');
 
 define('ADMIN_MENU5',		'상품관리');
-define('ADMIN_MENU5_01',	'전체 상품관리');
-define('ADMIN_MENU5_02',	'상품 진열관리');
+define('ADMIN_MENU5_01',	'상품관리');
+define('ADMIN_MENU5_02',	'상품 노출관리');
 define('ADMIN_MENU5_03',	'브랜드 관리');
 define('ADMIN_MENU5_04',	'기획전 관리');
 define('ADMIN_MENU5_05',	'가격비교사이트 연동');
@@ -58,7 +58,7 @@ define('ADMIN_MENU5_14',	'빠른 상품이동 수정');
 define('ADMIN_MENU5_15',	'빠른 브랜드 수정');
 define('ADMIN_MENU5_16',	'빠른 배송비 수정');
 define('ADMIN_MENU5_17',	'빠른 구매가능레벨 수정');
-define('ADMIN_MENU5_18',	'공급사 대기상품');
+define('ADMIN_MENU5_18',	'입점업체 요청관리');
 define('ADMIN_MENU5_19',	'가맹점 상품관리');
 define('ADMIN_MENU5_20',	'상품 문의관리');
 define('ADMIN_MENU5_21',	'상품 후기관리');
@@ -67,6 +67,7 @@ define('ADMIN_MENU5_23',	'쿠폰관리 (온라인)');
 define('ADMIN_MENU5_24',	'공급사 보류상품');
 define('ADMIN_MENU5_25',	'상품 검색어관리');
 define('ADMIN_MENU5_26',	'상품 검색어순위');
+define('ADMIN_MENU5_27',	'상품등록');
 
 define('ADMIN_MENU6',		'주문관리');
 define('ADMIN_MENU6_01',	'주문리스트(전체)');

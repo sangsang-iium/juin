@@ -58,8 +58,8 @@ $frm_submit .= '</div>';
 
 $pg_anchor = <<<EOF
 <ul class="anchor">
-	<li><a href="#anc_sitfrm_cate">카테고리</a></li>
-	<li><a href="#anc_sitfrm_ini">기본정보</a></li>
+  <li><a href="#anc_sitfrm_ini">기본정보</a></li>
+  <li><a href="#anc_sitfrm_cate">카테고리</a></li>
 	<li><a href="#anc_sitfrm_option">옵션정보</a></li>
 	<li><a href="#anc_sitfrm_cost">가격 및 재고</a></li>
 	<!-- <li><a href="#anc_sitfrm_pay">가맹점수수료</a></li> -->
@@ -214,85 +214,6 @@ EOF;
 }
 </style>
 
-<section id="anc_sitfrm_cate">
-<h2>카테고리</h2>
-<?php echo $pg_anchor; ?>
-<div class="local_desc02 local_desc">
-	<p>선택된 카테고리에 <span class="fc_084">최상위 카테고리는 대표 카테고리로 자동설정</span>되며, 최소 1개의 카테고리는 등록하셔야 합니다.</p>
-</div>
-<div class="tbl_frm02">
-	<table>
-	<colgroup>
-		<col class="w180">
-		<col>
-	</colgroup>
-	<tbody>
-	<tr>
-		<th scope="row">카테고리 선택</th>
-		<td>
-			<div class="sub_frm01">
-				<table>
-				<tr>
-					<td class="w20p bg1">
-						<?php echo get_category_select_1('sel_ca1', '', ' size="10" class="multiple-select"'); ?>
-					</td>
-					<td class="w20p bg1">
-						<?php echo get_category_select_2('sel_ca2', '', ' size="10" class="multiple-select"'); ?>
-					</td>
-					<td class="w20p bg1">
-						<?php echo get_category_select_3('sel_ca3', '', ' size="10" class="multiple-select"'); ?>
-					</td>
-					<td class="w20p bg1">
-						<?php echo get_category_select_4('sel_ca4', '', ' size="10" class="multiple-select"'); ?>
-					</td>
-					<td class="w20p bg1">
-						<?php echo get_category_select_5('sel_ca5', '', ' size="10" class="multiple-select"'); ?>
-					</td>
-				</tr>
-				</table>
-			</div>
-			<div class="btn_confirm02">
-				<button type="button" class="btn_lsmall blue" onclick="category_add();">카테고리 추가</button>
-			</div>
-			<script>
-			$(function() {
-				$("#sel_ca1").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
-				$("#sel_ca2").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
-				$("#sel_ca3").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
-				$("#sel_ca4").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
-				$("#sel_ca5").multi_select_box("#sel_ca",5,"","=카테고리선택=");
-			});
-			</script>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">선택된 카테고리<br><span class="fc_red">(최대 3개까지만 등록)</span></th>
-		<td>
-			<select name="sel_ca_id" id="sel_ca_id" size="5" class="multiple-select">
-			<?php
-			if($w == "u") {
-				if($ca_id1 = adm_category_navi($gs['ca_id']))
-					echo '<option value="'.$gs['ca_id'].'">' .$ca_id1. '</option>'.PHP_EOL;
-				if($ca_id2 = adm_category_navi($gs['ca_id2']))
-					echo '<option value="'.$gs['ca_id2'].'">'.$ca_id2.'</option>'.PHP_EOL;
-				if($ca_id3 = adm_category_navi($gs['ca_id3']))
-					echo '<option value="'.$gs['ca_id3'].'">'.$ca_id3.'</option>'.PHP_EOL;
-			}
-			?>
-			</select>
-			<div class="btn_confirm02">
-				<button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'prev');">▲ 위로</button>
-				<button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'next');">▼ 아래로</button>
-				<button type="button" class="btn_lsmall frm_option_del red">카테고리 삭제</button>
-			</div>
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</div>
-</section>
-
-<?php echo $frm_submit; ?>
 
 <section id="anc_sitfrm_ini">
 <h2>기본정보</h2>
@@ -348,7 +269,7 @@ EOF;
 		<th scope="row">브랜드</th>
 		<td>
 			<select name="brand_uid">
-				<option value="">선택</option>
+				<!-- <option value="">선택</option> -->
 				<?php
 				$sql = "select *
 						  from shop_brand
@@ -367,11 +288,11 @@ EOF;
 		<td><input type="text" name="model" value="<?php echo $gs['model']; ?>" class="frm_input"></td>
 	</tr>
 	<tr>
-		<th scope="row">생산국(원산지)</th>
+		<th scope="row">원산지</th>
 		<td><input type="text" name="origin" value="<?php echo $gs['origin']; ?>" class="frm_input"></td>
 	</tr>
 	<tr>
-		<th scope="row">제조사</th>
+		<th scope="row">업체</th>
 		<td><input type="text" name="maker" value="<?php echo $gs['maker']; ?>" class="frm_input"></td>
 	</tr>
 	<tr>
@@ -390,11 +311,91 @@ EOF;
 			<?php echo radio_checked('isopen', $gs['isopen'], '4', '중지'); ?>
 		</td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<th scope="row">네이버쇼핑 상품ID</th>
 		<td>
-			<input type="text" name="ec_mall_pid" value="<?php echo $gs['ec_mall_pid']; ?>" id="ec_mall_pid" class="frm_input">
-			<?php echo help("네이버쇼핑에 입점한 경우 네이버쇼핑 상품ID를 입력하시면 네이버페이와 연동됩니다.<br>일부 쇼핑몰의 경우 네이버쇼핑 상품ID 대신 쇼핑몰 상품ID를 입력해야 하는 경우가 있습니다.<br>네이버페이 연동과정에서 이 부분에 대한 안내가 이뤄지니 안내받은 대로 값을 입력하시면 됩니다."); ?>
+			<input type="text" name="ec_mall_pid" value="<?php //echo $gs['ec_mall_pid']; ?>" id="ec_mall_pid" class="frm_input">
+			<?php //echo help("네이버쇼핑에 입점한 경우 네이버쇼핑 상품ID를 입력하시면 네이버페이와 연동됩니다.<br>일부 쇼핑몰의 경우 네이버쇼핑 상품ID 대신 쇼핑몰 상품ID를 입력해야 하는 경우가 있습니다.<br>네이버페이 연동과정에서 이 부분에 대한 안내가 이뤄지니 안내받은 대로 값을 입력하시면 됩니다."); ?>
+		</td>
+	</tr> -->
+	</tbody>
+	</table>
+</div>
+</section>
+
+<?php echo $frm_submit; ?>
+
+<section id="anc_sitfrm_cate">
+<h2>카테고리</h2>
+<?php echo $pg_anchor; ?>
+<div class="local_desc02 local_desc">
+	<p>선택된 카테고리에 <span class="fc_084">최상위 카테고리는 대표 카테고리로 자동설정</span>되며, 최소 1개의 카테고리는 등록하셔야 합니다.</p>
+</div>
+<div class="tbl_frm02">
+	<table>
+	<colgroup>
+		<col class="w180">
+		<col>
+	</colgroup>
+	<tbody>
+	<tr>
+		<th scope="row">카테고리 선택</th>
+		<td>
+			<div class="sub_frm01">
+				<table>
+				<tr>
+					<td class="w20p bg1">
+						<?php echo get_category_select_1('sel_ca1', '', ' size="10" class="multiple-select"'); ?>
+					</td>
+					<td class="w20p bg1">
+						<?php echo get_category_select_2('sel_ca2', '', ' size="10" class="multiple-select"'); ?>
+					</td>
+					<td class="w20p bg1">
+						<?php echo get_category_select_3('sel_ca3', '', ' size="10" class="multiple-select"'); ?>
+					</td>
+					<!-- <td class="w20p bg1">
+						<?php //echo get_category_select_4('sel_ca4', '', ' size="10" class="multiple-select"'); ?>
+					</td>
+					<td class="w20p bg1">
+						<?php //echo get_category_select_5('sel_ca5', '', ' size="10" class="multiple-select"'); ?>
+					</td> -->
+				</tr>
+				</table>
+			</div>
+			<div class="btn_confirm02">
+				<button type="button" class="btn_lsmall blue" onclick="category_add();">카테고리 추가</button>
+			</div>
+			<script>
+			$(function() {
+				$("#sel_ca1").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
+				$("#sel_ca2").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
+				$("#sel_ca3").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
+				$("#sel_ca4").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
+				$("#sel_ca5").multi_select_box("#sel_ca",5,"","=카테고리선택=");
+			});
+			</script>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">선택된 카테고리<br><span class="fc_red">(최대 3개까지만 등록)</span></th>
+		<td>
+			<select name="sel_ca_id" id="sel_ca_id" size="5" class="multiple-select">
+			<?php
+			if($w == "u") {
+				if($ca_id1 = adm_category_navi($gs['ca_id']))
+					echo '<option value="'.$gs['ca_id'].'">' .$ca_id1. '</option>'.PHP_EOL;
+				if($ca_id2 = adm_category_navi($gs['ca_id2']))
+					echo '<option value="'.$gs['ca_id2'].'">'.$ca_id2.'</option>'.PHP_EOL;
+				if($ca_id3 = adm_category_navi($gs['ca_id3']))
+					echo '<option value="'.$gs['ca_id3'].'">'.$ca_id3.'</option>'.PHP_EOL;
+			}
+			?>
+			</select>
+			<div class="btn_confirm02">
+				<!-- <button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'prev');">▲ 위로</button>
+				<button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'next');">▼ 아래로</button> -->
+				<button type="button" class="btn_lsmall frm_option_del red">카테고리 삭제</button>
+			</div>
 		</td>
 	</tr>
 	</tbody>
@@ -403,6 +404,7 @@ EOF;
 </section>
 
 <?php echo $frm_submit; ?>
+
 
 <section id="anc_sitfrm_option">
 <h2>옵션정보</h2>
@@ -830,14 +832,7 @@ EOF;
 	</colgroup>
 	<tbody>
 	<tr>
-		<th scope="row">시중가격</th>
-		<td>
-			<input type="text" name="normal_price" value="<?php echo number_format($gs['normal_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
-			<span class="fc_197 marl5">시중에 판매되는 가격 (판매가보다 크지않으면 시중가 표시안함)</span>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">공급가격</th>
+		<th scope="row">매입가격</th>
 		<td>
 			<input type="text" name="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
 			<span class="fc_197 marl5">사입처에서 공급받은 가격</span>
@@ -850,13 +845,20 @@ EOF;
 			<span class="fc_197 marl5">실제 판매가 입력 (대표가격으로 사용)</span>
 		</td>
 	</tr>
-	<tr>
+  <tr>
+		<th scope="row">회원혜택가격</th>
+		<td>
+			<input type="text" name="normal_price" value="<?php echo number_format($gs['normal_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+			<span class="fc_197 marl5">시중에 판매되는 가격 (판매가보다 크지않으면 시중가 표시안함)</span>
+		</td>
+	</tr>
+	<!-- <tr>
 		<th scope="row">포인트</th>
 		<td>
 			<input type="text" name="gpoint" value="<?php echo number_format($gs['gpoint']); ?>" class="frm_input w80" onkeyup="addComma(this);"> P
 			<input type="text" name="marper" class="frm_input w50"> %
 		</td>
-	</tr>
+	</tr> -->
 	<tr>
 		<th scope="row">가격 대체문구</th>
 		<td>
@@ -965,7 +967,7 @@ EOF;
 <!-- <?php echo $frm_submit; ?> -->
 
 <section id="anc_sitfrm_sendcost">
-<h2>배송비</h2>
+<h2>배송정보</h2>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p>※ <span>참고사항) : 고객이 동일 판매자의 상품을 복수 구매시 배송비는 단 한번만 부과 됩니다. 단! 배송비는 가장 큰값을 산출하여 적용 됩니다.</span></p>
@@ -1079,7 +1081,7 @@ EOF;
 <?php echo $frm_submit; ?>
 
 <section id="anc_sitfrm_compact">
-<h2>요약정보</h2>
+<h2>상품정보 제공고시</h2>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p><strong>전자상거래 등에서의 상품 등의 정보제공에 관한 고시</strong>에 따라 총 35개 상품군에 대해 상품 특성 등을 양식에 따라 입력할 수 있습니다.</p>
@@ -1097,7 +1099,7 @@ EOF;
 			<select name="info_gubun" id="info_gubun">
 				<option value="">상품군 카테고리 선택</option>
 				<?php
-				if(!$gs['info_gubun']) $gs['info_gubun'] = 'wear';
+				if(!$gs['info_gubun']) $gs['info_gubun'] = 'food';
 				foreach($item_info as $key=>$value) {
 					$opt_value = $key;
 					$opt_text  = $value['title'];

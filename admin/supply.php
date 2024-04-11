@@ -39,8 +39,10 @@ if($page == "") { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 $num = $total_count - (($page-1)*$rows);
 
-$sql = " select * $sql_common $sql_search $sql_order limit $from_record, $rows ";
-$result = sql_query($sql);
+if(!empty($sfl) || !empty($stx)){
+  $sql = " select * $sql_common $sql_search $sql_order limit $from_record, $rows ";
+  $result = sql_query($sql);
+}
 ?>
 
 <h1 class="newp_tit"><?php echo $tb['title']; ?></h1>
@@ -48,7 +50,7 @@ $result = sql_query($sql);
 	<form name="fsearch" id="fsearch" method="get">
 	<div class="guidebox tac">
 		<b>업체코드 : </b> <input type="text" name="sfl" value="<?php echo $sfl; ?>" class="frm_input marr10">
-		<b>공급사명 : </b> <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input">
+		<b>업체명 : </b> <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input">
 		<input type="submit" value="검색" class="btn_small">
 	</div>
 	</form>
@@ -69,7 +71,7 @@ $result = sql_query($sql);
 		<tr>
 			<th scope="col">번호</th>
 			<th scope="col">업체코드</th>
-			<th scope="col"><?php echo subject_sort_link('company_name',$q2); ?>공급사명</a></th>
+			<th scope="col"><?php echo subject_sort_link('company_name',$q2); ?>업체명</a></th>
 			<th scope="col"><?php echo subject_sort_link('company_owner',$q2); ?>대표자명</a></th>
 			<th scope="col">선택</th>
 		</tr>

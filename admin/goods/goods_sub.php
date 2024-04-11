@@ -70,7 +70,7 @@ $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택순위수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 <input type="submit" name="act_button" value="선택상품복사" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 <a href="./goods/goods_list_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 엑셀저장</a>
-<a href="./goods.php?code=form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 상품등록</a>
+<!-- <a href="./goods.php?code=form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 상품등록</a> -->
 EOF;
 ?>
 
@@ -176,10 +176,10 @@ EOF;
 		<th scope="row">상품가격</th>
 		<td>
 			<select name="q_price_field" id="q_price_field">
+				<?php echo option_selected('supply_price', $q_price_field, "매입가격"); ?>
 				<?php echo option_selected('goods_price', $q_price_field, "판매가격"); ?>
-				<?php echo option_selected('supply_price', $q_price_field, "공급가격"); ?>
-				<?php echo option_selected('normal_price', $q_price_field, "시중가격"); ?>
-				<?php echo option_selected('gpoint', $q_price_field, "포인트"); ?>
+				<?php echo option_selected('normal_price', $q_price_field, "회원혜택가격"); ?>
+				<?php //echo option_selected('gpoint', $q_price_field, "포인트"); ?>
 			</select>
 			<label for="fr_price" class="sound_only">상품가격 시작</label>
 			<input type="text" name="fr_price" value="<?php echo $fr_price; ?>" id="fr_price" class="frm_input" size="6"> 원 이상 ~
