@@ -16,9 +16,6 @@
       $arrKeyVal  = array_keys($myCart['io_value']);
       $arrKeyQty  = array_keys($myCart['ct_qty']);
 
-      // option _20240411_SY
-      $options = explode("", $myCart['io_value'][$arrKeyVal[$i]][0]);
-
       // HTML 뷰 생성
       $htmlView .= '<li id="sct_add_goods' . $myCart['gs_id'][$i] . '" class="sct_add_goods" data-goods-id="' . $myCart['gs_id'][$i] . '">';
       $htmlView .= '    <input type="hidden" name="gs_id[]" value="' . $myCart['gs_id'][$i] . '">';
@@ -31,13 +28,11 @@
       $htmlView .= '    <input type="hidden" name="io_stock[]" class="io_stock" value="' . $myCart['io_stock'][$i] . '">';
       $htmlView .= '    <div class="info">';
       $htmlView .= '       <p class="subject">' . $myCart['gs_name'][$arrKeyName[$i]][0] . '</p>';
-
-      if($myCart['gs_name'][$arrKeyName[$i]][0] !== $myCart['io_value'][$arrKeyVal[$i]][0]) {
+      if(!empty($myCart['io_id'][$arrKeyId[$i]][0] )){
         $htmlView .= '         <span class="option">';
-        $htmlView .= '           <span class="item">옵션 : '.$options[0] . ($options[1] != '' ? ", 상태 : {$options[1]}" : '') .'</span>';
+        $htmlView .= '           <span class="item">'.$myCart['io_value'][$arrKeyVal[$i]][0] .'</span>';
         $htmlView .= '         </span>';
       }
-
       $htmlView .= '    </div>';
       $htmlView .= '    <div class="lot">';
       $htmlView .= '        <div class="it_li_add">';
