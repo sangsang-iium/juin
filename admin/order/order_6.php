@@ -6,7 +6,7 @@ include_once(BV_ADMIN_PATH.'/order/order_query.php');
 
 $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall white" onclick="document.pressed=this.value">
-<a href="#" id="frmOrderPrint" class="btn_lsmall white"><i class="fa fa-print"></i> 주문서출력</a>
+<a href="#" id="frmOrderPrint" class="btn_lsmall white"><i class="fa fa-print"></i> 거래명세서 출력</a>
 <a href="#" id="frmOrderExcel" class="btn_lsmall white"><i class="fa fa-file-excel-o"></i> 선택 엑셀저장</a>
 <a href="./order/order_excel.php?$q1" class="btn_lsmall white"><i class="fa fa-file-excel-o"></i> 검색결과 엑셀저장</a>
 EOF;
