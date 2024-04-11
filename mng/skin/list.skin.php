@@ -351,13 +351,14 @@ function get_move_pc($ca_id)
         selectedItemBox.append(`
         <li id="sct_add_goods${goodsId}" class="sct_add_goods" data-goods-id="${goodsId}">
           <input type="hidden" name="gs_id[]" value="${itid}">
-          <input type="hidden" class="gs_price" value="${price}">
+          <input type="hidden" name="gs_price[]" class="gs_price" value="${price}">
 
+          <input type="hidden" name="gs_name[${itid}][]" value="${name}">
           <input type="hidden" name="io_type[${itid}][]" value="0">
           <input type="hidden" name="io_id[${itid}][]" value="">
           <input type="hidden" name="io_value[${itid}][]" value="${name}">
-          <input type="hidden" class="io_price" value="0">
-          <input type="hidden" class="io_stock" value="${stock}">
+          <input type="hidden" name="io_price[]" class="io_price" value="0">
+          <input type="hidden" name="io_stoce[]" class="io_stock" value="${stock}">
 
           <div class="info">
             <p class="subject">${name}</p>
@@ -382,13 +383,14 @@ function get_move_pc($ca_id)
         selectedItemBox.append(`
         <li id="sct_add_goods${goodsId}" class="sct_add_goods useOpt" data-goods-id="${goodsId}">
           <input type="hidden" class="io_id" name="gs_id[]" value="${itid}">
-          <input type="hidden" class="gs_price" value="${price2}">
+          <input type="hidden" class="gs_price" name="gs_price[]" value="${price2}">
 
+          <input type="hidden" name="gs_name[${itid}][]" value="${name}">
           <input type="hidden" name="io_type[${itid}][]" value="0">
           <input type="hidden" name="io_id[${itid}][]" value="${opt.io_id}">
           <input type="hidden" name="io_value[${itid}][]" value="${optval}" class="gs_optInfo">
-          <input type="hidden" class="io_price" value="${opt.io_price}">
-          <input type="hidden" class="io_stock" value="${opt.io_stock}">
+          <input type="hidden" name="io_price[]" class="io_price" value="${opt.io_price}">
+          <input type="hidden" name="io_stock[]" class="io_stock" value="${opt.io_stock}">
 
           <div class="info">
             <p class="subject">${name}</p>
@@ -445,13 +447,14 @@ function get_move_pc($ca_id)
           selectedItemBox.append(`
           <li id="sct_add_goods${goodsId}" class="sct_add_goods useOpt" data-goods-id="${goodsId}">
             <input type="hidden" class="io_id" name="gs_id[]" value="${itid}">
-            <input type="hidden" class="gs_price" value="${price2}">
+            <input type="hidden" class="gs_price" name="gs_price[]" value="${price2}">
 
+            <input type="hidden" name="gs_name[${itid}][]" value="${name}">
             <input type="hidden" name="io_type[${itid}][]" value="0">
             <input type="hidden" name="io_id[${itid}][]" value="${opt.io_id}">
             <input type="hidden" name="io_value[${itid}][]" value="${optval}" class="gs_optInfo">
-            <input type="hidden" class="io_price" value="${opt.io_price}">
-            <input type="hidden" class="io_stock" value="${opt.io_stock}">
+            <input type="hidden" name-"io_price[]" class="io_price" value="${opt.io_price}">
+            <input type="hidden" name="io_stock[]" class="io_stock" value="${opt.io_stock}">
 
             <div class="info">
               <p class="subject">${name}</p>
@@ -536,6 +539,9 @@ function get_move_pc($ca_id)
 
         $totalEl.text(addCommas(totalPrice));
       }
+
+      chValue();
+
     });
 
     // 수량 증가
@@ -597,6 +603,9 @@ function get_move_pc($ca_id)
 
         $totalEl.text(addCommas(totalPrice));
       }
+
+      chValue();
+
     });
 
     // 담긴 상품 삭제하기
@@ -626,6 +635,9 @@ function get_move_pc($ca_id)
 
         $totalEl.text(addCommas(totalPrice));
       }
+
+      chValue('remove',goodsId);
+
     });
 
     // 상품 선택하기
@@ -683,7 +695,6 @@ function get_move_pc($ca_id)
           option += sep + item + ":" + sel_opt;
 
           itemValue = option;
-          console.log(itemValue)
         });
 
         price = info[1];
@@ -709,6 +720,17 @@ function get_move_pc($ca_id)
         return false;
       }
 
+
+      // option 값도 같이 체크하는 작업 필요 _20240411_SY
+
+      let gsIdValues = $('input[name^="gs_id"]').map(function() {
+        return $(this).val(); // 각 요소의 값 반환
+      }).get();
+      if (gsIdValues . includes(itemId)) {
+        alert("같은 상품이 담겨 있습니다.");
+        return false;
+      }
+
       emptyEl.hide();
       addItem(itemId, itemName, itemQty, itemStock, itemPrice, itemValue, optId, itemOpt);
 
@@ -717,6 +739,9 @@ function get_move_pc($ca_id)
       let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
 
       $totalEl.text(addCommas(totalPrice));
+
+      chValue();
+
     });
 
     // 옵션 선택 이벤트
@@ -777,6 +802,8 @@ function get_move_pc($ca_id)
         $tgItem.find('.io_stock').val(stock);
       }
 
+      chValue();
+
     });
 
     let prevValue = "";
@@ -822,7 +849,33 @@ function get_move_pc($ca_id)
         prevValue = currentValue;
       }
 
+      chValue();
+
     });
+
+
+    const chValue = (r='',idx='') => {
+    let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
+    let emptyEl = $(".sct_cart_empty");
+    
+    let form = $("#sod_bsk_list").serialize();
+    if(r=='remove'){
+      // let hiddenField = `<input type="hidden" name="remove" value="${r}">`;
+      // form . append(hiddenField);
+      form += `&remove=${idx}`;
+    }
+      $.ajax({
+        type: 'POST', // 전송 방식 (POST)
+        url: '/mng/shop/orderinquiry.ajax.php', // 폼의 action 속성 값 (submit.php)
+        data: form, // 직렬화된 폼 데이터
+        success: function(res) {
+          // console.log(res)
+          // 세선 비울때 선택한 상품이 없습니다 작업 필요 _20240411_SY
+        },
+      });
+    }
+    chValue();
+
   });
   </script>
 </div>

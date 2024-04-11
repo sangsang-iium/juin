@@ -105,7 +105,7 @@ if(!sql_num_rows($result))
 						<input type="hidden" class="io_stock" value="<?php echo $it_stock_qty;?>">
 							<ul class="opt-list">
 								<li class="it_name">
-                  <span class="sit_opt_subj"><?php echo $row['ct_option'];?></span>
+                  <span class="sit_opt_subj"><?php //echo $row['ct_option'];?></span>
                   <button type="button" class="delete ui-btn">삭제</button>
                 </li>
 								<li class="it_qty">

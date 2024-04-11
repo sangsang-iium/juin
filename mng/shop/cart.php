@@ -16,6 +16,7 @@ $cart_count = sql_num_rows($result);
 
 $cart_action_url = './cartupdate.php';
 
+
 include_once('../skin/cart.skin.php');
 
 include_once("./_tail.php");

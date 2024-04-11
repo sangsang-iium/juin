@@ -1,8 +1,6 @@
 <?php
 include_once("./_common.php");
 
-echo json_encode($_POST);
-
 // 상품 1개 있을 때 SESSION 지우기 _20240411_SY
 if(isset($_POST['remove'], $_SESSION['myCart'][$member["id"]]['gs_id']) && count($_SESSION['myCart'][$member["id"]]['gs_id']) == 1) {
   unset($_SESSION['myCart'][$member["id"]]);
@@ -17,5 +15,5 @@ if(empty($_POST['gs_id'])){
   set_session('myCart', $myCartArr);
 }
 
-// echo json_encode($_SESSION['myCart']);
+echo json_encode($_SESSION['myCart']);
 ?>

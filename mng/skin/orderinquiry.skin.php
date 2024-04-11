@@ -97,7 +97,20 @@ if(!defined('_BLUEVATION_')) exit;
             $ct_sel = "SELECT * FROM shop_goods_option WHERE gs_id = '{$ct['gs_id']}' AND io_id = '{$ct['io_id']}' ";
             $ct_res = sql_fetch($ct_sel);
 
-
+            // option _20240411_SY
+            $items = explode(",", $gs_res['opt_subject']);
+            $info = explode("", $ct['io_id']);
+            $options = "";
+            $count = count($items);
+            if($count > 1) {
+              for ($j = 0; $j < $count; $j++) {
+                  $options .= $items[$j] . " : " . $info[$j];
+                  if ($j < $count - 1) {
+                      $options .= ", ";
+                  }
+              }
+            }
+            
 
             $it_name = cut_str($row['gname'], 100);
 
@@ -112,7 +125,7 @@ if(!defined('_BLUEVATION_')) exit;
               <input type="hidden" class="mpr" value="<?php echo $gs_res['goods_price']; ?>">
               <input type="hidden" class="io_id" value="<?php echo $ct['io_id']; ?>">
               <input type="hidden" class="io_price" value="<?php echo $ct_res['io_price']; ?>">
-              <input type="hidden" class="it_option" value="<?php echo $ct['io_id']; ?>">
+              <input type="hidden" class="it_option" value="<?php echo $options; ?>">
 
 
               <!-- <button type="button" class="qty-btn minus"></button> -->
@@ -713,7 +726,7 @@ $(document).ready(function(){
         url: '/mng/shop/orderinquiry.ajax.php', // 폼의 action 속성 값 (submit.php)
         data: form, // 직렬화된 폼 데이터
         success: function(res) {
-          console.log(res)
+          // console.log(res)
           // 세선 비울때 선택한 상품이 없습니다 작업 필요 _20240411_SY
         },
       });

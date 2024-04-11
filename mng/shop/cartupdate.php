@@ -1,6 +1,8 @@
 <?php
 include_once("./_common.php");
 
+unset($_SESSION['myCart']);
+
 if($act == "buy")
 {
     if(!count($_POST['ct_chk']))
