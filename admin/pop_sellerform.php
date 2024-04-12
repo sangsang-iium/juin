@@ -112,6 +112,13 @@ $sr = get_seller($mb_id);
 			<th scope="row">예금주명</th>
 			<td><input type="text" name="bank_holder" value="<?php echo $sr['bank_holder']; ?>" class="frm_input" size="30"></td>
 		</tr>
+    <tr class="pt_pay_fld">
+      <th scope="row" class="th_bg fc_00f">정산일</th>
+      <td>
+        <input type="text" name="ju_settle" value="<?php echo $sr['settle']?>" class="frm_input" size="30" placeholder="정산일">
+        <?php echo help('매달 입력하신 날짜에 수수료 정산하실 수 있습니다. 숫자만 입력해주세요. ex) 15(◯), 15일(X) 월요일(X)'); ?>
+      </td>
+    </tr>
 		</tbody>
 		</table>
 	</div>

@@ -169,6 +169,24 @@ function get_move_pc($ca_id)
     <span><?php echo $ca['catename']; ?></span>
     <p class="pg_nav">HOME<?php echo get_move_pc($ca_id); ?></p>
   </h2>
+  <div id="" class="sub_tree">
+    <fieldset class="sch_frm">
+      <form name="fsearch" id="fsearch" method="post" action="<?php echo BV_SHOP_URL; ?>/search.php" onsubmit="return fsearch_submit(this);" autocomplete="off">
+        <input type="hidden" name="hash_token" value="<?php echo BV_HASH_TOKEN; ?>">
+        <input type="text" name="ss_tx" class="" maxlength="20" placeholder="검색어를 입력해주세요">
+        <button type="submit" class="sch_submit fa fa-search" value="검색"></button>
+        </form>
+        <script>
+          function fsearch_submit(f){
+            if(!f.ss_tx.value){
+              alert('검색어를 입력하세요.');
+              return false;
+            }
+            return true;
+          }
+        </script>
+    </fieldset>
+  </div>
 
   <?php
   $cgy = get_category_head_image($ca_id);

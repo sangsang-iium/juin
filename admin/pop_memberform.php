@@ -9,6 +9,7 @@ include_once(BV_ADMIN_PATH."/admin_head.php");
 
 $mb = get_member($mb_id);
 $pt = get_partner($mb_id);
+$sl = get_seller($mb_id);
 
 // 본인확인방법
 switch($mb['mb_certify']) {
@@ -37,6 +38,16 @@ $mb_certify_no	= !$mb['mb_certify'] ? 'checked="checked"' : '';
 // 성인인증
 $mb_adult_yes	=  $mb['mb_adult']	 ? 'checked="checked"' : '';
 $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
+
+function get_allDistrict($region, $val) {
+  $dist_sel = "SELECT {$region} FROM shop_member GROUP BY {$region} HAVING $region <> ''";
+  $dist_res = sql_query($dist_sel);
+
+  while($dist_row = sql_fetch_array($dist_res)) { 
+    $selected=($val==$dist_row[$region])? "selected":"";
+    echo "<option value='". $dist_row[$region] ."'".$selected.">".$dist_row[$region]."</option>";
+  }
+}
 ?>
 
 <form name="fmemberform" id="fmemberform" action="./pop_memberformupdate.php" method="post">
@@ -201,13 +212,13 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
 			</td>
 		</tr>
     <!-- 정산일 추가 _20240402_SY -->
-    <tr class="pt_pay_fld">
+    <!-- <tr class="pt_pay_fld">
       <th scope="row" class="th_bg fc_00f">정산일</th>
       <td colspan="3">
-        <input type="text" name="ju_settle" value="<?php echo $mb['ju_settle']?>" class="frm_input" placeholder="정산일">
-        <?php echo help('매달 입력하신 날짜에 수수료 정산하실 수 있습니다. 숫자만 입력해주세요. ex) 15(◯), 15일(X) 월요일(X)'); ?>
+        <input type="text" name="ju_settle" value="<?php //echo $sl['settle']?>" class="frm_input" placeholder="정산일">
+        <?php //echo help('매달 입력하신 날짜에 수수료 정산하실 수 있습니다. 숫자만 입력해주세요. ex) 15(◯), 15일(X) 월요일(X)'); ?>
       </td>
-    </tr>
+    </tr> -->
 		<tr class="pt_pay_fld">
 			<th scope="row" class="th_bg fc_00f">본사지정 권한</th>
 			<td colspan="3">
@@ -218,6 +229,41 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
 		</tbody>
 		</table>
 	</div>
+
+  <h3 class="anc_tit mart30">매장정보</h3>
+  <div class="tbl_frm01">
+    <table class="tablef">
+    <colgroup>
+      <col class="w130">
+      <col>
+      <col class="w130">
+      <col>
+    </colgroup>
+    <tbody>
+    
+    <tr>
+      <th scope="row">지회/지부</th>
+        <td>
+          <select name="<?php echo (!empty($mb['ju_region2'])) ? "ju_region2" : "ju_region3" ?>" id="">
+            <?php echo (!empty($mb['ju_region2'])) ? get_allDistrict('ju_region2', $mb['ju_region2']) : get_allDistrict('ju_region3', $mb['ju_region3'])?>
+          </select>
+        </td>
+      <th scope="row">사업자번호</th>
+      <td><?php echo $mb['ju_b_num']; ?></td>
+    </tr>
+    <tr>
+      <th scope="row">업태</th>
+        <td>
+          <input type="text" name="ju_business_type" value="<?php echo number_format($mb['ju_business_type']); ?>" class="frm_input">
+        </td>
+      <th scope="row">업종</th>
+        <td>
+          <input type="text" name="ju_sectors" value="<?php echo $mb['ju_sectors']; ?>" class="frm_input">
+        </td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
 
 	<h3 class="anc_tit mart30">기타정보</h3>
 	<div class="tbl_frm01">
