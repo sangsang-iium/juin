@@ -9,6 +9,7 @@ check_admin_token();
 $mb_id = trim($_POST['mb_id']);
 
 $mb = get_member($mb_id);
+
 if(!$mb['id']) {
 	alert('존재하지 않는 회원자료입니다.');
 }
@@ -88,8 +89,12 @@ $mfrm['auth_8']			= $_POST['auth_8'];
 $mfrm['auth_9']			= $_POST['auth_9'];
 $mfrm['auth_10']		= $_POST['auth_10'];
 
-// 정산일 _20240402_SY
-$mfrm['ju_settle']  = $_POST['ju_settle'];
+// 매장정보 _20240412_SY
+// $mfrm['ju_region2']		    = (isset($_POST['ju_region2']) && !empty($_POST['ju_region2'])) ? $_POST['ju_region2'] : "";
+// $mfrm['ju_region3']		    = (isset($_POST['ju_region3']) && !empty($_POST['ju_region3'])) ? $_POST['ju_region3'] : "";
+// $mfrm['ju_business_type']	= $_POST['ju_business_type'];
+// $mfrm['ju_sectors']		    = $_POST['ju_sectors'];
+
 
 if($_POST['passwd']) {
 	$mfrm['passwd'] = $_POST['passwd']; // 패스워드
