@@ -318,19 +318,19 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
           <div class="od-ct info-list">
             <div class="info-item">
               <p class="tit">회원명</p>
-              <p class="cont"><?php echo $member['ju_restaurant']?></p>
+              <p class="cont"><?php echo $member['ju_restaurant'] ?></p>
             </div>
             <div class="info-item">
               <p class="tit">대표자명</p>
-              <p class="cont"><?php echo $member['name']?></p>
+              <p class="cont"><?php echo $member['name'] ?></p>
             </div>
             <div class="info-item">
               <p class="tit">사업자번호</p>
-              <p class="cont"><?php echo $member['ju_b_num']?></p>
+              <p class="cont"><?php echo $member['ju_b_num'] ?></p>
             </div>
             <div class="info-item">
               <p class="tit">연락처</p>
-              <p class="cont"><?php echo $member['cellphone']?></p>
+              <p class="cont"><?php echo $member['cellphone'] ?></p>
             </div>
           </div>
         </div>
@@ -346,8 +346,18 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </button>
           </div>
 
-          <!-- 배송지 등록이 아닌 입력해야할 경우
+          <!-- 배송지 등록이 아닌 입력해야할 경우 -->
+          <?php if(!$is_member) { ?>
           <div class="form-wrap">
+            <div class="form-row">
+              <div class="form-head">
+                <p class="title">비밀번호<b>*</b></p>
+              </div>  
+              <div class="form-body">
+                <input type="password" name="od_pwd" class="w-per100 frm-input " maxlength="20">
+                <span class="frm_info">영,숫자 3~20자 (주문서 조회시 필요)</span>
+              </div>
+            </div>
             <div class="form-row">
               <div class="form-head">
                 <p class="title">받는 사람<b>*</b></p>
@@ -382,24 +392,16 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               </div>
             </div>
           </div>
-          -->
+          <?php } ?>
+         
 
+          
           <!-- 주문자 및 수령자 기본형식 { -->
           <section id="sod_frm_orderer" style="display:none;">
             <h2 class="anc_tit">주문하시는 분</h2>
             <div class="odf_tbl">
               <table>
                 <tbody>
-                  <?php if (!$is_member) { // 비회원이면 
-                  ?>
-                    <tr>
-                      <th scope="row">비밀번호</th>
-                      <td>
-                        <input type="password" name="od_pwd" class="frm_input " maxlength="20">
-                        <span class="frm_info">영,숫자 3~20자 (주문서 조회시 필요)</span>
-                      </td>
-                    </tr>
-                  <?php } ?>
                   <tr>
                     <th scope="row">이름</th>
                     <td><input type="text" name="name" value="<?php echo $member['name']; ?>" class="frm_input " maxlength="20"></td>
@@ -431,6 +433,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </div>
           </section>
 
+          <?php if($is_member) { ?>
           <section id="sod_frm_taker" style="display:none">
             <h2 class="anc_tit">받으시는 분</h2>
             <div class="odf_tbl">
@@ -500,8 +503,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </div>
           </section>
           <!-- } 주문자 및 수령자 기본형식 -->
+          <?php } ?>
 
           <div class="od-ct">
+            <?php if($is_member) { ?>
             <div class="od-dtn-info">
               <?php
               $mb_id = $member['id'];
@@ -531,6 +536,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             <div class="od-dtn-btns">
               <button type="button" class="ui-btn st3 od-dtn__change">변경</button>
             </div>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -1308,7 +1314,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     }
   }
 
-  gumae2baesong(true);
+  <?php if($is_member) { ?>
+    gumae2baesong(true);
+  <?php } ?>
 </script>
 <!-- } 주문서작성 끝 -->
 <style>

@@ -1,8 +1,8 @@
 <?php
 
-
 include_once("./_common.php");
 include_once(BV_LIB_PATH.'/mailer.lib.php');
+
 
 $resulturl = $_POST['resulturl'];
 
@@ -153,44 +153,46 @@ for($i=0; $i<count($gs_id); $i++) {
 				 , b_addr3				= '{$_POST['b_addr3']}'
 
 				 , b_addr_jibeon		= '{$_POST['b_addr_jibeon']}'
-				 , gs_id				= '{$gs_id[$i]}'
-				 , gs_notax				= '{$gs_notax[$i]}'
-				 , seller_id			= '{$seller_id[$i]}'
+				 , gs_id				    = '{$gs_id[$i]}'
+				 , gs_notax				  = '{$gs_notax[$i]}'
+				 , seller_id			  = '{$seller_id[$i]}'
 				 , goods_price			= '{$gs_price[$i]}'
 				 , supply_price			= '{$supply_price[$i]}'
-				 , sum_point			= '{$sum_point[$i]}'
-				 , sum_qty				= '{$sum_qty[$i]}'
+				 , sum_point			  = '{$sum_point[$i]}'
+				 , sum_qty				  = '{$sum_qty[$i]}'
 				 , coupon_price			= '{$coupon_price[$i]}'
 				 , coupon_lo_id			= '{$coupon_lo_id[$i]}'
 				 , coupon_cp_id			= '{$coupon_cp_id[$i]}'
-				 , use_price			= '{$i_use_price[$i]}'
-				 , use_point			= '{$i_use_point[$i]}'
+				 , use_price			  = '{$i_use_price[$i]}'
+				 , use_point			  = '{$i_use_point[$i]}'
 				 , baesong_price		= '{$baesong_price[$i]}'
 				 , baesong_price2		= '{$baesong_price2}'
-				 , paymethod			= '{$_POST['paymethod']}'
-				 , bank					= '{$_POST['bank']}'
+				 , paymethod			  = '{$_POST['paymethod']}'
+				 , bank					    = '{$_POST['bank']}'
 				 , deposit_name			= '{$_POST['deposit_name']}'
-				 , dan					= '{$dan}'
-				 , memo					= '{$_POST['memo']}'
+				 , dan					    = '{$dan}'
+				 , memo					    = '{$_POST['memo']}'
 				 , taxsave_yes			= '{$_POST['taxsave_yes']}'
 				 , taxbill_yes			= '{$_POST['taxbill_yes']}'
-				 , company_saupja_no	= '{$_POST['company_saupja_no']}'
+				 , company_saupja_no= '{$_POST['company_saupja_no']}'
 				 , company_name			= '{$_POST['company_name']}'
 				 , company_owner		= '{$_POST['company_owner']}'
 				 , company_addr			= '{$_POST['company_addr']}'
 				 , company_item			= '{$_POST['company_item']}'
-				 , company_service		= '{$_POST['company_service']}'
-				 , tax_hp				= '{$_POST['tax_hp']}'
+				 , company_service	= '{$_POST['company_service']}'
+				 , company_tel		  = '{$_POST['company_tel']}'
+				 , company_email		= '{$_POST['company_email']}'
+				 , tax_hp			    	= '{$_POST['tax_hp']}'
 				 , tax_saupja_no		= '{$_POST['tax_saupja_no']}'
-				 , od_time				= '".BV_TIME_YMDHIS."'
-				 , od_pwd				= '{$od_pwd}'
-				 , od_ip				= '{$_SERVER['REMOTE_ADDR']}'
-				 , od_test				= '{$default['de_card_test']}'
+				 , od_time				  = '".BV_TIME_YMDHIS."'
+				 , od_pwd				    = '{$od_pwd}'
+				 , od_ip				    = '{$_SERVER['REMOTE_ADDR']}'
+				 , od_test				  = '{$default['de_card_test']}'
 				 , od_tax_flag			= '{$default['de_tax_flag_use']}'
 				 , od_settle_pid		= '{$pt_settle_pid}'
-				 , pt_id				= '{$_POST['pt_id']}'
-				 , shop_id				= '{$_POST['shop_id']}'
-				 , od_mobile			= '1' ";
+				 , pt_id				    = '{$_POST['pt_id']}'
+				 , shop_id				  = '{$_POST['shop_id']}'
+				 , od_mobile			  = '1' ";
 	sql_query($sql, FALSE);
 	$insert_id = sql_insert_id();
 
