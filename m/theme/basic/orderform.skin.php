@@ -310,31 +310,30 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       <div class="bottomBlank">
         <div class="container">
           <div class="arcodianBtn od-top active">
-            <button class="ui-btn od-toggle-btn">
+            <button type="button" class="ui-btn od-toggle-btn">
               <span class="od-tit">주문자정보</span>
             </button>
           </div>
-        </div>
 
-        <div class="info-list">
-          <div class="info-item">
-            <p class="tit">회원명</p>
-            <p class="cont"><?php echo $member['ju_restaurant']?></p>
-          </div>
-          <div class="info-item">
-            <p class="tit">대표자명</p>
-            <p class="cont"><?php echo $member['name']?></p>
-          </div>
-          <div class="info-item">
-            <p class="tit">사업자번호</p>
-            <p class="cont"><?php echo $member['ju_b_num']?></p>
-          </div>
-          <div class="info-item">
-            <p class="tit">연락처</p>
-            <p class="cont"><?php echo $member['cellphone']?></p>
+          <div class="od-ct info-list">
+            <div class="info-item">
+              <p class="tit">회원명</p>
+              <p class="cont"><?php echo $member['ju_restaurant']?></p>
+            </div>
+            <div class="info-item">
+              <p class="tit">대표자명</p>
+              <p class="cont"><?php echo $member['name']?></p>
+            </div>
+            <div class="info-item">
+              <p class="tit">사업자번호</p>
+              <p class="cont"><?php echo $member['ju_b_num']?></p>
+            </div>
+            <div class="info-item">
+              <p class="tit">연락처</p>
+              <p class="cont"><?php echo $member['cellphone']?></p>
+            </div>
           </div>
         </div>
-
       </div>
 
 
@@ -346,6 +345,44 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               <span class="od-tit">배송지</span>
             </button>
           </div>
+
+          <!-- 배송지 등록이 아닌 입력해야할 경우
+          <div class="form-wrap">
+            <div class="form-row">
+              <div class="form-head">
+                <p class="title">받는 사람<b>*</b></p>
+              </div>
+              <div class="form-body">
+                <input type="text" name="b_name" id="b_name_save" value="" class="w-per100 frm-input">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-head">
+                <p class="title">휴대폰 번호<b>*</b></p>
+              </div>
+              <div class="form-body phone">
+                <input type="text" name="b_cellphone" id="b_cellphone1_save" class="frm-input" value="" ;="">
+                <span class="hyphen">-</span>
+                <input type="text" name="b_cellphone" id="b_cellphone2_save" class="frm-input" value="" ;="">
+                <span class="hyphen">-</span>
+                <input type="text" name="b_cellphone" id="b_cellphone3_save" class="frm-input" value="" ;="">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-head">
+                <p class="title">주소<b>*</b>
+                </p>
+              </div>
+              <div class="form-body address">
+                <input type="text" name="b_zip" id="b_zip_save" value="" class="frm-input address-input_1">
+                <button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
+                <input type="text" name="b_addr1" id="b_addr1_save" value="" class="frm-input address-input_2">
+                <input type="text" name="b_addr2" id="b_addr2_save" class="frm-input address-input_3" value="" placeholder="나머지 주소를 입력하세요.">
+                <input type="hidden" name="b_addr_jibeon" id="b_addr_jibeon_save" class="frm-input address-input_3" placeholder="나머지 주소를 입력하세요.">
+              </div>
+            </div>
+          </div>
+          -->
 
           <!-- 주문자 및 수령자 기본형식 { -->
           <section id="sod_frm_orderer" style="display:none;">
@@ -724,10 +761,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                           <option value="S">사업자 지출증빙용</option>
                         </select>
                         <div id="taxsave_fld_1" style="display:none;">
-                          <input type="text" name="tax_hp" class="frm_input frm_address" placeholder="핸드폰번호">
+                          <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호">
                         </div>
                         <div id="taxsave_fld_2" style="display:none;">
-                          <input type="text" name="tax_saupja_no" class="frm_input frm_address" placeholder="사업자등록번호">
+                          <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호">
                         </div>
                       </td>
                     </tr>
@@ -739,12 +776,14 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                           <option value="Y">발행요청</option>
                         </select>
                         <div id="taxbill_section" style="display:none;">
-                          <input type="text" name="company_saupja_no" class="frm_input frm_address" placeholder="사업자등록번호"><br>
-                          <input type="text" name="company_name" class="frm_input frm_address" placeholder="상호(법인명)"><br>
-                          <input type="text" name="company_owner" class="frm_input frm_address" placeholder="대표자명"><br>
-                          <input type="text" name="company_addr" class="frm_input frm_address" placeholder="사업장주소"><br>
-                          <input type="text" name="company_item" class="frm_input frm_address" placeholder="업태"><br>
-                          <input type="text" name="company_service" class="frm_input frm_address" placeholder="종목">
+                          <input type="text" name="company_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호"><br>
+                          <input type="text" name="company_name" class="w-per100 frm-input" placeholder="상호(법인명)"><br>
+                          <input type="text" name="company_owner" class="w-per100 frm-input" placeholder="대표자명"><br>
+                          <input type="text" name="company_addr" class="w-per100 frm-input" placeholder="사업장주소"><br>
+                          <input type="text" name="company_item" class="w-per100 frm-input" placeholder="업태"><br>
+                          <input type="text" name="company_service" class="w-per100 frm-input" placeholder="업종">
+                          <input type="text" name="" class="w-per100 frm-input" placeholder="신청자 전화번호">
+                          <input type="text" name="" class="w-per100 frm-input" placeholder="이메일">
                         </div>
                       </td>
                     </tr>
