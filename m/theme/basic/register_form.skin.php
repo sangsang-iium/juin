@@ -172,7 +172,7 @@ if(!defined('_BLUEVATION_')) exit;
 			<!-- } 기본정보 -->
 
 			<!-- 중앙회원정보 / 개인 회원가입일 경우 노출 { -->
-			<div class="joinDetail-box">
+			<!-- <div class="joinDetail-box"> -->
 				<!-- <div class="joinDetail-head">
 					<p class="joinDetail-title">중앙회원정보</p>
 					<button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">중앙회원 조회하기</button> -->
@@ -254,7 +254,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" <?php //echo ($w == 'u') ? 'readonly' : '' ?> value="" placeholder="***-**-*****" maxlength="12">
+							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_b_num'] : "" ?>" placeholder="***-**-*****" maxlength="12" <?php echo ($w != '') ? "readonly" : "" ?> >
 							<div class="joinDetail-btn-box joinDetail-btn-box3">
 								<button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
 								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
@@ -262,6 +262,35 @@ if(!defined('_BLUEVATION_')) exit;
 							</div>
 						</div>
 					</div>
+
+          <?php if($w != '' ) { ?>
+            <div class="joinDetail-body">
+              <div class="form-row">
+                <div class="form-head">
+                  <p class="title">지회/지부</p>
+                </div>
+                <div class="form-body">
+                  <input type="text" name="<?php echo (!empty($member['ju_region2'])) ? "ju_region2" : "ju_region3" ?>" value=" <?php echo (!empty($member['ju_region2'])) ? $member['ju_region2'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-head">
+                  <p class="title">업태</p>
+                </div>
+                <div class="form-body">
+                  <input type="text" name="ju_business_type" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_business_type'] : ""?>" >
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-head">
+                  <p class="title">업종</p>
+                </div>
+                <div class="form-body">
+                  <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
+                </div>
+              </div>
+            </div>
+          <?php } ?>
 					<!-- } 사업자 회원가입일 경우 노출 -->
 					<!-- 개인 회원가입일 경우 { -->
 					<!-- <div class="form-row">
@@ -868,10 +897,12 @@ function fregisterform_submit(f)
   }
 
   // 중앙회원조회 _20240328_SY
-  if(chkKFIA == false) {
-    alert('중앙회원이 아닐 경우 사업자회원으로 가입하실 수 없습니다.')
-    f.b_no.focus();
-    return false;
+  if(f.w.value == "") {
+    if(chkKFIA == false) {
+      alert('중앙회원이 아닐 경우 사업자회원으로 가입하실 수 없습니다.')
+      f.b_no.focus();
+      return false;
+    }
   }
   
   // 사업자번호 중복체크 _20240318_SY

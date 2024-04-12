@@ -39,15 +39,15 @@ $mb_certify_no	= !$mb['mb_certify'] ? 'checked="checked"' : '';
 $mb_adult_yes	=  $mb['mb_adult']	 ? 'checked="checked"' : '';
 $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
 
-function get_allDistrict($region, $val) {
-  $dist_sel = "SELECT {$region} FROM shop_member GROUP BY {$region} HAVING $region <> ''";
-  $dist_res = sql_query($dist_sel);
+// function get_allDistrict($region, $val) {
+//   $dist_sel = "SELECT {$region} FROM shop_member GROUP BY {$region} HAVING $region <> ''";
+//   $dist_res = sql_query($dist_sel);
 
-  while($dist_row = sql_fetch_array($dist_res)) { 
-    $selected=($val==$dist_row[$region])? "selected":"";
-    echo "<option value='". $dist_row[$region] ."'".$selected.">".$dist_row[$region]."</option>";
-  }
-}
+//   while($dist_row = sql_fetch_array($dist_res)) { 
+//     $selected=($val==$dist_row[$region])? "selected":"";
+//     echo "<option value='". $dist_row[$region] ."'".$selected.">".$dist_row[$region]."</option>";
+//   }
+// }
 ?>
 
 <form name="fmemberform" id="fmemberform" action="./pop_memberformupdate.php" method="post">
@@ -244,9 +244,7 @@ function get_allDistrict($region, $val) {
     <tr>
       <th scope="row">지회/지부</th>
         <td>
-          <select name="<?php echo (!empty($mb['ju_region2'])) ? "ju_region2" : "ju_region3" ?>" id="">
-            <?php echo (!empty($mb['ju_region2'])) ? get_allDistrict('ju_region2', $mb['ju_region2']) : get_allDistrict('ju_region3', $mb['ju_region3'])?>
-          </select>
+          <input type="text" name="<?php echo (!empty($mb['ju_region2'])) ? "ju_region2" : "ju_region3" ?>" value=" <?php echo (!empty($mb['ju_region2'])) ? $mb['ju_region2'] : $mb['ju_region3'] ?>" class="frm_input">
         </td>
       <th scope="row">사업자번호</th>
       <td><?php echo $mb['ju_b_num']; ?></td>
