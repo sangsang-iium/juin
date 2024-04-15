@@ -73,10 +73,19 @@ $ss_cart_id		= explode(",",$_POST['ss_cart_id']); // 장바구니 idx
 $use_point = (int)$_POST['use_point']; // 포인트결제
 $baesong_price2 = (int)$_POST['baesong_price2']; // 추가배송비
 
+
 if($is_member)
     $od_pwd = $member['passwd'];
 else
     $od_pwd = get_encrypt_string($_POST['od_pwd']);
+
+
+// 비회원 전화번호 _20240415_SY
+if(is_array($_POST['b_cellphone'])) {
+  $b_cellp = implode("-",$_POST['b_cellphone']);
+} else {
+  $b_cellp = $_POST['b_cellphone'];
+}
 
 for($i=0; $i<count($gs_id); $i++) {
 
@@ -144,7 +153,7 @@ for($i=0; $i<count($gs_id); $i++) {
 
 				 , addr_jibeon			= '{$_POST['addr_jibeon']}'
 				 , b_name				= '{$_POST['b_name']}'
-				 , b_cellphone			= '{$_POST['b_cellphone']}'
+				 , b_cellphone			= '{$b_cellp}'
 				 , b_telephone			= '{$_POST['b_telephone']}'
 
 				 , b_zip				= '{$_POST['b_zip']}'
