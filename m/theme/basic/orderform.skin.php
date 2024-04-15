@@ -782,14 +782,77 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                           <option value="Y">발행요청</option>
                         </select>
                         <div id="taxbill_section" style="display:none;">
-                          <input type="text" name="company_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호"><br>
-                          <input type="text" name="company_name" class="w-per100 frm-input" placeholder="상호(법인명)"><br>
-                          <input type="text" name="company_owner" class="w-per100 frm-input" placeholder="대표자명"><br>
-                          <input type="text" name="company_addr" class="w-per100 frm-input" placeholder="사업장주소"><br>
-                          <input type="text" name="company_item" class="w-per100 frm-input" placeholder="업태"><br>
-                          <input type="text" name="company_service" class="w-per100 frm-input" placeholder="업종">
-                          <input type="text" name="" class="w-per100 frm-input" placeholder="신청자 전화번호">
-                          <input type="text" name="" class="w-per100 frm-input" placeholder="이메일">
+                          <div class="form-wrap">
+                            <div class="form-row">
+                              <div class="form-head">
+                                <p class="title">사업자등록번호</p>
+                              </div>
+                              <div class="form-body">
+                                <input type="text" name="company_saupja_no" class="w-per100 frm-input">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-head">
+                                <p class="title">상호(법인명)</p>
+                              </div>
+                              <div class="form-body">
+                                <input type="text" name="company_name" class="w-per100 frm-input">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-head">
+                                <p class="title">대표자명</p>
+                              </div>
+                              <div class="form-body">
+                                <input type="text" name="company_owner" class="w-per100 frm-input">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-head">
+                                <p class="title">사업장 주소</p>
+                              </div>
+                              <div class="form-body address">
+                                <!-- <input type="text" name="company_addr" class="w-per100 frm-input" placeholder="사업장주소"> -->
+                                <input type="text" name="bill_zip" id="bill_zip" value="" class="frm-input address-input_1" readonly="readonly" placeholder="우편번호">
+                                <button type="button" class="ui-btn st3" onclick="billPostcode()">주소검색</button>
+                                <input type="text" name="bill_addr1" id="bill_addr1" value="" class="frm-input address-input_2" readonly="readonly" placeholder="사업장 주소를 검색하세요.">
+                                <input type="text" name="bill_addr2" id="bill_addr2" class="frm-input address-input_3" value="" placeholder="나머지 주소를 입력하세요.">
+                                <input type="hidden" name="bill_jibeon" id="bill_jibeon" class="frm-input address-input_3" placeholder="나머지 주소를 입력하세요.">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-head">
+                                <p class="title">업태</p>
+                              </div>
+                              <div class="form-body">
+                                <input type="text" name="company_item" class="w-per100 frm-input">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-head">
+                                <p class="title">업종</p>
+                              </div>
+                              <div class="form-body">
+                                <input type="text" name="company_service" class="w-per100 frm-input">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-head">
+                                <p class="title">신청자 전화번호</p>
+                              </div>
+                              <div class="form-body">
+                                <input type="text" name="" class="w-per100 frm-input">
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="form-head">
+                                <p class="title">이메일</p>
+                              </div>
+                              <div class="form-body">
+                                <input type="text" name="" class="w-per100 frm-input">
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </td>
                     </tr>
@@ -797,6 +860,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                 </table>
               </div>
             </section>
+
+            <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
+            </div>
 
             <div class="od-userInfo">
               결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다.
@@ -1335,3 +1402,59 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     background-color: var(--color-gray);
   }
 </style>
+
+<script>
+    // 우편번호 찾기 화면을 넣을 element
+    var eleLayer = document.getElementById('layer');
+
+    function closeDaumPostcode() {
+        // iframe을 넣은 element를 안보이게 한다.
+        eleLayer.style.display = 'none';
+    }
+
+    function billPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) { 
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+ 
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }    
+                document.getElementById('bill_zip').value = data.zonecode;
+                document.getElementById("bill_addr1").value = addr;
+
+                closeDaumPostcode();
+                $("#bill_addr2").focus();
+            },
+            width : '100%',
+            height : '100%',
+            maxSuggestItems : 5
+        }).embed(eleLayer);
+
+        // iframe을 넣은 element를 보이게 한다.
+        eleLayer.style.display = 'block';
+
+        // iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
+        initLayerPosition2();
+    }
+
+    // 브라우저의 크기 변경에 따라 레이어를 가운데로 이동시키고자 하실때에는
+    // resize이벤트나, orientationchange이벤트를 이용하여 값이 변경될때마다 아래 함수를 실행 시켜 주시거나,
+    // 직접 eleLayer의 top,left값을 수정해 주시면 됩니다.
+    function initLayerPosition2(){
+        var width = 300; //우편번호서비스가 들어갈 element의 width
+        var height = 400; //우편번호서비스가 들어갈 element의 height
+        var borderWidth = 5; //샘플에서 사용하는 border의 두께
+
+        // 위에서 선언한 값들을 실제 element에 넣는다.
+        eleLayer.style.width = width + 'px';
+        eleLayer.style.height = height + 'px';
+        eleLayer.style.border = borderWidth + 'px solid';
+        // 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
+        eleLayer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';
+        eleLayer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
+    }
+</script>
