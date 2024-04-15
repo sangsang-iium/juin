@@ -88,7 +88,7 @@ if(!empty($sfl) || !empty($stx)){
 			<td><?php echo $row['seller_code']; ?></td>
 			<td class="tal"><?php echo $row['company_name']; ?></td>
 			<td><?php echo $row['company_owner']; ?></td>
-			<td><button type="button" onClick="yes('<?php echo $row['seller_code']; ?>')" class="btn_small grey">선택</button></td>
+			<td><button type="button" onClick="yes('<?php echo $row['seller_code']; ?>', '<?php  echo $row['company_name'] ?>')" class="btn_small grey">선택</button></td>
 		</tr>
 		<?php
 		}
@@ -105,8 +105,13 @@ if(!empty($sfl) || !empty($stx)){
 </div>
 
 <script>
-function yes(mb_id){
+  // name 추가_20240415_SY
+function yes(mb_id, name=''){
 	opener.document.fregform.mb_id.value = mb_id;
+
+  if(opener.document.fregform.name) {
+    opener.document.fregform.name.value = name;
+  }
 	self.close();
 }
 </script>
