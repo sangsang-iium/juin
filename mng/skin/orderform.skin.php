@@ -1115,6 +1115,7 @@ $(function () {
         const card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록 후 구매하시겠습니까?");
         if (card_confirm) {
             window.location.href = "/m/shop/card.php";
+            return false;
         }
     }
 

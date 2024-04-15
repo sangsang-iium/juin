@@ -181,7 +181,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 			?>
 			<tr>
 				<th scope="row"><?php echo $app_no_subj; ?></th>
-				<td><?php echo $app_no; ?></td>
+				<td><?php echo $od_id; ?></td>
 			</tr>
 			<?php
 			}
@@ -227,18 +227,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 
 					if($od['paymethod'] == '신용카드')
 					{
-						if($od['od_pg'] == 'lg') {
-							require_once BV_SHOP_PATH.'/settle_lg.inc.php';
-							$LGD_TID      = $od['od_tno'];
-							$LGD_MERTKEY  = $default['de_lg_mid'];
-							$LGD_HASHDATA = md5($LGD_MID.$LGD_TID.$LGD_MERTKEY);
-
-							$card_receipt_script = 'showReceiptByTID(\''.$LGD_MID.'\', \''.$LGD_TID.'\', \''.$LGD_HASHDATA.'\');';
-						} else if($od['od_pg'] == 'inicis') {
-							$card_receipt_script = 'window.open(\'https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid='.$od['od_tno'].'&noMethod=1\',\'receipt\',\'width=430,height=700\');';
-						} else if($od['od_pg'] == 'kcp') {
-							$card_receipt_script = 'window.open(\''.BV_BILL_RECEIPT_URL.'card_bill&tno='.$od['od_tno'].'&order_no='.$od['od_id'].'&trade_mony='.$stotal['useprice'].'\', \'winreceipt\', \'width=470,height=815,scrollbars=yes,resizable=yes\');';
-						}
+							$card_receipt_script = 'window.open(\''.$toss['receiptUrl'].'\',\'receipt\',\'width=430,height=700\');';
 					?>
 					<a href="javascript:;" onclick="<?php echo $card_receipt_script; ?>" class="btn_small">영수증 출력</a>
 					<?php
@@ -386,7 +375,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 		<button type="button" onclick="document.getElementById('sod_fin_cancelfrm').style.display='block';" class="btn_medium wset">주문 취소하기</button>
 
 		<div id="sod_fin_cancelfrm">
-			<form method="post" action="<?php echo BV_SHOP_URL; ?>/orderinquirycancel.php" onsubmit="return fcancel_check(this);">
+			<form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquirycancel.php" onsubmit="return fcancel_check(this);">
 			<input type="hidden" name="od_id"  value="<?php echo $od_id; ?>">
 			<input type="hidden" name="token"  value="<?php echo $token; ?>">
 			<label for="cancel_memo">취소사유</label>

@@ -10,6 +10,7 @@ $od = sql_fetch("select * from shop_order where od_id = '$od_id'");
 if(!$od['od_id'] || (!$is_member && md5($od['od_id'].$od['od_time'].$od['od_ip']) != get_session('ss_orderview_uid'))) {
     alert("조회하실 주문서가 없습니다.");
 }
+$toss = sql_fetch("SELECT * FROM toss_transactions WHERE orderId = '{$od_id}'");
 
 $tb['title'] = '주문상세내역';
 include_once("./_head.php");
