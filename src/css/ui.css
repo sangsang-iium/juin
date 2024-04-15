@@ -38,7 +38,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .ui-btn[data="stIconLeft2"] {padding-left: 1rem; padding-right: 1rem; align-items: center; justify-content: space-between;}
 .ui-btn[data="stIconRight2"] {padding-left: 1rem; padding-right: 1rem; align-items: center; justify-content: space-between;}
 
-.ui-btn.more {position: relative; padding-right: 1.52rem; font-size: 2.24rem; font-weight: 500; color: var(--color-gray3);}
+.ui-btn.more {position: relative; padding-right: 1.52rem; font-size: 2.24rem; font-weight: 500; color: var(--color-gray3); line-height: normal;}
 .ui-btn.more:after {content: ""; display: block; width: 0.72rem; height: 1.28rem; margin-top: -0.64rem; position: absolute; top: 50%; right: 0; z-index: 1; background: url('../img/arrow-right2.svg') no-repeat center/contain;}
 
 .ui-btn.moreLong {display: flex; align-items: center; justify-content: center; width: 100%; height: 7.2rem; border: 0.16rem solid #ddd; background-color: #fff;}
@@ -255,9 +255,9 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 
 .cp-title {display: flex; align-items: flex-end; justify-content: space-between;}
 .cp-title .highlight {color: var(--color-main);}
-.cp-title .left {display: flex; flex-flow: row wrap; align-items: center; justify-content: flex-start; gap: 0 1.8rem;}
-.cp-title .icon-box {position: relative; width: 7.6rem; height: 7.04rem; border-radius: 0 40rem 40rem 0; background-color: var(--color-main);}
-.cp-title .icon-box:after {content: ""; display: block; position: absolute; top: 50%; left: 2.4rem; z-index: 1; transform: translateY(-50%); width: 4rem; height: 4rem; background-repeat: no-repeat; background-position: center; background-size: contain;}
+.cp-title .left {display: flex; flex-flow: row wrap; align-items: center; justify-content: flex-start; gap: 0 1rem;}
+.cp-title .icon-box {position: relative; width: 5.5rem; height: 7.04rem; border-radius: 0 40rem 40rem 0; background-color: var(--color-main);}
+.cp-title .icon-box:after {content: ""; display: block; position: absolute; top: 50%; left: 1.2rem; z-index: 1; transform: translateY(-50%); width: 4rem; height: 4rem; background-repeat: no-repeat; background-position: center; background-size: contain;}
 .cp-title .text-box {}
 
 .cp-banner__round {overflow: hidden; border-radius: 2rem 2rem 2rem 8rem;}
