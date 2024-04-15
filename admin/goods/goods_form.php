@@ -233,8 +233,14 @@ EOF;
 	<tr>
 		<th scope="row">업체코드</th>
 		<td>
-			<input type="text" name="mb_id" value="<?php echo $gs['mb_id']; ?>" required itemname="업체코드" class="required frm_input">
+      <input type="text" name="mb_id" value="<?php echo $gs['mb_id']; ?>" required itemname="업체코드" class="required frm_input">
 			<a href="./supply.php" onclick="win_open(this,'pop_supply','550','500','no');return false" class="btn_small">업체선택</a>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">공급사명</th>
+		<td>
+      <input type="text" name="name" value="<?php echo $gs['name']; ?>" itemname="공급사명" class="frm_input" readonly>
 		</td>
 	</tr>
 	<tr>
