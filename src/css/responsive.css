@@ -7,11 +7,10 @@
 } /* End */
 
 @media screen and (max-width:480px) {
-  html {font-size: 40%;}
-  /* html {font-size: 37.5%;} */
+  html {font-size: 50%;}
+  /* html {font-size: 40%;} */
 } /* End */
 
 @media screen and (max-width:360px) {
-  html {font-size: 35%;}
-  /* html {font-size: 30%;} */
+  /* html {font-size: 35%;} */
 } /* End */
