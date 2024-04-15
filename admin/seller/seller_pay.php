@@ -149,11 +149,11 @@ EOF;
 		$order_arr	 = array();
 
     // if($row['settle'] >= 1) {
-    //   $add_between = " AND od_time 
+    //   $add_between = " AND od_time
     //                BETWEEN CONCAT(YEAR(CURDATE() - INTERVAL 1 MONTH), '-', MONTH(CURDATE() - INTERVAL 1 MONTH), '-', {$row['settle']})
     //                    AND LAST_DAY(CURDATE()) ";
     // } else {
-    //   $add_between = " AND od_time 
+    //   $add_between = " AND od_time
     //                BETWEEN CONCAT(YEAR(CURDATE() - INTERVAL 1 MONTH), '-', MONTH(CURDATE() - INTERVAL 1 MONTH), '-', {$row['settle']})
     //                    AND CONCAT(YEAR(CURDATE()), '-', MONTH(CURDATE()), '-', {$row['settle']} - 1) ";
     // }
@@ -164,7 +164,7 @@ EOF;
 				   where seller_id = '{$row['seller_id']}'
 				     and dan IN(5,8)
 				     and sellerpay_yes = '0'
-					 and user_ok = '1' 
+					 and user_ok = '1'
            AND od_time < CONCAT(YEAR(CURDATE()), '-', MONTH(CURDATE()), '-', 15) ";
 		if($fr_date && $to_date) {
 			$sql2 .= " and left(od_time,10) between '$fr_date' and '$to_date' ";

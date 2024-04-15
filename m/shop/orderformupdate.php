@@ -259,7 +259,7 @@ $sql = " update shop_order
 		  where od_id = '$od_id'";
 sql_query($sql, false);
 
-if(in_array($_POST['paymethod'],array('무통장','포인트'))) {
+if(in_array($_POST['paymethod'],array('무통장','포인트','신용카드'))) {
 	$cart_select = " , ct_select = '1' ";
 }
 
@@ -362,7 +362,7 @@ function truncateString($string, $length) {
 
 
 if(in_array($_POST['paymethod'],array('무통장','포인트'))) {
-	
+
   if($resulturl == 'pc') {
     goto_url(BV_URL.'/mng/shop/orderinquiryview.php?od_id='.$od_id.'&uid='.$uid);
   } else {
