@@ -1007,8 +1007,12 @@ html.no-overflowscrolling #mod_option_frm {height:auto;max-height:10000px !impor
 #guest_privacy #guest_agree {margin-top:10px;}
 
 #sod_frm #od-pay .odf_tbl table tbody th {font-size: 2rem;}
-#od-pay #taxsave_section .frm-input {margin-top: 1rem;}
-#od-pay #taxbill_section .frm-input {margin-top: 1rem;}
+#od-pay #taxsave_section div[id^=taxsave_fld] {margin-top: 1rem;}
+
+#od-pay #taxsave_section .form-wrap {padding: 1rem; background: #f9f9f9;}
+#od-pay #taxsave_section .form-row .form-head {margin-bottom: 0.5rem;}
+#od-pay #taxsave_section .form-row .form-head .title {font-size: 2rem;}
+#od-pay #taxsave_section .form-row .form-body .frm-input {font-size: 2rem; background-color: #fff;}
 
 /*배송지 목록*/
 #sod_addr {}
