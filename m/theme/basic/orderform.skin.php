@@ -861,8 +861,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               </div>
             </section>
 
-            <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
-            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
+            <div id="billLayer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseBillLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode2()" alt="닫기 버튼">
             </div>
 
             <div class="od-userInfo">
@@ -1405,9 +1405,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
 <script>
     // 우편번호 찾기 화면을 넣을 element
-    var eleLayer = document.getElementById('layer');
+    var eleLayer = document.getElementById('billLayer');
 
-    function closeDaumPostcode() {
+    function closeDaumPostcode2() {
         // iframe을 넣은 element를 안보이게 한다.
         eleLayer.style.display = 'none';
     }
@@ -1426,7 +1426,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                 document.getElementById('bill_zip').value = data.zonecode;
                 document.getElementById("bill_addr1").value = addr;
 
-                closeDaumPostcode();
+                closeDaumPostcode2();
                 $("#bill_addr2").focus();
             },
             width : '100%',
