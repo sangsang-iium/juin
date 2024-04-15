@@ -52,6 +52,12 @@ $tb['title'] = $ca['catename'];
 include_once("../_head.php");
 
 
+// 검색 _20240415_SY
+if($stx) {
+  $sql_search .= " AND gname LIKE '%{$stx}%' ";
+}
+
+
 $sql_common = sql_goods_list($sql_search);
 
 // 상품 정렬
