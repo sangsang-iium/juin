@@ -889,14 +889,14 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                           <option value="Y">발행요청</option>
                         </select>
                         <div id="taxbill_section" style="display:none;">
-                          <input type="text" name="company_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호"><br>
-                          <input type="text" name="company_name" class="w-per100 frm-input" placeholder="상호(법인명)"><br>
-                          <input type="text" name="company_owner" class="w-per100 frm-input" placeholder="대표자명"><br>
-                          <input type="text" name="company_addr" class="w-per100 frm-input" placeholder="사업장주소"><br>
-                          <input type="text" name="company_item" class="w-per100 frm-input" placeholder="업태"><br>
-                          <input type="text" name="company_service" class="w-per100 frm-input" placeholder="업종">
-                          <input type="text" name="" class="w-per100 frm-input" placeholder="신청자 전화번호">
-                          <input type="text" name="" class="w-per100 frm-input" placeholder="이메일">
+                          <input type="text" name="company_saupja_no" class="w-per100 frm-input" value="<?php echo $member['ju_b_num'] ?>" placeholder="사업자등록번호"><br>
+                          <input type="text" name="company_name" class="w-per100 frm-input" value="<?php echo $member['ju_restaurant'];?>" placeholder="상호(법인명)"><br>
+                          <input type="text" name="company_owner" class="w-per100 frm-input"value="<?php echo $member['ju_name'];?>" placeholder="대표자명"><br>
+                          <input type="text" name="company_addr" class="w-per100 frm-input"value="<?php echo $member['ju_addr_full'];?>" placeholder="사업장주소"><br>
+                          <input type="text" name="company_item" class="w-per100 frm-input"value="<?php echo $member['ju_business_type'];?>" placeholder="업태"><br>
+                          <input type="text" name="company_service" class="w-per100 frm-input"value="<?php echo $member['ju_sectors'];?>" placeholder="업종">
+                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['cellphone']?>" placeholder="신청자 전화번호">
+                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['email']?>" placeholder="이메일">
                         </div>
                       </td>
                     </tr>
