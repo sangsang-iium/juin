@@ -378,3 +378,32 @@ class Tosspay {
     }
   }
 }
+
+/**
+ * 지회 지부
+ *
+ * @param  string   $depth  1차댑스
+ * @param  string   $depth2 2차댑스
+ * @return array    뎁스 정보
+ */
+function juinGroupInfo($depth, $depth2 = ''){
+  switch ($depth) {
+    case '1':
+      $sql = "SELECT kf_region2 AS region, COUNT(kf_region2) FROM kfia_region
+              GROUP BY kf_region2";
+      break;
+    case '2':
+      $sql = "SELECT kf_region3 AS region, COUNT(kf_region3) FROM kfia_region
+              WHERE kf_region2 = '{$depth2}'
+              GROUP BY kf_region3";
+      break;
+
+  }
+  $res = sql_query($sql);
+  $data = array();
+  while ($row = sql_fetch_array($res)) {
+    $data[] = $row;
+  }
+
+  return $data;
+}

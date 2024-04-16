@@ -89,11 +89,14 @@ $mfrm['auth_8']			= $_POST['auth_8'];
 $mfrm['auth_9']			= $_POST['auth_9'];
 $mfrm['auth_10']		= $_POST['auth_10'];
 
-// 매장정보 _20240412_SY
-// $mfrm['ju_region2']		    = (isset($_POST['ju_region2']) && !empty($_POST['ju_region2'])) ? $_POST['ju_region2'] : "";
-// $mfrm['ju_region3']		    = (isset($_POST['ju_region3']) && !empty($_POST['ju_region3'])) ? $_POST['ju_region3'] : "";
-// $mfrm['ju_business_type']	= $_POST['ju_business_type'];
-// $mfrm['ju_sectors']		    = $_POST['ju_sectors'];
+// 매장정보 _20240412_SY + jjh
+$mfrm['ju_region2']		    = $_POST['ju_region2'];
+$mfrm['ju_region3']		    = $_POST['ju_region3'];
+$mfrm['ju_business_type']	= $_POST['ju_business_type'];
+$mfrm['ju_sectors']		    = $_POST['ju_sectors'];
+$mfrm['ju_restaurant']    = $_POST['ju_restaurant'];
+$mfrm['ju_name']          = $_POST['ju_name'];
+$mfrm['ju_addr_full']     = $_POST['ju_addr_full'];
 
 
 if($_POST['passwd']) {

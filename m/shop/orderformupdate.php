@@ -3,7 +3,6 @@
 include_once("./_common.php");
 include_once(BV_LIB_PATH.'/mailer.lib.php');
 
-
 $resulturl = $_POST['resulturl'];
 
 // 삼성페이 요청으로 왔다면 현재 삼성페이는 이니시스 밖에 없으므로
@@ -73,10 +72,19 @@ $ss_cart_id		= explode(",",$_POST['ss_cart_id']); // 장바구니 idx
 $use_point = (int)$_POST['use_point']; // 포인트결제
 $baesong_price2 = (int)$_POST['baesong_price2']; // 추가배송비
 
+
 if($is_member)
     $od_pwd = $member['passwd'];
 else
     $od_pwd = get_encrypt_string($_POST['od_pwd']);
+
+
+// 비회원 전화번호 _20240415_SY
+if(is_array($_POST['b_cellphone'])) {
+  $b_cellp = implode("-",$_POST['b_cellphone']);
+} else {
+  $b_cellp = $_POST['b_cellphone'];
+}
 
 for($i=0; $i<count($gs_id); $i++) {
 
@@ -144,7 +152,7 @@ for($i=0; $i<count($gs_id); $i++) {
 
 				 , addr_jibeon			= '{$_POST['addr_jibeon']}'
 				 , b_name				= '{$_POST['b_name']}'
-				 , b_cellphone			= '{$_POST['b_cellphone']}'
+				 , b_cellphone			= '{$b_cellp}'
 				 , b_telephone			= '{$_POST['b_telephone']}'
 
 				 , b_zip				= '{$_POST['b_zip']}'
@@ -174,16 +182,6 @@ for($i=0; $i<count($gs_id); $i++) {
 				 , memo					    = '{$_POST['memo']}'
 				 , taxsave_yes			= '{$_POST['taxsave_yes']}'
 				 , taxbill_yes			= '{$_POST['taxbill_yes']}'
-				 , company_saupja_no= '{$_POST['company_saupja_no']}'
-				 , company_name			= '{$_POST['company_name']}'
-				 , company_owner		= '{$_POST['company_owner']}'
-				 , company_addr			= '{$_POST['company_addr']}'
-				 , company_item			= '{$_POST['company_item']}'
-				 , company_service	= '{$_POST['company_service']}'
-				 , company_tel		  = '{$_POST['company_tel']}'
-				 , company_email		= '{$_POST['company_email']}'
-				 , tax_hp			    	= '{$_POST['tax_hp']}'
-				 , tax_saupja_no		= '{$_POST['tax_saupja_no']}'
 				 , od_time				  = '".BV_TIME_YMDHIS."'
 				 , od_pwd				    = '{$od_pwd}'
 				 , od_ip				    = '{$_SERVER['REMOTE_ADDR']}'
@@ -193,6 +191,22 @@ for($i=0; $i<count($gs_id); $i++) {
 				 , pt_id				    = '{$_POST['pt_id']}'
 				 , shop_id				  = '{$_POST['shop_id']}'
 				 , od_mobile			  = '1' ";
+
+  if($_POST['taxsave_yes'] == 'Y') {
+    $sql .= " , tax_hp			    = '{$_POST['tax_hp']}'
+              , tax_saupja_no		= '{$_POST['tax_saupja_no']}'
+            ";
+  }
+  if($_POST['taxbill_yes'] == 'Y') {
+    $sql .= " , company_saupja_no = '{$_POST['company_saupja_no']}'
+              , company_name		  = '{$_POST['company_name']}'
+              , company_owner		  = '{$_POST['company_owner']}'
+              , company_addr		  = '{$_POST['company_addr']}'
+              , company_item		  = '{$_POST['company_item']}'
+              , company_service	  = '{$_POST['company_service']}'
+            ";
+  }
+
 	sql_query($sql, FALSE);
 	$insert_id = sql_insert_id();
 

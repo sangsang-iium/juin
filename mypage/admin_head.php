@@ -48,7 +48,7 @@ var bv_admin_url = "<?php echo BV_ADMIN_URL; ?>";
 <body>
 <div id="header"<?php if($admin_seller) { ?> class="supply"<?php } ?>>
 	<?php if($admin_partner) { ?>
-	<h1><a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=partner_info">가맹점 관리자</a></h1>
+	<!-- <h1><a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=partner_info">가맹점 관리자</a></h1> -->
 	<?php } ?>
 	<?php if($admin_seller) { ?>
 	<h1><a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=seller_main">공급사 관리자</a></h1>
@@ -59,7 +59,7 @@ var bv_admin_url = "<?php echo BV_ADMIN_URL; ?>";
 			<li>고객센터 : <?php echo $config['company_tel']; ?></li>
 			<li><a href="<?php echo $admin_shop_url; ?>">쇼핑몰</a></li>
 			<?php if(is_partner($member['id'])) { ?>
-			<li><a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=partner_info">가맹점 관리</a></li>
+			<!-- <li><a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=partner_info">가맹점 관리</a></li> -->
 			<?php } ?>
 			<?php if(is_seller($member['id'])) { ?>
 			<li><a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=seller_main">공급사 관리</a></li>

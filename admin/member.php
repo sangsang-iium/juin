@@ -8,7 +8,7 @@ $pg_num = 1;
 $snb_icon = "<i class=\"ionicons ion-ios-people fs40\"></i>";
 
 if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
-	alert("Á¢±Ù±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
+	alert("ï¿½ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 }
 
 if($code == "list")					$pg_title2 = ADMIN_MENU1_01;

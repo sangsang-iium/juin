@@ -215,7 +215,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 	</table>
 </div>
 <div class="local_frm02">
-	<?php echo $btn_frmline; ?>
+	<?php //echo $btn_frmline; ?>
 </div>
 
 <?php
