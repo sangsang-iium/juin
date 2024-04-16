@@ -754,6 +754,14 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                 <table>
                   <tbody>
                     <tr>
+                      <th scope="row" id="cash_receipt_section">증빙서류 선택</th>
+                      <td>
+                        <input type="radio" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked> 현금영수증
+                        <input type="radio" name="documentType" value="tax_bill" onclick="toggleTaxDocument(this.value);"> 세금계산서
+                        <input type="radio" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);"> 미발행
+                      </td>
+                    </tr>
+                    <tr id="cash_bill_section">
                       <th scope="row">현금영수증</th>
                       <td>
                         <select name="taxsave_yes" onchange="tax_save(this.value);" class="frm-select w-per100">
@@ -769,7 +777,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr id="tax_bill_section" style="display: none;">
                       <th scope="row">세금계산서</th>
                       <td>
                         <select name="taxbill_yes" onchange="tax_bill(this.value);" class="frm-select w-per100">
@@ -777,14 +785,14 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                           <option value="Y">발행요청</option>
                         </select>
                         <div id="taxbill_section" style="display:none;">
-                          <input type="text" name="company_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호"><br>
-                          <input type="text" name="company_name" class="w-per100 frm-input" placeholder="상호(법인명)"><br>
-                          <input type="text" name="company_owner" class="w-per100 frm-input" placeholder="대표자명"><br>
-                          <input type="text" name="company_addr" class="w-per100 frm-input" placeholder="사업장주소"><br>
-                          <input type="text" name="company_item" class="w-per100 frm-input" placeholder="업태"><br>
-                          <input type="text" name="company_service" class="w-per100 frm-input" placeholder="업종">
-                          <input type="text" name="" class="w-per100 frm-input" placeholder="신청자 전화번호">
-                          <input type="text" name="" class="w-per100 frm-input" placeholder="이메일">
+                          <input type="text" name="company_saupja_no" class="w-per100 frm-input" value="<?php echo $member['ju_b_num'] ?>" placeholder="사업자등록번호"><br>
+                          <input type="text" name="company_name" class="w-per100 frm-input" value="<?php echo $member['ju_restaurant'];?>" placeholder="상호(법인명)"><br>
+                          <input type="text" name="company_owner" class="w-per100 frm-input"value="<?php echo $member['ju_name'];?>" placeholder="대표자명"><br>
+                          <input type="text" name="company_addr" class="w-per100 frm-input"value="<?php echo $member['ju_addr_full'];?>" placeholder="사업장주소"><br>
+                          <input type="text" name="company_item" class="w-per100 frm-input"value="<?php echo $member['ju_business_type'];?>" placeholder="업태"><br>
+                          <input type="text" name="company_service" class="w-per100 frm-input"value="<?php echo $member['ju_sectors'];?>" placeholder="업종">
+                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['cellphone']?>" placeholder="신청자 전화번호">
+                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['email']?>" placeholder="이메일">
                         </div>
                       </td>
                     </tr>
@@ -793,9 +801,30 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               </div>
             </section>
 
-            <div class="od-userInfo">
+            <script>
+              function toggleTaxDocument(documentType) {
+                if (documentType === 'cash_receipt') {
+                  document.getElementById('cash_receipt_section').style.display = '';
+                  document.getElementById('cash_bill_section').style.display = '';
+                  document.getElementById('tax_bill_section').style.display = 'none';
+                } else if (documentType === 'tax_bill') {
+                  // document.getElementById('cash_receipt_section').style.display = 'none';
+                  document.getElementById('cash_bill_section').style.display = 'none';
+                  document.getElementById('tax_bill_section').style.display = '';
+                } else {
+                  document.getElementById('cash_bill_section').style.display = 'none';
+                  document.getElementById('tax_bill_section').style.display = 'none';
+                  $("select[name=taxsave_yes]").val('N');
+                  $("select[name=taxbill_yes]").val('N');
+                  tax_save('N')
+                  tax_bill('N')
+                }
+              }
+            </script>
+
+            <!-- <div class="od-userInfo">
               결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다.
-            </div>
+            </div> -->
 
             <?php if(!$is_member) { ?>
             <section id="guest_privacy">
@@ -1088,6 +1117,7 @@ $(function () {
     if (selectedPaymentMethod === '') {
       alert("결제방법을 선택하세요.");
       paymethodRadios[0] . focus(); // 선택할 라디오 버튼으로 포커스 이동
+      return false;
     }
 
     if (typeof (f.od_pwd) != 'undefined') {

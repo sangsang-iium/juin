@@ -64,6 +64,38 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     $(".popDim").fadeOut(200);
   }
 </script>
+
+<style>
+  #document {width: 100%; box-shadow: none;}
+
+  #header {border-bottom: 1px solid #ddd;}
+  #hd_inner {
+    width: 1400px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  #hd_inner .hd_logo {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+  }
+  #hd_inner .hd_logo a {
+    display: block;
+    vertical-align: middle;
+  }
+  #hd_inner .hd_logo img {
+      max-width: 100%;
+  }
+
+  #contents {width: 1400px; max-width: 100%; margin: 0 auto !important;}
+
+  #buyform .btn_confirm {position: inherit; bottom: inherit; left: inherit; box-shadow: none;}
+
+  #sod_frm_pay .sod_frm_pay_ul {display: flex; flex-flow: row wrap; gap: 10px 20px;}
+  #sod_frm .odf_tbl table tbody td,
+  #sod_frm .odf_tbl table tbody th {font-size: 1.8rem; border: 1px solid #ddd}
+</style>
+
 <div id="contents" class="sub-contents prodOrder">
   <div id="sod_approval_frm">
     <?php
@@ -698,29 +730,78 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
           <div class="od-ct">
             <?php
             $escrow_title = "";
-            if ($default['de_escrow_use']) {
+            if($default['de_escrow_use']) {
               $escrow_title = "에스크로 ";
             }
 
             $multi_settle = '';
-            if ($is_kakaopay_use)
-              $multi_settle .= "<option value='KAKAOPAY'>카카오페이</option>\n";
-            if ($default['de_bank_use'])
-              $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
-            if ($default['de_card_use'])
-              $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
-            if ($default['de_hp_use'])
-              $multi_settle .= "<option value='휴대폰'>휴대폰</option>\n";
-            if ($default['de_iche_use'])
-              $multi_settle .= "<option value='계좌이체'>" . $escrow_title . "계좌이체</option>\n";
-            if ($default['de_vbank_use'])
-              $multi_settle .= "<option value='가상계좌'>" . $escrow_title . "가상계좌</option>\n";
-            if ($is_member && $config['usepoint_yes'] && ($tot_price <= $member['point']))
-              $multi_settle .= "<option value='포인트'>포인트결제</option>\n";
+            if($is_kakaopay_use) {
+              // $multi_settle .= "<option value='KAKAOPAY'>카카오페이</option>\n";
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"KAKAOPAY\" id=\"kakaopay\">\n";
+              $multi_settle .= "<label for=\"kakaopay\">카카오페이</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+            }
+            if($default['de_bank_use']) {
+              // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
+              $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+            }
+            if($default['de_card_use']) {
+              // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"신용카드\" id=\"de_card\">\n";
+              $multi_settle .= "<label for=\"de_card\">신용카드</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+            }
+            if($default['de_hp_use']) {
+              // $multi_settle .= "<option value='휴대폰'>휴대폰</option>\n";
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"휴대폰\" id=\"de_hp\">\n";
+              $multi_settle .= "<label for=\"de_hp\">휴대폰</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+            }
+            if($default['de_iche_use']) {
+              // $multi_settle .= "<option value='계좌이체'>".$escrow_title."계좌이체</option>\n";
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"계좌이체\" id=\"de_iche\">\n";
+              $multi_settle .= "<label for=\"de_iche\">계좌이체</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+            }
+            if($default['de_vbank_use']) {
+              // $multi_settle .= "<option value='가상계좌'>".$escrow_title."가상계좌</option>\n";
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"가상계좌\" id=\"de_vbank\">\n";
+              $multi_settle .= "<label for=\"de_vbank\">가상계좌</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+            }
+            if($is_member && $config['usepoint_yes'] && ($tot_price <= $member['point'])) {
+              // $multi_settle .= "<option value='포인트'>포인트결제</option>\n";
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"포인트\" id=\"de_point\">\n";
+              $multi_settle .= "<label for=\"de_point\">포인트결제</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+            }
 
             // PG 간편결제
-            if ($default['de_easy_pay_use']) {
-              switch ($default['de_pg_service']) {
+            if($default['de_easy_pay_use']) {
+              switch($default['de_pg_service']) {
                 case 'lg':
                   $pg_easy_pay_name = 'PAYNOW';
                   break;
@@ -731,22 +812,21 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                   $pg_easy_pay_name = 'PAYCO';
                   break;
               }
-              if ($pg_easy_pay_name)
+              if($pg_easy_pay_name)
                 $multi_settle .= "<option value='간편결제'>{$pg_easy_pay_name}</option>\n";
             }
 
             // 이니시스를 사용중일때만 삼성페이 결제가능
-            if ($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
+            if($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
               $multi_settle .= "<option value='삼성페이'>삼성페이</option>\n";
             }
 
             ?>
 
             <section id="sod_frm_pay">
-              <select name="paymethod" onchange="calculate_paymethod(this.value);" class="frm-select w-per100">
-                <option value="">결제수단 선택</option>
+              <ul class="sod_frm_pay_ul">
                 <?php echo $multi_settle; ?>
-              </select>
+              </ul>
             </section>
 
             <section id="bank_section" style="display:none;">
@@ -772,10 +852,20 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
             <section id="taxsave_section" style="display:none;">
               <h2 class="anc_tit">증빙서류 발급</h2>
+
+
               <div class="odf_tbl">
                 <table>
                   <tbody>
                     <tr>
+                      <th scope="row" id="cash_receipt_section">증빙서류 선택</th>
+                      <td>
+                        <input type="radio" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked> 현금영수증
+                        <input type="radio" name="documentType" value="tax_bill" onclick="toggleTaxDocument(this.value);"> 세금계산서
+                        <input type="radio" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);"> 미발행
+                      </td>
+                    </tr>
+                    <tr id="cash_bill_section">
                       <th scope="row">현금영수증</th>
                       <td>
                         <select name="taxsave_yes" onchange="tax_save(this.value);" class="frm-select w-per100">
@@ -791,7 +881,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                         </div>
                       </td>
                     </tr>
-                    <tr>
+                    <tr id="tax_bill_section" style="display: none;">
                       <th scope="row">세금계산서</th>
                       <td>
                         <select name="taxbill_yes" onchange="tax_bill(this.value);" class="frm-select w-per100">
@@ -799,77 +889,14 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                           <option value="Y">발행요청</option>
                         </select>
                         <div id="taxbill_section" style="display:none;">
-                          <div class="form-wrap">
-                            <div class="form-row">
-                              <div class="form-head">
-                                <p class="title">사업자등록번호</p>
-                              </div>
-                              <div class="form-body">
-                                <input type="text" name="company_saupja_no" class="w-per100 frm-input">
-                              </div>
-                            </div>
-                            <div class="form-row">
-                              <div class="form-head">
-                                <p class="title">상호(법인명)</p>
-                              </div>
-                              <div class="form-body">
-                                <input type="text" name="company_name" class="w-per100 frm-input">
-                              </div>
-                            </div>
-                            <div class="form-row">
-                              <div class="form-head">
-                                <p class="title">대표자명</p>
-                              </div>
-                              <div class="form-body">
-                                <input type="text" name="company_owner" class="w-per100 frm-input">
-                              </div>
-                            </div>
-                            <div class="form-row">
-                              <div class="form-head">
-                                <p class="title">사업장 주소</p>
-                              </div>
-                              <div class="form-body address">
-                                <!-- <input type="text" name="company_addr" class="w-per100 frm-input" placeholder="사업장주소"> -->
-                                <input type="text" name="bill_zip" id="bill_zip" value="" class="frm-input address-input_1" readonly="readonly" placeholder="우편번호">
-                                <button type="button" class="ui-btn st3" onclick="billPostcode()">주소검색</button>
-                                <input type="text" name="bill_addr1" id="bill_addr1" value="" class="frm-input address-input_2" readonly="readonly" placeholder="사업장 주소를 검색하세요.">
-                                <input type="text" name="bill_addr2" id="bill_addr2" class="frm-input address-input_3" value="" placeholder="나머지 주소를 입력하세요.">
-                                <input type="hidden" name="bill_jibeon" id="bill_jibeon" class="frm-input address-input_3" placeholder="나머지 주소를 입력하세요.">
-                              </div>
-                            </div>
-                            <div class="form-row">
-                              <div class="form-head">
-                                <p class="title">업태</p>
-                              </div>
-                              <div class="form-body">
-                                <input type="text" name="company_item" class="w-per100 frm-input">
-                              </div>
-                            </div>
-                            <div class="form-row">
-                              <div class="form-head">
-                                <p class="title">업종</p>
-                              </div>
-                              <div class="form-body">
-                                <input type="text" name="company_service" class="w-per100 frm-input">
-                              </div>
-                            </div>
-                            <div class="form-row">
-                              <div class="form-head">
-                                <p class="title">신청자 전화번호</p>
-                              </div>
-                              <div class="form-body">
-                                <input type="text" name="" class="w-per100 frm-input">
-                              </div>
-                            </div>
-                            <div class="form-row">
-                              <div class="form-head">
-                                <p class="title">이메일</p>
-                              </div>
-                              <div class="form-body">
-                                <input type="text" name="" class="w-per100 frm-input">
-                              </div>
-                            </div>
-                          </div>
+                          <input type="text" name="company_saupja_no" class="w-per100 frm-input" value="<?php echo $member['ju_b_num'] ?>" placeholder="사업자등록번호"><br>
+                          <input type="text" name="company_name" class="w-per100 frm-input" value="<?php echo $member['ju_restaurant'];?>" placeholder="상호(법인명)"><br>
+                          <input type="text" name="company_owner" class="w-per100 frm-input"value="<?php echo $member['ju_name'];?>" placeholder="대표자명"><br>
+                          <input type="text" name="company_addr" class="w-per100 frm-input"value="<?php echo $member['ju_addr_full'];?>" placeholder="사업장주소"><br>
+                          <input type="text" name="company_item" class="w-per100 frm-input"value="<?php echo $member['ju_business_type'];?>" placeholder="업태"><br>
+                          <input type="text" name="company_service" class="w-per100 frm-input"value="<?php echo $member['ju_sectors'];?>" placeholder="업종">
+                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['cellphone']?>" placeholder="신청자 전화번호">
+                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['email']?>" placeholder="이메일">
                         </div>
                       </td>
                     </tr>
@@ -878,52 +905,67 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               </div>
             </section>
 
-            <div id="billLayer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
-            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseBillLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode2()" alt="닫기 버튼">
-            </div>
+            <script>
+              function toggleTaxDocument(documentType) {
+                if (documentType === 'cash_receipt') {
+                  document.getElementById('cash_receipt_section').style.display = '';
+                  document.getElementById('cash_bill_section').style.display = '';
+                  document.getElementById('tax_bill_section').style.display = 'none';
+                } else if (documentType === 'tax_bill') {
+                  // document.getElementById('cash_receipt_section').style.display = 'none';
+                  document.getElementById('cash_bill_section').style.display = 'none';
+                  document.getElementById('tax_bill_section').style.display = '';
+                } else {
+                  document.getElementById('cash_bill_section').style.display = 'none';
+                  document.getElementById('tax_bill_section').style.display = 'none';
+                  $("select[name=taxsave_yes]").val('N');
+                  $("select[name=taxbill_yes]").val('N');
+                  tax_save('N')
+                  tax_bill('N')
+                }
+              }
+            </script>
 
-            <div class="od-userInfo">
+            <!-- <div class="od-userInfo">
               결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다.
-            </div>
+            </div> -->
 
-            <?php if (!$is_member) { ?>
-              <section id="guest_privacy">
-                <h2 class="anc_tit">비회원 구매</h2>
-                <div class="tbl_head01 tbl_wrap">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>목적</th>
-                        <th>항목</th>
-                        <th>보유기간</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>이용자 식별 및 본인 확인</td>
-                        <td>이름, 비밀번호</td>
-                        <td>5년(전자상거래등에서의 소비자보호에 관한 법률)</td>
-                      </tr>
-                      <tr>
-                        <td>배송 및 CS대응을 위한 이용자 식별</td>
-                        <td>주소, 연락처(이메일, 휴대전화번호)</td>
-                        <td>5년(전자상거래등에서의 소비자보호에 관한 법률)</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+            <?php if(!$is_member) { ?>
+            <section id="guest_privacy">
+              <h2 class="anc_tit">비회원 구매</h2>
+              <div class="tbl_head01 tbl_wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>목적</th>
+                      <th>항목</th>
+                      <th>보유기간</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>이용자 식별 및 본인 확인</td>
+                      <td>이름, 비밀번호</td>
+                      <td>5년(전자상거래등에서의 소비자보호에 관한 법률)</td>
+                    </tr>
+                    <tr>
+                      <td>배송 및 CS대응을 위한 이용자 식별</td>
+                      <td>주소, 연락처(이메일, 휴대전화번호)</td>
+                      <td>5년(전자상거래등에서의 소비자보호에 관한 법률)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-                <div id="guest_agree" class="frm-choice">
-                  <input type="checkbox" id="agree" value="1" class="css-checkbox lrg">
-                  <label for="agree">개인정보 수집 및 이용 내용을 읽었으며 이에 동의합니다.</label>
-                </div>
-              </section>
+              <div id="guest_agree" class="frm-choice">
+                <input type="checkbox" id="agree" value="1" class="css-checkbox lrg">
+                <label for="agree">개인정보 수집 및 이용 내용을 읽었으며 이에 동의합니다.</label>
+              </div>
+            </section>
             <?php } ?>
           </div>
         </div>
       </div>
-
-
 
 
 
@@ -1092,6 +1134,16 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     $("input[name=tot_price]").val(number_format(String(tot_price)));
   }
 
+  function getSelectVal2(selectElement) {
+      // 선택된 라디오 버튼의 값을 반환
+    let selectedValue = '';
+    selectElement.forEach(element => {
+      if (element.checked) {
+        selectedValue = element.value;
+      }
+    });
+    return selectedValue;
+  }
   function fbuyform_submit(f) {
 
     errmsg = "";
@@ -1105,6 +1157,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     var mb_coupon = parseInt(f.coupon_total.value);
     var mb_point = parseInt(f.mb_point.value);
     var tot_price = sell_price + send_cost2 - mb_coupon;
+
+
+    var paymethodRadios = f.querySelectorAll('input[name="paymethod"]');
+    var selectedPaymentMethod = getSelectVal2(paymethodRadios);
     // 무통장 예외 처리 필요
     if (getSelectVal(f["paymethod"]) == '신용카드' && card_id === '' || card_id === null) {
       var card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록이후 구매 하시겠습니까?");
@@ -1149,9 +1205,15 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       return false;
     }
 
-    if (getSelectVal(f["paymethod"]) == '') {
+    // if (getSelectVal(f["paymethod"]) == '') {
+    //   alert("결제방법을 선택하세요.");
+    //   f.paymethod.focus();
+    //   return false;
+    // }
+    
+    if (selectedPaymentMethod === '') {
       alert("결제방법을 선택하세요.");
-      f.paymethod.focus();
+      paymethodRadios[0] . focus(); // 선택할 라디오 버튼으로 포커스 이동
       return false;
     }
 
@@ -1254,7 +1316,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   }
 
   // 결제방법
-  function calculate_paymethod(type) {
+  // function calculate_paymethod(type) {
+  $('input[type=radio][name=paymethod]').on('change', function(){
+    let type = $(this).val();
+
     var sell_price = parseInt($("input[name=org_price]").val()); // 합계금액
     var send_cost2 = parseInt($("input[name=baesong_price2]").val()); // 추가배송비
     var mb_coupon = parseInt($("input[name=coupon_total]").val()); // 쿠폰할인
@@ -1312,7 +1377,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         <?php } ?>
         break;
     }
-  }
+  })
 
   // 현금영수증
   function tax_save(val) {
@@ -1348,8 +1413,13 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       case 'N': //미발행
         $("#taxbill_section").hide();
         break;
+      default:
+        $("#taxbill_section").hide();
+        $("select[name=taxsave_yes]").val('N');
+        break;
     }
   }
+  
 
   // 할인쿠폰 삭제
   function coupon_cancel() {
