@@ -5,7 +5,7 @@ if(!defined('_BLUEVATION_')) exit;
 
 if($wr_id){
 	$sql = "select * from b_address where wr_id='$wr_id' ";
-	$res = sql_fetch($sql);	
+	$res = sql_fetch($sql);
 
 	$wr_id = $res['wr_id'];
 	$mb_id = $res['mb_id'];
@@ -22,7 +22,7 @@ if($wr_id){
 }
 
 
-?> 
+?>
 
 <form name="b_saveform" id="b_saveform">
 <input type="hidden" name = "wr_id" id="b_wr_id" value="<?=$wr_id?>">
@@ -40,7 +40,7 @@ if($wr_id){
             <div class="form-row">
                 <div class="form-head">
                     <p class="title">휴대폰 번호
-					<?php  
+					<?php
 					//echo $b_cellphone;
 					if($b_cellphone){
 							$phone = explode("-",$b_cellphone);
@@ -48,14 +48,14 @@ if($wr_id){
 							$phone1 = $phone[1];
 							$phone2 = $phone[2];
 					}
-					
-						
+
+
 					?>
 					<b>*</b>
                     </p>
                 </div>
                 <div class="form-body phone">
-					
+
                     <input type="text" name="b_cellphone" id="b_cellphone1_save" class="frm-input" value="<?=$phone0?>";>
                     <span class="hyphen">-</span>
                     <input type="text" name="b_cellphone" id="b_cellphone2_save" class="frm-input" value="<?=$phone1?>";>
@@ -87,13 +87,13 @@ if($wr_id){
         </div>
     </div>
 </form>
- 
+
 
 <!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
 <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
 </div>
- 
+
 <script>
     // 우편번호 찾기 화면을 넣을 element
     var element_layer = document.getElementById('layer');
@@ -105,15 +105,15 @@ if($wr_id){
 
     function execDaumPostcode() {
         new daum.Postcode({
-            oncomplete: function(data) { 
+            oncomplete: function(data) {
                 var addr = ''; // 주소 변수
                 var extraAddr = ''; // 참고항목 변수
- 
+
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                     addr = data.roadAddress;
                 } else { // 사용자가 지번 주소를 선택했을 경우(J)
                     addr = data.jibunAddress;
-                }    
+                }
                 document.getElementById('b_zip_save').value = data.zonecode;
                 document.getElementById("b_addr1_save").value = addr;
             },
@@ -145,11 +145,11 @@ if($wr_id){
         element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';
         element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
     }
- 
+
 	$(".od-dtn__add").click(function(){
 			var frm = $("#b_saveform").serialize();
-			$.ajax({ 
-            type:"POST", 
+			$.ajax({
+            type:"POST",
             url:"/m/shop/orderaddress.save.php",
             data: {
                 'b_name':$("#b_name_save").prop('value'),
@@ -161,19 +161,19 @@ if($wr_id){
 					'b_wr_id':$("#b_wr_id").prop('value'),
             },
             dataType:"text",
-            success:function(result){ 
+            success:function(result){
                 console.log(result);
 				if(result!="fail")
 					{
 					  //console.log(result);
 						alert("기본 배송지가 등록되었습니다.");
 						//cupondownladbtnevt();
+                        location . reload();
 						return false;
-					}				
+					}
 
             }
         });
 	});
 </script>
 
- 

@@ -4,7 +4,6 @@ include_once("./_common.php");
 if(!$is_member) {
 	alert_close("회원 전용 서비스입니다.");
 }
-var_dump($member);
 $mb_id = $member['id'];
 
 if($b_wr_id){
@@ -24,7 +23,7 @@ if($b_wr_id){
 		,b_base = '$b_base'
 		,b_addr_jibeon = '$b_addr_jibeon'
 
-		where wr_id = '$wr_id'
+		where wr_id = '$b_wr_id'
 	";
 	sql_query($sql);
 	echo "updateok";
@@ -41,7 +40,7 @@ if($b_wr_id){
 		,b_base = '$b_base'
 	";
 	sql_query($sql);
-	$wr_id = sql_insert_id(); 
+	$wr_id = sql_insert_id();
 	if($wr_id){
 		if($b_base=='1'){
 			sql_query("update b_address set b_base=0 where mb_id='$mb_id' ");

@@ -48,9 +48,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
     // 총 할인액
     document.buyform.coupon_total.value = f.sum_dc_amt.value;
-    document.getElementById("dc_amt").innerText = number_format(String(f.sum_dc_amt.value));
-    document.getElementById("totdc_amt").innerText = number_format(String(f.sum_dc_amt.value));
-    document.getElementById("cpdc_amt").innerText = number_format(String(f.sum_dc_amt.value));
+    document.getElementById("dc_amt").innerText = number_format(String(f.sum_dc_amt.value))+"원";
+    document.getElementById("totdc_amt").innerText = number_format(String(f.sum_dc_amt.value))+"원";
+    document.getElementById("cpdc_amt").innerText = number_format(String(f.sum_dc_amt.value))+"원";
     //document.getElementById("dc_cancel").style.display = "";
     //document.getElementById("dc_coupon").style.display = "none";
 
@@ -691,15 +691,15 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               </li>
               <li>
                 <span class="lt-txt">총 할인금액</span>
-                <span class="rt-txt totdc_amt" id="totdc_amt">-500원</span>
+                <span class="rt-txt totdc_amt" id="totdc_amt">0원</span>
                 <ul class="prc-tot2">
                   <li>
                     <span class="lt-txt">즉시할인</span>
-                    <span class="rt-txt">0</span>
+                    <span class="rt-txt">0원</span>
                   </li>
                   <li>
                     <span class="lt-txt ">쿠폰할인</span>
-                    <span class="rt-txt cpdc_amt" id="cpdc_amt">-500</span>
+                    <span class="rt-txt cpdc_amt" id="cpdc_amt">0원</span>
                   </li>
                 </ul>
               </li>
@@ -1210,7 +1210,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     //   f.paymethod.focus();
     //   return false;
     // }
-    
+
     if (selectedPaymentMethod === '') {
       alert("결제방법을 선택하세요.");
       paymethodRadios[0] . focus(); // 선택할 라디오 버튼으로 포커스 이동
@@ -1419,7 +1419,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         break;
     }
   }
-  
+
 
   // 할인쿠폰 삭제
   function coupon_cancel() {
