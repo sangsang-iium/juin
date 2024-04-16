@@ -243,6 +243,17 @@ if($od_cancel_change) {
 						// locale 설정 초기화
 						setlocale(LC_CTYPE, '');
 						break;
+					case 'toss':
+						$tossCC = new Tosspay();
+						$tossRes = $tossCC->cancel($od['paymentKey'], $_POST['cancel_memo']);
+
+						$tossModel           = new IUD_Model();
+						$ts_update['status'] = 'CANCELED';
+						$ts_where            = "WHERE orderId = '{$od_id}'";
+						$tossModel->update('toss_transactions', $ts_update, $ts_where);
+						$pg_res_cd = "";
+
+						break;
 				}
 
 				// PG 취소요청 성공했으면
