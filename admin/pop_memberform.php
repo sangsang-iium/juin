@@ -43,7 +43,7 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
 //   $dist_sel = "SELECT {$region} FROM shop_member GROUP BY {$region} HAVING $region <> ''";
 //   $dist_res = sql_query($dist_sel);
 
-//   while($dist_row = sql_fetch_array($dist_res)) { 
+//   while($dist_row = sql_fetch_array($dist_res)) {
 //     $selected=($val==$dist_row[$region])? "selected":"";
 //     echo "<option value='". $dist_row[$region] ."'".$selected.">".$dist_row[$region]."</option>";
 //   }
@@ -219,16 +219,56 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
         <?php //echo help('매달 입력하신 날짜에 수수료 정산하실 수 있습니다. 숫자만 입력해주세요. ex) 15(◯), 15일(X) 월요일(X)'); ?>
       </td>
     </tr> -->
-		<tr class="pt_pay_fld">
+		<!-- <tr class="pt_pay_fld">
 			<th scope="row" class="th_bg fc_00f">본사지정 권한</th>
 			<td colspan="3">
 				<input type="checkbox" name="use_pg" value="1" id="use_pg"<?php echo get_checked($mb['use_pg'], '1'); ?>> <label for="use_pg">개별 PG결제 허용</label>
 				<input type="checkbox" name="use_good" value="1" id="use_good"<?php echo get_checked($mb['use_good'], '1'); ?>> <label for="use_good">개별 상품판매 허용</label>
 			</td>
-		</tr>
+		</tr> -->
 		</tbody>
 		</table>
 	</div>
+
+	<script>
+		$(document).ready(function() {
+			$('#ju_region2').change(function() {
+				var depth2 = $(this).val(); // 선택된 값 가져오기
+
+				// Ajax 요청 보내기
+				$.ajax({
+					url: '/admin/ajax.gruopdepth.php', // 데이터를 처리할 서버 측 파일의 경로
+					type: 'POST', // 요청 방식 (POST 또는 GET)
+					data: { depth2: depth2 }, // 서버로 전송할 데이터
+					success: function(res) {
+						var reg = JSON.parse(res); // JSON 형식의 응답을 JavaScript 객체로 파싱
+
+						var ju_region3 = $("#ju_region3");
+						ju_region3.empty(); // 기존 옵션 모두 제거
+
+						var defaultOption = $('<option>'); // 새로운 옵션 요소 생성
+						defaultOption.val(""); // 옵션의 값 설정
+						defaultOption.text("지부 선택"); // 옵션의 텍스트 설정
+						ju_region3.append(defaultOption); // ju_region3에 옵션 추가
+
+						for (var i = 0; i < reg.length; i++) {
+								var option = $('<option>'); // 새로운 옵션 요소 생성
+								option.val(reg[i].region); // 옵션의 값 설정
+								option.text(reg[i].region); // 옵션의 텍스트 설정
+								ju_region3.append(option); // ju_region3에 옵션 추가
+
+								if (reg[i].region === '<?php echo $mb['ju_region3']; ?>') {
+										option.prop('selected', true); // 선택 상태 설정
+								}
+						}
+					},
+					error: function(xhr, status, error) {
+						console.log('요청 실패: ' + error);
+					}
+				});
+			});
+		});
+	</script>
 
   <h3 class="anc_tit mart30">매장정보</h3>
   <div class="tbl_frm01">
@@ -240,19 +280,31 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
       <col>
     </colgroup>
     <tbody>
-    
+
     <tr>
       <th scope="row">지회/지부</th>
         <td>
-          <input type="text" name="<?php echo (!empty($mb['ju_region2'])) ? "ju_region2" : "ju_region3" ?>" value=" <?php echo (!empty($mb['ju_region2'])) ? $mb['ju_region2'] : $mb['ju_region3'] ?>" class="frm_input">
+					<select name="ju_region2" id="ju_region2">
+						<option value="">지회 선택</option>
+						<?php
+						$depth1 = juinGroupInfo(1);
+						for ($d = 0; $d < count($depth1); $d++) { ?>
+							<option value="<?php echo $depth1[$d]['region'] ?>" <?php echo $mb['ju_region2'] == $depth1[$d]['region']?"selected":"" ?>><?php echo $depth1[$d]['region'] ?></option>
+						<?php	}
+						?>
+					</select>
+					<select name="ju_region3" id="ju_region3">
+						<?php echo "<option value='{$mb['ju_region3']}'>{$mb['ju_region3']}</option>"; ?>
+					</select>
         </td>
+
       <th scope="row">사업자번호</th>
       <td><?php echo $mb['ju_b_num']; ?></td>
     </tr>
     <tr>
       <th scope="row">업태</th>
         <td>
-          <input type="text" name="ju_business_type" value="<?php echo number_format($mb['ju_business_type']); ?>" class="frm_input">
+          <input type="text" name="ju_business_type" value="<?php echo $mb['ju_business_type']; ?>" class="frm_input">
         </td>
       <th scope="row">업종</th>
         <td>

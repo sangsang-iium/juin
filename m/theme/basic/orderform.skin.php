@@ -192,55 +192,55 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
         <!-- 기존소스 {
       <li class="sod_li">
-        <input type="hidden" name="gs_id[<?php //echo $i; 
-                                          ?>]" value="<?php //echo $row['gs_id']; 
+        <input type="hidden" name="gs_id[<?php //echo $i;
+                                          ?>]" value="<?php //echo $row['gs_id'];
                                                       ?>">
-        <input type="hidden" name="gs_notax[<?php //echo $i; 
-                                            ?>]" value="<?php //echo $gs['notax']; 
+        <input type="hidden" name="gs_notax[<?php //echo $i;
+                                            ?>]" value="<?php //echo $gs['notax'];
                                                         ?>">
-        <input type="hidden" name="gs_price[<?php //echo $i; 
-                                            ?>]" value="<?php //echo $sell_price; 
+        <input type="hidden" name="gs_price[<?php //echo $i;
+                                            ?>]" value="<?php //echo $sell_price;
                                                         ?>">
-        <input type="hidden" name="seller_id[<?php //echo $i; 
-                                              ?>]" value="<?php //echo $gs['mb_id']; 
+        <input type="hidden" name="seller_id[<?php //echo $i;
+                                              ?>]" value="<?php //echo $gs['mb_id'];
                                                           ?>">
-        <input type="hidden" name="supply_price[<?php //echo $i; 
-                                                ?>]" value="<?php //echo $supply_price; 
+        <input type="hidden" name="supply_price[<?php //echo $i;
+                                                ?>]" value="<?php //echo $supply_price;
                                                             ?>">
-        <input type="hidden" name="sum_point[<?php //echo $i; 
-                                              ?>]" value="<?php //echo $point; 
+        <input type="hidden" name="sum_point[<?php //echo $i;
+                                              ?>]" value="<?php //echo $point;
                                                           ?>">
-        <input type="hidden" name="sum_qty[<?php //echo $i; 
-                                            ?>]" value="<?php //echo $sell_qty; 
+        <input type="hidden" name="sum_qty[<?php //echo $i;
+                                            ?>]" value="<?php //echo $sell_qty;
                                                         ?>">
-        <input type="hidden" name="cart_id[<?php //echo $i; 
-                                            ?>]" value="<?php //echo $row['od_no']; 
+        <input type="hidden" name="cart_id[<?php //echo $i;
+                                            ?>]" value="<?php //echo $row['od_no'];
                                                         ?>">
 
         <div class="li_name">
-          <?php //echo $it_name; 
+          <?php //echo $it_name;
           ?>
           <div class="li_mod" style="padding-left:100px;"></div>
-          <span class="total_img"><?php //echo get_it_image($row['gs_id'], $gs['simg1'], 80, 80); 
+          <span class="total_img"><?php //echo get_it_image($row['gs_id'], $gs['simg1'], 80, 80);
                                   ?></span>
         </div>
         <div class="li_prqty">
           <span class="prqty_price li_prqty_sp"><span>판매가</span>
-            <?php //echo number_format($sell_amt); 
+            <?php //echo number_format($sell_amt);
             ?></span>
           <span class="prqty_qty li_prqty_sp"><span>수량</span>
-            <?php //echo number_format($sell_qty); 
+            <?php //echo number_format($sell_qty);
             ?></span>
           <span class="prqty_sc li_prqty_sp"><span>배송비</span>
-            <?php //echo number_format($info['price']); 
+            <?php //echo number_format($info['price']);
             ?></span>
         </div>
         <div class="li_total">
           <span class="total_price total_span"><span>소계</span>
-            <strong><?php //echo number_format($sell_price); 
+            <strong><?php //echo number_format($sell_price);
                     ?></strong></span>
           <span class="total_point total_span"><span>적립포인트</span>
-            <strong><?php //echo number_format($point); 
+            <strong><?php //echo number_format($point);
                     ?></strong></span>
         </div>
       </li>
@@ -391,7 +391,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             <div class="form-row">
               <div class="form-head">
                 <p class="title">비밀번호<b>*</b></p>
-              </div>  
+              </div>
               <div class="form-body">
                 <input type="password" name="od_pwd" class="w-per100 frm-input " maxlength="20">
                 <span class="frm_info">영,숫자 3~20자 (주문서 조회시 필요)</span>
@@ -432,9 +432,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </div>
           </div>
           <?php } ?>
-         
 
-          
+
+
           <!-- 주문자 및 수령자 기본형식 { -->
           <!-- <section id="sod_frm_orderer" style="display:none;">
             <h2 class="anc_tit">주문하시는 분</h2>
@@ -1501,15 +1501,15 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
     function billPostcode() {
         new daum.Postcode({
-            oncomplete: function(data) { 
+            oncomplete: function(data) {
                 var addr = ''; // 주소 변수
                 var extraAddr = ''; // 참고항목 변수
- 
+
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                     addr = data.roadAddress;
                 } else { // 사용자가 지번 주소를 선택했을 경우(J)
                     addr = data.jibunAddress;
-                }    
+                }
                 document.getElementById('bill_zip').value = data.zonecode;
                 document.getElementById("bill_addr1").value = addr;
 
