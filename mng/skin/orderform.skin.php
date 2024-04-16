@@ -339,22 +339,29 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             </button>
           </div>
 
+          <input type="hidden" name="email" value="<?php echo $member['email']; ?>" >
+          <input type="hidden" name="zip"   value="<?php echo $member['zip']; ?>" >
+          <input type="hidden" name="addr2" value="<?php echo $member['addr2']; ?>" >
+          <input type="hidden" name="addr3" value="<?php echo $member['addr3']; ?>" >
+          <input type="hidden" name="addr_jibeon" value="<?php echo $member['addr_jibeon']; ?>">
+
           <div class="od-ct info-list">
             <div class="info-item">
               <p class="tit">회원명</p>
-              <p class="cont"><?php echo $member['ju_restaurant']?></p>
+              <input type="text" name="ju_restaurant" value="<?php echo $member['ju_restaurant'] ?>" class="w-per50 frm-input">
             </div>
             <div class="info-item">
               <p class="tit">대표자명</p>
-              <p class="cont"><?php echo $member['name']?></p>
+              <input type="text" name="name" value="<?php echo $member['name'] ?>" class="w-per50 frm-input">
             </div>
             <div class="info-item">
               <p class="tit">사업자번호</p>
-              <p class="cont"><?php echo $member['ju_b_num']?></p>
+              <input type="text" name="ju_b_num" value="<?php echo $member['ju_b_num'] ?>" class="w-per50 frm-input" <?php echo ($is_member) ? "readonly" : ""?> >
             </div>
             <div class="info-item">
               <p class="tit">연락처</p>
-              <p class="cont"><?php echo $member['cellphone']?></p>
+              <input type="text" name="cellphone" value="<?php echo $member['cellphone'] ?>" class="w-per50 frm-input">
+              <input type="hidden" name="telephone" value="<?php echo $member['cellphone'] ?>">
             </div>
           </div>
         </div>
@@ -368,92 +375,15 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             </button>
           </div>
 
-          <!-- 배송지 등록이 아닌 입력해야할 경우
-          <div class="form-wrap">
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title">받는 사람<b>*</b></p>
-              </div>
-              <div class="form-body">
-                <input type="text" name="b_name" id="b_name_save" value="" class="w-per100 frm-input">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title">휴대폰 번호<b>*</b></p>
-              </div>
-              <div class="form-body phone">
-                <input type="text" name="b_cellphone" id="b_cellphone1_save" class="frm-input" value="" ;="">
-                <span class="hyphen">-</span>
-                <input type="text" name="b_cellphone" id="b_cellphone2_save" class="frm-input" value="" ;="">
-                <span class="hyphen">-</span>
-                <input type="text" name="b_cellphone" id="b_cellphone3_save" class="frm-input" value="" ;="">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title">주소<b>*</b>
-                </p>
-              </div>
-              <div class="form-body address">
-                <input type="text" name="b_zip" id="b_zip_save" value="" class="frm-input address-input_1">
-                <button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
-                <input type="text" name="b_addr1" id="b_addr1_save" value="" class="frm-input address-input_2">
-                <input type="text" name="b_addr2" id="b_addr2_save" class="frm-input address-input_3" value="" placeholder="나머지 주소를 입력하세요.">
-                <input type="hidden" name="b_addr_jibeon" id="b_addr_jibeon_save" class="frm-input address-input_3" placeholder="나머지 주소를 입력하세요.">
-              </div>
-            </div>
-          </div>
-          -->
+          <input type="hidden" name="b_name"      class="frm_input required od-dtn__contact">
+          <input type="hidden" name="b_cellphone" class="frm_input required od-dtn__contact">
+          <input type="hidden" name="b_telephone" class="frm_input od-dtn__contact">
+          <input type="hidden" name="b_zip"       class="frm_input required od-dtn__contact">
+          <input type="hidden" name="b_addr1"     class="frm_input frm_address required od-dtn__contact">
+          <input type="hidden" name="b_addr2"     class="frm_input frm_address od-dtn__contact">
+          <input type="hidden" name="b_addr3"     class="frm_input frm_address od-dtn__contact">
 
-          <!-- 주문자 및 수령자 기본형식 { -->
-          <section id="sod_frm_orderer" style="display:none;">
-            <h2 class="anc_tit">주문하시는 분</h2>
-            <div class="odf_tbl">
-              <table>
-                <tbody>
-                  <?php if(!$is_member) { // 비회원이면 ?>
-                  <tr>
-                    <th scope="row">비밀번호</th>
-                    <td>
-                      <input type="password" name="od_pwd"  class="frm_input " maxlength="20">
-                      <span class="frm_info">영,숫자 3~20자 (주문서 조회시 필요)</span>
-                    </td>
-                  </tr>
-                  <?php } ?>
-                  <tr>
-                    <th scope="row">이름</th>
-                    <td><input type="text" name="name" value="<?php echo $member['name']; ?>"   class="frm_input " maxlength="20"></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">핸드폰</th>
-                    <td><input type="text" name="cellphone" value="<?php echo $member['cellphone']; ?>"      class="frm_input " maxlength="20"></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">전화번호</th>
-                    <td><input type="text" name="telephone" value="<?php echo $member['telephone']; ?>" class="frm_input"     maxlength="20"></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">주소</th>
-                    <td>
-                      <input type="text" name="zip" value="<?php echo $member['zip']; ?>"  class="frm_input "    size="5" maxlength="5">
-                      <button type="button" onclick="win_zip('buyform', 'zip', 'addr1', 'addr2', 'addr3', 'addr_jibeon');"   class="frm_input frm_address "><br>
-                      <input type="text" name="addr2" value="<?php echo $member['addr2']; ?>"    class="frm_input frm_address"><br>
-                      <input type="text" name="addr3" value="<?php echo $member['addr3']; ?>" class="frm_input frm_address"      readonly><br>
-                      <input type="hidden" name="addr_jibeon" value="<?php echo $member['addr_jibeon']; ?>">
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">E-mail</th>
-                    <td><input type="text" name="email" value="<?php echo $member['email']; ?>"
-                        class="frm_input  wfull"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section id="sod_frm_taker" style="display:none">
+          <!-- <section id="sod_frm_taker" style="display:none">
             <h2 class="anc_tit">받으시는 분</h2>
             <div class="odf_tbl">
               <table>
@@ -465,14 +395,14 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                       <label for="sel_addr1" class="css-label padr5">주문자와 동일</label><br>
                       <input type="radio" name="ad_sel_addr" value="2" id="sel_addr2" class="css-checkbox lrg">
                       <label for="sel_addr2" class="css-label">신규배송지</label>
-                      <?php if($is_member) { ?>
+                      <?php //if($is_member) { ?>
                       <br><input type="radio" name="ad_sel_addr" value="3" id="sel_addr3" class="css-checkbox lrg">
                       <label for="sel_addr3" class="css-label">배송지목록</label>
-                      <?php } ?>
+                      <?php //} ?>
                     </td>
                   </tr>
                   <tr>
-                    <!--                 <th scope="row">이름</th> -->
+                                    <th scope="row">이름</th>
                     <td>
                       <input type="text" name="b_name"  class="frm_input required od-dtn__contact"  placeholder="이름">
                       <span class="tags1">기본배송지</span>
@@ -483,15 +413,15 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                     </td>
                   </tr>
                   <tr>
-                    <!--          <th scope="row">핸드폰</th> -->
+                             <th scope="row">핸드폰</th>
                     <td><input type="text" name="b_cellphone"  class="frm_input required od-dtn__contact" placeholder="핸드폰"></td>
                   </tr>
                   <tr>
-                    <!--                 <th scope="row">전화번호</th> -->
+                                    <th scope="row">전화번호</th>
                     <td><input type="text" name="b_telephone" class="frm_input od-dtn__contact" placeholder="전화번호"></td>
                   </tr>
                   <tr>
-                    <!--          <th scope="row">주소</th> -->
+                             <th scope="row">주소</th>
                     <td>
                       <input type="text" name="b_zip"  class="frm_input required od-dtn__contact" size="5" maxlength="5" placeholder="우편번호">
                       <button type="button"
@@ -504,7 +434,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                     </td>
                   </tr>
                   <tr>
-                    <!--                 <th scope="row">전하실말씀</th> -->
+                                    <th scope="row">전하실말씀</th>
                     <td>
                       <select name="sel_memo" class="wfull">
                         <option value="">요청사항 선택하기</option>
@@ -521,7 +451,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                 </tbody>
               </table>
             </div>
-          </section>
+          </section> -->
           <!-- } 주문자 및 수령자 기본형식 -->
 
           <div class="od-ct">
