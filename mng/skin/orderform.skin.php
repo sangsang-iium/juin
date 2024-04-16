@@ -793,9 +793,9 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               </div>
             </section>
 
-            <div class="od-userInfo">
+            <!-- <div class="od-userInfo">
               결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다.
-            </div>
+            </div> -->
 
             <?php if(!$is_member) { ?>
             <section id="guest_privacy">
@@ -1087,6 +1087,7 @@ $(function () {
     if (selectedPaymentMethod === '') {
       alert("결제방법을 선택하세요.");
       paymethodRadios[0] . focus(); // 선택할 라디오 버튼으로 포커스 이동
+      return false;
     }
 
     if (typeof (f.od_pwd) != 'undefined') {
