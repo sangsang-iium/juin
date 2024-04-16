@@ -270,6 +270,7 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
 		});
 	</script>
 
+  <!-- 사업장 주소, 사업자 대표 번호 정보 추가, 대표자 명, 대표 연락처 추가 20240416_SY -->
   <h3 class="anc_tit mart30">매장정보</h3>
   <div class="tbl_frm01">
     <table class="tablef">
@@ -280,7 +281,32 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
       <col>
     </colgroup>
     <tbody>
-
+    <tr>
+      <th scope="row">상호(법인명)</th>
+        <td>
+          <input type="text" name="ju_restaurant" value="<?php echo $mb['ju_restaurant']; ?>" class="frm_input">
+        </td>
+      <th scope="row">대표자명</th>
+        <td>
+          <input type="text" name="ju_name" value="<?php echo $mb['ju_name']; ?>" class="frm_input">
+        </td>
+    </tr>
+    <tr>
+      <th scope="row">사업장 연락처</th>
+        <td>
+          <input type="text" name="" value="<?php echo $mb['telephone']; ?>" class="frm_input">
+        </td>
+      <th scope="row">대표자 연락처</th>
+        <td>
+          <input type="text" name="" value="<?php echo $mb['cellphone']; ?>" class="frm_input">
+        </td>
+    </tr>
+    <tr>
+      <th scope="row">사업장 주소</th>
+        <td>
+          <input type="text" name="ju_addr_full" value="<?php echo $mb['ju_addr_full']; ?>" class="frm_input" size="60">
+        </td>
+    </tr>
     <tr>
       <th scope="row">지회/지부</th>
         <td>
