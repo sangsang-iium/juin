@@ -6,8 +6,9 @@ check_demo();
 check_admin_token();
 
 unset($value);
+$mb_id = explode("|",$_POST['mb_id']);
 $value['seller_code']		  = code_uniqid();
-$value['mb_id']				  = $_POST['mb_id'];
+$value['mb_id']				  = $mb_id[1];
 $value['seller_item']		  = $_POST['seller_item'];
 $value['company_name']		  = $_POST['company_name'];
 $value['company_saupja_no']	  = $_POST['company_saupja_no'];

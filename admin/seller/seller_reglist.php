@@ -85,7 +85,7 @@ $result = sql_query($sql);
 			<td class="tal"><?php echo $row['id']; ?></td>
 			<td class="tal"><?php echo $row['name']; ?></td>
 			<td><?php echo substr($row['reg_time'],0,10); ?></td>
-			<td><button type="button" onClick="yes('<?php echo $row['id']; ?>')" class="btn_small grey">선택</button></td>
+			<td><button type="button" onClick="yes('<?php echo $row['name'].'|'.$row['id']; ?>')" class="btn_small grey">선택</button></td>
 		</tr>
 		<?php
 		}
