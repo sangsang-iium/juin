@@ -18,19 +18,8 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">회원선택</th>
 		<td colspan="3">
-			<select name="mb_id" required>
-				<option value="">선택하세요</option>
-				<?php
-				$sql = "select * from shop_member where grade <> '1' and supply = '' order by name ";
-				$res = sql_query($sql);
-				while($row=sql_fetch_array($res)){
-					$sr = get_seller($row['id'], 'mb_id');
-					if($sr['mb_id']) continue;
+			<input type="text" name="mb_id" class="required frm_input" readonly value="" style="width: 200px;">
 
-					echo "<option value='{$row[id]}'>[Lv.{$row[grade]}] {$row[name]} ($row[id])</option>\n";
-				}
-				?>
-			<select>
 			<a href="./seller/seller_reglist.php" onclick="win_open(this,'seller_reglist','550','500','1'); return false" class="btn_small grey">선택</a>
 		</td>
 	</tr>
