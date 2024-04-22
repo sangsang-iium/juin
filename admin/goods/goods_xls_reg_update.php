@@ -137,6 +137,19 @@ if($_FILES['excelfile']['tmp_name']) {
             continue;
         }
 
+		$zone_all = "";
+		$zoneArr = explode("/", $zone);
+		for ($z = 0; $z < count($zoneArr); $z++) {
+			if ($_POST['zone'][$z] && $_POST['zone2'][$z]) {
+				if ($z == 0) {
+					$zone_all = $_POST['zone'][$z] . ',' . $_POST['zone2'][$z];
+				} else {
+					$zone_all = $zone_all . "||" . $_POST['zone'][$z] . ',' . $_POST['zone2'][$z];
+				}
+			}
+		}
+
+
 		unset($value);
 		$value['mb_id']			= $mb_id; // 판매자ID
 		$value['gcode']			= $gcode; // 상품코드

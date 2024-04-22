@@ -48,106 +48,106 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                     else
                         $cp_sale_amt_max = "";
 
-                    // $str .= $row['cp_sale_percent']. '% 할인' . $cp_sale_amt_max;
-                    $str .= "<p class=\"rate\">".$row['cp_sale_percent']."<span class=\"unit\">%</span>".$cp_sale_amt_max."</p>";
-                } else {
-                    // $str .= display_price($row['cp_sale_amt']);
-                    $str .= "<p class=\"rate\">".number_format($row['cp_sale_amt'])."<span class=\"unit\">원</span></p>";
-                }
+          // $str .= $row['cp_sale_percent']. '% 할인' . $cp_sale_amt_max;
+          $str .= "<p class=\"rate\">".$row['cp_sale_percent']."<span class=\"unit\">%</span>".$cp_sale_amt_max."</p>";
+        } else {
+          // $str .= display_price($row['cp_sale_amt']);
+          $str .= "<p class=\"rate\">".number_format($row['cp_sale_amt'])."<span class=\"unit\">원</span></p>";
+        }
 
-                // 사용가능대상
-                $str .= "<div class='text01'>".$gw_usepart[$row['cp_use_part']]."</div>";
+        // 사용가능대상
+        $str .= "<div class='text01'>".$gw_usepart[$row['cp_use_part']]."</div>";
 
-                // 최대금액
-                if($row['cp_low_amt'] > 0) {
-                    $str .= "<div class='text01'>".display_price($row['cp_low_amt'])." 이상 구매시</div>";
-                }
+        // 최대금액
+        if($row['cp_low_amt'] > 0) {
+          $str .= "<div class='text01'>".display_price($row['cp_low_amt'])." 이상 구매시</div>";
+        }
 
-                // 쿠폰발행 기간
-                $str .= "<div class='text01'>사용기간 : ";
-                if($row['cp_type'] != '3') {
-                    if($row['cp_pub_sdate'] == '9999999999') $cp_pub_sdate = '';
-                    else $cp_pub_sdate = $row['cp_pub_sdate'];
+        // 쿠폰발행 기간
+        $str .= "<div class='text01'>사용기간 : ";
+        if($row['cp_type'] != '3') {
+          if($row['cp_pub_sdate'] == '9999999999') $cp_pub_sdate = '';
+          else $cp_pub_sdate = $row['cp_pub_sdate'];
 
-                    if($row['cp_pub_edate'] == '9999999999') $cp_pub_edate = '';
-                    else $cp_pub_edate = $row['cp_pub_edate'];
+          if($row['cp_pub_edate'] == '9999999999') $cp_pub_edate = '';
+          else $cp_pub_edate = $row['cp_pub_edate'];
 
-                    if($row['cp_pub_sdate'] == '9999999999' && $row['cp_pub_edate'] == '9999999999')
-                        $str .= "무제한";
-                    else
-                        $str .= $cp_pub_sdate." ~ ".$cp_pub_edate;
+          if($row['cp_pub_sdate'] == '9999999999' && $row['cp_pub_edate'] == '9999999999')
+            $str .= "무제한";
+          else
+            $str .= $cp_pub_sdate." ~ ".$cp_pub_edate;
 
-                    // 쿠폰발행 요일
-                    if($row['cp_type'] == '1') {
-                        $str .= "&nbsp;(".$row['cp_week_day'].")";
-                    }
-                } else {
-                    $str .= "생일 (".$row['cp_pub_sday']."일 전 ~ ".$row['cp_pub_eday']."일 이후까지)";
-                }
-                $str .= "</div>";
+          // 쿠폰발행 요일
+          if($row['cp_type'] == '1') {
+            $str .= "&nbsp;(".$row['cp_week_day'].")";
+          }
+        } else {
+          $str .= "생일 (".$row['cp_pub_sday']."일 전 ~ ".$row['cp_pub_eday']."일 이후까지)";
+        }
+        $str .= "</div>";
 
 
 
-                $s_upd = "<button type=\"button\" onclick=\"post_update2('".BV_MSHOP_URL."/pop_coupon_update.php', '$cp_id');\" class=\"ui-btn cp-coupon-download\"><i class=\"icon\"></i><p class=\"txt\">다운받기</p></button>";
-                ?>
-                <div class="cp-list-item on <?php //echo $_GET['sca'] == 1 ? '':'on' ?>">
-                    <div class="coupon-lt">
-                        <p class="cp-name"><?php echo get_text($row['cp_subject']); ?></p>
-                        <?php echo $str; ?>
-                    </div>
-                    <div class="coupon-rt">
-                        <div class="btn-flex">
-                            <?php echo $s_upd; ?>
-                        </div>
-                    </div>
-                </div>
-            <?php } ?>
+        $s_upd = "<button type=\"button\" onclick=\"post_update2('".BV_MSHOP_URL."/pop_coupon_update.php', '$cp_id');\" class=\"ui-btn cp-coupon-download\"><i class=\"icon\"></i><p class=\"txt\">다운받기</p></button>";
+      ?>
+      <div class="cp-list-item on <?php //echo $_GET['sca'] == 1 ? '':'on' ?>">
+        <div class="coupon-lt">
+          <p class="cp-name"><?php echo get_text($row['cp_subject']); ?></p>
+        <?php echo $str; ?>
         </div>
+        <div class="coupon-rt">
+          <div class="btn-flex">
+            <?php echo $s_upd; ?>
+          </div>
+        </div>
+      </div>
+      <?php } ?>
     </div>
-    <?php
-    }
-    ?>
+  </div>
+	<?php
+	}
+	?>
 
-    <?php echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?gs_id='.$gs_id.'&page='); ?>
+	<?php echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?gs_id='.$gs_id.'&page='); ?>
 </div>
 
 <script>
-    function callDatas (popid, rqurl, rqm, rqd, shouldOpenPopup = false) {
-        let result = "";
+function callDatas (popid, rqurl, rqm, rqd, shouldOpenPopup = false) {
+  let result = "";
 
-        if(rqm == "GET") {
-            $.get(rqurl, rqd)
-                .done(function(data, status) {
-                    result = data;
+  if(rqm == "GET") {
+    $.get(rqurl, rqd)
+    .done(function(data, status) {
+      result = data;
 
-                    if (shouldOpenPopup) {
-                        $(popid).find(".pop-content-in").html(data);
-                        $(".popDim").show().css({"z-index":"560"});
-                        $(popid).fadeIn(200).addClass("on")
-                    }
-                })
-                .fail(function(jqXHR, textStatus, errorThrown) {
-                    console.error('Request failed:', textStatus, errorThrown);
-                });
-        } else if(rqm == "POST") {
-            $.post(rqurl, rqd)
-                .done(function(data, status) {
-                    result = data;
+      if (shouldOpenPopup) {
+        $(popid).find(".pop-content-in").html(data);
+        $(".popDim").show().css({"z-index":"560"});
+        $(popid).fadeIn(200).addClass("on")
+      }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      console.error('Request failed:', textStatus, errorThrown);
+    });
+  } else if(rqm == "POST") {
+    $.post(rqurl, rqd)
+    .done(function(data, status) {
+      result = data;
 
-                    if (shouldOpenPopup) {
-                        $(popid).find(".pop-content-in").html(data);
-                        $(".popDim").show().css({"z-index":"560"});
-                        $(popid).fadeIn(200).addClass("on")
-                    }
-                })
-                .fail(function(jqXHR, textStatus, errorThrown) {
-                    console.error('Request failed:', textStatus, errorThrown);
-                });
-        }
+      if (shouldOpenPopup) {
+        $(popid).find(".pop-content-in").html(data);
+        $(".popDim").show().css({"z-index":"560"});
+        $(popid).fadeIn(200).addClass("on")
+      }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      console.error('Request failed:', textStatus, errorThrown);
+    });
+  }
 
-        return result;
-    }
-    function post_update2(action_url, val) {
+  return result;
+}
+function post_update2(action_url, val) {
 //	var f = document.fpost;
 //	f.cp_id.value = val;
 //	f.action = action_url;
@@ -162,29 +162,29 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             dataType:"text",
             success:function(result){
                 console.log(result);
-                if(result=="ok")
-                {
-                    alert("쿠폰발행이 정상적으로 처리 되었습니다\\n\\n발급 된 쿠폰은 마이페이서 확인 가능합니다");
-                    cupondownladbtnevt();
-                    return false;
-                }
+				if(result=="ok")
+					{
+						alert("쿠폰발행이 정상적으로 처리 되었습니다\\n\\n발급 된 쿠폰은 마이페이서 확인 가능합니다");
+						cupondownladbtnevt();
+						return false;
+					}
 
             }
         });
 
 
-    }
+}
 
-    function cupondownladbtnevt(){
-        const gsId = "<?php echo $gs_id;?>";
+function cupondownladbtnevt(){
+	  const gsId = "<?php echo $gs_id;?>";
 
-        const popId = "#coupon-popup";
-        const reqPathUrl = "./pop_coupon.php";
-        const reqMethod = "GET";
-        const reqData = { gs_id: gsId };
+    const popId = "#coupon-popup";
+    const reqPathUrl = "./pop_coupon.php";
+    const reqMethod = "GET";
+    const reqData = { gs_id: gsId };
 
-        callDatas(popId, reqPathUrl, reqMethod, reqData, true);
-    }
+    callDatas(popId, reqPathUrl, reqMethod, reqData, true);
+}
 </script>
 
 <form name="fpost" method="post">

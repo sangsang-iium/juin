@@ -8,7 +8,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		<div class="smb-my-info">
 			<div class="smb-my-info-top">
 				<p class="tit">
-					<?php echo $member['name']; ?>님, 반가워요!
+					<!-- <?php echo $member['name']; ?>님, 반가워요! -->
+					<?php echo $member['name']; ?>님, <a href="https://juin.eumsvr.com/m/shop/testlog.php">반가워요!</a>
 				</p>
 				<a href="<?php echo BV_MBBS_URL; ?>/member_confirm.php?url=register_form.php" class="ui-btn sizeM" data="stIconLeft" >
 					<img src="/src/img/icon-write.svg" alt="정보수정" class="icn">
