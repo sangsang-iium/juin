@@ -909,6 +909,141 @@
       </div>
     </div>
 
+    <div class="section">
+      <h3>#중고장터</h3>
+      <div class="sb_section">
+        <h5>-- 중고상품목록</h5>
+        <div class="used-item">
+          <a href="" class="used-item_thumbBox">
+            <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
+          </a>
+          <div class="used-item_txtBox">
+            <a href="" class="tRow2 title">
+              <span class="cate">[주방용품]</span>
+              <span class="subj">식당용 식탁,의자</span>
+            </a>
+            <p class="writer">
+              <span>홍길동</span>
+              <span>대전시 서구 월평동</span>
+            </p>
+            <ul class="inf">
+              <li>
+                <p class="prc">50,000<span class="won">원</span></p>
+              </li>
+              <li>
+                <span class="status ing">판매중</span>
+              </li>
+            </ul>
+            <ul class="extra">
+              <li class="hit">
+                <span class="icon">
+                  <img src="/src/img/used/icon_hit.png" alt="조회수">
+                </span>
+                <span class="text">56</span>
+              </li>
+              <li class="like">
+                <span class="icon">
+                  <img src="/src/img/used/icon_like.png" alt="좋아요수">
+                </span>
+                <span class="text">23</span>
+              </li>
+              <li class="reply">
+                <span class="icon">
+                  <img src="/src/img/used/icon_chat.png" alt="댓글수">
+                </span>
+                <span class="text">10</span>
+              </li>
+            </ul>
+            <button type="button" class="ui-btn wish-btn on" title="관심상품 등록하기"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 채팅목록</h5>
+        <div class="chat-item">
+          <a href="" class="chat-item_thumbBox">
+            <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
+          </a>
+          <div class="chat-item_txtBox">
+            <a href="" class="title">상대방닉네임</a>
+            <p class="tRow1 msg">제품 네고 가능할까요? 수령은 직접 하겠습니다</p>
+            <ul class="extra">
+              <li>
+                <span class="text">월평동</span>
+              </li>
+              <li>
+                <span class="text">30분전</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 채팅 메세지</h5>
+        <div class="chat-vBox">
+          <p class="date">2024년 00월 00일</p>
+          <div class="chat-msg receive">
+            <div class="msgBox">
+              <div class="msgText">안녕하세요! 관심있는데 구매가능한가요? 구매가능한가요? 구매가능한가요?</div>
+              <span class="msgTime">오전 9:07</span>
+            </div>
+          </div>
+          <div class="chat-msg send">
+            <div class="msgBox">
+              <div class="msgText">네~가능합니다.<br/>바로 구매하실건가요? 구매하실건가요? 구매하실건가요?</div>
+              <span class="msgTime">오전 9:07</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb_section">
+        <h5>-- 채팅 메세지 입력</h5>
+        <div class="chat-wBox">
+          <div class="chat-wBox_wrap">
+            <textarea name="" id=""rows="1" class="frm-input w-per100 chat-wBox_input" placeholder="메세지 내용을 입력해주세요."></textarea>
+            <button type="button" class="chat-wBox_btn">메세지 전송</button>
+          </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        <script src="/src/plugin/autosize/autosize.min.js" integrity="sha512-EAEoidLzhKrfVg7qX8xZFEAebhmBMsXrIcI0h7VPx2CyAyFHuDvOAUs9CEATB2Ou2/kuWEDtluEVrQcjXBy9yw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script>
+        //메세지 입력칸 자동 높이 조절
+        autosize($('.chat-wBox_input'));
+
+        //메세지 입력칸(작성내용, 높이값) 초기화
+        //★백엔드 개발시 메세지 보내기 후 입력칸 초기화
+        function chatContentInit() {
+          let chatInput = $('.chat-wBox_input');
+          chatInput.val('').css({'height' : 'auto'});
+        }
+
+        //메세지 뷰어영역 스크롤 하단으로 이동
+        //★백엔드 개발시 메세지 보내기 후 스크롤 이동되게 적용
+        function chatScrollInit() {
+          let chatVBox = $('.chat-vBox');
+          chatVBox.scrollTop(chatVBox.prop("scrollHeight"));
+        }
+
+        $(document).ready(function(){
+          chatScrollInit();
+
+          //(임시)메세지 보내기 이벤트
+          $(".chat-wBox_btn").on('click', function(){
+            chatScrollInit();
+            chatContentInit();
+          });
+        });
+        </script>
+
+      </div>
+
+    </div>
+
   </div>
 </div>
 
