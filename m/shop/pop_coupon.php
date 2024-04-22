@@ -6,7 +6,7 @@ if(!$config['coupon_yes']) {
 }
 
 if(!$is_member) {
-	alert_close('회원만 이용가능한 서비스 입니다');
+    alert_close('회원만 이용가능한 서비스 입니다');
 }
 
 // $tb['title'] = "쿠폰 다운받기";
