@@ -141,8 +141,10 @@ $gw_menu = array(
 	array("인기상품",	"/shop/listtype.php?type=4&menu=popular"),
 	array("추천상품",	"/shop/listtype.php?type=5&menu=recomm"),
 	array("기획전",		"/shop/plan.php?menu=exhibition"),
-	array("타임세일",	"/shop/timesale.php?menu=timesale"),
-  // array("브랜드샵",	"/shop/brand.php?&menu=brand"),
+	array("오늘만할인",	"/shop/timesale.php?menu=timesale"),
+  array("중고장터",	"/used/list.php"),
+  array("회원사현황",	"/store/list.php"),
+  array("제휴서비스",	"/service/list.php"),
 );
 
 
