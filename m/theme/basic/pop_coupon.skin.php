@@ -4,49 +4,49 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <div id="sit_coupon">
-    <div class="cp-cart coupon-item">
-        <div class="cp-cart-item">
-            <div class="cp-cart-body">
-                <div class="thumb round60">
-                    <img src="<?php echo get_it_image_url($gs['index_no'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
-                </div>
-                <div class="content">
-                    <p class="name"><?php echo get_text($gs['gname']); ?></p>
-                    <div class="info">
-                        <p class="price"><?php echo mobile_price($gs['index_no']); ?></p>
-                    </div>
-                </div>
-            </div>
+  <div class="cp-cart coupon-item">
+    <div class="cp-cart-item">
+      <div class="cp-cart-body">
+        <div class="thumb round60">
+          <img src="<?php echo get_it_image_url($gs['index_no'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
         </div>
+        <div class="content">
+          <p class="name"><?php echo get_text($gs['gname']); ?></p>
+          <div class="info">
+            <p class="price"><?php echo mobile_price($gs['index_no']); ?></p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="coupon_cau">
-        이 상품 구매시, 사용하실 수 있는 할인쿠폰입니다.<br>
-        다운로드 받은 후 주문시 사용하세요!<br>
-        발행된 쿠폰은 마이페이지에서 확인 할 수 있습니다.
-    </div>
+  <div class="coupon_cau">
+    이 상품 구매시, 사용하실 수 있는 할인쿠폰입니다.<br>
+    다운로드 받은 후 주문시 사용하세요!<br>
+    발행된 쿠폰은 마이페이지에서 확인 할 수 있습니다.
+  </div>
 
 
-    <div class="cp-list-wrap">
-        <?php
-        if(!$total_count) {
-            echo "<p class=\"empty_list\">사용가능한 쿠폰이 없습니다.</p>";
-        } else {
-        ?>
-        <div class="cp-list">
-            <?php
-            for($i=0; $row=sql_fetch_array($result); $i++) {
-                $cp_id = $row['cp_id'];
+  <div class="cp-list-wrap">
+    <?php
+    if(!$total_count) {
+      echo "<p class=\"empty_list\">사용가능한 쿠폰이 없습니다.</p>";
+    } else {
+    ?>
+    <div class="cp-list">
+      <?php
+      for($i=0; $row=sql_fetch_array($result); $i++) {
+        $cp_id = $row['cp_id'];
 
-                $str  = "";
-                // $str .= "<div>&#183; <strong>".get_text($row['cp_subject'])."</strong></div>";
+        $str  = "";
+        // $str .= "<div>&#183; <strong>".get_text($row['cp_subject'])."</strong></div>";
 
-                // 혜택
-                if(!$row['cp_sale_type']) {
-                    if($row['cp_sale_amt_max'] > 0)
-                        $cp_sale_amt_max = "&nbsp;<span class=\"unit\">(최대 ".display_price($row['cp_sale_amt_max']).")</span>";
-                    else
-                        $cp_sale_amt_max = "";
+        // 혜택
+        if(!$row['cp_sale_type']) {
+          if($row['cp_sale_amt_max'] > 0)
+            $cp_sale_amt_max = "&nbsp;<span class=\"unit\">(최대 ".display_price($row['cp_sale_amt_max']).")</span>";
+          else
+            $cp_sale_amt_max = "";
 
           // $str .= $row['cp_sale_percent']. '% 할인' . $cp_sale_amt_max;
           $str .= "<p class=\"rate\">".$row['cp_sale_percent']."<span class=\"unit\">%</span>".$cp_sale_amt_max."</p>";
@@ -188,8 +188,8 @@ function cupondownladbtnevt(){
 </script>
 
 <form name="fpost" method="post">
-    <input type="hidden" name="gs_id" value="<?php echo $gs_id; ?>">
-    <input type="hidden" name="page"  value="<?php echo $page; ?>">
-    <input type="hidden" name="token" value="<?php echo $token; ?>">
-    <input type="hidden" name="cp_id">
+<input type="hidden" name="gs_id" value="<?php echo $gs_id; ?>">
+<input type="hidden" name="page"  value="<?php echo $page; ?>">
+<input type="hidden" name="token" value="<?php echo $token; ?>">
+<input type="hidden" name="cp_id">
 </form>
