@@ -13,7 +13,10 @@ if(!defined('_BLUEVATION_')) exit;
 	<tbody>
 	<tr>
 		<th scope="row">샘플파일 다운</th>
-		<td><a href="<?php echo BV_LIB_URL; ?>/Excel/itemexcel.xls" class="btn_small bx-blue"><i class="fa fa-download"></i> 샘플파일 다운로드</a></td>
+		<td>
+			<a href="<?php echo BV_LIB_URL; ?>/Excel/itemexcel.xls" class="btn_small bx-blue"><i class="fa fa-download"></i> 상품등록 샘플 다운로드</a>
+			<a href="<?php echo BV_LIB_URL; ?>/Excel/areaitem.xls" class="btn_small bx-blue"><i class="fa fa-download"></i> 지역정보 다운로드</a>
+		</td>
 	</tr>
 	<tr>
 		<th scope="row">파일 업로드</th>
@@ -46,7 +49,7 @@ function fitemexcel_submit(f)
         alert('(*.xls) 파일을 업로드해주십시오.');
         return false;
     }
-	
+
 	if(!f.excelfile.value.match(/\.(xls)$/i) && f.excelfile.value) {
         alert('(*.xls) 파일만 등록 가능합니다.');
         return false;
@@ -54,7 +57,7 @@ function fitemexcel_submit(f)
 
 	if(!confirm("상품 일괄등록을 진행하시겠습니까?"))
 		return false;
-	
+
 	f.action = bv_admin_url+"/goods.php?code=xls_reg_update";
 	return true;
 }
