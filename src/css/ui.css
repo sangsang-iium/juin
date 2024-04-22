@@ -644,6 +644,29 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .orderReview .frm-txtar {height: 20rem; font-weight: 400;}
 
 /*  === 중고장터 === */
+/* 공통/기타 */
+.regiBtn {display: inline-block; padding: 1.2rem 1.5rem; font-size: 1.8rem; font-weight: 700; color: #fff;}
+.regiBtn img {width: 2rem; margin-top: -2px; margin-right: 0.8333rem; vertical-align: middle;}
+.regiBtn.sm {font-size: 0; border-radius: 50%; width: 5rem; height: 5rem;}
+.regiBtn.sm img {margin: 2px 0 0;}
+
+.location_select {position: relative;}
+.location_select .icon {position: absolute; top: 50%; left: 0; z-index: 1; width: 2rem; transform: translateY(-50%);}
+.location_select .select {
+  height: 3rem;
+  padding: 0 2.4rem 0 2.4rem;
+  border: none;
+  outline: none;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #0f0f0f;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url('/src/img/used/select-arrow.png') no-repeat center right 0/1.5rem auto;
+}
+.location_select .select::-ms-expand { display: none; }
+
 /* 중고상품 */
 .used-item {display: flex; flex-flow: row wrap;}
 .used-item_thumbBox {overflow: hidden; width: 15.2rem; height: 15.2rem; border: 1px solid #ddd; border-radius: 1.67rem; background-color: #fff;}
@@ -658,6 +681,8 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .used-item_txtBox .prc .won {font-size: 1.73rem; font-weight: 600;}
 .used-item_txtBox .status {display: block; overflow: hidden; padding: 0.5rem 0.8rem; border-radius: 0.67rem; font-size: 1.53rem; font-weight: 400; color: #fff; line-height: 1;}
 .used-item_txtBox .status.ing {background-color: var(--color-main);}
+.used-item_txtBox .status.end {background-color: #999;}
+.used-item_txtBox .status.resv {background-color: #333;}
 .used-item_txtBox .extra {display: flex; flex-flow: row wrap; align-items: center; gap: 1.6rem; font-size: 1.53rem; font-weight: 400; color: #666;}
 .used-item_txtBox .extra li {display: flex; align-items: center; gap: 0.5rem;}
 .used-item_txtBox .extra li .icon {}

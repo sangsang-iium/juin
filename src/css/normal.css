@@ -814,3 +814,11 @@
 .cp-list-item.on .text01 {color: var(--color-gray2);}
 .cp-list-item.on .use-date {color: var(--color-gray2);}
 .cp-list-item.on .is-date {}
+
+/*  === 중고장터 === */
+.usedList ~ .btn-moveTop {display: none !important;}
+.usedList .regiBtn {position: fixed; bottom: 10rem; right: 2.4rem; z-index: 100;}
+.used-location_sch .location_select {margin-bottom: 1.6rem;}
+
+.used-list__category {margin-bottom: 1rem;}
+.used-prod_list .used-item {padding: 1.67rem 0; border-bottom: 1px solid #e9e9e9;}

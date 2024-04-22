@@ -394,6 +394,13 @@ $(document).ready(function () {
   $(window).scroll(function () {
     let scrHeight = $(document).scrollTop();
 
+    // Register Button
+    if(scrHeight > 100) {
+      $('.regiBtn').addClass('sm');
+    } else {
+      $('.regiBtn').removeClass('sm');
+    }
+
     // Top Button
     if(scrHeight > 500) {
       $('.btn-moveTop').css('display','block');

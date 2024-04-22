@@ -32,5 +32,8 @@
   <li><a href="<?php echo BV_MSHOP_URL;?>/cart.php">장바구니</a></li>
   <li><a href="<?php echo BV_MSHOP_URL;?>/orderinquiry.php">주문/배송조회</a></li>
   <li><a href="<?php echo BV_MBBS_URL;?>/faq.php?faqcate=1">고객센터</a></li>
+  <li><a href="/m/used/list.php">중고장터</a></li>
+  <li><a href="/m/store/list.php">회원사현황</a></li>
+  <li><a href="/m/service/list.php">제휴서비스</a></li>
 </ul>
 <?php } ?>
