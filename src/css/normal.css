@@ -815,10 +815,20 @@
 .cp-list-item.on .use-date {color: var(--color-gray2);}
 .cp-list-item.on .is-date {}
 
-/*  === 중고장터 === */
+/* === 중고장터 === */
 .usedList ~ .btn-moveTop {display: none !important;}
 .usedList .regiBtn {position: fixed; bottom: 10rem; right: 2.4rem; z-index: 100;}
 .used-location_sch .location_select {margin-bottom: 1.6rem;}
 
 .used-list__category {margin-bottom: 1rem;}
 .used-prod_list .used-item {padding: 1.67rem 0; border-bottom: 1px solid #e9e9e9;}
+
+/*  === 회원사현황 === */
+.store-map {overflow: hidden; height: 48rem; border-radius: 0 0 0 6rem; background-color:darkgrey;}
+
+.storeList ~ .btn-moveTop {display: none !important;}
+.storeList .regiBtn {position: fixed; bottom: 10rem; right: 2.4rem; z-index: 100;}
+.store-location_sch .location_select {margin-bottom: 1.6rem;}
+
+.store-list__category {}
+.store-prod_list .store-item {padding: 1.67rem 0; border-bottom: 1px solid #e9e9e9;}
