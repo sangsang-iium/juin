@@ -137,4 +137,6 @@ define('ADMIN_MENU10_14',	'본인인증 / I-PIN 설정');
 define('ADMIN_MENU10_15',	'IP 접속제한 설정');
 define('ADMIN_MENU10_16',	'게시판 그룹관리');
 define('ADMIN_MENU10_17',	'게시판 관리');
+define('ADMIN_MENU10_18',	'지회/지부관리');
+define('ADMIN_MENU10_19',	'담당자관리');
 ?>

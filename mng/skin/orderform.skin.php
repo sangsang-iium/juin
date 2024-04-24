@@ -589,7 +589,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               </li>
               <li>
                 <span class="lt-txt">총 할인금액</span>
-                <span class="rt-txt totdc_amt" id="totdc_amt">-500원</span>
+                <span class="rt-txt totdc_amt" id="totdc_amt">0원</span>
                 <ul class="prc-tot2">
                   <li>
                     <span class="lt-txt">즉시할인</span>
@@ -597,7 +597,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                   </li>
                   <li>
                     <span class="lt-txt ">쿠폰할인</span>
-                    <span class="rt-txt cpdc_amt" id="cpdc_amt">-500</span>
+                    <span class="rt-txt cpdc_amt" id="cpdc_amt">0</span>
                   </li>
                 </ul>
               </li>
