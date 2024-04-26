@@ -240,6 +240,24 @@ $(document).ready(function () {
   };
   const prodDetailThumbSlider = f.slider(prodDetailThumbTarget, prodDetailThumbOptions);
 
+  //used,store Detail Thumb Slide
+  const flDetailThumbTarget = '.fl-detailThumb .swiper-container';
+  const flDetailThumbOptions = {
+    slidesPerView: 1,
+    loop: true,
+    loopAdditionalSlides : 1,
+    watchOverflow : true,
+    // autoplay: {
+    //   delay: 3000,
+    // },
+    speed: 1000,
+    centeredSlides: true,
+    pagination: {
+      el: `${flDetailThumbTarget} .pagination`,
+    },
+  };
+  const flDetailThumbSlider = f.slider(flDetailThumbTarget, flDetailThumbOptions);
+
   //Product Detail Info
   const heightCont = $(".ht-cont");
   const heightWrap = $(".ht-wrap");

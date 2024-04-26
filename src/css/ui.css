@@ -674,8 +674,10 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .used-item_txtBox .title {display: flex; flex-flow: row wrap; margin-bottom: 0.8rem; font-size: 2rem; font-weight: 500; color: #333;}
 .used-item_txtBox .cate {margin-right: 0.3rem;}
 .used-item_txtBox .subj {}
-.used-item_txtBox .writer {margin-bottom: 0.8rem; font-size: 1.8rem; font-weight: 400; color: #666;}
-.used-item_txtBox .writer span {}
+.used-item_txtBox .writer {display: flex; gap: 0.5rem 1.2rem; margin-bottom: 0.8rem; font-size: 1.8rem; font-weight: 400; color: #666;}
+.used-item_txtBox .writer span {position: relative;}
+.used-item_txtBox .writer span:after {content: ""; display: block; height: 1.6rem; position: absolute; top: 50%; left: -0.7rem; margin-top: -0.8rem; border-left: 1px solid #999;}
+.used-item_txtBox .writer span:first-child:after {display: none !important;}
 .used-item_txtBox .inf {margin-bottom: 1.5rem; display: flex; flex-flow: row wrap; align-items: center; gap: 0.67rem;}
 .used-item_txtBox .prc {font-size: 2rem; font-weight: 700; color: #0f0f0f;}
 .used-item_txtBox .prc .won {font-size: 1.73rem; font-weight: 600;}
@@ -771,6 +773,53 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
   border: 1px solid var(--color-main);
   background: url('/src/img/wish-fill.png') no-repeat center / 1.85rem auto, #fff;
 }
+
+/* 중고장터, 회원사현황 상세(공통) */
+.flView {margin-top: 0 !important;}
+.flView .fl-detailThumb {position: relative;}
+.flView .fl-detailThumb .recom {position: absolute; top: 0; left: 1.2rem; z-index: 10; width: 9.6rem;}
+.flView .fl-detailThumb .swiper-control {display: block; width: 100%; height: auto; background: none; right: inherit; text-align: center;}
+.flView .fl-detailThumb .swiper-control .pagination {display: flex; justify-content: center; gap: 0.8rem;}
+.flView .fl-detailThumb .swiper-control .swiper-pagination-bullet {width: 1rem; height: 1rem; border: none; background: #ddd; opacity: 1; margin: 0;}
+.flView .fl-detailThumb .swiper-control .swiper-pagination-bullet-active {background: #666;}
+
+.flView .item_txtBox {width: 100%; padding: 2.6rem 2.4rem;}
+.flView .info-item .tit {font-size: 1.8rem;}
+.flView .info-item .cont {font-size: 1.8rem;}
+
+.flView .fl-explan {padding-top: 2.5rem; padding-bottom: 2.5rem; font-size: 1.8rem; font-weight: 500; color: #333; line-height: 1.67;}
+
+/* > 댓글 */
+.flView .fl-reply {padding-top: 2.8rem; padding-bottom: 4.8rem;}
+.fl-reply_title .title {font-weight: 600; font-size: 2.4rem; color: var(--color-black2);}
+.fl-reply_list {}
+.fl-reply_item {border-bottom: 0.16rem solid var(--color-gray10); padding: 3.6rem 0;}
+.fl-reply_item:last-child {border-bottom: none;}
+.fl-reply_top {display: flex; align-items: center; justify-content: space-between;}
+.fl-reply_top .left {}
+.fl-reply_top .name {font-weight: 400; font-size: 1.8rem; color: var(--color-black3);}
+.fl-reply_top .right {}
+.fl-reply_top .date {font-weight: 400; font-size: 1.8rem; color: var(--color-gray3);}
+.fl-reply_content-wr {padding-top: 2.5rem;}
+.fl-reply_content {}
+
+.fl-reply_content-q-wr {font-weight: 300; font-size: 1.8rem; line-height: 1.6; color: var(--color-black3);}
+.fl-reply_item .mngArea {display: flex; flex-flow: row wrap; align-items: center; justify-content: flex-start; gap: 2rem; margin-top: 2rem;}
+.fl-reply_item .mngArea .ui-btn {position: relative; font-size: 1.8rem; font-weight: 400; color: #999;}
+.fl-reply_item .mngArea .ui-btn:after {content: ""; display: block; height: 1.6rem; position: absolute; top: 50%; left: -1rem; margin-top: -0.8rem; border-left: 1px solid #999;}
+.fl-reply_item .mngArea .ui-btn:first-child:after {display: none !important;}
+
+.fl-reply_content-a-wr {overflow: hidden; margin-top: 2.6667rem; border-radius: 1rem; padding: 2.15rem 2.3rem; background-color: #fafafa;}
+.fl-reply_content-a-wr .name {font-size: 1.8rem; font-weight: 600; color: var(--color-main); line-height: normal;}
+.fl-reply_content-a-wr .cont {margin-top: 1rem; font-size: 1.8rem; font-weight: 300; color: #333; line-height: 1.6;}
+
+.fl-reply_register {margin-top: 3rem; border: 1px solid var(--color-gray4);
+  border-radius: 0.8rem;}
+.fl-reply_register .frm-txtar {height: 17rem; border: none; border-radius: 0; outline: none;}
+.fl-reply_register .frm-txtar:focus {box-shadow: none !important;}
+.fl-reply_register .bottomArea {padding: 0 1rem 1rem 0;}
+.fl-reply_register .bottomArea:after {content: ""; display: table; clear: both;}
+.fl-reply_register .bottomArea .register-btn {float: right;}
 
 /* 제휴서비스 */
 .service-item {display: block;}
