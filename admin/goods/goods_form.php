@@ -84,8 +84,10 @@ if(($normal_price > 0)) {
   $income_html2 = "<span class='fc_197'>(".$income_per."%)</span>";
   
   $income_html = [
-    "income"     => $income_html1,
-    "income_per" => $income_html2
+    "income"          => $income,
+    "income_per"      => $income_per,
+    "income_html"     => $income_html1,
+    "income_per_html" => $income_html2
   ];
 }
 
@@ -857,11 +859,30 @@ if(($normal_price > 0)) {
 		<col>
 	</colgroup>
 	<tbody>
+  <tr>
+		<th scope="row">정산방식</th>
+		<td>
+      <input type="radio" name="supply_type" value="0" id="income_type1"<?php echo ($w == '') ? "checked" : get_checked('0', $gs['supply_type']); ?> >
+			<label for="income_type1" class="marr10">매입가 정산 방식 <b class="income_type1"><?php echo ($w == 'u') ? $income_html['income_html'] : "" ?></b> </label>
+			<input type="radio" name="supply_type" value="1" id="income_type2"<?php echo get_checked('1', $gs['supply_type']); ?> >
+			<label for="income_type2" class="marr10">요율 정산 방식 <b class="income_type2"><?php echo ($w == 'u') ? $income_html['income_per_html'] : "" ?></b></label>
+		</td>
+	</tr>
 	<tr>
 		<th scope="row">매입가격</th>
 		<td>
 			<input type="text" name="supply_price" id="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
 			<span class="fc_197 marl5">사입처에서 공급받은 가격</span>
+		</td>
+	</tr>
+  <?php 
+    $display = ($w == '' || $gs['supply_type'] == 0) ? "display: none;" : "";
+  ?>
+	<tr id="incomePer_tr" style="<?php echo $display ?>">
+		<th scope="row">요율</th>
+		<td>
+			<input type="text" name="income_per" id="incomePer_input" value="<?php echo ($w == 'u' && $income_html['income_per'] > 0) ? $income_html['income_per'] : 0 ?>" class="frm_input w80" onkeyup="addComma(this);"> %
+			<span class="fc_197 marl5">이익률 (요율 입력 시 판매가는 요율을 우선으로 적용)</span>
 		</td>
 	</tr>
 	<tr>
@@ -878,16 +899,7 @@ if(($normal_price > 0)) {
 			<span class="fc_197 marl5">시중에 판매되는 가격 (판매가보다 크지않으면 시중가 표시안함)</span>
 		</td>
 	</tr>
-  <tr>
-		<th scope="row">정산방식</th>
-		<td>
-      <input type="radio" name="supply_type" value="0" id=""<?php echo ($w == '') ? "checked" : get_checked('0', $gs['supply_type']); ?> >
-			<label for="" class="marr10">매입가 정산 방식 <b class="income_type1"><?php echo ($w == 'u') ? $income_html['income'] : "" ?></b> </label>
-			<input type="radio" name="supply_type" value="1" id=""<?php echo get_checked('1', $gs['supply_type']); ?> >
-			<label for="" class="marr10">요율 정산 방식 <b class="income_type2"><?php echo ($w == 'u') ? $income_html['income_per'] : "" ?></b></label>
-
-		</td>
-	</tr>
+  
 	<!-- <tr>
 		<th scope="row">포인트</th>
 		<td>
@@ -966,12 +978,38 @@ if(($normal_price > 0)) {
       return parseInt(stringNumber.replace(/,/g , ''));
   }
 
+  let income_type1   = $('.income_type1');
+  let income_type2   = $('.income_type2');
+
+  $(function() {
+    $('#income_type2').change(function() { 
+      $('#incomePer_tr').show();
+    });
+
+    $('#income_type1').change(function() { 
+      $('#incomePer_tr').hide();
+    });
+  });
+
+  $('#incomePer_input').on('change', function() {
+    console.log($('#incomePer_input').val())
+    let supply_price = stringNumberToInt($('#supply_price').val());
+    let incomePer_input = stringNumberToInt($('#incomePer_input').val());
+
+    if(supply_price > 0 && incomePer_input > 0) {
+      let total_price = Math.round(supply_price / (1 - incomePer_input/ 100))
+
+      $('#goods_price').val(total_price);
+      $('#normal_price').val(total_price);
+    }
+  });
+
+
   $('#supply_price, #goods_price, #normal_price').on('change', function() {
     let supply_price = stringNumberToInt($('#supply_price').val());
     let goods_price  = stringNumberToInt($('#goods_price').val());
     let normal_price = stringNumberToInt($('#normal_price').val());
-    let income_type1 = $('.income_type1');
-    let income_type2 = $('.income_type2');
+
     
     if(normal_price > 0) {
       let income_price = (normal_price > goods_price) ? (normal_price - supply_price) : (goods_price - supply_price);
@@ -983,10 +1021,13 @@ if(($normal_price > 0)) {
       if(income_price > 0 && income_percent > 0) {
         income_type1.html("<span class='fc_197'>("+income_price+"원)</span>");
         income_type2.html("<span class='fc_197'>("+Math.round(income_percent)+"%)</span>");
+        $('#incomePer_input').val(Math.round(income_percent));
       }
     }
 
   })
+
+
 </script>
 
 <?php echo $frm_submit; ?>
