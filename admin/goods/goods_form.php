@@ -69,6 +69,26 @@ $pg_anchor = <<<EOF
 	<li><a href="#anc_sitfrm_img">상품이미지</a></li>
 </ul>
 EOF;
+
+
+// 정산방식 추가 _20240426_SY
+$normal_price = $gs['normal_price'];
+$goods_price  = $gs['goods_price'];
+$supply_price = $gs['supply_price'];
+
+if(($normal_price > 0)) {
+  $income = ($normal_price > $goods_price) ? $normal_price - $supply_price : $goods_price - $supply_price;
+  $income_html1 = "<span class='fc_197'>(".$income."원)</span>";
+  
+  $income_per = ($normal_price > $goods_price) ? round((($normal_price - $supply_price)/$normal_price)*100) : round((($goods_price - $supply_price)/$goods_price)*100);
+  $income_html2 = "<span class='fc_197'>(".$income_per."%)</span>";
+  
+  $income_html = [
+    "income"     => $income_html1,
+    "income_per" => $income_html2
+  ];
+}
+
 ?>
 
 <script src="<?php echo BV_JS_URL; ?>/categoryform.js?ver=<?php echo BV_JS_VER; ?>"></script>
@@ -840,22 +860,32 @@ EOF;
 	<tr>
 		<th scope="row">매입가격</th>
 		<td>
-			<input type="text" name="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+			<input type="text" name="supply_price" id="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
 			<span class="fc_197 marl5">사입처에서 공급받은 가격</span>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">판매가격</th>
 		<td>
-			<input type="text" name="goods_price" value="<?php echo number_format($gs['goods_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+			<input type="text" name="goods_price" id="goods_price" value="<?php echo number_format($gs['goods_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
 			<span class="fc_197 marl5">실제 판매가 입력 (대표가격으로 사용)</span>
 		</td>
 	</tr>
   <tr>
 		<th scope="row">회원혜택가격</th>
 		<td>
-			<input type="text" name="normal_price" value="<?php echo number_format($gs['normal_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+			<input type="text" name="normal_price" id="normal_price" value="<?php echo number_format($gs['normal_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
 			<span class="fc_197 marl5">시중에 판매되는 가격 (판매가보다 크지않으면 시중가 표시안함)</span>
+		</td>
+	</tr>
+  <tr>
+		<th scope="row">정산방식</th>
+		<td>
+      <input type="radio" name="supply_type" value="0" id=""<?php echo ($w == '') ? "checked" : get_checked('0', $gs['supply_type']); ?> >
+			<label for="" class="marr10">매입가 정산 방식 <b class="income_type1"><?php echo ($w == 'u') ? $income_html['income'] : "" ?></b> </label>
+			<input type="radio" name="supply_type" value="1" id=""<?php echo get_checked('1', $gs['supply_type']); ?> >
+			<label for="" class="marr10">요율 정산 방식 <b class="income_type2"><?php echo ($w == 'u') ? $income_html['income_per'] : "" ?></b></label>
+
 		</td>
 	</tr>
 	<!-- <tr>
@@ -928,6 +958,36 @@ EOF;
 	</table>
 </div>
 </section>
+
+<script>
+  // 정산방식 추가 _20240425_SY
+  
+  function stringNumberToInt(stringNumber){
+      return parseInt(stringNumber.replace(/,/g , ''));
+  }
+
+  $('#supply_price, #goods_price, #normal_price').on('change', function() {
+    let supply_price = stringNumberToInt($('#supply_price').val());
+    let goods_price  = stringNumberToInt($('#goods_price').val());
+    let normal_price = stringNumberToInt($('#normal_price').val());
+    let income_type1 = $('.income_type1');
+    let income_type2 = $('.income_type2');
+    
+    if(normal_price > 0) {
+      let income_price = (normal_price > goods_price) ? (normal_price - supply_price) : (goods_price - supply_price);
+      let income_percent = (normal_price > goods_price) ? ((normal_price - supply_price)/normal_price)*100 : ((goods_price - supply_price)/goods_price)*100
+      
+      income_type1.html("");
+      income_type2.html("");
+    
+      if(income_price > 0 && income_percent > 0) {
+        income_type1.html("<span class='fc_197'>("+income_price+"원)</span>");
+        income_type2.html("<span class='fc_197'>("+Math.round(income_percent)+"%)</span>");
+      }
+    }
+
+  })
+</script>
 
 <?php echo $frm_submit; ?>
 
