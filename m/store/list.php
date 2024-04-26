@@ -20,7 +20,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
   </div>
 
   <div class="store-map">
-    
+    <!-- 지도 연동 -->
   </div>
 
   <div class="container store-prod_list">
@@ -40,7 +40,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
           <span class="cate">[한식]</span>
           <span class="subj">쥔장네 돈까스</span>
         </a>
-        <p class="address">대전 유성구 동서대로656번길 31-24</p>
+        <p class="address">대전 유성구 동서대로656번길</p>
         <a href="" class="tel">070-0000-0000</a>
         <ul class="extra">
           <li class="hit">
@@ -70,7 +70,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
           <span class="cate">[일식]</span>
           <span class="subj">주인장 초밥</span>
         </a>
-        <p class="address">대전 유성구 동서대로656번길 31-24</p>
+        <p class="address">대전 유성구 동서대로656번길</p>
         <a href="" class="tel">070-0000-0000</a>
         <ul class="extra">
           <li class="hit">
