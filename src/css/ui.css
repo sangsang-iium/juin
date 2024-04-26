@@ -771,3 +771,14 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
   border: 1px solid var(--color-main);
   background: url('/src/img/wish-fill.png') no-repeat center / 1.85rem auto, #fff;
 }
+
+/* 제휴서비스 */
+.service-item {display: block;}
+.service-item ~ .service-item {margin-top: 4rem;}
+.service-item .thumb {position: relative; height: 0; padding-bottom: 53%;}
+.service-item .thumb img {position: absolute; top: 50%; left: 50%; z-index: 1; transform: translate(-50%, -50%);}
+.service-item .service-info {margin-top: 2rem;}
+.service-info .title {display: flex; flex-flow: row wrap; font-size: 2.2rem; font-weight: 500; color: var(--color-black3);}
+.service-info .cname {margin-right: 0.3rem;}
+.service-info .ex {margin-top: 0.5rem;}
+.service-info .period {font-size: 1.8rem; font-weight: 400; color: var(--color-gray3);}
