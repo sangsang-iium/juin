@@ -29,11 +29,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
     -->
     <!-- loop { -->
     <div class="store-item">
-      <a href="" class="store-item_thumbBox">
+      <a href="./view.php" class="store-item_thumbBox">
         <img src="/src/img/store/t-store_thumb1.jpg" class="fitCover" alt="쥔장네 돈까스">
       </a>
       <div class="store-item_txtBox">
-        <a href="" class="tRow2 title">
+        <a href="./view.php" class="tRow2 title">
           <!-- 추천 맛집 라벨 { -->
           <i class="recom"><img src="/src/img/store/recom_label.png" alt=""></i>
           <!-- } 추천 맛집 라벨 -->
@@ -41,7 +41,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
           <span class="subj">쥔장네 돈까스</span>
         </a>
         <p class="address">대전 유성구 동서대로656번길</p>
-        <a href="" class="tel">070-0000-0000</a>
+        <a href="tel:070-0000-0000" class="tel">070-0000-0000</a>
         <ul class="extra">
           <li class="hit">
             <span class="icon">
@@ -62,16 +62,16 @@ include_once(BV_MPATH."/_head.php"); // 상단
     <!-- } loop -->
 
     <div class="store-item">
-      <a href="" class="store-item_thumbBox">
+      <a href="./view.php" class="store-item_thumbBox">
         <img src="/src/img/store/t-store_thumb2.jpg" class="fitCover" alt="주인장 초밥">
       </a>
       <div class="store-item_txtBox">
-        <a href="" class="tRow2 title">
+        <a href="./view.php" class="tRow2 title">
           <span class="cate">[일식]</span>
           <span class="subj">주인장 초밥</span>
         </a>
         <p class="address">대전 유성구 동서대로656번길</p>
-        <a href="" class="tel">070-0000-0000</a>
+        <a href="tel:070-0000-0000" class="tel">070-0000-0000</a>
         <ul class="extra">
           <li class="hit">
             <span class="icon">

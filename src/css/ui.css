@@ -711,18 +711,20 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 }
 
 /* 채팅 */
-.chat-item {display: flex; flex-flow: row wrap;}
-.chat-item_thumbBox {overflow: hidden; width: 12rem; height: 12rem; border: 1px solid #ddd; border-radius: 1.67rem; background-color: #fff;}
-.chat-item_txtBox {position: relative; width: calc(100% - 12rem); padding-top: 1rem; padding-left: 2.4rem;}
-.chat-item_txtBox .title {display: block; margin-bottom: 0.8rem; font-size: 2rem; font-weight: 500; color: #333;}
-.chat-item_txtBox .msg {margin-bottom: 0.8rem; font-size: 1.8rem; font-weight: 400; color: #666;}
+.chat-item {display: flex; flex-flow: row wrap; align-items: center;}
+.chat-item_thumbBox {overflow: hidden; width: 10rem; height: 10rem; border: 1px solid #ddd; border-radius: 1.67rem; background-color: #fff;}
+.chat-item_txtBox {position: relative; width: calc(100% - 10rem);  padding-left: 2rem;}
+.chat-item_txtBox .title {display: flex; flex-flow: row wrap; align-items: center; margin-bottom: 0.5rem; }
+.chat-item_txtBox .title .name {font-size: 2rem; font-weight: 500; color: #333;}
+.chat-item_txtBox .title .new {display: inline-block; width: 2.4rem; height: 2.4rem; line-height: 2.4rem; border-radius: 50%; background: var(--color-main); font-size: 1.33rem; font-weight: 500; color: #fff; text-align: center; vertical-align: middle; margin-left: 0.5rem;}
+.chat-item_txtBox .msg {margin-bottom: 0.5rem; font-size: 1.8rem; font-weight: 400; color: #666;}
 .chat-item_txtBox .extra {display: flex; flex-flow: row wrap; align-items: center; gap: 1.6rem; font-size: 1.53rem; font-weight: 400; color: #666;}
 .chat-item_txtBox .extra li {position: relative; display: flex; align-items: center; gap: 0.5rem;}
 .chat-item_txtBox .extra li:after {content: ""; display: block; position: absolute;  top: 50%; left: -1rem; z-index: 1; width: 1px; height: 1.33rem; margin-top: -0.665rem; background-color: #999;}
 .chat-item_txtBox .extra li:first-child:after {display: none;}
 .chat-item_txtBox .extra li .text {font-size: 1.7rem; font-weight: 400; color: #999;}
 
-.chat-vBox {overflow-y: auto; height: 200px;}
+.chat-vBox {overflow-y: auto; height: calc(100vh - 26.2rem);}
 .chat-vBox .date {display: block; padding: 1rem 0 2.5rem; font-size: 1.67rem; font-weight: 400; color: #666; text-align: center;}
 
 .chat-msg {margin-bottom: 1.5rem;}
@@ -735,7 +737,27 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .chat-msg.send .msgText {color: #fff; background-color: var(--color-main);}
 .chat-msg.send .msgTime {left: -5.5rem;}
 
-.chat-wBox_wrap {position: relative;}
+.chat-wBox {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 550;
+  width: var(--max-width);
+  max-width: 100%;
+  height: 10rem;
+  border-radius: 2rem 2rem 0 0;
+  background-color: #fff;
+  box-shadow: 0 0 3.2rem 0 rgba(0, 0, 0, 0.1);
+}
+.chat-wBox_wrap {
+  position: relative;
+  width: 100%;
+}
 .chat-wBox_input {border-radius: 3.33rem; min-height: 5.67rem; max-height: 10rem; padding: 1.6rem 5rem 1.6rem 2rem; font-size: 1.67rem; font-weight: 400; color: #333;}
 .chat-wBox_input::placeholder {color: #999;}
 .chat-wBox_btn {display: block; position: absolute; top: 0.685rem; right: 0.685rem; width: 4.3rem; height: 4.3rem; border: 0; border-radius: 50%; background: url('/src/img/used/icon_chat_send.png') no-repeat center/2rem auto, var(--color-main); font-size: 0;}
@@ -823,7 +845,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 
 /* 제휴서비스 */
 .service-item {display: block;}
-.service-item ~ .service-item {margin-top: 4rem;}
+.service-item ~ .service-item {margin-top: 2.67rem;}
 .service-item .thumb {position: relative; height: 0; padding-bottom: 53%;}
 .service-item .thumb img {position: absolute; top: 50%; left: 50%; z-index: 1; transform: translate(-50%, -50%);}
 .service-item .service-info {margin-top: 2rem;}

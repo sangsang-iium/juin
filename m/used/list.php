@@ -35,11 +35,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
     -->
     <!-- loop { -->
     <div class="used-item">
-      <a href="" class="used-item_thumbBox">
+      <a href="./view.php" class="used-item_thumbBox">
         <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
       </a>
       <div class="used-item_txtBox">
-        <a href="" class="tRow2 title">
+        <a href="./view.php" class="tRow2 title">
           <span class="cate">[주방용품]</span>
           <span class="subj">식당용 식탁,의자</span>
         </a>
@@ -81,11 +81,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
     <!-- } loop -->
 
     <div class="used-item">
-      <a href="" class="used-item_thumbBox">
+      <a href="./view.php" class="used-item_thumbBox">
         <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
       </a>
       <div class="used-item_txtBox">
-        <a href="" class="tRow2 title">
+        <a href="./view.php" class="tRow2 title">
           <span class="cate">[주방용품]</span>
           <span class="subj">식당용 식탁,의자</span>
         </a>
@@ -126,11 +126,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
     </div>
 
     <div class="used-item">
-      <a href="" class="used-item_thumbBox">
+      <a href="./view.php" class="used-item_thumbBox">
         <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
       </a>
       <div class="used-item_txtBox">
-        <a href="" class="tRow2 title">
+        <a href="./view.php" class="tRow2 title">
           <span class="cate">[주방용품]</span>
           <span class="subj">식당용 식탁,의자</span>
         </a>
@@ -171,11 +171,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
     </div>
 
     <div class="used-item">
-      <a href="" class="used-item_thumbBox">
+      <a href="./view.php" class="used-item_thumbBox">
         <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
       </a>
       <div class="used-item_txtBox">
-        <a href="" class="tRow2 title">
+        <a href="./view.php" class="tRow2 title">
           <span class="cate">[주방용품]</span>
           <span class="subj">식당용 식탁,의자</span>
         </a>
@@ -216,11 +216,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
     </div>
 
     <div class="used-item">
-      <a href="" class="used-item_thumbBox">
+      <a href="./view.php" class="used-item_thumbBox">
         <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
       </a>
       <div class="used-item_txtBox">
-        <a href="" class="tRow2 title">
+        <a href="./view.php" class="tRow2 title">
           <span class="cate">[주방용품]</span>
           <span class="subj">식당용 식탁,의자</span>
         </a>
@@ -261,11 +261,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
     </div>
 
     <div class="used-item">
-      <a href="" class="used-item_thumbBox">
+      <a href="./view.php" class="used-item_thumbBox">
         <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
       </a>
       <div class="used-item_txtBox">
-        <a href="" class="tRow2 title">
+        <a href="./view.php" class="tRow2 title">
           <span class="cate">[주방용품]</span>
           <span class="subj">식당용 식탁,의자</span>
         </a>
@@ -306,11 +306,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
     </div>
 
     <div class="used-item">
-      <a href="" class="used-item_thumbBox">
+      <a href="./view.php" class="used-item_thumbBox">
         <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
       </a>
       <div class="used-item_txtBox">
-        <a href="" class="tRow2 title">
+        <a href="./view.php" class="tRow2 title">
           <span class="cate">[주방용품]</span>
           <span class="subj">식당용 식탁,의자</span>
         </a>
