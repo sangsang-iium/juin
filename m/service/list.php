@@ -9,7 +9,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
     <p class="empty_list">자료가 없습니다.</p>
     -->
     <!-- loop { -->
-    <a href="" class="service-item">
+    <a href="./view.php" class="service-item">
       <div class="cp-banner__round thumb">
         <img src="/src/img/service/t-service_thumb1.png" alt="주인장 제휴카드" class="fitCover">
       </div>
@@ -25,7 +25,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
     </a>
     <!-- } loop -->
 
-    <a href="" class="service-item">
+    <a href="./view.php" class="service-item">
       <div class="cp-banner__round thumb">
         <img src="/src/img/service/t-service_thumb2.png" alt="주인장 제휴보험" class="fitCover">
       </div>

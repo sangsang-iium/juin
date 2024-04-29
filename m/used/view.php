@@ -174,6 +174,17 @@ include_once(BV_MPATH."/_head.php"); // 상단
     </div>
   </div>
 
+  <div class="prod-buy_area">
+    <div class="dfBox">
+      <div class="container">
+        <div class="prod-buy__btns">
+          <button type="button" class="ui-btn wish-btn" title="관심상품 등록하기"></button>
+          <button type="button" class="ui-btn round stBlack chat-btn">채팅하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <?php
