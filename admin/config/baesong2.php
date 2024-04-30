@@ -2,7 +2,7 @@
 if(!defined('_BLUEVATION_')) exit;
 ?>
 
-<form name="fregform" method="post" action="./config/baesong_update.php" onsubmit="return fregform_submit(this);">
+<form name="fregform" method="post" action="./config/baesong_update2.php" onsubmit="return fregform_submit(this);">
 <input type="hidden" name="token" value="">
 
 <h2>배송정책 설정</h2>
@@ -13,67 +13,6 @@ if(!defined('_BLUEVATION_')) exit;
 		<col>
 	</colgroup>
 	<tbody>
-		<tr>
-		<th scope="row">배송관리</th>
-		<td>
-			<div id="sit_supply_frm2" class="tbl_frm02">
-				<table>
-				<colgroup>
-					<col>
-					<col class="w70">
-				</colgroup>
-				<thead>
-				<tr>
-					<th scope="col" class="tac">배송관리업체명</th>
-					<th scope="col" class="tac">삭제</th>
-				</tr>
-				</thead>
-				<tbody>
-				<?php
-				$spl_sorts2 = explode(",", $config['delivery_mg']);
-				$spl_count2 = count($spl_sorts2);
-
-				for($i=0; $i < $spl_count2; $i++) {
-				?>
-				<tr>
-					<td><input type="text" name="spl_name2[]" value="<?php echo $spl_sorts2[$i]; ?>" class="frm_input wfull"></td>
-					<td class="tac">
-						<?php if($i == 0) { ?>
-						<button type="button" id="add_supply_row2" class="btn_small">추가</button>
-						<?php } ?>
-						<?php if($i > 0) { ?>
-						<button type="button" id="del_supply_row2" class="btn_small red">삭제</button>
-						<?php } ?>
-					</td>
-				</tr>
-				<?php
-				}
-				?>
-				</tbody>
-				</table>
-			</div>
-
-			<script>
-			$(function() {
-				// 입력필드추가
-				$("#add_supply_row2").click(function() {
-					var $el = $("#sit_supply_frm2 tbody tr:last");
-					var fld = "<tr>\n";
-					fld += "<td><input type=\"text\" name=\"spl_name2[]\" value=\"\" class=\"frm_input wfull\"></td>\n";
-					fld += "<td class=\"tac\"><button type=\"button\" id=\"del_supply_row2\" class=\"btn_small red\">삭제</button></td>\n";
-					fld += "</tr>";
-
-					$el.after(fld);
-				});
-
-				// 입력필드삭제
-				$("#del_supply_row2").live("click", function() {
-					$(this).closest("tr").remove();
-				});
-			});
-			</script>
-		</td>
-	</tr>
 	<tr>
 		<th scope="row">배송업체</th>
 		<td>

@@ -126,9 +126,9 @@ $zone_all = "";
 for ($z = 0; $z < count($_POST['zone']); $z++) {
     if($_POST['zone'][$z] && $_POST['zone2'][$z]){
         if($z == 0){
-            $zone_all = $_POST['zone'][$z].','.$_POST['zone2'][$z];
+            $zone_all = $_POST['zone'][$z].','.$_POST['zone2'][$z].','.$_POST['delivery_mg'][$z];
         }else {
-            $zone_all = $zone_all."||".$_POST['zone'][$z].','.$_POST['zone2'][$z];
+            $zone_all = $zone_all."||".$_POST['zone'][$z].','.$_POST['zone2'][$z].','.$_POST['delivery_mg'][$z];
         }
     }
 }

@@ -16,6 +16,67 @@ include_once("./admin_head.sub.php");
 		<col>
 	</colgroup>
 	<tbody>
+		<tr>
+		<th scope="row">배송관리</th>
+		<td>
+			<div id="sit_supply_frm2" class="tbl_frm02">
+				<table>
+				<colgroup>
+					<col>
+					<col class="w70">
+				</colgroup>
+				<thead>
+				<tr>
+					<th scope="col" class="tac">배송관리업체명</th>
+					<th scope="col" class="tac">삭제</th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php
+				$spl_sorts2 = explode(",", $seller['delivery_mg']);
+				$spl_count2 = count($spl_sorts2);
+
+				for($i=0; $i < $spl_count2; $i++) {
+				?>
+				<tr>
+					<td><input type="text" name="spl_name2[]" value="<?php echo $spl_sorts2[$i]; ?>" class="frm_input wfull"></td>
+					<td class="tac">
+						<?php if($i == 0) { ?>
+						<button type="button" id="add_supply_row2" class="btn_small">추가</button>
+						<?php } ?>
+						<?php if($i > 0) { ?>
+						<button type="button" id="del_supply_row2" class="btn_small red">삭제</button>
+						<?php } ?>
+					</td>
+				</tr>
+				<?php
+				}
+				?>
+				</tbody>
+				</table>
+			</div>
+
+			<script>
+			$(function() {
+				// 입력필드추가
+				$("#add_supply_row2").click(function() {
+					var $el = $("#sit_supply_frm2 tbody tr:last");
+					var fld = "<tr>\n";
+					fld += "<td><input type=\"text\" name=\"spl_name2[]\" value=\"\" class=\"frm_input wfull\"></td>\n";
+					fld += "<td class=\"tac\"><button type=\"button\" id=\"del_supply_row2\" class=\"btn_small red\">삭제</button></td>\n";
+					fld += "</tr>";
+
+					$el.after(fld);
+				});
+
+				// 입력필드삭제
+				$("#del_supply_row2").live("click", function() {
+					$(this).closest("tr").remove();
+				});
+			});
+			</script>
+		</td>
+	</tr>
 	<tr>
 		<th scope="row">배송업체</th>
 		<td>
@@ -32,25 +93,31 @@ include_once("./admin_head.sub.php");
 				</tr>
 				</thead>
 				<tbody>
-				<?php
-				$spl_sorts = explode(",", $config['delivery_company']);
-				$spl_count = count($spl_sorts);
+					<?php
+						$spl_sorts = explode(",", $seller['delivery_company']);
+						$spl_count = count($spl_sorts);
 
-				$i = 0;
-				do {
-					$seq = explode('|', trim($spl_sorts[$i]));
-				?>
+						$i = 0;
+						do {
+							$seq = explode('|', trim($spl_sorts[$i]));
+					?>
 				<tr>
-					<td><input type="text" value="<?php echo $seq[0]; ?>" class="frm_input wfull"></td>
-					<td><input type="text" value="<?php echo $seq[1]; ?>" class="frm_input wfull"></td>
+					<td><input type="text" name="spl_name[]" value="<?php echo $seq[0]; ?>" class="frm_input wfull"></td>
+					<td><input type="text" name="spl_url[]" value="<?php echo $seq[1]; ?>" class="frm_input wfull"></td>
+					<td class="tac">
+						<?php if ($i == 0) {?>
+						<button type="button" id="add_supply_row" class="btn_small">추가</button>
+						<?php }?>
+						<?php if ($i > 0) {?>
+						<button type="button" id="del_supply_row" class="btn_small red">삭제</button>
+						<?php }?>
+					</td>
 				</tr>
 				<?php
 					$i++;
-				} while($i < $spl_count);
-				?>
-				</tbody>
-				</table>
-				<?php echo help('※ 배송업체등록은 본사에서만 가능하며 추가하실 업체는 본사로 문의주시기 바랍니다.'); ?>
+					} while ($i < $spl_count);
+					?>
+				<?php //echo help('※ 배송업체등록은 본사에서만 가능하며 추가하실 업체는 본사로 문의주시기 바랍니다.'); ?>
 			</div>
 		</td>
 	</tr>
