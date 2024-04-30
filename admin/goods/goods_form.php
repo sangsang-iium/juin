@@ -1006,17 +1006,21 @@ if(($normal_price > 0)) {
 
 
   $('#supply_price, #goods_price, #normal_price').on('change', function() {
-    let supply_price = stringNumberToInt($('#supply_price').val());
-    let goods_price  = stringNumberToInt($('#goods_price').val());
-    let normal_price = stringNumberToInt($('#normal_price').val());
+    let supply_price = stringNumberToInt($('#supply_price').val()); // 매입가
+    let goods_price  = stringNumberToInt($('#goods_price').val());  // 판매가
+    let normal_price = stringNumberToInt($('#normal_price').val()); // 회원판매가
 
     
     if(normal_price > 0) {
-      let income_price = (normal_price > goods_price) ? (normal_price - supply_price) : (goods_price - supply_price);
-      let income_percent = (normal_price > goods_price) ? ((normal_price - supply_price)/normal_price)*100 : ((goods_price - supply_price)/goods_price)*100
-      
       income_type1.html("");
       income_type2.html("");
+  
+      // (판매가) - (매입가) = (이익금)
+      let income_price = (normal_price > goods_price) ? (normal_price - supply_price) : (goods_price - supply_price);
+      // (이익금) / (판매가) = (이익률 x 100)
+      let income_percent = (normal_price > goods_price) ? ((normal_price - supply_price)/normal_price)*100 : ((goods_price - supply_price)/goods_price)*100
+    
+      console.log(income_price, income_percent);
     
       if(income_price > 0 && income_percent > 0) {
         income_type1.html("<span class='fc_197'>("+income_price+"원)</span>");
