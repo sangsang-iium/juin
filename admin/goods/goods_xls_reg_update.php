@@ -78,6 +78,7 @@ if ($_FILES['excelfile']['tmp_name']) {
 
     $mb_id        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 판매자ID
     $gcode        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 상품코드
+    $sgcode       = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 가맹점상품코드 _20240315_SY
     $ca_id        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 대표분류
     $ca_id2       = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 추가분류2
     $ca_id3       = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 추가분류3
@@ -88,12 +89,14 @@ if ($_FILES['excelfile']['tmp_name']) {
     $brand_nm     = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 브랜드
     $notax        = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 과세설정
     $zone         = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 판매가능지역
+    $zone_mg      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 배송관리업체
     $zone_msg     = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 판매가능지역 추가설명
     $origin       = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 원산지
     $maker        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 제조사
     $isopen       = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 판매여부
     $supply_price = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 공급가격
     $normal_price = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 시중가격
+    $supply_type  = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 공급가격계산방식
     $goods_price  = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 판매가격
     $price_msg    = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 가격대체문구
     $stock_mod    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 재고적용타입
@@ -106,10 +109,10 @@ if ($_FILES['excelfile']['tmp_name']) {
     $eb_date      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 판매기간 종료일
     $buy_level    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 구매가능레벨
     // $buy_only     = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 가격공개
-    // $sc_type      = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비유형
-    // $sc_method    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비결제
-    // $sc_amt       = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 기본배송비
-    // $sc_minimum   = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 조건배송비
+    $sc_type      = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비유형
+    $sc_method    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비결제
+    $sc_amt       = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 기본배송비
+    $sc_minimum   = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 조건배송비
     $simg_type    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 이미지등록방식
     $simg1        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 소이미지
     $simg2        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 중이미지1
@@ -119,7 +122,7 @@ if ($_FILES['excelfile']['tmp_name']) {
     $simg6        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 중이미지5
     $memo         = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 상세설명
     $admin_memo   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 관리자메모
-    $sgcode       = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 가맹점상품코드 _20240315_SY
+    $zone_set   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 관리자메모
 
     if (!$mb_id || !$gcode || !$gname) {
       $fail_count++;
@@ -144,9 +147,10 @@ if ($_FILES['excelfile']['tmp_name']) {
       $zone_all = $zone; // 결과에 그대로 입력된 지역 정보를 저장
     } else {
 			$zoneArr = explode(",", $zone); // ["대전/동구", "대전/중구"]
+			$mgArr = explode(",", $zone_mg); // zone_mg
 
-      foreach ($zoneArr as $zoneInfo) {
-        $parts = explode("/", $zoneInfo); // 지역 정보를 도시와 구/군으로 분리
+      for ($z = 0; $z < count($zoneArr); $z++) {
+        $parts = explode("/", $zoneArr[$z]); // 지역 정보를 도시와 구/군으로 분리
 
         if (count($parts) === 2) {
           $city     = $parts[0];
@@ -156,7 +160,7 @@ if ($_FILES['excelfile']['tmp_name']) {
             $zone_all .= '||';
           }
 
-          $zone_all .= $city . ',' . $district;
+          $zone_all .= $city . ',' . $district.','.$mgArr[$z];
         }
       }
     }
@@ -181,6 +185,7 @@ if ($_FILES['excelfile']['tmp_name']) {
     $value['isopen']       = $isopen;                  // 판매여부
     $value['supply_price'] = $supply_price;            // 공급가격
     $value['normal_price'] = $normal_price;            // 시중가격
+    $value['supply_type']  = $supply_type;             // 공급가계산방식
     $value['goods_price']  = $goods_price;             // 판매가격
     $value['price_msg']    = $price_msg;               // 가격대체문구
     $value['stock_mod']    = $stock_mod;               // 재고적용타입
@@ -193,10 +198,10 @@ if ($_FILES['excelfile']['tmp_name']) {
     $value['eb_date']      = $eb_date;                 // 판매기간 종료일
     $value['buy_level']    = $buy_level;               // 구매가능레벨
     $value['buy_only']     = '0';                // 가격공개
-    $value['sc_type']      = '0';                 // 배송비유형
-    $value['sc_method']    = '0';               // 배송비결제
-    $value['sc_amt']       = '0';                  // 기본배송비
-    $value['sc_minimum']   = '0';              // 조건배송비
+    $value['sc_type']      = $sc_type;                 // 배송비유형
+    $value['sc_method']    = $sc_method;               // 배송비결제
+    $value['sc_amt']       = $sc_amt;                  // 기본배송비
+    $value['sc_minimum']   = $sc_minimum;              // 조건배송비
     $value['simg_type']    = $simg_type;               // 이미지등록방식
     $value['simg1']        = $simg1;                   // 소이미지
     $value['simg2']        = $simg2;                   // 중이미지1

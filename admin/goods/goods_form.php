@@ -79,10 +79,10 @@ $supply_price = $gs['supply_price'];
 if(($normal_price > 0)) {
   $income = ($normal_price > $goods_price) ? $normal_price - $supply_price : $goods_price - $supply_price;
   $income_html1 = "<span class='fc_197'>(".$income."원)</span>";
-  
+
   $income_per = ($normal_price > $goods_price) ? round((($normal_price - $supply_price)/$normal_price)*100) : round((($goods_price - $supply_price)/$goods_price)*100);
   $income_html2 = "<span class='fc_197'>(".$income_per."%)</span>";
-  
+
   $income_html = [
     "income"          => $income,
     "income_per"      => $income_per,
@@ -875,7 +875,7 @@ if(($normal_price > 0)) {
 			<span class="fc_197 marl5">사입처에서 공급받은 가격</span>
 		</td>
 	</tr>
-  <?php 
+  <?php
     $display = ($w == '' || $gs['supply_type'] == 0) ? "display: none;" : "";
   ?>
 	<tr id="incomePer_tr" style="<?php echo $display ?>">
@@ -899,7 +899,7 @@ if(($normal_price > 0)) {
 			<span class="fc_197 marl5">시중에 판매되는 가격 (판매가보다 크지않으면 시중가 표시안함)</span>
 		</td>
 	</tr>
-  
+
 	<!-- <tr>
 		<th scope="row">포인트</th>
 		<td>
@@ -973,7 +973,7 @@ if(($normal_price > 0)) {
 
 <script>
   // 정산방식 추가 _20240425_SY
-  
+
   function stringNumberToInt(stringNumber){
       return parseInt(stringNumber.replace(/,/g , ''));
   }
@@ -982,11 +982,11 @@ if(($normal_price > 0)) {
   let income_type2   = $('.income_type2');
 
   $(function() {
-    $('#income_type2').change(function() { 
+    $('#income_type2').change(function() {
       $('#incomePer_tr').show();
     });
 
-    $('#income_type1').change(function() { 
+    $('#income_type1').change(function() {
       $('#incomePer_tr').hide();
     });
   });
@@ -1010,14 +1010,14 @@ if(($normal_price > 0)) {
     let goods_price  = stringNumberToInt($('#goods_price').val());
     let normal_price = stringNumberToInt($('#normal_price').val());
 
-    
+
     if(normal_price > 0) {
       let income_price = (normal_price > goods_price) ? (normal_price - supply_price) : (goods_price - supply_price);
       let income_percent = (normal_price > goods_price) ? ((normal_price - supply_price)/normal_price)*100 : ((goods_price - supply_price)/goods_price)*100
-      
+
       income_type1.html("");
       income_type2.html("");
-    
+
       if(income_price > 0 && income_percent > 0) {
         income_type1.html("<span class='fc_197'>("+income_price+"원)</span>");
         income_type2.html("<span class='fc_197'>("+Math.round(income_percent)+"%)</span>");
@@ -1136,6 +1136,14 @@ if(($normal_price > 0)) {
 			</select>
 			<select name="zone2[]">
 			</select>
+			<select id="delivery_mg" name="delivery_mg[]">
+			<?php
+			$delivery_mg = explode(",", $config['delivery_mg']);
+			for ($i = 0; $i < count($delivery_mg); $i++) {
+				echo "<option value='{$delivery_mg[$i]}'>{$delivery_mg[$i]}</option>";
+			}
+			?>
+			</select>
 			<button type="button" class="icon-plus blue w25" onclick="addRow(event)"></button>
 		</td>
 	</tr>
@@ -1170,6 +1178,15 @@ if(($normal_price > 0)) {
 						echo option_selected($row_zone['areaname2'], $gs_zone[1], $row_zone['areaname2']);
 					}
 					?>
+			</select>
+			<select id="delivery_mg" name="delivery_mg[]">
+				<option value="">선택하세요.</option>
+			<?php
+			$delivery_mg = explode(",", $config['delivery_mg']);
+			for ($i = 0; $i < count($delivery_mg); $i++) {
+					echo option_selected($delivery_mg[$i], $gs_zone[2], $delivery_mg[$i]);
+			}
+			?>
 			</select>
 			<?php if($z == 0){ ?>
 			<button type="button" class="icon-plus blue w25" onclick="addRow(event)"></button>
@@ -1227,19 +1244,18 @@ if(($normal_price > 0)) {
 	let rowIndex = 0;
 	function addRow(e) {
 		let _this = e.target.closest('tr');
-		// _this.style.background = "red";
     var table = document.getElementById("add_row");
     var newRow = table.insertRow(table.rows.length);
     var cell1 = newRow.insertCell(0);
     var cell2 = newRow.insertCell(1);
-		// var newRowHTML = "<tr><th scope='row'>배송가능 지역</th><td><select id='zone' name='zone[]' onchange='subZone(this, this.value);'></select><select name='zone2[]'></select></td></tr>";
     cell1.innerHTML = "<th scope='row'>배송가능 지역</th>";
-    cell2.innerHTML = "<td><select id='zone' name='zone[]' onchange='subZone(this, this.value);'></select><select name='zone2[]'></select><button type='button' class='icon-miners blue w25' onclick='deleteRow(this)'></button></td>";
+    cell2.innerHTML = "<td><select id='zone' name='zone[]' onchange='subZone(this, this.value);'></select><select name='zone2[]'></select><select id='delivery_mg' name='delivery_mg[]'></select><button type='button' class='icon-miners blue w25' onclick='deleteRow(this)'></button></td>";
 
 		cell1.style.cssText=`background: #f8f8f8; font-weight: 600;`;
 
 		// 새로 추가된 셀렉트 태그에 옵션을 추가
     var selectElement = cell2.querySelector('#zone');
+    var selectElement2 = cell2.querySelector('#delivery_mg');
 		<?php
 			$sql_zone = "SELECT areacode, areaname FROM area
 										GROUP BY areacode ";
@@ -1251,7 +1267,15 @@ if(($normal_price > 0)) {
 				option<?php echo $i+1?>.value = '<?php echo $row_zone['areaname']?>';
 				option<?php echo $i+1?>.text = '<?php echo $row_zone['areaname']?>';
 				selectElement.appendChild(option<?php echo $i+1 ?>);
-		<? } ?>
+		<?php }
+			$delivery_mg2 = explode(",", $config['delivery_mg']);
+			for ($i = 0; $i < count($delivery_mg2); $i++) {
+				?>
+				var option2<?php echo $i+1?> = document.createElement('option');
+				option2<?php echo $i+1?>.value = '<?php echo $delivery_mg2[$i]?>';
+				option2<?php echo $i+1?>.text = '<?php echo $delivery_mg2[$i]?>';
+				selectElement2.appendChild(option2<?php echo $i+1 ?>);
+		<?php } ?>
 
 		rowIndex++;
 	}
