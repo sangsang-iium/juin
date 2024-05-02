@@ -110,6 +110,9 @@ EOF;
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
+		<col class="w90">
+		<col class="w90">
+		<col class="w90">
 		<col class="w60">
 		<col class="w60">
 	</colgroup>
@@ -124,9 +127,12 @@ EOF;
 		<th scope="col" class="th_bg">포인트결제</th>
 		<th scope="col" class="th_bg">쿠폰할인</th>
 		<th scope="col" class="th_bg">배송비</th>
+		<th scope="col" class="th_bg">매입가정산액</th>
+		<th scope="col" class="th_bg">요율정산액</th>
 		<th scope="col" class="th_bg">공급가총액</th>
 		<th scope="col" class="th_bg">실정산액</th>
 		<th scope="col">가맹점수수료</th>
+		<th scope="col">본사총이익률</th>
 		<th scope="col">본사마진</th>
 		<th scope="col">정산일</th>
 		<th scope="col">내역</th>
@@ -186,7 +192,19 @@ EOF;
 			$tot_partner += (int)$psum['sum_pay']; // 가맹점수수료
 			$order_idx[] = $row2['index_no'];
 			$order_arr['od_id'] = $row2['od_id'];
+
+      // 정산액 view 테스트 中 _20240502_SY
+      $od_goods_array = unserialize($row2['od_goods']);
+      $od_supply_type = $od_goods_array['supply_type'];
+      
+      if($od_supply_type == '0') {
+        $income_price += ((int)$row2['goods_price'] - (int)$row2['supply_price']);
+      } 
+      if($od_supply_type == '1') {
+        $income_percent += ((int)$row2['goods_price'] - (int)$row2['supply_price']);
+      }
 		};
+
 		/*
 		// 반품.환불건에 포함된 배송비도 합산
 		foreach($order_arr as $key) {
@@ -210,6 +228,10 @@ EOF;
 
 		// 본사마진 = (판매가 - 공급가 - 가맹점수수료 - 포인트결제 - 쿠폰할인)
 		$tot_admin = ($tot_price - $tot_supply - $tot_partner - $tot_point - $tot_coupon);
+
+    // 본사 총 이익률 _20240502_SY
+    $tot_admin_per = round((($tot_price - $tot_supply)/$tot_price)*100,2);
+    $tot_per = $tot_admin_per > 0 ? $tot_admin_per : 0 ;
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td>
@@ -233,9 +255,12 @@ EOF;
 		<td class="tar"><?php echo number_format($tot_point); ?></td>
 		<td class="tar"><?php echo number_format($tot_coupon); ?></td>
 		<td class="tar"><?php echo number_format($tot_baesong); ?></td>
+		<td class="tar"><?php echo number_format($income_price); ?></td>
+		<td class="tar"><?php echo number_format($income_percent); ?></td>
 		<td class="tar"><?php echo number_format($tot_supply); ?></td>
 		<td class="tar fc_00f bold"><?php echo number_format($tot_seller); ?></td>
 		<td class="tar"><?php echo number_format($tot_partner); ?></td>
+		<td class="tar fc_red bold"><?php echo $tot_per; ?>%</td>
 		<td class="tar fc_red bold"><?php echo number_format($tot_admin); ?></td>
 		<td class="tar"><?php echo $row['settle'] ?>일</td>
 		<td><a href="<?php echo BV_ADMIN_URL; ?>/pop_sellerorder.php?mb_id=<?php echo $row['mb_id']; ?>&order_idx=<?php echo $temp_idx; ?>" onclick="win_open(this,'pop_sellerorder','1200','600','yes');return false;" class="btn_small">내역</a></td>

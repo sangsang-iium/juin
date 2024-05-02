@@ -80,7 +80,7 @@ if(($normal_price > 0)) {
   $income = ($normal_price > $goods_price) ? $normal_price - $supply_price : $goods_price - $supply_price;
   $income_html1 = "<span class='fc_197'>(".$income."원)</span>";
 
-  $income_per = ($normal_price > $goods_price) ? round((($normal_price - $supply_price)/$normal_price)*100) : round((($goods_price - $supply_price)/$goods_price)*100);
+  $income_per = ($normal_price > $goods_price) ? round((($normal_price - $supply_price)/$normal_price)*100,2) : round((($goods_price - $supply_price)/$goods_price)*100,2);
   $income_html2 = "<span class='fc_197'>(".$income_per."%)</span>";
 
   $income_html = [
@@ -992,7 +992,6 @@ if(($normal_price > 0)) {
   });
 
   $('#incomePer_input').on('change', function() {
-    console.log($('#incomePer_input').val())
     let supply_price = stringNumberToInt($('#supply_price').val());
     let incomePer_input = stringNumberToInt($('#incomePer_input').val());
 
@@ -1001,6 +1000,8 @@ if(($normal_price > 0)) {
 
       $('#goods_price').val(total_price);
       $('#normal_price').val(total_price);
+      
+      // 요율 입력시 상단 내용 변경 기능 추가 필요 _20240430_SY
     }
   });
 
@@ -1019,9 +1020,6 @@ if(($normal_price > 0)) {
       let income_price = (normal_price > goods_price) ? (normal_price - supply_price) : (goods_price - supply_price);
       // (이익금) / (판매가) = (이익률 x 100)
       let income_percent = (normal_price > goods_price) ? ((normal_price - supply_price)/normal_price)*100 : ((goods_price - supply_price)/goods_price)*100
-
-      income_type1.html("");
-      income_type2.html("");
 
       if(income_price > 0 && income_percent > 0) {
         income_type1.html("<span class='fc_197'>("+income_price+"원)</span>");
