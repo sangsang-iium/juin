@@ -275,7 +275,7 @@ function category_depth($depth, $upcate = "") {
 
 // 토스 자동결제(빌링)
 class Tosspay {
-  private $auth = "test_sk_DpexMgkW36ZvQYYo5Rx93GbR5ozO";
+  private $auth = "live_gsk_jExPeJWYVQe0YqJwqoexV49R5gvN";
 
   function __construct() {
     $this->uid = uniqid();
@@ -304,6 +304,17 @@ class Tosspay {
       'taxExemptionAmount' => 0,
       'customerName'       => $name,
       'customerEmail'      => $email,
+    );
+
+    return $this->callApi($url, $data);
+  }
+
+  function normalPay($paymentKey, $orderId, $amount) {
+    $url  = 'https://api.tosspayments.com/v1/payments/confirm';
+    $data = array(
+      'paymentKey' => $paymentKey,
+      'orderId'    => $orderId,
+      'amount'     => $amount,
     );
 
     return $this->callApi($url, $data);
@@ -382,11 +393,11 @@ class Tosspay {
 /**
  * 지회 지부
  *
- * @param  string   $depth  1차댑스
- * @param  string   $depth2 2차댑스
- * @return array    뎁스 정보
+ * @param  string $depth  1차댑스
+ * @param  string $depth2 2차댑스
+ * @return array  뎁스 정보
  */
-function juinGroupInfo($depth, $depth2 = ''){
+function juinGroupInfo($depth, $depth2 = '') {
   switch ($depth) {
     case '1':
       $sql = "SELECT kf_region2 AS region, COUNT(kf_region2) FROM kfia_region
@@ -399,7 +410,7 @@ function juinGroupInfo($depth, $depth2 = ''){
       break;
 
   }
-  $res = sql_query($sql);
+  $res  = sql_query($sql);
   $data = array();
   while ($row = sql_fetch_array($res)) {
     $data[] = $row;
