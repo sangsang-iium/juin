@@ -486,11 +486,11 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             </div>
 
             <input type="hidden" name="email" value="<?php echo $member['email']; ?>" >
-            <input type="hidden" name="zip"   value="<?php echo $member['zip']; ?>" >
+            <input type="hidden" name="zip"   value="<?php echo !empty($addr1) ? "" : $member['zip']; ?>" >
             <input type="hidden" name="addr1" value="<?php echo $addr1; ?>" >
-            <input type="hidden" name="addr2" value="<?php echo $member['addr2']; ?>" >
-            <input type="hidden" name="addr3" value="<?php echo $member['addr3']; ?>" >
-            <input type="hidden" name="addr_jibeon" value="<?php echo $member['addr_jibeon']; ?>">
+            <input type="hidden" name="addr2" value="<?php echo !empty($addr1) ? "" : $member['addr2']; ?>" >
+            <input type="hidden" name="addr3" value="<?php echo !empty($addr1) ? "" : $member['addr3']; ?>" >
+            <input type="hidden" name="addr_jibeon" value="<?php echo !empty($addr1) ? "" : $member['addr_jibeon']; ?>">
 
 
             <div class="od-dtn-btns">
