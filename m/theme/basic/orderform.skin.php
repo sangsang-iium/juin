@@ -347,8 +347,17 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </button>
           </div>
 
+          <?php // 배송지 주소 추가 및 수정 _20240503_SY
+            $od_addr1 = "";
+            if(!empty($member['addr1'])) {
+              $od_addr1 = $member['addr1'];
+            } else {
+              $od_addr1 = $member['ju_addr_full'];
+            }
+          ?>
           <input type="hidden" name="email" value="<?php echo $member['email']; ?>" >
           <input type="hidden" name="zip"   value="<?php echo $member['zip']; ?>" >
+          <input type="hidden" name="addr1" value="<?php echo $od_addr1; ?>" >
           <input type="hidden" name="addr2" value="<?php echo $member['addr2']; ?>" >
           <input type="hidden" name="addr3" value="<?php echo $member['addr3']; ?>" >
           <input type="hidden" name="addr_jibeon" value="<?php echo $member['addr_jibeon']; ?>">
@@ -575,9 +584,17 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               </p>
               <p class="od-dtn__addr"><?php echo print_address($res['b_addr1'], $res['b_addr2'], $res['b_addr3'], $res['b_addr_jibeon']); ?></p>
               <p class="od-dtn__contact"><?php echo $res['b_cellphone']; ?></p>
-            <?php
-                } else {
+            <?php // else if & member addr 추가 _20240503_SY
+                } else if($res['b_base'] == '0') {
                   echo "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
+                } else {
+                  if(!empty($member['addr1'])) { ?>
+                    <p class="od-dtn__addr"><?php echo print_address($member['addr1'], $member['addr2'], $member['addr3'], ''); ?></p>
+                    <p class="od-dtn__contact"><?php echo $member['cellphone']; ?></p>
+            <?php } else { ?>
+                    <p class="od-dtn__addr"><?php echo $member['ju_addr_full']; ?></p>
+                    <p class="od-dtn__contact"><?php echo $member['cellphone']; ?></p>
+            <?php }
                 }
             ?>
             </div>
@@ -1169,7 +1186,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       }
     }
 
-    if (f.b_zip.value == '') {
+    // zip 주석 _20240503_SY
+    // if (f.b_zip.value == '') {
+    if (f.b_addr1.value == '') {
       alert('배송지를 지정해 주십시요');
       return false;
     }
