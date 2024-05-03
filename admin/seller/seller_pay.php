@@ -232,6 +232,11 @@ EOF;
     // 본사 총 이익률 _20240502_SY
     $tot_admin_per = round((($tot_price - $tot_supply)/$tot_price)*100,2);
     $tot_per = $tot_admin_per > 0 ? $tot_admin_per : 0 ;
+
+    // 총 합계 _2024050_SY
+    $sum_price += $tot_price;
+    $sum_income_price += $income_price;
+    $sum_income_per += $income_percent;
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td>
@@ -277,6 +282,39 @@ EOF;
 	<?php echo $btn_frmline; ?>
 </div>
 </form>
+
+<?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+<!-- 나중에 합산 금액 표시할 곳 _20240502_SY -->
+<div class="local_ov mart30">
+  <div class="tbl_head01">
+    <table>
+      <colgroup>
+        <col class="">
+        <col class="">
+        <col class="">
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col">Head01</th>
+          <th scope="col">Head02</th>
+          <th scope="col">Head03</th>
+          <th scope="col">Head03</th>
+          <th scope="col">Head03</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td><?php echo number_format($sum_price); ?></td>
+          <td><?php echo number_format($sum_income_price); ?></td>
+          <td><?php echo number_format($sum_income_per); ?></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<?php } ?>
 
 <?php
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
