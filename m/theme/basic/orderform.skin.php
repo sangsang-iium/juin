@@ -348,21 +348,6 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </button>
           </div>
 
-          <?php // 배송지 주소 추가 및 수정 _20240503_SY
-            $od_addr1 = "";
-            if(!empty($member['addr1'])) {
-              $od_addr1 = $member['addr1'];
-            } else {
-              $od_addr1 = $member['ju_addr_full'];
-            }
-          ?>
-          <input type="hidden" name="email" value="<?php echo $member['email']; ?>" >
-          <input type="hidden" name="zip"   value="<?php echo $member['zip']; ?>" >
-          <input type="hidden" name="addr1" value="<?php echo $od_addr1; ?>" >
-          <input type="hidden" name="addr2" value="<?php echo $member['addr2']; ?>" >
-          <input type="hidden" name="addr3" value="<?php echo $member['addr3']; ?>" >
-          <input type="hidden" name="addr_jibeon" value="<?php echo $member['addr_jibeon']; ?>">
-
           <div class="od-ct info-list">
             <div class="info-item">
               <p class="tit">회원명</p>
@@ -567,38 +552,46 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
           <div class="od-ct">
             <?php if($is_member) { ?>
             <div class="od-dtn-info">
-              <?php
-              $mb_id = $member['id'];
+              <?php // 배송지 수정 _20240503_SY
+                $mb_id = $member['id'];
+                $addr1 = '';
+                $cellphone = '';
+                $msg = '';
 
-              $sqlb_address = "select * from b_address where mb_id='$mb_id'  and b_base='1' ";
-              $res = sql_fetch($sqlb_address);
+                $sqlb_address = "select * from b_address where mb_id='$mb_id'  and b_base='1' ";
+                $res = sql_fetch($sqlb_address);
+
+                if($res['b_base'] == '1'){
+                  $msg = "<span class='tag'>기본배송지</span></p>";
+                  $addr1 = print_address($res['b_addr1'], $res['b_addr2'], $res['b_addr3'], $res['b_addr_jibeon']);
+                  $cellphone = $res['b_cellphone'];
+                } else if($res['b_base'] == '0') {
+                  $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
+                } else {
+                  if(!empty($member['addr1'])) { 
+                    $addr1 = print_address($member['addr1'], $member['addr2'], $member['addr3'], '');
+                    $cellphone = $member['cellphone'];
+                  } else if(!empty($member['ju_addr_full'])) {
+                    $addr1 = $member['ju_addr_full'];
+                    $cellphone = $member['cellphone'];
+                  } else {
+                    $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
+                  }
+                }
               ?>
               <p class="od-dtn__name">
                 <span class="nm"><?php echo $member['name']; ?></span>
-                <?php
-
-                if ($res['b_base'] == '1') {
-                  echo '<span class="tag">기본배송지</span>';
-                ?>
-
-
-              </p>
-              <p class="od-dtn__addr"><?php echo print_address($res['b_addr1'], $res['b_addr2'], $res['b_addr3'], $res['b_addr_jibeon']); ?></p>
-              <p class="od-dtn__contact"><?php echo $res['b_cellphone']; ?></p>
-            <?php // else if & member addr 추가 _20240503_SY
-                } else if($res['b_base'] == '0') {
-                  echo "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
-                } else {
-                  if(!empty($member['addr1'])) { ?>
-                    <p class="od-dtn__addr"><?php echo print_address($member['addr1'], $member['addr2'], $member['addr3'], ''); ?></p>
-                    <p class="od-dtn__contact"><?php echo $member['cellphone']; ?></p>
-            <?php } else { ?>
-                    <p class="od-dtn__addr"><?php echo $member['ju_addr_full']; ?></p>
-                    <p class="od-dtn__contact"><?php echo $member['cellphone']; ?></p>
-            <?php }
-                }
-            ?>
+                <?php echo $msg; ?>
+                <p class="od-dtn__addr"><?php echo $addr1 ?></p>
+                <p class="od-dtn__contact"><?php echo $cellphone; ?></p>
             </div>
+
+            <input type="hidden" name="email" value="<?php echo $member['email']; ?>" >
+            <input type="hidden" name="zip"   value="<?php echo !empty($addr1) ? "" : $member['zip']; ?>" >
+            <input type="hidden" name="addr1" value="<?php echo $addr1; ?>" >
+            <input type="hidden" name="addr2" value="<?php echo !empty($addr1) ? "" : $member['addr2']; ?>" >
+            <input type="hidden" name="addr3" value="<?php echo !empty($addr1) ? "" : $member['addr3']; ?>" >
+            <input type="hidden" name="addr_jibeon" value="<?php echo !empty($addr1) ? "" : $member['addr_jibeon']; ?>">
 
             <div class="od-dtn-btns">
               <button type="button" class="ui-btn st3 od-dtn__change">변경</button>
@@ -854,7 +847,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </section>
             <!-- <section id="sod_frm_pay">
               <ul class="sod_frm_pay_ul">
-                <?php //echo $multi_settle; ?>
+                <?php echo $multi_settle; ?>
               </ul>
             </section> -->
 
