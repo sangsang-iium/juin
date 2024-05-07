@@ -673,19 +673,6 @@ $pg_anchor = '<ul class="anchor">
 		<input type="hidden" name="od_id" value="<?php echo $od_id; ?>">
 		<input type="hidden" name="mod_type" value="info">
 
-    <?php
-      if($od['taxsave_yes'] == "Y") {
-        $tax_title = "현금영수증";
-        $tax_phone = get_text($od['tax_hp']);
-        $tax_saupja_no = get_text($od['tax_saupja_no']);
-      } else if($od['taxbill_yes'] == "Y") {
-        $tax_title = "세금계산서";
-        $tax_phone = get_text($od['company_tel']);
-        $tax_saupja_no = get_text($od['company_saupja_no']);
-      } else {
-        $tax_title = "미발행";
-      }
-    ?>
 		<div class="compare_wrap">
 			<section id="" class="compare_left">
 				<h3>증빙서류 상세</h3>
@@ -697,42 +684,58 @@ $pg_anchor = '<ul class="anchor">
 						<col>
 					</colgroup>
 					<tbody>
-          <tr>
-            <th scope="row">유형</th>
-            <td><?php echo $tax_title; ?></td>
-          </tr>
-					<tr>
-						<th scope="row">사업자번호</th>
-						<td><?php echo !empty($tax_saupja_no) ? $tax_saupja_no : "-"; ?></td>
-					</tr>
-					<tr>
-						<th scope="row">회사명</th>
-						<td><?php echo !empty(get_text($od['company_name'])) ? get_text($od['company_name']) : "-"; ?></td>
-					</tr>
-					<tr>
-						<th scope="row">대표자명</th>
-						<td><?php echo !empty(get_text($od['company_owner'])) ? get_text($od['company_owner']) : "-"; ?></td>
-					</tr>
-					<tr>
-						<th scope="row">사업장주소</th>
-						<td><?php echo !empty(get_text($od['company_addr'])) ? get_text($od['company_addr']) : "-"; ?></td>
-					</tr>
-					<tr>
-						<th scope="row">업태</th>
-						<td><?php echo !empty(get_text($od['company_item'])) ? get_text($od['company_item']) : "-"; ?></td>
-					</tr>
-					<tr>
-						<th scope="row">종목</th>
-						<td><?php echo !empty(get_text($od['company_service'])) ? get_text($od['company_service']) : "-"; ?></td>
-					</tr>
-					<tr>
-						<th scope="row">연락처</th>
-						<td><?php echo !empty($tax_phone) ? $tax_phone : "-"; ?></td>
-					</tr>
-					<tr>
-						<th scope="row">이메일</th>
-						<td><?php echo !empty(get_text($od['company_email'])) ? get_text($od['company_email']) : "-"; ?></td>
-					</tr>
+          <?php if($od['taxsave_yes'] == 'S' || $od['taxsave_yes'] == 'Y') { 
+            if($od['taxsave_yes'] == 'S') {
+              $taxsave_type = "사업자 지출증빙용";
+              $tax_type_title = "사업자번호 ";
+            } else if($od['taxsave_yes'] == 'Y') {
+              $taxsave_type = "개인 소득공제용";
+              $tax_type_title = "핸드폰";
+            }
+          ?>
+            <tr>
+              <th scope="row">증빙서류 유형</th>
+              <td class="">현금영수증 신청</td>
+            </tr>
+            <tr>
+              <th scope="row">현금영수증 유형</th>
+              <td><?php echo $taxsave_type;?></td>
+            </tr>
+            <tr>
+              <th scope="row"><?php echo $tax_type_title; ?></th>
+              <td><?php echo $od['tax_hp'] ?></td>
+            </tr>
+            <?php } ?>
+            <?php if($od['taxbill_yes'] == 'Y') { ?>
+            <tr>
+              <th scope="row">증빙서류 유형</th>
+              <td>세금계산서 신청</td>
+            </tr>
+            <tr>
+              <th scope="row">회사명</th>
+              <td><?php echo $od['company_name']; ?></td>
+            </tr>
+            <tr>
+              <th scope="row">대표자명</th>
+              <td><?php echo $od['company_owner']; ?></td>
+            </tr>
+            <tr>
+              <th scope="row">사업자번호</th>
+              <td><?php echo $od['company_saupja_no']; ?></td>
+            </tr>
+            <tr>
+              <th scope="row">사업장주소</th>
+              <td><?php echo $od['company_addr']; ?></td>
+            </tr>
+            <tr>
+              <th scope="row">업태</th>
+              <td><?php echo $od['company_item']; ?></td>
+            </tr>
+            <tr>
+              <th scope="row">종목</th>
+              <td><?php echo $od['company_service']; ?></td>
+            </tr>
+            <?php } ?>
 					</tbody>
 					</table>
 				</div>
