@@ -50,6 +50,11 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
+<div>
+  <a href="./seller.php?code=pay" class="btn_small">정산관리</a>
+  <a href="./seller.php?code=pay_history" class="btn_small">정산내역</a>
+</div>
+
 <h2>기본검색</h2>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">

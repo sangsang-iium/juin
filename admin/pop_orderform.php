@@ -488,33 +488,34 @@ $pg_anchor = '<ul class="anchor">
 						<th scope="row">개별 전자결제(PG)</th>
 						<td><strong><?php echo $od['od_settle_pid']; ?></strong> PG설정으로 주문</td>
 					</tr>
-					<?php if($od['taxsave_yes'] == 'S' || $od['taxsave_yes'] == 'Y') { ?>
-					<tr>
+          <!-- 증빙서류 하단에 추가해서 기존 거는 주석처리 함 _20240507_SY -->
+					<?php //if($od['taxsave_yes'] == 'S' || $od['taxsave_yes'] == 'Y') { ?>
+					<!-- <tr>
 						<th scope="row">현금영수증 신청여부</th>
 						<td class="lh4">
-							<?php if($od['taxsave_yes'] == 'S') { ?>
+							<?php //if($od['taxsave_yes'] == 'S') { ?>
 							사업자 지출증빙용<br>
-							사업자번호 : <?php echo $od['tax_saupja_no']; ?>
-							<?php } else if($od['taxsave_yes'] == 'Y') { ?>
+							사업자번호 : <?php //echo $od['tax_saupja_no']; ?>
+							<?php //} else if($od['taxsave_yes'] == 'Y') { ?>
 							개인 소득공제용<br>
-							핸드폰 : <?php echo $od['tax_hp']; ?>
-							<?php } ?>
+							핸드폰 : <?php //echo $od['tax_hp']; ?>
+							<?php //} ?>
 						</td>
-					</tr>
-					<?php } ?>
-					<?php if($od['taxbill_yes'] == 'Y') { ?>
-					<tr>
+					</tr> -->
+					<?php //} ?>
+					<?php //if($od['taxbill_yes'] == 'Y') { ?>
+					<!-- <tr>
 						<th scope="row">세금계산서 신청여부</th>
 						<td class="lh4">
-							회사명 : <?php echo $od['company_name']; ?><br>
-							대표자명 : <?php echo $od['company_owner']; ?><br>
-							사업자번호 : <?php echo $od['company_saupja_no']; ?><br>
-							사업장주소 : <?php echo $od['company_addr']; ?><br>
-							업태 : <?php echo $od['company_item']; ?><br>
-							종목 : <?php echo $od['company_service']; ?>
+							회사명 : <?php //echo $od['company_name']; ?><br>
+							대표자명 : <?php //echo $od['company_owner']; ?><br>
+							사업자번호 : <?php //echo $od['company_saupja_no']; ?><br>
+							사업장주소 : <?php //echo $od['company_addr']; ?><br>
+							업태 : <?php //echo $od['company_item']; ?><br>
+							종목 : <?php //echo $od['company_service']; ?>
 						</td>
-					</tr>
-					<?php } ?>
+					</tr> -->
+					<?php //} ?>
 					</tbody>
 					</table>
 				</div>
@@ -705,8 +706,8 @@ $pg_anchor = '<ul class="anchor">
               <th scope="row"><?php echo $tax_type_title; ?></th>
               <td><?php echo $od['tax_hp'] ?></td>
             </tr>
-            <?php } ?>
-            <?php if($od['taxbill_yes'] == 'Y') { ?>
+          <?php } ?>
+          <?php if($od['taxbill_yes'] == 'Y') { ?>
             <tr>
               <th scope="row">증빙서류 유형</th>
               <td>세금계산서 신청</td>
@@ -735,7 +736,12 @@ $pg_anchor = '<ul class="anchor">
               <th scope="row">종목</th>
               <td><?php echo $od['company_service']; ?></td>
             </tr>
-            <?php } ?>
+          <?php } if($od['taxsave_yes'] == 'N' && $od['taxbill_yes'] == 'N') { ?> 
+            <tr>
+              <th scope="row">증빙서류 유형</th>
+              <td>미발행</td>
+            </tr>
+          <?php } ?>
 					</tbody>
 					</table>
 				</div>

@@ -139,6 +139,7 @@ for($i=0; $i<count($gs_id); $i++) {
 		";
 	}
 
+  // b_addr_req 추가 _20240507_SY
 	$sql = "insert into shop_order
 			   set od_id				= '{$od_id}'
 			     , od_no				= '{$od_no}'
@@ -161,6 +162,7 @@ for($i=0; $i<count($gs_id); $i++) {
 				 , b_addr3				= '{$_POST['b_addr3']}'
 
 				 , b_addr_jibeon		= '{$_POST['b_addr_jibeon']}'
+         , b_addr_req       = '{$_POST['b_addr_req']}'
 				 , gs_id				    = '{$gs_id[$i]}'
 				 , gs_notax				  = '{$gs_notax[$i]}'
 				 , seller_id			  = '{$seller_id[$i]}'
@@ -206,6 +208,15 @@ for($i=0; $i<count($gs_id); $i++) {
               , company_service	  = '{$_POST['company_service']}'
             ";
   }
+
+  // refund 추가 _20240507_SY
+  if($_POST['paymethod'] == '무통장') {
+    $sql .= " , refund_bank = '{$_POST['refund_bank']}'
+              , refund_num  = '{$_POST['refund_num']}'
+              , refund_name = '{$_POST['refund_name']}'
+            ";
+  }
+
 
 	sql_query($sql, FALSE);
 	$insert_id = sql_insert_id();
