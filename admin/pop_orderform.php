@@ -21,6 +21,7 @@ $pg_anchor = '<ul class="anchor">
 <li><a href="#anc_sodr_pay">주문결제 내역</a></li>
 <li><a href="#anc_sodr_memo">관리자메모</a></li>
 <li><a href="#anc_sodr_addr">주문자/배송지 정보</a></li>
+<li><a href="#anc_sodr_tax">증빙서류 정보</a></li>
 </ul>';
 ?>
 
@@ -658,6 +659,88 @@ $pg_anchor = '<ul class="anchor">
 
 		<div class="btn_confirm">
 			<input type="submit" value="주문자/배송지 정보 수정" class="btn_medium">
+			<a href="javascript:window.close();" class="btn_medium bx-white">닫기</a>
+		</div>
+		</form>
+	</section>
+
+<!-- Tax 상세 정보 추가 _20240507_SY -->
+	<section id="anc_sodr_tax">
+		<h3 class="anc_tit">증빙서류 정보</h3>
+		<?php echo $pg_anchor; ?>
+
+		<form name="frmorderform3" action="./pop_orderformupdate.php" method="post">
+		<input type="hidden" name="od_id" value="<?php echo $od_id; ?>">
+		<input type="hidden" name="mod_type" value="info">
+
+    <?php
+      if($od['taxsave_yes'] == "Y") {
+        $tax_title = "현금영수증";
+        $tax_phone = get_text($od['tax_hp']);
+        $tax_saupja_no = get_text($od['tax_saupja_no']);
+      } else if($od['taxbill_yes'] == "Y") {
+        $tax_title = "세금계산서";
+        $tax_phone = get_text($od['company_tel']);
+        $tax_saupja_no = get_text($od['company_saupja_no']);
+      } else {
+        $tax_title = "미발행";
+      }
+    ?>
+		<div class="compare_wrap">
+			<section id="" class="compare_left">
+				<h3>증빙서류 상세</h3>
+
+				<div class="tbl_frm01">
+					<table>
+					<colgroup>
+						<col class="w100">
+						<col>
+					</colgroup>
+					<tbody>
+          <tr>
+            <th scope="row">유형</th>
+            <td><?php echo $tax_title; ?></td>
+          </tr>
+					<tr>
+						<th scope="row">사업자번호</th>
+						<td><?php echo !empty($tax_saupja_no) ? $tax_saupja_no : "-"; ?></td>
+					</tr>
+					<tr>
+						<th scope="row">회사명</th>
+						<td><?php echo !empty(get_text($od['company_name'])) ? get_text($od['company_name']) : "-"; ?></td>
+					</tr>
+					<tr>
+						<th scope="row">대표자명</th>
+						<td><?php echo !empty(get_text($od['company_owner'])) ? get_text($od['company_owner']) : "-"; ?></td>
+					</tr>
+					<tr>
+						<th scope="row">사업장주소</th>
+						<td><?php echo !empty(get_text($od['company_addr'])) ? get_text($od['company_addr']) : "-"; ?></td>
+					</tr>
+					<tr>
+						<th scope="row">업태</th>
+						<td><?php echo !empty(get_text($od['company_item'])) ? get_text($od['company_item']) : "-"; ?></td>
+					</tr>
+					<tr>
+						<th scope="row">종목</th>
+						<td><?php echo !empty(get_text($od['company_service'])) ? get_text($od['company_service']) : "-"; ?></td>
+					</tr>
+					<tr>
+						<th scope="row">연락처</th>
+						<td><?php echo !empty($tax_phone) ? $tax_phone : "-"; ?></td>
+					</tr>
+					<tr>
+						<th scope="row">이메일</th>
+						<td><?php echo !empty(get_text($od['company_email'])) ? get_text($od['company_email']) : "-"; ?></td>
+					</tr>
+					</tbody>
+					</table>
+				</div>
+			</section>
+		</div>
+
+		<div class="btn_confirm">
+			<!-- <input type="submit" value="증빙서류 정보 수정" class="btn_medium"> -->
 			<a href="javascript:window.close();" class="btn_medium bx-white">닫기</a>
 		</div>
 		</form>
