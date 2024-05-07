@@ -118,12 +118,167 @@ if(!defined('_BLUEVATION_')) exit;
 	</tbody>
 	</table>
 </div>
+
+<!-- 매장 정보 입력 추가 _20240507_SY -->
+<h2 class="mart30">매장정보 입력</h2>
+<div class="tbl_frm01">
+  <table>
+    <colgroup>
+          <col class="w180">
+          <col>
+    </colgroup>
+    <tbody>
+      <tr>
+        <th scope="row">매장유무</th>
+        <td>
+          <input type="radio" name="store_chk" value="1" id="store_chk_true">
+          <label for="store_chk_true">유</label>
+          <input type="radio" name="store_chk" value="0" id="store_chk_false" checked="checked">
+          <label for="store_chk_false">무</label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="tbl_frm01" id="store_info" style="display: none;">
+	<table>
+    <colgroup>
+      <col class="w180">
+      <col>
+    </colgroup>
+    <tbody>
+      <tr>
+        <th scope="row"><label for="mb_ju_restaurant">상호(법인명)</label></th>
+        <td><input type="text" name="ju_restaurant" id="mb_ju_restaurant" required class="frm_input required" size="20"></td>
+      </tr>
+      <tr>
+        <th scope="row"><label for="mb_ju_restaurant">대표자명</label></th>
+        <td><input type="text" name="" id="" class="frm_input" size="20" maxlength="20"></td>
+      </tr>
+      <tr>
+        <th scope="row"><label for="">사업자번호</label></th>
+        <td>
+          <input type="text" name="" id="" class="frm_input" size="20" maxlength="20">
+          <button type="button" class="btn_small" onclick="">중앙회원조회</button>
+          <button type="button" class="btn_small" onclick="">중복확인</button>
+          <button type="button" class="btn_small" onclick="">휴/폐업조회</button><br>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row"><label for="">사업장 연락처</label></th>
+        <td>
+          <input type="text" name="" id="" class="frm_input" size="20" maxlength="20">	
+        </td>
+      </tr>
+      <tr>
+        <th scope="row"><label for="">대표자 연락처</label></th>
+        <td>
+          <input type="text" name="" id="" class="frm_input" size="20" maxlength="20">	
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">사업장 주소</th>
+        <td>
+          <label for="" class="sound_only">우편번호</label>
+          <input type="text" name="" id="" class="frm_input" size="8" maxlength="5">
+          <button type="button" class="btn_small" onclick="win_zip('fregisterform', '', '', '', '', '');">주소검색</button><br>
+          <input type="text" name="" id="" class="frm_input frm_address" size="60">
+          <label for="">기본주소</label><br>
+          <input type="text" name="" id="" class="frm_input frm_address" size="60">
+          <label for="">상세주소</label><br>
+          <input type="text" name="" id="" class="frm_input frm_address" size="60" readonly="readonly">
+          <label for="">참고항목</label>
+          <input type="hidden" name="" value="">
+        </td>
+      </tr>
+      <tr>
+        <th scope="row"><label for="">지회/지부</label></th>
+        <td>
+					<select name="ju_region2" id="ju_region2">
+						<option value="">지회 선택</option>
+						<?php
+						$depth1 = juinGroupInfo(1);
+						for ($d = 0; $d < count($depth1); $d++) { ?>
+							<option value="<?php echo $depth1[$d]['region'] ?>"><?php echo $depth1[$d]['region'] ?></option>
+						<?php	}
+						?>
+					</select>
+					<select name="ju_region3" id="ju_region3">
+						<?php 
+              $depth2 = juinGroupInfo(2); 
+              for($ds= 0; $ds < count($depth2); $ds++) { ?>
+                <option value="<?php echo $depth2[$ds]['region']?>"><?php echo $depth2[$ds]['region'] ?></option>
+            <?php } ?>
+					</select>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row"><label for="">업태</label></th>
+        <td><input type="text" name="" value="" id="" required class="frm_input required"></td>
+      </tr>
+      <tr>
+        <th scope="row"><label for="">업종</label></th>
+        <td><input type="text" name="" value="" id="" required class="frm_input required"></td>
+      </tr>
+    </tbody>
+	</table>
+</div>
 <div class="btn_confirm">
 	<input type="submit" value="저장" id="btn_submit" class="btn_large" accesskey="s">
 </div>
 </form>
 
 <script>
+
+$('input[name=store_chk]').click(function() {
+  console.log(this.value);
+  let chk_value = this.value;
+  if(chk_value == '1') {
+    $('#store_info').show();
+  } else {
+    $('#store_info').hide();
+  }
+})
+
+$(document).ready(function() {
+  $('#ju_region2').change(function() {
+    var depth2 = $(this).val(); // 선택된 값 가져오기
+
+    // Ajax 요청 보내기
+    $.ajax({
+      url: '/admin/ajax.gruopdepth.php', // 데이터를 처리할 서버 측 파일의 경로
+      type: 'POST', // 요청 방식 (POST 또는 GET)
+      data: { depth2: depth2 }, // 서버로 전송할 데이터
+      success: function(res) {
+        var reg = JSON.parse(res); // JSON 형식의 응답을 JavaScript 객체로 파싱
+
+        var ju_region3 = $("#ju_region3");
+        ju_region3.empty(); // 기존 옵션 모두 제거
+
+        var defaultOption = $('<option>'); // 새로운 옵션 요소 생성
+        defaultOption.val(""); // 옵션의 값 설정
+        defaultOption.text("지부 선택"); // 옵션의 텍스트 설정
+        ju_region3.append(defaultOption); // ju_region3에 옵션 추가
+
+        for (var i = 0; i < reg.length; i++) {
+            var option = $('<option>'); // 새로운 옵션 요소 생성
+            option.val(reg[i].region); // 옵션의 값 설정
+            option.text(reg[i].region); // 옵션의 텍스트 설정
+            ju_region3.append(option); // ju_region3에 옵션 추가
+
+            if (reg[i].region === '<?php echo $mb['ju_region3']; ?>') {
+                option.prop('selected', true); // 선택 상태 설정
+            }
+        }
+      },
+      error: function(xhr, status, error) {
+        console.log('요청 실패: ' + error);
+      }
+    });
+  });
+});
+
 function fregisterform_submit(f)
 {
 	// 회원아이디 검사
@@ -192,6 +347,7 @@ function fregisterform_submit(f)
 			return false;
 		}
 	}
+
 
 	document.getElementById("btn_submit").disabled = "disabled";
 

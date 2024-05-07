@@ -48,6 +48,12 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
+<div>
+  <a href="./seller.php?code=pay" class="btn_small">정산관리</a>
+  <a href="./seller.php?code=pay_history" class="btn_small">정산내역</a>
+</div>
+
+
 <h2>기본검색</h2>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
@@ -132,7 +138,7 @@ EOF;
 		<th scope="col" class="th_bg">공급가총액</th>
 		<th scope="col" class="th_bg">실정산액</th>
 		<th scope="col">가맹점수수료</th>
-		<th scope="col">본사총이익률</th>
+		<th scope="col">본사이익률</th>
 		<th scope="col">본사마진</th>
 		<th scope="col">정산일</th>
 		<th scope="col">내역</th>
@@ -237,6 +243,10 @@ EOF;
     $sum_price += $tot_price;
     $sum_income_price += $income_price;
     $sum_income_per += $income_percent;
+    $sum_seller += $tot_seller;
+    $sum_admin += $tot_admin;
+    $sum_count +=  count($order_idx);
+    
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td>
@@ -283,33 +293,44 @@ EOF;
 </div>
 </form>
 
-<?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
 <!-- 나중에 합산 금액 표시할 곳 _20240502_SY -->
+<?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { 
+  $sum_admin_per = round((($sum_price - $tot_seller)/$sum_price)*100,2);
+  $sum_per = $sum_admin_per > 0 ? $sum_admin_per : 0 ;  
+?>
 <div class="local_ov mart30">
+  <h2>합계</h2>
   <div class="tbl_head01">
     <table>
       <colgroup>
         <col class="">
         <col class="">
         <col class="">
+        <col class="">
+        <col class="">
+        <col class="">
+        <col class="">
       </colgroup>
       <thead>
         <tr>
-          <th scope="col">Head01</th>
-          <th scope="col">Head02</th>
-          <th scope="col">Head03</th>
-          <th scope="col">Head03</th>
-          <th scope="col">Head03</th>
+          <th scope="col">총 건수</th>
+          <th scope="col">총 주문금액</th>
+          <th scope="col">매입가 정산총액</th>
+          <th scope="col">요율 정산총액</th>
+          <th scope="col">실정산 총액</th>
+          <th scope="col">본사 총이익률</th>
+          <th scope="col">본사마진 총액</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td></td>
-          <td><?php echo number_format($sum_price); ?></td>
-          <td><?php echo number_format($sum_income_price); ?></td>
-          <td><?php echo number_format($sum_income_per); ?></td>
-          <td></td>
-        </tr>
+          <td><?php echo $sum_count; ?></td>
+          <td><?php echo number_format($sum_price) . "원"; ?></td>
+          <td><?php echo number_format($sum_income_price) . "원"; ?></td>
+          <td><?php echo number_format($sum_income_per) . "원"; ?></td>
+          <td><?php echo number_format($sum_seller) . "원"; ?></td>
+          <td><?php echo $sum_per . "%"; ?></td>
+          <td><?php echo number_format($sum_admin) . "원"; ?></td>        </tr>
       </tbody>
     </table>
   </div>
