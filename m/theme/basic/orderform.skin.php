@@ -568,7 +568,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                 } else if($res['b_base'] == '0') {
                   $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
                 } else {
-                  if(!empty($member['addr1'])) { 
+                  if(!empty($member['addr1'])) {
                     $addr1 = print_address($member['addr1'], $member['addr2'], $member['addr3'], '');
                     $cellphone = $member['cellphone'];
                   } else if(!empty($member['ju_addr_full'])) {
@@ -768,6 +768,12 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"일반\" id=\"de_normal\">\n";
+              $multi_settle .= "<label for=\"de_normal\">일반</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"신용카드\" id=\"de_card\">\n";
               $multi_settle .= "<label for=\"de_card\">신용카드</label>\n";
               $multi_settle .= "</div>\n";
@@ -832,8 +838,14 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "<option value='삼성페이'>삼성페이</option>\n";
             }
             ?>
-
             <section id="sod_frm_pay">
+              <ul class="sod_frm_pay_ul">
+                <?php echo $multi_settle; ?>
+              </ul>
+            </section>
+
+
+            <section id="toss_section" style="display:none;">
                   <div id="payment-method"></div>
                   <!-- 이용약관 UI -->
                   <div id="agreement"></div>
@@ -841,15 +853,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                   <div class="checkable typography--p" style="padding-left: 25px">
                     <label for="coupon-box" class="checkable__label typography--regular">
                       <input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true" disabled />
-                      <span class="checkable__label-text">5,000원 쿠폰 적용</span>
+                      <!-- <span class="checkable__label-text">5,000원 쿠폰 적용</span> -->
                     </label>
                   </div>
             </section>
-            <!-- <section id="sod_frm_pay">
-              <ul class="sod_frm_pay_ul">
-                <?php echo $multi_settle; ?>
-              </ul>
-            </section> -->
 
             <section id="bank_section" style="display:none;">
               <h2 class="anc_tit">입금하실 계좌</h2>
@@ -1094,6 +1101,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     }
   });
 
+  var formSubmitOrder = $("#buyform").serialize();
   // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
   // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
   button.addEventListener("click", function () {
@@ -1430,12 +1438,24 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     switch (type) {
       case '무통장':
         $("#bank_section").show();
+        $("#toss_section").hide();
         $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         calculate_order_price();
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").show();
         <?php } ?>
+        break;
+      case '일반':
+        $("#toss_section").show();
+        $("#bank_section").hide();
+        $("input[name=use_point]").val(0);
+        $("input[name=use_point]").attr("readonly", false);
+        $("#taxsave_section").hide();
+        $("#taxbill_section").hide();
+        $("#taxsave_fld_1").hide();
+        $("#taxsave_fld_2").hide();
+        calculate_order_price();
         break;
       case '포인트':
         $("#bank_section").hide();
@@ -1451,6 +1471,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         break;
       default: // 그외 결제수단
         $("#bank_section").hide();
+        $("#toss_section").hide();
         $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         calculate_order_price();
