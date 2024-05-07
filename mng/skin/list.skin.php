@@ -171,10 +171,16 @@ function get_move_pc($ca_id)
   </h2>
   <div id="" class="sub_tree">
     <fieldset class="sch_frm">
-      <form name="fsearch" id="fsearch" method="post" onsubmit="return fsearch_submit(this);" autocomplete="off">
+      <form name="fsearch" id="fsearch" method="post" onsubmit="return fsearch_submit(this);" autocomplete="off" class="f_between">
+        <span>
+          <a href="/mng/shop/orderinquiry.php">이전상품주문</a> / 
+          <a href="/mng/" class="f_now">주문가능상품</a>
+        </span>
+        <span>
         <input type="hidden" name="hash_token" value="<?php echo BV_HASH_TOKEN; ?>">
         <input type="text" name="stx" class="" maxlength="20" placeholder="검색어를 입력해주세요">
         <button type="submit" class="sch_submit fa fa-search" value="검색"></button>
+        </span>
         </form>
         <script>
           function fsearch_submit(f){

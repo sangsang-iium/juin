@@ -58,7 +58,7 @@ if(defined('_INDEX_')) { // index에서만 실행
 				<div id="gnb_inner">
 					<div class="all_cate">
 						<span class="allc_bt"><i class="fa fa-bars"></i> 전체카테고리</span>
-						<div class="con_bx">
+						<div class="con_bx" style="display: none;">
 							<ul>
 							<?php
 							$mod = 5;

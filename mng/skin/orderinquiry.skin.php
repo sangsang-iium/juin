@@ -9,6 +9,13 @@ if(!defined('_BLUEVATION_')) exit;
       <p class="pg_nav">HOME<i>&gt;</i>마이페이지<i>&gt;</i><?php echo $tb['title']; ?></p>
     </h2>
 
+    <div class="sub_tree">
+      <span>
+        <a href="/mng/shop/orderinquiry.php" class="f_now">이전상품주문</a> / 
+        <a href="/mng/">주문가능상품</a>
+      </span>
+    </div>
+
     <h2 class="anc_tit fl_between" >
       <span>상세보기 버튼을 클릭하시면 주문상세내역을 조회하실 수 있습니다.</span>
     </h2>
