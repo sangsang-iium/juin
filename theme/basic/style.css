@@ -1004,3 +1004,8 @@ table .spr,.total_price .spr {display:inline-block;}
 #smb_my_od {margin:0 0 20px;}
 #smb_my_wish {}
 .smb_my_more {margin-top:10px;text-align:right;}
+
+
+/* mng 추가 _20240507_SY */
+.f_between { display: flex; justify-content: space-between; }
+.f_now {font-weight: 600;  color:#7d62c3 !important;}

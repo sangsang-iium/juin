@@ -516,6 +516,18 @@ $pg_anchor = '<ul class="anchor">
 						</td>
 					</tr> -->
 					<?php //} ?>
+
+          <!-- 무통장 환불계좌 정보 추가 _20240507_SY -->
+          <?php if($od['paymethod'] == '무통장') { ?>
+            <tr>
+              <th scope="row">환불계좌</th>
+              <td><?php echo "({$od['refund_bank']}) {$od['refund_num']}"; ?></td>
+            </tr>
+            <tr>
+              <th scope="row">예금주</th>
+              <td><?php echo $od['refund_name']; ?></td>
+            </tr>
+          <?php } ?>
 					</tbody>
 					</table>
 				</div>

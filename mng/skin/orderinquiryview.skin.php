@@ -366,6 +366,32 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 		</div>
 	</section>
 
+  <!-- 무통장 환불계좌 정보 추가 _20240507_SY -->
+  <?php if($od['paymethod'] == '무통장') { ?>
+    <section id="sod_fin_receiver">
+      <h2 class="anc_tit">무통장 입금자 환불 정보</h2>
+      <div class="tbl_frm01 tbl_wrap">
+        <table>
+        <colgroup>
+          <col class="w140">
+          <col>
+        </colgroup>
+        <tr>
+          <th scope="row">은행명</th>
+          <td><?php echo get_text($od['refund_bank']); ?></td>
+        </tr>
+        <tr>
+          <th scope="row">계좌번호</th>
+          <td><?php echo get_text($od['refund_num']); ?></td>
+        </tr>
+        <tr>
+          <th scope="row">예금주</th>
+          <td><?php echo get_text($od['refund_name']); ?></td>
+        </tr>
+        </table>
+      </div>
+    </section>
+  <?php } ?>
 	<?php
 	// 취소한 내역이 없다면
 	if($st_cancel_price == 0 && $custom_cancel) {
