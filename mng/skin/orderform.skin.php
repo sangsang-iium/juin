@@ -1283,6 +1283,9 @@ $(function () {
       $("input[name=use_point]").val(0);
       $("input[name=use_point]").attr("readonly", false);
       calculate_order_price();
+
+      $("#refund_section").show();
+      
       <?php if (!$config['company_type']) { ?>
         $("#taxsave_section").show();
       <?php } ?>

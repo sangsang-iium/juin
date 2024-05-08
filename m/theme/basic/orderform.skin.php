@@ -598,6 +598,16 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </div>
             <?php } ?>
           </div>
+
+          <!-- 배송요청사항 추가 _20240508_SY -->
+          <div class="od-ct">
+            <div class="od-dtn-info">
+              <div class="info-item">
+                <p class="tit">배송요청사항</p>
+                <input type="text" name="b_addr_req" value="<?php echo $b_addr_req?>" class="w-per50 frm-input">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -873,6 +883,29 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                       <th scope="row">입금자명</th>
                       <td><input type="text" name="deposit_name" value="<?php echo $member['name']; ?>" class="frm-input w-per100">
                       </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- 환불계좌 정보 추가 _20240508_SY -->
+            <section id="refund_section" style="display:none;">
+              <h2 class="anc_tit">환불받으실 계좌</h2>
+              <div class="odf_tbl">
+                <table>
+                  <tbody>
+                    <tr>
+                      <th scope="row"><label for="refund_bank">은행명</label></th>
+                      <td><input type="text" name="refund_bank" value="" class="frm-input w-per100" id="refund_bank"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label for="refund_num">계좌번호</label></th>
+                      <td><input type="text" name="refund_num" value="" class="frm-input w-per100" id="refund_num"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label for="refund_name">예금주</label></th>
+                      <td><input type="text" name="refund_name" value="" class="frm-input w-per100" id="refund_name"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -1428,6 +1461,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       $("input[name=use_point]").val(0);
       $("input[name=use_point]").attr("readonly", false);
       calculate_order_price();
+
+      $("#refund_section").show();
+
       <?php if (!$config['company_type']) { ?>
         $("#taxsave_section").show();
       <?php } ?>
@@ -1442,6 +1478,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         calculate_order_price();
+
+        $("#refund_section").show();
+
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").show();
         <?php } ?>
@@ -1456,12 +1495,18 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("#taxsave_fld_1").hide();
         $("#taxsave_fld_2").hide();
         calculate_order_price();
+
+        $("#refund_section").hide();
+        
         break;
       case '포인트':
         $("#bank_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
         $("input[name=use_point]").attr("readonly", true);
         calculate_order_price();
+
+        $("#refund_section").hide();
+
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").hide();
           $("#taxbill_section").hide();
@@ -1475,6 +1520,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         calculate_order_price();
+
+        $("#refund_section").hide();
+
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").hide();
           $("#taxbill_section").hide();
