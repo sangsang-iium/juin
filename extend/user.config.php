@@ -275,7 +275,7 @@ function category_depth($depth, $upcate = "") {
 
 // 토스 자동결제(빌링)
 class Tosspay {
-  private $auth = "live_gsk_jExPeJWYVQe0YqJwqoexV49R5gvN";
+  private $auth = "test_sk_DpexMgkW36ZvQYYo5Rx93GbR5ozO";
 
   function __construct() {
     $this->uid = uniqid();
@@ -309,7 +309,7 @@ class Tosspay {
     return $this->callApi($url, $data);
   }
 
-  function normalPay($paymentKey, $orderId, $amount) {
+  function normalPay($paymentKey, $orderId, $amount, $credential='') {
     $url  = 'https://api.tosspayments.com/v1/payments/confirm';
     $data = array(
       'paymentKey' => $paymentKey,
@@ -317,7 +317,7 @@ class Tosspay {
       'amount'     => $amount,
     );
 
-    return $this->callApi($url, $data);
+    return $this->callApi($url, $data, $credential);
   }
 
   /**
