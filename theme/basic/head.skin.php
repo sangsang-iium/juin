@@ -37,8 +37,8 @@ if(defined('_INDEX_')) { // index에서만 실행
 				<!-- <div id="hd_sch">
 					<fieldset class="sch_frm">
 						<legend>사이트 내 전체검색</legend>
-						<form name="fsearch" id="fsearch" method="post" action="<?php echo BV_SHOP_URL; ?>/search.php" onsubmit="return fsearch_submit(this);" autocomplete="off">
-						<input type="hidden" name="hash_token" value="<?php echo BV_HASH_TOKEN; ?>">
+						<form name="fsearch" id="fsearch" method="post" action="<?php //echo BV_SHOP_URL; ?>/search.php" onsubmit="return fsearch_submit(this);" autocomplete="off">
+						<input type="hidden" name="hash_token" value="<?php //echo BV_HASH_TOKEN; ?>">
 						<input type="text" name="ss_tx" class="sch_stx" maxlength="20" placeholder="검색어를 입력해주세요">
 						<button type="submit" class="sch_submit fa fa-search" value="검색"></button>
 						</form>
@@ -58,7 +58,7 @@ if(defined('_INDEX_')) { // index에서만 실행
 				<div id="gnb_inner">
 					<div class="all_cate">
 						<span class="allc_bt"><i class="fa fa-bars"></i> 전체카테고리</span>
-						<div class="con_bx" style="display: none;">
+						<div class="con_bx">
 							<ul>
 							<?php
 							$mod = 5;

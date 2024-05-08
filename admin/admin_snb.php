@@ -94,7 +94,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('s10', ADMIN_MENU3_06, BV_ADMIN_URL.'/seller.php?code=mail_select_form'); ?>
 		<?php echo printMenu1('s20', '공급사 정산'); ?>
 		<?php echo printMenu2('s20', ADMIN_MENU3_04, BV_ADMIN_URL.'/seller.php?code=pay'); ?>
-		<?php echo printMenu2('s20', ADMIN_MENU3_05, BV_ADMIN_URL.'/seller.php?code=pay_history'); ?>
+		<?php //echo printMenu2('s20', ADMIN_MENU3_05, BV_ADMIN_URL.'/seller.php?code=pay_history'); ?>
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU4) { ?>

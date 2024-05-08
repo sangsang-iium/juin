@@ -114,10 +114,10 @@ if(!defined('_BLUEVATION_')) exit;
 				<dt>고객상품평</dt>
 				<dd>상품평 : <?php echo $item_use_count; ?>건, 평점 : <img src="<?php echo BV_IMG_URL; ?>/sub/view_score_<?php echo $star_score; ?>.gif"></dd>
 			</dl>
-			<dl>
+			<!-- <dl>
 				<dt>상품URL 소셜 공유</dt>
-				<dd><?php echo $sns_share_links; ?></dd>
-			</dl>
+				<dd><?php //echo $sns_share_links; ?></dd>
+			</dl> -->
 			<?php if($gs['odr_min']) { ?>
 			<dl>
 				<dt>최소구매수량</dt>

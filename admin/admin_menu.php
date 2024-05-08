@@ -32,7 +32,7 @@ define('ADMIN_MENU3_01',	'공급사 신청목록');
 define('ADMIN_MENU3_02',	'공급사 신규등록');
 define('ADMIN_MENU3_03',	'공급사 일괄등록');
 define('ADMIN_MENU3_04',	'공급사 정산관리');
-define('ADMIN_MENU3_05',	'공급사 정산내역');
+define('ADMIN_MENU3_05',	'공급사 정산관리');
 define('ADMIN_MENU3_06',	'공급사 일괄메일발송');
 
 define('ADMIN_MENU4',		'카테고리 관리');

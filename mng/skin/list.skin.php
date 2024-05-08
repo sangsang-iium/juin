@@ -200,14 +200,14 @@ function get_move_pc($ca_id)
 
   // echo tree_category_pc($ca_id); // 하위분류
   ?>
-  <ul class="sub_tree">
-    <li style="width:20%" class= "<?php echo $ca_id == "001"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=001">농수산</a></li>
-    <li style="width:20%" class= "<?php echo $ca_id == "002"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=002">축산(육가공)</a></li>
-    <li style="width:20%" class= "<?php echo $ca_id == "003"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=003">위생/주방용품</a></li>
-    <li style="width:20%" class= "<?php echo $ca_id == "004"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=004">종합식자재</a></li>
-    <li style="width:20%" class= "<?php echo $ca_id == "005"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=005">수미안 전용관</a></li>
-    <li style="width:20%" class= "<?php echo $ca_id == "006"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=006">회원 전용관</a></li>
-  </ul>
+  <!-- <ul class="sub_tree">
+    <li style="width:20%" class= "<?php //echo $ca_id == "001"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=001">농수산</a></li>
+    <li style="width:20%" class= "<?php //echo $ca_id == "002"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=002">축산(육가공)</a></li>
+    <li style="width:20%" class= "<?php //echo $ca_id == "003"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=003">위생/주방용품</a></li>
+    <li style="width:20%" class= "<?php //echo $ca_id == "004"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=004">종합식자재</a></li>
+    <li style="width:20%" class= "<?php //echo $ca_id == "005"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=005">수미안 전용관</a></li>
+    <li style="width:20%" class= "<?php //echo $ca_id == "006"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=006">회원 전용관</a></li>
+  </ul> -->
 
   <div class="tab_sort">
     <span class="total">전체상품 <b class="fc_90" id="total"><?php echo number_format($total_count); ?></b>개</span>
