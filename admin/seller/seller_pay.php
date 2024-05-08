@@ -49,8 +49,8 @@ EOF;
 ?>
 
 <div>
-  <a href="./seller.php?code=pay" class="btn_small">정산관리</a>
-  <a href="./seller.php?code=pay_history" class="btn_small">정산내역</a>
+  <a href="./seller.php?code=pay" class="btn_small">미정산내역</a>
+  <a href="./seller.php?code=pay_history" class="btn_small">정산완료내역</a>
 </div>
 
 
