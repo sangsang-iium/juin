@@ -65,6 +65,49 @@ if(!defined('_BLUEVATION_')) exit;
 	</table>
 </div>
 
+<!-- 정산방식 추가 _20240508_SY -->
+<h2>정산방식</h2>
+<div class="tbl_frm01">
+  <table>
+    <colgroup>
+      <col class="w180">
+      <col>
+    </colgroup>
+    <tbody>
+      <tr>
+        <th scope="row">정산방식</th>
+        <td>
+          <input type="radio" name="income_type" value="0" id="income_type1" checked>
+          <label for="income_type1" class="marr10">매입가 정산 지급 <b class="income_type1"></b> </label>
+          <input type="radio" name="income_type" value="1" id="income_type2">
+          <label for="income_type2" class="marr10">수수료 정산 지급 <b class="income_type2"></b></label>
+        </td>
+      </tr>
+      <tr class="incomePer_tr">
+        <th scope="row">지급방식</th>
+        <td>
+          <input type="radio" name="incomePer_type" value="0" id="incomePer_type1" checked>
+          <label for="incomePer_type1" class="marr10">정액지급<b class="incomePer_type1"></b> </label>
+          <input type="radio" name="incomePer_type" value="1" id="incomePer_type2">
+          <label for="incomePer_type2" class="marr10">정률지급<b class="incomePer_type2"></b> </label>
+        </td>
+      </tr>
+      <tr class="incomePer_tr" id="incomePer_sub1">
+        <th scope="row">정액지급</th>
+        <td>
+          <input type="text" name="income_price" id="income_price" value="" class="frm_input w80" onkeyup="addComma(this);"> 원
+        </td>
+      </tr>
+      <tr class="incomePer_tr" id="incomePer_sub2">
+        <th scope="row">정률지급</th>
+        <td>
+          <input type="text" name="income_per" id="income_per" value="" class="frm_input w80" onkeyup="addComma(this);"> %
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <h2>정산계좌 정보</h2>
 <div class="tbl_frm01">
 	<table class="tablef">
@@ -124,6 +167,44 @@ if(!defined('_BLUEVATION_')) exit;
 </form>
 
 <script>
+// 정산방식 추가 _20240508_SY
+
+function stringNumberToInt(stringNumber){
+    return parseFloat(stringNumber.replace(/,/g , ''));
+}
+
+$(function() {
+  $('.incomePer_tr').hide();
+
+  $('#income_type2').change(function() {
+    $('.incomePer_tr').show();
+    if ($('#incomePer_type1').is(':checked')) {
+      $('#incomePer_sub2').hide();
+    } else {
+      $('#incomePer_sub1').hide();
+    }
+  });
+
+  $('#income_type1').change(function() {
+    $('.incomePer_tr').hide();
+    if ($('#incomePer_type1').is(':checked')) {
+      $('#incomePer_sub2').hide();
+    } else {
+      $('#incomePer_sub1').hide();
+    }
+  });
+
+  $('#incomePer_type1').change(function() {
+    $('#incomePer_sub1').show();
+    $('#incomePer_sub2').hide();
+  })
+  $('#incomePer_type2').change(function() {
+    $('#incomePer_sub1').hide();
+    $('#incomePer_sub2').show();
+  })
+});
+
+
 function fregform_submit(f) {
 	if(confirm("등록 하시겠습니까?") == false)
 		return false;

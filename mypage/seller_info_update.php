@@ -27,6 +27,24 @@ $value['info_name']				= $_POST['info_name']; //담당자명
 $value['info_tel']				= $_POST['info_tel']; //담당자 핸드폰
 $value['info_email']			= $_POST['info_email']; //담당자 이메일
 $value['update_time']			= BV_TIME_YMDHIS;
+
+// income 추가 _20240508_SY
+if($_POST['income_type'] == '0') {
+  $income_per = 0;
+  $income_price = 0;
+} else {
+  if($_POST['incomePer_type'] == '0') {
+    $income_per = 0;
+    $income_price = $_POST['income_price'];
+  } else if($_POST['incomePer_type'] == '1') {
+    $income_per = $_POST['income_per'];
+    $income_price = 0;
+  }
+}
+$value['income_type']		    = $_POST['income_type'];
+$value['income_per_type']   = $_POST['incomePer_type'];
+$value['income_price']	    = $income_price;
+$value['income_per']		    = $income_per;
 update("shop_seller",$value,"where mb_id='$member[id]'");
 
 goto_url(BV_MYPAGE_URL.'/page.php?code=seller_info');

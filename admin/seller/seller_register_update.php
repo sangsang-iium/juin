@@ -32,6 +32,25 @@ $value['bank_holder']		  = $_POST['bank_holder'];
 $value['memo']				  = $_POST['memo'];
 $value['reg_time']			  = BV_TIME_YMDHIS;
 $value['update_time']		  = BV_TIME_YMDHIS;
+
+// income 추가 _20240508_SY
+if($_POST['income_type'] == '0') {
+  $income_per = 0;
+  $income_price = 0;
+} else {
+  if($_POST['incomePer_type'] == '0') {
+    $income_per = 0;
+    $income_price = $_POST['income_price'];
+  } else if($_POST['incomePer_type'] == '1') {
+    $income_per = $_POST['income_per'];
+    $income_price = 0;
+  }
+}
+$value['income_type']		    = $_POST['income_type'];
+$value['income_per_type']   = $_POST['incomePer_type'];
+$value['income_price']	    = $income_price;
+$value['income_per']		    = $income_per;
+
 insert("shop_seller", $value);
 
 goto_url(BV_ADMIN_URL.'/seller.php?code=register');

@@ -114,10 +114,10 @@ EOF;
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
+		<!-- <col class="w90"> -->
 		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
+		<!-- <col class="w90"> -->
+		<!-- <col class="w90"> -->
 		<col class="w90">
 		<col class="w60">
 		<col class="w60">
@@ -133,12 +133,12 @@ EOF;
 		<th scope="col" class="th_bg">포인트결제</th>
 		<th scope="col" class="th_bg">쿠폰할인</th>
 		<th scope="col" class="th_bg">배송비</th>
-		<th scope="col" class="th_bg">매입가정산액</th>
-		<th scope="col" class="th_bg">요율정산액</th>
-		<th scope="col" class="th_bg">공급가총액</th>
-		<th scope="col" class="th_bg">실정산액</th>
-		<th scope="col">가맹점수수료</th>
-		<th scope="col">본사이익률</th>
+		<th scope="col" class="th_bg">매입가</th>
+		<th scope="col" class="th_bg">요율수수료</th>
+		<!-- <th scope="col" class="th_bg">공급가총액</th> -->
+		<th scope="col" class="th_bg">정산총액</th>
+		<!-- <th scope="col">가맹점수수료</th> -->
+		<!-- <th scope="col">본사이익률</th> -->
 		<th scope="col">본사마진</th>
 		<th scope="col">정산일</th>
 		<th scope="col">내역</th>
@@ -272,10 +272,10 @@ EOF;
 		<td class="tar"><?php echo number_format($tot_baesong); ?></td>
 		<td class="tar"><?php echo number_format($income_price); ?></td>
 		<td class="tar"><?php echo number_format($income_percent); ?></td>
-		<td class="tar"><?php echo number_format($tot_supply); ?></td>
+		<!-- <td class="tar"><?php //echo number_format($tot_supply); ?></td> -->
 		<td class="tar fc_00f bold"><?php echo number_format($tot_seller); ?></td>
-		<td class="tar"><?php echo number_format($tot_partner); ?></td>
-		<td class="tar fc_red bold"><?php echo $tot_per; ?>%</td>
+		<!-- <td class="tar"><?php //echo number_format($tot_partner); ?></td> -->
+		<!-- <td class="tar fc_red bold"><?php //echo $tot_per; ?>%</td> -->
 		<td class="tar fc_red bold"><?php echo number_format($tot_admin); ?></td>
 		<td class="tar"><?php echo $row['settle'] ?>일</td>
 		<td><a href="<?php echo BV_ADMIN_URL; ?>/pop_sellerorder.php?mb_id=<?php echo $row['mb_id']; ?>&order_idx=<?php echo $temp_idx; ?>" onclick="win_open(this,'pop_sellerorder','1200','600','yes');return false;" class="btn_small">내역</a></td>
@@ -308,17 +308,17 @@ EOF;
         <col class="">
         <col class="">
         <col class="">
-        <col class="">
+        <!-- <col class=""> -->
         <col class="">
       </colgroup>
       <thead>
         <tr>
           <th scope="col">총 건수</th>
           <th scope="col">총 주문금액</th>
-          <th scope="col">매입가 정산총액</th>
-          <th scope="col">요율 정산총액</th>
+          <th scope="col">매입가 총액</th>
+          <th scope="col">요율수수료 총액</th>
           <th scope="col">실정산 총액</th>
-          <th scope="col">본사 총이익률</th>
+          <!-- <th scope="col">본사 총이익률</th> -->
           <th scope="col">본사마진 총액</th>
         </tr>
       </thead>
@@ -329,7 +329,7 @@ EOF;
           <td><?php echo number_format($sum_income_price) . "원"; ?></td>
           <td><?php echo number_format($sum_income_per) . "원"; ?></td>
           <td><?php echo number_format($sum_seller) . "원"; ?></td>
-          <td><?php echo $sum_per . "%"; ?></td>
+          <!-- <td><?php //echo $sum_per . "%"; ?></td> -->
           <td><?php echo number_format($sum_admin) . "원"; ?></td>        </tr>
       </tbody>
     </table>
