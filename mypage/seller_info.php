@@ -72,6 +72,54 @@ include_once("./admin_head.sub.php");
 	</table>
 </div>
 
+<!-- 정산방식 추가 _20240508_SY -->
+<h2>정산방식</h2>
+<div class="tbl_frm01">
+  <table>
+    <colgroup>
+      <col class="w180">
+      <col>
+    </colgroup>
+    <tbody>
+      <tr>
+        <th scope="row">정산방식</th>
+        <td>
+          <input type="radio" name="income_type" value="0" id="income_type1" <?php echo get_checked('0', $seller['income_type']); ?>>
+          <label for="income_type1" class="marr10">매입가 정산 지급</label>
+          <input type="radio" name="income_type" value="1" id="income_type2"<?php echo get_checked('1', $seller['income_type']); ?> >
+          <label for="income_type2" class="marr10">수수료 정산 지급</label>
+        </td>
+      </tr>
+      <?php
+        if($seller['income_type'] == 0) {
+          $display = "display: none;";
+        }
+      ?>
+      <tr class="incomePer_tr" style="<?php echo $display ?>">
+        <th scope="row">지급방식</th>
+        <td>
+          <input type="radio" name="incomePer_type" value="0" id="incomePer_type1" <?php echo get_checked('0', $seller['income_per_type']); ?>>
+          <label for="incomePer_type1" class="marr10">정액지급<b class="incomePer_type1"></b> </label>
+          <input type="radio" name="incomePer_type" value="1" id="incomePer_type2" <?php echo get_checked('1', $seller['income_per_type']); ?>>
+          <label for="incomePer_type2" class="marr10">정률지급<b class="incomePer_type2"></b> </label>
+        </td>
+      </tr>
+      <tr class="incomePer_tr" id="incomePer_sub1" style="<?php echo ($seller['income_per_type'] == 1) ? 'display:none;' : '' ?>">
+        <th scope="row">정액지급</th>
+        <td>
+          <input type="text" name="income_price" id="income_price" value="<?php echo number_format($seller['income_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+        </td>
+      </tr>
+      <tr class="incomePer_tr" id="incomePer_sub2" style="<?php echo ($seller['income_per_type'] == 0) ? 'display:none;' : '' ?>">
+        <th scope="row">정률지급</th>
+        <td>
+          <input type="text" name="income_per" id="income_per" value="<?php echo $seller['income_per'] > 0 ? $seller['income_per'] : 0 ?>" class="frm_input w80" onkeyup="addComma(this);"> %
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <h2>정산계좌 정보</h2>
 <div class="tbl_frm01">
 	<table>
@@ -131,6 +179,50 @@ include_once("./admin_head.sub.php");
 	<input type="submit" value="저장" class="btn_large" accesskey="s">
 </div>
 </form>
+
+<script>
+// 정산방식 추가 _20240508_SY
+
+function stringNumberToInt(stringNumber){
+    return parseFloat(stringNumber.replace(/,/g , ''));
+}
+
+$(function() {
+
+  if ($('#income_type1').is(':checked')) {
+    $('.incomePer_tr').hide();
+    $('#incomePer_sub2').hide();
+    $('#incomePer_sub1').hide();
+  }
+
+  $('#income_type2').change(function() {
+    $('.incomePer_tr').show();
+    if ($('#incomePer_type1').is(':checked')) {
+      $('#incomePer_sub2').hide();
+    } else {
+      $('#incomePer_sub1').hide();
+    }
+  });
+
+  $('#income_type1').change(function() {
+    $('.incomePer_tr').hide();
+    if ($('#incomePer_type1').is(':checked')) {
+      $('#incomePer_sub2').hide();
+    } else {
+      $('#incomePer_sub1').hide();
+    }
+  });
+
+  $('#incomePer_type1').change(function() {
+    $('#incomePer_sub1').show();
+    $('#incomePer_sub2').hide();
+  })
+  $('#incomePer_type2').change(function() {
+    $('#incomePer_sub1').hide();
+    $('#incomePer_sub2').show();
+  })
+});
+</script>
 
 <?php
 include_once("./admin_tail.sub.php");

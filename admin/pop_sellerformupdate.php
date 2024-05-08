@@ -21,17 +21,34 @@ $value['company_service']	  = $_POST['company_service'];
 $value['company_item']		  = $_POST['company_item'];
 $value['company_owner']		  = $_POST['company_owner'];
 $value['company_hompage']	  = $_POST['company_hompage'];
-$value['info_name']			= $_POST['info_name'];
-$value['info_tel']			= $_POST['info_tel'];
-$value['info_email']		= $_POST['info_email'];	
-$value['bank_name']			= $_POST['bank_name'];
-$value['bank_account']	= $_POST['bank_account'];
-$value['bank_holder']		= $_POST['bank_holder'];
-$value['memo']				  = $_POST['memo'];
-$value['state']				  = $_POST['state'];	
-$value['update_time']		= BV_TIME_YMDHIS;
+$value['info_name']			    = $_POST['info_name'];
+$value['info_tel']			    = $_POST['info_tel'];
+$value['info_email']		    = $_POST['info_email'];	
+$value['bank_name']			    = $_POST['bank_name'];
+$value['bank_account']	    = $_POST['bank_account'];
+$value['bank_holder']		    = $_POST['bank_holder'];
+$value['memo']				      = $_POST['memo'];
+$value['state']				      = $_POST['state'];	
+$value['update_time']		    = BV_TIME_YMDHIS;
 // settle 추가 _20240412_SY
-$value['settle']		    = $_POST['ju_settle'];
+$value['settle']		        = $_POST['ju_settle'];
+// income 추가 _20240508_SY
+if($_POST['income_type'] == '0') {
+  $income_per = 0;
+  $income_price = 0;
+} else {
+  if($_POST['incomePer_type'] == '0') {
+    $income_per = 0;
+    $income_price = $_POST['income_price'];
+  } else if($_POST['incomePer_type'] == '1') {
+    $income_per = $_POST['income_per'];
+    $income_price = 0;
+  }
+}
+$value['income_type']		    = $_POST['income_type'];
+$value['income_per_type']   = $_POST['incomePer_type'];
+$value['income_price']	    = $income_price;
+$value['income_per']		    = $income_per;
 update("shop_seller", $value," where mb_id='$mb_id'");
 
 unset($value);
