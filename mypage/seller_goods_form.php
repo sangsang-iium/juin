@@ -73,24 +73,12 @@ EOF;
 
 
 // 정산방식 추가 _20240430_SY
-$normal_price = $gs['normal_price'];
+// $normal_price = $gs['normal_price'];
 $goods_price  = $gs['goods_price'];
 $supply_price = $gs['supply_price'];
 
-if(($normal_price > 0)) {
-  $income = ($normal_price > $goods_price) ? $normal_price - $supply_price : $goods_price - $supply_price;
-  $income_html1 = "<span class='fc_197'>(".$income."원)</span>";
-  
-  $income_per = ($normal_price > $goods_price) ? round((($normal_price - $supply_price)/$normal_price)*100) : round((($goods_price - $supply_price)/$goods_price)*100);
-  $income_html2 = "<span class='fc_197'>(".$income_per."%)</span>";
-  
-  $income_html = [
-    "income"          => $income,
-    "income_per"      => $income_per,
-    "income_html"     => $income_html1,
-    "income_per_html" => $income_html2
-  ];
-}
+$income_per = ($supply_price / $goods_price) * 100;
+
 ?>
 
 <script src="<?php echo BV_JS_URL; ?>/categoryform.js?ver=<?php echo BV_JS_VER; ?>"></script>
@@ -844,41 +832,53 @@ if(($normal_price > 0)) {
   <tr>
 		<th scope="row">정산방식</th>
 		<td>
-      <input type="radio" name="supply_type" value="0" id="income_type1"<?php echo ($w == '') ? "checked" : get_checked('0', $gs['supply_type']); ?> >
-			<label for="income_type1" class="marr10">매입가 정산 방식 <b class="income_type1"><?php echo ($w == 'u') ? $income_html['income_html'] : "" ?></b> </label>
+      <input type="radio" name="supply_type" value="2" id="income_type0"<?php echo ($w == '') ? "checked" : get_checked('2', $gs['supply_type']); ?> >
+			<label for="income_type0" class="marr10">업체 정산 설정에 따름</label>
+      <input type="radio" name="supply_type" value="0" id="income_type1"<?php echo get_checked('0', $gs['supply_type']); ?> >
+			<label for="income_type1" class="marr10">매입가 정산 지급</label>
 			<input type="radio" name="supply_type" value="1" id="income_type2"<?php echo get_checked('1', $gs['supply_type']); ?> >
-			<label for="income_type2" class="marr10">요율 정산 방식 <b class="income_type2"><?php echo ($w == 'u') ? $income_html['income_per_html'] : "" ?></b></label>
+			<label for="income_type2" class="marr10">수수료 정산 지급</label>
 		</td>
 	</tr>
-	<tr>
-		<th scope="row">시중가격</th>
-		<td>
-			<input type="text" name="normal_price" id="normal_price" value="<?php echo number_format($gs['normal_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
-			<span class="fc_197 marl5">시중에 판매되는 가격 (판매가보다 크지않으면 시중가 표시안함)</span>
-		</td>
-	</tr>
-  <?php 
-    $display = ($w == '' || $gs['supply_type'] == 0) ? "display: none;" : "";
+  <?php
+    $display = ($w == '' || $gs['supply_type'] == '0' || $gs['supply_type'] == '2') ? "display: none;" : "";
   ?>
-  <tr id="incomePer_tr" style="<?php echo $display ?>">
-		<th scope="row">요율</th>
-		<td>
-			<input type="text" name="income_per" id="incomePer_input" value="<?php echo ($w == 'u' && $income_html['income_per'] > 0) ? $income_html['income_per'] : 0 ?>" class="frm_input w80" onkeyup="addComma(this);"> %
-			<span class="fc_197 marl5">이익률 (요율 입력 시 판매가는 요율을 우선으로 적용)</span>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">공급가격</th>
-		<td>
-			<input type="text" name="supply_price" id="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
-			<span class="fc_197 marl5">본사에 공급하실 가격</span>
-		</td>
-	</tr>
+  <!-- 수수료(정액/정률) 추가 _20240508_SY -->
+  <tr id="incomePer_type" style="<?php echo $display ?>">
+    <th scope="row">지급방식</th>
+    <td>
+      <input type="radio" name="incomePer_type" value="0" id="incomePer_type1" <?php echo ($w == '') ? "checked" : get_checked('0', $gs['income_per_type']); ?>>
+			<label for="incomePer_type1" class="marr10">정액지급<b class="incomePer_type1"></b> </label>
+      <input type="radio" name="incomePer_type" value="1" id="incomePer_type2" <?php echo ($w == '') ? "" : get_checked('1', $gs['income_per_type']); ?>>
+			<label for="incomePer_type2" class="marr10">정률지급<b class="incomePer_type2"></b> </label>
+    </td>
+  </tr>
 	<tr>
 		<th scope="row">판매가격</th>
 		<td>
 			<input type="text" name="goods_price" id="goods_price" value="<?php echo number_format($gs['goods_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
 			<span class="fc_197 marl5">실제 판매가 입력 (대표가격으로 사용)</span>
+		</td>
+	</tr>
+	<tr class="incomePer_tr" id="incomePer_sub1" style="<?php echo ($gs['income_per_type'] == 1) ? 'display:none;' : '' ?>">
+		<th scope="row">수수료(정액)</th>
+		<td>
+			<input type="text" name="income_price"  value="<?php echo ($w == 'u' && $gs['supply_type'] == '1' && $gs['income_per_type'] == '0') ? number_format($gs['supply_price']) : 0 ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+			<span class="fc_197 marl5">이익률</span>
+		</td>
+	</tr>
+	<tr class="incomePer_tr" id="incomePer_sub2" style="<?php echo ($gs['income_per_type'] == 0) ? 'display:none;' : '' ?>">
+		<th scope="row">수수료(정률)</th>
+		<td>
+			<input type="text" name="income_per"  value="<?php echo ($w == 'u' && $gs['income_per_type'] == '1') ? $income_per: 0 ?>" class="frm_input w80" onkeyup="addComma(this);"> %
+			<span class="fc_197 marl5">이익률</span>
+		</td>
+	</tr>
+  <tr>
+		<th scope="row">매입가격</th>
+		<td>
+			<input type="text" name="supply_price" id="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+			<span class="fc_197 marl5">사입처에서 공급받은 가격</span>
 		</td>
 	</tr>
 	<tr>
@@ -959,58 +959,107 @@ if(($normal_price > 0)) {
       return parseInt(stringNumber.replace(/,/g , ''));
   }
 
-  let income_type1   = $('.income_type1');
-  let income_type2   = $('.income_type2');
+  // let income_type1   = $('.income_type1');
+  // let income_type2   = $('.income_type2');
 
   $(function() {
-    $('#income_type2').change(function() { 
-      $('#incomePer_tr').show();
-    });
 
-    $('#income_type1').change(function() { 
-      $('#incomePer_tr').hide();
-    });
-  });
-
-  $('#incomePer_input').on('change', function() {
-    console.log($('#incomePer_input').val())
-    let supply_price = stringNumberToInt($('#supply_price').val());
-    let incomePer_input = stringNumberToInt($('#incomePer_input').val());
-
-    if(supply_price > 0 && incomePer_input > 0) {
-      let total_price = Math.round(supply_price / (1 - incomePer_input/ 100))
-
-      $('#goods_price').val(total_price);
-      $('#normal_price').val(total_price);
-    }
-  });
-
-
-  $('#supply_price, #goods_price, #normal_price').on('change', function() {
-    let supply_price = stringNumberToInt($('#supply_price').val()); // 매입가
-    let goods_price  = stringNumberToInt($('#goods_price').val());  // 판매가
-    let normal_price = stringNumberToInt($('#normal_price').val()); // 회원판매가
-
-    
-    if(normal_price > 0) {
-      income_type1.html("");
-      income_type2.html("");
-  
-      // (판매가) - (매입가) = (이익금)
-      let income_price = (normal_price > goods_price) ? (normal_price - supply_price) : (goods_price - supply_price);
-      // (이익금) / (판매가) = (이익률 x 100)
-      let income_percent = (normal_price > goods_price) ? ((normal_price - supply_price)/normal_price)*100 : ((goods_price - supply_price)/goods_price)*100
-    
-      console.log(income_price, income_percent);
-    
-      if(income_price > 0 && income_percent > 0) {
-        income_type1.html("<span class='fc_197'>("+income_price+"원)</span>");
-        income_type2.html("<span class='fc_197'>("+Math.round(income_percent)+"%)</span>");
-        $('#incomePer_input').val(Math.round(income_percent));
-      }
+    if ($('#income_type0').is(':checked')) {
+      $('.incomePer_tr').hide();
+      $('#incomePer_sub2').hide();
+      $('#incomePer_sub1').hide();
     }
 
+    $('#income_type0').change(function() {
+      $('.incomePer_tr').hide();
+      $('#incomePer_type').hide();
+    });
+
+    if ($('#income_type1').is(':checked')) {
+      $('.incomePer_tr').hide();
+      $('#incomePer_sub2').hide();
+      $('#incomePer_sub1').hide();
+    }
+
+    $('#income_type1').change(function() {
+      $('.incomePer_tr').hide();
+      $('#incomePer_type').hide();
+    });
+
+    $('#income_type2').change(function() {
+      $('.incomePer_tr').show();
+      $('#incomePer_type').show();
+      if ($('#incomePer_type1').is(':checked')) {
+      $('#incomePer_sub2').hide();
+    } else {
+      $('#incomePer_sub1').hide();
+    }
+    });
+
+    $('#incomePer_type1').change(function() {
+      $('#incomePer_sub1').show();
+      $('#incomePer_sub2').hide();
+    })
+    $('#incomePer_type2').change(function() {
+      $('#incomePer_sub1').hide();
+      $('#incomePer_sub2').show();
+    })
+  });
+
+  // 수정 _20240508_SY
+  let supply_price = 0;
+  $("#incomePer_sub1").on('keyup', function() {
+    $("input[name=income_per]").val(0)
+    supply_price = stringNumberToInt($("input[name=income_price]").val());
+    $("#supply_price").val(supply_price)
   })
+  $("#incomePer_sub2").on('keyup', function() {
+    $("input[name=income_price]").val(0)
+    // (판매가) x (수수료 / 100)
+    supply_price = (stringNumberToInt($("#goods_price").val()) * ($("input[name=income_per]").val() / 100 ));
+    $("#supply_price").val(supply_price)
+  })
+
+
+  // $('#incomePer_input').on('change', function() {
+  //   console.log($('#incomePer_input').val())
+  //   let supply_price = stringNumberToInt($('#supply_price').val());
+  //   let incomePer_input = stringNumberToInt($('#incomePer_input').val());
+
+  //   if(supply_price > 0 && incomePer_input > 0) {
+  //     let total_price = Math.round(supply_price / (1 - incomePer_input/ 100))
+
+  //     $('#goods_price').val(total_price);
+  //     $('#normal_price').val(total_price);
+  //   }
+  // });
+
+
+  // $('#supply_price, #goods_price, #normal_price').on('change', function() {
+  //   let supply_price = stringNumberToInt($('#supply_price').val()); // 매입가
+  //   let goods_price  = stringNumberToInt($('#goods_price').val());  // 판매가
+  //   let normal_price = stringNumberToInt($('#normal_price').val()); // 회원판매가
+
+    
+  //   if(normal_price > 0) {
+  //     income_type1.html("");
+  //     income_type2.html("");
+  
+  //     // (판매가) - (매입가) = (이익금)
+  //     let income_price = (normal_price > goods_price) ? (normal_price - supply_price) : (goods_price - supply_price);
+  //     // (이익금) / (판매가) = (이익률 x 100)
+  //     let income_percent = (normal_price > goods_price) ? ((normal_price - supply_price)/normal_price)*100 : ((goods_price - supply_price)/goods_price)*100
+    
+  //     console.log(income_price, income_percent);
+    
+  //     if(income_price > 0 && income_percent > 0) {
+  //       income_type1.html("<span class='fc_197'>("+income_price+"원)</span>");
+  //       income_type2.html("<span class='fc_197'>("+Math.round(income_percent)+"%)</span>");
+  //       $('#incomePer_input').val(Math.round(income_percent));
+  //     }
+  //   }
+
+  // })
 
 
 </script>

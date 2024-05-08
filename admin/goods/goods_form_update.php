@@ -133,6 +133,12 @@ for ($z = 0; $z < count($_POST['zone']); $z++) {
     }
 }
 
+if($_POST['supply_type'] != '2') {
+  $income_per_type = 0;
+} else {
+  $income_per_type = $_POST['incomePer_type'];
+}
+
 $value['ca_id']			    = $_POST['ca_id']; //대표카테고리
 $value['ca_id2']		    = $_POST['ca_id2']; //추가카테고리2
 $value['ca_id3']		    = $_POST['ca_id3']; //추가카테고리3
@@ -147,6 +153,7 @@ $value['goods_price']	  = conv_number($_POST['goods_price']); //판매가격
 $value['supply_price']	= conv_number($_POST['supply_price']); //공급가격
 $value['normal_price']	= conv_number($_POST['normal_price']); //시중가격
 $value['supply_type']	  = ($_POST['supply_type']); //정산방식 추가 _20240426_SY
+$value['income_per_type']= $income_per_type; //수수료정산방식 추가 _20240508_SY
 $value['gpoint']		    = get_gpoint($value['goods_price'],$_POST['marper'],$_POST['gpoint']);
 $value['maker']			    = $_POST['maker']; //제조사
 $value['origin']		    = $_POST['origin']; //원산지
