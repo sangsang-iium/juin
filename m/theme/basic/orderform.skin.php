@@ -967,6 +967,21 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               </div>
             </section>
 
+            <section id="card_section" style="display:none;" >
+              <h2 class="anc_tit">신용카드 선택</h2>
+              <div class="odf_tbl">
+                <select name="cardsel" id="cardsel">
+                  <?php
+                    $sqlCard = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+                    $resCard = sql_query($sqlCard);
+                    for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {
+                  ?>
+                    <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use']=="Y"?"selected":"" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
+                  <?php } ?>
+                </select>
+              </div>
+            </section>
+
             <script>
               function toggleTaxDocument(documentType) {
                 if (documentType === 'cash_receipt') {
@@ -1031,9 +1046,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
 
 
-      <!-- <div class="btn_confirm"> -->
-        <!-- <div class="container"> -->
-          <!-- <input type="submit" value="주문하기" class="btn_medium btn-buy"> -->
+      <div class="btn_confirm" class="btn_confirm">
+        <div class="container">
+          <input type="button" value="주문하기" class="btn_medium btn-buy">
           <!-- 시안대로 금액표시할 경우 사용
           <button type="submit" class="btn_medium btn-buy">
             <p class="price">
@@ -1042,10 +1057,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </p>
           </button>
           -->
-        <!-- </div> -->
-      <!-- </div> -->
+        </div>
+      </div>
     </form>
-    <div class="btn_confirm">
+    <div id="btn_confirm2" class="btn_confirm">
     <button class="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
     </div>
   </div>
@@ -1091,7 +1106,16 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   </div>
 </div>
 <!-- } 배송지 추가 팝업 -->
+ <script src="https://js.tosspayments.com/v1/brandpay"></script>
+ <script>
+  var clientKey = 'test_ck_LkKEypNArWLnNb4bORWa8lmeaxYG' // 테스트용 클라이언트 키
+  var customerKey = 'FjHoBC-iM-kxzGgOHjL95' // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
 
+  // 2. 브랜드페이 객체 생성
+  var brandpay = BrandPay(clientKey, customerKey, {
+    redirectUrl: 'https://juin.eumsvr.com/m/shop/orderform.php'
+  })
+</script>
 <script>
 
   const button = document.getElementById("payment-button");
@@ -1474,6 +1498,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     switch (type) {
       case '무통장':
         $("#bank_section").show();
+        $("#card_section").hide();
         $("#toss_section").hide();
         $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
@@ -1487,6 +1512,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         break;
       case '일반':
         $("#toss_section").show();
+        $("#card_section").hide();
         $("#bank_section").hide();
         $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
@@ -1497,8 +1523,12 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         calculate_order_price();
 
         $("#refund_section").hide();
-        
+
         break;
+      case '신용카드':
+        $("#card_section").show();
+        $("#bank_section").hide();
+        $("#toss_section").hide();
       case '포인트':
         $("#bank_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
@@ -1516,6 +1546,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         break;
       default: // 그외 결제수단
         $("#bank_section").hide();
+        $("#card_section").hide();
         $("#toss_section").hide();
         $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);

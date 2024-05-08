@@ -31,7 +31,7 @@ $sql_order = " order by $filed $sod ";
 // 테이블의 전체 레코드수만 얻음
 $sql = " select count(*) as cnt $sql_common $sql_search ";
 $row = sql_fetch($sql);
-$total_count = $row['cnt'];
+$total_count = 0;
 
 $rows = 30;
 $total_page = ceil($total_count / $rows); // 전체 페이지 계산
@@ -42,6 +42,7 @@ $num = $total_count - (($page-1)*$rows);
 if(!empty($sfl) || !empty($stx)){
   $sql = " select * $sql_common $sql_search $sql_order limit $from_record, $rows ";
   $result = sql_query($sql);
+	$total_count = $row['cnt'];
 }
 ?>
 

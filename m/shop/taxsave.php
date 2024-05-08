@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 include_once('./_common.php');
 
 $tb['title'] = '주문번호 '.$od_id.' 현금영수증 발행';
@@ -23,8 +25,8 @@ $amt_svc = 0;
 $trad_time = date("YmdHis");
 
 // 신청폼
-if(!$dir)
-    $dir = $default['de_pg_service'];
+// if(!$dir)
+//     $dir = $default['de_pg_service'];
 
 include_once(BV_SHOP_PATH.'/'.$dir.'/taxsave_form.php');
 
