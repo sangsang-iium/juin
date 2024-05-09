@@ -871,7 +871,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               <div class="odf_tbl">
                 <table>
                   <tbody>
-                    <tr>
+                    <!-- <tr>
                       <th scope="row">무통장계좌</th>
                       <td>
                         <?php echo mobile_bank_account("bank"); ?>
@@ -880,6 +880,23 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                     <tr>
                       <th scope="row">입금자명</th>
                       <td><input type="text" name="deposit_name" value="<?php echo $member['name']; ?>" class="frm-input w-per100">
+                      </td>
+                    </tr> -->
+                    <tr>
+                      <th scope="row">은행</th>
+                      <td>
+                        <select id="bank_code" name="bank_code" class="frm-select w-per100">
+                          <option value="">은행 선택</option>
+                          <?php
+                            foreach($BANKS as $bkCode => $v ) { ?>
+                              <option value="<?php echo $bkCode ?>"><?php echo $v['bank'] ?></option>
+                          <?php } ?>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">이메일</th>
+                      <td><input type="text" name="customerEmail" value="" class="frm-input w-per100">
                       </td>
                     </tr>
                   </tbody>
@@ -1046,7 +1063,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
       <div class="btn_confirm" class="btn_confirm">
         <div class="container">
-          <input type="button" value="주문하기" class="btn_medium btn-buy">
+          <input type="submit" value="주문하기" class="btn_medium btn-buy">
           <!-- 시안대로 금액표시할 경우 사용
           <button type="submit" class="btn_medium btn-buy">
             <p class="price">
@@ -1058,9 +1075,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         </div>
       </div>
     </form>
-    <div id="btn_confirm2" class="btn_confirm">
+    <!-- <div id="btn_confirm2" class="btn_confirm">
     <button class="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -1105,7 +1122,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 </div>
 <!-- } 배송지 추가 팝업 -->
 
-<script>
+<!-- <script>
 
   const button = document.getElementById("payment-button");
   const coupon = document.getElementById("coupon-box");
@@ -1164,7 +1181,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     });
   });
 
-</script>
+</script> -->
 <script type="module">
   import * as f from '/src/js/function.js';
 
@@ -1361,10 +1378,25 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       if ((f.od_pwd.value.length < 3) || (f.od_pwd.value.search(/([^A-Za-z0-9]+)/) != -1))
         error_field(f.od_pwd, "회원이 아니신 경우 주문서 조회시 필요한 비밀번호를 3자리 이상 입력해 주십시오.");
     }
+    if(f.bank_code.value == "" ){
+      alert("가상계좌 은행 선택하세요.");
+      f.bank_code.focus();
+      return false;
+    }
 
     if (getSelectVal(f["paymethod"]) == '무통장') {
-      check_field(f.bank, "입금계좌를 선택하세요");
-      check_field(f.deposit_name, "입금자명을 입력하세요");
+      if (f.bank_code.value == "") {
+        alert("가상계좌 은행 선택하세요.");
+        f.bank_code.focus();
+
+        return false;
+      }
+      if (f.customerEmail.value == "") {
+        alert("가상계좌 받으실 메일 작성하세요.");
+        f.customerEmail.focus();
+
+        return false;
+      }
     }
 
     <?php if (!$config['company_type']) { ?>
@@ -1420,8 +1452,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       }
     }
 
-    if (!confirm("주문내역이 정확하며, 주문 하시겠습니까?"))
+    if (!confirm("주문내역이 정확하며, 주문 하시겠습니까?")){
       return false;
+    }
 
     f.use_point.value = no_comma(f.use_point.value);
     f.tot_price.value = no_comma(f.tot_price.value);
