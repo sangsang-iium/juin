@@ -776,12 +776,12 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             }
             if($default['de_card_use']) {
               // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
-              $multi_settle .= "<li>\n";
-              $multi_settle .= "<div class=\"frm-choice\">\n";
-              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"일반\" id=\"de_normal\">\n";
-              $multi_settle .= "<label for=\"de_normal\">일반</label>\n";
-              $multi_settle .= "</div>\n";
-              $multi_settle .= "</li>\n";
+              // $multi_settle .= "<li>\n";
+              // $multi_settle .= "<div class=\"frm-choice\">\n";
+              // $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"일반\" id=\"de_normal\">\n";
+              // $multi_settle .= "<label for=\"de_normal\">일반</label>\n";
+              // $multi_settle .= "</div>\n";
+              // $multi_settle .= "</li>\n";
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"신용카드\" id=\"de_card\">\n";
@@ -854,19 +854,17 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               </ul>
             </section>
 
-
+<!--
             <section id="toss_section" style="display:none;">
                   <div id="payment-method"></div>
-                  <!-- 이용약관 UI -->
                   <div id="agreement"></div>
-                  <!-- 쿠폰 체크박스 -->
                   <div class="checkable typography--p" style="padding-left: 25px">
                     <label for="coupon-box" class="checkable__label typography--regular">
                       <input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true" disabled />
-                      <!-- <span class="checkable__label-text">5,000원 쿠폰 적용</span> -->
+                      <span class="checkable__label-text">5,000원 쿠폰 적용</span>
                     </label>
                   </div>
-            </section>
+            </section> -->
 
             <section id="bank_section" style="display:none;">
               <h2 class="anc_tit">입금하실 계좌</h2>
@@ -1106,16 +1104,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   </div>
 </div>
 <!-- } 배송지 추가 팝업 -->
- <script src="https://js.tosspayments.com/v1/brandpay"></script>
- <script>
-  var clientKey = 'test_ck_LkKEypNArWLnNb4bORWa8lmeaxYG' // 테스트용 클라이언트 키
-  var customerKey = 'FjHoBC-iM-kxzGgOHjL95' // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
 
-  // 2. 브랜드페이 객체 생성
-  var brandpay = BrandPay(clientKey, customerKey, {
-    redirectUrl: 'https://juin.eumsvr.com/m/shop/orderform.php'
-  })
-</script>
 <script>
 
   const button = document.getElementById("payment-button");

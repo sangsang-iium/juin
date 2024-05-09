@@ -320,6 +320,19 @@ class Tosspay {
     return $this->callApi($url, $data, $credential);
   }
 
+  function virtualAcc($amount, $orderId, $orderName, $customerName, $bank){
+    $url  = "https://api.tosspayments.com/v1/virtual-accounts";
+    $data = array(
+      'amount' => $amount,
+      'orderId' => $orderId,
+      'orderName' => $orderName,
+      'customerName' => $customerName,
+      'bank' => $bank,
+    );
+
+    return $this->callApi($url, $data);
+  }
+
   /**
    * 결제 취소
    *
@@ -418,3 +431,33 @@ function juinGroupInfo($depth, $depth2 = '') {
 
   return $data;
 }
+
+//은행 정보
+$BANKS = array(
+  "39" => array("bank" => "경남은행", "code" => "39", "en" => "KYONGNAMBANK"),
+  "34" => array("bank" => "광주은행", "code" => "34", "en" => "GWANGJUBANK"),
+  "12" => array("bank" => "단위농협(지역농축협)", "code" => "12", "en" => "LOCALNONGHYEOP"),
+  "32" => array("bank" => "부산은행", "code" => "32", "en" => "BUSANBANK"),
+  "45" => array("bank" => "새마을금고", "code" => "45", "en" => "SAEMAUL"),
+  "64" => array("bank" => "산림조합", "code" => "64", "en" => "SANLIM"),
+  "88" => array("bank" => "신한은행", "code" => "88", "en" => "SHINHAN"),
+  "48" => array("bank" => "신협", "code" => "48", "en" => "SHINHYEOP"),
+  "27" => array("bank" => "씨티은행", "code" => "27", "en" => "CITI"),
+  "20" => array("bank" => "우리은행", "code" => "20", "en" => "WOORI"),
+  "71" => array("bank" => "우체국예금보험", "code" => "71", "en" => "POST"),
+  "50" => array("bank" => "저축은행중앙회", "code" => "50", "en" => "SAVINGBANK"),
+  "37" => array("bank" => "전북은행", "code" => "37", "en" => "JEONBUKBANK"),
+  "35" => array("bank" => "제주은행", "code" => "35", "en" => "JEJUBANK"),
+  "90" => array("bank" => "카카오뱅크", "code" => "90", "en" => "KAKAOBANK"),
+  "89" => array("bank" => "케이뱅크", "code" => "89", "en" => "KBANK"),
+  "92" => array("bank" => "토스뱅크", "code" => "92", "en" => "TOSSBANK"),
+  "81" => array("bank" => "하나은행", "code" => "81", "en" => "HANA"),
+  "54" => array("bank" => "홍콩상하이은행", "code" => "54", "en" => "HSBC"),
+  "03" => array("bank" => "IBK기업은행", "code" => "03", "en" => "IBK"),
+  "04" => array("bank" => "KB국민은행", "code" => "06", "en" => "KOOKMIN"),
+  "31" => array("bank" => "DGB대구은행", "code" => "31", "en" => "DAEGUBANK"),
+  "02" => array("bank" => "KDB산업은행", "code" => "02", "en" => "KDBBANK"),
+  "11" => array("bank" => "NH농협은행", "code" => "11", "en" => "NONGHYEOP"),
+  "23" => array("bank" => "SC제일은행", "code" => "23", "en" => "SC"),
+  "07" => array("bank" => "Sh수협은행", "code" => "07", "en" => "SUHYEOP"),
+);
