@@ -320,13 +320,14 @@ class Tosspay {
     return $this->callApi($url, $data, $credential);
   }
 
-  function virtualAcc($amount, $orderId, $orderName, $customerName, $bank){
+  function virtualAcc($amount, $orderId, $orderName, $customerName, $customerEmail, $bank){
     $url  = "https://api.tosspayments.com/v1/virtual-accounts";
     $data = array(
       'amount' => $amount,
       'orderId' => $orderId,
       'orderName' => $orderName,
       'customerName' => $customerName,
+      'customerEmail' => $customerEmail,
       'bank' => $bank,
     );
 
