@@ -118,6 +118,7 @@ EOF;
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
+		<col class="w90">
 		<col class="w60">
 	</colgroup>
 	<thead>
@@ -132,9 +133,10 @@ EOF;
 		<th scope="col" class="th_bg">포인트결제</th>
 		<th scope="col" class="th_bg">쿠폰할인</th>
 		<th scope="col" class="th_bg">배송비</th>
-		<th scope="col" class="th_bg">공급가총액</th>
+		<th scope="col" class="th_bg">매입가</th>
+		<th scope="col" class="th_bg">수수료(정액)</th>
+		<th scope="col" class="th_bg">수수료(정률)</th>
 		<th scope="col" class="th_bg">실정산액</th>
-		<th scope="col">가맹점수수료</th>
 		<th scope="col">본사마진</th>
 		<th scope="col">내역</th>
 	</tr>

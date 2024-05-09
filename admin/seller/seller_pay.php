@@ -4,6 +4,8 @@ if(!defined('_BLUEVATION_')) exit;
 if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fr_date)) $fr_date = '';
 if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $to_date)) $to_date = '';
 
+
+
 $query_string = "code=$code$qstr";
 $q1 = $query_string;
 $q2 = $query_string."&page=$page";
@@ -22,6 +24,12 @@ if($sfl && $stx) {
 if($fr_date && $to_date) {
 	$sql_search .= " and left(a.od_time,10) between '$fr_date' and '$to_date' ";
 }
+
+// 주문상태 검색조건 추가 _20240509_SY
+if(isset($od_status))		 $qstr .= "&od_status=$od_status";
+if(is_numeric($od_status))
+	$sql_search .= " AND dan = '$od_status' ";
+
 
 $sql_order = " group by a.seller_id order by a.index_no desc ";
 
@@ -84,6 +92,17 @@ EOF;
 			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
 		</td>
 	</tr>
+  <tr>
+    <th scope="row">주문상태</th>
+    <td>
+      <?php echo radio_checked('od_status', $od_status,  '', '전체'); ?>
+      <?php echo radio_checked('od_status', $od_status, '1', $gw_status[1]); ?>
+      <?php echo radio_checked('od_status', $od_status, '2', $gw_status[2]); ?>
+      <?php echo radio_checked('od_status', $od_status, '3', $gw_status[3]); ?>
+      <?php echo radio_checked('od_status', $od_status, '4', $gw_status[4]); ?>
+      <?php echo radio_checked('od_status', $od_status, '5', $gw_status[5]); ?>
+    </td>
+  </tr>
 	</tbody>
 	</table>
 </div>
@@ -180,6 +199,7 @@ EOF;
 		if($fr_date && $to_date) {
 			$sql2 .= " and left(od_time,10) between '$fr_date' and '$to_date' ";
 		}
+
 		$res2 = sql_query($sql2);
 		while($row2 = sql_fetch_array($res2)) {
 			$psql = " select SUM(pp_pay) as sum_pay
@@ -255,6 +275,7 @@ EOF;
   
     // 총 합계 _2024050_SY
     $sum_price += $tot_price;
+    $sum_supply_price += $supply_price;
     $sum_income_price += $income_price;
     $sum_income_per += $income_percent;
     $sum_seller += $tot_seller;
@@ -328,9 +349,9 @@ EOF;
           <th scope="col">총 건수</th>
           <th scope="col">총 주문금액</th>
           <th scope="col">매입가 총액</th>
-          <th scope="col">요율수수료 총액</th>
-          <th scope="col">실정산 총액</th>
-          <!-- <th scope="col">본사 총이익률</th> -->
+          <th scope="col">수수료(정액) 총액</th>
+          <th scope="col">수수료(정률) 총액</th>
+          <th scope="col">정산 총액</th>
           <th scope="col">본사마진 총액</th>
         </tr>
       </thead>
@@ -338,10 +359,10 @@ EOF;
         <tr>
           <td><?php echo $sum_count; ?></td>
           <td><?php echo number_format($sum_price) . "원"; ?></td>
-          <td><?php echo number_format($sum_income_price) . "원"; ?></td>
+          <td><?php echo number_format($sum_supply_price) . "원"; ?></td>
+          <td><?php echo number_format($sum_income_price) . "원";?></td>
           <td><?php echo number_format($sum_income_per) . "원"; ?></td>
           <td><?php echo number_format($sum_seller) . "원"; ?></td>
-          <!-- <td><?php //echo $sum_per . "%"; ?></td> -->
           <td><?php echo number_format($sum_admin) . "원"; ?></td>        </tr>
       </tbody>
     </table>
