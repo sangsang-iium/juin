@@ -994,12 +994,10 @@ $income_per = ($supply_price / $goods_price) * 100;
       $('#incomePer_sub2').hide();
       $('#incomePer_sub1').hide();
     }
-    
     $('#income_type0').change(function() {
       $('.incomePer_tr').hide();
       $('#incomePer_type').hide();
     });
-    
     if ($('#income_type1').is(':checked')) {
       $('.incomePer_tr').hide();
       $('#incomePer_sub2').hide();
