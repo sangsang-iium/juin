@@ -891,7 +891,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 			<span class="fc_197 marl5">이익률</span>
 		</td>
 	</tr>
-  <tr>
+  <tr class="supply_tr">
 		<th scope="row">매입가격</th>
 		<td>
 			<input type="text" name="supply_price" id="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
@@ -989,43 +989,57 @@ $income_per = ($supply_price / $goods_price) * 100;
 
   $(function() {
 
+    // 정산방식 > 업제청산
     if ($('#income_type0').is(':checked')) {
       $('.incomePer_tr').hide();
       $('#incomePer_sub2').hide();
       $('#incomePer_sub1').hide();
+      $('.supply_tr').hide();
     }
+
     $('#income_type0').change(function() {
       $('.incomePer_tr').hide();
       $('#incomePer_type').hide();
+      $('.supply_tr').hide();
     });
+
+    // 정산방식 > 매입가
     if ($('#income_type1').is(':checked')) {
       $('.incomePer_tr').hide();
       $('#incomePer_sub2').hide();
       $('#incomePer_sub1').hide();
+      $('.supply_tr').show();
     }
 
     $('#income_type1').change(function() {
       $('.incomePer_tr').hide();
       $('#incomePer_type').hide();
+      $('.supply_tr').show();
     });
 
+    // 정산방식 > 수수료
     $('#income_type2').change(function() {
       $('.incomePer_tr').show();
       $('#incomePer_type').show();
+      $('.supply_tr').show();
       if ($('#incomePer_type1').is(':checked')) {
-      $('#incomePer_sub2').hide();
-    } else {
-      $('#incomePer_sub1').hide();
-    }
+        $('#incomePer_sub2').hide();
+      } else {
+        $('#incomePer_sub1').hide();
+      }
     });
 
+    // 수수료지급방식 > 정액
     $('#incomePer_type1').change(function() {
       $('#incomePer_sub1').show();
       $('#incomePer_sub2').hide();
     })
+
+    // 수수료지급방식 > 정률
     $('#incomePer_type2').change(function() {
       $('#incomePer_sub1').hide();
       $('#incomePer_sub2').show();
+      $('.supply_tr').show();
     })
   });
 

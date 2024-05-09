@@ -39,7 +39,7 @@ if($_POST['income_type'] == '0') {
 } else {
   if($_POST['incomePer_type'] == '0') {
     $income_per = 0;
-    $income_price = $_POST['income_price'];
+    $income_price = conv_number($_POST['income_price']);
   } else if($_POST['incomePer_type'] == '1') {
     $income_per = $_POST['income_per'];
     $income_price = 0;
