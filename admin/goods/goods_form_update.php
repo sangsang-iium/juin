@@ -133,7 +133,7 @@ for ($z = 0; $z < count($_POST['zone']); $z++) {
     }
 }
 
-if($_POST['supply_type'] != '2') {
+if($_POST['supply_type'] != '1') {
   $income_per_type = 0;
 } else {
   $income_per_type = $_POST['incomePer_type'];

@@ -204,11 +204,6 @@ $sr = get_seller($mb_id);
 
 <script>
 // 정산방식 추가 _20240508_SY
-
-function stringNumberToInt(stringNumber){
-    return parseFloat(stringNumber.replace(/,/g , ''));
-}
-
 $(function() {
 
   if ($('#income_type1').is(':checked')) {
