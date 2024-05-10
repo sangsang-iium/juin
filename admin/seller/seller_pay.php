@@ -48,7 +48,7 @@ $num = $total_count - (($page-1)*$rows);
 $add_seller_income = " ,b.income_type, b.income_per_type, b.income_price, b.income_per ";
 
 // b.settle 추가 _20240402_SY
-$sql = " select a.*, b.mb_id, b.company_name, b.settle {$add_seller_income} $sql_common $sql_search $sql_order limit $from_record, $rows ";
+$sql = " select a.*, b.mb_id, b.company_name, b.settle $add_seller_income $sql_common $sql_search $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
 include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
@@ -167,14 +167,17 @@ EOF;
 	for($i=0; $row=sql_fetch_array($result); $i++) {
 		$bg = 'list'.($i%2);
 
-		$tot_price	 = 0;
-		$tot_point	 = 0;
-		$tot_coupon	 = 0;
-		$tot_baesong = 0;
-		$tot_supply	 = 0;
-		$tot_seller	 = 0;
-		$tot_partner = 0;
-		$tot_admin	 = 0;
+		$tot_price	    = 0;
+		$tot_point	    = 0;
+		$tot_coupon	    = 0;
+		$tot_baesong    = 0;
+		$tot_supply	    = 0;
+		$tot_seller	    = 0;
+		$tot_partner    = 0;
+		$tot_admin	    = 0;
+    $income_price   = 0;
+    $income_percent = 0;
+
 		$order_idx	 = array();
 		$order_arr	 = array();
 
@@ -188,17 +191,18 @@ EOF;
     //                    AND CONCAT(YEAR(CURDATE()), '-', MONTH(CURDATE()), '-', {$row['settle']} - 1) ";
     // }
 
-    // 정산일 조건 추가 _20240403_SY
 		$sql2 = " select *
 				    from shop_order
 				   where seller_id = '{$row['seller_id']}'
 				     and dan IN(5,8)
 				     and sellerpay_yes = '0'
 					 and user_ok = '1'
-           AND od_time < CONCAT(YEAR(CURDATE()), '-', MONTH(CURDATE()), '-', 15) ";
+           ";
 		if($fr_date && $to_date) {
 			$sql2 .= " and left(od_time,10) between '$fr_date' and '$to_date' ";
-		}
+		} else {
+      // $sql2 .= "  AND DATE(od_time) BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE() ";
+    }
 
 		$res2 = sql_query($sql2);
 		while($row2 = sql_fetch_array($res2)) {
@@ -228,7 +232,7 @@ EOF;
       if($od_supply_type == '2') {
         $income_price += $row['income_price'];
         $income_percent += $row2['goods_price'] * ($row['income_per'] / 100);
-      } else {}
+      } 
       // 매입가 
       if($od_supply_type == '0') {
         $supply_price += $row2['supply_price'];
@@ -273,7 +277,7 @@ EOF;
 		// 본사마진 = (판매가 - 공급가 - 가맹점수수료 - 포인트결제 - 쿠폰할인)
 		$tot_admin = ($tot_price - $tot_supply - $tot_partner - $tot_point - $tot_coupon);
   
-    // 총 합계 _2024050_SY
+    // 총 합계 _20240503_SY
     $sum_price += $tot_price;
     $sum_supply_price += $supply_price;
     $sum_income_price += $income_price;
@@ -291,9 +295,11 @@ EOF;
 			<input type="hidden" name="tot_point[<?php echo $i; ?>]" value="<?php echo $tot_point; ?>">
 			<input type="hidden" name="tot_coupon[<?php echo $i; ?>]" value="<?php echo $tot_coupon; ?>">
 			<input type="hidden" name="tot_baesong[<?php echo $i; ?>]" value="<?php echo $tot_baesong; ?>">
-			<input type="hidden" name="tot_supply[<?php echo $i; ?>]" value="<?php echo $tot_supply; ?>">
+			<input type="hidden" name="tot_supply[<?php echo $i; ?>]" value="<?php echo $supply_price; ?>">
 			<input type="hidden" name="tot_seller[<?php echo $i; ?>]" value="<?php echo $tot_seller; ?>">
 			<input type="hidden" name="tot_partner[<?php echo $i; ?>]" value="<?php echo $tot_partner; ?>">
+			<input type="hidden" name="tot_income[<?php echo $i; ?>]" value="<?php echo $income_price; ?>">
+			<input type="hidden" name="tot_income2[<?php echo $i; ?>]" value="<?php echo $income_percent; ?>">
 			<input type="hidden" name="tot_admin[<?php echo $i; ?>]" value="<?php echo $tot_admin; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
@@ -326,11 +332,7 @@ EOF;
 </div>
 </form>
 
-<!-- 나중에 합산 금액 표시할 곳 _20240502_SY -->
-<?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { 
-  $sum_admin_per = round((($sum_price - $tot_seller)/$sum_price)*100,2);
-  $sum_per = $sum_admin_per > 0 ? $sum_admin_per : 0 ;  
-?>
+<!-- 합계 _20240502_SY -->
 <div class="local_ov mart30">
   <h2>합계</h2>
   <div class="tbl_head01">
@@ -341,7 +343,7 @@ EOF;
         <col class="">
         <col class="">
         <col class="">
-        <!-- <col class=""> -->
+        <col class="">
         <col class="">
       </colgroup>
       <thead>
@@ -368,7 +370,6 @@ EOF;
     </table>
   </div>
 </div>
-<?php } ?>
 
 <?php
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');

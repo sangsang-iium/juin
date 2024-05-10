@@ -35,7 +35,11 @@ if($page == "") { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 $num = $total_count - (($page-1)*$rows);
 
+// sellerTable > income 내용 추가 _20240509_SY
+$add_seller_income = " ,b.income_type, b.income_per_type, b.income_price, b.income_per ";
+
 $sql = " select a.*, b.seller_code, b.company_name
+      $add_seller_income
 			$sql_common
 			$sql_search
 			$sql_order
@@ -136,7 +140,7 @@ EOF;
 		<th scope="col" class="th_bg">매입가</th>
 		<th scope="col" class="th_bg">수수료(정액)</th>
 		<th scope="col" class="th_bg">수수료(정률)</th>
-		<th scope="col" class="th_bg">실정산액</th>
+		<th scope="col" class="th_bg">정산총액</th>
 		<th scope="col">본사마진</th>
 		<th scope="col">내역</th>
 	</tr>
@@ -145,8 +149,16 @@ EOF;
 	<?php
 	for($i=0; $row=sql_fetch_array($result); $i++) {
 		$order_idx = explode(',', $row['order_idx']);
-
 		$bg = 'list'.($i%2);
+
+    // 총 합계 _20240510_SY
+    $sum_price += $row['tot_price'];
+    $sum_supply_price += $row['tot_supply'];
+    $sum_income_price += $row['tot_income'];
+    $sum_income_per += $row['tot_income'];
+    $sum_seller += $row['tot_seller'];
+    $sum_admin += $row['tot_admin'];
+    $sum_count +=  count($order_idx);
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td>
@@ -164,8 +176,9 @@ EOF;
 		<td class="tar"><?php echo number_format($row['tot_coupon']); ?></td>
 		<td class="tar"><?php echo number_format($row['tot_baesong']); ?></td>
 		<td class="tar"><?php echo number_format($row['tot_supply']); ?></td>
+		<td class="tar"><?php echo number_format($row['tot_income']); ?></td>
+		<td class="tar"><?php echo number_format($row['tot_income2']); ?></td>
 		<td class="tar fc_00f bold"><?php echo number_format($row['tot_seller']); ?></td>
-		<td class="tar"><?php echo number_format($row['tot_partner']); ?></td>
 		<td class="tar fc_red bold"><?php echo number_format($row['tot_admin']); ?></td>
 		<td><a href="<?php echo BV_ADMIN_URL; ?>/pop_sellerorder.php?mb_id=<?php echo $row['mb_id']; ?>&order_idx=<?php echo $row['order_idx']; ?>" onclick="win_open(this,'pop_sellerorder','1200','600','yes');return false;" class="btn_small">내역</a></td>
 	</tr>
@@ -181,6 +194,45 @@ EOF;
 	<?php echo $btn_frmline; ?>
 </div>
 </form>
+
+<!-- 합계 _20240509_SY -->
+<div class="local_ov mart30">
+  <h2>합계</h2>
+  <div class="tbl_head01">
+    <table>
+      <colgroup>
+        <col class="">
+        <col class="">
+        <col class="">
+        <col class="">
+        <col class="">
+        <col class="">
+        <col class="">
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col">총 건수</th>
+          <th scope="col">총 주문금액</th>
+          <th scope="col">매입가 총액</th>
+          <th scope="col">수수료(정액) 총액</th>
+          <th scope="col">수수료(정률) 총액</th>
+          <th scope="col">정산 총액</th>
+          <th scope="col">본사마진 총액</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><?php echo $sum_count; ?></td>
+          <td><?php echo number_format($sum_price) . "원"; ?></td>
+          <td><?php echo number_format($sum_supply_price) . "원"; ?></td>
+          <td><?php echo number_format($sum_income_price) . "원";?></td>
+          <td><?php echo number_format($sum_income_per) . "원"; ?></td>
+          <td><?php echo number_format($sum_seller) . "원"; ?></td>
+          <td><?php echo number_format($sum_admin) . "원"; ?></td>        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <?php
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
