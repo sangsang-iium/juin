@@ -994,13 +994,11 @@ $income_per = ($supply_price / $goods_price) * 100;
       $('.incomePer_tr').hide();
       $('#incomePer_sub2').hide();
       $('#incomePer_sub1').hide();
-      $('.supply_tr').hide();
     }
 
     $('#income_type0').change(function() {
       $('.incomePer_tr').hide();
       $('#incomePer_type').hide();
-      $('.supply_tr').hide();
     });
 
     // 정산방식 > 매입가

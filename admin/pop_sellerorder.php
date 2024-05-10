@@ -77,6 +77,8 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			<col class="w90">
 			<col class="w90">
 			<col class="w90">
+			<col class="w90">
+			<col class="w90">
 		</colgroup>
 		<thead>
 		<tr>
@@ -85,7 +87,9 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			<th scope="col" colspan="2">주문상품</th>
 			<th scope="col">주문상태</th>
 			<th scope="col">정산</th>
-			<th scope="col">공급가</th>
+			<th scope="col">매입가</th>
+			<th scope="col">수수료(정액)</th>
+			<th scope="col">수수료(정률)</th>
 			<th scope="col">총주문액</th>
 			<th scope="col">결제방법</th>
 			<th scope="col">주문자명</th>
@@ -99,11 +103,60 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			$amount = get_order_spay($row['od_id']);
 			$sodr = get_order_list($row, $amount);
 
-			$sql = " select * {$sql_common} {$sql_search} and od_id = '{$row['od_id']}' order by index_no ";
+			// $sql = " select * {$sql_common} {$sql_search} and od_id = '{$row['od_id']}' order by index_no ";
+
+      // shop_seller 추가 _20240509_SY
+			$sql = " SELECT a.*, b.income_type, b.income_per_type, b.income_price, b.income_per
+                 FROM shop_order a, shop_seller b 
+                WHERE a.seller_id = b.seller_code
+                  AND dan != '0' 
+                  AND seller_id = '{$sr['seller_code']}' 
+                  AND a.index_no IN ({$order_idx}) 
+                  AND od_id = '{$row['od_id']}' 
+                  GROUP BY a.index_no 
+                  ORDER BY a.index_no ";
+      
 			$res = sql_query($sql);
 			$rowspan = sql_num_rows($res);
 			for($k=0; $row2=sql_fetch_array($res); $k++) {
 				$gs = unserialize($row2['od_goods']);
+        $supply_price   = 0;
+        $income_price   = 0;
+        $income_percent = 0;
+        if($gs['supply_type'] == '2') {
+          if($row2['income_type'] == '1') {
+            switch($row2['income_per_type']) {
+              case '1':
+                $income_percent = $row2['goods_price'] * ($row2['income_per'] / 100);
+                break;
+
+              default :
+                $income_price = $row2['income_price'];
+                break;
+            }
+          } else {
+            $income_price = $row['income_price'];
+            $income_percent = $row2['goods_price'] * ($row['income_per'] / 100);
+          }
+        }
+        // 매입가 
+        if($gs['supply_type'] == '0') {
+          $supply_price = $row2['supply_price'];
+        }
+        // 수수료
+        if($gs['supply_type'] == '1') {
+          switch($gs['income_per_type']) {
+            case '0':
+              $income_price = $row2['supply_price'];
+              break;
+            case '1':
+              $income_percent = $row2['supply_price'];
+              break;
+            default:
+              $income_price = $row2['supply_price'];
+              break;
+          }
+        }
 		?>
 		<tr class="<?php echo $bg; ?>">
 			<?php if($k == 0) { ?>
@@ -117,7 +170,9 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			<td class="td_itname"><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
 			<td><?php echo $gw_status[$row2['dan']]; ?></td>
 			<td><?php echo $row2['sellerpay_yes']?'완료':'대기'; ?></td>
-			<td class="tar"><?php echo number_format($row2['supply_price']); ?></td>
+			<td class="tar"><?php echo number_format($supply_price); ?></td>
+			<td class="tar"><?php echo number_format($income_price); ?></td>
+			<td class="tar"><?php echo number_format($income_percent); ?></td>
 			<?php if($k == 0) { ?>
 			<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
 			<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>

@@ -16,17 +16,19 @@ for($i=0; $i<$count; $i++)
     $k = $_POST['chk'][$i];
 
 	$sql = "insert into shop_seller_cal
-			   set mb_id = '{$_POST['mb_id'][$k]}'
-			     , order_idx = '{$_POST['order_idx'][$k]}'
-				 , tot_price = '{$_POST['tot_price'][$k]}'
-				 , tot_point = '{$_POST['tot_point'][$k]}'
-				 , tot_coupon = '{$_POST['tot_coupon'][$k]}'
-				 , tot_baesong = '{$_POST['tot_baesong'][$k]}'
-				 , tot_supply = '{$_POST['tot_supply'][$k]}'
-				 , tot_seller = '{$_POST['tot_seller'][$k]}'
-				 , tot_partner = '{$_POST['tot_partner'][$k]}'
-				 , tot_admin = '{$_POST['tot_admin'][$k]}'
-				 , reg_time = '".BV_TIME_YMDHIS."' ";
+			   set mb_id       = '{$_POST['mb_id'][$k]}'
+			     , order_idx   = '{$_POST['order_idx'][$k]}'
+           , tot_price   = '{$_POST['tot_price'][$k]}'
+           , tot_point   = '{$_POST['tot_point'][$k]}'
+           , tot_coupon  = '{$_POST['tot_coupon'][$k]}'
+           , tot_baesong = '{$_POST['tot_baesong'][$k]}'
+           , tot_supply  = '{$_POST['tot_supply'][$k]}'
+           , tot_seller  = '{$_POST['tot_seller'][$k]}'
+           , tot_partner = '{$_POST['tot_partner'][$k]}'
+           , tot_income  = '{$_POST['tot_income'][$k]}'
+           , tot_income2 = '{$_POST['tot_income2'][$k]}'
+           , tot_admin   = '{$_POST['tot_admin'][$k]}'
+           , reg_time    = '".BV_TIME_YMDHIS."' ";
 	sql_query($sql, FALSE);
 
 	$sql = " update shop_order
