@@ -24,6 +24,15 @@ else if($fr_date && !$to_date)
 else if(!$fr_date && $to_date)
 	$sql_search .= " and a.reg_time between '$to_date 00:00:00' and '$to_date 23:59:59' ";
 
+// 기간검색 기본값 1달 추가 _20240513_SY
+$time = time();
+$bf_month = date("Y-m-d",strtotime("-1 month", $time));
+$now_date = date("Y-m-d");
+if(!isset($_GET['fr_date']) && !isset($_GET['to_date'])) {
+  $sql_search .= " and a.reg_time between '$bf_month 00:00:00' and '$now_date 23:59:59' ";
+}
+
+
 // 테이블의 전체 레코드수만 얻음
 $sql = " select count(*) as cnt $sql_common $sql_search ";
 $row = sql_fetch($sql);
@@ -81,9 +90,13 @@ EOF;
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">기간검색</th>
+		<th scope="row">정산일</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+    <?php if(!isset($_GET['fr_date']) && !isset($_GET['$to_date'])) {
+        echo get_search_date("fr_date", "to_date", $bf_month, $now_date);
+      } else {
+        echo get_search_date("fr_date", "to_date", $fr_date, $to_date);
+      } ?>
 		</td>
 	</tr>
 	</tbody>
@@ -155,7 +168,7 @@ EOF;
     $sum_price += $row['tot_price'];
     $sum_supply_price += $row['tot_supply'];
     $sum_income_price += $row['tot_income'];
-    $sum_income_per += $row['tot_income'];
+    $sum_income_per += $row['tot_income2'];
     $sum_seller += $row['tot_seller'];
     $sum_admin += $row['tot_admin'];
     $sum_count +=  count($order_idx);

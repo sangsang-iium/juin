@@ -1,6 +1,8 @@
 <?php
 include_once("./_common.php");
 include_once(BV_LIB_PATH."/register.lib.php");
+print_r2($_POST);
+exit;
 
 check_demo();
 
@@ -57,6 +59,8 @@ $value['mailser']		= $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 $value['smsser']		= $mb_sms ? $mb_sms : 'N'; //SMS를 수신
 $value['mb_certify']	= $mb_certify;
 $value['mb_adult']		= $mb_adult;
+// mb_grade 추가 _20240513_SY
+$value['mb_grade']		= $mb_grade;
 
 // 관리자인증을 사용하지 않는다면 인증으로 간주함.
 if(!$config['cert_admin_yes'])

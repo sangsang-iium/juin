@@ -5,6 +5,11 @@ if(!defined('_BLUEVATION_')) exit;
 $sql_common = " FROM kfia_region ";
 $sql_search = " WHERE (1) ";
 
+// 검색 추가 _20240513_SY
+if($sfl && $stx) {
+  $sql_search .= " and $sfl like '%$stx%' ";
+}
+
 
 $total_sel = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
 $total_row = sql_fetch($total_sel);
@@ -26,21 +31,55 @@ $query_string = "code=$code$qstr";
 $q1 = $query_string;
 $q2 = $query_string."&page=$page";
 
-
 $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 EOF;
 
 ?>
+<?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+<!-- // 버튼 & 검색 추가 _20240513_SY -->
+<div>
+  <a href="" class="btn_small">지회관리</a>
+  <a href="" class="btn_small">지부관리</a>
+</div>
 
-
+<h2>지회검색</h2>
+<form name="fsearch" id="fsearch" method="get">
+<input type="hidden" name="code" value="<?php echo $code; ?>">
+<div class="tbl_frm01">
+	<table>
+	<colgroup>
+		<col class="w100">
+		<col>
+	</colgroup>
+	<tbody>
+	<tr>
+		<th scope="row">검색어</th>
+		<td>
+			<select name="sfl">
+				<?php echo option_selected('kf_region1', $sfl, '지역명'); ?>
+				<?php echo option_selected('kf_region2', $sfl, '지회명'); ?>
+				<?php echo option_selected('kf_region3', $sfl, '지부명'); ?>
+			</select>
+			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+		</td>
+	</tr>
+	</tbody>
+	</table>
+</div>
+<div class="btn_confirm">
+	<input type="submit" value="검색" class="btn_medium">
+	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+</div>
+</form>
+<?php } ?>
 
 <form name="fbranchlist" id="fbranchlist" method="post" action="./config/branch_update.php" onsubmit="return fbranchlist_submit(this);">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="tbl_head01">
+<div class="tbl_head01 local_ov mart30">
 	<table>
 	<colgroup>
 		<!-- <col class="w50"> -->

@@ -5,7 +5,6 @@ if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fr_da
 if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $to_date)) $to_date = '';
 
 
-
 $query_string = "code=$code$qstr";
 $q1 = $query_string;
 $q2 = $query_string."&page=$page";
@@ -21,8 +20,16 @@ if($sfl && $stx) {
     $sql_search .= " and $sfl like '%$stx%' ";
 }
 
+
+// 주문일 검색 수정 _20240513_SY
+$time = time();
+$bf_month = date("Y-m-d",strtotime("-1 month", $time));
+$now_date = date("Y-m-d");
 if($fr_date && $to_date) {
-	$sql_search .= " and left(a.od_time,10) between '$fr_date' and '$to_date' ";
+  $sql_search .= " and left(a.od_time,10) between '$fr_date' and '$to_date' ";
+}
+if(!isset($_GET['fr_date']) && !isset($_GET['to_date'])) {
+	$sql_search .= " and left(a.od_time,10) between '$bf_month' and '$now_date' ";
 }
 
 // 주문상태 검색조건 추가 _20240509_SY
@@ -89,7 +96,11 @@ EOF;
 	<tr>
 		<th scope="row">주문일</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+			<?php if(!isset($_GET['fr_date']) && !isset($_GET['$to_date'])) {
+        echo get_search_date("fr_date", "to_date", $bf_month, $now_date);
+      } else {
+        echo get_search_date("fr_date", "to_date", $fr_date, $to_date);
+      } ?>
 		</td>
 	</tr>
   <tr>
