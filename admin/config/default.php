@@ -217,7 +217,7 @@ $(function(){
 	</table>
 </div> -->
 
-<h2>스킨 설정</h2>
+<!-- <h2>스킨 설정</h2>
 <div class="tbl_frm01">
 	<table class="tablef">
 	<colgroup>
@@ -230,18 +230,18 @@ $(function(){
 	<tr>
 		<th scope="row"><label for="theme">PC 쇼핑몰스킨</label></th>
 		<td>
-			<?php echo get_theme_select('theme', $super['theme']); ?>
+			<?php //echo get_theme_select('theme', $super['theme']); ?>
 		</td>
 		<th scope="row"><label for="mobile_theme">모바일 쇼핑몰스킨</label></th>
 		<td>
-			<?php echo get_mobile_theme_select('mobile_theme', $super['mobile_theme']); ?>
+			<?php //echo get_mobile_theme_select('mobile_theme', $super['mobile_theme']); ?>
 		</td>
 	</tr>
 	</tbody>
 	</table>
-</div>
+</div> -->
 
-<h2>이미지사이즈 설정</h2>
+<!-- <h2>이미지사이즈 설정</h2>
 <div class="local_cmd01">
 	<p>※ 아래 이미지사이즈 설정은 관리자페이지에서 노출용으로 사용되므로 실제 사이즈가 반경되지는 않습니다.</p>
 </div>
@@ -257,42 +257,42 @@ $(function(){
 	<tr>
 		<th scope="row">PC 쇼핑몰로고</th>
 		<td class="td_label">
-			<label>가로 : <input type="text" name="de_logo_wpx" value="<?php echo $default['de_logo_wpx']; ?>" class="frm_input w50"> 픽셀</label>
-			<label>세로 : <input type="text" name="de_logo_hpx" value="<?php echo $default['de_logo_hpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>가로 : <input type="text" name="de_logo_wpx" value="<?php //echo $default['de_logo_wpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>세로 : <input type="text" name="de_logo_hpx" value="<?php //echo $default['de_logo_hpx']; ?>" class="frm_input w50"> 픽셀</label>
 		</td>
 		<th scope="row">모바일 쇼핑몰로고</th>
 		<td class="td_label">
-			<label>가로 : <input type="text" name="de_mobile_logo_wpx" value="<?php echo $default['de_mobile_logo_wpx']; ?>" class="frm_input w50"> 픽셀</label>
-			<label>세로 : <input type="text" name="de_mobile_logo_hpx" value="<?php echo $default['de_mobile_logo_hpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>가로 : <input type="text" name="de_mobile_logo_wpx" value="<?php //echo $default['de_mobile_logo_wpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>세로 : <input type="text" name="de_mobile_logo_hpx" value="<?php //echo $default['de_mobile_logo_hpx']; ?>" class="frm_input w50"> 픽셀</label>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">PC 메인배너</th>
 		<td class="td_label">
-			<label>가로 : <input type="text" name="de_slider_wpx" value="<?php echo $default['de_slider_wpx']; ?>" class="frm_input w50"> 픽셀</label>
-			<label>세로 : <input type="text" name="de_slider_hpx" value="<?php echo $default['de_slider_hpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>가로 : <input type="text" name="de_slider_wpx" value="<?php //echo $default['de_slider_wpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>세로 : <input type="text" name="de_slider_hpx" value="<?php //echo $default['de_slider_hpx']; ?>" class="frm_input w50"> 픽셀</label>
 		</td>
 		<th scope="row">모바일 메인배너</th>
 		<td class="td_label">
-			<label>가로 : <input type="text" name="de_mobile_slider_wpx" value="<?php echo $default['de_mobile_slider_wpx']; ?>" class="frm_input w50"> 픽셀</label>
-			<label>세로 : <input type="text" name="de_mobile_slider_hpx" value="<?php echo $default['de_mobile_slider_hpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>가로 : <input type="text" name="de_mobile_slider_wpx" value="<?php //echo $default['de_mobile_slider_wpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>세로 : <input type="text" name="de_mobile_slider_hpx" value="<?php //echo $default['de_mobile_slider_hpx']; ?>" class="frm_input w50"> 픽셀</label>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">상품 소이미지</th>
 		<td class="td_label">
-			<label>가로 : <input type="text" name="de_item_small_wpx" value="<?php echo $default['de_item_small_wpx']; ?>" class="frm_input w50"> 픽셀</label>
-			<label>세로 : <input type="text" name="de_item_small_hpx" value="<?php echo $default['de_item_small_hpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>가로 : <input type="text" name="de_item_small_wpx" value="<?php //echo $default['de_item_small_wpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>세로 : <input type="text" name="de_item_small_hpx" value="<?php //echo $default['de_item_small_hpx']; ?>" class="frm_input w50"> 픽셀</label>
 		</td>
 		<th scope="row">상품 중이미지</th>
 		<td class="td_label">
-			<label>가로 : <input type="text" name="de_item_medium_wpx" value="<?php echo $default['de_item_medium_wpx']; ?>" class="frm_input w50"> 픽셀</label>
-			<label>세로 : <input type="text" name="de_item_medium_hpx" value="<?php echo $default['de_item_medium_hpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>가로 : <input type="text" name="de_item_medium_wpx" value="<?php //echo $default['de_item_medium_wpx']; ?>" class="frm_input w50"> 픽셀</label>
+			<label>세로 : <input type="text" name="de_item_medium_hpx" value="<?php //echo $default['de_item_medium_hpx']; ?>" class="frm_input w50"> 픽셀</label>
 		</td>
 	</tr>
 	</tbody>
 	</table>
-</div>
+</div> -->
 <!--
 <h2>폐쇄몰설정</h2>
 <div class="tbl_frm01">
@@ -375,7 +375,7 @@ $(function(){
 	</table>
 </div>
 
-<h2>기타설정</h2>
+<!-- <h2>기타설정</h2>
 <div class="tbl_frm01">
 	<table class="tablef">
 	<colgroup>
@@ -387,39 +387,39 @@ $(function(){
 	<tbody>
 	<tr>
 		<th scope="row">찜 보관일수</th>
-		<td><input type="text" name="de_wish_keep_term" value="<?php echo $default['de_wish_keep_term']; ?>" class="frm_input w50"> 일 이후 자동삭제</td>
+		<td><input type="text" name="de_wish_keep_term" value="<?php //echo $default['de_wish_keep_term']; ?>" class="frm_input w50"> 일 이후 자동삭제</td>
 		<th scope="row">장바구니 보관일수</th>
-		<td><input type="text" name="de_cart_keep_term" value="<?php echo $default['de_cart_keep_term']; ?>" class="frm_input w50"> 일 이후 자동삭제</td>
+		<td><input type="text" name="de_cart_keep_term" value="<?php //echo $default['de_cart_keep_term']; ?>" class="frm_input w50"> 일 이후 자동삭제</td>
 	</tr>
 	<tr>
 		<th scope="row">미입금 주문내역</th>
-		<td><input type="text" name="de_misu_keep_term" value="<?php echo $default['de_misu_keep_term']; ?>" class="frm_input w50"> 일 이후 자동취소</td>
+		<td><input type="text" name="de_misu_keep_term" value="<?php //echo $default['de_misu_keep_term']; ?>" class="frm_input w50"> 일 이후 자동취소</td>
 		<th scope="row">로그인 포인트</th>
-		<td><input type="text" name="login_point" value="<?php echo number_format($config['login_point']); ?>" class="frm_input w80" onkeyup="addComma(this)"> P</td>
+		<td><input type="text" name="login_point" value="<?php //echo number_format($config['login_point']); ?>" class="frm_input w80" onkeyup="addComma(this)"> P</td>
 	</tr>
 	<tr>
 		<th scope="row">구매확정 강제승인</th>
-		<td><input type="text" name="de_final_keep_term" value="<?php echo $default['de_final_keep_term']; ?>" class="frm_input w50"> 일 이후 자동승인</td>
+		<td><input type="text" name="de_final_keep_term" value="<?php //echo $default['de_final_keep_term']; ?>" class="frm_input w50"> 일 이후 자동승인</td>
 		<th scope="row">온라인쿠폰</th>
-		<td><label><input type="checkbox" name="coupon_yes" value="1"<?php echo $config['coupon_yes']?' checked':''; ?>> 사용함</label></td>
+		<td><label><input type="checkbox" name="coupon_yes" value="1"<?php //echo $config['coupon_yes']?' checked':''; ?>> 사용함</label></td>
 	</tr>
 	<tr>
 		<th scope="row">이미지 도용방지</th>
-		<td><label><input type="checkbox" name="mouseblock_yes" value="1"<?php echo $config['mouseblock_yes']?' checked':''; ?>> 드레그, 마우스 우클릭 차단</label></td>
+		<td><label><input type="checkbox" name="mouseblock_yes" value="1"<?php //echo $config['mouseblock_yes']?' checked':''; ?>> 드레그, 마우스 우클릭 차단</label></td>
 		<th scope="row">인쇄용쿠폰</th>
-		<td><label><input type="checkbox" name="gift_yes" value="1"<?php echo $config['gift_yes']?' checked':''; ?>> 사용함</label></td>
+		<td><label><input type="checkbox" name="gift_yes" value="1"<?php //echo $config['gift_yes']?' checked':''; ?>> 사용함</label></td>
 	</tr>
 	<tr>
 		<th scope="row">페이지 표시 수</th>
-		<td><input type="text" name="write_pages" value="<?php echo $config['write_pages']; ?>" class="frm_input w50"> 페이지씩 표시</td>
+		<td><input type="text" name="write_pages" value="<?php //echo $config['write_pages']; ?>" class="frm_input w50"> 페이지씩 표시</td>
 		<th scope="row">모바일 페이지 표시 수</th>
-		<td><input type="text" name="mobile_pages" value="<?php echo $config['mobile_pages']; ?>" class="frm_input w50"> 페이지씩 표시</td>
+		<td><input type="text" name="mobile_pages" value="<?php //echo $config['mobile_pages']; ?>" class="frm_input w50"> 페이지씩 표시</td>
 	</tr>
 	</tbody>
 	</table>
-</div>
+</div> -->
 
-<h2>부분초기화</h2>
+<!-- <h2>부분초기화</h2>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
@@ -445,7 +445,7 @@ $(function(){
 	</tr>
 	</tbody>
 	</table>
-</div>
+</div> -->
 
 <div class="btn_confirm">
 	<input type="submit" value="저장" class="btn_large" accesskey="s">

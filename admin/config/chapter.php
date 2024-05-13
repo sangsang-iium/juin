@@ -1,4 +1,4 @@
-<?php // 지회 관리 _20240513_SY
+<?php // 지부 관리 _20240513_SY
 if(!defined('_BLUEVATION_')) exit;
 
 
@@ -47,7 +47,7 @@ $result = sql_query($sql);
 // <input type="submit" name="act_button" value="선택수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
-<a href="./config.php?code=branch_register_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 지회추가</a>
+<a href="./config.php?code=chapter_register_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 지부추가</a>
 EOF;
 
 ?>
@@ -58,7 +58,7 @@ EOF;
   <a href="./config.php?code=chapter" class="btn_small">지부관리</a>
 </div>
 
-<h2>지회검색</h2>
+<h2>지부검색</h2>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
@@ -73,8 +73,9 @@ EOF;
 		<th scope="row">검색어</th>
 		<td>
 			<select name="sfl">
-        <?php echo option_selected('kf_region2', $sfl, '지회명'); ?>
-				<?php echo option_selected('kf_region1', $sfl, '지역명'); ?>
+        <?php echo option_selected('kf_region1', $sfl, '지부명'); ?>
+				<?php echo option_selected('kf_region2', $sfl, '지회명'); ?>
+				<?php echo option_selected('kf_code',    $sfl, '지부아이디'); ?>
 				<?php echo option_selected('kf_code',    $sfl, '지회아이디'); ?>
 			</select>
 			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
@@ -112,7 +113,7 @@ EOF;
 	<thead>
 	<tr>
 		<th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
-		<th scope="col"><?php echo subject_sort_link('kf_code',   $q2); ?>지회아이디</a></th>
+		<th scope="col"><?php echo subject_sort_link('kf_code',   $q2); ?>지부아이디</a></th>
 		<th scope="col"><?php echo subject_sort_link('kf_region1',$q2); ?>지역</a></th>
 		<th scope="col"><?php echo subject_sort_link('kf_region2',$q2); ?>지회명</a></th>
 		<th scope="col"><?php echo subject_sort_link('kf_wdate',  $q2); ?>등록일</th>
