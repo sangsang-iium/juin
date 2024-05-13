@@ -87,15 +87,21 @@ if(!defined('_BLUEVATION_')) exit;
             <label for="mb_certify_no">아니오</label>
         </td>
 	</tr>
-    <tr>
-        <th scope="row">성인인증</th>
-        <td>
-            <input type="radio" name="mb_adult" value="1" id="mb_adult_yes">
-            <label for="mb_adult_yes">예</label>
-            <input type="radio" name="mb_adult" value="0" id="mb_adult_no" checked="checked">
-            <label for="mb_adult_no">아니오</label>
-        </td>
-    </tr>
+  <tr>
+      <th scope="row">성인인증</th>
+      <td>
+          <input type="radio" name="mb_adult" value="1" id="mb_adult_yes">
+          <label for="mb_adult_yes">예</label>
+          <input type="radio" name="mb_adult" value="0" id="mb_adult_no" checked="checked">
+          <label for="mb_adult_no">아니오</label>
+      </td>
+  </tr>
+  <tr>
+    <th scope="row">레벨</th>
+    <td>
+      <?php echo get_member_select("mb_grade", $mb['grade']); ?>
+    </td>
+  </tr>
 	<tr>
 		<th scope="row">주소</th>
 		<td>
@@ -120,7 +126,7 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 
 <!-- 매장 정보 입력 추가 _20240507_SY -->
-<h2 class="mart30">매장정보 입력</h2>
+<!-- <h2 class="mart30">매장정보 입력</h2>
 <div class="tbl_frm01">
   <table>
     <colgroup>
@@ -139,9 +145,9 @@ if(!defined('_BLUEVATION_')) exit;
       </tr>
     </tbody>
   </table>
-</div>
+</div> -->
 
-<div class="tbl_frm01" id="store_info" style="display: none;">
+<!-- <div class="tbl_frm01" id="store_info" style="display: none;">
 	<table>
     <colgroup>
       <col class="w180">
@@ -149,17 +155,17 @@ if(!defined('_BLUEVATION_')) exit;
     </colgroup>
     <tbody>
       <tr>
-        <th scope="row"><label for="mb_ju_restaurant">상호(법인명)</label></th>
-        <td><input type="text" name="ju_restaurant" id="mb_ju_restaurant" required class="frm_input required" size="20"></td>
+        <th scope="row"><label for="ju_restaurant">상호(법인명)</label></th>
+        <td><input type="text" name="ju_restaurant" id="ju_restaurant" required class="frm_input required" size="20"></td>
       </tr>
       <tr>
-        <th scope="row"><label for="mb_ju_restaurant">대표자명</label></th>
-        <td><input type="text" name="" id="" class="frm_input" size="20" maxlength="20"></td>
+        <th scope="row"><label for="ju_member">대표자명</label></th>
+        <td><input type="text" name="ju_member" id="ju_member" class="frm_input" size="20" maxlength="20"></td>
       </tr>
       <tr>
-        <th scope="row"><label for="">사업자번호</label></th>
+        <th scope="row"><label for="ju_b_num">사업자번호</label></th>
         <td>
-          <input type="text" name="" id="" class="frm_input" size="20" maxlength="20">
+          <input type="text" name="ju_b_num" id="ju_b_num" class="frm_input" size="20" maxlength="20">
           <button type="button" class="btn_small" onclick="">중앙회원조회</button>
           <button type="button" class="btn_small" onclick="">중복확인</button>
           <button type="button" class="btn_small" onclick="">휴/폐업조회</button><br>
@@ -223,7 +229,7 @@ if(!defined('_BLUEVATION_')) exit;
       </tr>
     </tbody>
 	</table>
-</div>
+</div> -->
 <div class="btn_confirm">
 	<input type="submit" value="저장" id="btn_submit" class="btn_large" accesskey="s">
 </div>

@@ -8,7 +8,7 @@ $pg_num = 10;
 $snb_icon = "<i class=\"fa fa-cogs\"></i>";
 
 if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
-	alert("Á¢±Ù±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
+	alert("ï¿½ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 }
 
 if($code == "default")			$pg_title2 = ADMIN_MENU10_01;
@@ -30,6 +30,8 @@ if($code == "board_group_list")	$pg_title2 = ADMIN_MENU10_16;
 if($code == "board_group_form")	$pg_title2 = ADMIN_MENU10_16;
 if($code == "board_list")		$pg_title2 = ADMIN_MENU10_17;
 if($code == "board_form")		$pg_title2 = ADMIN_MENU10_17;
+if($code == "branch")		$pg_title2 = ADMIN_MENU10_18;
+if($code == "manager_list")		$pg_title2 = ADMIN_MENU10_19;
 
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>

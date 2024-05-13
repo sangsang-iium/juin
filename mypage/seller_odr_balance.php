@@ -24,6 +24,12 @@ else if($fr_date && !$to_date)
 else if(!$fr_date && $to_date)
 	$sql_search .= " and left(od_time,10) between '$to_date' and '$to_date' ";
 
+  // 주문상태 검색조건 추가 _20240510_SY
+if(isset($od_status))		 $qstr .= "&od_status=$od_status";
+if(is_numeric($od_status))
+	$sql_search .= " AND dan = '$od_status' ";
+
+
 $sql_order = " order by od_time desc, index_no asc ";
 
 // 테이블의 전체 레코드수만 얻음
@@ -70,6 +76,17 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
 		</td>
 	</tr>
+  <tr>
+    <th scope="row">주문상태</th>
+    <td>
+      <?php echo radio_checked('od_status', $od_status,  '', '전체'); ?>
+      <?php echo radio_checked('od_status', $od_status, '1', $gw_status[1]); ?>
+      <?php echo radio_checked('od_status', $od_status, '2', $gw_status[2]); ?>
+      <?php echo radio_checked('od_status', $od_status, '3', $gw_status[3]); ?>
+      <?php echo radio_checked('od_status', $od_status, '4', $gw_status[4]); ?>
+      <?php echo radio_checked('od_status', $od_status, '5', $gw_status[5]); ?>
+    </td>
+  </tr>
 	</tbody>
 	</table>
 </div>
@@ -98,6 +115,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
+		<col class="w90">
 	</colgroup>
 	<thead>
 	<tr>
@@ -111,6 +129,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<th scope="col" class="th_bg">공급가</th>
 		<th scope="col" class="th_bg">배송비</th>
 		<th scope="col" class="th_bg">정산액</th>
+		<th scope="col" class="th_bg">정산률</th>
 		<th scope="col">주문총액</th>
 		<th scope="col">결제방법</th>
 	</tr>
@@ -136,6 +155,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<td class="tar"><?php echo number_format($row['supply_price']); ?></td>
 		<td class="tar"><?php echo number_format($row['baesong_price']); ?></td>
 		<td class="td_price"><?php echo number_format($row['supply_price']+$row['baesong_price']); ?></td>
+    <td class="tar"></td>
 		<td class="td_price"><?php echo number_format($row['goods_price']+$row['baesong_price']); ?></td>
 		<td><?php echo $row['paymethod']; ?></td>
 	</tr>
