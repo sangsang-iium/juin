@@ -107,9 +107,9 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   $toss_acc       = $TossVirtualAcc->virtualAcc($t_amount, $t_orderid, $t_ordername, $t_name, $t_email, $t_bank);
   if ($toss_acc->code) {
     if ($resulturl == 'pc') {
-      goto_url(BV_URL . '/cart.php');
+      alert("결제 오류 ".$toss_acc->code, BV_URL . '/cart.php');
     } else {
-      goto_url(BV_MSHOP_URL . '/cart.php');
+      alert("결제 오류 ".$toss_acc->code, BV_MSHOP_URL . '/cart.php');
     }
   }
 
@@ -187,9 +187,9 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   $toss_run        = $TossRun->autoPay($t_ckey, $t_amount, $t_orderid, $t_ordername, $t_taxfreeamount, $t_name, $t_email, $billingkey);
   if ($toss_run->code) {
     if ($resulturl == 'pc') {
-      goto_url(BV_URL . '/cart.php');
+      alert("결제 오류 ".$toss_run->code, BV_URL . '/cart.php');
     } else {
-      goto_url(BV_MSHOP_URL . '/cart.php');
+      alert("결제 오류 ".$toss_run->code, BV_MSHOP_URL . '/cart.php');
     }
   }
   $orderInsert                            = new IUD_Model();

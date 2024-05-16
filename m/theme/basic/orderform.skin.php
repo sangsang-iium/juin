@@ -889,7 +889,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                           <option value="">은행 선택</option>
                           <?php
                             foreach($BANKS as $bkCode => $v ) { ?>
-                              <option value="<?php echo $bkCode ?>"><?php echo $v['bank'] ?></option>
+                              <option value="<?php echo $v['code'] ?>"><?php echo $v['bank'] ?></option>
                           <?php } ?>
                         </select>
                       </td>
