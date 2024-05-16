@@ -39,6 +39,9 @@ define('ADMIN_MENU4',		'카테고리 관리');
 define('ADMIN_MENU4_01',	'카테고리 관리');
 define('ADMIN_MENU4_02',	'카테고리 순위');
 define('ADMIN_MENU4_03',	'카테고리 메인');
+define('ADMIN_MENU4_04',	'카테고리 중고장터');
+define('ADMIN_MENU4_05',	'카테고리 음식점');
+define('ADMIN_MENU4_06',	'카테고리 신고하기');
 
 define('ADMIN_MENU5',		'상품관리');
 define('ADMIN_MENU5_01',	'상품관리');
@@ -138,5 +141,12 @@ define('ADMIN_MENU10_15',	'IP 접속제한 설정');
 define('ADMIN_MENU10_16',	'게시판 그룹관리');
 define('ADMIN_MENU10_17',	'게시판 관리');
 define('ADMIN_MENU10_18',	'지회/지부관리');
-define('ADMIN_MENU10_19',	'담당자관리');
+define('ADMIN_MENU10_19',	'지회/지부관리');
+define('ADMIN_MENU10_20',	'담당자관리');
+
+// 중고장터관리
+define('ADMIN_MENU11',		'중고장터관리');
+define('ADMIN_MENU11_01',	'중고장터 게시글 리스트');
+define('ADMIN_MENU11_02',	'중고장터 게시글 등록/수정');
+define('ADMIN_MENU11_03',	'중고장터 게시글 상세');
 ?>

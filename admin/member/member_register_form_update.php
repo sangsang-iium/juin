@@ -1,8 +1,6 @@
 <?php
 include_once("./_common.php");
 include_once(BV_LIB_PATH."/register.lib.php");
-print_r2($_POST);
-exit;
 
 check_demo();
 

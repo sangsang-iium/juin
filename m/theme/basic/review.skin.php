@@ -27,6 +27,14 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 				$wr_star = $gw_star[$row['score']];
 				$wr_id   = substr($row['mb_id'],0,3).str_repeat("*",strlen($row['mb_id']) - 3);
 				$wr_time = substr($row['reg_time'],0,10);
+
+				// 추후 함수화
+				$sql = " SELECT thumbnail FROM shop_goods_review_img WHERE review_id = '{$row['index_no']}' ORDER BY index_no ASC ";
+				$res  = sql_query($sql);
+				$reviewImgArr = array();
+				while ($reviewRow = sql_fetch_array($res)) {
+					$reviewImgArr[] = $reviewRow;
+				}
 			?>
 			<div class="cp-cart order">
 				<div class="cp-cart-item">
@@ -53,18 +61,22 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 					</div>
 					<div class="rv-content-wr">
 						<!-- 이미지 없을 경우 생략가능 { -->
+						<?php if(sizeof($reviewImgArr) > 0) { ?>
 						<div class="rv-img-list">
+							<?php foreach ($reviewImgArr as $reviewImg) { ?>
 							<div class="rv-img-item">
 								<div class="rv-img">
-									<img src="/src/img/pd-rv-img01.png" alt="">
+									<img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
 								</div>
 							</div>
-							<div class="rv-img-item">
+							<?php } ?>
+							<!-- <div class="rv-img-item">
 								<div class="rv-img">
 									<img src="/src/img/pd-rv-img02.png" alt="">
 								</div>
-							</div>
+							</div> -->
 						</div>
+						<?php } ?>
 						<!-- } 이미지 없을 경우 생략가능 -->
 						<div class="content">
               <div class="tRow2 content_in">

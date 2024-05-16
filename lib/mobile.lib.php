@@ -573,6 +573,7 @@ function mobile_goods_review($name, $cnt, $gs_id, $rows=10)
 
 		$hash = md5($row['index_no'].$row['reg_time'].$row['mb_id']);
 
+		$reviewImgArr = reviewImg($row['index_no']);
     //상단 {
     echo "<div class='rv-item'>";
     echo "<div class='rv-top'>";
@@ -604,21 +605,19 @@ function mobile_goods_review($name, $cnt, $gs_id, $rows=10)
     //내용 {
     echo "<div class='rv-content-wr'>";
 
-    //이미지가 있다면 {
-    echo "<div class='rv-img-list'>";
-    echo "<div class='rv-img-item'>";
-    echo "<div class='rv-img'>";
-    echo "<img src='/src/img/pd-rv-img01.png' alt=''>";
-    echo "</div>";
-    echo "</div>";
-    echo "<div class='rv-img-item'>";
-    echo "<div class='rv-img'>";
-    echo "<img src='/src/img/pd-rv-img02.png' alt=''>";
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-    // } 이미지가 있다면
-
+	if(sizeof($reviewImgArr) > 0) {
+		echo "<div class='rv-img-list'>";
+		//이미지가 있다면 {
+		foreach ($reviewImgArr as $reviewImg) {
+			echo "<div class='rv-img-item'>";
+			echo "<div class='rv-img'>";
+			echo "<img src='/data/review/".$reviewImg['thumbnail']."' alt=''>";
+			echo "</div>";
+			echo "</div>";
+		}
+		echo "</div>";
+		// } 이미지가 있다면
+	}
     echo "<div class='content'><div class='content_in'>$row[memo]</div></div>";
     echo "<button type='button' class='cont-more-btn'>더보기+</button>";
     echo "</div>";
@@ -1231,4 +1230,15 @@ function coupon_chk($it_idx){
 
 	return $data;
 }
+
+function reviewImg($reviewid) {
+    $sql = " SELECT thumbnail FROM shop_goods_review_img WHERE review_id = '{$reviewid}' ORDER BY index_no ASC ";
+    $res  = sql_query($sql);
+    $data = array();
+    while ($row = sql_fetch_array($res)) {
+      $data[] = $row;
+    }
+    
+    return $data;
+  }
 ?>

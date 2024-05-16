@@ -8,7 +8,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		<a href="javascript:window.close();" class="btn_small bx-white">창닫기</a>
 	</h2> -->
 
-	<form name="forderreview" id="sit_review" method="post" action="<?php echo $form_action_url; ?>" onsubmit="return forderreview_submit(this);">
+	<form name="forderreview" id="sit_review" method="post" action="<?php echo $form_action_url; ?>" onsubmit="return forderreview_submit(this);" enctype="MULTIPART/FORM-DATA">
 	<input type="hidden" name="w" value="<?php echo $w; ?>">
 	<input type="hidden" name="me_id" value="<?php echo $me_id; ?>">
 	<input type="hidden" name="gs_id" value="<?php echo $gs_id; ?>">
@@ -62,27 +62,27 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 					<div class="img-upload-list">
 						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-							<input type="file" name="" id="imgUpload1" class="img-upload-input">
+							<input type="file" name="imgUpload1" id="imgUpload1" class="img-upload-input">
 							<label for="imgUpload1" class="img-upload-view"></label>
 						</div>
 						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-							<input type="file" name="" id="imgUpload2" class="img-upload-input">
+							<input type="file" name="imgUpload2" id="imgUpload2" class="img-upload-input">
 							<label for="imgUpload2" class="img-upload-view"></label>
 						</div>
 						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-							<input type="file" name="" id="imgUpload3" class="img-upload-input">
+							<input type="file" name="imgUpload3" id="imgUpload3" class="img-upload-input">
 							<label for="imgUpload3" class="img-upload-view"></label>
 						</div>
 						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-							<input type="file" name="" id="imgUpload4" class="img-upload-input">
+							<input type="file" name="imgUpload4" id="imgUpload4" class="img-upload-input">
 							<label for="imgUpload4" class="img-upload-view"></label>
 						</div>
 						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-							<input type="file" name="" id="imgUpload5" class="img-upload-input">
+							<input type="file" name="imgUpload5" id="imgUpload5" class="img-upload-input">
 							<label for="imgUpload5" class="img-upload-view"></label>
 						</div>
 					</div>

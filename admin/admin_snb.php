@@ -48,8 +48,8 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('m10', ADMIN_MENU1_10, BV_ADMIN_URL.'/member.php?code=mail_list'); ?>
 		<?php echo printMenu1('m20', '포인트관리'); ?>
 		<?php echo printMenu2('m20', ADMIN_MENU1_07, BV_ADMIN_URL.'/member.php?code=point'); ?>
-		<?php echo printMenu2('m20', ADMIN_MENU1_08, BV_ADMIN_URL.'/member.php?code=pointxls'); ?>
-		<?php echo printMenu2('m20', ADMIN_MENU1_09, BV_ADMIN_URL.'/member.php?code=point_select_form'); ?>
+		<?php //echo printMenu2('m20', ADMIN_MENU1_08, BV_ADMIN_URL.'/member.php?code=pointxls'); ?>
+		<?php //echo printMenu2('m20', ADMIN_MENU1_09, BV_ADMIN_URL.'/member.php?code=point_select_form'); ?>
 		<?php echo printMenu1('m30', '가입통계'); ?>
 		<?php echo printMenu2('m30', ADMIN_MENU1_05, BV_ADMIN_URL.'/member.php?code=month'); ?>
 		<?php echo printMenu2('m30', ADMIN_MENU1_06, BV_ADMIN_URL.'/member.php?code=day'); ?>
@@ -103,6 +103,9 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('c10', ADMIN_MENU4_01, BV_ADMIN_URL.'/category.php?code=list'); ?>
 		<?php echo printMenu2('c10', ADMIN_MENU4_02, BV_ADMIN_URL.'/category.php?code=view'); ?>
 		<!-- <?php echo printMenu2('c10', ADMIN_MENU4_03, BV_ADMIN_URL.'/category.php?code=main'); ?> -->
+		<?php echo printMenu2('c10', ADMIN_MENU4_04, BV_ADMIN_URL.'/category.php?code=used'); ?>
+		<?php echo printMenu2('c10', ADMIN_MENU4_05, BV_ADMIN_URL.'/category.php?code=food'); ?>
+		<?php echo printMenu2('c10', ADMIN_MENU4_06, BV_ADMIN_URL.'/category.php?code=singo'); ?>
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU5) {
@@ -124,26 +127,26 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('g10', ADMIN_MENU5_04, BV_ADMIN_URL.'/goods.php?code=plan'); ?>
 		<?php echo printMenu1('g20', '재고관리'); ?>
 		<?php echo printMenu2('g20', ADMIN_MENU5_06, BV_ADMIN_URL.'/goods.php?code=stock', $jaego1); ?>
-		<?php echo printMenu2('g20', ADMIN_MENU5_07, BV_ADMIN_URL.'/goods.php?code=optstock', $jaego2); ?>
+		<?php //echo printMenu2('g20', ADMIN_MENU5_07, BV_ADMIN_URL.'/goods.php?code=optstock', $jaego2); ?>
 		<?php echo printMenu1('g30', '일괄처리'); ?>
 		<?php echo printMenu2('g30', ADMIN_MENU5_08, BV_ADMIN_URL.'/goods.php?code=xls_reg'); ?>
 		<?php echo printMenu2('g30', ADMIN_MENU5_09, BV_ADMIN_URL.'/goods.php?code=xls_option_reg'); ?>
 		<?php echo printMenu2('g30', ADMIN_MENU5_10, BV_ADMIN_URL.'/goods.php?code=xls_mod'); ?>
-		<?php echo printMenu2('g30', ADMIN_MENU5_11, BV_ADMIN_URL.'/goods.php?code=getprice'); ?>
-		<?php echo printMenu2('g30', ADMIN_MENU5_12, BV_ADMIN_URL.'/goods.php?code=getpoint'); ?>
-		<?php echo printMenu2('g30', ADMIN_MENU5_13, BV_ADMIN_URL.'/goods.php?code=getuse'); ?>
-		<?php echo printMenu2('g30', ADMIN_MENU5_14, BV_ADMIN_URL.'/goods.php?code=getmove'); ?>
-		<?php echo printMenu2('g30', ADMIN_MENU5_15, BV_ADMIN_URL.'/goods.php?code=getbrand'); ?>
-		<?php echo printMenu2('g30', ADMIN_MENU5_16, BV_ADMIN_URL.'/goods.php?code=getdelivery'); ?>
-		<?php echo printMenu2('g30', ADMIN_MENU5_17, BV_ADMIN_URL.'/goods.php?code=getbuylevel'); ?>
+		<?php //echo printMenu2('g30', ADMIN_MENU5_11, BV_ADMIN_URL.'/goods.php?code=getprice'); ?>
+		<?php //echo printMenu2('g30', ADMIN_MENU5_12, BV_ADMIN_URL.'/goods.php?code=getpoint'); ?>
+		<?php //echo printMenu2('g30', ADMIN_MENU5_13, BV_ADMIN_URL.'/goods.php?code=getuse'); ?>
+		<?php //echo printMenu2('g30', ADMIN_MENU5_14, BV_ADMIN_URL.'/goods.php?code=getmove'); ?>
+		<?php //echo printMenu2('g30', ADMIN_MENU5_15, BV_ADMIN_URL.'/goods.php?code=getbrand'); ?>
+		<?php //echo printMenu2('g30', ADMIN_MENU5_16, BV_ADMIN_URL.'/goods.php?code=getdelivery'); ?>
+		<?php //echo printMenu2('g30', ADMIN_MENU5_17, BV_ADMIN_URL.'/goods.php?code=getbuylevel'); ?>
 		<?php echo printMenu1('g40', '문의 / 후기'); ?>
 		<?php echo printMenu2('g40', ADMIN_MENU5_20, BV_ADMIN_URL.'/goods.php?code=qa', $qaCnt); ?>
 		<?php echo printMenu2('g40', ADMIN_MENU5_21, BV_ADMIN_URL.'/goods.php?code=review'); ?>
 		<?php echo printMenu1('g50', '쿠폰관리'); ?>
-		<?php echo printMenu2('g50', ADMIN_MENU5_22, BV_ADMIN_URL.'/goods.php?code=gift'); ?>
+		<?php //echo printMenu2('g50', ADMIN_MENU5_22, BV_ADMIN_URL.'/goods.php?code=gift'); ?>
 		<?php echo printMenu2('g50', ADMIN_MENU5_23, BV_ADMIN_URL.'/goods.php?code=coupon'); ?>
 		<?php echo printMenu1('g60', '기타관리'); ?>
-		<?php echo printMenu2('g60', ADMIN_MENU5_05, BV_ADMIN_URL.'/goods.php?code=price'); ?>
+		<?php //echo printMenu2('g60', ADMIN_MENU5_05, BV_ADMIN_URL.'/goods.php?code=price'); ?>
 		<?php echo printMenu2('g60', ADMIN_MENU5_25, BV_ADMIN_URL.'/goods.php?code=popular_list'); ?>
 		<?php echo printMenu2('g60', ADMIN_MENU5_26, BV_ADMIN_URL.'/goods.php?code=popular_rank'); ?>
 	</dl>
@@ -215,7 +218,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	else if($pg_title == ADMIN_MENU9) { ?>
 	<dl>
 		<?php echo printMenu1('d10', '배너관리'); ?>
-		<?php echo printMenu2('d10', ADMIN_MENU9_01, BV_ADMIN_URL.'/design.php?code=banner_list'); ?>
+		<?php //echo printMenu2('d10', ADMIN_MENU9_01, BV_ADMIN_URL.'/design.php?code=banner_list'); ?>
 		<?php echo printMenu2('d10', ADMIN_MENU9_02, BV_ADMIN_URL.'/design.php?code=mbanner_list'); ?>
 		<?php echo printMenu1('d20', '로고/페이지관리'); ?>
 		<?php echo printMenu2('d20', ADMIN_MENU9_03, BV_ADMIN_URL.'/design.php?code=logo'); ?>
@@ -230,18 +233,18 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	<dl>
 		<?php echo printMenu1('q10', '기본환경설정'); ?>
 		<?php echo printMenu2('q10', ADMIN_MENU10_01, BV_ADMIN_URL.'/config.php?code=default'); ?>
-		<?php echo printMenu2('q10', ADMIN_MENU10_02, BV_ADMIN_URL.'/config.php?code=meta'); ?>
-		<?php echo printMenu2('q10', ADMIN_MENU10_03, BV_ADMIN_URL.'/config.php?code=sns'); ?>
+		<?php //echo printMenu2('q10', ADMIN_MENU10_02, BV_ADMIN_URL.'/config.php?code=meta'); ?>
+		<?php //echo printMenu2('q10', ADMIN_MENU10_03, BV_ADMIN_URL.'/config.php?code=sns'); ?>
 		<?php echo printMenu2('q10', ADMIN_MENU10_04, BV_ADMIN_URL.'/config.php?code=register'); ?>
 		<?php echo printMenu2('q10', ADMIN_MENU10_05, BV_ADMIN_URL.'/config.php?code=sendmail_test'); ?>
-		<?php echo printMenu2('q10', ADMIN_MENU10_06, BV_ADMIN_URL.'/config.php?code=sms'); ?>
+		<?php //echo printMenu2('q10', ADMIN_MENU10_06, BV_ADMIN_URL.'/config.php?code=sms'); ?>
 		<?php echo printMenu2('q10', ADMIN_MENU10_07, BV_ADMIN_URL.'/config.php?code=supply'); ?>
 		<?php echo printMenu2('q10', ADMIN_MENU10_08, BV_ADMIN_URL.'/config.php?code=super'); ?>
 		<?php echo printMenu2('q10', '앱 관리', BV_ADMIN_URL.'/config.php?code=app'); ?>
 		<?php echo printMenu1('q20', '결제관리'); ?>
 		<?php echo printMenu2('q20', ADMIN_MENU10_09, BV_ADMIN_URL.'/config.php?code=pg'); ?>
 		<?php //echo printMenu2('q20', ADMIN_MENU10_10, BV_ADMIN_URL.'/config.php?code=kakaopay'); ?>
-		<?php echo printMenu2('q20', ADMIN_MENU10_11, BV_ADMIN_URL.'/config.php?code=naverpay'); ?>
+		<?php //echo printMenu2('q20', ADMIN_MENU10_11, BV_ADMIN_URL.'/config.php?code=naverpay'); ?>
 		<?php echo printMenu1('q30', '배송관리'); ?>
 		<?php echo printMenu2('q30', ADMIN_MENU10_12, BV_ADMIN_URL.'/config.php?code=baesong'); ?>
 		<?php echo printMenu2('q30', ADMIN_MENU10_13, BV_ADMIN_URL.'/config.php?code=islandlist'); ?>
@@ -253,7 +256,13 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('q50', ADMIN_MENU10_17, BV_ADMIN_URL.'/config.php?code=board_list'); ?>
 		<?php echo printMenu1('q60', '담당자관리'); ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_18, BV_ADMIN_URL.'/config.php?code=branch'); ?>
-		<?php echo printMenu2('q60', ADMIN_MENU10_19, BV_ADMIN_URL.'/config.php?code=manager_list'); ?>
+		<?php echo printMenu2('q60', ADMIN_MENU10_20, BV_ADMIN_URL.'/config.php?code=manager_list'); ?>
+	</dl>
+	<?php }
+	else if($pg_title == ADMIN_MENU11) { ?>
+	<dl>
+		<?php echo printMenu1('m10', '중고장터관리'); ?>
+		<?php echo printMenu2('m10', ADMIN_MENU11_01, BV_ADMIN_URL.'/used.php?code=list'); ?>
 	</dl>
 	<?php } ?>
 </div>
