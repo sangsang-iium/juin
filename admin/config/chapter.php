@@ -4,6 +4,7 @@ if(!defined('_BLUEVATION_')) exit;
 
 $sql_common = " FROM kfia_region ";
 $sql_search = " WHERE (1) ";
+$sql_search .= " AND kf_region3 <> '' ";
 
 $query_string = "code=$code$qstr";
 $q1 = $query_string;
@@ -13,7 +14,7 @@ $q2 = $query_string."&page=$page";
 if($sfl && $stx) {
   $sql_search .= " and $sfl like '%$stx%' ";
 }
-$sql_group .= " GROUP BY kf_region2";
+
 if (!$orderby) {
   $filed = "kf_region1 ";
   $sod   = "ASC";
@@ -27,9 +28,10 @@ $sql_order = " ORDER BY $filed $sod ";
 // $total_sel = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
 $total_sel = " SELECT COUNT(*) AS cnt
                 FROM (
-                    SELECT DISTINCT kf_region2 
+                    SELECT DISTINCT kf_region3
                     {$sql_common}
-                ) AS region2 ";
+                    {$sql_search}
+                ) AS region3 ";
 $total_row = sql_fetch($total_sel);
 $total_count = $total_row['cnt'];
 
@@ -90,7 +92,7 @@ EOF;
 </div>
 </form>
 
-<form name="fbranchlist" id="fbranchlist" method="post" action="./config/branch_update.php" onsubmit="return fbranchlist_submit(this);">
+<form name="fbranchlist" id="fbranchlist" method="post" action="./config/chapter_list_update.php" onsubmit="return fbranchlist_submit(this);">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
@@ -108,7 +110,9 @@ EOF;
 		<col>
 		<col>
 		<col>
-		<col>
+		<col class="w150">
+		<col class="w150">
+		<col class="w100">
 	</colgroup>
 	<thead>
 	<tr>
@@ -116,8 +120,10 @@ EOF;
 		<th scope="col"><?php echo subject_sort_link('kf_code',   $q2); ?>지부아이디</a></th>
 		<th scope="col"><?php echo subject_sort_link('kf_region1',$q2); ?>지역</a></th>
 		<th scope="col"><?php echo subject_sort_link('kf_region2',$q2); ?>지회명</a></th>
+		<th scope="col"><?php echo subject_sort_link('kf_region3',$q2); ?>지부명</a></th>
 		<th scope="col"><?php echo subject_sort_link('kf_wdate',  $q2); ?>등록일</th>
 		<th scope="col"><?php echo subject_sort_link('kf_udate',  $q2); ?>수정일</th>
+		<th scope="col">관리</th>
 	</tr>
 	</thead>
 	<?php
@@ -132,16 +138,20 @@ EOF;
 			<input type="hidden" name="kf_idx[<?php echo $i; ?>]" value="<?php echo $row['kf_idx']; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
-    <td></td>
+    <td><?php echo $row['kf_code'] ?></td>
 		<td><?php echo $row['kf_region1'] ?></td>
 		<td><?php echo $row['kf_region2'] ?></td>
-		<td></td>
-		<td></td>
+		<td><?php echo $row['kf_region3'] ?></td>
+		<td><?php echo $row['kf_wdate'] ?></td>
+		<td><?php echo $row['kf_udate'] ?></td>
+		<td>
+      <a href="/admin/config.php?code=chapter_register_form&amp;w=u&amp;idx=<?php echo $row['kf_idx']?>" class="btn_small blue">수정</a>
+    </td>
 	</tr>
 	<?php 
 	}
 	if($i==0)
-		echo '<tbody><tr><td colspan="5" class="empty_table">자료가 없습니다.</td></tr>';
+		echo '<tbody><tr><td colspan="8" class="empty_table">자료가 없습니다.</td></tr>';
 	?>
 	</tbody>
 	</table>
