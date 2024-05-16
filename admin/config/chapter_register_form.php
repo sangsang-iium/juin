@@ -60,7 +60,21 @@ $regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '
   </tr>
   <tr>
     <th scope="row"><label for="kf_region2">지회명</label></th>
-    <td><input type="text" name="kf_region2" id="kf_region2" value="<?php echo ($w == '') ? '' : $result['kf_region2']; ?>" required itemname="지회명" class="frm_input required"></td>
+    <td>
+      <select name="kf_region2" id="kf_region2">
+        <option value=''>지회선택</option>
+        <?php // 지회 목록 _20240516_SY
+        $region2_sel = " SELECT * {$sql_common} {$sql_search} AND kf_region3 = '' ";
+        $region2_res = sql_query($region2_sel);
+        while ($region2_row = sql_fetch_array($region2_res)) { ?>
+          <option value="<?php echo $region2_row['kf_region2']?>" <?php echo ($w == 'u' && $region2_row['kf_region2'] == $val) ? "selected" : "" ?> ><?php echo $region2_row['kf_region2'] ?></option>
+        <?php } ?>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <th scope="row"><label for="kf_region3">지부명</label></th>
+    <td><input type="text" name="kf_region3" id="kf_region3" value="<?php echo ($w == '') ? '' : $result['kf_region3']; ?>" required itemname="지부명" class="frm_input required"></td>
   </tr>
   
 	</tbody>
@@ -106,9 +120,15 @@ function duplication_chk() {
 // Submit Check _20240516_SY
 function fregisterform_submit(f)
 {
+  // 지역 Seleted
   const regionSelect = f.kf_region1;
   const regionOption = regionSelect.options[regionSelect.selectedIndex];
   const regionValue = regionOption.value;
+  
+  // 지회 Seleted
+  const branchSelect = f.kf_region2;
+  const branchOption = branchSelect.options[branchSelect.selectedIndex];
+  const branchValue = branchOption.value;
 
   if(f.branch_id.value.length < 1 ) {
     alert("아이디를 입력해 주십시오.");
@@ -128,12 +148,18 @@ function fregisterform_submit(f)
     return false;   
   }
 
-  if(f.kf_region2.value.length < 1) {
-    alert("지회명을 입력하여 주십시오.");
+  if(branchValue.length < 1) {
+    alert("지회명를 선택해 주십시오.");
     f.kf_region2.focus();
     return false;   
   }
+
+  if(f.kf_region3.value.length < 1) {
+    alert("지부명을 입력하여 주십시오.");
+    f.kf_region3.focus();
+    return false;   
+  }
   
-    return true;
+    return false;
 }
 </script>
