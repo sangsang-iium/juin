@@ -29,10 +29,12 @@ $total_sel = " SELECT COUNT(*) AS cnt
                 FROM (
                     SELECT DISTINCT kf_region2 
                     {$sql_common}
+                    {$sql_search} 
+                    {$sql_group} 
+                    {$sql_order}
                 ) AS region2 ";
 $total_row = sql_fetch($total_sel);
 $total_count = $total_row['cnt'];
-
 
 $rows = 10;
 $total_page = ceil($total_count / $rows);
@@ -89,7 +91,7 @@ EOF;
 </div>
 </form>
 
-<form name="fbranchlist" id="fbranchlist" method="post" action="./config/branch_update.php" onsubmit="return fbranchlist_submit(this);">
+<form name="fbranchlist" id="fbranchlist" method="post" action="./config/branch_list_update.php" onsubmit="return fbranchlist_submit(this);">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
@@ -106,8 +108,9 @@ EOF;
 		<col>
 		<col>
 		<col>
-		<col>
-		<col>
+		<col class="w150">
+		<col class="w150">
+		<col class="w100">
 	</colgroup>
 	<thead>
 	<tr>
@@ -117,6 +120,7 @@ EOF;
 		<th scope="col"><?php echo subject_sort_link('kf_region2',$q2); ?>지회명</a></th>
 		<th scope="col"><?php echo subject_sort_link('kf_wdate',  $q2); ?>등록일</th>
 		<th scope="col"><?php echo subject_sort_link('kf_udate',  $q2); ?>수정일</th>
+		<th scope="col">관리</th>
 	</tr>
 	</thead>
 	<?php
@@ -131,11 +135,15 @@ EOF;
 			<input type="hidden" name="kf_idx[<?php echo $i; ?>]" value="<?php echo $row['kf_idx']; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
-    <td></td>
+    <td><?php echo $row['kf_code'] ?></td>
 		<td><?php echo $row['kf_region1'] ?></td>
 		<td><?php echo $row['kf_region2'] ?></td>
-		<td></td>
-		<td></td>
+		<td><?php echo $row['kf_wdate'] ?></td>
+		<td><?php echo $row['kf_udate'] ?></td>
+		<td>
+      <a href="/admin/config.php?code=branch_register_form&amp;w=u&amp;idx=<?php echo $row['kf_idx']?>" class="btn_small blue">수정</a>
+      <!-- <a href="/admin/config/branchupdate.php?w=d" class="btn_small">삭제</a> -->
+    </td>
 	</tr>
 	<?php 
 	}
@@ -155,6 +163,10 @@ echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAM
 ?>
 
 <script>
+// 추가 _20240516_SY
+sessionStorage.removeItem("id_duChk");
+
+
 function fbranchlist_submit(f)
 {
     if(!is_checked("chk[]")) {

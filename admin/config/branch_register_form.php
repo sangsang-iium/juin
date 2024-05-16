@@ -1,42 +1,38 @@
 <?php // 지회/지부 관리 _20240423_SY
 if(!defined('_BLUEVATION_')) exit;
 
+$form_title = "지회/지부 등록";
+if($w == 'u') {
+  $form_title = "지회/지부 수정";
+}
 
 $sql_common = " FROM kfia_region ";
 $sql_search = " WHERE (1) ";
 
-$total_sel = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
-$total_row = sql_fetch($total_sel);
-$total_count = $total_row['cnt'];
-
-
-$rows = 10;
-$total_page = ceil($total_count / $rows);
-if($page == "") {
-  $page = 1;
+if($w == 'u') {
+  $sql_search .= " AND kf_idx = '{$idx}' ";
 }
-$from_record = ($page - 1) * $rows;
 
-$sql = " SELECT * {$sql_common} {$sql_search} LIMIT {$from_record}, {$rows} ";
-$result = sql_query($sql);
-
+$sql = " SELECT * {$sql_common} {$sql_search} ";
+$result = sql_fetch($sql);
 
 $query_string = "code=$code$qstr";
 $q1 = $query_string;
 $q2 = $query_string."&page=$page";
 
-$btn_frmline = <<<EOF
-<input type="submit" name="act_button" value="선택수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
-<input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
-EOF;
+$regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '울산', '강원', '경기', '경남', '경북', '전남', '전북', '제주', '충남', '충북');
 
 ?>
 
-<form name="fbranch2" action="./config/branchupdate.php" method="post" autocomplete="off">
+<form name="fbranch2" id="fregisterform" action="./config/branchupdate.php" onsubmit="return fregisterform_submit(this);" method="POST" autocomplete="off">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
-<input type="hidden" name="act_button" value="추가">
-<h2>지회/지부 등록</h2>
+<input type="hidden" name="w" value="<?php echo $w ?>">
+<?php if($w != '') { ?> 
+  <input type="hidden" name="idx" value="<?php echo $_GET['idx'] ?>">
+<?php } ?>
+
+<h2><?php echo $form_title ?></h2>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
@@ -45,51 +41,49 @@ EOF;
 	</colgroup>
 	<tbody>
   <tr>
-    <th scope="row"><label for="">아이디</label></th>
+    <th scope="row"><label for="branch_id">아이디</label></th>
     <td>
-      <input type="text" name="branch_id" class="frm_input required">
+      <input type="text" name="branch_id" id="branch_id" value="<?php echo ($w == '') ? '' : $result['kf_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
       <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
     </td>
   </tr>
 	<tr>
-		<th scope="row"><label for="">지역</label></th>
+		<th scope="row"><label for="kf_region1">지역</label></th>
     <td>
-      <select name="kf_region1" id="">
-        <option>지역선택</option>
-        <option value='서울'>서울</option>
-        <option value='부상'>부산</option>
-        <option value='대구'>대구</option>
-        <option value='인천'>인천</option>
-        <option value='광주'>광주</option>
-        <option value='대전'>대전</option>
-        <option value='울산'>울산</option>
-        <option value='강원'>강원</option>
-        <option value='경기'>경기</option>
-        <option value='경남'>경남</option>
-        <option value='경북'>경북</option>
-        <option value='전남'>전남</option>
-        <option value='전북'>전북</option>
-        <option value='제주'>제주</option>
-        <option value='충남'>충남</option>
-        <option value='충북'>충북</option>
+      <select name="kf_region1" id="kf_region1">
+        <option value=''>지역선택</option>
+        <?php foreach ($regionArr as $key => $val) { ?>
+          <option value="<?php echo $val?>" <?php echo ($w == 'u' && $result['kf_region1'] == $val) ? "selected" : "" ?> ><?php echo $val ?></option>
+        <?php } ?>
       </select>
     </td>
   </tr>
   <tr>
-    <th scope="row"><label for="">지회명</label></th>
-    <td><input type="text" name="" id="" required itemname="지회명" class="frm_input required"></td>
+    <th scope="row"><label for="kf_region2">지회명</label></th>
+    <td><input type="text" name="kf_region2" id="kf_region2" value="<?php echo ($w == '') ? '' : $result['kf_region2']; ?>" required itemname="지회명" class="frm_input required"></td>
   </tr>
   
 	</tbody>
 	</table>
 </div>
 <div class="btn_confirm">
-	<input type="submit" value="추가" class="btn_medium red" accesskey="s">
+	<input type="submit" value="저장" class="btn_medium red" accesskey="s">
 </div>
 </form>
 
 <script>
-// ID 중복확인 _20240514_SY
+// ID 중복확인 _20240516_SY
+const w = document.querySelector("input[name='w']").value;
+if(w == 'u') {
+  sessionStorage.setItem("id_duChk", "true");
+} else {
+  sessionStorage.setItem("id_duChk", "false");
+}
+
+function getId() {
+  sessionStorage.setItem("id_duChk", "false");
+}
+
 function duplication_chk() {
   let id = document.querySelector("input[name=branch_id]").value
   
@@ -98,27 +92,48 @@ function duplication_chk() {
     type : "POST",
     data : { id : id },
     success : function(res) {
-      console.log(res)
+      sessionStorage.setItem("id_duChk", "true");
+      alert("사용가능한 아이디입니다");
     },
     error: function(xhr, status, error) {
-      console.log('요청 실패: ' + error);
+      sessionStorage.setItem("id_duChk", "false");
+      alert("이미 사용중인 아이디입니다");
+      return false;
     }
   })
 }
 
-function fbranchlist_submit(f)
+// Submit Check _20240516_SY
+function fregisterform_submit(f)
 {
-    if(!is_checked("chk[]")) {
-        alert(document.pressed+" 하실 항목을 하나 이상 선택하세요.");
-        return false;
-    }
+  const regionSelect = f.kf_region1;
+  const regionOption = regionSelect.options[regionSelect.selectedIndex];
+  const regionValue = regionOption.value;
 
-    if(document.pressed == "선택삭제") {
-        if(!confirm("선택한 자료를 정말 삭제하시겠습니까?")) {
-            return false;
-        }
-    }
+  if(f.branch_id.value.length < 1 ) {
+    alert("아이디를 입력해 주십시오.");
+    f.branch_id.focus();
+    return false;
+  }
 
+  if(sessionStorage.getItem('id_duChk') == 'false') {
+    alert("아이디 중복확인을 해 주십시오.");
+    f.branch_id.focus();
+    return false;   
+  }
+
+  if(regionValue.length < 1) {
+    alert("지역을 선택해 주십시오.");
+    f.kf_region1.focus();
+    return false;   
+  }
+
+  if(f.kf_region2.value.length < 1) {
+    alert("지회명을 입력하여 주십시오.");
+    f.kf_region2.focus();
+    return false;   
+  }
+  
     return true;
 }
 </script>
