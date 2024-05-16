@@ -7,6 +7,7 @@ if(!$is_member) {
 	alert("로그인 후 작성 가능합니다.");
 }
 
+
 if($w == "" || $w == "u") {
 	if($_POST["token"] && get_session("ss_token") == $_POST["token"]) {
 		// 맞으면 세션을 지워 다시 입력폼을 통해서 들어오도록 한다.
@@ -41,6 +42,35 @@ if($w == "")
 				   seller_id = '$seller_id',
 				   pt_id	 = '$pt_id' ";
 	sql_query($sql);
+
+	$no = sql_insert_id();
+
+	$upl_dir = BV_DATA_PATH."/review";
+	$upl = new upload_files($upl_dir);
+
+	for($i=1; $i<=6; $i++) {
+		if($img = $_FILES['imgUpload'.$i]['name']) {
+			if(!preg_match("/\.(gif|jpg|png)$/i", $img)) {
+				alert("이미지가 gif, jpg, png 파일이 아닙니다.");
+			}
+		}
+		if($_POST['imgUpload'.$i.'_del']) {
+			$upl->del($_POST['imgUpload'.$i.'_del']);
+			$value['imgUpload'.$i] = '';
+		}
+		if($_FILES['imgUpload'.$i]['name']) {
+			$value['imgUpload'.$i] = $upl->upload($_FILES['imgUpload'.$i]);
+
+			$file_name['origin_name'] = $_FILES['imgUpload'.$i]['name'];
+			$file_name['file_name'] = $value['imgUpload'.$i];
+			$filesql = " INSERT INTO shop_goods_review_img
+						SET review_id = '{$no}',
+						origin_name = '{$file_name['origin_name']}',
+						thumbnail = '{$file_name['file_name']}'
+						";
+			sql_query($filesql);
+		}
+	}
 
 	sql_query("update shop_goods set m_count = m_count + 1 where index_no='$gs_id'");
 

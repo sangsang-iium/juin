@@ -1,0 +1,5 @@
+PHP_FLAG register_globals On
+Allow from 13.124.18.147
+Allow from 13.124.108.35
+Allow from 3.36.173.151
+Allow from 3.38.81.32

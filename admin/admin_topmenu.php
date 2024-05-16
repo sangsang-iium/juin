@@ -46,6 +46,9 @@ if(!defined('_BLUEVATION_')) exit;
 				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU9){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/design.php?code=banner_list" class="gnb_1da"><?php echo ADMIN_MENU9; ?></a>
 				</li>
+				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU11){ ?> active<?php } ?>">
+					<a href="<?php echo BV_ADMIN_URL; ?>/used.php?code=list" class="gnb_1da"><?php echo ADMIN_MENU11; ?></a>
+				</li>
 				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU10){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/config.php?code=default" class="gnb_1da"><?php echo ADMIN_MENU10; ?></a>
 				</li>

@@ -32,7 +32,7 @@ EOF;
 
 ?>
 
-<form name="fbranch2" action="./config/branchupdate.php" method="post" autocomplete="off">
+<form name="fbranch2" action="./config/branchlistupdate.php" method="post" autocomplete="off">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 <input type="hidden" name="act_button" value="추가">
@@ -44,40 +44,19 @@ EOF;
 		<col>
 	</colgroup>
 	<tbody>
-  <tr>
-    <th scope="row"><label for="">아이디</label></th>
-    <td>
-      <input type="text" name="branch_id" class="frm_input required">
-      <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
-    </td>
-  </tr>
 	<tr>
 		<th scope="row"><label for="">지역</label></th>
-    <td>
-      <select name="kf_region1" id="">
-        <option>지역선택</option>
-        <option value='서울'>서울</option>
-        <option value='부상'>부산</option>
-        <option value='대구'>대구</option>
-        <option value='인천'>인천</option>
-        <option value='광주'>광주</option>
-        <option value='대전'>대전</option>
-        <option value='울산'>울산</option>
-        <option value='강원'>강원</option>
-        <option value='경기'>경기</option>
-        <option value='경남'>경남</option>
-        <option value='경북'>경북</option>
-        <option value='전남'>전남</option>
-        <option value='전북'>전북</option>
-        <option value='제주'>제주</option>
-        <option value='충남'>충남</option>
-        <option value='충북'>충북</option>
-      </select>
-    </td>
+    <td><input type="text" name="" id="" required itemname="지역" class="frm_input required"></td>
+		<th scope="row"><label for="">지회명</label></th>
+    <td><input type="text" name="" id="" required itemname="지회명" class="frm_input required"></td>
+		<th scope="row"><label for="">지부명</label></th>
+    <td><input type="text" name="" id="" required itemname="지역명" class="frm_input required"></td>
   </tr>
   <tr>
-    <th scope="row"><label for="">지회명</label></th>
-    <td><input type="text" name="" id="" required itemname="지회명" class="frm_input required"></td>
+    <th scope="row">우편번호</th>
+    <td><input type="text" name="" id ="" class="frm_input"></td>
+    <th>주소</th>
+    <td colspan=3><input type="text" name="" id ="" class="frm_input" size="70"></td>
   </tr>
   
 	</tbody>
@@ -88,24 +67,18 @@ EOF;
 </div>
 </form>
 
-<script>
-// ID 중복확인 _20240514_SY
-function duplication_chk() {
-  let id = document.querySelector("input[name=branch_id]").value
-  
-  $.ajax({
-    url  : "/admin/ajax.branchId_chk.php",
-    type : "POST",
-    data : { id : id },
-    success : function(res) {
-      console.log(res)
-    },
-    error: function(xhr, status, error) {
-      console.log('요청 실패: ' + error);
-    }
-  })
-}
+<div class="information">
+	<h4>도움말</h4>
+	<div class="content">
+		<div class="desc02">
+			<p></p>
+			<p></p>
+			<p class="fc_red"></p>
+		</div>
+	 </div>
+</div>
 
+<script>
 function fbranchlist_submit(f)
 {
     if(!is_checked("chk[]")) {

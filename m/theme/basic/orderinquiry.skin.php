@@ -63,6 +63,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </div>
         <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
         <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>">상품후기 작성</button>
+        <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
       </div>
       <?php
         }
@@ -111,6 +112,26 @@ document.querySelectorAll(".rv-write-btn").forEach(btn => {
     const reqData = { gs_id: gsId };
 
     f.callData(popId, reqPathUrl, reqMethod, reqData, true);
+  });
+});
+
+
+document.querySelectorAll(".reoder-btn").forEach(btn => {
+  btn.addEventListener("click", function(event) {
+    const odId = event.currentTarget.dataset.odId;
+    $.ajax({
+      url: "./reOrder.php",
+        type: "POST",
+        data: { "odId": odId },
+        dataType: "json",
+        async: false,
+        cache: false,
+        success: function(data, textStatus) {
+          document.location.href = data.url;
+          return false;
+        }
+    });
+    
   });
 });
 </script>
