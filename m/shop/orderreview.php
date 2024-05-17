@@ -13,6 +13,8 @@ if($w == "u") {
 	$me = sql_fetch("select * from shop_goods_review where index_no='$me_id'");
 	$wr_score = $me['score'];
 	$wr_content = nl2br($me['memo']);
+
+	$reviewImgArr = reviewImg($me_id); // 리뷰 이미지
 }
 
 $token = md5(uniqid(rand(), true));
