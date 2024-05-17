@@ -4,9 +4,8 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
 $postData = file_get_contents("php://input");
-$post_data = json_encode($postData);
-log_write($post_data['status']);
-log_write($post_data->status);
+$post_data = json_decode($postData, true);
+log_write($post_data);
 
 $secret = $post_data['secret'];
 
