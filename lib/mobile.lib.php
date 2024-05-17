@@ -1231,14 +1231,4 @@ function coupon_chk($it_idx){
 	return $data;
 }
 
-function reviewImg($reviewid) {
-    $sql = " SELECT thumbnail FROM shop_goods_review_img WHERE review_id = '{$reviewid}' ORDER BY index_no ASC ";
-    $res  = sql_query($sql);
-    $data = array();
-    while ($row = sql_fetch_array($res)) {
-      $data[] = $row;
-    }
-    
-    return $data;
-  }
 ?>

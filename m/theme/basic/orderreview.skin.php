@@ -40,7 +40,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			<input type="radio" id="scoreStar1" name="wr_score" value="1" <?php echo get_checked($wr_score, '1'); ?>><label for="scoreStar1">1점(<?php echo $gw_star[1]; ?>)</label>
 		</div>
 		<div class="score-text">
-			<span class="score-add">0</span>/ 5
+			<span class="score-add"><?php echo $wr_score; ?></span>/ 5
 		</div>
 	</div>
 
@@ -125,4 +125,22 @@ function forderreview_submit(f) {
 
     return true;
 }
+<?php if(sizeof($reviewImgArr) > 0 ) { ?>
+$(document).ready(function(){
+	var revieImgJson = <?php echo json_encode($reviewImgArr,true) ?>;
+
+	$.each(revieImgJson, function(index, value) {
+		// $('#imgUpload' + (index + 1)).next('.img-upload-view').css('background-image', 'url(/data/review/' + value.thumbnail + ')');
+		var $preview = $('#imgUpload' + (index + 1)).next('.img-upload-view');
+        $preview.css('background-image', 'url(/data/review/' + value.thumbnail + ')');
+        $preview.siblings('.img-upload-delete').css('display', 'block');
+		$preview.css('content', 'none');
+	});
+});
+
+
+
+<?php } ?>
+
+
 </script>

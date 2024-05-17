@@ -65,6 +65,7 @@ if($w == "")
 			$file_name['file_name'] = $value['imgUpload'.$i];
 			$filesql = " INSERT INTO shop_goods_review_img
 						SET review_id = '{$no}',
+						gs_id = '{$gs_id}',
 						origin_name = '{$file_name['origin_name']}',
 						thumbnail = '{$file_name['file_name']}'
 						";

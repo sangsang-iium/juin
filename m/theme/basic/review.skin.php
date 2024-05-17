@@ -28,6 +28,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 				$wr_id   = substr($row['mb_id'],0,3).str_repeat("*",strlen($row['mb_id']) - 3);
 				$wr_time = substr($row['reg_time'],0,10);
 
+				// $reviewImgArr = reviewImg($row['index_no']);
+				
 				// 추후 함수화
 				$sql = " SELECT thumbnail FROM shop_goods_review_img WHERE review_id = '{$row['index_no']}' ORDER BY index_no ASC ";
 				$res  = sql_query($sql);
