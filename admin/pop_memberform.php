@@ -239,7 +239,10 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
 				$.ajax({
 					url: '/admin/ajax.gruopdepth.php', // 데이터를 처리할 서버 측 파일의 경로
 					type: 'POST', // 요청 방식 (POST 또는 GET)
-					data: { depth2: depth2 }, // 서버로 전송할 데이터
+					data: { 
+            depthNum: '2',
+            depthValue: depth2
+          }, // 서버로 전송할 데이터
 					success: function(res) {
 						var reg = JSON.parse(res); // JSON 형식의 응답을 JavaScript 객체로 파싱
 
