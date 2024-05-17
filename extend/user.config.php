@@ -413,6 +413,13 @@ class Tosspay {
  */
 function juinGroupInfo($depth, $depth2 = '') {
   switch ($depth) {
+    case '0':
+      $sql = "SELECT kf_region2 AS region, COUNT(kf_region2) 
+                FROM kfia_region
+               WHERE kf_region1 = '{$depth2}'
+                 AND kf_region3 = ''
+            GROUP BY kf_region2";
+      break;
     case '1':
       $sql = "SELECT kf_region2 AS region, COUNT(kf_region2) FROM kfia_region_240513
               GROUP BY kf_region2";
