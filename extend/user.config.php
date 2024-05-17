@@ -275,7 +275,7 @@ function category_depth($depth, $upcate = "") {
 
 // 토스 자동결제(빌링)
 class Tosspay {
-  private $auth = "test_sk_Poxy1XQL8RmBPBmnPO7Yr7nO5Wml";
+  private $auth = "live_sk_vZnjEJeQVxKlJ066Ep6Y3PmOoBN0";
 
   function __construct() {
     $this->uid = uniqid();
@@ -424,7 +424,7 @@ function juinGroupInfo($depth, $depth2 = '') {
               GROUP BY kf_region3";
       break;
     case '3':
-      $sql = " SELECT kf_region2 AS region, COUNT(kf_region2) 
+      $sql = " SELECT kf_region2 AS region, COUNT(kf_region2)
                 FROM kfia_region
                 WHERE kf_region1 = '{$depth2}'
                   AND kf_region3 = ''
