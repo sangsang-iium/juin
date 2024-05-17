@@ -5,6 +5,9 @@ check_demo();
 
 check_admin_token();
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 $chk_count = count($_POST['chk']);
 if(!$chk_count)
     alert('처리할 자료를 하나 이상 선택해 주십시오.');
@@ -118,10 +121,20 @@ if($od_cancel_change) {
 		// PG 신용카드 결제 취소일 때
 		$od_receipt_price = $row['od_receipt_price'];
 		if($od_receipt_price > 0 && $row['od_refund_price'] == 0) {
-			$sql = " select * from shop_order where od_id = '$od_id' ";
+			$sql1 = " select * from shop_order where od_id = '$od_id' ";
+			$od1 = sql_fetch($sql1);
+			if($od1['paymethod'] == '무통장'){
+				$JOIN = "JOIN toss_virtual_account b";
+			} else {
+				$JOIN = "JOIN toss_transactions b";
+			}
+			$sql = " SELECT * FROM shop_order a
+							{$JOIN}
+							ON ( a.od_id = b.orderId )
+							where a.od_id = '{$od_id}'";
 			$od = sql_fetch($sql);
 
-			if($od['od_tno'] && ($od['paymethod'] == '신용카드' || $od['paymethod'] == '간편결제' || $od['paymethod'] == 'KAKAOPAY') || ($od['od_pg'] == 'inicis' && $od['paymethod'] == '삼성페이')) {
+			if( ($od['method'] == '카드' || $od['method'] == '가상계좌' || $od['paymethod'] == '신용카드' || $od['paymethod'] == '간편결제' || $od['paymethod'] == 'KAKAOPAY') || ($od['od_pg'] == 'inicis' && $od['paymethod'] == '삼성페이')) {
 				// 가맹점 PG결제 정보
 				$default = set_partner_value($od['od_settle_pid']);
 
@@ -245,17 +258,24 @@ if($od_cancel_change) {
 						break;
 					case 'toss':
 						$tossCC = new Tosspay();
-						$tossRes = $tossCC->cancel($od['paymentKey'], $_POST['cancel_memo']);
+						$tossRes = $tossCC->cancel($od['paymentKey'], BV_TIME_YMDHIS.' '.$member['id'].' 주문취소 처리');
+						print_r("@@".$tossRes);
+						alert($tossRes);
+
+
 
 						$tossModel           = new IUD_Model();
 						$ts_update['status'] = 'CANCELED';
 						$ts_where            = "WHERE orderId = '{$od_id}'";
-						$tossModel->update('toss_transactions', $ts_update, $ts_where);
+						if($od['paymethod'] == '무통장'){
+							$tossModel->update('toss_virtual_account', $ts_update, $ts_where);
+						} else {
+							$tossModel->update('toss_transactions', $ts_update, $ts_where);
+						}
 						$pg_res_cd = "";
 
 						break;
 				}
-
 				// PG 취소요청 성공했으면
 				if($pg_res_cd == '') {
 					$pg_cancel_log = ' PG 신용카드 승인취소 처리';
