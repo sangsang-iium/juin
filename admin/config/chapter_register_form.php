@@ -40,14 +40,14 @@ $regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '
 	</colgroup>
 	<tbody>
   <tr>
-    <th scope="row"><label for="chapter_id">아이디</label></th>
+    <th scope="row"><label for="chapter_id">아이디</label><span>(*)</span></th>
     <td>
       <input type="text" name="chapter_id" id="chapter_id" value="<?php echo ($w == '') ? '' : $result['kf_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
       <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
     </td>
   </tr>
 	<tr>
-		<th scope="row"><label for="kf_region1">지역</label></th>
+		<th scope="row"><label for="kf_region1">지역</label><span>(*)</span></th>
     <td>
       <select name="kf_region1" id="kf_region1" onchange="getBranch(this.value)">
         <option value=''>지역선택</option>
@@ -58,7 +58,7 @@ $regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '
     </td>
   </tr>
   <tr>
-    <th scope="row"><label for="kf_region2">지회명</label></th>
+    <th scope="row"><label for="kf_region2">지회명</label><span>(*)</span></th>
     <td>
       <select name="kf_region2" id="kf_region2">
         <option value=''>지회선택</option>
@@ -73,7 +73,7 @@ $regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '
     </td>
   </tr>
   <tr>
-    <th scope="row"><label for="kf_region3">지부명</label></th>
+    <th scope="row"><label for="kf_region3">지부명</label><span>(*)</span></th>
     <td><input type="text" name="kf_region3" id="kf_region3" value="<?php echo ($w == '') ? '' : $result['kf_region3']; ?>" required itemname="지부명" class="frm_input required"></td>
   </tr>
   
@@ -124,12 +124,12 @@ function getBranch(e) {
     url: '/admin/ajax.gruopdepth.php',
     type: 'POST',
     data: { 
-      depthNum: '0',
+      depthNum: 3,
       depthValue: e
     },
     success: function(res) {
+
       let reg = JSON.parse(res);
-      console.log(reg)
 
       let kf_region2 = $("#kf_region2");
       kf_region2.empty();
@@ -151,8 +151,6 @@ function getBranch(e) {
     }
   })
   
-  
-
 }
 
 // Submit Check _20240516_SY

@@ -1,6 +1,7 @@
 <?php
 include_once "./_common.php";
 
+// num, value 받는걸로 수정 _20240517_SY
 // $depth2 = $_POST['depth2'];
 $depthNum   = $_POST['depthNum'];
 $depthValue = $_POST['depthValue'];

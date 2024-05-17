@@ -412,14 +412,8 @@ class Tosspay {
  * @return array  뎁스 정보
  */
 function juinGroupInfo($depth, $depth2 = '') {
+  // case 3 추가 _20240517_SY
   switch ($depth) {
-    case '0':
-      $sql = "SELECT kf_region2 AS region, COUNT(kf_region2) 
-                FROM kfia_region
-               WHERE kf_region1 = '{$depth2}'
-                 AND kf_region3 = ''
-            GROUP BY kf_region2";
-      break;
     case '1':
       $sql = "SELECT kf_region2 AS region, COUNT(kf_region2) FROM kfia_region
               GROUP BY kf_region2";
@@ -428,6 +422,13 @@ function juinGroupInfo($depth, $depth2 = '') {
       $sql = "SELECT kf_region3 AS region, COUNT(kf_region3) FROM kfia_region
               WHERE kf_region2 = '{$depth2}'
               GROUP BY kf_region3";
+      break;
+    case '3':
+      $sql = " SELECT kf_region2 AS region, COUNT(kf_region2) 
+                FROM kfia_region
+                WHERE kf_region1 = '{$depth2}'
+                  AND kf_region3 = ''
+            GROUP BY kf_region2 ";
       break;
 
   }

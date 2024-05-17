@@ -41,14 +41,14 @@ $regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '
 	</colgroup>
 	<tbody>
   <tr>
-    <th scope="row"><label for="branch_id">아이디</label></th>
+    <th scope="row"><label for="branch_id">아이디</label><span>(*)</span></th>
     <td>
       <input type="text" name="branch_id" id="branch_id" value="<?php echo ($w == '') ? '' : $result['kf_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
       <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
     </td>
   </tr>
 	<tr>
-		<th scope="row"><label for="kf_region1">지역</label></th>
+		<th scope="row"><label for="kf_region1">지역</label><span>(*)</span></th>
     <td>
       <select name="kf_region1" id="kf_region1">
         <option value=''>지역선택</option>
@@ -59,7 +59,7 @@ $regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '
     </td>
   </tr>
   <tr>
-    <th scope="row"><label for="kf_region2">지회명</label></th>
+    <th scope="row"><label for="kf_region2">지회명</label><span>(*)</span></th>
     <td><input type="text" name="kf_region2" id="kf_region2" value="<?php echo ($w == '') ? '' : $result['kf_region2']; ?>" required itemname="지회명" class="frm_input required"></td>
   </tr>
   
