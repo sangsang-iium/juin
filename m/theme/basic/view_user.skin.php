@@ -47,6 +47,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 		$hash = md5($row['index_no'].$row['reg_time'].$row['mb_id']);
 
+    $reviewImgArr = reviewImg($row['index_no']);
+
 		//상단 {
     echo "<div class='rv-item'>";
     echo "<div class='rv-top'>";
@@ -78,20 +80,19 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     //내용 {
     echo "<div class='rv-content-wr'>";
 
-    //이미지가 있다면 {
-    echo "<div class='rv-img-list'>";
-    echo "<div class='rv-img-item'>";
-    echo "<div class='rv-img'>";
-    echo "<img src='/src/img/pd-rv-img01.png' alt=''>";
-    echo "</div>";
-    echo "</div>";
-    echo "<div class='rv-img-item'>";
-    echo "<div class='rv-img'>";
-    echo "<img src='/src/img/pd-rv-img02.png' alt=''>";
-    echo "</div>";
-    echo "</div>";
-    echo "</div>";
-    // } 이미지가 있다면
+    if(sizeof($reviewImgArr) > 0) {
+      //이미지가 있다면 {
+      echo "<div class='rv-img-list'>";
+      foreach ($reviewImgArr as $reviewImg) {
+        echo "<div class='rv-img-item'>";
+        echo "<div class='rv-img'>";
+        echo "<img src='/data/review/".$reviewImg['thumbnail']."' alt=''>";
+        echo "</div>";
+        echo "</div>";
+      }
+      echo "</div>";
+      // } 이미지가 있다면
+    }
 
     echo "<div class='content'>$row[memo]</div>";
 

@@ -251,26 +251,19 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </div>
 
           <div class="rv-img-list">
-            <a href="" class="rv-img-item">
-              <div class="rv-img">
-                <img src="/src/img/pd-rv-img01.png" alt="">
-              </div>
-            </a>
-            <a href="" class="rv-img-item">
-              <div class="rv-img">
-                <img src="/src/img/pd-rv-img02.png" alt="">
-              </div>
-            </a>
-            <a href="" class="rv-img-item">
-              <div class="rv-img">
-                <img src="/src/img/pd-rv-img01.png" alt="">
-              </div>
-            </a>
-            <a href="" class="rv-img-item more-item">
-              <div class="rv-img">
-                <img src="/src/img/pd-rv-img02.png" alt="">
-              </div>
-            </a>
+            <?php 
+              // 상품 리뷰 이미지 전체
+              $reviewTotalImgArr = reviewTotalImg($gs_id);
+              if(sizeof($reviewTotalImgArr) > 0) {
+                foreach ($reviewTotalImgArr as $reviewImg) {
+            ?>
+              <a href="" class="rv-img-item">
+                <div class="rv-img">
+                  <img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
+                </div>
+              </a>
+            <?php } } ?>
+            
           </div>
         </div>
         <div class="rv-body">
