@@ -251,6 +251,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </div>
 
           <div class="rv-img-list">
+            <style>
+              /* 확인 필요 */
+              .rv-img-list {overflow-x: scroll; white-space: nowrap; }
+              .rv-img-list::-webkit-scrollbar { display: none; }
+            </style>
             <?php 
               // 상품 리뷰 이미지 전체
               $reviewTotalImgArr = reviewTotalImg($gs_id);
@@ -274,17 +279,18 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             <div class="rv-sort-wr">
               <div class="rv-sort-list">
                 <div class="rv-sort-item active">
-                  <button type="button" class="btn" >최신순</button>
+                  <button type="button" class="btn" id="last" >최신순</button>
                 </div>
                 <div class="rv-sort-item">
-                  <button type="button" class="btn" >평점높은순</button>
+                  <button type="button" class="btn" id="high" >평점높은순</button>
                 </div>
                 <div class="rv-sort-item">
-                  <button type="button" class="btn" >평점낮은순</button>
+                  <button type="button" class="btn" id="low" >평점낮은순</button>
                 </div>
               </div>
             </div>
           </div>
+          
           <div class="rv-item-list">
             <?php echo mobile_goods_review("구매후기", $item_use_count, $gs_id); ?>
           </div>
@@ -717,7 +723,7 @@ $(document).ready(function(){
   });
 
   //리뷰 수정 팝업
-  $(".rv-edit-btn").on("click", function () {
+  $(document).on('click', '.rv-edit-btn', function() {
     const gsId = "<?php echo $gs_id;?>";
     const meId = $(this).data('me-id');
 
@@ -966,4 +972,41 @@ function chgimg(ergfun) {
 		document.slideshow.src = slide[num];
 	}
 }
+
+$('#last, #high, #low').click(function () {
+  const sortType = $(this).attr('id');
+  const gsId = "<?php echo $gs_id ?>";
+  $('.rv-sort-item').removeClass('active');
+  $.ajax({
+    url: './reviewList.php',
+    data: { sort: sortType, gs_id:gsId },
+    success: function (data) {
+      $('.rv-item-list').html(data);
+      $(this).closest('.rv-sort-item').addClass('active');
+      reviewMore();
+    }.bind(this),
+    error: function () {
+      console.error('Error fetching reviews');
+    }
+  });
+});
+
+function reviewMore() {
+  const reviewItem = $(".rv-item");
+  const reviewConMoreBtn = $(".rv-content-wr .cont-more-btn");
+
+  reviewItem.each(function(){
+    let reviewCon = $(this).find(".content_in");
+    let reviewConMore = $(this).find(".cont-more-btn");
+    let reviewConMax = parseInt(reviewCon.css('max-height'));
+    
+    if(reviewCon.height() < reviewConMax) {
+      reviewConMore.remove();
+    }
+  });
+}
+
+$(document).on('click', '.rv-content-wr .cont-more-btn', function() {
+    $(this).siblings('.content').addClass('auto');
+  });
 </script>

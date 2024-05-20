@@ -50,15 +50,13 @@ $value['addr_jibeon']	= $mb_addr_jibeon; //지번주소
 $value['today_login']	= BV_TIME_YMDHIS; //최근 로그인일시
 $value['reg_time']		= BV_TIME_YMDHIS; //가입일시
 $value['mb_ip']			= $_SERVER['REMOTE_ADDR']; //IP
-$value['grade']			= '9'; //레벨
+$value['grade']			= $mb_grade; //레벨
 $value['pt_id']			= $mb_recommend; //추천인아이디
 $value['login_ip']		= $_SERVER['REMOTE_ADDR']; //최근 로그인IP
 $value['mailser']		= $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 $value['smsser']		= $mb_sms ? $mb_sms : 'N'; //SMS를 수신
 $value['mb_certify']	= $mb_certify;
 $value['mb_adult']		= $mb_adult;
-// mb_grade 추가 _20240513_SY
-$value['mb_grade']		= $mb_grade;
 
 // 관리자인증을 사용하지 않는다면 인증으로 간주함.
 if(!$config['cert_admin_yes'])
