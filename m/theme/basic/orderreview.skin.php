@@ -14,6 +14,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	<input type="hidden" name="gs_id" value="<?php echo $gs_id; ?>">
 	<input type="hidden" name="seller_id" value="<?php echo $gs['mb_id']; ?>">
 	<input type="hidden" name="token" value="<?php echo $token; ?>">
+	<input type="hidden" name="option1" value="<?php echo ltrim($reviewOptionArr[0]); ?>">
+	<input type="hidden" name="option2" value="<?php echo ltrim($reviewOptionArr[1]); ?>">
+
 
 	<div class="cp-cart order">
 		<div class="cp-cart-item">
@@ -40,7 +43,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			<input type="radio" id="scoreStar1" name="wr_score" value="1" <?php echo get_checked($wr_score, '1'); ?>><label for="scoreStar1">1점(<?php echo $gw_star[1]; ?>)</label>
 		</div>
 		<div class="score-text">
-			<span class="score-add"><?php echo $wr_score; ?></span>/ 5
+			<span class="score-add"><?php echo ($wr_score)? $wr_score:0; ?></span>/ 5
 		</div>
 	</div>
 
@@ -130,11 +133,11 @@ $(document).ready(function(){
 	var revieImgJson = <?php echo json_encode($reviewImgArr,true) ?>;
 
 	$.each(revieImgJson, function(index, value) {
-		// $('#imgUpload' + (index + 1)).next('.img-upload-view').css('background-image', 'url(/data/review/' + value.thumbnail + ')');
 		var $preview = $('#imgUpload' + (index + 1)).next('.img-upload-view');
         $preview.css('background-image', 'url(/data/review/' + value.thumbnail + ')');
+		$preview.attr('data-index-no',value.index_no)
         $preview.siblings('.img-upload-delete').css('display', 'block');
-		$preview.css('content', 'none');
+		$preview.addClass('active');
 	});
 });
 

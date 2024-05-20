@@ -17,6 +17,10 @@ if($w == "u") {
 	$reviewImgArr = reviewImg($me_id); // 리뷰 이미지
 }
 
+if($od_no) {
+	$reviewOptionArr = reviewOptionCheck($od_no);
+}
+
 $token = md5(uniqid(rand(), true));
 set_session("ss_token", $token);
 

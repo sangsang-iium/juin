@@ -7,11 +7,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		<!-- <button type="button" onclick="window.open('<?php echo BV_MSHOP_URL; ?>/orderreview.php?gs_id=<?php echo $gs_id; ?>');" class="ui-btn round stBlack writeBtn rv-write-btn">구매후기쓰기</button> -->
     <button type="button" class="ui-btn round stBlack writeBtn rv-write-btn">구매후기쓰기</button>
 	</div>
-  <select name="" id="" class="frm-select review_select">
-    <option value="">1개월</option>
-    <option value="">3개월</option>
-    <option value="">6개월</option>
-    <option value="">1년</option>
+  <select name="review_select" id="review_select" class="frm-select review_select">
+    <option value="1">1개월</option>
+    <option value="3">3개월</option>
+    <option value="6">6개월</option>
+    <option value="12">1년</option>
   </select>
   <p class="review_cnt">총 <span><?php echo number_format($total_count); ?></span>개의 상품후기가 있습니다. </p>
 </div>
@@ -48,7 +48,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		$hash = md5($row['index_no'].$row['reg_time'].$row['mb_id']);
 
     $reviewImgArr = reviewImg($row['index_no']);
-
+    $reviewOption = reviewGoodOption($gs_id);
 		//상단 {
     echo "<div class='rv-item'>";
     echo "<div class='rv-top'>";
@@ -64,18 +64,24 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     echo "</div>";
     // } 상단
 
+    if($row['option1'] || $row['option2']) {
     // 옵션이 있다면 {
     echo "<div class='rv-option-wr'>";
+    if($row['option1']) {
     echo "<div class='rv-option-item'>";
-    echo "<p class='tit'>옵션</p>";
-    echo "<p class='cont'>옵션내용 표시</p>";
+    echo "<p class='tit'>".$reviewOption[0]."</p>";
+    echo "<p class='cont'>".$row['option1']."</p>";
     echo "</div>";
+    }
+    if($row['option2']) {
     echo "<div class='rv-option-item'>";
-    echo "<p class='tit'>옵션2</p>";
-    echo "<p class='cont'>옵션내용2 표시</p>";
+    echo "<p class='tit'>".$reviewOption[1]."</p>";
+    echo "<p class='cont'>".$row['option2']."</p>";
     echo "</div>";
+    }
     echo "</div>";
     // } 옵션이 있다면
+    }
 
     //내용 {
     echo "<div class='rv-content-wr'>";
@@ -116,7 +122,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 	echo "</ul>\n";
 
-	echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
+	// echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
+	echo get_paging_popup($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
+  
 	?>
 </div>
 
@@ -132,4 +140,68 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           return confirm("정말 삭제 하시겠습니까?\n\n삭제후에는 되돌릴수 없습니다.");
       });
   });
+
+  $(document).ready(function() {
+  $('#review_select').on('change', fetchReviews);
+});
+
+function fetchReviews() {
+  const period = $('#review_select').val();
+  const gsId = '<?php echo $gs_id; ?>';
+
+  $.ajax({
+    url: '/m/shop/reviewPeriodList.php',
+    type: 'POST',
+    data: { period: period, gs_id: gsId },
+    success: function(response) {
+      const data = JSON.parse(response);
+      $('#sit_review ul').html(data.reviewHtml);
+      $('.review_cnt span').text(data.totalCount);
+    },
+    error: function() {
+      console.error('Error fetching reviews');
+    }
+  });
+};
+
+
+function changePage(page, url) {
+    const period = $('#review_select').val();
+    const gsId = '<?php echo $gs_id; ?>';
+
+    $.ajax({
+        url: '/m/shop/reviewPeriodList.php',
+        type: 'POST',
+        data: { period: period, gs_id: gsId, page: page },
+        success: function(response) {
+            const data = JSON.parse(response);
+            $('#sit_review ul').html(data.reviewHtml);
+            $('.review_cnt span').text(data.totalCount);
+
+            $('.pg_page').removeClass('pg_current');
+            $('.pg_page').eq(page - 2).addClass('pg_current');
+            updatePagination('<?php echo $config['mobile_pages'] ?>', page, data.totalPages, '<?php echo $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=' ?>' );
+        },
+        error: function() {
+            console.error('Error fetching reviews');
+        }
+    });
+}
+
+// 새로운 페이징을 가져와서 업데이트하는 함수
+function updatePagination(write_pages, cur_page, total_page, url) {
+    $.ajax({
+        url: '/m/shop/reviewPaging.php',
+        type: 'GET',
+        data: { write_pages : write_pages, cur_page: cur_page, total_page: total_page, url:url },
+        success: function(response) {
+          // 페이징을 업데이트
+          $('.pg_wrap').html(response);
+        },
+        error: function() {
+          console.error('Error fetching pagination');
+        }
+    });
+}
+
 </script>

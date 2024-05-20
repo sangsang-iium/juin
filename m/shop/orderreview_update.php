@@ -40,6 +40,8 @@ if($w == "")
 				   score	 = '$wr_score',
 				   reg_time	 = '".BV_TIME_YMDHIS."',
 				   seller_id = '$seller_id',
+				   option1	 = '$option1', 
+				   option2	 = '$option2', 
 				   pt_id	 = '$pt_id' ";
 	sql_query($sql);
 
@@ -67,7 +69,8 @@ if($w == "")
 						SET review_id = '{$no}',
 						gs_id = '{$gs_id}',
 						origin_name = '{$file_name['origin_name']}',
-						thumbnail = '{$file_name['file_name']}'
+						thumbnail = '{$file_name['file_name']}',
+						step = '{$i}'
 						";
 			sql_query($filesql);
 		}
@@ -86,6 +89,47 @@ else if($w == "u")
 					score	= '$wr_score'
 			  where index_no = '$me_id' ";
     sql_query($sql);
+
+	$upl_dir = BV_DATA_PATH."/review";
+	$upl = new upload_files($upl_dir);
+
+	for($i=1; $i<=6; $i++) {
+		// 기존 이미지 있나 체크
+		$imgCheck = reviewImgCheck($me_id, $i);
+
+		// 기존 이미지가 있고 업로드된 이미지가 있으면 기존 이미지 삭제 처리하고 DB데이터 업데이트 처리
+		if($imgCheck && $_FILES['imgUpload'.$i]['name'] ) {
+			unlink($upl_dir."/".$imgCheck);
+
+			$value['imgUpload'.$i] = $upl->upload($_FILES['imgUpload'.$i]);
+			$file_name['origin_name'] = $_FILES['imgUpload'.$i]['name'];
+			$file_name['file_name'] = $value['imgUpload'.$i];
+
+			$file_up_sql = " UPDATE shop_goods_review_img
+							SET origin_name = '{$file_name['origin_name']}',
+								thumbnail = '{$file_name['file_name']}'
+							WHERE review_id = '{$me_id}' AND step = '{$i}' ";
+			sql_query($file_up_sql);
+		}
+
+		// 기존 이미지가 없고 업로드된 이미자가 있으면 insert 처리
+		if(!$imgCheck && $_FILES['imgUpload'.$i]['name']) {
+			$value['imgUpload'.$i] = $upl->upload($_FILES['imgUpload'.$i]);
+
+			$file_name['origin_name'] = $_FILES['imgUpload'.$i]['name'];
+			$file_name['file_name'] = $value['imgUpload'.$i];
+			$filesql = " INSERT INTO shop_goods_review_img
+						SET review_id = '{$me_id}',
+						gs_id = '{$gs_id}',
+						origin_name = '{$file_name['origin_name']}',
+						thumbnail = '{$file_name['file_name']}',
+						step = '{$i}'
+						";
+			sql_query($filesql);
+		}
+
+	}
+
 
   // 완료 후 링크 이동 수정 _20240314_SY
 	// alert("정상적으로 수정 되었습니다.","replace");
@@ -110,6 +154,9 @@ else if($w == "d")
 	// 구매후기 삭제시 상품테이블에 상품평 카운터를 감소한다
 	sql_query("update shop_goods set m_count=m_count - 1 where index_no='$gs_id'");
 	
+	// 업로드된 이미지 삭제 및 DB 삭제
+	reviewImgDelete($me_id);
+
 	if($p == "1")
 		goto_url(BV_MSHOP_URL."/view_user.php?gs_id=$gs_id");
 	else

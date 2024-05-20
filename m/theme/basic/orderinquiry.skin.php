@@ -62,7 +62,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </div>
         </div>
         <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
-        <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>">상품후기 작성</button>
+        <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
         <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
       </div>
       <?php
@@ -106,10 +106,11 @@ import * as f from '/src/js/function.js';
 document.querySelectorAll(".rv-write-btn").forEach(btn => {
   btn.addEventListener("click", function(event) {
     const gsId = event.currentTarget.dataset.gsId;
+    const odNo = event.currentTarget.dataset.odNo;
     const popId = "#review-popup";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
-    const reqData = { gs_id: gsId };
+    const reqData = { gs_id: gsId, od_no: odNo };
 
     f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });

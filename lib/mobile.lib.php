@@ -574,6 +574,7 @@ function mobile_goods_review($name, $cnt, $gs_id, $rows=10)
 		$hash = md5($row['index_no'].$row['reg_time'].$row['mb_id']);
 
 		$reviewImgArr = reviewImg($row['index_no']);
+		$reviewOption = reviewGoodOption($gs_id);
     //상단 {
     echo "<div class='rv-item'>";
     echo "<div class='rv-top'>";
@@ -589,18 +590,24 @@ function mobile_goods_review($name, $cnt, $gs_id, $rows=10)
     echo "</div>";
     // } 상단
 
+	if($row['option1'] || $row['option2']) {
     // 옵션이 있다면 {
     echo "<div class='rv-option-wr'>";
+	if($row['option1']) {
     echo "<div class='rv-option-item'>";
-    echo "<p class='tit'>옵션</p>";
-    echo "<p class='cont'>옵션내용 표시</p>";
+    echo "<p class='tit'>".$reviewOption[0]."</p>";
+    echo "<p class='cont'>".$row['option1']."</p>";
     echo "</div>";
+	}
+	if($row['option2']) {
     echo "<div class='rv-option-item'>";
-    echo "<p class='tit'>옵션2</p>";
-    echo "<p class='cont'>옵션내용2 표시</p>";
+    echo "<p class='tit'>".$reviewOption[1]."</p>";
+    echo "<p class='cont'>".$row['option2']."</p>";
     echo "</div>";
+	}
     echo "</div>";
     // } 옵션이 있다면
+	}
 
     //내용 {
     echo "<div class='rv-content-wr'>";

@@ -316,11 +316,29 @@ export const deleteImage = (el) => {
   const imgUploadInput = imgUploadItem.querySelector('.img-upload-input');
   const imgUploadView = imgUploadItem.querySelector('.img-upload-view');
 
+  // 이미 업로드되어 있는 이미지 확인
+  const $imgUploadView = $(imgUploadView);
+  const $imgIndexNo = $imgUploadView.data('index-no');
+
   const confirmDelete = confirm("해당 이미지를 삭제하시겠습니까?");
   if (confirmDelete) {
     imgUploadView.classList.remove('active');
     imgUploadView.style.backgroundImage = '';
     imgUploadInput.value = '';
     imgUploadDel.style.display = 'none';
+
+    if($imgIndexNo) {
+      $.ajax({
+        url: "/m/shop/reviewImgDelete.php",
+          type: "POST",
+          data: { "index_no": $imgIndexNo },
+          dataType: "json",
+          async: false,
+          cache: false,
+          success: function(data, textStatus) {
+            
+          }
+      });
+    }
   }
 }
