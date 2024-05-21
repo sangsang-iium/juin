@@ -191,11 +191,18 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             ?>
             <li>
               <span class="lt-txt">입금자명</span>
-              <span class="rt-txt"><?php echo get_text($od['deposit_name']); ?></span>
+              <span class="rt-txt"><?php echo $od['vaCustomerName'] ?></span>
             </li>
             <li>
               <span class="lt-txt">입금계좌</span>
-              <span class="rt-txt"><?php echo get_text($od['bank']); ?></span>
+              <?php
+                foreach ($BANKS as $k => $v) {
+                  if($od['vaBankCode'] == $v['code']){
+                    $bankName = $v['bank'];
+                  }
+                }
+              ?>
+              <span class="rt-txt"><?php echo '('.$bankName.') '.$od['vaAccountNumber']; ?></span>
             </li>
             <?php
             }

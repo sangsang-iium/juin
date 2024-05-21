@@ -63,29 +63,30 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			<div class="form-body">
 				<div class="img-upload">
 					<div class="img-upload-list">
+						<!-- input[type=file] : .img-upload-input -->
 						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-							<input type="file" name="imgUpload1" id="imgUpload1" class="img-upload-input">
+							<input type="file" name="imgUpload1" id="imgUpload1" class="">
 							<label for="imgUpload1" class="img-upload-view"></label>
 						</div>
 						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-							<input type="file" name="imgUpload2" id="imgUpload2" class="img-upload-input">
+							<input type="file" name="imgUpload2" id="imgUpload2" class="">
 							<label for="imgUpload2" class="img-upload-view"></label>
 						</div>
 						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-							<input type="file" name="imgUpload3" id="imgUpload3" class="img-upload-input">
+							<input type="file" name="imgUpload3" id="imgUpload3" class="">
 							<label for="imgUpload3" class="img-upload-view"></label>
 						</div>
 						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-							<input type="file" name="imgUpload4" id="imgUpload4" class="img-upload-input">
+							<input type="file" name="imgUpload4" id="imgUpload4" class="">
 							<label for="imgUpload4" class="img-upload-view"></label>
 						</div>
 						<div class="img-upload-item">
 							<span class="img-upload-delete">삭제</span>
-							<input type="file" name="imgUpload5" id="imgUpload5" class="img-upload-input">
+							<input type="file" name="imgUpload5" id="imgUpload5" class="">
 							<label for="imgUpload5" class="img-upload-view"></label>
 						</div>
 					</div>
@@ -114,7 +115,7 @@ function forderreview_submit(f) {
   //   f.wr_score.focus();
   // 	return false;
   // }
-    
+
   // 평점입력 오류나서 수정 _20240314_SY
   if(f["wr_score"].value == "" || f["wr_score"].value == undefined) {
 		alert('평점을 선택하세요.');

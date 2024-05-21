@@ -24,7 +24,7 @@ $(document).ready(function () {
     popDim.fadeIn(200);
     f.popupOpen(openPopup);
   });
-  
+
   // Popup Close
   const popCloseBtn = $('.popup .close');
   popCloseBtn.on('click',function(){
@@ -34,7 +34,7 @@ $(document).ready(function () {
     }
     f.popupClose(closePopup);
   });
-  
+
   // Image Upload (Preview)
   const imgUpload = ".img-upload-input";
   $("#document").on('change', imgUpload, function(e){
@@ -364,7 +364,7 @@ $(document).ready(function () {
   const cpSortList = $("#cp-sort__list");
   const cpSortBtn = $(".cp-sort__btn");
   const cpSortClose = cpSortList.find(".close-btn");
-  
+
   cpSortBtn.on('click', function(){
     cpSortList.fadeIn(200).addClass("on");
     popDim.fadeIn(200);
@@ -378,7 +378,7 @@ $(document).ready(function () {
     let reviewCon = $(this).find(".content_in");
     let reviewConMore = $(this).find(".cont-more-btn");
     let reviewConMax = parseInt(reviewCon.css('max-height'));
-    
+
     if(reviewCon.height() < reviewConMax) {
       reviewConMore.remove();
     }
