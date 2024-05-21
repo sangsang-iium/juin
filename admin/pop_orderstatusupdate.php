@@ -259,7 +259,7 @@ if($od_cancel_change) {
 					case 'toss':
 						$tossCC = new Tosspay();
 						$tossRes = $tossCC->cancel($od['paymentKey'], BV_TIME_YMDHIS.' '.$member['id'].' 주문취소 처리');
-						print_r("@@".$tossRes);
+						print_r($tossRes);
 						alert($tossRes);
 
 

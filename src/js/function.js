@@ -44,7 +44,7 @@ export const hrizonMenu = function(t, a) {
     const el = document.querySelector(t);
     const activeMenuEl = el.querySelector(`[data-id="${a}"]`);
     let activeMenuIndex = "";
-    
+
     if(a) {
       activeMenuIndex = Array.from(activeMenuEl?.parentNode.children).indexOf(activeMenuEl);
     } else {
@@ -144,11 +144,11 @@ export const arcodianF = () => {
       $this.next().slideUp();
     }
   });
-  
+
   let arcoCheck = $('.arcodianBtn .frm-choice');
   if(arcoCheck) {
-    arcoCheck.click(function(e){ 
-        event.stopPropagation();   
+    arcoCheck.click(function (e) {
+      event.stopPropagation();
     });
   }
 }
@@ -191,7 +191,7 @@ export const callData = (popid, rqurl, rqm, rqd, shouldOpenPopup = false) => {
 
       if (shouldOpenPopup) {
         $(popid).find(".pop-content-in").html(data);
-        
+
         // 로그인 체크 오류 수정 _20240328_SY
         if($(popid).selector == '#review-write-popup' ) {
           // if(mb_chk == true) {
@@ -253,13 +253,13 @@ export const clipCopy = (str) => {
 export const scoreF = () => {
   const scoreInput = document.querySelectorAll('.score-list input[type="radio"]');
   const scoreView = document.querySelector('.score-add');
-  
+
   scoreInput.forEach(radio => {
     radio.addEventListener('change', function() {
       scoreView.textContent = this.value;
     });
   });
-  
+
   const scoreResult = document.querySelector('.score-list input[type="radio"]:checked');
   if (scoreResult) {
     scoreView.textContent = scoreResult.value;
@@ -277,10 +277,10 @@ const checkFileSize = (file, fileSize) => {
 
 // 이미지 확장자 체크
 const checkFileImg = (fileName) => {
-  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', 'heic'];
   const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
   if (!allowedExtensions.includes(fileExtension)) {
-    alert('jpg, jpeg, png, gif 확장자만 첨부 가능합니다.');
+    alert('jpg, jpeg, png, gif, heic 확장자만 첨부 가능합니다.');
     return false;
   }
   return true;
@@ -296,7 +296,7 @@ export const previewImage = (el) => {
   // console.log(imgUploadFile, "file view test");
 
   // > 파일 용량 및 확장자 체크
-  if (!checkFileSize(imgUploadFile,10) || !checkFileImg(imgUploadFile.name)) {
+  if (!checkFileSize(imgUploadFile, 50) || !checkFileImg(imgUploadFile.name)) {
     return;
   }
 
@@ -336,7 +336,7 @@ export const deleteImage = (el) => {
           async: false,
           cache: false,
           success: function(data, textStatus) {
-            
+
           }
       });
     }

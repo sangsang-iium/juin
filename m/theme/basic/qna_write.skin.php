@@ -26,7 +26,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 									<?php
 									$sql = "select * from shop_qa_cate where isuse='Y'";
 									$res = sql_query($sql);
-									while($row=sql_fetch_array($res)) {	
+									while($row=sql_fetch_array($res)) {
 										echo "<option value='$row[catename]'>$row[catename]</option>\n";
 									}
 									?>
@@ -80,7 +80,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 							<?php
 							$sql = "select * from shop_qa_cate where isuse='Y'";
 							$res = sql_query($sql);
-							while($row=sql_fetch_array($res)) {	
+							while($row=sql_fetch_array($res)) {
 								echo "<option value='$row[catename]'>$row[catename]</option>\n";
 							}
 							?>
@@ -162,7 +162,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 						</div>
 					</div>
 				</div> -->
-				
+
 				<div class="form-row">
 					<div class="form-head">
 						<p class="title">이미지등록</p>
@@ -172,27 +172,27 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 							<div class="img-upload-list">
 								<div class="img-upload-item">
 									<span class="img-upload-delete">삭제</span>
-									<input type="file" name="" id="imgUpload1" class="img-upload-input">
+									<input type="file" name="imgUpload1" id="imgUpload1" class="img-upload-input">
 									<label for="imgUpload1" class="img-upload-view"></label>
 								</div>
 								<div class="img-upload-item">
 									<span class="img-upload-delete">삭제</span>
-									<input type="file" name="" id="imgUpload2" class="img-upload-input">
+									<input type="file" name="imgUpload2" id="imgUpload2" class="img-upload-input">
 									<label for="imgUpload2" class="img-upload-view"></label>
 								</div>
 								<div class="img-upload-item">
 									<span class="img-upload-delete">삭제</span>
-									<input type="file" name="" id="imgUpload3" class="img-upload-input">
+									<input type="file" name="imgUpload3" id="imgUpload3" class="img-upload-input">
 									<label for="imgUpload3" class="img-upload-view"></label>
 								</div>
 								<div class="img-upload-item">
 									<span class="img-upload-delete">삭제</span>
-									<input type="file" name="" id="imgUpload4" class="img-upload-input">
+									<input type="file" name="imgUpload4" id="imgUpload4" class="img-upload-input">
 									<label for="imgUpload4" class="img-upload-view"></label>
 								</div>
 								<div class="img-upload-item">
 									<span class="img-upload-delete">삭제</span>
-									<input type="file" name="" id="imgUpload5" class="img-upload-input">
+									<input type="file" name="imgUpload5" id="imgUpload5" class="img-upload-input">
 									<label for="imgUpload5" class="img-upload-view"></label>
 								</div>
 							</div>
@@ -223,4 +223,21 @@ function fqaform_submit(f) {
 
 	return true;
 }
+<?php if (sizeof($reviewImgArr) > 0) {?>
+$(document).ready(function(){
+	var revieImgJson = <?php echo json_encode($reviewImgArr, true) ?>;
+
+	$.each(revieImgJson, function(index, value) {
+		var $preview = $('#imgUpload' + (index + 1)).next('.img-upload-view');
+        $preview.css('background-image', 'url(/data/review/' + value.thumbnail + ')');
+				$preview.attr('data-index-no',value.index_no)
+        $preview.siblings('.img-upload-delete').css('display', 'block');
+				$preview.addClass('active');
+	});
+});
+
+
+
+<?php }?>
+
 </script>
