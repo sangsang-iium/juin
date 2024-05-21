@@ -53,7 +53,7 @@ $region_res = sql_query($region_sel);
 	<tr>
 		<th scope="row"><label for="kf_region1">지역</label><span>(*)</span></th>
     <td>
-      <select name="kf_region1" id="kf_region1" onchange="getBranch(this.value)">
+      <select name="kf_region1" id="kf_region1">
         <option value=''>지역선택</option>
         <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
           <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['kf_region1'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
