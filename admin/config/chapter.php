@@ -14,6 +14,7 @@ $q2 = $query_string."&page=$page";
 if($sfl && $stx) {
   $sql_search .= " and $sfl like '%$stx%' ";
 }
+$sql_group .= " GROUP BY kf_region3";
 
 if (!$orderby) {
   $filed = "kf_region1 ";
@@ -28,10 +29,14 @@ $sql_order = " ORDER BY $filed $sod ";
 // $total_sel = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
 $total_sel = " SELECT COUNT(*) AS cnt
                 FROM (
-                    SELECT DISTINCT kf_region3
-                    {$sql_common}
+                    SELECT DISTINCT kf_region3 
+                    {$sql_common} a 
+                 LEFT JOIN area b 
+                        ON (a.kf_region1 = b.areacode)
                     {$sql_search}
-                ) AS region3 ";
+                    {$sql_group}
+                ) AS region3 
+             ";
 $total_row = sql_fetch($total_sel);
 $total_count = $total_row['cnt'];
 
@@ -43,7 +48,12 @@ if($page == "") {
 }
 $from_record = ($page - 1) * $rows;
 
-$sql = " SELECT * {$sql_common} {$sql_search} {$sql_group} {$sql_order} LIMIT {$from_record}, {$rows} ";
+$sql = " SELECT * {$sql_common} a 
+      LEFT JOIN area b 
+             ON (a.kf_region1 = b.areacode) 
+        {$sql_search} {$sql_group} {$sql_order} 
+          LIMIT {$from_record}, {$rows} 
+       ";
 $result = sql_query($sql);
 
 // <input type="submit" name="act_button" value="선택수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
@@ -51,7 +61,6 @@ $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 <a href="./config.php?code=chapter_register_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 지부추가</a>
 EOF;
-
 ?>
 
 <!-- // 버튼 & 검색 추가 _20240513_SY -->
@@ -75,7 +84,7 @@ EOF;
 		<th scope="row">검색어</th>
 		<td>
 			<select name="sfl">
-        <?php echo option_selected('kf_region1', $sfl, '지부명'); ?>
+        <?php echo option_selected('kf_region3', $sfl, '지부명'); ?>
 				<?php echo option_selected('kf_region2', $sfl, '지회명'); ?>
 				<?php echo option_selected('kf_code',    $sfl, '지부아이디'); ?>
 				<?php echo option_selected('kf_code',    $sfl, '지회아이디'); ?>
@@ -118,7 +127,7 @@ EOF;
 	<tr>
 		<th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
 		<th scope="col"><?php echo subject_sort_link('kf_code',   $q2); ?>지부아이디</a></th>
-		<th scope="col"><?php echo subject_sort_link('kf_region1',$q2); ?>지역</a></th>
+		<th scope="col"><?php echo subject_sort_link('areaname',  $q2); ?>지역</a></th>
 		<th scope="col"><?php echo subject_sort_link('kf_region2',$q2); ?>지회명</a></th>
 		<th scope="col"><?php echo subject_sort_link('kf_region3',$q2); ?>지부명</a></th>
 		<th scope="col"><?php echo subject_sort_link('kf_wdate',  $q2); ?>등록일</th>
@@ -139,7 +148,7 @@ EOF;
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
     <td><?php echo $row['kf_code'] ?></td>
-		<td><?php echo $row['kf_region1'] ?></td>
+		<td><?php echo $row['areaname'] ?></td>
 		<td><?php echo $row['kf_region2'] ?></td>
 		<td><?php echo $row['kf_region3'] ?></td>
 		<td><?php echo $row['kf_wdate'] ?></td>
