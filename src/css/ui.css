@@ -49,9 +49,9 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .gnb-btn .bar {display: inline-block; position: relative; width: 100%; height: 0.32rem; background-color: var(--color-white);}
 .gnb-btn .bar:before {content: ""; display: block; position: absolute; top: -1.1rem; left: 0; width: 3rem; height: 0.32rem; background-color: var(--color-white);}
 .gnb-btn .bar:after {content: ""; display: block; position: absolute; bottom: -1.1rem; left: 0; width: 3rem; height: 0.32rem; background-color: var(--color-white);}
-.gnb-btn.black .bar, 
-.gnb-btn.black .bar:before, 
-.gnb-btn.black .bar:after {background-color: var(--color-black3);} 
+.gnb-btn.black .bar,
+.gnb-btn.black .bar:before,
+.gnb-btn.black .bar:after {background-color: var(--color-black3);}
 
 .tag {display: block; width: auto; height: 3.4rem; line-height: 3.4rem; padding: 0 0.8rem; border-radius: 0.48rem; font-size: 1.92rem; font-weight: 500;}
 .tag.coupon {color: var(--color-main); background-color: #ffeed4;}
@@ -274,7 +274,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 /* Swiper */
 .swiper-control {display: none; align-items: center; justify-content: center; position: absolute; bottom: 2rem; right: 2rem; z-index: 20; width: 11.7rem; height: 4rem; background-color: rgba(0,0,0,0.45);}
 .swiper-control .pagination { width: auto; margin-left: 1.12rem; font-size: 1.68rem; font-weight: 500; color: rgba(255,255,255,0.6); line-height: 1;}
-.swiper-control .pagination .swiper-pagination-current {color: var(--color-white);} 
+.swiper-control .pagination .swiper-pagination-current {color: var(--color-white);}
 .swiper-control .playToggle {position: relative; width: 3.2rem; height: 3.2rem; margin-left: 1.6rem; background: url('../img/stop.svg') no-repeat center/1.12rem auto;}
 .swiper-control .playToggle:after {content: ""; display: block; position: absolute; top: 50%; left: -0.5rem; height: 1.8rem; margin-top: -0.9rem; border-left: 1px solid rgba(255,255,255,0.3);}
 
@@ -593,11 +593,12 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 
 /* 이미지 등록(미리보기/삭제) */
 .img-upload {font-size: 0;}
-.img-upload-list {display: flex; align-items: center; /*justify-content: space-between;*/ gap: 0.4rem; font-size: 0;}
+.img-upload-list {display: block; /*display: flex;*/ align-items: center; gap: 0.4rem; font-size: 0;}
 .img-upload-item {position: relative; width: calc((100% - 1.2rem) / 5);}
+.img-upload-item ~ .img-upload-item {margin-top: 10px;}
 .img-upload-delete {display: none; position: absolute; right: 1px; top: 1px; width: 3.6rem; height: 3.6rem; background: rgba(0,0,0,0.7) url('../img/icon-delete.png') no-repeat center center/1.4rem; border-radius: 0 0.8rem 0 0.8rem; font-size: 0; cursor: pointer; z-index: 5;}
 .img-upload-input {overflow: hidden; position: absolute; left: 0; top: 0; width: 0; height: 0; line-height: 0; font-size: 0; padding: 0; appearance: none; -webkit-appearance: none;}
-.img-upload-view {position: relative; display: inline-block; vertical-align: middle; width: 100%; height: auto; padding-bottom: 100%; border: 1px solid var(--color-gray4); border-radius: 0.8rem; background-position: center center; background-repeat: no-repeat; background-size: cover; cursor: pointer;}
+.img-upload-view {display: none; /*display: inline-block;*/ position: relative; vertical-align: middle; width: 100%; height: auto; padding-bottom: 100%; border: 1px solid var(--color-gray4); border-radius: 0.8rem; background-position: center center; background-repeat: no-repeat; background-size: cover; cursor: pointer;}
 .img-upload-view::before {content:""; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 2rem; height: 2rem; background: url('../img/icon-plus.png') no-repeat center center/contain;}
 .img-upload-view.active::before {display: none;}
 .img-upload-desc {margin-top: 1.6rem; font-size: 2rem; font-weight: 400; color: var(--color-gray3);}
