@@ -54,7 +54,7 @@ function fmemberexcel_submit(f)
 	if(!confirm("회원 일괄등록을 진행하시겠습니까?"))
 		return false;
 	
-	f.action = bv_admin_url+"/member.php?code=xls_update_copy";
+	f.action = bv_admin_url+"/member.php?code=xls_update";
 	return true;
 }
 </script>

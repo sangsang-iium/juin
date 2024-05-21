@@ -28,7 +28,9 @@ $sql_order = " ORDER BY $filed $sod ";
 $total_sel = " SELECT COUNT(*) AS cnt
                 FROM (
                     SELECT DISTINCT kf_region2 
-                    {$sql_common}
+                    {$sql_common} a 
+                 LEFT JOIN area b 
+                        ON (a.kf_region1 = b.areacode)
                     {$sql_search} 
                     {$sql_group} 
                     {$sql_order}
@@ -43,7 +45,11 @@ if($page == "") {
 }
 $from_record = ($page - 1) * $rows;
 
-$sql = " SELECT * {$sql_common} {$sql_search} {$sql_group} {$sql_order} LIMIT {$from_record}, {$rows} ";
+$sql = " SELECT * {$sql_common} a 
+      LEFT JOIN area b 
+             ON (a.kf_region1 = b.areacode)
+        {$sql_search} {$sql_group} {$sql_order} 
+          LIMIT {$from_record}, {$rows} ";
 $result = sql_query($sql);
 
 // <input type="submit" name="act_button" value="선택수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
@@ -76,7 +82,7 @@ EOF;
 		<td>
 			<select name="sfl">
         <?php echo option_selected('kf_region2', $sfl, '지회명'); ?>
-				<?php echo option_selected('kf_region1', $sfl, '지역명'); ?>
+				<?php echo option_selected('areaname', $sfl, '지역명'); ?>
 				<?php echo option_selected('kf_code',    $sfl, '지회아이디'); ?>
 			</select>
 			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
@@ -136,7 +142,7 @@ EOF;
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
     <td><?php echo $row['kf_code'] ?></td>
-		<td><?php echo $row['kf_region1'] ?></td>
+		<td><?php echo $row['areaname'] ?></td>
 		<td><?php echo $row['kf_region2'] ?></td>
 		<td><?php echo $row['kf_wdate'] ?></td>
 		<td><?php echo $row['kf_udate'] ?></td>

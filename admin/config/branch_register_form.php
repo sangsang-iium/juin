@@ -20,7 +20,10 @@ $query_string = "code=$code$qstr";
 $q1 = $query_string;
 $q2 = $query_string."&page=$page";
 
-$regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '울산', '강원', '경기', '경남', '경북', '전남', '전북', '제주', '충남', '충북');
+
+$region_sel = "SELECT areacode, areaname FROM area GROUP BY areacode";
+$region_res = sql_query($region_sel);
+// $regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '울산', '강원', '경기', '경남', '경북', '전남', '전북', '제주', '충남', '충북');
 
 ?>
 
@@ -50,10 +53,10 @@ $regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '
 	<tr>
 		<th scope="row"><label for="kf_region1">지역</label><span>(*)</span></th>
     <td>
-      <select name="kf_region1" id="kf_region1">
+      <select name="kf_region1" id="kf_region1" onchange="getBranch(this.value)">
         <option value=''>지역선택</option>
-        <?php foreach ($regionArr as $key => $val) { ?>
-          <option value="<?php echo $val?>" <?php echo ($w == 'u' && $result['kf_region1'] == $val) ? "selected" : "" ?> ><?php echo $val ?></option>
+        <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
+          <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['kf_region1'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
         <?php } ?>
       </select>
     </td>
