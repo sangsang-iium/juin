@@ -31,17 +31,17 @@ if($w == "" || $w == "u") {
 	}
 }
 
-if($w == "") 
-{ 
-	$sql = "insert into shop_goods_review 
-			   set gs_id	 = '$gs_id', 
+if($w == "")
+{
+	$sql = "insert into shop_goods_review
+			   set gs_id	 = '$gs_id',
 				   mb_id	 = '$member[id]',
 				   memo		 = '$wr_content',
 				   score	 = '$wr_score',
 				   reg_time	 = '".BV_TIME_YMDHIS."',
 				   seller_id = '$seller_id',
-				   option1	 = '$option1', 
-				   option2	 = '$option2', 
+				   option1	 = '$option1',
+				   option2	 = '$option2',
 				   pt_id	 = '$pt_id' ";
 	sql_query($sql);
 
@@ -52,8 +52,8 @@ if($w == "")
 
 	for($i=1; $i<=6; $i++) {
 		if($img = $_FILES['imgUpload'.$i]['name']) {
-			if(!preg_match("/\.(gif|jpg|png)$/i", $img)) {
-				alert("이미지가 gif, jpg, png 파일이 아닙니다.");
+			if(!preg_match("/\.(gif|jpg|jpeg|png|heic)$/i", $img)) {
+				alert($img."이미지가 gif, jpg, jpeg, png, heic 파일이 아닙니다.");
 			}
 		}
 		if($_POST['imgUpload'.$i.'_del']) {
@@ -146,20 +146,20 @@ else if($w == "d")
     }
 
 	// 구매후기 삭제
-    $sql = "delete from shop_goods_review 
-			 where index_no='$me_id' 
+    $sql = "delete from shop_goods_review
+			 where index_no='$me_id'
 			    and md5(concat(index_no,reg_time,mb_id)) = '{$hash}' ";
 	sql_query($sql);
-	
+
 	// 구매후기 삭제시 상품테이블에 상품평 카운터를 감소한다
 	sql_query("update shop_goods set m_count=m_count - 1 where index_no='$gs_id'");
-	
+
 	// 업로드된 이미지 삭제 및 DB 삭제
 	reviewImgDelete($me_id);
 
 	if($p == "1")
 		goto_url(BV_MSHOP_URL."/view_user.php?gs_id=$gs_id");
 	else
-		goto_url(BV_MSHOP_URL."/view.php?gs_id=$gs_id");		
+		goto_url(BV_MSHOP_URL."/view.php?gs_id=$gs_id");
 }
 ?>

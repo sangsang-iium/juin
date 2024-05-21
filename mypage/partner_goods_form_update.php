@@ -111,8 +111,8 @@ if($_POST['simg_type']) { // URL 입력
 } else {
 	for($i=1; $i<=6; $i++) {
 		if($img = $_FILES['simg'.$i]['name']) {
-			if(!preg_match("/\.(gif|jpg|png)$/i", $img)) {
-				alert("이미지가 gif, jpg, png 파일이 아닙니다.");
+			if(!preg_match("/\.(gif|jpg|jpeg|png|heic)$/i", $img)) {
+				alert("이미지가 gif, jpg, jpeg, png, heic 파일이 아닙니다.");
 			}
 		}
 		if($_POST['simg'.$i.'_del']) {
