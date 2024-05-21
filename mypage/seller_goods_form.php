@@ -954,7 +954,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 
 <script>
   // 정산방식 추가 _20240430_SY
-  
+
   function stringNumberToInt(stringNumber){
       return parseInt(stringNumber.replace(/,/g , ''));
   }
@@ -1050,18 +1050,18 @@ $income_per = ($supply_price / $goods_price) * 100;
   //   let goods_price  = stringNumberToInt($('#goods_price').val());  // 판매가
   //   let normal_price = stringNumberToInt($('#normal_price').val()); // 회원판매가
 
-    
+
   //   if(normal_price > 0) {
   //     income_type1.html("");
   //     income_type2.html("");
-  
+
   //     // (판매가) - (매입가) = (이익금)
   //     let income_price = (normal_price > goods_price) ? (normal_price - supply_price) : (goods_price - supply_price);
   //     // (이익금) / (판매가) = (이익률 x 100)
   //     let income_percent = (normal_price > goods_price) ? ((normal_price - supply_price)/normal_price)*100 : ((goods_price - supply_price)/goods_price)*100
-    
+
   //     console.log(income_price, income_percent);
-    
+
   //     if(income_price > 0 && income_percent > 0) {
   //       income_type1.html("<span class='fc_197'>("+income_price+"원)</span>");
   //       income_type2.html("<span class='fc_197'>("+Math.round(income_percent)+"%)</span>");
@@ -1095,20 +1095,20 @@ $income_per = ($supply_price / $goods_price) * 100;
 		<th scope="row">배송정보</th>
 		<td>
 			<select name="sc_type" onChange="chk_sc_type(this.value);">
-				<?php echo option_selected('0', $gs['sc_type'], '공통설정'); ?>
+				<?php //echo option_selected('0', $gs['sc_type'], '공통설정'); ?>
 				<?php echo option_selected('1', $gs['sc_type'], '무료배송'); ?>
-				<?php echo option_selected('2', $gs['sc_type'], '조건부무료배송'); ?>
-				<?php echo option_selected('3', $gs['sc_type'], '유료배송'); ?>
+				<?php //echo option_selected('2', $gs['sc_type'], '조건부무료배송'); ?>
+				<?php //echo option_selected('3', $gs['sc_type'], '유료배송'); ?>
 			</select>
 			<a href="./page.php?code=seller_baesong" target="_blank" class="btn_small grey">설정</a>
-			<div id="sc_method" class="mart7">
+			<!-- <div id="sc_method" class="mart7">
 				배송비결제
 				<select name="sc_method" class="marl10">
 				<?php echo option_selected('0', $gs['sc_method'], '선불'); ?>
 				<?php echo option_selected('1', $gs['sc_method'], '착불'); ?>
 				<?php echo option_selected('2', $gs['sc_method'], '사용자선택'); ?>
 				</select>
-			</div>
+			</div> -->
 			<div id="sc_amt" class="padt5">
 				기본배송비 <input type="text" name="sc_amt" value="<?php echo number_format($gs['sc_amt']); ?>" class="frm_input w80 marl10" onkeyup="addComma(this);"> 원
 				<label class="marl10"><input type="checkbox" name="sc_each_use" value="1"<?php echo get_checked('1', $gs['sc_each_use']); ?>> 묶음배송불가</label>
@@ -1122,67 +1122,42 @@ $income_per = ($supply_price / $goods_price) * 100;
 		<th scope="row">추가설명</th>
 		<td><input type="text" name="zone_msg" value="<?php echo $gs['zone_msg']; ?>" class="frm_input" size="50" placeholder="예 : 제주 (도서지역 제외)"></td>
 	</tr>
-	<?php if ($w != 'u') {?>
 	<tr>
 		<th scope="row">배송가능 지역</th>
 		<td>
-			<select id="zone" name="zone[]" onchange="subZone(this, this.value);">
+			<div class="area_zone">
+				<ul>
 				<?php
 					$sql_zone = "SELECT areacode, areaname FROM area
-																	GROUP BY areacode ";
-						$res_zone = sql_query($sql_zone);
+																	GROUP BY areacode ORDER BY areacode ASC";
+					$res_zone = sql_query($sql_zone);
+					$gs_zone_arr = explode("||", $gs['zone']);
 
-						while ($row_zone = sql_fetch_array($res_zone)) {
-							echo option_selected($row_zone['areaname'], $gs['zone'], $row_zone['areaname']);
-						}
+					for ($ii=0; $row_zone = sql_fetch_array($res_zone); $ii++) {
+						$gs_zone = explode(",", $gs_zone_arr[$ii]);
 				?>
-			</select>
-			<select name="zone2[]">
-			</select>
-			<button type="button" class="icon-plus blue w25" onclick="addRow(event)"></button>
+					<li>
+						<div>
+							<?php echo $row_zone['areaname'] ?>
+							<input type="hidden" name="zone[]" id="zone" value="<?php echo $row_zone['areaname'] ?> ">
+						</div>
+						<div>
+							<select id="delivery_mg" name="delivery_mg[]">
+								<option value="">해당없음</option>
+							<?php
+							$delivery_mg = explode(",", $config['delivery_mg']);
+							for ($i = 0; $i < count($delivery_mg); $i++) {
+									echo option_selected($delivery_mg[$i], $gs_zone[2], $delivery_mg[$i]);
+							}
+							?>
+							</select>
+						</div>
+					</li>
+					<?php } ?>
+				</ul>
+			</div>
 		</td>
 	</tr>
-	<?php } else {
-  $gs_zone_arr = explode("||", $gs['zone']);
-  for ($z = 0; $z < count($gs_zone_arr); $z++) {
-    $gs_zone = explode(",", $gs_zone_arr[$z]);
-    ?>
-	<tr>
-		<th scope="row">배송가능 지역</th>
-		<td>
-
-			<select id="zone" name="zone[]" onchange="subZone(this, this.value);">
-				<?php
-$sql_zone = "SELECT areacode, areaname FROM area
-												GROUP BY areacode ";
-    $res_zone = sql_query($sql_zone);
-
-    while ($row_zone = sql_fetch_array($res_zone)) {
-      echo option_selected($row_zone['areaname'], $gs_zone[0], $row_zone['areaname']);
-    }
-    ?>
-			</select>
-			<select name="zone2[]">
-				<?php
-$sql_zone = "SELECT areacode2 , areaname2 FROM `area`
-												WHERE areaname = '{$gs_zone[0]}'
-												GROUP BY areacode2 ";
-    $res_zone = sql_query($sql_zone);
-
-    while ($row_zone = sql_fetch_array($res_zone)) {
-      echo option_selected($row_zone['areaname2'], $gs_zone[1], $row_zone['areaname2']);
-    }
-    ?>
-			</select>
-			<?php if ($z == 0) {?>
-			<button type="button" class="icon-plus blue w25" onclick="addRow(event)"></button>
-			<?php } else {?>
-				<button type='button' class='icon-miners blue w25' onclick='deleteRow(this)'></button>
-				<?php }?>
-		</td>
-	</tr>
-		<?php }
-}?>
 
 	</tbody>
 	</table>
@@ -1190,6 +1165,22 @@ $sql_zone = "SELECT areacode2 , areaname2 FROM `area`
 </section>
 
 <?php echo $frm_submit; ?>
+<style>
+	.area_zone ul {
+		display: flex;
+    flex-wrap: wrap;
+	}
+	.area_zone li {
+		width: 20%;
+	}
+	.area_zone li div {
+		display: inline-block;
+	}
+	.area_zone li div:first-child{
+		width: 50px;
+	}
+
+</style>
 
 <section id="anc_sitfrm_compact">
 <h2>요약정보</h2>
@@ -1280,7 +1271,7 @@ $(function(){
 
 <?php echo $frm_submit; ?>
 
-<section id="anc_sitfrm_relation">
+<section id="anc_sitfrm_relation" style="display:none">
 <h2>관련상품</h2>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
@@ -1407,7 +1398,7 @@ $(function(){
 </div>
 </section>
 
-<?php echo $frm_submit; ?>
+<?php //echo $frm_submit; ?>
 
 <section id="anc_sitfrm_img">
 <h2>상품이미지 및 상세정보</h2>

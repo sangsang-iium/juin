@@ -88,8 +88,8 @@ if ($_FILES['excelfile']['tmp_name']) {
     $model        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 모델명
     $brand_nm     = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 브랜드
     $notax        = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 과세설정
-    $zone         = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 판매가능지역
-    $zone_mg      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 배송관리업체
+    // $zone         = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 판매가능지역
+    // $zone_mg      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 배송관리업체
     $zone_msg     = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 판매가능지역 추가설명
     $origin       = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 원산지
     $maker        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 제조사
@@ -124,6 +124,14 @@ if ($_FILES['excelfile']['tmp_name']) {
     $admin_memo   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 관리자메모
     $zone_set   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 관리자메모
 
+    $areanames     = [];
+    $numberOfAreas = 19;
+
+    for ($zz = 0; $zz < $numberOfAreas; $zz++) {
+      $areanames[$zz] = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));
+    }
+
+
     if (!$mb_id || !$gcode || !$gname) {
       $fail_count++;
       continue;
@@ -143,25 +151,15 @@ if ($_FILES['excelfile']['tmp_name']) {
 
     $zone_all = "";
 
-    if ($zone === "전국") {
-      $zone_all = $zone; // 결과에 그대로 입력된 지역 정보를 저장
-    } else {
-			$zoneArr = explode(",", $zone); // ["대전/동구", "대전/중구"]
-			$mgArr = explode(",", $zone_mg); // zone_mg
+    $sql_zone = "SELECT areacode, areaname FROM area
+                        GROUP BY areacode ";
+    $res_zone = sql_query($sql_zone);
 
-      for ($z = 0; $z < count($zoneArr); $z++) {
-        $parts = explode("/", $zoneArr[$z]); // 지역 정보를 도시와 구/군으로 분리
-
-        if (count($parts) === 2) {
-          $city     = $parts[0];
-          $district = $parts[1];
-
-          if (!empty($zone_all)) {
-            $zone_all .= '||';
-          }
-
-          $zone_all .= $city . ',' . $district.','.$mgArr[$z];
-        }
+    for ($z = 0; $row = sql_fetch_array($res_zone); $z++) {
+      if ($z == 0) {
+        $zone_all = $row['areaname'] . ',,' . $areanames[$z];
+      } else {
+        $zone_all = $zone_all . "||" . $row['areaname'] . ',,' . $areanames[$z];
       }
     }
 

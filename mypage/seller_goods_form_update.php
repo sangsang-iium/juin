@@ -123,15 +123,12 @@ if($_POST['simg_type']) { // URL 입력
 }
 $zone_all = "";
 for ($z = 0; $z < count($_POST['zone']); $z++) {
-  if ($_POST['zone'][$z] && $_POST['zone2'][$z]) {
-    if ($z == 0) {
-      $zone_all = $_POST['zone'][$z] . ',' . $_POST['zone2'][$z];
-    } else {
-      $zone_all = $zone_all . "||" . $_POST['zone'][$z] . ',' . $_POST['zone2'][$z];
-    }
+  if ($z == 0) {
+    $zone_all = $_POST['zone'][$z] . ',' . $_POST['zone2'][$z] . ',' . $_POST['delivery_mg'][$z];
+  } else {
+    $zone_all = $zone_all . "||" . $_POST['zone'][$z] . ',' . $_POST['zone2'][$z] . ',' . $_POST['delivery_mg'][$z];
   }
 }
-
 if($_POST['supply_type'] != '1') {
   $income_per_type = 0;
 } else {

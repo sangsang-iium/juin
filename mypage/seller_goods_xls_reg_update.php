@@ -86,7 +86,7 @@ if($_FILES['excelfile']['tmp_name']) {
 		$model			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 모델명
 		$brand_nm		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 브랜드
 		$notax			= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 과세설정
-		$zone			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 판매가능지역
+		// $zone			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 판매가능지역
 		$zone_msg		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 판매가능지역 추가설명
 		$origin			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 원산지
 		$maker			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 제조사
@@ -120,6 +120,14 @@ if($_FILES['excelfile']['tmp_name']) {
 		$admin_memo		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 관리자메모
     $sgcode		  = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 가맹점상품코드 _20240315_SY
 
+		$areanames     = [];
+		$numberOfAreas = 19;
+
+		for ($zz = 0; $zz < $numberOfAreas; $zz++) {
+			$areanames[$zz] = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));
+		}
+
+
         if(!$gcode || !$gname) {
             $fail_count++;
             continue;
@@ -136,6 +144,20 @@ if($_FILES['excelfile']['tmp_name']) {
             continue;
         }
 
+		$zone_all = "";
+
+		$sql_zone = "SELECT areacode, areaname FROM area
+										GROUP BY areacode ";
+		$res_zone = sql_query($sql_zone);
+
+		for ($z = 0; $row = sql_fetch_array($res_zone); $z++) {
+			if ($z == 0) {
+				$zone_all = $row['areaname'] . ',,' . $areanames[$z];
+			} else {
+				$zone_all = $zone_all . "||" . $row['areaname'] . ',,' . $areanames[$z];
+			}
+		}
+
 		unset($value);
 		$value['use_aff']		= 0; // 본사상품으로 설정
 		$value['shop_state']	= $config['seller_reg_auto']; //자동승인여부
@@ -151,7 +173,7 @@ if($_FILES['excelfile']['tmp_name']) {
 		$value['brand_uid']		= get_brand_chk($brand_nm); // 브랜드주키
 		$value['brand_nm']		= $brand_nm; // 브랜드명
 		$value['notax']			= $notax; // 과세설정
-		$value['zone']			= $zone; // 판매가능지역
+		$value['zone']			= $zone_all; // 판매가능지역
 		$value['zone_msg']		= $zone_msg; // 판매가능지역 추가설명
 		$value['origin']		= $origin; // 원산지
 		$value['maker']			= $maker; // 제조사
