@@ -96,20 +96,21 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
     $t_turnstr = truncateString($row_gs['gname'], 10);
   }
 
-  $t_amount    = $_POST['tot_price'];
+  $t_amount    = str_replace(',', '', $_POST['tot_price']);
   $t_orderid   = $od_id;
   $t_ordername = $t_turnstr;
   $t_name      = $_POST['name'];
   $t_bank      = $_POST['bank_code'];
   $t_email     = $_POST['customerEmail'];
 
+
   $TossVirtualAcc = new Tosspay();
   $toss_acc       = $TossVirtualAcc->virtualAcc($t_amount, $t_orderid, $t_ordername, $t_name, $t_email, $t_bank);
   if ($toss_acc->code) {
     if ($resulturl == 'pc') {
-      alert("결제 오류 ".$toss_acc->code, BV_URL . '/cart.php');
+      alert("가상계좌 결제 오류 ".$t_amount. $t_orderid .$t_ordername .$t_name. $t_email .$t_bank, BV_URL . '/cart.php');
     } else {
-      alert("결제 오류 ".$toss_acc->code, BV_MSHOP_URL . '/cart.php');
+      alert("가상계좌 결제 오류 ".$t_amount .$t_orderid .$t_ordername .$t_name .$t_email .$t_bank, BV_MSHOP_URL . '/cart.php');
     }
   }
 
@@ -177,7 +178,7 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
 
   $billingkey      = $row_card['cr_billing'];
   $t_ckey          = $row_card['cr_customer_key'];
-  $t_amount        = $_POST['tot_price'];
+  $t_amount        = str_replace(',', '', $_POST['tot_price']);
   $t_orderid       = $od_id;
   $t_ordername     = $t_turnstr;
   $t_taxfreeamount = 0;
