@@ -188,15 +188,28 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 
 			// 계좌정보
 			if($disp_bank) {
+				foreach ($BANKS as $k => $v) {
+					if ($od['vaBankCode'] == $v['code']) {
+						$bankName = $v['bank'];
+					}
+				}
 			?>
 			<tr>
+				<th scope="row">가상계좌 입금자명</th>
+				<td><?php echo $od['vaCustomerName']; ?></td>
+			</tr>
+			<tr>
+				<th scope="row">가상계좌</th>
+				<td><?php echo '(' . $bankName . ') ' . $od['vaAccountNumber']; ?></td>
+			</tr>
+			<!-- 기존 소스 <tr>
 				<th scope="row">입금자명</th>
 				<td><?php echo get_text($od['deposit_name']); ?></td>
 			</tr>
 			<tr>
 				<th scope="row">입금계좌</th>
 				<td><?php echo get_text($od['bank']); ?></td>
-			</tr>
+			</tr> -->
 			<?php
 			}
 

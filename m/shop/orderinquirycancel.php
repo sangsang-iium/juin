@@ -11,8 +11,15 @@ if ($token && get_session("ss_token") == $token) {
 }
 
 // $od = sql_fetch(" select * from shop_order where od_id = '$od_id' and mb_id = '{$member['id']}' ");
+$sql1 = "select * from shop_order where od_id = '$od_id' and mb_id = '{$member['id']}'";
+$od1  = sql_fetch($sql1);
+if ($od1['paymethod'] == '무통장') {
+  $JOIN = "JOIN toss_virtual_account b";
+} else {
+  $JOIN = "JOIN toss_transactions b";
+}
 $od = sql_fetch("SELECT * FROM shop_order a
-                    JOIN toss_transactions b
+                    $JOIN
                     ON (a.od_id = b.orderId)
                     WHERE a.od_id = '{$od_id}'
                     AND mb_id = '{$member['id']}'");
@@ -146,11 +153,14 @@ if ($od['od_tno'] || $od['paymentKey']) {
       $tossCC = new Tosspay();
       // $credential = "test_sk_DpexMgkW36ZvQYYo5Rx93GbR5ozO";
       $tossRes = $tossCC->cancel($od['paymentKey'], $_POST['cancel_memo']);
-
       $tossModel           = new IUD_Model();
       $ts_update['status'] = 'CANCELED';
       $ts_where            = "WHERE orderId = '{$od_id}'";
-      $tossModel->update('toss_transactions', $ts_update, $ts_where);
+      if ($od['paymethod'] == '무통장') {
+        $tossModel->update('toss_virtual_account', $ts_update, $ts_where);
+      } else {
+        $tossModel->update('toss_transactions', $ts_update, $ts_where);
+      }
 
       break;
   }
