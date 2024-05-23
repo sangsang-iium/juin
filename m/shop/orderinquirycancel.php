@@ -153,8 +153,20 @@ if ($od['od_tno'] || $od['paymentKey']) {
       $tossCC = new Tosspay();
       // $credential = "test_sk_DpexMgkW36ZvQYYo5Rx93GbR5ozO";
       $tossRes = $tossCC->cancel($od['paymentKey'], $_POST['cancel_memo']);
-      $tossModel           = new IUD_Model();
-      $ts_update['status'] = 'CANCELED';
+      $cancelData = [
+        'transactionKey'     => $tossRes->cancels->transactionKey,
+        'cancelReason'       => $tossRes->cancels->cancelReason,
+        'taxExemptionAmount' => $tossRes->cancels->taxExemptionAmount,
+        'canceledAt'         => $tossRes->cancels->canceledAt,
+        'cancelStatus'       => $tossRes->cancels->cancelStatus,
+        'cancelAmount'       => $tossRes->cancels->cancelAmount,
+        'taxFreeAmount'      => $tossRes->cancels->taxFreeAmount,
+        'refundableAmount'   => $tossRes->cancels->refundableAmount,
+      ];
+
+      $tossModel            = new IUD_Model();
+      $ts_update['status']  = 'CANCELED';
+      $ts_update['cancels'] = json_encode($cancelData);
       $ts_where            = "WHERE orderId = '{$od_id}'";
       if ($od['paymethod'] == '무통장') {
         $tossModel->update('toss_virtual_account', $ts_update, $ts_where);
