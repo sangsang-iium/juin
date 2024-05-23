@@ -449,7 +449,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
           </section> -->
           <!-- } 주문자 및 수령자 기본형식 -->
 
-          
+
           <div class="od-ct">
             <div class="od-dtn-info">
               <?php // 배송지 수정 _20240503_SY
@@ -467,7 +467,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                     } else if($res['b_base'] == '0') {
                       $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
                     } else {
-                      if(!empty($member['addr1'])) { 
+                      if(!empty($member['addr1'])) {
                         $addr1 = print_address($member['addr1'], $member['addr2'], $member['addr3'], '');
                         $cellphone = $member['cellphone'];
                       } else if(!empty($member['ju_addr_full'])) {
@@ -497,7 +497,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               <button type="button" class="ui-btn st3 od-dtn__change">변경</button>
             </div>
           </div>
-          
+
           <!-- 배송요청사항 추가 _20240507_SY -->
           <div class="od-ct">
             <div class="od-dtn-info">
@@ -615,11 +615,11 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                 <ul class="prc-tot2">
                   <li>
                     <span class="lt-txt">즉시할인</span>
-                    <span class="rt-txt">0</span>
+                    <span class="rt-txt">0원</span>
                   </li>
                   <li>
                     <span class="lt-txt ">쿠폰할인</span>
-                    <span class="rt-txt cpdc_amt" id="cpdc_amt">0</span>
+                    <span class="rt-txt cpdc_amt" id="cpdc_amt">0원</span>
                   </li>
                 </ul>
               </li>
@@ -754,7 +754,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               <div class="odf_tbl">
                 <table>
                   <tbody>
-                    <tr>
+                    <!-- <tr>
                       <th scope="row">무통장계좌</th>
                       <td>
                         <?php echo mobile_bank_account("bank"); ?>
@@ -763,6 +763,23 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                     <tr>
                       <th scope="row">입금자명</th>
                       <td><input type="text" name="deposit_name" value="<?php echo $member['name']; ?>" class="frm-input w-per100">
+                      </td>
+                    </tr> -->
+                    <tr>
+                      <th scope="row">은행</th>
+                      <td>
+                        <select id="bank_code" name="bank_code" class="frm-select w-per100">
+                          <option value="">은행 선택</option>
+                          <?php
+                            foreach($BANKS as $bkCode => $v ) { ?>
+                              <option value="<?php echo $v['code'] ?>"><?php echo $v['bank'] ?></option>
+                          <?php } ?>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">이메일</th>
+                      <td><input type="text" name="customerEmail" value="" class="frm-input w-per100">
                       </td>
                     </tr>
                   </tbody>
@@ -846,6 +863,21 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               </div>
             </section>
 
+            <section id="card_section" style="display:none;" >
+              <h2 class="anc_tit">신용카드 선택</h2>
+              <div class="odf_tbl">
+                <select name="cardsel" id="cardsel">
+                  <?php
+                    $sqlCard = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+                    $resCard = sql_query($sqlCard);
+                    for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {
+                  ?>
+                    <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use']=="Y"?"selected":"" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
+                  <?php } ?>
+                </select>
+              </div>
+            </section>
+
             <script>
               function toggleTaxDocument(documentType) {
                 if (documentType === 'cash_receipt') {
@@ -910,9 +942,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
 
 
-
-
-      <div class="btn_confirm">
+      <div class="btn_confirm" class="btn_confirm">
         <div class="container">
           <input type="submit" value="주문하기" class="btn_medium btn-buy">
           <!-- 시안대로 금액표시할 경우 사용
@@ -926,6 +956,9 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
         </div>
       </div>
     </form>
+    <!-- <div id="btn_confirm2" class="btn_confirm">
+    <button class="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
+    </div> -->
   </div>
 </div>
 
@@ -969,63 +1002,122 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
   </div>
 </div>
 <!-- } 배송지 추가 팝업 -->
+<!-- <script>
 
+  const button = document.getElementById("payment-button");
+  const coupon = document.getElementById("coupon-box");
+  const odId = '<?php echo get_session('ss_order_id'); ?>';
+
+  const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
+  const customerKey = '<?php echo $member['id']?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
+  var amount = 2000;
+
+  const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
+    // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
+    // ------  결제 UI 렌더링 ------
+    // @docs https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
+  paymentMethodWidget = paymentWidget.renderPaymentMethods(
+    "#payment-method",
+    { value: amount },
+    // 렌더링하고 싶은 결제 UI의 variantKey
+    // 결제 수단 및 스타일이 다른 멀티 UI를 직접 만들고 싶다면 계약이 필요해요.
+    // @docs https://docs.tosspayments.com/guides/payment-widget/admin#멀티-결제-ui
+    { variantKey: "DEFAULT" }
+  );
+  // ------  이용약관 UI 렌더링 ------
+  // @docs https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자-옵션
+  paymentWidget.renderAgreement("#agreement", { variantKey: "AGREEMENT" });
+
+  //  ------  결제 UI 렌더링 완료 이벤트 ------
+  paymentMethodWidget.on("ready", function () {
+    button.disabled = false;
+    coupon.disabled = false;
+  });
+
+  // ------  결제 금액 업데이트 ------
+  // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
+  coupon.addEventListener("change", function () {
+    if (coupon.checked) {
+      paymentMethodWidget.updateAmount(amount - 5000);
+    } else {
+      paymentMethodWidget.updateAmount(amount);
+    }
+  });
+
+  var formSubmitOrder = $("#buyform").serialize();
+  // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+  // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
+  button.addEventListener("click", function () {
+    // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
+    // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
+    paymentWidget.requestPayment({
+      orderId: odId,
+      orderName: "토스 티셔츠 외 2건",
+      successUrl: window.location.origin+"/m/theme/basic/success.php",
+      failUrl: window.location.origin + "/fail.php",
+      customerEmail: "jjh@iium.kr",
+      customerName: "김토스",
+      customerMobilePhone: "01068620286",
+    });
+  });
+
+</script> -->
 <script type="module">
-import * as f from '/src/js/function.js';
+  import * as f from '/src/js/function.js';
 
-$(function () {
-  //배송지 목록 팝업
-  const delvPopId = "delv-popup";
+  $(function () {
+    //배송지 목록 팝업
+    const delvPopId = "delv-popup";
 
-  $(".od-dtn__change").on("click", function () {
+    $(".od-dtn__change").on("click", function () {
+      // win_open('./orderaddress.php','win_address');
+
+      $.ajax({
+        url: '/m/shop/orderaddress.php',
+        success: function (data) {
+          $(`#${delvPopId}`).find(".pop-content-in").html(data);
+          $(".popDim").show();
+          f.popupOpen(delvPopId);
+        }
+      });
+    });
+
+    //배송지 추가 팝업
+    const delvWritePopId = "delv-write-popup";
+
+    $(`#${delvPopId}`).on("click", ".od-dtn__add", function () {
+      $.ajax({
+        url: '/m/shop/orderaddress_write.php',
+        success: function (data) {
+          $(`#${delvWritePopId}`).find(".pop-content-in").html(data);
+          f.popupOpen(delvWritePopId);
+        }
+      });
+    });
+
+    //쿠폰 적용 팝업
+    $(".couponopen").on("click", function () {
+      // const couponpop = "coupon-popup";
+      // $.ajax({
+      //   url: './ordercoupon.php',
+      //   success: function (data) {
+      //     $(`#${couponpop}`).find(".pop-content-in").html(data);
+      //     //$(".popDim").show();
+      //     f.popupOpen(couponpop);
+      //   }
+      // });
+
+      const popId = "#coupon-popup";
+      const reqPathUrl = "/m/shop/ordercoupon.php";
+      const reqMethod = "GET";
+      const reqData = "";
+
+      f.callData(popId, reqPathUrl, reqMethod, reqData, true);
+    });
     // win_open('./orderaddress.php','win_address');
 
-    $.ajax({
-      url: '/m/shop/orderaddress.php',
-      success: function (data) {
-        $(`#${delvPopId}`).find(".pop-content-in").html(data);
-        $(".popDim").show();
-        f.popupOpen(delvPopId);
-      }
-    });
+
   });
-
-  //배송지 추가 팝업
-  const delvWritePopId = "delv-write-popup";
-
-  $(`#${delvPopId}`).on("click", ".od-dtn__add", function () {
-    $.ajax({
-      url: '/m/shop/orderaddress_write.php',
-      success: function (data) {
-        $(`#${delvWritePopId}`).find(".pop-content-in").html(data);
-        f.popupOpen(delvWritePopId);
-      }
-    });
-  });
-
-  //쿠폰 적용 팝업
-  $(".couponopen").on("click", function () {
-    // const couponpop = "coupon-popup";
-    // $.ajax({
-    //   url: './ordercoupon.php',
-    //   success: function (data) {
-    //     $(`#${couponpop}`).find(".pop-content-in").html(data);
-    //     //$(".popDim").show();
-    //     f.popupOpen(couponpop);
-    //   }
-    // });
-
-    const popId = "#coupon-popup";
-    const reqPathUrl = "/m/shop/ordercoupon.php";
-    const reqMethod = "GET";
-    const reqData = "";
-
-    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
-  });
-  // win_open('./orderaddress.php','win_address');
-
-
-});
 </script>
 
 <script>
@@ -1170,10 +1262,26 @@ $(function () {
       if ((f.od_pwd.value.length < 3) || (f.od_pwd.value.search(/([^A-Za-z0-9]+)/) != -1))
         error_field(f.od_pwd, "회원이 아니신 경우 주문서 조회시 필요한 비밀번호를 3자리 이상 입력해 주십시오.");
     }
+    if (f . bank_code . value == "") {
+      alert("가상계좌 은행 선택하세요.");
+      f . bank_code . focus();
+
+      return false;
+    }
 
     if (getSelectVal(f["paymethod"]) == '무통장') {
-      check_field(f.bank, "입금계좌를 선택하세요");
-      check_field(f.deposit_name, "입금자명을 입력하세요");
+      if (f . bank_code . value == "") {
+        alert("가상계좌 은행 선택하세요.");
+        f . bank_code . focus();
+
+        return false;
+      }
+      if (f . customerEmail . value == "") {
+        alert("가상계좌 받으실 메일 작성하세요.");
+        f . customerEmail . focus();
+
+        return false;
+      }
     }
 
     <?php if (!$config['company_type']) { ?>
@@ -1285,7 +1393,7 @@ $(function () {
       calculate_order_price();
 
       $("#refund_section").show();
-      
+
       <?php if (!$config['company_type']) { ?>
         $("#taxsave_section").show();
       <?php } ?>
@@ -1296,6 +1404,8 @@ $(function () {
     switch (type) {
       case '무통장':
         $("#bank_section").show();
+        $("#card_section").hide();
+        $("#toss_section").hide();
         $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         calculate_order_price();
@@ -1306,12 +1416,31 @@ $(function () {
           $("#taxsave_section").show();
         <?php } ?>
         break;
+      case '일반':
+        $("#toss_section").show();
+        $("#card_section").hide();
+        $("#bank_section").hide();
+        $("input[name=use_point]").val(0);
+        $("input[name=use_point]").attr("readonly", false);
+        $("#taxsave_section").hide();
+        $("#taxbill_section").hide();
+        $("#taxsave_fld_1").hide();
+        $("#taxsave_fld_2").hide();
+        calculate_order_price();
+
+        $("#refund_section").hide();
+
+        break;
+      case '신용카드':
+        $("#card_section").show();
+        $("#bank_section").hide();
+        $("#toss_section").hide();
       case '포인트':
         $("#bank_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
         $("input[name=use_point]").attr("readonly", true);
         calculate_order_price();
-        
+
         $("#refund_section").hide();
 
         <?php if (!$config['company_type']) { ?>
@@ -1323,12 +1452,14 @@ $(function () {
         break;
       default: // 그외 결제수단
         $("#bank_section").hide();
+        $("#card_section").hide();
+        $("#toss_section").hide();
         $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         calculate_order_price();
 
         $("#refund_section").hide();
-        
+
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").hide();
           $("#taxbill_section").hide();
@@ -1372,6 +1503,10 @@ $(function () {
         break;
       case 'N': //미발행
         $("#taxbill_section").hide();
+        break;
+      default:
+        $("#taxbill_section").hide();
+        $("select[name=taxsave_yes]").val('N');
         break;
     }
   }
