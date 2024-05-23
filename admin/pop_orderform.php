@@ -2,8 +2,18 @@
 define('_NEWWIN_', true);
 include_once('./_common.php');
 
-$sql = " select * from shop_order where od_id = '$od_id' ";
-$od = sql_fetch($sql);
+$sql1 = "SELECT * FROM shop_order WHERE od_id = '$od_id'";
+$od1  = sql_fetch($sql1);
+if ($od1['paymethod'] == '무통장') {
+  $JOIN = "JOIN toss_virtual_account b";
+} else {
+  $JOIN = "JOIN toss_transactions b";
+}
+$od = sql_fetch("SELECT * FROM shop_order a
+								$JOIN
+								ON (a.od_id = b.orderId)
+								WHERE a.od_id = '{$od_id}'
+								");
 if(!$od['od_id']) {
     alert_close("주문서가 존재하지 않습니다.");
 }
@@ -312,12 +322,19 @@ $pg_anchor = '<ul class="anchor">
 					</tr>
 					<?php if(in_array($od['paymethod'], array('무통장', '가상계좌', '계좌이체'))) { ?>
 					<?php
-					if($od['paymethod'] == '무통장')
-						$bank_account = get_bank_account("bank", $od['bank']);
-					else if($od['paymethod'] == '가상계좌')
+					if($od['paymethod'] == '무통장'){
+						// $bank_account = get_bank_account("bank", $od['bank']);
+						foreach ($BANKS as $k => $v) {
+							if ($od['vaBankCode'] == $v['code']) {
+								$bankName = $v['bank'];
+							}
+						}
+						$bank_account = '(' . $bankName . ') ' . $od['vaAccountNumber'];;
+					} else if($od['paymethod'] == '가상계좌'){
 						$bank_account = $od['bank'].'<input type="hidden" name="bank" value="'.$od['bank'].'">';
-					else if($od['paymethod'] == '계좌이체')
+					} else if($od['paymethod'] == '계좌이체'){
 						$bank_account = $od['paymethod'];
+					}
 					?>
 					<?php if(in_array($od['paymethod'], array('무통장', '가상계좌'))) { ?>
 					<tr>
@@ -327,7 +344,7 @@ $pg_anchor = '<ul class="anchor">
 					<?php } ?>
 					<tr>
 						<th scope="row"><label for="deposit_name">입금자명</label></th>
-						<td><input type="text" name="deposit_name" value="<?php echo get_text($od['deposit_name']); ?>" id="deposit_name" class="frm_input" placeholder="실 입금자명"></td>
+						<td><input type="text" name="deposit_name" value="<?php echo get_text($od['vaCustomerName']); ?>" id="deposit_name" class="frm_input" placeholder="실 입금자명"></td>
 					</tr>
 					<tr>
 						<th scope="row"><?php echo $od['paymethod']; ?> 입금액</th>
@@ -697,7 +714,7 @@ $pg_anchor = '<ul class="anchor">
 						<col>
 					</colgroup>
 					<tbody>
-          <?php if($od['taxsave_yes'] == 'S' || $od['taxsave_yes'] == 'Y') { 
+          <?php if($od['taxsave_yes'] == 'S' || $od['taxsave_yes'] == 'Y') {
             if($od['taxsave_yes'] == 'S') {
               $taxsave_type = "사업자 지출증빙용";
               $tax_type_title = "사업자번호 ";
@@ -748,7 +765,7 @@ $pg_anchor = '<ul class="anchor">
               <th scope="row">종목</th>
               <td><?php echo $od['company_service']; ?></td>
             </tr>
-          <?php } if($od['taxsave_yes'] == 'N' && $od['taxbill_yes'] == 'N') { ?> 
+          <?php } if($od['taxsave_yes'] == 'N' && $od['taxbill_yes'] == 'N') { ?>
             <tr>
               <th scope="row">증빙서류 유형</th>
               <td>미발행</td>
