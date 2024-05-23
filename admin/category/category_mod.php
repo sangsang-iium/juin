@@ -56,7 +56,8 @@ if($_POST['mod_type'] == 'u') {
 
 	$sql = "update shop_category
 			   set catename='".trim($catename)."',
-				   headimgurl = '".trim($headimgurl)."'
+				   headimgurl = '".trim($headimgurl)."',
+				   exposure = '".trim($exposure)."'
 			      {$sql_commend}
 			 where index_no='$ca_no' ";
 	sql_query($sql);
@@ -171,6 +172,24 @@ $ca = sql_fetch("select * from shop_category where index_no='$ca_no'");
 		<td><input type="text" name="headimgurl" value="<?php echo $ca['headimgurl']; ?>" class="frm_input" size="50"></td>
 	</tr> -->
 	<?php } ?>
+	
+	<?php if(strlen($ca['catecode']) == 3) {
+		 // 카테고리 회원 등급 설정
+		$memberGradeArr =  memberGradeList();
+		?>
+		<tr>
+			<th scope="row">카테고리 노출</th>
+			<td class="bold">
+				<select name="exposure" id="exposure">
+					<option value="" <?php echo ($ca['exposure'] == "")? "selected":"" ?>>전체</option>
+					<?php foreach ($memberGradeArr as $memberGrade) { ?>
+						<option value="<?php echo $memberGrade['gb_no'] ?>" <?php echo ($ca['exposure'] == $memberGrade['gb_no'])? "selected":"" ?>><?php echo $memberGrade['gb_name'] ?></option>
+					<?php } ?>
+				</select>
+			</td>
+		</tr>
+	<?php } ?>
+	
 	</tbody>
 	</table>
 </div>

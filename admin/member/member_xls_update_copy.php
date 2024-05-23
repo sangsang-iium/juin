@@ -12,6 +12,7 @@ ini_set('memory_limit', '500M');
 // check_admin_token();
 
 $expire = '';
+
 if ($config['cf_point_term'] > 0) {
   $expire = $config['cf_point_term'];
 }
@@ -28,10 +29,22 @@ if ($_FILES['excelfile']['tmp_name']) {
   $data->setOutputEncoding('UTF-8');
 
   /***
-    * if you want you can change 'iconv' to mb_convert_encoding:
-    * $data->setUTFEncoder('mb');
-    *
-    **/
+if($config['cf_point_term'] > 0) {
+    $expire = $config['cf_point_term'];
+}
+
+if($_FILES['excelfile']['tmp_name']) {
+    $file = $_FILES['excelfile']['tmp_name'];
+
+    include_once(BV_LIB_PATH.'/Excel/reader.php');
+
+    $data = new Spreadsheet_Excel_Reader();
+
+    // Set output Encoding.
+    $data->setOutputEncoding('UTF-8');
+
+    /***
+
 
   /***
     * By default rows & cols indeces start with 1
@@ -41,6 +54,7 @@ if ($_FILES['excelfile']['tmp_name']) {
     **/
 
   /***
+
     * Some function for formatting output.
     * $data->setDefaultFormat('%.2f');
     * setDefaultFormat - set format for columns with unknown formatting
@@ -55,6 +69,7 @@ if ($_FILES['excelfile']['tmp_name']) {
 	print_r($data);
 
   /*
+
 	$data->sheets[0]['numRows'] - count rows
 	$data->sheets[0]['numCols'] - count columns
 	$data->sheets[0]['cells'][$i][$j] - data from $i-row $j-column
@@ -100,12 +115,46 @@ if ($_FILES['excelfile']['tmp_name']) {
 
     // id, name 값이 없다면?
     // if(!$mb_id || !$mb_name) {
-    //         $fail_count++;
-    //         continue;
-    //     }
+    error_reporting(E_ALL ^ E_NOTICE);
+
+    $dup_mb_id = array();
+    $dup_count = 0; // 중복건수
+    $total_count = 0; // 총회원수
+    $fail_count = 0; // 실패건수
+    $succ_count = 0; // 완료건수
+
+    var_dump($data->sheets);
+    
+    for($i=2; $i<=$data->sheets[0]['numRows']; $i++)
+  {
+		// if(trim($data->sheets[0]['cells'][$i][1]) == '')
+		// 	continue;
+
+		$total_count++;
+
+        $j = 1;
+
+		$idx  = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 번호
+		$b	  = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 지회/지부명
+		$c 	  = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 사업자번호
+		$d    = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 유형
+		$e		= addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 고객명
+		$f	  = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 대표자
+		$g		= addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 대표전화
+		$h	  = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 담당자
+		$ii	  = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 주소
+		$jj		= addslashes(trim(replace_tel($data->sheets[0]['cells'][$i][$j++]))); // 연락처
+		$k		= addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 구매여부
+		$l		= addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 등록일
+		$m		= addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 주소
+		$n		= addslashes(trim($data->sheets[0]['cells'][$i][$j++]));  // 주소풀
+
+		// id, name 값이 없다면?
+		// if(!$mb_id || !$mb_name) {
 
     // id 형식체크
     // if(preg_match("/[^0-9a-z_]+/i", $mb_id)) {
+
     //         $fail_count++;
     //         continue;
     //     }
@@ -147,6 +196,7 @@ if ($_FILES['excelfile']['tmp_name']) {
 
     $succ_count++;
   }
+
 }
 
 ?>
