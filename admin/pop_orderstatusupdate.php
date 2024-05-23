@@ -5,8 +5,6 @@ check_demo();
 
 check_admin_token();
 
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
 
 $chk_count = count($_POST['chk']);
 if(!$chk_count)
@@ -260,9 +258,6 @@ if($od_cancel_change) {
 						$tossCC = new Tosspay();
 						$tossRes = $tossCC->cancel($od['paymentKey'], BV_TIME_YMDHIS.' '.$member['id'].' 주문취소 처리');
 						print_r($tossRes);
-						alert($tossRes);
-
-
 
 						$tossModel           = new IUD_Model();
 						$ts_update['status'] = 'CANCELED';
