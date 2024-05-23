@@ -194,13 +194,24 @@ function category_depth($depth, $upcate = "") {
   if (!$depth) {
     return false;
   }
+
+  global $member;
+  $memberGrade = $member['grade'];
+
   $catecodeLength = 3 * $depth;
   $AND            = $depth > 1 ? "AND upcate = '{$upcate}'" : "";
+
+  // 회원 등급에 따른 카테고리 노출 처리
+  if($memberGrade != 1 && $memberGrade < 10) {
+    $addQueryWhere = " AND (exposure >= '{$memberGrade}' OR exposure = 0 ) ";
+  } else if($memberGrade == 10) { // 비회원 로그인일경우 전체 노출 처리
+    $addQueryWhere = " AND exposure = 0 ";
+  }
 
   $sql_chk = "SELECT * FROM shop_category WHERE catecode = '{$upcate}' ORDER BY caterank asc";
   $res_chk = sql_query($sql_chk);
 
-  $sql    = "SELECT * FROM shop_category WHERE LENGTH(catecode) = {$catecodeLength} {$AND} ORDER BY caterank asc";
+  $sql    = "SELECT * FROM shop_category WHERE LENGTH(catecode) = {$catecodeLength} {$AND} {$addQueryWhere} ORDER BY caterank asc";
   $res    = sql_query($sql);
   $maxRow = sql_num_rows($res);
 

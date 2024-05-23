@@ -127,3 +127,16 @@ function get_paging_popup($write_pages, $cur_page, $total_page, $url, $add="") {
 
   return "<nav class=\"pg_wrap\"><span class=\"pg\">{$str}</span></nav>";
 }
+
+// 회원 등급 정보
+function memberGradeList(){
+  $sql = " SELECT gb_no, gb_name FROM shop_member_grade WHERE gb_no != 1 AND gb_name !='' ";
+  $res  = sql_query($sql);
+  $memberGradeArr = array();
+  while ($row = sql_fetch_array($res)) {
+    $memberGradeArr[] = $row;
+  }
+
+  return $memberGradeArr;
+
+}
