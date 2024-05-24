@@ -167,8 +167,107 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 <!-- } 오늘만 특가상품 -->
 
-<!-- { -->
-<!-- } -->
+<!-- 라이브 { -->
+<div class="section main_live">
+  <div class="container cp-title">
+    <div class="left">
+      <div class="icon-box">
+        <img src="/src/img/icon_liveon.svg" alt="Live ON">
+      </div>
+      <div class="text-box">
+        <h3>주인장 <span class="highlight">LIVE</span></h3>
+        <p class="tp-expl">좋은 제품을 라이브로 만나보세요!</p>
+      </div>
+    </div>
+  </div>
+  <div class="container left main_live-slide">
+    <div class="swiper-container swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
+      <div class="swiper-wrapper" id="swiper-wrapper-5adc34597a07ad06" aria-live="polite">
+        <a href="" class="swiper-slide cp-live swiper-slide-active" role="group" aria-label="1 / 5">
+          <div class="round50 prod-thumb_area">
+            <div href="" class="thumb">
+              <img src="/src/img/t-live.jpg" alt="">
+            </div>
+          </div>
+          <div class="prod-info_area">
+            <div class="round60 live-reserv">
+              <span class="round60 t1">LIVE</span>
+              <span class="t2">1/20 오후 1:00</span>
+            </div>
+            <div class="live-title">주인장 잡곡세트 5종</div>
+          </div>
+        </a>
+        <a href="" class="swiper-slide cp-live swiper-slide-next" role="group" aria-label="2 / 5">
+          <div class="round50 prod-thumb_area">
+            <div href="" class="thumb">
+              <img src="/src/img/t-live.jpg" alt="">
+            </div>
+          </div>
+          <div class="prod-info_area">
+            <div class="round60 live-reserv">
+              <span class="round60 t1">LIVE</span>
+              <span class="t2">1/20 오후 1:00</span>
+            </div>
+            <div class="live-title">주인장 잡곡세트 5종</div>
+          </div>
+        </a>
+        <a href="" class="swiper-slide cp-live" role="group" aria-label="3 / 5">
+          <div class="round50 prod-thumb_area">
+            <div href="" class="thumb">
+              <img src="/src/img/t-live.jpg" alt="">
+            </div>
+          </div>
+          <div class="prod-info_area">
+            <div class="round60 live-reserv">
+              <span class="round60 t1">LIVE</span>
+              <span class="t2">1/20 오후 1:00</span>
+            </div>
+            <div class="live-title">주인장 잡곡세트 5종</div>
+          </div>
+        </a>
+        <a href="" class="swiper-slide cp-live" role="group" aria-label="4 / 5">
+          <div class="round50 prod-thumb_area">
+            <div href="" class="thumb">
+              <img src="/src/img/t-live.jpg" alt="">
+            </div>
+          </div>
+          <div class="prod-info_area">
+            <div class="round60 live-reserv">
+              <span class="round60 t1">LIVE</span>
+              <span class="t2">1/20 오후 1:00</span>
+            </div>
+            <div class="live-title">주인장 잡곡세트 5종</div>
+          </div>
+        </a>
+        <a href="" class="swiper-slide cp-live" role="group" aria-label="5 / 5">
+          <div class="round50 prod-thumb_area">
+            <div href="" class="thumb">
+              <img src="/src/img/t-live.jpg" alt="">
+            </div>
+          </div>
+          <div class="prod-info_area">
+            <div class="round60 live-reserv">
+              <span class="round60 t1">LIVE</span>
+              <span class="t2">1/20 오후 1:00</span>
+            </div>
+            <div class="live-title">주인장 잡곡세트 5종</div>
+          </div>
+        </a>
+      </div>
+      <div class="swiper-control2">
+        <button type="button" class="arrow prev swiper-button-disabled" disabled="" tabindex="-1" aria-label="Previous slide" aria-controls="swiper-wrapper-5adc34597a07ad06" aria-disabled="true"></button>
+        <div class="pagination swiper-pagination-custom swiper-pagination-horizontal"><span class="current">1</span><span class="bar">|</span><span class="total">3</span></div>
+        <button type="button" class="arrow next" tabindex="0" aria-label="Next slide" aria-controls="swiper-wrapper-5adc34597a07ad06" aria-disabled="false"></button>
+      </div>
+    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+  </div>
+  <div class="container bottom_box">
+    <a href="" class="ui-btn round moreLong">
+      <span class="text">전체보기</span>
+    </a>
+  </div>
+</div>
+<!-- } 라이브 -->
 
 </div>
 

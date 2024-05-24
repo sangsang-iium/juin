@@ -96,8 +96,10 @@
 .main_today-slide .cp-item {width: 44rem; margin-right: 2.4rem;}
 .main_today-slide .cp-item .prod-thumb_area {padding-bottom: 82%;}
 
-.main_live .cp-title .icon-box {width: 11.08rem; height: auto; background: none;}
+.main_live .cp-title .icon-box {width: 8rem; height: auto; background: none;}
 .main_live .cp-title .icon-box:after {display: none;}
+.main_live h3 {font-size: 2.8rem;}
+.main_live .tp-expl {font-size: 1.8rem;}
 .main_live-slide .cp-live {width: 44rem; margin-right: 2.4rem;}
 
 /* product */
