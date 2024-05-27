@@ -112,6 +112,7 @@ define('ADMIN_MENU6_09',	'배송전 환불');
 define('ADMIN_MENU6_10',	'배송후 반품');
 define('ADMIN_MENU6_11',	'배송후 교환');
 define('ADMIN_MENU6_12',	'관리자메모');
+define('ADMIN_MENU6_13',    '정기주문 관리');
 
 // 통계분석
 define('ADMIN_MENU7',		'통계분석');
