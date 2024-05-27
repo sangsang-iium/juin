@@ -267,5 +267,10 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu1('m10', '중고장터관리'); ?>
 		<?php echo printMenu2('m10', ADMIN_MENU11_01, BV_ADMIN_URL.'/used.php?code=list'); ?>
 	</dl>
+	<?php }
+	else if($pg_title == ADMIN_MENU12) { ?>
+	<dl>
+		<?php echo printMenu1('j10', '제휴서비스 관리'); ?>
+	</dl>
 	<?php } ?>
 </div>
