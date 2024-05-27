@@ -102,12 +102,12 @@ define('ADMIN_MENU5_28',	'라이브존 목록');
 define('ADMIN_MENU6',		'주문관리');
 define('ADMIN_MENU6_01',	'주문리스트(전체)');
 define('ADMIN_MENU6_02',	'입금대기');
-define('ADMIN_MENU6_03',	'입금완료');
-define('ADMIN_MENU6_04',	'배송준비');
+define('ADMIN_MENU6_03',	'결제완료');
+define('ADMIN_MENU6_04',	'상품준비중');
 define('ADMIN_MENU6_05',	'배송중');
 define('ADMIN_MENU6_06',	'배송완료');
 define('ADMIN_MENU6_07',	'엑셀 배송일괄처리');
-define('ADMIN_MENU6_08',	'입금전 취소');
+define('ADMIN_MENU6_08',	'미결제 취소');
 define('ADMIN_MENU6_09',	'배송전 환불');
 define('ADMIN_MENU6_10',	'배송후 반품');
 define('ADMIN_MENU6_11',	'배송후 교환');
@@ -139,7 +139,7 @@ define('ADMIN_MENU8_03',	'FAQ 분류');
 define('ADMIN_MENU8_04',	'FAQ 관리');
 
 // 디자인관리
-define('ADMIN_MENU9',		'디자인관리');
+define('ADMIN_MENU9',		'배너 관리');
 define('ADMIN_MENU9_01',	'통합 배너관리');
 define('ADMIN_MENU9_02',	'통합 배너관리(모바일)');
 define('ADMIN_MENU9_03',	'로고 관리');
@@ -176,4 +176,7 @@ define('ADMIN_MENU11',		'중고장터관리');
 define('ADMIN_MENU11_01',	'중고장터 게시글 리스트');
 define('ADMIN_MENU11_02',	'중고장터 게시글 등록/수정');
 define('ADMIN_MENU11_03',	'중고장터 게시글 상세');
+
+// 제휴서비스 관리
+define('ADMIN_MENU12',		'제휴 서비스');
 ?>

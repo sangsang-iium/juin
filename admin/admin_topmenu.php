@@ -52,6 +52,11 @@ if(!defined('_BLUEVATION_')) exit;
 				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU10){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/config.php?code=default" class="gnb_1da"><?php echo ADMIN_MENU10; ?></a>
 				</li>
+				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU12){ ?> active<?php } ?>">
+				<!-- 제휴서비스 작업할때 주석 변경 -->
+					<!-- <a href="<?php echo BV_ADMIN_URL; ?>/config.php?code=default" class="gnb_1da"><?php echo ADMIN_MENU12; ?></a> -->
+					<a href="javascript:alert('작업중')" class="gnb_1da"><?php echo ADMIN_MENU12; ?></a>
+				</li>
 			</ul>
 		</nav>
 	</div>
