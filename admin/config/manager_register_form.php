@@ -54,6 +54,12 @@ $region_res = sql_query($region_sel);
       <input type="text" name="manager_pw" id="manager_pw" value="" <?php echo ($w == '') ? 'required' : '' ?> class="frm_input">
     </td>
   </tr>
+  <tr>
+    <th scope="row"><label for="manager_name">이름</label><span>(*)</span></th>
+    <td>
+      <input type="text" name="manager_name" id="manager_name" value="" <?php echo ($w == '') ? 'required' : '' ?> class="frm_input">
+    </td>
+  </tr>
 	<tr>
 		<th scope="row"><label for="kf_region1">지역</label><span>(*)</span></th>
     <td>

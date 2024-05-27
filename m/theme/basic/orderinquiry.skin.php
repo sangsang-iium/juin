@@ -27,7 +27,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           }
 
           $uid = md5($rw['od_id'].$rw['od_time'].$rw['od_ip']);
-
+          
+         $dan_process =  $row['dan'];
           if($k == 0) {
       ?>
       <div class="order-info">
@@ -63,7 +64,29 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </div>
         <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
         <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
+
         <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
+        <?php
+          // 환불 버튼 생성  20240527 박원주 
+          if($dan_process=='3')
+          {
+            ?>
+              <button class="ui-btn ord-review__btn iq-wbtn return-money" data-od-id="<?php echo $rw['od_id'];?>">환불</button>
+            <?php
+          }
+        ?>
+
+<?php
+          // 환불 버튼 생성  20240527 박원주 
+          if($dan_process=='5')
+          {
+            ?>
+              <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>">반품</button>
+              <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>">교환</button>
+            <?php
+          }
+        ?>
+
       </div>
       <?php
         }
@@ -135,4 +158,67 @@ document.querySelectorAll(".reoder-btn").forEach(btn => {
     
   });
 });
+
+//환불  20240527 박원주
+document.querySelectorAll(".return-money").forEach(btn => {
+  btn.addEventListener("click", function(event) {
+    const odId = event.currentTarget.dataset.odId;
+    console.log(odId)
+    $.ajax({
+         url: "./orderinquiry_update.php",
+        type: "POST",
+        data: { "odId": odId,"evt":"return-money" },
+        dataType: "json", 
+        async: false,
+        cache: false,
+        success: function(data, textStatus) {
+          document.location.href = data.url;
+          return false;
+        }
+    });
+    
+  });
+});
+//교환  20240527 박원주
+document.querySelectorAll(".change-product").forEach(btn => {
+  btn.addEventListener("click", function(event) {
+    const odId = event.currentTarget.dataset.odId;
+    console.log(odId)
+    $.ajax({
+      url: "./orderinquiry_update.php",
+        type: "POST",
+        data: { "odId": odId,"evt":"change-product" },
+        dataType: "json", 
+        async: false,
+        cache: false,
+        success: function(data, textStatus) {
+          document.location.href = data.url;
+          
+          return false;
+        }
+    });
+    
+  });
+});
+//반품 20240527 박원주
+document.querySelectorAll(".return-product").forEach(btn => {
+  btn.addEventListener("click", function(event) {
+    const odId = event.currentTarget.dataset.odId;
+    console.log(odId)
+    $.ajax({
+      url: "./orderinquiry_update.php",
+        type: "POST",
+        data: { "odId": odId,"evt":"return-product" },
+        dataType: "json", 
+        async: false,
+        cache: false,
+        success: function(data, textStatus) {
+          document.location.href = data.url; 
+          return false;
+        }
+    });
+    
+  });
+});
+
 </script>

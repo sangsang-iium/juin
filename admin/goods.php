@@ -46,6 +46,7 @@ if($code == "coupon_form")			 $pg_title2 = ADMIN_MENU5_23;
 if($code == "supply2")				 $pg_title2 = ADMIN_MENU5_24;
 if($code == "popular_list")			 $pg_title2 = ADMIN_MENU5_25;
 if($code == "popular_rank")			 $pg_title2 = ADMIN_MENU5_26;
+if($code == "live")			 		 $pg_title2 = ADMIN_MENU5_28;
 
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>

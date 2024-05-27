@@ -1,9 +1,9 @@
 <?php // 지회 Update Form _20240516_SY
 include_once("./_common.php");
 
-// check_demo();
+check_demo();
 
-// check_admin_token();
+check_admin_token();
 
 $db_table   = "kfia_region";
 $kf_code    = preg_replace("/\s+/", "", $_POST['branch_id']);

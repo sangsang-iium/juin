@@ -50,7 +50,7 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
 // }
 ?>
 
-<form name="fmemberform" id="fmemberform" action="./pop_memberformupdate.php" method="post">
+<form name="fmemberform" id="fmemberform" action="./pop_memberformupdate.php" method="post" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="mb_id" value="<?php echo $mb_id; ?>">
 
 <div id="memberform_pop" class="new_win">
@@ -274,6 +274,60 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
 	</script>
 
   <!-- 사업장 주소, 사업자 대표 번호 정보 추가, 대표자 명, 대표 연락처 추가 20240416_SY -->
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services"></script>
+  <?php echo BV_POSTCODE_JS ?>
+  <script>
+  // 주소-좌표 변환 객체를 생성합니다
+  var geocoder = new kakao.maps.services.Geocoder();
+  // 주소로 좌표를 검색합니다
+  function getPosition(){
+      var address = $("#ju_addr_full").val();
+      address = address.trim();
+  
+      geocoder.addressSearch(address, function(result, status) {
+          console.log(result)
+          // 정상적으로 검색이 완료됐으면 
+          if (status === kakao.maps.services.Status.OK) {
+               //var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+               $("#ju_lat").val(result[0].y);
+               $("#ju_lng").val(result[0].x);
+          } else {
+              alert("좌표를 확인할 수 없습니다. 주소를 확인해 주세요.");
+          }
+      });
+  }
+  
+  /* 서브이미지 삭제 */
+  const mb_id = "<?php echo $mb['id'] ?>";
+  $(document).on("click", ".image_del", function(){
+      var img_name = $(this).data("img_name");
+      if(confirm("이미지를 삭제하시겠습니까?")){
+          $.post(bv_admin_url+"/member/ajax.sub.image.del.php", {mb_id:mb_id, img_name:img_name}, function(obj){
+              if(obj=='Y'){
+                  location.reload();
+              }
+          })
+      }
+  });
+  /* 서브이미지 삭제 */
+  </script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+  <script>
+  $(document).ready(function(){
+	$('#work1, #work2, #break1, #break2').timepicker({
+	    timeFormat: 'HH:mm',
+	    interval: 10,
+	    minTime: '00:00',
+	    maxTime: '23:50',
+	    startTime: '00:00',
+	    dynamic: false,
+	    dropdown: true,
+	    scrollbar: true
+	});
+  });
+  </script>
+
   <h3 class="anc_tit mart30">매장정보</h3>
   <div class="tbl_frm01">
     <table class="tablef">
@@ -284,6 +338,94 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
       <col>
     </colgroup>
     <tbody>
+    <tr>
+      <th scope="row">노출여부</th>
+        <td>
+          <input type="radio" name="ju_mem" value="1" id="ju_mem_y"<?php echo get_checked($mb['ju_mem'], '1'); ?>>
+          <label for="ju_mem_y">예</label>
+          <input type="radio" name="ju_mem" value="2" id="ju_mem_n"<?php echo get_checked($mb['ju_mem'], '2'); ?>>
+          <label for="ju_mem_n">아니오</label>
+        </td>
+      <th scope="row">음식점분류</th>
+        <td>
+			<select name="ju_cate" id="ju_cate" required>
+				<option value="">분류 선택</option>
+				<?php
+				foreach($food_categorys as $v){
+				    if($mb['ju_cate']==$v){
+				        echo '<option value="'.$v.'" selected>'.$v.'</option>';
+				    } else {
+				        echo '<option value="'.$v.'">'.$v.'</option>';
+				    }
+				}
+				?>
+			</select>
+        </td>
+    </tr>
+	<tr>
+		<th scope="row">매장 외부 사진<br>(jpg, gif, png)</th>
+		<td colspan="3">
+		    <div class="fl w20p">
+		        <input type="file" name="ju_mimg">
+		        <?php
+		        if($mb['ju_mimg']){
+		            echo '<img src="'.BV_DATA_URL.'/member/'.$mb['ju_mimg'].'" class="w90p">';
+		        }
+		        ?>
+		    </div>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">매장 내부 사진<br>(jpg, gif, png)</th>
+		<td colspan="3">
+		<?php
+		$sub_imgs = explode("|", $mb['ju_simg']);
+		$sub_imgs = array_filter($sub_imgs);
+		$sub_imgs = array_values($sub_imgs);
+		for($i=0;$i < 5;$i++){
+		    echo '<div class="fl w20p"><input type="file" name="ju_simg[]">';
+		    if($sub_imgs[$i]){
+		        echo '<img src="'.BV_DATA_URL.'/member/'.$sub_imgs[$i].'" class="w90p"> &nbsp; <span class="image_del curp fs18" data-img_name="'.$sub_imgs[$i].'">X</span>';
+		    }
+		    echo '</div>';
+		}
+		
+		//운영시간/브레이크타임/휴무일
+		$works = explode("~", $mb['ju_worktime']);
+		$breaks = explode("~", $mb['ju_breaktime']);
+		$offs = explode("|", $mb['ju_off']);
+		$yoils = ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'];
+		?>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">운영시간</th>
+		<td>
+	        <input type="text" class="frm_input" name="worktime[]" id="work1" value="<?php echo $works[0] ?>"> ~ <input type="text" class="frm_input" name="worktime[]" id="work2" value="<?php echo $works[1] ?>">
+		</td>
+		<th scope="row">브레이크타임</th>
+		<td>
+		    <input type="text" class="frm_input" name="breaktime[]" id="break1" value="<?php echo $breaks[0] ?>"> ~ <input type="text" class="frm_input" name="breaktime[]" id="break2" value="<?php echo $breaks[1] ?>">
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">휴무일</th>
+		<td colspan="3">
+		<?php
+		foreach($yoils as $k => $v){
+		    if(in_array($v, $offs)){
+		        echo '<input type="checkbox" name="off[]" id="off'.$k.'" value="'.$v.'" checked><label for="off'.$k.'">'.$v.'</label> &nbsp;';
+		    } else {
+		        echo '<input type="checkbox" name="off[]" id="off'.$k.'" value="'.$v.'"><label for="off'.$k.'">'.$v.'</label> &nbsp;';
+		    }
+		}
+		?>
+		</td>
+	</tr>
+	<tr>
+	    <th scope="row">매장 설명</th>
+	    <td colspan="3"><textarea name="ju_content" class="frm_textbox" rows="3"><?php echo $mb['ju_content']; ?></textarea></td>
+	</tr>
     <tr>
       <th scope="row">상호(법인명)</th>
         <td>
@@ -307,7 +449,13 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
     <tr>
       <th scope="row">사업장 주소</th>
         <td>
-          <input type="text" name="ju_addr_full" value="<?php echo $mb['ju_addr_full']; ?>" class="frm_input" size="60">
+          <input type="text" name="ju_addr_full" id="ju_addr_full" value="<?php echo $mb['ju_addr_full']; ?>" class="frm_input" size="50">
+          <a href="#none" onclick="getPosition();" class="btn_small grey marl10">좌표가져오기</a>
+        </td>
+      <th scope="row">좌표(위도/경도)</th>
+        <td>
+          <input type="text" name="ju_lat" id="ju_lat" value="<?php echo $mb['ju_lat']; ?>" class="frm_input">
+          <input type="text" name="ju_lng" id="ju_lng" value="<?php echo $mb['ju_lng']; ?>" class="frm_input">
         </td>
     </tr>
     <tr>
@@ -335,7 +483,7 @@ $mb_adult_no	= !$mb['mb_adult']	 ? 'checked="checked"' : '';
         <td>
           <input type="text" name="ju_business_type" value="<?php echo $mb['ju_business_type']; ?>" class="frm_input">
         </td>
-      <th scope="row">업종</th>
+      <th scope="row">종목</th>
         <td>
           <input type="text" name="ju_sectors" value="<?php echo $mb['ju_sectors']; ?>" class="frm_input">
         </td>

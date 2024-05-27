@@ -12,6 +12,11 @@ if($admin_id) {
 
 	$member = sql_fetch("select * from shop_member where id = '".$admin_id."'");
 
+  // Manager Check _20240527_SY
+  if(empty($member)) {
+    $member = sql_fetch("SELECT * FROM shop_manager WHERE id = '".$admin_id."'");
+  }
+
 	// 초기화
 	unset($admin_id);
 	set_session('admin_ss_mb_id', '');

@@ -52,6 +52,11 @@ $result = sql_query($sql);
 
 $tb['title'] = '주문/배송조회';
 include_once("./_head.php");
+echo "
+    <script>
+        console.log('".(BV_MTHEME_PATH."/orderinquiry.skin.php")."');
+    </script>
+";
 include_once(BV_MTHEME_PATH."/orderinquiry.skin.php");
 include_once("./_tail.php");
 ?>
