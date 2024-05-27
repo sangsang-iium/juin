@@ -2395,6 +2395,12 @@ function get_member($mb_id, $fileds='*')
 	return sql_fetch("select $fileds from shop_member where id = TRIM('$mb_id')");
 }
 
+// Manager Info _20240524_SY
+function get_manager($mb_id, $fileds='*')
+{
+	return sql_fetch("SELECT $fileds FROM shop_manager WHERE id = TRIM('$mb_id')");
+}
+
 // 생년월일을 기준으로 연령대 뽑기
 function get_birth_age($birth)
 {
@@ -3339,6 +3345,10 @@ function is_admin($grade='')
 	switch($grade)
 	{
 		case '1' :
+			return true;
+			break;
+    // Manager 로그인을 위한 level 2 추가 _20240527_SY
+		case '2' :
 			return true;
 			break;
 		default :

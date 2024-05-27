@@ -2,30 +2,30 @@
 define("_BLUEVATION_", TRUE);
 
 // 권한관리 화면설계 테스트용 데이터 _20240522_SY
-const TEST = [
+define('TEST', [
   'TEST1' => [
       'name' => "회원",
       'data' => [
-          'TEST1_01' => '정보관리',
-          'TEST1_02' => '구분관리'
+          'TEST1_01' => ['정보관리','r,w,d'],
+          'TEST1_02' => ['구분관리','r,w,d']
       ]
   ],
   'TEST2' => [
       'name' => "가맹점",
       'data' => [
-          'TEST2_01' => '환경설정',
-          'TEST2_02' => '수수료정책',
-          'TEST2_03' => '신규신청'
+          'TEST2_01' => ['환경설정','r,w,d'],
+          'TEST2_02' => ['수수료정책','r,w,d'],
+          'TEST2_03' => ['신규신청','r,w,d']
       ],
   ],
   'TEST3' => [
       'name' => "공급사",
       'data' => [
-          'TEST3_01' => '신청목록',
-          'TEST3_02' => '신규등록'
+          'TEST3_01' => ['신청목록','r,w,d'],
+          'TEST3_02' => ['신규등록','r,w,d']
       ],
   ]
-];
+]);
 
 define('ADMIN_MENU1',		'회원관리');
 define('ADMIN_MENU1_01',	'회원 정보관리');
@@ -97,6 +97,7 @@ define('ADMIN_MENU5_24',	'공급사 보류상품');
 define('ADMIN_MENU5_25',	'상품 검색어관리');
 define('ADMIN_MENU5_26',	'상품 검색어순위');
 define('ADMIN_MENU5_27',	'상품등록');
+define('ADMIN_MENU5_28',	'라이브존 목록');
 
 define('ADMIN_MENU6',		'주문관리');
 define('ADMIN_MENU6_01',	'주문리스트(전체)');

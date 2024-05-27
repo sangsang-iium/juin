@@ -30,7 +30,7 @@ if($mb_id == $member['id'] && $mb_grade != $mb['grade']) {
 $sql = " select id, name, email from shop_member where email = '{$_POST['email']}' and id <> '$mb_id' ";
 $row = sql_fetch($sql);
 if($row['id']) {
-	alert('이미 존재하는 이메일입니다.\\nＩＤ : '.$row['id'].'\\n이름 : '.$row['name'].'\\n메일 : '.$row['email']);
+	//alert('이미 존재하는 이메일입니다.\\nＩＤ : '.$row['id'].'\\n이름 : '.$row['name'].'\\n메일 : '.$row['email']);
 }
 
 // 휴대폰번호 체크
@@ -97,12 +97,66 @@ $mfrm['ju_sectors']		    = $_POST['ju_sectors'];
 $mfrm['ju_restaurant']    = $_POST['ju_restaurant'];
 $mfrm['ju_name']          = $_POST['ju_name'];
 $mfrm['ju_addr_full']     = $_POST['ju_addr_full'];
-
+$mfrm['ju_mem'] = $_POST['ju_mem'];
+$mfrm['ju_cate'] = $_POST['ju_cate'];
+$mfrm['ju_lat'] = $_POST['ju_lat'];
+$mfrm['ju_lng'] = $_POST['ju_lng'];
+$mfrm['ju_worktime'] = implode("~", $_POST['worktime']);
+$mfrm['ju_breaktime'] = implode("~", $_POST['breaktime']);
+$mfrm['ju_off'] = implode("|", $_POST['off']);
+$mfrm['ju_content'] = $_POST['ju_content'];
 
 if($_POST['passwd']) {
 	$mfrm['passwd'] = $_POST['passwd']; // 패스워드
 }
 update("shop_member", $mfrm," where id='$mb_id'");
+
+/* 매장 사진 */
+$sub_imgs = explode("|", $mb['ju_simg']);
+$image_regex = "/(\.(jpg|gif|png))$/i";
+$save_dir = BV_DATA_PATH.'/member/';
+$dir = $save_dir.$mb_id;
+
+//폴더생성
+if(!is_dir($dir)) {
+    @mkdir($dir, BV_DIR_PERMISSION);
+    @chmod($dir, BV_DIR_PERMISSION);
+}
+
+// 매장외부 대표 이미지
+if(is_uploaded_file($_FILES['ju_mimg']['tmp_name'])){
+	if(preg_match($image_regex, $_FILES['ju_mimg']['name'])){
+	    $exts = explode(".", $_FILES['ju_mimg']['name']);
+		$save_name = $mb_id.'/main_image.'.strtolower($exts[count($exts)-1]);
+		$dest_path = $save_dir.$save_name;
+		move_uploaded_file($_FILES['ju_mimg']['tmp_name'], $dest_path);
+		chmod($dest_path, BV_FILE_PERMISSION);
+		
+		sql_query(" update shop_member set ju_mimg = '$save_name' where id = '$mb_id' ");
+	}
+}
+
+// 매장내부 서브 이미지
+$idx = time();
+for($i=0;$i < count($_FILES['ju_simg']['tmp_name']);$i++){
+    if(is_uploaded_file($_FILES['ju_simg']['tmp_name'][$i])){
+    	if(preg_match($image_regex, $_FILES['ju_simg']['name'][$i])){
+    	    $exts = explode(".", $_FILES['ju_simg']['name'][$i]);
+    		$save_name = $mb_id.'/sub_image_'.$idx.'.'.strtolower($exts[count($exts)-1]);
+    		$dest_path = $save_dir.$save_name;
+    		move_uploaded_file($_FILES['ju_simg']['tmp_name'][$i], $dest_path);
+    		chmod($dest_path, BV_FILE_PERMISSION);
+    		array_push($sub_imgs, $save_name);
+    		$idx++;
+    	}
+    }
+}
+$sub_imgs = array_filter($sub_imgs);
+$sub_imgs = array_values($sub_imgs);
+$save_img = implode("|", $sub_imgs);
+sql_query(" update shop_member set ju_simg = '$save_img' where id = '$mb_id' ");
+/* 매장 사진 */
+
 
 $mb = get_member($mb_id);
 $pt = get_partner($mb_id);

@@ -8,7 +8,7 @@ $mb_password = trim($_POST['mb_password']);
 if(!$mb_id || !$mb_password)
     alert('회원아이디나 비밀번호가 공백이면 안됩니다.');
 
-$mb = get_member($mb_id);
+$mb = get_manager($mb_id);
 
 // 가입된 회원이 아니다. 패스워드가 틀리다. 라는 메세지를 따로 보여주지 않는 이유는
 // 회원아이디를 입력해 보고 맞으면 또 패스워드를 입력해보는 경우를 방지하기 위해서입니다.
@@ -43,12 +43,6 @@ set_session('ss_mb_id', $mb['id']);
 // FLASH XSS 공격에 대응하기 위하여 회원의 고유키를 생성해 놓는다. 관리자에서 검사함 - 110106
 set_session('ss_mb_key', md5($mb['reg_time'] . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']));
 
-// 포인트 체크
-$sum_point = get_point_sum($mb['id']);
-
-$sql= " update shop_member set point = '$sum_point' where id = '{$mb['id']}' ";
-sql_query($sql);
-
 // 자동로그인 : 아이디 쿠키에 한달간 저장
 if($auto_login) {
     // 쿠키 한달간 저장
@@ -63,7 +57,7 @@ if($auto_login) {
 if($url) {
     // url 체크
     check_url_host($url);
-
+    
     $link = urldecode($url);
     // 2003-06-14 추가 (다른 변수들을 넘겨주기 위함)
     if (preg_match("/\?/", $link))
@@ -76,8 +70,8 @@ if($url) {
 
     foreach($_POST as $key=>$value) {
         if ($key && !in_array($key, $post_check_keys)) {
-          $link .= "$split$key=$value";
-          $split = "&amp;";
+            $link .= "$split$key=$value";
+            $split = "&amp;";
         }
     }
 } else  {
@@ -89,7 +83,8 @@ if($ref_url){
   if($last_object == "logout.php") {
     $link = BV_MURL;
   } else {
-    $link = $ref_url;
+    // $link = $ref_url;
+    $link = BV_URL."/admin/";
   }
 }
 

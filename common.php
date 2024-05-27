@@ -293,6 +293,11 @@ if(isset($_REQUEST['url'])) {
 // 자동로그인 부분에서 첫로그인에 포인트 부여하던것을 로그인중일때로 변경하면서 코드도 대폭 수정하였습니다.
 if($_SESSION['ss_mb_id']) { // 로그인중이라면
 	$member = get_member($_SESSION['ss_mb_id']);
+  
+  // Manager Login Check 추가 _20240527_SY
+  if(empty($member)){
+    $member = get_manager($_SESSION['ss_mb_id']);
+  }
 
     // 차단된 회원이면 ss_mb_id 초기화
     if($member['intercept_date'] && $member['intercept_date'] <= date("Ymd", BV_SERVER_TIME)) {
