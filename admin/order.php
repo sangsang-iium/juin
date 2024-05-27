@@ -24,6 +24,7 @@ if($code == "9")				$pg_title2 = ADMIN_MENU6_09;
 if($code == "7")				$pg_title2 = ADMIN_MENU6_10;
 if($code == "8")				$pg_title2 = ADMIN_MENU6_11;
 if($code == "memo")				$pg_title2 = ADMIN_MENU6_12;
+if($code == "reg_list")				$pg_title2 = ADMIN_MENU6_13;
 
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>
