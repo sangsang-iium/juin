@@ -62,29 +62,28 @@ if($w == '') {
  * 3. 담당자 Name
  * 4. 담당자 권한
  * -> auth_1~10 같이 체크하면서 value 넣어 줘야 함
- * -> 
- * 5. 
+ * 5. 지역
  */
 
-$pw = trim($_POST['manager_pw']);
+  $pw = trim($_POST['manager_pw']);
 
-$ins_data['id']              = $id;
-$ins_data['name']            = $name;
-$ins_data['passwd']          = get_encrypt_string($pw);
-$ins_data['grade']           = 2;
- $ins_data['reg_time']       = $now;
- $ins_data['ju_region1']     = $region1;
- $ins_data['ju_region2']     = $region2;
- $ins_data['ju_region3']     = $region3;
- $ins_data['ju_region_code'] = $region_res['kf_code'];
- $ins_data['auth_idx']       = $auth_idx;
+  $ins_data['id']              = $id;
+  $ins_data['name']            = $name;
+  $ins_data['passwd']          = get_encrypt_string($pw);
+  $ins_data['grade']           = 2;
+  $ins_data['reg_time']       = $now;
+  $ins_data['ju_region1']     = $region1;
+  $ins_data['ju_region2']     = $region2;
+  $ins_data['ju_region3']     = $region3;
+  $ins_data['ju_region_code'] = $region_res['kf_code'];
+  $ins_data['auth_idx']       = $auth_idx;
  
- $INSERT = new IUD_Model;
- $INSERT->insert($db_table, $ins_data);
- 
- $ins_idx = sql_insert_id();
- $msg  = "신규 담당자가 등록되었습니다.";
- $link = "/config.php?$q1&w=u&idx=$ins_idx";
+  $INSERT = new IUD_Model;
+  $INSERT->insert($db_table, $ins_data);
+  
+  $ins_idx = sql_insert_id();
+  $msg  = "신규 담당자가 등록되었습니다.";
+  $link = "/config.php?$q1&w=u&idx=$ins_idx";
 
 } else if ($w == 'u') {
 

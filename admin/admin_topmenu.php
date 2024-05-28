@@ -19,13 +19,24 @@ if(!defined('_BLUEVATION_')) exit;
 		<nav id="gnb">
 			<h2>관리자 주메뉴</h2>
 			<ul id="gnb_1dul">
-				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU1){ ?> active<?php } ?>">
+        <?php echo getMenuFunc(ADMIN_MENU1,  "member",   "list"); ?>
+        <?php echo getMenuFunc(ADMIN_MENU3,  "seller",   "list"); ?>
+        <?php echo getMenuFunc(ADMIN_MENU4,  "category", "list"); ?>
+        <?php echo getMenuFunc(ADMIN_MENU5,  "goods",    "list"); ?>
+        <?php echo getMenuFunc(ADMIN_MENU6,  "order",    "list"); ?>
+        <?php echo getMenuFunc(ADMIN_MENU7,  "visit",    "hour"); ?>
+        <?php echo getMenuFunc(ADMIN_MENU8,  "help",     "qa"); ?>
+        <?php echo getMenuFunc(ADMIN_MENU9,  "design",   "banner_list"); ?>
+        <?php echo getMenuFunc(ADMIN_MENU11, "used",     "list"); ?>
+        <?php echo getMenuFunc(ADMIN_MENU10, "config",   "default"); ?>
+        
+				<!-- <li class="gnb_1dli<?php if($pg_title == ADMIN_MENU1){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=list" class="gnb_1da"><?php echo ADMIN_MENU1; ?></a>
-				</li>
+				</li> -->
 				<!-- <li class="gnb_1dli<?php if($pg_title == ADMIN_MENU2){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/partner.php?code=plist" class="gnb_1da"><?php echo ADMIN_MENU2; ?></a>
 				</li> -->
-				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU3){ ?> active<?php } ?>">
+				<!-- <li class="gnb_1dli<?php if($pg_title == ADMIN_MENU3){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/seller.php?code=list" class="gnb_1da"><?php echo ADMIN_MENU3; ?></a>
 				</li>
 				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU4){ ?> active<?php } ?>">
@@ -51,7 +62,7 @@ if(!defined('_BLUEVATION_')) exit;
 				</li>
 				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU10){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/config.php?code=default" class="gnb_1da"><?php echo ADMIN_MENU10; ?></a>
-				</li>
+				</li> -->
 				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU12){ ?> active<?php } ?>">
 				<!-- 제휴서비스 작업할때 주석 변경 -->
 					<!-- <a href="<?php echo BV_ADMIN_URL; ?>/config.php?code=default" class="gnb_1da"><?php echo ADMIN_MENU12; ?></a> -->
