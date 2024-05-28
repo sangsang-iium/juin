@@ -140,3 +140,72 @@ function memberGradeList(){
   return $memberGradeArr;
 
 }
+
+// 메인 화면 라이브존 리스트
+function mainLiveList() {
+  switch (date('w')) {
+    case '1': $nowW = 'mon'; break;
+    case '2': $nowW = 'tues'; break;
+    case '3': $nowW = 'wednes'; break;
+    case '4': $nowW = 'thurs'; break;
+    case '5': $nowW = 'fri'; break;
+    case '6': $nowW = 'satur'; break;
+    case '0': $nowW = 'sun'; break;
+  }
+
+  $nowTime = date('H:i:s');
+
+  $sql = "SELECT *
+  FROM shop_goods_live
+  WHERE JSON_CONTAINS(live_time, JSON_OBJECT('live_date', '{$nowW}'))
+    AND (
+      (
+        TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[0].live_start_time'))) <= '{$nowTime}'
+        AND TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[0].live_end_time'))) > '{$nowTime}'
+      )
+      OR
+      (
+        TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[1].live_start_time'))) <= '{$nowTime}'
+        AND TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[1].live_end_time'))) > '{$nowTime}'
+      )
+      OR
+      (
+        TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[2].live_start_time'))) <= '{$nowTime}'
+        AND TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[2].live_end_time'))) > '{$nowTime}'
+      )
+    );";
+
+    $res  = sql_query($sql);
+    $liveListArr = array();
+    while ($row = sql_fetch_array($res)) {
+      $liveTimeArr = json_decode($row['live_time'],true);
+      $liveTime = array_filter($liveTimeArr, function($item) {
+        return $item['live_date'] === 'mon';
+      });
+      $row['liveTime'] = array_values($liveTime)[0];
+      $liveListArr[] = $row;
+    }
+
+    return $liveListArr;
+}
+
+// 메인화면 라이브존 시간 표시
+function liveTime($liveTime) {
+  $liveStartTime = "";
+  $timeHour = intval(date('H', strtotime($liveTime)));
+  $ampm = ($timeHour < 12) ? "오전" : "오후";
+  
+  if ($timeHour >= 1 && $timeHour < 12) {
+    $liveStartTime = date('h:i', strtotime($liveTime));
+  } elseif ($timeHour >= 12) {
+      if ($timeHour > 12) {
+          $liveStartTime = date('g:i', strtotime($liveTime));
+      } else {
+          $liveStartTime = date('h:i', strtotime($liveTime));
+      }
+  } else {
+      $liveStartTime = date('H:i', strtotime($liveTime));
+  }
+
+  return date('m/d')." ".$ampm." ".$liveStartTime;
+}

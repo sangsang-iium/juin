@@ -28,13 +28,14 @@ if($code == "nicecheck")		  $pg_title2 = ADMIN_MENU10_14;
 if($code == "ipaccess")			  $pg_title2 = ADMIN_MENU10_15;
 if($code == "board_group_list")	$pg_title2 = ADMIN_MENU10_16;
 if($code == "board_group_form")	$pg_title2 = ADMIN_MENU10_16;
-if($code == "board_list")		  $pg_title2 = ADMIN_MENU10_17;
-if($code == "board_form")		  $pg_title2 = ADMIN_MENU10_17;
-if($code == "branch")		      $pg_title2 = ADMIN_MENU10_18;
-if($code == "branch_register_form")  $pg_title2 = ADMIN_MENU10_18;
-if($code == "chapter")		    $pg_title2 = ADMIN_MENU10_19;
-if($code == "chapter_register_form") $pg_title2 = ADMIN_MENU10_19;
-if($code == "manager_list")		$pg_title2 = ADMIN_MENU10_20;
+if($code == "board_list")		          $pg_title2 = ADMIN_MENU10_17;
+if($code == "board_form")		          $pg_title2 = ADMIN_MENU10_17;
+if($code == "branch")		              $pg_title2 = ADMIN_MENU10_18;
+if($code == "branch_register_form")   $pg_title2 = ADMIN_MENU10_18;
+if($code == "chapter")		            $pg_title2 = ADMIN_MENU10_19;
+if($code == "chapter_register_form")  $pg_title2 = ADMIN_MENU10_19;
+if($code == "manager_list")		        $pg_title2 = ADMIN_MENU10_20;
+if($code == "manager_register_form")	$pg_title2 = ADMIN_MENU10_20;
 
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>

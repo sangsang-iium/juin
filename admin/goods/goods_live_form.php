@@ -1,11 +1,9 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
-if($w == '') {
-	$pl['pl_use'] = 1;
-} else if($w == 'u') {
-	$pl = sql_fetch("select * from shop_goods_live where index_no = '{$pl_no}' ");
-	if(!$pl['pl_no'])
+if($w == 'u') {
+	$pl = sql_fetch("select * from shop_goods_live where index_no = '{$index_no}' ");
+	if(!$pl['index_no'])
 		alert('자료가 존재하지 않습니다.');
 }
 
@@ -17,7 +15,9 @@ if($w == 'u') {
 }
 $frm_submit .= '</div>';
 
-include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
+if($pl['live_time']) {
+	$liveTimeArr = json_decode($pl['live_time'], true);
+}
 
 ?>
 
@@ -26,7 +26,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 <input type="hidden" name="sfl" value="<?php echo $sfl; ?>">
 <input type="hidden" name="stx" value="<?php echo $stx; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
-<input type="hidden" name="pl_no" value="<?php echo $pl_no; ?>">
+<input type="hidden" name="index_no" value="<?php echo $index_no; ?>">
 
 <div class="tbl_frm02">
 	<table>
@@ -52,32 +52,44 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 					array('weekname'=>'토','weekval'=>'satur'),
 					array('weekname'=>'일','weekval'=>'sun'),
 				);
+
 				foreach ($dateArr as $dateVal) {
+					foreach ($liveTimeArr as $liveTimeVal) {
+						if($liveTimeVal['live_date'] == $dateVal['weekval']) {
+							$liveTimeChecked[$dateVal['weekval']]['checked'] = ' checked';
+							$liveTimeChecked[$dateVal['weekval']]['live_start_time'] = $liveTimeVal['live_start_time'];
+							$liveTimeChecked[$dateVal['weekval']]['live_end_time'] = $liveTimeVal['live_end_time'];
+						}
+					}
 			?>
 				<div>
 					<label for="live_mon"><?php echo $dateVal['weekname'] ?></label>
-					<input type="checkbox" name="live_<?php echo $dateVal['weekval'] ?>" id="live_<?php echo $dateVal['weekval'] ?>" value="Y">
-					<select name="start_time_<?php echo $dateVal['weekval'] ?>" id="start_time_<?php echo $dateVal['weekval'] ?>">
+					<input type="checkbox" name="<?php echo $dateVal['weekval'] ?>_live" id="<?php echo $dateVal['weekval'] ?>_live" value="Y" <?php echo $liveTimeChecked[$dateVal['weekval']]['checked']; ?> >
+					<select name="<?php echo $dateVal['weekval'] ?>_start_time" id="<?php echo $dateVal['weekval'] ?>_start_time">
 					<?php
 						for ($hour = 0; $hour < 24; $hour++) {
 							for ($minute = 0; $minute < 60; $minute += 5) {
 								$display_hour = str_pad($hour, 2, '0', STR_PAD_LEFT);
 								$display_minute = str_pad($minute, 2, '0', STR_PAD_LEFT);
 								$time = "$display_hour:$display_minute";
-								echo "<option value=\"$time\">$time</option>";
+								$startSelected = '';
+								if($liveTimeChecked[$dateVal['weekval']]['live_start_time'] == $time) $startSelected = ' selected';
+								echo "<option value=\"$time\" $startSelected>$time</option>";
 							}
 						}
 					?>
 					</select>
 					~
-					<select name="end_time_<?php echo $dateVal['weekval'] ?>" id="end_time_<?php echo $dateVal['weekval'] ?>">
+					<select name="<?php echo $dateVal['weekval'] ?>_end_time" id="<?php echo $dateVal['weekval'] ?>_end_time">
 					<?php
 						for ($hour = 0; $hour < 24; $hour++) {
 							for ($minute = 0; $minute < 60; $minute += 5) {
 								$display_hour = str_pad($hour, 2, '0', STR_PAD_LEFT);
 								$display_minute = str_pad($minute, 2, '0', STR_PAD_LEFT);
 								$time = "$display_hour:$display_minute";
-								echo "<option value=\"$time\">$time</option>";
+								$endSelected = '';
+								if($liveTimeChecked[$dateVal['weekval']]['live_end_time'] == $time) $endSelected = ' selected';
+								echo "<option value=\"$time\" $endSelected>$time</option>";
 							}
 						}
 					?>

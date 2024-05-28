@@ -96,6 +96,7 @@ $pg_anchor = '<ul class="anchor">
 			$chk_count1 = 0; // 입금대기 수
 			$chk_count2 = 0; // 입금완료 수
 			$chk_count5 = 0; // 배송완료 수
+			$chk_count7 = 0; // 반품 수
 			$chk_cancel = 0; // 클래임 수
 			$sum_point  = 0; // 포인트적립
 
@@ -115,56 +116,59 @@ $pg_anchor = '<ul class="anchor">
 				}
 
 				$bg = 'list'.($i%2);
-			?>
-			<tr class="<?php echo $bg; ?>">
-				<td>
-					<input type="hidden" name="od_no[<?php echo $i; ?>]" value="<?php echo $row['od_no']; ?>">
-					<input type="hidden" name="current_status[<?php echo $i; ?>]" value="<?php echo $row['dan']; ?>">
-					<label for="chk_<?php echo $i; ?>" class="sound_only"><?php echo $row['od_id']; ?></label>
-					<input type="checkbox" name="chk[]" value="<?php echo $i; ?>" id="chk_<?php echo $i; ?>">
-				</td>
-				<td>
-					<a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 40, 40); ?></a>
-				</td>
-				<td class="tal">
-					<a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a>
-					<?php if($row['od_tax_flag'] && !$gs['notax']) echo '[비과세상품]'; ?>
-					<?php echo $it_options; ?>
-					<?php
-					// 배송준비.배송중.배송완료
-					$baesong_run = 0;
-					if(in_array($row['dan'], array(3,4,5))) {
-						$baesong_run++;
-					?>
-					<div class="frm_info">
-						<?php echo get_delivery_select("delivery[".$i."]", $row['delivery']); ?>
-						<input type="text" name="delivery_no[<?php echo $i; ?>]" value="<?php echo $row['delivery_no']; ?>" class="frm_input w130" placeholder="개별 운송장번호">
-						<?php echo get_delivery_inquiry($row['delivery'], $row['delivery_no'], 'btn_ssmall'); ?>
-					</div>
-					<?php } ?>
-				</td>
-				<td>
-					<?php echo get_change_select("change_status[".$i."]", $row['dan']); ?>
-					<?php if(in_array($row['dan'], array(7,9)) && $row['refund_price'] == 0 && in_array($row['paymethod'], array('신용카드', '계좌이체', 'KAKAOPAY'))) { ?>
-					<p class="padt3"><a href="<?php echo BV_ADMIN_URL; ?>/pop_orderpartcancel.php?od_id=<?php echo $row['od_id']; ?>&od_no=<?php echo $row['od_no']; ?>" class="btn_ssmall orderpartcancel red">PG부분취소</a></p>
-					<?php } ?>
-				</td>
-				<td><?php echo get_order_seller_id($row['seller_id']); ?></td>
-				<td><?php echo number_format($row['sum_qty']); ?></td>
-				<td class="tar"><?php echo number_format($row['goods_price']); ?></td>
-				<td class="tar"><?php echo number_format($row['baesong_price']); ?></td>
-				<td class="tar"><?php echo number_format($row['coupon_price']); ?></td>
-				<td class="tar"><?php echo number_format($row['use_point']); ?></td>
-				<td class="td_price"><?php echo number_format($row['use_price']); ?></td>
-			</tr>
-			<?php
-				$chk_cnt++;
+				?>
+				<tr class="<?php echo $bg; ?>">
+					<td>
+						<input type="hidden" name="od_no[<?php echo $i; ?>]" value="<?php echo $row['od_no']; ?>">
+						<input type="hidden" name="current_status[<?php echo $i; ?>]" value="<?php echo $row['dan']; ?>">
+						<label for="chk_<?php echo $i; ?>" class="sound_only"><?php echo $row['od_id']; ?></label>
+						<input type="checkbox" name="chk[]" value="<?php echo $i; ?>" id="chk_<?php echo $i; ?>">
+					</td>
+					<td>
+						<a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 40, 40); ?></a>
+					</td>
+					<td class="tal"> 
+						<a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a>
+						<?php if($row['od_tax_flag'] && !$gs['notax']) echo '[비과세상품]'; ?>
+						<?php echo $it_options; ?>
+						<?php
+						// 배송준비.배송중.배송완료
+						$baesong_run = 0;
+						if(in_array($row['dan'], array(3,4,5))) {
+							$baesong_run++;
+						?>
+						<div class="frm_info"> 
+							<?php echo get_delivery_select("delivery[".$i."]", $row['delivery']); ?>
+							<input type="text" name="delivery_no[<?php echo $i; ?>]" value="<?php echo $row['delivery_no']; ?>" class="frm_input w130" placeholder="개별 운송장번호">
+							<?php echo get_delivery_inquiry($row['delivery'], $row['delivery_no'], 'btn_ssmall'); ?>
+						</div>
+						<?php } ?>
+					</td>
+					<td>
+						
+						<?php echo get_change_select("change_status[".$i."]", $row['dan']); ?>
+						<?php if(in_array($row['dan'], array(7,9)) && $row['refund_price'] == 0 && in_array($row['paymethod'], array('신용카드', '계좌이체', 'KAKAOPAY'))) { ?>
+						<p class="padt3"><a href="<?php echo BV_ADMIN_URL; ?>/pop_orderpartcancel.php?od_id=<?php echo $row['od_id']; ?>&od_no=<?php echo $row['od_no']; ?>" class="btn_ssmall orderpartcancel red">PG부분취소</a></p>
+						<?php } ?>
+					</td>
+					<td><?php echo get_order_seller_id($row['seller_id']); ?></td>
+					<td><?php echo number_format($row['sum_qty']); ?></td>
+					<td class="tar"><?php echo number_format($row['goods_price']); ?></td>
+					<td class="tar"><?php echo number_format($row['baesong_price']); ?></td>
+					<td class="tar"><?php echo number_format($row['coupon_price']); ?></td>
+					<td class="tar"><?php echo number_format($row['use_point']); ?></td>
+					<td class="td_price"><?php echo number_format($row['use_price']); ?></td>
+				</tr>
+				<?php
+				
+				$chk_cnt++;				
 				if($row['dan'] == 1) $chk_count1++;
 				if($row['dan'] == 2) $chk_count2++;
 				if($row['dan'] == 5) $chk_count5++;
+				if($row['dan'] == 7) $chk_count7++; 
 
 				// 취소.반품.교환.환불 수
-				if(in_array($row['dan'], array(6,7,8,9))) {
+				if(in_array($row['dan'], array(6,7,8,9,10))) {
 					$chk_cancel++;
 				}
 			}
@@ -197,9 +201,15 @@ $pg_anchor = '<ul class="anchor">
 			<?php if($chk_cnt == $chk_count5) { // 모두 배송완료 상태인가? ?>
 			<input type="submit" name="act_button" value="전체반품" class="btn_lsmall white" onclick="document.pressed=this.value">
 			<?php } ?>
-		<?php } ?>
+			
+			
+		<?php } ?>   
 		</div>
 		<?php } ?>
+		<?php  
+			if( $chk_count7!=0) { // 반품일 경우에만 ?>
+				선택한 상품의 <input type="submit" name="act_button" value="주문상태저장" class="btn_lsmall red" onclick="document.pressed=this.value">
+		<?php } ?>	
 		</form>
 
 		<?php if($od['od_test']) { ?>

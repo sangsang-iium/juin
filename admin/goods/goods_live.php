@@ -9,7 +9,7 @@ $sql_common = " from shop_goods_live ";
 $sql_search = " ";
 
 if($stx) {
-    $sql_search .= " WHERE like '%$stx%' ";
+    $sql_search .= " WHERE title like '%$stx%' ";
 }
 
 if(!$orderby) {
@@ -73,7 +73,7 @@ EOF;
 	<a href="./goods.php?code=live_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 라이브 등록</a>
 </div>
 
-<form name="fqalist" id="fqalist" method="post" action="./goods/goods_qa_delete.php" onsubmit="return fqalist_submit(this);">
+<form name="fqalist" id="fqalist" method="post" action="./goods/goods_live_delete.php" onsubmit="return fqalist_submit(this);">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
@@ -98,19 +98,19 @@ EOF;
 	<tr>
 		<th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
 		<th scope="col">번호</th>
-		<th scope="col"><?php echo subject_sort_link('iq_subject',$q2); ?>라이브존 타이틀</a></th>
-		<th scope="col"><?php echo subject_sort_link('iq_name',$q2); ?>라이브 시간</a></th>
-		<th scope="col"><?php echo subject_sort_link('iq_time',$q2); ?>URL</a></th>
-		<th scope="col"><?php echo subject_sort_link('iq_reply',$q2); ?>등록일</a></th>
+		<th scope="col"><?php echo subject_sort_link('title',$q2); ?>라이브존 타이틀</a></th>
+		<th scope="col"><?php echo subject_sort_link('live_time',$q2); ?>라이브 시간</a></th>
+		<th scope="col"><?php echo subject_sort_link('url',$q2); ?>URL</a></th>
+		<th scope="col"><?php echo subject_sort_link('reg_time',$q2); ?>등록일</a></th>
 		<th scope="col">관리</th>
 	</tr>
 	</thead>
 	<?php
 	for($i=0; $row=sql_fetch_array($result); $i++) {
-		$iq_id = $row['iq_id'];
+		$index_no = $row['index_no'];
 
 		$iq_name = get_sideview($row['mb_id'], $row['iq_name']);
-		$iq_url = "code=qa_form&w=u&iq_id=$iq_id$qstr&page=$page";
+		$iq_url = "code=live_form&w=u&index_no=$index_no$qstr&page=$page";
 		$iq_upd = "<a href=\"./goods.php?{$iq_url}\" class=\"btn_small\">수정</a>";
 		$iq_subject = "<a href=\"./goods.php?{$iq_url}\">".cut_str($row['iq_subject'],50)."</a>";
 
@@ -118,18 +118,35 @@ EOF;
 			echo '<tbody class="list">'.PHP_EOL;
 
 		$bg = 'list'.($i%2);
+
+		$dateArr = array(
+			'mon'=>'월',
+			'tues'=>'화',
+			'wednes'=>'수',
+			'thurs'=>'목',
+			'fri'=>'금',
+			'satur'=>'토',
+			'sun'=>'일',
+		);
+
+		$liveTimeArr = json_decode($row['live_time'], true);
+
+		$liveTime = '';
+		foreach ($liveTimeArr as $liveTimeVal) {
+			$liveTime .= $dateArr[$liveTimeVal['live_date']]." ".$liveTimeVal['live_start_time']." ~ ".$liveTimeVal['live_end_time']."<br>";
+		}
+		
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td>
-			<input type="hidden" name="iq_id[<?php echo $i; ?>]" value="<?php echo $iq_id; ?>">
+			<input type="hidden" name="index_no[<?php echo $i; ?>]" value="<?php echo $index_no; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
 		<td><?php echo $num--; ?></td>
-		<td><?php echo $row['iq_ty']; ?></td>
-		<td class="tal"><?php echo $iq_subject; ?></td>
-		<td><?php echo $iq_name; ?></a></td>
-		<td><?php echo substr($row['iq_time'],0,10); ?></td>
-		<td><?php echo $row['iq_answer']?'yes':''; ?></td>
+		<td><?php echo $row['title']; ?></td>
+		<td><?php echo $liveTime; ?></td>
+		<td><a href="<?php echo $row['url']; ?>" target="_blank"><?php echo $row['url']; ?></a></td>
+		<td><?php echo substr($row['reg_time'],0,10); ?></td>
 		<td><?php echo $iq_upd; ?></td>
 	</tr>
 	<?php
@@ -165,4 +182,7 @@ function fqalist_submit(f)
 
     return true;
 }
+$(document).on('click', '#frmRest', function() {
+    window.location.href = "/admin/goods.php?code=live";
+});
 </script>
