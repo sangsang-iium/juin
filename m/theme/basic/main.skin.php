@@ -183,82 +183,40 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div class="container left main_live-slide">
     <div class="swiper-container swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
       <div class="swiper-wrapper" id="swiper-wrapper-5adc34597a07ad06" aria-live="polite">
-        <a href="" class="swiper-slide cp-live swiper-slide-active" role="group" aria-label="1 / 5">
-          <div class="round50 prod-thumb_area">
-            <div href="" class="thumb">
-              <img src="/src/img/t-live.jpg" alt="">
+        <?php 
+          $liveListArr = mainLiveList();
+          $liveListCount = 1;
+          $liveListSize = sizeof($liveListArr);
+          if($liveListSize > 0) {
+          foreach ($liveListArr as $liveListVal) {
+            $liteTime = liveTime($liveListVal['liveTime']['live_start_time']);
+        ?>
+          <a href="<?php echo $liveListVal['url'] ?>" class="swiper-slide cp-live swiper-slide-active" role="group" aria-label="<?php echo $liveListCount; ?> / 5">
+            <div class="round50 prod-thumb_area">
+              <div href="" class="thumb">
+                <img src="<?php echo "/data/live/".$liveListVal['thumbnail'] ?>" alt="">
+              </div>
             </div>
-          </div>
-          <div class="prod-info_area">
-            <div class="round60 live-reserv">
-              <span class="round60 t1">LIVE</span>
-              <span class="t2">1/20 오후 1:00</span>
+            <div class="prod-info_area">
+              <div class="round60 live-reserv">
+                <span class="round60 t1">LIVE</span>
+                <span class="t2"><?php echo $liteTime ?></span>
+              </div>
+              <div class="live-title"><?php echo $liveListVal['title'] ?></div>
             </div>
-            <div class="live-title">주인장 잡곡세트 5종</div>
-          </div>
-        </a>
-        <a href="" class="swiper-slide cp-live swiper-slide-next" role="group" aria-label="2 / 5">
-          <div class="round50 prod-thumb_area">
-            <div href="" class="thumb">
-              <img src="/src/img/t-live.jpg" alt="">
-            </div>
-          </div>
-          <div class="prod-info_area">
-            <div class="round60 live-reserv">
-              <span class="round60 t1">LIVE</span>
-              <span class="t2">1/20 오후 1:00</span>
-            </div>
-            <div class="live-title">주인장 잡곡세트 5종</div>
-          </div>
-        </a>
-        <a href="" class="swiper-slide cp-live" role="group" aria-label="3 / 5">
-          <div class="round50 prod-thumb_area">
-            <div href="" class="thumb">
-              <img src="/src/img/t-live.jpg" alt="">
-            </div>
-          </div>
-          <div class="prod-info_area">
-            <div class="round60 live-reserv">
-              <span class="round60 t1">LIVE</span>
-              <span class="t2">1/20 오후 1:00</span>
-            </div>
-            <div class="live-title">주인장 잡곡세트 5종</div>
-          </div>
-        </a>
-        <a href="" class="swiper-slide cp-live" role="group" aria-label="4 / 5">
-          <div class="round50 prod-thumb_area">
-            <div href="" class="thumb">
-              <img src="/src/img/t-live.jpg" alt="">
-            </div>
-          </div>
-          <div class="prod-info_area">
-            <div class="round60 live-reserv">
-              <span class="round60 t1">LIVE</span>
-              <span class="t2">1/20 오후 1:00</span>
-            </div>
-            <div class="live-title">주인장 잡곡세트 5종</div>
-          </div>
-        </a>
-        <a href="" class="swiper-slide cp-live" role="group" aria-label="5 / 5">
-          <div class="round50 prod-thumb_area">
-            <div href="" class="thumb">
-              <img src="/src/img/t-live.jpg" alt="">
-            </div>
-          </div>
-          <div class="prod-info_area">
-            <div class="round60 live-reserv">
-              <span class="round60 t1">LIVE</span>
-              <span class="t2">1/20 오후 1:00</span>
-            </div>
-            <div class="live-title">주인장 잡곡세트 5종</div>
-          </div>
-        </a>
+          </a>
+        <?php
+          $liveListCount++;
+          } }
+        ?>
       </div>
+      <?php if($liveListSize > 3) {?>
       <div class="swiper-control2">
         <button type="button" class="arrow prev swiper-button-disabled" disabled="" tabindex="-1" aria-label="Previous slide" aria-controls="swiper-wrapper-5adc34597a07ad06" aria-disabled="true"></button>
         <div class="pagination swiper-pagination-custom swiper-pagination-horizontal"><span class="current">1</span><span class="bar">|</span><span class="total">3</span></div>
         <button type="button" class="arrow next" tabindex="0" aria-label="Next slide" aria-controls="swiper-wrapper-5adc34597a07ad06" aria-disabled="false"></button>
       </div>
+      <?php } ?>
     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
   </div>
   <div class="container bottom_box">

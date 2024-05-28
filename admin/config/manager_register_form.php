@@ -23,6 +23,9 @@ $q2 = $query_string."&page=$page";
 $region_sel = "SELECT areacode, areaname FROM area GROUP BY areacode";
 $region_res = sql_query($region_sel);
 // $regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '울산', '강원', '경기', '경남', '경북', '전남', '전북', '제주', '충남', '충북');
+
+$auth_sql = " SELECT * FROM authorization";
+$auth_res = sql_query($auth_sql);
 ?>
 
 <form name="fmanager" id="fregisterform" action="./config/managerupdate.php" onsubmit="return fregisterform_submit(this);" method="POST" autocomplete="off">
@@ -44,8 +47,10 @@ $region_res = sql_query($region_sel);
   <tr>
     <th scope="row"><label for="manager_id">아이디</label><span>(*)</span></th>
     <td>
-      <input type="text" name="manager_id" id="manager_id" value="<?php echo ($w == '') ? '' : $result['kf_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
-      <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
+      <input type="text" name="manager_id" id="manager_id" value="<?php echo ($w == '') ? '' : $result['id']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
+      <?php if($w == '') { ?>
+        <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
+      <?php } ?>
     </td>
   </tr>
   <tr>
@@ -55,9 +60,19 @@ $region_res = sql_query($region_sel);
     </td>
   </tr>
   <tr>
+    <th scope="row"><label for="auth_idx">권한</label><span>(*)</span></th>
+    <td>
+      <select name="auth_idx" id="auth_idx">
+        <?php while($authArr = sql_fetch_array($auth_res)) { ?>
+          <option value="<?php echo $authArr['auth_idx']; ?>" <?php ($result['auth_idx'] == $authArr['auth_idx']) ? "selected" : "" ?> ><?php echo $authArr['auth_title'] ?></option>
+        <?php } ?>
+      </select>
+    </td>
+  </tr>
+  <tr>
     <th scope="row"><label for="manager_name">이름</label><span>(*)</span></th>
     <td>
-      <input type="text" name="manager_name" id="manager_name" value="" <?php echo ($w == '') ? 'required' : '' ?> class="frm_input">
+      <input type="text" name="manager_name" id="manager_name" value="<?php echo ($w == '') ? '' : $result['name']; ?>" <?php echo ($w == '') ? 'required' : '' ?> class="frm_input">
     </td>
   </tr>
 	<tr>
@@ -143,6 +158,7 @@ function duplication_chk() {
 
 // 지회 SELECT BOX
 function getBranch(e) {
+  console.log(e)
   
   $.ajax({
     url: '/admin/ajax.gruopdepth.php',
@@ -190,35 +206,35 @@ function fregisterform_submit(f)
   const chapterOption = chapterSelect.options[chapterSelect.selectedIndex];
   const chapterValue = chapterOption.value;
 
-  if(f.manager_id.value.length < 1 ) {
+  if(w == '' && f.manager_id.value.length < 1 ) {
     alert("아이디를 입력해 주십시오.");
     f.manager_id.focus();
     return false;
   }
 
-  if(sessionStorage.getItem('id_duChk') == 'false') {
+  if(w == '' && sessionStorage.getItem('id_duChk') == 'false') {
     alert("아이디 중복확인을 해 주십시오.");
     f.manager_id.focus();
     return false;   
   }
 
-  if(regionValue.length < 1) {
-    alert("지역을 선택해 주십시오.");
-    f.kf_region1.focus();
-    return false;   
-  }
+  // if(regionValue.length < 1) {
+  //   alert("지역을 선택해 주십시오.");
+  //   f.kf_region1.focus();
+  //   return false;   
+  // }
 
-  if(chapterValue.length < 1) {
-    alert("지회명를 선택해 주십시오.");
-    f.kf_region2.focus();
-    return false;   
-  }
+  // if(chapterValue.length < 1) {
+  //   alert("지회명를 선택해 주십시오.");
+  //   f.kf_region2.focus();
+  //   return false;   
+  // }
 
-  if(f.kf_region3.value.length < 1) {
-    alert("지부명을 입력하여 주십시오.");
-    f.kf_region3.focus();
-    return false;   
-  }
+  // if(f.kf_region3.value.length < 1) {
+  //   alert("지부명을 입력하여 주십시오.");
+  //   f.kf_region3.focus();
+  //   return false;   
+  // }
   
     return true;
 }

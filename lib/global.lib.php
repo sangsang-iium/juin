@@ -3347,10 +3347,6 @@ function is_admin($grade='')
 		case '1' :
 			return true;
 			break;
-    // Manager 로그인을 위한 level 2 추가 _20240527_SY
-		case '2' :
-			return true;
-			break;
 		default :
 			return false;
 	}
@@ -3941,6 +3937,16 @@ function change_order_status_9($od_no)
 		insert_point($od['mb_id'], $od['use_point'], "주문번호 {$od['od_id']} ({$od_no}) 환불");
 	}
 }
+// '반품후 반품완료' 상태로 변경
+function change_order_status_10($od_no)
+{
+	$sql = " update shop_order
+				set dan = '10'
+				  , change_date = '".BV_TIME_YMDHIS."'
+			  where od_no = '$od_no' ";
+	sql_query($sql);
+}
+
 
 // 배송조회버튼 생성
 function get_delivery_inquiry($company, $invoice, $class='')

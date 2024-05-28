@@ -137,7 +137,7 @@ EOF;
           <td><?php echo $row['kf_region3'] ?></td>
           <td><?php echo substr($row['reg_time'], 0, 10) ?></td>
           <td>
-            <a href="/admin/config.php?code=branch_register_form&amp;w=u&amp;idx=<?php echo $row['index_no'] ?>" class="btn_small blue">수정</a>
+            <a href="/admin/config.php?code=manager_register_form&amp;w=u&amp;idx=<?php echo $row['index_no'] ?>" class="btn_small blue">수정</a>
             <!-- <a href="/admin/config/branchupdate.php?w=d" class="btn_small">삭제</a> -->
           </td>
         </tr>

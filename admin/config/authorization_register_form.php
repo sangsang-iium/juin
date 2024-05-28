@@ -128,18 +128,18 @@ print_r2($_SESSION);
     <table id="testTable">
       <colgroup>
         <col>
-        <col>
-        <col class="w70">
-        <col class="w70">
-        <col class="w70">
+        <!-- <col> -->
+        <col class="w100">
+        <!-- <col class="w70">
+        <col class="w70"> -->
       </colgroup>
       <thead>
         <tr>
           <th scope="col">상위 카테고리</th>
-          <th scope="col">하위 카테고리</th>
+          <!-- <th scope="col">하위 카테고리</th> -->
           <th scope="col">읽기</th>
-          <th scope="col">쓰기</th>
-          <th scope="col">삭제</th>
+          <!-- <th scope="col">쓰기</th>
+          <th scope="col">삭제</th> -->
         </tr>
       </thead>
       <?php
@@ -151,10 +151,10 @@ print_r2($_SESSION);
       ?>
           <tr class="<?php echo $bg; ?>">
             <td><?php echo $TEST[$key]['name'] ?></td>
-            <td><?php echo $v[0] ?></td>
+            <!-- <td><?php echo $v[0] ?></td> -->
             <td><input type="checkbox" name="auth[<?php echo $k ?>][]" value="r" <?php echo ($w == 'u' && strstr($test_rwd, $authList[0])) ? "checked" : "" ?>></td>
-            <td><input type="checkbox" name="auth[<?php echo $k ?>][]" value="w" <?php echo ($w == 'u' && strstr($test_rwd, $authList[1])) ? "checked" : "" ?>></td>
-            <td><input type="checkbox" name="auth[<?php echo $k ?>][]" value="d" <?php echo ($w == 'u' && strstr($test_rwd, $authList[2])) ? "checked" : "" ?>></td>
+            <!-- <td><input type="checkbox" name="auth[<?php echo $k ?>][]" value="w" <?php echo ($w == 'u' && strstr($test_rwd, $authList[1])) ? "checked" : "" ?>></td>
+            <td><input type="checkbox" name="auth[<?php echo $k ?>][]" value="d" <?php echo ($w == 'u' && strstr($test_rwd, $authList[2])) ? "checked" : "" ?>></td> -->
           </tr>
       <?php  }
       }

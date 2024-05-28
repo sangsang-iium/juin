@@ -111,6 +111,11 @@ for ($i = 0; $i < $chk_count; $i++) {
 
       change_order_status_8($od_no);
       break;
+
+    case '10': // 반품 -> 반품완료 
+      change_order_status_10($od_no);
+      break;
+
     case '9': // 환불
       if (!in_array($current_status, array(2, 3))) {
         continue;
@@ -354,7 +359,8 @@ if ($od_cancel_change) {
 
 if ($mod_history) { // 주문변경 히스토리 기록
   $sql = " update shop_order
-				set od_mod_history = CONCAT(od_mod_history,'$mod_history')
+				set 
+          od_mod_history = CONCAT(od_mod_history,'$mod_history')
 			  where od_id = '$od_id' ";
   sql_query($sql);
 }

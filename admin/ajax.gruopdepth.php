@@ -6,6 +6,7 @@ include_once "./_common.php";
 $depthNum   = $_POST['depthNum'];
 $depthValue = $_POST['depthValue'];
 
+
 $depth = juinGroupInfo($depthNum, $depthValue);
 
 $data = array();
