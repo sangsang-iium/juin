@@ -1,6 +1,7 @@
 <?php
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
+include_once(BV_PATH.'/include/topMenu.php');
 ?>
 
 <div id="contents" class="sub-contents serviceList">

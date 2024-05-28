@@ -759,7 +759,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
   position: relative;
   width: 100%;
 }
-.chat-wBox_input {border-radius: 3.33rem; min-height: 5.67rem; max-height: 10rem; padding: 1.6rem 5rem 1.6rem 2rem; font-size: 1.67rem; font-weight: 400; color: #333;}
+.chat-wBox_input {border-radius: 3.33rem; min-height: 5.67rem; max-height: 10rem; padding: 1.6rem 5rem 1.6rem 2rem; font-size: 1.67rem; font-weight: 400; color: #333; outline: none;}
 .chat-wBox_input::placeholder {color: #999;}
 .chat-wBox_btn {display: block; position: absolute; top: 0.685rem; right: 0.685rem; width: 4.3rem; height: 4.3rem; border: 0; border-radius: 50%; background: url('/src/img/used/icon_chat_send.png') no-repeat center/2rem auto, var(--color-main); font-size: 0;}
 

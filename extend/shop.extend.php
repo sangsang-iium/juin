@@ -144,9 +144,9 @@ $gw_menu = array(
 	array("추천상품",	"/shop/listtype.php?type=5&menu=recomm"),
 	array("기획전",		"/shop/plan.php?menu=exhibition"),
 	array("오늘만할인",	"/shop/timesale.php?menu=timesale"),
-  array("중고장터",	"/used/list.php"),
-  array("회원사현황",	"/store/list.php"),
-  array("제휴서비스",	"/service/list.php"),
+  array("중고장터",	"/used/list.php?menu=used"),
+  array("회원사현황",	"/store/list.php?menu=store"),
+  array("제휴서비스",	"/service/list.php?menu=service"),
 );
 
 

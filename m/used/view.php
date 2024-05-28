@@ -179,7 +179,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
       <div class="container">
         <div class="prod-buy__btns">
           <button type="button" class="ui-btn wish-btn" title="관심상품 등록하기"></button>
-          <button type="button" class="ui-btn round stBlack chat-btn">채팅하기</button>
+          <a href="./chat_list.php" class="ui-btn round stBlack chat-btn">채팅하기</a>
         </div>
       </div>
     </div>
