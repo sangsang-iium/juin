@@ -5,14 +5,20 @@ include_once("./_common.php");
 
 // check_admin_token();
 
-print_r2($_POST);
-
-echo in_array('r', $_POST['auth']['TEST1_01']);
-
 $db_table   = "authorization";
 
 $auth_title = preg_replace("/\s+/", "", $_POST['auth_title']);
-$auth       = $_POST['auth'];
+$count      = count($_POST['auth']);
+
+for($i=0; $i<$count; $i++) {
+  $k = $_POST['auth'][$i];
+  $cate[] = trim($_POST['auth_cate'][$k]);
+}
+
+$output = implode(',', $cate);
+exit;
+
+
 
 $auth_str = array();
 foreach ($auth as $key => $permissions) {

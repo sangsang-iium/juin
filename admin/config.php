@@ -8,7 +8,7 @@ $pg_num = 10;
 $snb_icon = "<i class=\"fa fa-cogs\"></i>";
 
 if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
-	alert("���ٱ����� �����ϴ�.");
+	alert("접근권한이 없습니다.");
 }
 
 if($code == "default")			  $pg_title2 = ADMIN_MENU10_01;

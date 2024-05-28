@@ -1,5 +1,5 @@
-<?php // 권한관리 _2024523_SY
-if (!defined('_BLUEVATION_')) exit;
+<?php //권한관리 _20240522_SY
+if(!defined('_BLUEVATION_')) exit;
 
 $form_title = "권한관리 등록";
 if ($w == 'u') {
@@ -92,7 +92,6 @@ echo getMenuTab("ADMIN_MENU1", "manager", t1('m10', '회원관리'));
 echo getMenuTab("ADMIN_MENU1_01", "manager", t2('m10', ADMIN_MENU1_01, BV_ADMIN_URL.'/member.php?code=list'));
 echo getMenuTab("ADMIN_MENU1_02", "manager", t2('m10', ADMIN_MENU1_02, BV_ADMIN_URL.'/member.php?code=level_form'));
 
-print_r2($_SESSION);
 /* } 테스트  */
 
 ?>
@@ -128,36 +127,27 @@ print_r2($_SESSION);
     <table id="testTable">
       <colgroup>
         <col>
-        <!-- <col> -->
-        <col class="w100">
-        <!-- <col class="w70">
-        <col class="w70"> -->
+        <col class="">
       </colgroup>
       <thead>
         <tr>
-          <th scope="col">상위 카테고리</th>
-          <!-- <th scope="col">하위 카테고리</th> -->
-          <th scope="col">읽기</th>
-          <!-- <th scope="col">쓰기</th>
-          <th scope="col">삭제</th> -->
+          <th scope="col">카테고리</th>
+          <th scope="col">접속권한</th>
         </tr>
       </thead>
       <?php
       $TEST = TEST;
       for ($i = 1; $i <= count($TEST); $i++) {
         $key = "TEST{$i}";
-        foreach ($TEST[$key]['data'] as $k => $v) {
-          $authList = explode(",", $v[1]);
       ?>
           <tr class="<?php echo $bg; ?>">
             <td><?php echo $TEST[$key]['name'] ?></td>
-            <!-- <td><?php echo $v[0] ?></td> -->
-            <td><input type="checkbox" name="auth[<?php echo $k ?>][]" value="r" <?php echo ($w == 'u' && strstr($test_rwd, $authList[0])) ? "checked" : "" ?>></td>
-            <!-- <td><input type="checkbox" name="auth[<?php echo $k ?>][]" value="w" <?php echo ($w == 'u' && strstr($test_rwd, $authList[1])) ? "checked" : "" ?>></td>
-            <td><input type="checkbox" name="auth[<?php echo $k ?>][]" value="d" <?php echo ($w == 'u' && strstr($test_rwd, $authList[2])) ? "checked" : "" ?>></td> -->
+            <td>			
+              <input type="hidden" name="auth_cate[<?php echo $i; ?>]" value="<?php echo $key; ?>">
+              <input type="checkbox" name="auth[]" value="<?php echo $i; ?>">
+            </td>
           </tr>
       <?php  }
-      }
       if ($i == 0)
         echo '<tbody><tr><td colspan="7" class="empty_table">자료가 없습니다.</td></tr>';
       ?>
@@ -173,40 +163,40 @@ print_r2($_SESSION);
      * 사용법 : $('#테이블 ID').rowspan(0);
      * 
      */
-    $.fn.rowspan = function(colIdx, isStats) {
-      return this.each(function() {
-        var that;
-        $('tr', this).each(function(row) {
-          $('td:eq(' + colIdx + ')', this).filter(':visible').each(function(col) {
+    // $.fn.rowspan = function(colIdx, isStats) {
+    //   return this.each(function() {
+    //     var that;
+    //     $('tr', this).each(function(row) {
+    //       $('td:eq(' + colIdx + ')', this).filter(':visible').each(function(col) {
 
-            if ($(this).html() == $(that).html() &&
-              (!isStats ||
-                isStats && $(this).prev().html() == $(that).prev().html()
-              )
-            ) {
-              rowspan = $(that).attr("rowspan") || 1;
-              rowspan = Number(rowspan) + 1;
+    //         if ($(this).html() == $(that).html() &&
+    //           (!isStats ||
+    //             isStats && $(this).prev().html() == $(that).prev().html()
+    //           )
+    //         ) {
+    //           rowspan = $(that).attr("rowspan") || 1;
+    //           rowspan = Number(rowspan) + 1;
 
-              $(that).attr("rowspan", rowspan);
+    //           $(that).attr("rowspan", rowspan);
 
-              // do your action for the colspan cell here            
-              $(this).hide();
+    //           // do your action for the colspan cell here            
+    //           $(this).hide();
 
-              //$(this).remove(); 
-              // do your action for the old cell here
+    //           //$(this).remove(); 
+    //           // do your action for the old cell here
 
-            } else {
-              that = this;
-            }
+    //         } else {
+    //           that = this;
+    //         }
 
-            // set the that if not already set
-            that = (that == null) ? this : that;
-          });
-        });
-      });
-    };
+    //         // set the that if not already set
+    //         that = (that == null) ? this : that;
+    //       });
+    //     });
+    //   });
+    // };
 
-    $('#testTable').rowspan(0);
+    // $('#testTable').rowspan(0);
   </script>
 
   </tbody>
