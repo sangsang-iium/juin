@@ -408,6 +408,10 @@ $(document).ready(function () {
     }
   });
 
+  //Raffle Time
+  f.timeSale('.raffle-prod_list .cp-timer__num');
+  f.timeSale('.raffleView .cp-timer__num');
+
   //Scroll Event
   $(window).scroll(function () {
     let scrHeight = $(document).scrollTop();

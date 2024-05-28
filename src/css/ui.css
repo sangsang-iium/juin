@@ -65,6 +65,8 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .frm-input:disabled, .frm-input:read-only {background-color: var(--color-gray8);}
 .frm-input::placeholder {color: var(--color-gray3);}
 
+.frm-file {padding: 1rem; border: 1px solid var(--color-gray4); font-size: 2rem; font-weight: 400; color: var(--color-gray2); border-radius: 0.8rem;}
+
 .frm-select {padding-left: 2.6rem; padding-right: 4.5rem; height: 5.6rem; border: 1px solid var(--color-gray4); border-radius: 0.8rem; font-size: 2rem; font-weight: 400; color: var(--color-gray2); background: url('../img/arrow-down.png') no-repeat center right 2rem/1.44rem, var(--color-white); appearance: none;}
 .frm-select::-ms-expand { display: none; }
 .frm-select:focus {border-color: var(--color-main); box-shadow: 0 0 0.5rem var(--color-main);}
@@ -119,6 +121,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .form-row .form-head .title {font-size: 2.16rem; font-weight: 500; color: var(--color-black2);}
 .form-row .form-head .title b {padding-left: 0.6rem; font-weight: 500; color: var(--color-main);}
 .form-row .form-body .frm-choice {display: block; margin-top: 1.2rem;}
+.form-inline {display: flex; flex-flow: row wrap; gap: 1rem 3rem;}
 
 /* Components */
 /* header */
@@ -217,6 +220,13 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .cp-item .small .dc-price {font-size: 2.08rem;}
 .cp-item .small .dc-percent {font-size: 2.8rem;}
 .cp-item .small .sale-price {font-size: 2.8rem;}
+
+.cp-item.raffle .prod-thumb_area {padding-bottom: 72.4%;}
+.cp-item.raffle .prod-thumb_area .cp-timer {bottom: inherit; top: 0; left: 0; width: 25rem; border-radius: 0 0 1.67rem 0; background-color: var(--color-main);}
+.cp-item.raffle .prod-thumb_area .cp-timer__num {font-size: 2.2rem; font-weight: 500;}
+.cp-item.raffle .prod-thumb_area .cp-timer__text {font-size: 2.2rem; font-weight: 500;}
+.tag.users {display: flex; flex-flow: row wrap; align-items: center; justify-content: center; color: #666; background-color: #f9f9f9;}
+.tag.users .icn {width: 2rem; margin-right: 5px;}
 
 .cp-live {display: block; position: relative; width: 100%;}
 .cp-live .prod-thumb_area {overflow: hidden; position: relative; width: 100%; height: 0; padding-bottom: 127.273%; font-size: 0;}
@@ -806,11 +816,19 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .flView .fl-detailThumb .swiper-control .swiper-pagination-bullet {width: 1rem; height: 1rem; border: none; background: #ddd; opacity: 1; margin: 0;}
 .flView .fl-detailThumb .swiper-control .swiper-pagination-bullet-active {background: #666;}
 
+.flView .fl-detailThumb .cp-timer {position: absolute; top: 0; left: 0; z-index: 10; width: 25rem; height: 4.67rem; line-height: 4.67rem; font-size: 2.15rem; font-weight: 700; color: var(--color-white); text-align: center; border-radius: 0 0 1.67rem 0; background-color: var(--color-main);}
+.flView .fl-detailThumb .cp-timer__num {font-size: 2.2rem; font-weight: 500;}
+.flView .fl-detailThumb .cp-timer__text {font-size: 2.2rem; font-weight: 500;}
+
 .flView .item_txtBox {width: 100%; padding: 2.6rem 2.4rem;}
 .flView .info-item .tit {font-size: 1.8rem;}
 .flView .info-item .cont {font-size: 1.8rem;}
 
 .flView .fl-explan {padding-top: 2.5rem; padding-bottom: 2.5rem; font-size: 1.8rem; font-weight: 500; color: #333; line-height: 1.67;}
+
+.flView .fl-explan2 {padding-top: 2.5rem; padding-bottom: 2.5rem;}
+.flView .fl-explan2 .t1 {font-size: 1.8rem; font-weight: 600; color: #333; line-height: 1.67;}
+.flView .fl-explan2 .t2 {margin-top: 0.5rem; font-size: 1.8rem; font-weight: 300; color: #666; line-height: 1.67;}
 
 /* > 댓글 */
 .flView .fl-reply {padding-top: 2.8rem; padding-bottom: 4.8rem;}

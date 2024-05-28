@@ -8,6 +8,9 @@ if(!defined('_BLUEVATION_')) exit;
 <script src="<?php echo BV_JS_URL; ?>/certify.js?v=<?php echo BV_JS_VER; ?>"></script>
 <?php } ?>
 
+<link rel="stylesheet" href="/src/plugin/timepicker/jquery.timepicker.min.css">
+<script src="/src/plugin/timepicker/jquery.timepicker.min.js"></script>
+
 <form name="fregisterform" id="fregisterform" action="<?php echo $register_action_url; ?>" onsubmit="return fregisterform_submit(this);" method="post" autocomplete="off">
 <input type="hidden" name="w" value="<?php echo $w; ?>">
 <input type="hidden" name="agree" value="<?php echo $agree; ?>">
@@ -54,6 +57,7 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 						<div class="form-body">
 							<input type="password" name="mb_password_re" id="reg_mb_password_re"<?php echo $required; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" maxlength="20" placeholder="비밀번호를 한번 더 입력해주세요.">
+              <p id="password-message" class="reg-message"></p>
 						</div>
 					</div>
 					<div class="form-row">
@@ -354,6 +358,199 @@ if(!defined('_BLUEVATION_')) exit;
 				</div>
 			</div>
 			<!-- } 사업자정보 -->
+			<!-- 매장정보 { -->
+      <?php if($w == 'u') { ?>
+      <div class="joinDetail-box">
+				<div class="joinDetail-head">
+					<p class="joinDetail-title">매장정보</p>
+				</div>
+				<div class="joinDetail-body">
+					<div class="form-row">
+						<div class="form-head">
+							<p class="title">매장 노출 여부<b>*</b></p>
+						</div>
+						<div class="form-body">
+              <ul class="form-inline">
+                <li>
+                  <div class="frm-choice">
+                    <input type="radio" name="store_display" id="store_display-y">
+                    <label for="store_display-y">예</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="radio" name="store_display" id="store_display-n">
+                    <label for="store_display-n">아니오</label>
+                  </div>
+                </li>
+              </ul>
+						</div>
+					</div>
+          <div class="form-row">
+						<div class="form-head">
+							<p class="title">업종</p>
+						</div>
+						<div class="form-body">
+							<select name="" id="" class="frm-select w-per100">
+                <option value="">선택</option>
+              </select>
+						</div>
+					</div>
+          <div class="form-row">
+						<div class="form-head">
+							<p class="title">매장 썸네일 사진</p>
+						</div>
+						<div class="form-body">
+							<input type="file" name="" id="" class="frm-file w-per100">
+						</div>
+					</div>
+          <div class="form-row">
+						<div class="form-head">
+							<p class="title">매장 상세 사진</p>
+						</div>
+						<div class="form-body">
+              <ul class="form-file_box">
+                <li class="view">
+                  <input type="file" name="" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="" id="" class="frm-file w-per100">
+                </li>
+              </ul>
+              <button type="button" class="ui-btn st2 w-per100 frm-file-add_btn" data="stIconRight">
+                <span class="txt">상세 사진 추가</span>
+                <i data-feather="plus" class="icn"></i>
+              </button>
+						</div>
+					</div>
+          <div class="form-row">
+						<div class="form-head">
+							<p class="title">운영시간</p>
+						</div>
+						<div class="form-body">
+							<ul class="form-inline time">
+                <li>
+                  <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
+                </li>
+                <li class="time_mid_txt">~</li>
+                <li>
+                  <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
+                </li>
+              </ul>
+						</div>
+					</div>
+          <div class="form-row">
+						<div class="form-head">
+							<p class="title">휴무일</p>
+						</div>
+						<div class="form-body">
+              <ul class="form-inline yoil">
+                <li>
+                  <div class="frm-choice">
+                    <input type="checkbox" name="" id="">
+                    <label for="">월요일</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="checkbox" name="" id="">
+                    <label for="">화요일</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="checkbox" name="" id="">
+                    <label for="">수요일</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="checkbox" name="" id="">
+                    <label for="">목요일</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="checkbox" name="" id="">
+                    <label for="">금요일</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="checkbox" name="" id="">
+                    <label for="">토요일</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="checkbox" name="" id="">
+                    <label for="">일요일</label>
+                  </div>
+                </li>
+              </ul>
+						</div>
+					</div>
+          <div class="form-row">
+						<div class="form-head">
+							<p class="title">브레이크 타임</p>
+						</div>
+						<div class="form-body">
+              <ul class="form-inline time">
+                <li>
+                  <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
+                </li>
+                <li class="time_mid_txt">~</li>
+                <li>
+                  <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
+                </li>
+              </ul>
+						</div>
+					</div>
+          <div class="form-row">
+						<div class="form-head">
+							<p class="title">매장주소</p>
+						</div>
+						<div class="form-body address">
+              <label for="store_zip" class="sound_only">우편번호</label>
+							<input type="tel" name="store_zip" value="<?php echo $member['zip']; ?>" id="store_zip" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" >
+							<button type="button" class="ui-btn st3" onclick="execDaumPostcode2()">주소검색</button>
+							
+							<input type="text" name="store_addr1" value="" id="store_addr1" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+							<label for="store_addr1" class="sound_only">기본주소</label>
+							<input type="text" name="store_addr2" value="" id="store_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
+							<label for="store_addr2" class="sound_only">상세주소</label>
+							<input type="hidden" name="store_addr3" value="" id="store_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
+							<label for="store_addr3" class="sound_only">참고항목</label>
+
+							<input type="hidden" name="store_addr_jibeon" value="">
+						</div>
+					</div>
+          <div class="form-row">
+						<div class="form-head">
+							<p class="title">매장설명</p>
+						</div>
+						<div class="form-body">
+							<textarea name="" id="" class="frm-txtar w-per100 store-txtar"></textarea>
+						</div>
+					</div>
+        </div>
+      </div>
+      <?php } ?>
+      <br>
+      <br>
+      <br>
+      <br>
+			<!-- } 매장정보 -->
+
 		</div>
 
     <?php if($w != '') { ?>
@@ -384,6 +581,57 @@ if(!defined('_BLUEVATION_')) exit;
 <script src="/js/postcode.v2.js"></script>
 
 <script>
+$(document).ready(function(){
+  // 매장정보 > 매장 상세사진 추가하기
+  $(".frm-file-add_btn").on('click', function(){
+    let fileList = $(this).siblings(".form-file_box");
+    let curFileLeng = fileList.find(".view").length;
+
+    if(curFileLeng < 5) {
+      fileList.find("li").eq(curFileLeng).addClass('view');
+    } else {
+      alert('최대 5개까지 추가할 수 있습니다.');
+      return false;
+    }
+  });
+
+  // 시간선택
+  $('.timepicker').timepicker({
+    timeFormat: 'h:mm p',
+    interval: 30,
+    minTime: '0',
+    maxTime: '11:59pm',
+    defaultTime: '10',
+    startTime: '1:00',
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true,
+  });
+
+  // 비밀번호 확인 일치여부
+  $('#reg_mb_password_re').on('input', function() {
+    // 비밀번호와 비밀번호 확인 입력란의 값을 가져오기
+    var password = $('#reg_mb_password').val();
+    var confirmPassword = $('#reg_mb_password_re').val();
+
+    // 메시지 표시 요소
+    var messageElement = $('#password-message');
+
+    // 비밀번호 입력란이 비어 있는지 확인
+    if (!password) {
+        messageElement.text('비밀번호를 입력하세요.');
+    } 
+    // 비밀번호와 비밀번호 확인 입력란의 값이 일치하는지 확인
+    else if (password !== confirmPassword) { 
+        messageElement.text('비밀번호가 일치하지 않습니다.');
+    } 
+    // 비밀번호가 일치하는 경우
+    else {
+        messageElement.text('');
+    }
+  });
+});
+
 /** 우편번호 찾기 */
 var element_wrap0 = document.getElementById('post_wrap');
 
@@ -437,6 +685,69 @@ function execDaumPostcode() {
       document.getElementById("reg_mb_addr1").value = addr;
       // 커서를 상세주소 필드로 이동한다.
       document.getElementById("reg_mb_addr2").focus();
+
+      // iframe을 넣은 element를 안보이게 한다.
+      // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+      element_wrap0.style.display = 'none';
+
+      // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
+      document.body.scrollTop = currentScroll;
+    },
+    // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
+    onresize: function (size) {
+      element_wrap0.style.height = size.height + 'px';
+    },
+    width: '100%',
+    height: '100%'
+  }).embed(element_wrap0);
+  element_wrap0.style.display = 'block';
+}
+
+function execDaumPostcode2() {
+  var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+  new daum.Postcode({
+    oncomplete: function (data) {
+      // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+      // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+      // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+      var addr = ''; // 주소 변수
+      var extraAddr = ''; // 참고항목 변수
+
+      //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+      if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+        addr = data.roadAddress;
+      } else { // 사용자가 지번 주소를 선택했을 경우(J)
+        addr = data.jibunAddress;
+      }
+
+      // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+      if (data.userSelectedType === 'R') {
+        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+          extraAddr += data.bname;
+        }
+        // 건물명이 있고, 공동주택일 경우 추가한다.
+        if (data.buildingName !== '' && data.apartment === 'Y') {
+          extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+        }
+        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+        if (extraAddr !== '') {
+          extraAddr = ' (' + extraAddr + ')';
+        }
+        // 조합된 참고항목을 해당 필드에 넣는다.
+        //     document.getElementById("sample3_extraAddress").value = extraAddr;
+
+        // } else {
+        //     document.getElementById("sample3_extraAddress").value = '';
+      }
+
+      // 우편번호와 주소 정보를 해당 필드에 넣는다.
+      document.getElementById('store_zip').value = data.zonecode;
+      document.getElementById("store_addr1").value = addr;
+      // 커서를 상세주소 필드로 이동한다.
+      document.getElementById("store_addr2").focus();
 
       // iframe을 넣은 element를 안보이게 한다.
       // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
