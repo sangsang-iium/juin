@@ -72,40 +72,43 @@ EOF;
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">주문상태</th>
+		<th scope="row">배송요일</th>
 		<td>
-			<?php echo radio_checked('od_status', $od_status,  '', '전체'); ?>
-			<?php echo radio_checked('od_status', $od_status, '1', $gw_status[1]); ?>
-			<?php echo radio_checked('od_status', $od_status, '2', $gw_status[2]); ?>
-			<?php echo radio_checked('od_status', $od_status, '3', $gw_status[3]); ?>
-			<?php echo radio_checked('od_status', $od_status, '4', $gw_status[4]); ?>
-			<?php echo radio_checked('od_status', $od_status, '5', $gw_status[5]); ?>
-			<?php echo radio_checked('od_status', $od_status, '6', $gw_status[6]); ?>
-			<?php echo radio_checked('od_status', $od_status, '9', $gw_status[9]); ?>
-			<?php echo radio_checked('od_status', $od_status, '7', $gw_status[7]); ?>
-			<?php echo radio_checked('od_status', $od_status, '8', $gw_status[8]); ?>
+			<?php echo check_checked('od_wday1', $od_wday1,  '월', '월'); ?>
+			<?php echo check_checked('od_wday2', $od_wday2,  '화', '화'); ?>
+			<?php echo check_checked('od_wday3', $od_wday3,  '수', '수'); ?>
+			<?php echo check_checked('od_wday4', $od_wday4,  '목', '목'); ?>
+			<?php echo check_checked('od_wday5', $od_wday5,  '금', '금'); ?>
+			<?php echo check_checked('od_wday6', $od_wday6,  '토', '토'); ?>
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">구매확정</th>
+		<th scope="row">배송주기</th>
 		<td>
-			<?php echo radio_checked('od_final', $od_final,  '', '전체'); ?>
-			<?php echo radio_checked('od_final', $od_final, '1', '구매확정'); ?>
-			<?php echo radio_checked('od_final', $od_final, '0', '구매미확정'); ?>
+			<?php echo radio_checked('od_week', $od_week,  '1', '1주'); ?>
+			<?php echo radio_checked('od_week', $od_week,  '2', '2주'); ?>
+			<?php echo radio_checked('od_week', $od_week,  '3', '3주'); ?>
+			<?php echo radio_checked('od_week', $od_week,  '4', '4주'); ?>
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">기타선택</th>
+		<th scope="row">배송횟수</th>
 		<td>
-			<?php echo check_checked('od_taxbill', $od_taxbill, 'Y', '세금계산서'); ?>
-			<?php echo check_checked('od_taxsave', $od_taxsave, 'Y', '현금영수증'); ?>
-			<?php echo check_checked('od_memo', $od_memo, 'Y', '배송메세지'); ?>
-			<?php echo check_checked('od_shop_memo', $od_shop_memo, 'Y', '관리자메모'); ?>
-			<?php echo check_checked('od_receipt_point', $od_receipt_point, 'Y', '포인트주문'); ?>
-			<?php echo check_checked('od_coupon', $od_coupon, 'Y', '쿠폰할인'); ?>
-			<?php echo check_checked('od_escrow', $od_escrow, 'Y', '에스크로'); ?>
+			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '2', '2주'); ?>
+			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '4', '4주'); ?>
+			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '6', '6주'); ?>
+			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '8', '8주'); ?>
+			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '10', '10주'); ?>
+			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '12', '12주'); ?>
 		</td>
 	</tr>
+	<tr>
+		<th scope="row">첫 배송 시점</th>
+		<td>
+			<input type="date" name="od_begin_date" value="<?php echo $od_begin_date ?>" id="od_begin_date" class="frm_input w100 " maxlength="10">
+		</td>
+	</tr>
+
 	</tbody>
 	</table>
 </div>
@@ -140,11 +143,11 @@ EOF;
 		<col class="w100">
 		<col class="w150">
 		<col class="w40">
-		<col class="w40">
-		<col>
-		<col class="w60">
 		<col class="w80">
 		<col class="w80">
+		<col class="w80">
+		<col class="w80">
+		<col class="w90">
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
@@ -158,18 +161,19 @@ EOF;
 		<th scope="col">번호</th>
 		<th scope="col">주문일시</th>
 		<th scope="col">주문번호</th>
-		<th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
 		<th scope="col" colspan="2">주문상품</th>
 		<th scope="col">수량</th>
-		<th scope="col">상품금액</th>
-		<th scope="col">배송비</th>
-		<th scope="col">주문상태</th>
+		<th scope="col">총 주문액</th>
+		<th scope="col">배송요일</th>
+		<th scope="col">배송주기</th>
+		<th scope="col">잔여 / 총<br>배송횟수</th>
+		<th scope="col">첫 배송 시점</th>
 		<th scope="col">판매자</th>
 		<th scope="col">주문자</th>
 		<th scope="col">수령자</th>
-		<th scope="col">총주문액</th>
 		<th scope="col">결제방법</th>
-		<th scope="col">가맹점</th>
+		<th scope="col">주문상태</th>
+		<th scope="col">배송취소</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -194,21 +198,23 @@ EOF;
 			<?php echo $sodr['disp_test']; ?>
 		</td>
 		<td rowspan="<?php echo $rowspan; ?>">
-			<a href="<?php echo BV_ADMIN_URL; ?>/pop_orderform.php?od_id=<?php echo $row['od_id']; ?>" onclick="win_open(this,'pop_orderform','1200','800','yes');return false;" class="fc_197"><?php echo $row['od_id']; ?></a>
-			<?php echo $sodr['disp_mobile']; ?>
+			<a href="<?php echo BV_ADMIN_URL; ?>/pop_orderregform.php?od_id=<?php echo $row['od_id']; ?>" onclick="win_open(this,'pop_orderform','1200','800','yes');return false;" class="fc_197"><?php echo $row['od_id']; ?></a>
 		</td>
-		<td rowspan="<?php echo $rowspan; ?>">
+		<!-- <td rowspan="<?php echo $rowspan; ?>">
 			<input type="hidden" name="od_id[<?php echo $i; ?>]" value="<?php echo $row['od_id']; ?>">
 			<label for="chk_<?php echo $i; ?>" class="sound_only">주문번호 <?php echo $row['od_id']; ?></label>
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>" id="chk_<?php echo $i; ?>">
-		</td>
+		</td> -->
 		<?php } ?>
 		<td class="td_img"><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 30, 30); ?></a></td>
 		<td class="td_itname"><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
 		<td><?php echo number_format($row2['sum_qty']); ?></td>
-		<td class="tar"><?php echo number_format($row2['goods_price']); ?></td>
-		<td class="tar"><?php echo number_format($row2['baesong_price']); ?></td>
-		<td><?php echo $gw_status[$row2['dan']]; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
+		<!-- <td class="tar"><?php echo number_format($row2['goods_price']); ?></td> -->
+		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_wday']; ?></td>
+		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_week']; ?></td>
+		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_reg_num']; ?> / <?php echo $row2['od_reg_cnt'] ?></td>
+		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_begin_date']; ?></td>
 		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
 		<?php if($k == 0) { ?>
 		<td rowspan="<?php echo $rowspan; ?>">
@@ -216,16 +222,18 @@ EOF;
 			<?php echo $sodr['disp_mb_id']; ?>
 		</td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row['b_name']; ?></td>
-		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
-		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_pt_id']; ?></td>
+		<td><?php echo $gw_status[$row2['dan']]; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>">
+			<a href="javascipt:void(0);">취소</a>
+		</td>
 		<?php } ?>
 	<?php
 		}
 	}
 	sql_free_result($result);
 	if($i==0)
-		echo '<tr><td colspan="16" class="empty_table">자료가 없습니다.</td></tr>';
+		echo '<tr><td colspan="17" class="empty_table">자료가 없습니다.</td></tr>';
 	?>
 	</tbody>
 	</table>
