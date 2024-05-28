@@ -80,6 +80,7 @@ function getMenuTab ($menuName, $memberID, $retunHTML) {
         $member_auth = explode("||",$member_authArr[$key]);
         if(strstr($member_auth[1], 'r')){
           return $retunHTML;
+          break;
         } 
       } else {
         continue;
@@ -88,9 +89,9 @@ function getMenuTab ($menuName, $memberID, $retunHTML) {
   }
 }
 
-echo getMenuTab("ADMIN_MENU1", "manager", t1('m10', '회원관리'));
-echo getMenuTab("ADMIN_MENU1_01", "manager", t2('m10', ADMIN_MENU1_01, BV_ADMIN_URL.'/member.php?code=list'));
-echo getMenuTab("ADMIN_MENU1_02", "manager", t2('m10', ADMIN_MENU1_02, BV_ADMIN_URL.'/member.php?code=level_form'));
+// echo getMenuTab("ADMIN_MENU1", "manager", t1('m10', '회원관리'));
+// echo getMenuTab("ADMIN_MENU1_01", "manager", t2('m10', ADMIN_MENU1_01, BV_ADMIN_URL.'/member.php?code=list'));
+// echo getMenuTab("ADMIN_MENU1_02", "manager", t2('m10', ADMIN_MENU1_02, BV_ADMIN_URL.'/member.php?code=level_form'));
 
 /* } 테스트  */
 
@@ -141,7 +142,7 @@ echo getMenuTab("ADMIN_MENU1_02", "manager", t2('m10', ADMIN_MENU1_02, BV_ADMIN_
         $key = "TEST{$i}";
       ?>
           <tr class="<?php echo $bg; ?>">
-            <td><?php echo $TEST[$key]['name'] ?></td>
+            <td><?php echo $TEST[$key] ?></td>
             <td>			
               <input type="hidden" name="auth_cate[<?php echo $i; ?>]" value="<?php echo $key; ?>">
               <input type="checkbox" name="auth[]" value="<?php echo $i; ?>">

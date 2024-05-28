@@ -507,20 +507,21 @@ function log_write($str) {
 function getMenuFunc($menu, $link, $code) {
   global $member;
   global $pg_title;
-
+  
+  $exp_name = constant($menu);
+  
   if($member['id'] != 'admin' && isset($member['auth_idx'])) {
     
     // 권한체크
     $auth_sql = " SELECT * FROM authorization WHERE auth_idx = '{$member['auth_idx']}' ";
     $auth_row = sql_fetch($auth_sql);
     $exp_menu = explode(",", $auth_row['auth_menu']);
-    $exp_name = explode(",", $auth_row['auth_menu2']);
-    $menuArr  = array_combine($exp_menu, $exp_name);
     
-    foreach($menuArr as $key => $val) {
-      if($val == $menu) {
-        $retun = "<li class='gnb_1dli " . ($pg_title == $menu ? "active" : "") . "'>
-                    <a href='" . BV_ADMIN_URL . "/{$link}.php?code={$code}' class='gnb_1da'>" . $menu . "</a>
+    
+    foreach($exp_menu as $key => $val) {
+      if($menu == $val) {
+        $retun = "<li class='gnb_1dli " . ($pg_title == $exp_name ? "active" : "") . "'>
+                    <a href='" . BV_ADMIN_URL . "/{$link}.php?code={$code}' class='gnb_1da'>" . $exp_name . "</a>
                   </li>";
         break;
       } else {
@@ -531,8 +532,8 @@ function getMenuFunc($menu, $link, $code) {
     return $retun;
 
   } else {
-    $retun = "<li class='gnb_1dli " . ($pg_title == $menu ? "active" : "") . "'>
-                <a href='" . BV_ADMIN_URL . "/{$link}.php?code={$code}' class='gnb_1da'>" . $menu . "</a>
+    $retun = "<li class='gnb_1dli " . ($pg_title == $exp_name ? "active" : "") . "'>
+                <a href='" . BV_ADMIN_URL . "/{$link}.php?code={$code}' class='gnb_1da'>" . $exp_name . "</a>
               </li>";
 
     return $retun;
