@@ -56,7 +56,7 @@ $auth_res = sql_query($auth_sql);
   <tr>
     <th scope="row"><label for="manager_pw">비밀번호</label><span>(*)</span></th>
     <td>
-      <input type="text" name="manager_pw" id="manager_pw" value="" <?php echo ($w == '') ? 'required' : '' ?> class="frm_input">
+      <input type="password" name="manager_pw" id="manager_pw" value="" <?php echo ($w == '') ? 'required' : '' ?> class="frm_input">
     </td>
   </tr>
   <tr>
