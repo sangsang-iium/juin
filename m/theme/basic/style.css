@@ -580,6 +580,7 @@ strong, b {font-weight:600;}
 #fregisterform #reg_mb_email {/*width:100% !important;*/}
 #fregisterform .frm_address {width:100% !important;margin:5px 0 0;}
 #fregisterform #msg_certify {margin:5px 0 0;padding:5px;border:1px solid #dbecff;background:#eaf4ff;text-align:center;}
+.reg-message {margin-top: 1rem; font-size: 1.8rem; font-weight: 400; color: #e8180c;}
 
 /*회원가입 완료*/
 #reg_result {padding:30px 15px 0;}

@@ -5,7 +5,7 @@ include_once(BV_PATH.'/include/topMenu.php');
 ?>
 
 <div id="contents" class="sub-contents usedList">
-  <a href="" class="ui-btn active round regiBtn">
+  <a href="./write.php" class="ui-btn active round regiBtn">
     <img src="/src/img/used/icon-register.png" alt="">글쓰기
   </a>
 

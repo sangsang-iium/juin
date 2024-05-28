@@ -53,6 +53,7 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 						<div class="form-body">
 							<input type="password" name="mb_password_re" id="reg_mb_password_re"<?php echo $required; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" maxlength="20" placeholder="비밀번호를 한번 더 입력해주세요.">
+              <p id="password-message" class="reg-message"></p>
 						</div>
 					</div>
 					<div class="form-row">
@@ -194,6 +195,22 @@ if(!defined('_BLUEVATION_')) exit;
 <script src="/js/postcode.v2.js"></script>
 
 <script>
+// 비밀번호 확인 일치여부
+$('#reg_mb_password_re').on('input', function() {
+  // 비밀번호와 비밀번호 확인 입력란의 값을 가져오기
+  let password = $('#reg_mb_password').val();
+  let confirmPassword = $('#reg_mb_password_re').val();
+  let messageElement = $('#password-message');
+  
+  if (!password) { // 비밀번호 입력란이 비어 있는지 확인
+      messageElement.text('비밀번호를 입력하세요.');
+  }  else if (password !== confirmPassword) {  // 비밀번호와 비밀번호 확인 입력란의 값이 일치하는지 확인
+      messageElement.text('비밀번호가 일치하지 않습니다.')
+  } else { // 비밀번호가 일치하는 경우
+      messageElement.text('');
+  }
+});
+
 /** 우편번호 찾기 */
 var element_wrap0 = document.getElementById('post_wrap');
 

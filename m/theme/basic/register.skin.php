@@ -59,6 +59,31 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               </div>
             </div>
           </div>
+          
+          <?php if ($_SERVER['REMOTE_ADDR']=="106.247.231.170") { ?>
+          <?php if($_GET['type'] == '1') { ?>
+          <!-- 사업자 회원가입일 경우 노출 { -->
+          <div class="joinDetail-box type2">
+            <div class="joinDetail-body">
+              <div class="form-row">
+                <div class="form-head">
+                  <p class="title">사업자 정보 조회<b>*</b></p>
+                </div>
+                <div class="form-body">
+                  <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="" placeholder="***-**-*****" maxlength="12" readonly="">
+                  <div class="joinDetail-btn-box joinDetail-btn-box3">
+                    <button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
+                    <button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
+                    <button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- } 사업자 회원가입일 경우 노출 -->
+          <?php } ?>
+          <?php } ?>
+
 					<div class="cp-btnbar">
 						<div class="container">
 							<div class="cp-btnbar__btns">
