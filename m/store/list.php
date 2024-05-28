@@ -1,6 +1,7 @@
 <?php
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
+include_once(BV_PATH.'/include/topMenu.php');
 ?>
 
 <div id="contents" class="sub-contents storeList">
@@ -19,7 +20,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
     </div>
   </div>
 
-  <div class="store-map">
+  <div id="map" class="store-map">
     <!-- 지도 연동 -->
   </div>
 
@@ -92,6 +93,18 @@ include_once(BV_MPATH."/_head.php"); // 상단
 
   </div>
 </div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eaf541d30a116048e3c696a2d92d9fb8"></script>
+<script>
+//Kakao map
+var container = document.getElementById('map');
+var options = {
+	center: new kakao.maps.LatLng(33.450701, 126.570667),
+	level: 3
+};
+
+var map = new kakao.maps.Map(container, options);
+</script>
 
 <script type="module">
 import * as f from '/src/js/function.js';
