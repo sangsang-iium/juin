@@ -6,6 +6,14 @@ if(defined('_INDEX_')) { // index에서만 실행
 }
 ?>
 
+<style>
+	#gnb {border-bottom: none;}
+	#gnb_inner {height: auto; width: 1400px; max-width: 100%; padding-left: 0;}
+	#gnb_inner .all_cate {position: static;}
+	#gnb_inner .all_cate .con_bx {position: static; display: block; padding:0;}
+	#gnb_inner .all_cate .con_bx .c_box {padding:0;}
+</style>
+
 <div id="wrapper">
 	<div id="header">
 		<div id="tnb">
@@ -57,7 +65,8 @@ if(defined('_INDEX_')) { // index에서만 실행
 			<div id="gnb">
 				<div id="gnb_inner">
 					<div class="all_cate">
-						<span class="allc_bt"><i class="fa fa-bars"></i> 전체카테고리</span>
+						<span class="allc_bt"> 전체카테고리</span>
+						<!-- <i class="fa fa-bars"></i> -->
 						<div class="con_bx">
 							<ul>
 							<?php
@@ -96,7 +105,7 @@ if(defined('_INDEX_')) { // index에서만 실행
 							?>
 							</ul>
 						</div>
-						<script>
+						<!-- <script>
 						$(function(){
 							$('.all_cate .allc_bt').click(function(){
 								if($('.all_cate .con_bx').css('display') == 'none'){
@@ -108,12 +117,12 @@ if(defined('_INDEX_')) { // index에서만 실행
 								}
 							});
 						});
-						</script>
+						</script> -->
 					</div>
 				</div>
 			</div>
 			<!-- } 상단부 영역 끝 -->
-			<script>
+			<!-- <script>
 			$(function(){
 				// 상단메뉴 따라다니기
 				var elem1 = $("#hd_banner").height() + $("#tnb").height() + $("#hd_inner").height();
@@ -129,7 +138,7 @@ if(defined('_INDEX_')) { // index에서만 실행
 					}
 				});
 			});
-			</script>
+			</script> -->
 		</div>
 	</div>
 

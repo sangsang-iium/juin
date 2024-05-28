@@ -709,6 +709,23 @@ function admin_order_status_sum($where)
 
 	return $info;
 }
+// 정기 주문상태에 따른 합계 금액
+function admin_reg_order_status_sum($where)
+{
+	$sql = " select od_id from shop_order_reg {$where} group by od_id ";
+	$res = sql_query($sql);
+	$od_count = sql_num_rows($res);
+
+	$sql = " select SUM(goods_price + baesong_price) as price from shop_order_reg {$where} ";
+	$row = sql_fetch($sql);
+	$od_price = (int)$row['price'];
+
+	$info = array();
+	$info['cnt']   = $od_count;
+	$info['price'] = $od_price;
+
+	return $info;
+}
 
 // 가맹점 주문합계
 function partner_order_status_sum($pt_id, $sql_search='')
