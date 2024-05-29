@@ -53,6 +53,36 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 					<div class="a-cont">
 						<p class="q-text">
 							<?php echo nl2br(stripslashes($row['memo'])); ?>
+							<?php 
+								if($row['imgUpload1']){
+								?><p>
+									<img src="/data/qa/<?=$row['imgUpload1']?>">
+								 </p>
+								<?php	
+								}
+								if($row['imgUpload2']){
+									?>
+										<p><img src="/data/qa/<?=$row['imgUpload2']?>"></p>
+									<?php	
+								}
+								if($row['imgUpload3']){
+									?>
+									<p><img src="/data/qa/<?=$row['imgUpload3']?>"></p> 
+									<?php	
+								}
+								if($row['imgUpload4']){
+									?><p>
+										<img src="/data/qa/<?=$row['imgUpload4']?>">	
+									</p>
+										
+									<?php	
+								}
+								if($row['imgUpload5']){
+									?><p><img src="/data/qa/<?=$row['imgUpload5']?>"></p> 
+									<?php	
+								}
+
+							?>
 						</p>
 						<div class="a-box">
 							<?php if($row['reply']){ ?>

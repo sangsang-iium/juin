@@ -3,6 +3,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 ?>
 <div id="contents">
 
+
 	<form name="fqaform" id="fqaform" method="post" action="<?php echo $form_action_url; ?>" onsubmit="return fqaform_submit(this);" autocomplete="off" enctype="MULTIPART/FORM-DATA">
 		<input type="hidden" name="mode" value="w">
 		<input type="hidden" name="token" value="<?php echo $token; ?>">
@@ -111,11 +112,21 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 						<p class="title">핸드폰번호<b>*</b></p>
 					</div>
 					<div class="form-body phone">
-						<input type="text" name="" id="" class="frm-input" readonly>
+					<?php
+					
+					if($member['cellphone']){
+						$cellArr = explode("-",$member['cellphone']);
+						if(count($cellArr)==3){
+							$cellphone1 = $cellArr[0];
+							$cellphone2 = $cellArr[1];
+							$cellphone3 = $cellArr[2];
+						} 
+					}?>
+						<input type="text" name="cellphone1" id="wr_1" class="frm-input" value="<?=$cellphone1?>" required>
 						<span class="hyphen">-</span>
-						<input type="text" name="" id="" class="frm-input" readonly>
+						<input type="text" name="cellphone2" id="wr_2" class="frm-input" value="<?=$cellphone2?>" required>
 						<span class="hyphen">-</span>
-						<input type="text" name="" id="" class="frm-input" readonly>
+						<input type="text" name="cellphone3" id="wr_3" class="frm-input"  value="<?=$cellphone3?>" required>
 						<div class="frm-choice">
 							<input type="checkbox" name="sms_send_yes" value="1" id="sms_send_yes" class="css-checkbox lrg">
 							<label for="sms_send_yes">답변 여부를 문자로 받아보시겠습니까?</label>
@@ -128,7 +139,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 						<p class="title">이메일<b>*</b></p>
 					</div>
 					<div class="form-body">
-						<input type="text" name="" id="" class="frm-input w-per100" placeholder="이메일을 입력해주세요.">
+						<input type="text" name="email" id="email" class="frm-input w-per100" placeholder="이메일을 입력해주세요." value='<?php echo $member['email'];?>'>
 						<div class="frm-choice">
 							<input type="checkbox" name="email_send_yes" value="1" id="email_send_yes" class="css-checkbox lrg">
 							<label for="email_send_yes">답변 내용을 메일로 받아보시겠습니까?</label>

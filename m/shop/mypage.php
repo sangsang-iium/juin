@@ -21,6 +21,8 @@ $sql = " select count(*) as cnt $sql_common $sql_search ";
 $row = sql_fetch($sql);
 $cp_count = $row['cnt'];
 
+///home/juin/www/m/theme/basic/mypage.skin.php
+
 include_once(BV_MTHEME_PATH.'/mypage.skin.php');
 
 include_once("./_tail.php");

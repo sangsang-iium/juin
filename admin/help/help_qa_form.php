@@ -34,7 +34,40 @@ $qa['replyer'] = $qa['replyer'] ? $qa['replyer'] : $member['name'];
 	</tr>
 	<tr>
 		<th scope="row">내용 </th>
-		<td><?php echo nl2br($qa['memo']); ?></td>
+		<td>
+			<?php echo nl2br($qa['memo']); ?>
+			<?php 
+			if($qa['imgUpload1']){
+			?><p>
+				<img src="/data/qa/<?=$qa['imgUpload1']?>">
+				</p>
+			<?php	
+			}
+			if($qa['imgUpload2']){
+				?>
+					<p><img src="/data/qa/<?=$qa['imgUpload2']?>"></p>
+				<?php	
+			}
+			if($qa['imgUpload3']){
+				?>
+				<p><img src="/data/qa/<?=$qa['imgUpload3']?>"></p> 
+				<?php	
+			}
+			if($qa['imgUpload4']){
+				?><p>
+					<img src="/data/qa/<?=$qa['imgUpload4']?>">	
+				</p>
+					
+				<?php	
+			}
+			if($qa['imgUpload5']){
+				?><p><img src="/data/qa/<?=$qa['imgUpload5']?>"></p> 
+				<?php	
+			}
+
+		?>
+	
+	</td>
 	</tr>
 	<tr>
 		<th scope="row">답변자</th>

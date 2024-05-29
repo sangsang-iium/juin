@@ -1,7 +1,17 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
-?>
+//echo $sql;
+//select * from shop_point where mb_id = 'admin' order by po_id desc limit 0, 10
 
+?>
+<script>
+  function fn_chk_point1(val){
+    console.log(val);
+    var po_datetime = $("select[name=po_datetime]").val();
+    console.log(po_datetime);
+    document.location.href="?point="+val+"&po_datetime="+po_datetime;
+  }
+</script>
 <div id="point">
   <div id="contents">
 
@@ -18,11 +28,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
     <div class="point-sort">
       <div class="container">
-        <select name="" id="" class="frm-select">
+        <select name="po_datetime" id="po_datetime" class="frm-select">
           <option value="">선택</option>
-          <option value="">1개월</option>
-          <option value="">3개월</option>
-          <option value="">12개월</option>
+          <option value="1" <?php if($po_datetime=="1") echo "selected"; ?>>1개월</option>
+          <option value="3" <?php if($po_datetime=="3") echo "selected"; ?>>3개월</option>
+          <option value="12" <?php if($po_datetime=="12") echo "selected"; ?>>12개월</option>
         </select>
       </div>
     </div>
@@ -31,11 +41,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       <div class="container">
         <div class="calc-box">
           <div class="calc-item">
-            <p class="tit">지급</p>
+            <p class="tit" onclick="fn_chk_point1('po_point')" style='cursor:pointer'>지급</p>
             <p class="num"><?php echo $sum_point1; ?></p>
           </div>
           <div class="calc-item">
-            <p class="tit">사용</p>
+            <p class="tit"onclick="fn_chk_point1('po_use_point')"  style='cursor:pointer'>사용</p>
             <p class="num"><?php echo $sum_point2; ?></p>
           </div>
         </div>

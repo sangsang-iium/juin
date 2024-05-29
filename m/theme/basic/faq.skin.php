@@ -48,8 +48,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	<div class="txt-board-list" id="faq">
 		<div class="container">
 			<?php
-			$sql = "select * from shop_faq ";
-			if($faqcate) $sql .= " where cate='$faqcate'";
+			$sql = "select * from shop_faq where 1=1 ";
+			if($faqcate) $sql .= " and cate='$faqcate'"; 
+			if($stx){
+				$sql .= " and (subject like '%".$stx."%' or memo like '%".$stx."%')";
+			} 
 			$sql.= " order by index_no asc ";
 			$rst = sql_query($sql);
       // 총 개수 _20240313_SY
