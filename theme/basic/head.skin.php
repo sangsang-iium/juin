@@ -12,6 +12,7 @@ if(defined('_INDEX_')) { // index에서만 실행
 	#gnb_inner .all_cate {position: static;}
 	#gnb_inner .all_cate .con_bx {position: static; display: block; padding:0;}
 	#gnb_inner .all_cate .con_bx .c_box {padding:0;}
+	.c_box .active a {color: red; font-weight:600}
 </style>
 
 <div id="wrapper">
@@ -90,7 +91,7 @@ if(defined('_INDEX_')) { // index에서만 실행
 											// $href2 = BV_SHOP_URL.'/list.php?ca_id='.$row2['catecode'];
 											$href2 = '/mng/?ca_id='.$row2['catecode'];
 										?>
-										<li><a href="<?php echo $href2; ?>"><?php echo $row2['catename']; ?></a></li>
+										<li class="<?php echo $row2['catecode'] == $ca_id?"active":"" ?>"><a href="<?php echo $href2; ?>"><?php echo $row2['catename']; ?></a></li>
 										<?php } ?>
 									</ul>
 									<?php } ?>

@@ -152,6 +152,8 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('g60', ADMIN_MENU5_26, BV_ADMIN_URL.'/goods.php?code=popular_rank'); ?>
 		<?php echo printMenu1('g70', '라이브존'); ?>
 		<?php echo printMenu2('g60', ADMIN_MENU5_28, BV_ADMIN_URL.'/goods.php?code=live'); ?>
+		<?php echo printMenu1('g70', '래플 응모 관리'); ?>
+		<?php echo printMenu2('g60', ADMIN_MENU5_29, BV_ADMIN_URL.'/goods.php?code=raffle'); ?>
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU6) {

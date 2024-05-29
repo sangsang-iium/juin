@@ -27,6 +27,167 @@ if($_POST['mode'] == 'w') {
 		$_POST['memo'] = addslashes($_POST['memo']);
 	}
 
+
+	// 업로드 디렉토리를 설정합니다.
+$uploadDir = "../../data/qa/"; // 업로드 디렉토리 경로
+$maxFileSize = 10 * 1024 * 1024; // 5MB
+
+	// 업로드된 파일의 정보를 가져옵니다.
+	$fileName = $_FILES["imgUpload1"]["name"];
+	$fileTmpName = $_FILES["imgUpload1"]["tmp_name"];
+	$fileSize = $_FILES["imgUpload1"]["size"];
+
+	// 파일 확장자를 체크하고 허용되는 확장자를 지정합니다.
+	$allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+	$fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+	if (in_array($fileExtension, $allowedExtensions)) {
+		// 파일 크기를 체크하고 원하는 크기로 제한합니다.
+		if ($fileSize <= $maxFileSize) {
+			// 새로운 파일 이름을 생성합니다.
+			$newFileName = uniqid() . "." . $fileExtension;
+			$uploadPath = $uploadDir . $newFileName;
+
+			// 임시 파일의 경로를 UTF-8로 변환합니다.
+			$utf8TmpFileName = mb_convert_encoding($fileTmpName, 'UTF-8', 'auto');
+
+			// 파일을 이동시킵니다.
+			if (move_uploaded_file($utf8TmpFileName, $uploadPath)) {
+			echo "파일 업로드 성공: " . $newFileName;
+			$newFileName1 = $newFileName;		
+			} else {
+			echo "파일 업로드 실패.";
+			}
+		} else {
+			echo "파일 크기가 너무 큽니다. 최대 파일 크기는 " . ($maxFileSize / (1024 * 1024)) . "MB입니다.";
+		}
+	}  
+
+
+		// 업로드된 파일의 정보를 가져옵니다.
+		$fileName = $_FILES["imgUpload2"]["name"];
+		$fileTmpName = $_FILES["imgUpload2"]["tmp_name"];
+		$fileSize = $_FILES["imgUpload2"]["size"];
+	
+		// 파일 확장자를 체크하고 허용되는 확장자를 지정합니다.
+		$allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+		$fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+	
+		if (in_array($fileExtension, $allowedExtensions)) {
+			// 파일 크기를 체크하고 원하는 크기로 제한합니다.
+			if ($fileSize <= $maxFileSize) {
+				// 새로운 파일 이름을 생성합니다.
+				$newFileName = uniqid() . "." . $fileExtension;
+				$uploadPath = $uploadDir . $newFileName;
+	
+				// 임시 파일의 경로를 UTF-8로 변환합니다.
+				$utf8TmpFileName = mb_convert_encoding($fileTmpName, 'UTF-8', 'auto');
+	
+				// 파일을 이동시킵니다.
+				if (move_uploaded_file($utf8TmpFileName, $uploadPath)) {
+				echo "파일 업로드 성공: " . $newFileName;
+				$newFileName2 = $newFileName;		
+				} else {
+				echo "파일 업로드 실패.";
+				}
+			} else {
+				echo "파일 크기가 너무 큽니다. 최대 파일 크기는 " . ($maxFileSize / (1024 * 1024)) . "MB입니다.";
+			}
+		}
+		
+		// 업로드된 파일의 정보를 가져옵니다.
+		$fileName = $_FILES["imgUpload3"]["name"];
+		$fileTmpName = $_FILES["imgUpload3"]["tmp_name"];
+		$fileSize = $_FILES["imgUpload3"]["size"];
+	
+		// 파일 확장자를 체크하고 허용되는 확장자를 지정합니다.
+		$allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+		$fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+	
+		if (in_array($fileExtension, $allowedExtensions)) {
+			// 파일 크기를 체크하고 원하는 크기로 제한합니다.
+			if ($fileSize <= $maxFileSize) {
+				// 새로운 파일 이름을 생성합니다.
+				$newFileName = uniqid() . "." . $fileExtension;
+				$uploadPath = $uploadDir . $newFileName;
+	
+				// 임시 파일의 경로를 UTF-8로 변환합니다.
+				$utf8TmpFileName = mb_convert_encoding($fileTmpName, 'UTF-8', 'auto');
+	
+				// 파일을 이동시킵니다.
+				if (move_uploaded_file($utf8TmpFileName, $uploadPath)) {
+				echo "파일 업로드 성공: " . $newFileName;
+				$newFileName3 = $newFileName;		
+				} else {
+				echo "파일 업로드 실패.";
+				}
+			} else {
+				echo "파일 크기가 너무 큽니다. 최대 파일 크기는 " . ($maxFileSize / (1024 * 1024)) . "MB입니다.";
+			}
+		}
+
+		// 업로드된 파일의 정보를 가져옵니다.
+		$fileName = $_FILES["imgUpload4"]["name"];
+		$fileTmpName = $_FILES["imgUpload4"]["tmp_name"];
+		$fileSize = $_FILES["imgUpload4"]["size"];
+	
+		// 파일 확장자를 체크하고 허용되는 확장자를 지정합니다.
+		$allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+		$fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+	
+		if (in_array($fileExtension, $allowedExtensions)) {
+			// 파일 크기를 체크하고 원하는 크기로 제한합니다.
+			if ($fileSize <= $maxFileSize) {
+				// 새로운 파일 이름을 생성합니다.
+				$newFileName = uniqid() . "." . $fileExtension;
+				$uploadPath = $uploadDir . $newFileName;
+	
+				// 임시 파일의 경로를 UTF-8로 변환합니다.
+				$utf8TmpFileName = mb_convert_encoding($fileTmpName, 'UTF-8', 'auto');
+	
+				// 파일을 이동시킵니다.
+				if (move_uploaded_file($utf8TmpFileName, $uploadPath)) {
+				echo "파일 업로드 성공: " . $newFileName;
+				$newFileName4 = $newFileName;		
+				} else {
+				echo "파일 업로드 실패.";
+				}
+			} else {
+				echo "파일 크기가 너무 큽니다. 최대 파일 크기는 " . ($maxFileSize / (1024 * 1024)) . "MB입니다.";
+			}
+		}
+
+		// 업로드된 파일의 정보를 가져옵니다.
+		$fileName = $_FILES["imgUpload5"]["name"];
+		$fileTmpName = $_FILES["imgUpload5"]["tmp_name"];
+		$fileSize = $_FILES["imgUpload5"]["size"];
+	
+		// 파일 확장자를 체크하고 허용되는 확장자를 지정합니다.
+		$allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+		$fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+	
+		if (in_array($fileExtension, $allowedExtensions)) {
+			// 파일 크기를 체크하고 원하는 크기로 제한합니다.
+			if ($fileSize <= $maxFileSize) {
+				// 새로운 파일 이름을 생성합니다.
+				$newFileName = uniqid() . "." . $fileExtension;
+				$uploadPath = $uploadDir . $newFileName;
+	
+				// 임시 파일의 경로를 UTF-8로 변환합니다.
+				$utf8TmpFileName = mb_convert_encoding($fileTmpName, 'UTF-8', 'auto');
+	
+				// 파일을 이동시킵니다.
+				if (move_uploaded_file($utf8TmpFileName, $uploadPath)) {
+				echo "파일 업로드 성공: " . $newFileName;
+				$newFileName5 = $newFileName;		
+				} else {
+				echo "파일 업로드 실패.";
+				}
+			} else {
+				echo "파일 크기가 너무 큽니다. 최대 파일 크기는 " . ($maxFileSize / (1024 * 1024)) . "MB입니다.";
+			}
+		}
+
 	unset($value);
 	$value['mb_id']			 = $member['id'];
 	$value['subject']		 = $subject;
@@ -38,7 +199,16 @@ if($_POST['mode'] == 'w') {
 	$value['sms_send_yes']	 = $_POST['sms_send_yes'];
 	$value['ip']			 = $_SERVER['REMOTE_ADDR'];
 	$value['wdate']			 = BV_TIME_YMDHIS;
+	$value['cellphone']		 = $_POST['cellphone1'].'-'.$_POST['cellphone2'].'-'.$_POST['cellphone3'];
+	$value['imgUpload1']	 = $newFileName1;
+	$value['imgUpload2']	 = $newFileName2;
+	$value['imgUpload3']	 = $newFileName3;
+	$value['imgUpload4']	 = $newFileName4;
+	$value['imgUpload5']	 = $newFileName5;
+
 	insert("shop_qa", $value);
+
+	
 
 	$wr_subject = get_text(stripslashes($subject));
 	$wr_content = conv_content(conv_unescape_nl(stripslashes($_POST['memo'])), 0);
@@ -67,6 +237,9 @@ $token = md5(uniqid(rand(), true));
 set_session("ss_token", $token);
 
 $form_action_url = BV_HTTPS_MBBS_URL.'/qna_write.php';
+//echo(BV_MTHEME_PATH.'/qna_write.skin.php');
+///home/juin/www/m/theme/basic/qna_write.skin.php
+
 include_once(BV_MTHEME_PATH.'/qna_write.skin.php');
 
 include_once("./_tail.php");

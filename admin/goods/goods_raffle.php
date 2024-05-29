@@ -5,16 +5,23 @@ $query_string = "code=$code$qstr";
 $q1 = $query_string;
 $q2 = $query_string."&page=$page";
 
-$sql_common = " from shop_goods_live ";
-$sql_search = " ";
+$sql_common = " from shop_goods_raffle ";
+$sql_search = " where (1) ";
 
-if($stx) {
-    $sql_search .= " WHERE title like '%$stx%' ";
+if($sfl && $stx) {
+    $sql_search .= " and ($sfl like '%$stx%') ";
 }
 
+if($fr_date && $to_date)
+	$sql_search .= " and (event_start_date >= '$fr_date' and event_end_date <= '$to_date') ";
+else if($fr_date && !$to_date)
+	$sql_search .= " and (event_start_date >= '$fr_date' and event_start_date <= '$fr_date') ";
+else if(!$fr_date && $to_date)
+	$sql_search .= " and (event_end_date >= '$to_date' and event_end_date <= '$to_date') ";
+
 if(!$orderby) {
-    $filed = "index_no DESC";
-    $sod = "";
+    $filed = "index_no";
+    $sod = "desc";
 } else {
 	$sod = $orderby;
 }
@@ -35,9 +42,21 @@ $num = $total_count - (($page-1)*$rows);
 $sql = " select * $sql_common $sql_search $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
+include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
+
 $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
+<a href="./goods.php?code=raffle_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 레플등록</a>
 EOF;
+
+$gw_type = array(
+	"0"=>"발행 날짜 지정",
+	"1"=>"발행 시간/요일 지정",
+	"2"=>"성별구분으로 발급",
+	"3"=>"회원 생일자 발급",
+	"4"=>"연령 구분으로 발급",
+	"5"=>"신규회원가입 발급"
+);
 ?>
 
 <h2>기본검색</h2>
@@ -49,17 +68,22 @@ EOF;
 		<col class="w100">
 		<col>
 	</colgroup>
-	<tbody>
+	<tbody>	
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sst">
-				<option value="라이브존 타이틀">라이브존 타이틀</option>
-				<!-- <option value="상품"<?php echo get_selected($sst, '상품'); ?>>상품</option> -->
+			<select name="sfl">
+				<?php echo option_selected('goods_name', $sfl, '레플명'); ?>
 			</select>
 			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
 		</td>
 	</tr>
+	<tr>
+		<th scope="row">사용기간</th>
+		<td>
+			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+		</td>
+	</tr>	
 	</tbody>
 	</table>
 </div>
@@ -69,11 +93,7 @@ EOF;
 </div>
 </form>
 
-<div>
-	<a href="./goods.php?code=live_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 라이브 등록</a>
-</div>
-
-<form name="fqalist" id="fqalist" method="post" action="./goods/goods_live_delete.php" onsubmit="return fqalist_submit(this);">
+<form name="frafflelist" id="frafflelist" method="post" action="./goods/goods_raffle_delete.php" onsubmit="return frafflelist_submit(this);">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
@@ -88,20 +108,25 @@ EOF;
 	<colgroup>
 		<col class="w50">
 		<col class="w50">
-		<col class="w130">
-		<col class="w130">
-		<col class="w80">
-		<col class="w60">
+		<col>
+		<col class="w300">
+		<col class="w100">
+		<col class="w100">
+		<col class="w100">
+		<col class="w50">
 		<col class="w60">
 	</colgroup>
 	<thead>
 	<tr>
 		<th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
 		<th scope="col">번호</th>
-		<th scope="col"><?php echo subject_sort_link('title',$q2); ?>라이브존 타이틀</a></th>
-		<th scope="col"><?php echo subject_sort_link('live_time',$q2); ?>라이브 시간</a></th>
-		<th scope="col"><?php echo subject_sort_link('url',$q2); ?>URL</a></th>
-		<th scope="col"><?php echo subject_sort_link('reg_time',$q2); ?>등록일</a></th>
+		<th scope="col">상품명</th>
+		<th scope="col">구매가격</th>
+		<th scope="col">응모 수</th>
+		<th scope="col">응모 기간</th>
+		<th scope="col">당첨자 발표일</th>
+		<th scope="col">등록자</th>
+		<th scope="col">등록일시</th>
 		<th scope="col">관리</th>
 	</tr>
 	</thead>
@@ -109,49 +134,33 @@ EOF;
 	for($i=0; $row=sql_fetch_array($result); $i++) {
 		$index_no = $row['index_no'];
 
-		$iq_url = "code=live_form&w=u&index_no=$index_no$qstr&page=$page";
+		$iq_url = "code=raffle_form&w=u&index_no=$index_no$qstr&page=$page";
 		$iq_upd = "<a href=\"./goods.php?{$iq_url}\" class=\"btn_small\">수정</a>";
-		$iq_subject = "<a href=\"./goods.php?{$iq_url}\">".cut_str($row['iq_subject'],50)."</a>";
 
 		if($i==0)
 			echo '<tbody class="list">'.PHP_EOL;
 
 		$bg = 'list'.($i%2);
-
-		$dateArr = array(
-			'mon'=>'월',
-			'tues'=>'화',
-			'wednes'=>'수',
-			'thurs'=>'목',
-			'fri'=>'금',
-			'satur'=>'토',
-			'sun'=>'일',
-		);
-
-		$liveTimeArr = json_decode($row['live_time'], true);
-
-		$liveTime = '';
-		foreach ($liveTimeArr as $liveTimeVal) {
-			$liveTime .= $dateArr[$liveTimeVal['live_date']]." ".$liveTimeVal['live_start_time']." ~ ".$liveTimeVal['live_end_time']."<br>";
-		}
-		
 	?>
 	<tr class="<?php echo $bg; ?>">
-		<td>
-			<input type="hidden" name="index_no[<?php echo $i; ?>]" value="<?php echo $index_no; ?>">
+		<td>			
+			<input type="hidden" name="cp_id[<?php echo $i; ?>]" value="<?php echo $cp_id; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
 		<td><?php echo $num--; ?></td>
-		<td><?php echo $row['title']; ?></td>
-		<td><?php echo $liveTime; ?></td>
-		<td><a href="<?php echo $row['url']; ?>" target="_blank"><?php echo $row['url']; ?></a></td>
+		<td><?php echo $row['goods_name'] ?></td>
+		<td><?php echo $row['raffle_price'] ?></td>
+		<td></td>
+		<td><?php echo $row['event_start_date'].PHP_EOL.$row['event_end_date'] ?></td>
+		<td><?php echo $row['prize_date'] ?></td>
+		<td><?php echo $row['goods_name'] ?></td>
 		<td><?php echo substr($row['reg_time'],0,10); ?></td>
 		<td><?php echo $iq_upd; ?></td>
 	</tr>
-	<?php
+	<?php 
 	}
 	if($i==0)
-		echo '<tbody><tr><td colspan="8" class="empty_table">자료가 없습니다.</td></tr>';
+		echo '<tbody><tr><td colspan="9" class="empty_table">자료가 없습니다.</td></tr>';
 	?>
 	</tbody>
 	</table>
@@ -166,7 +175,7 @@ echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAM
 ?>
 
 <script>
-function fqalist_submit(f)
+function frafflelist_submit(f)
 {
     if(!is_checked("chk[]")) {
         alert(document.pressed+" 하실 항목을 하나 이상 선택하세요.");
@@ -181,7 +190,9 @@ function fqalist_submit(f)
 
     return true;
 }
-$(document).on('click', '#frmRest', function() {
-    window.location.href = "/admin/goods.php?code=live";
+
+$(function(){
+	// 날짜 검색 : TODAY MAX값으로 인식 (maxDate: "+0d")를 삭제하면 MAX값 해제
+	$("#fr_date, #to_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+0d" });
 });
 </script>
