@@ -1,15 +1,16 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
-$qstr1 = 'ca_id='.$ca_id.'&page_rows='.$page_rows.'&sort='.$sort.'&sortodr='.$sortodr;
-$qstr2 = 'ca_id='.$ca_id.'&page_rows='.$page_rows;
+
+$qstr1 = 'ca_id='.$ca_id.'&page_rows='.$page_rows.'&sort='.$sort.'&sortodr='.$sortodr.$paytypeurl;
+$qstr2 = 'ca_id='.$ca_id.'&page_rows='.$page_rows.$paytypeurl;
 $qstr3 = 'ca_id='.$ca_id.'&sort='.$sort.'&sortodr='.$sortodr;
 
 $sort_str = '';
 for($i=0; $i<count($gw_psort); $i++) {
 	list($tsort, $torder, $tname) = $gw_psort[$i];
 
-	$sct_sort_href = $_SERVER['SCRIPT_NAME'].'?'.$qstr2.'&sort='.$tsort.'&sortodr='.$torder;
+	$sct_sort_href = $_SERVER['SCRIPT_NAME'].'?'.$qstr2.'&sort='.$tsort.'&sortodr='.$torder.$paytypeurl;
 
 	$active = '';
 	if($sort == $tsort && $sortodr == $torder)
@@ -172,15 +173,23 @@ function get_move_pc($ca_id)
   <div id="" class="sub_tree">
     <fieldset class="sch_frm">
       <form name="fsearch" id="fsearch" method="post" onsubmit="return fsearch_submit(this);" autocomplete="off" class="f_between">
-        <span>
-          <a href="/mng/shop/orderinquiry.php">이전상품주문</a> / 
-          <a href="/mng/" class="f_now">주문가능상품</a>
-        </span>
-        <span>
-        <input type="hidden" name="hash_token" value="<?php echo BV_HASH_TOKEN; ?>">
-        <input type="text" name="stx" class="" maxlength="20" placeholder="검색어를 입력해주세요">
-        <button type="submit" class="sch_submit fa fa-search" value="검색"></button>
-        </span>
+        <div class="msg_sch_left">
+          <span>
+            <a href="/mng/shop/orderinquiry.php">이전상품주문</a> /
+            <a href="/mng/" class="f_now">주문가능상품</a>
+          </span>
+        </div>
+        <div class="msg_sch_right">
+          <span>
+            <a href="/mng/?paytype=2" class="<?php echo $paytype == "2"?"f_now":"" ?>">일반배송</a>
+            <a href="/mng/?paytype=1" class="<?php echo $paytype == "1"?"f_now":"" ?>">정기배송</a>
+          </span>
+          <span>
+          <input type="hidden" name="hash_token" value="<?php echo BV_HASH_TOKEN; ?>">
+          <input type="text" name="stx" class="" maxlength="20" placeholder="검색어를 입력해주세요">
+          <button type="submit" class="sch_submit fa fa-search" value="검색"></button>
+          </span>
+        </div>
         </form>
         <script>
           function fsearch_submit(f){
@@ -881,7 +890,7 @@ function get_move_pc($ca_id)
     const chValue = (r='',idx='') => {
     let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
     let emptyEl = $(".sct_cart_empty");
-    
+
     let form = $("#sod_bsk_list").serialize();
     if(r=='remove'){
       // let hiddenField = `<input type="hidden" name="remove" value="${r}">`;
