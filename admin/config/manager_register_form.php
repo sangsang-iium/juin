@@ -26,6 +26,7 @@ $region_res = sql_query($region_sel);
 
 $auth_sql = " SELECT * FROM authorization";
 $auth_res = sql_query($auth_sql);
+
 ?>
 
 <form name="fmanager" id="fregisterform" action="./config/managerupdate.php" onsubmit="return fregisterform_submit(this);" method="POST" autocomplete="off">
