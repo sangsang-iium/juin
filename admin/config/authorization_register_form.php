@@ -1,5 +1,5 @@
 <?php //권한관리 _20240522_SY
-if(!defined('_BLUEVATION_')) exit;
+if (!defined('_BLUEVATION_')) exit;
 
 $form_title = "권한관리 등록";
 if ($w == 'u') {
@@ -21,79 +21,21 @@ $q1 = $query_string;
 $q2 = $query_string . "&page=$page";
 
 
-/* 테스트 { */
+// 모든 상수를 가져옴
+$constants = get_defined_constants(true);
 
-function t1($svc_class, $subject)
-{
-	if(get_cookie("ck_{$svc_class}")) {
-		$svc_class .= ' menu_close';
-	}
+// 사용자 정의 상수만 필터링
+$user_constants = $constants['user'];
 
-	return '<dt class="'.$svc_class.' menu_toggle">'.$subject.'</dt>';
-}
+// 패턴에 맞는 상수를 저장할 배열 초기화
+$admin_menus = [];
 
-function t2($svc_class, $subject, $url, $menu_cnt='')
-{
-	global $pg_title2;
-
-	if(get_cookie("ck_{$svc_class}")) {
-		$svc_class .= ' menu_close';
-	}
-
-	if($pg_title2 == $subject)
-		$svc_class .= ' active';
-
-	$current_class = '';
-	$count_class = '';
-	if(is_numeric($menu_cnt)) {
-		if($menu_cnt > 0)
-			$current_class = ' class="snb_air"';
-		$count_class = '<em'.$current_class.'>'.$menu_cnt.'</em>';
-	}
-
-	return '<dd class="'.$svc_class.'"><a href="'.$url.'">'.$subject.$count_class.'</a></dd>';
-}
-
-function getMenuTab ($menuName, $memberID, $retunHTML) {
-  // shop_member 인지 shop_manager인지 구분
-  // member랑 manager랑 같은 id 있을 수 있으니까 세션도 체크해야 할까
-  // 세션 체크한다고 되나
-
-  $member_sql = " SELECT COUNT(*) as cnt FROM shop_manager WHERE id = '{$memberID}' ";
-  $member_res = sql_fetch($member_sql);
-  $member_cnt = $member_res['cnt'];
-
-  if($member_cnt < 1) {
-    return $retunHTML;
-  } else {
-    $member_sql = " SELECT * FROM shop_manager a
-                 LEFT JOIN authorization b
-                        ON a.auth_idx = b.auth_idx
-                     WHERE a.id = '{$memberID}'
-                  ";
-    $member_res = sql_fetch($member_sql);
-    $member_authStr = $member_res['auth_menu'];
-    $member_authArr = explode(",", $member_authStr);
-    
-    foreach ($member_authArr as $key => $item) {
-      if (strpos($item, $menuName) !== false) {
-        $member_auth = explode("||",$member_authArr[$key]);
-        if(strstr($member_auth[1], 'r')){
-          return $retunHTML;
-          break;
-        } 
-      } else {
-        continue;
-      }
-    }
+// 패턴에 맞는 상수를 찾고 배열에 추가
+foreach ($user_constants as $key => $value) {
+  if (preg_match('/^ADMIN_MENU([1-9]|1[0-2])$/', $key)) {
+    $admin_menus[$key] = $value;
   }
 }
-
-// echo getMenuTab("ADMIN_MENU1", "manager", t1('m10', '회원관리'));
-// echo getMenuTab("ADMIN_MENU1_01", "manager", t2('m10', ADMIN_MENU1_01, BV_ADMIN_URL.'/member.php?code=list'));
-// echo getMenuTab("ADMIN_MENU1_02", "manager", t2('m10', ADMIN_MENU1_02, BV_ADMIN_URL.'/member.php?code=level_form'));
-
-/* } 테스트  */
 
 ?>
 
@@ -136,21 +78,22 @@ function getMenuTab ($menuName, $memberID, $retunHTML) {
           <th scope="col">접속권한</th>
         </tr>
       </thead>
-      <?php
-      $TEST = TEST;
-      for ($i = 1; $i <= count($TEST); $i++) {
-        $key = "TEST{$i}";
+      <?php $keys = array_keys($admin_menus);
+      for ($i = 0; $i < count($keys); $i++) {
+        if ($i == 1) continue;
+        $key = $keys[$i];
+        $value = $admin_menus[$key];
       ?>
-          <tr class="<?php echo $bg; ?>">
-            <td><?php echo $TEST[$key] ?></td>
-            <td>			
-              <input type="hidden" name="auth_cate[<?php echo $i; ?>]" value="<?php echo $key; ?>">
-              <input type="checkbox" name="auth[]" value="<?php echo $i; ?>">
-            </td>
-          </tr>
+        <tr class="<?php echo $bg; ?>">
+          <td><?php echo $value ?></td>
+          <td>
+            <input type="hidden" name="auth_cate[<?php echo $i; ?>]" value="<?php echo $key; ?>">
+            <input type="checkbox" name="auth[]" value="<?php echo $i; ?>">
+          </td>
+        </tr>
       <?php  }
-      if ($i == 0)
-        echo '<tbody><tr><td colspan="7" class="empty_table">자료가 없습니다.</td></tr>';
+      if (count($keys) == 0)
+        echo '<tbody><tr><td colspan="2" class="empty_table">자료가 없습니다.</td></tr>';
       ?>
       </tbody>
     </table>

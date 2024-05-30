@@ -1,13 +1,6 @@
 <?php
 define("_BLUEVATION_", TRUE);
 
-// 권한관리 화면설계 테스트용 데이터 _20240522_SY
-define('TEST', [
-  'TEST1' => "회원관리",
-  'TEST2' => "가맹점관리",
-  'TEST3' => "공급사관리",
-]);
-
 define('ADMIN_MENU1',		'회원관리');
 define('ADMIN_MENU1_01',	'회원 정보관리');
 define('ADMIN_MENU1_02',	'회원 구분관리');
@@ -152,6 +145,7 @@ define('ADMIN_MENU10_17',	'게시판 관리');
 define('ADMIN_MENU10_18',	'지회/지부관리');
 define('ADMIN_MENU10_19',	'지회/지부관리');
 define('ADMIN_MENU10_20',	'담당자관리');
+define('ADMIN_MENU10_21',	'권한관리');
 
 // 중고장터관리
 define('ADMIN_MENU11',		'중고장터관리');
