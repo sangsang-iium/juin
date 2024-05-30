@@ -1,4 +1,4 @@
-<?php //권한관리 _20240522_SY
+<?php //권한 관리 _20240522_SY
 if (!defined('_BLUEVATION_')) exit;
 
 $form_title = "권한관리 등록";
@@ -19,6 +19,17 @@ $result = sql_fetch($sql);
 $query_string = "code=$code$qstr";
 $q1 = $query_string;
 $q2 = $query_string . "&page=$page";
+
+$auth_menu = explode(",", $result['auth_menu']);
+
+function getCheckedFunc($menu, $get_num='') {
+  foreach($menu as $k => $v) {
+    if($v == $get_num) {
+      return "checked";
+      break;
+    }
+  }
+}
 
 
 // 모든 상수를 가져옴
@@ -58,7 +69,7 @@ foreach ($user_constants as $key => $value) {
         <tr>
           <th scope="row"><label for="auth_title"></label><span>명칭(*)</span></th>
           <td>
-            <input type="text" name="auth_title" id="auth_title" value="" required class="frm_input required">
+            <input type="text" name="auth_title" id="auth_title" value="<?php echo ($w=='u') ? $result['auth_title']: "" ?>" required class="frm_input required">
           </td>
         </tr>
 
@@ -88,7 +99,7 @@ foreach ($user_constants as $key => $value) {
           <td><?php echo $value ?></td>
           <td>
             <input type="hidden" name="auth_cate[<?php echo $i; ?>]" value="<?php echo $key; ?>">
-            <input type="checkbox" name="auth[]" value="<?php echo $i; ?>">
+            <input type="checkbox" name="auth[]" value="<?php echo $i; ?>" <?php echo ($w=='u' && !empty($idx)) ? getCheckedFunc($auth_menu, $key) : ""; ?> >
           </td>
         </tr>
       <?php  }
