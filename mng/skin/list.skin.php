@@ -13,15 +13,14 @@ if (isset($_SERVER['HTTP_REFERER'])) {
   $query_string = parse_url($referer_url, PHP_URL_QUERY);
   parse_str($query_string, $query_params);
 
-  $paytype = isset($query_params['paytype']) ? $query_params['paytype'] : 2;
+  $pre_paytype = isset($query_params['paytype']) ? $query_params['paytype'] : 2;
 
-  if ($paytype !== null) {
-    echo "이전 페이지의 paytype 값: $paytype";
-  } else {
-    echo "이전 페이지의 paytype 값을 찾을 수 없습니다.";
-  }
 } else {
-  echo "이전 페이지의 URL을 찾을 수 없습니다.";
+  $pre_paytype = 2;
+}
+
+if($pre_paytype != $paytype){
+  unset($_SESSION['myCart']);
 }
 
 

@@ -1,5 +1,6 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
+include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 
 require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 ?>
@@ -329,9 +330,13 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       <input type="hidden" name="use_point" value="0">
       <?php } ?>
       <input type="hidden" name="resulturl" value="pc">
+      <?php
+        if($gs['reg_yn'] == 1) {
+      ?>
 
       <!-- 정기배송 주문 추가 -->
-      <!-- <div class="bottomBlank">
+      <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
+      <div class="bottomBlank">
         <div class="container">
           <div class="arcodianBtn od-top active">
             <button type="button" class="ui-btn od-toggle-btn">
@@ -341,13 +346,64 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
           <div class="od-ct info-list">
             <div class="info-item">
-              <p class="tit">회원명</p>
-              <input type="text" name="ju_restaurant" value="<?php echo $member['ju_restaurant'] ?>" class="w-per50 frm-input">
+              <p class="tit">배송요일</p>
+              <label><input type="checkbox" name="od_wday1" value="월" > 월</label>
+              <label><input type="checkbox" name="od_wday2" value="화" > 화</label>
+              <label><input type="checkbox" name="od_wday3" value="수" > 수</label>
+              <label><input type="checkbox" name="od_wday4" value="목" > 목</label>
+              <label><input type="checkbox" name="od_wday5" value="금" > 금</label>
+              <label><input type="checkbox" name="od_wday6" value="토" > 토</label>
+            </div>
+            <div class="info-item">
+              <p class="tit">배송요일</p>
+              <select name="od_week" id="od_week" require>
+                <option value="1">1주</option>
+                <option value="2">2주</option>
+                <option value="3">3주</option>
+                <option value="4">4주</option>
+              </select>
+            </div>
+            <div class="info-item">
+              <p class="tit">배송횟수</p>
+              <select name="od_reg_cnt" id="od_reg_cnt" require>
+                <option value="2">2회</option>
+                <option value="4">4회</option>
+                <option value="6">6회</option>
+                <option value="8">8회</option>
+                <option value="10">10회</option>
+                <option value="12">12회</option>
+              </select>
+            </div>
+            <div class="info-item">
+              <p class="tit">첫 배송 시점</p>
+              <input type="text" name="od_begin_date" value="" id="od_begin_date" class="frm_input w100 " maxlength="10" require>
             </div>
 
           </div>
         </div>
-      </div> -->
+      </div>
+      <script>
+      $(function(){
+        $('#od_begin_date').datepicker({
+          changeMonth: true,
+          changeYear: true,
+          dateFormat: "yy-mm-dd",
+          showButtonPanel: true,
+          yearRange: "-99:c+99",
+          minDate: '-0d',
+          changeMonth: true,
+          onSelect: function(selectedDate) {
+            var currentDate = $.datepicker.formatDate('yy-mm-dd', new Date()); // 현재 날짜
+            // 선택된 날짜가 오늘 날짜보다 과거인 경우
+            if (selectedDate < currentDate) {
+              alert('미래 날짜만 선택할 수 있습니다.');
+              $('#od_begin_date').val(''); // 입력 필드를 비움
+            }
+          }
+        });
+      });
+      </script>
+      <?php } ?>
 
       <!-- 주문자 기본 정보 추가 _20240412_SY -->
       <div class="bottomBlank">
@@ -1234,10 +1290,20 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
         }
     }
 
-	if(f.b_addr1.value==''){
-		alert('배송지를 지정해 주십시요');
-		return false;
-	}
+    if(f.b_addr1.value==''){
+      alert('배송지를 지정해 주십시요');
+      return false;
+    }
+    var checkboxes = $('input[name^="od_wday"]');
+
+    // 체크박스가 존재하고, 그 중 하나라도 체크되었는지 확인
+    var isChecked = checkboxes.length > 0 && checkboxes.is(':checked');
+
+    if (checkboxes.length > 0 && !isChecked) {
+      alert('요일을 하나 이상 선택해주세요.');
+      checkboxes.focus();
+      return false;
+    }
 
     if (f.use_point.value == '') {
       alert('포인트사용 금액을 입력하세요. 사용을 원치 않을경우 0을 입력하세요.');
