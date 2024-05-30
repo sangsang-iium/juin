@@ -155,11 +155,11 @@ EOF;
 	<tr>
 		<th scope="row">진열영역</th>
 		<td>
-			<?php echo check_checked('q_type1', $q_type1, '1', '쇼핑특가'); ?>
-			<?php echo check_checked('q_type2', $q_type2, '1', '베스트셀러'); ?>
-			<?php echo check_checked('q_type3', $q_type3, '1', '신상품'); ?>
-			<?php echo check_checked('q_type4', $q_type4, '1', '인기상품'); ?>
+      <?php echo check_checked('q_type2', $q_type2, '1', '베스트'); ?>
 			<?php echo check_checked('q_type5', $q_type5, '1', '추천상품'); ?>
+			<?php echo check_checked('q_type4', $q_type4, '1', '인기상품'); ?>
+			<?php echo check_checked('q_type1', $q_type1, '1', '오늘만특가'); ?>
+			<?php echo check_checked('q_type3', $q_type3, '1', '신상품'); ?>
 		</td>
 	</tr>
 	</tbody>
@@ -212,11 +212,11 @@ EOF;
 		<th scope="col" rowspan="2">이미지</th>
 		<th scope="col" rowspan="2">상품코드</th>
 		<th scope="col" rowspan="2">상품명</th>
-		<th scope="col" class="th_bg">쇼핑특가</th>
-		<th scope="col" class="th_bg">베스트셀러</th>
-		<th scope="col" class="th_bg">신상품</th>
-		<th scope="col" class="th_bg">인기상품</th>
+		<th scope="col" class="th_bg">베스트</th>
 		<th scope="col" class="th_bg">추천상품</th>
+		<th scope="col" class="th_bg">인기상품</th>
+		<th scope="col" class="th_bg">오늘만특가</th>
+		<th scope="col" class="th_bg">신상품</th>
 		<th scope="col" rowspan="2">진열</th>
 		<th scope="col" rowspan="2">재고</th>
 		<th scope="col" rowspan="2">판매가</th>
@@ -250,11 +250,11 @@ EOF;
 		<td><a href="<?php echo $href; ?>" target="_blank"><?php echo get_it_image($gs_id, $row['simg1'], 40, 40); ?></a></td>
 		<td><?php echo get_text($row['gcode']); ?></td>
 		<td class="tal"><?php echo get_text($row['gname']); ?></td>
-		<td><input type="checkbox" name="it_type1[<?php echo $i; ?>]" value="1"<?php echo get_checked($row2['it_type1'],"1"); ?>></td>
 		<td><input type="checkbox" name="it_type2[<?php echo $i; ?>]" value="1"<?php echo get_checked($row2['it_type2'],"1"); ?>></td>
-		<td><input type="checkbox" name="it_type3[<?php echo $i; ?>]" value="1"<?php echo get_checked($row2['it_type3'],"1"); ?>></td>
-		<td><input type="checkbox" name="it_type4[<?php echo $i; ?>]" value="1"<?php echo get_checked($row2['it_type4'],"1"); ?>></td>
 		<td><input type="checkbox" name="it_type5[<?php echo $i; ?>]" value="1"<?php echo get_checked($row2['it_type5'],"1"); ?>></td>
+		<td><input type="checkbox" name="it_type4[<?php echo $i; ?>]" value="1"<?php echo get_checked($row2['it_type4'],"1"); ?>></td>
+		<td><input type="checkbox" name="it_type1[<?php echo $i; ?>]" value="1"<?php echo get_checked($row2['it_type1'],"1"); ?>></td>
+		<td><input type="checkbox" name="it_type3[<?php echo $i; ?>]" value="1"<?php echo get_checked($row2['it_type3'],"1"); ?>></td>
 		<td><?php echo $gw_isopen[$row['isopen']]; ?></td>
 		<td class="tar"><?php echo number_format($row['stock_qty']); ?></td>
 		<td class="tar"><?php echo number_format($row['goods_price']); ?></td>

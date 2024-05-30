@@ -124,8 +124,6 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('g10', ADMIN_MENU5_24, BV_ADMIN_URL.'/goods.php?code=supply2', $goods2); ?>
 		<!-- <?php echo printMenu2('g10', ADMIN_MENU5_19, BV_ADMIN_URL.'/goods.php?code=userlist'); ?> -->
 		<?php echo printMenu2('g10', ADMIN_MENU5_02, BV_ADMIN_URL.'/goods.php?code=type'); ?>
-		<?php echo printMenu2('g10', ADMIN_MENU5_03, BV_ADMIN_URL.'/goods.php?code=brand_list'); ?>
-		<?php echo printMenu2('g10', ADMIN_MENU5_04, BV_ADMIN_URL.'/goods.php?code=plan'); ?>
 		<?php echo printMenu1('g20', '재고관리'); ?>
 		<?php echo printMenu2('g20', ADMIN_MENU5_06, BV_ADMIN_URL.'/goods.php?code=stock', $jaego1); ?>
 		<?php //echo printMenu2('g20', ADMIN_MENU5_07, BV_ADMIN_URL.'/goods.php?code=optstock', $jaego2); ?>
@@ -148,6 +146,8 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('g50', ADMIN_MENU5_23, BV_ADMIN_URL.'/goods.php?code=coupon'); ?>
 		<?php echo printMenu1('g60', '기타관리'); ?>
 		<?php //echo printMenu2('g60', ADMIN_MENU5_05, BV_ADMIN_URL.'/goods.php?code=price'); ?>
+    <?php echo printMenu2('g10', ADMIN_MENU5_03, BV_ADMIN_URL.'/goods.php?code=brand_list'); ?>
+		<?php echo printMenu2('g10', ADMIN_MENU5_04, BV_ADMIN_URL.'/goods.php?code=plan'); ?>
 		<?php echo printMenu2('g60', ADMIN_MENU5_25, BV_ADMIN_URL.'/goods.php?code=popular_list'); ?>
 		<?php echo printMenu2('g60', ADMIN_MENU5_26, BV_ADMIN_URL.'/goods.php?code=popular_rank'); ?>
 		<?php echo printMenu1('g70', '라이브존'); ?>

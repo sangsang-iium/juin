@@ -3,7 +3,7 @@ if (!defined('_BLUEVATION_')) exit;
 
 
 $sql_common = " FROM shop_manager ";
-$sql_search = " WHERE (1) ";
+$sql_search = " WHERE (1) AND grade > 1";
 $sql_join = " LEFT JOIN authorization AS auth 
                      ON (mn.auth_idx = auth.auth_idx) 
               LEFT JOIN ( SELECT kf.*, area.areaname, area.areacode

@@ -26,7 +26,6 @@ $region_res = sql_query($region_sel);
 
 $auth_sql = " SELECT * FROM authorization";
 $auth_res = sql_query($auth_sql);
-
 ?>
 
 <form name="fmanager" id="fregisterform" action="./config/managerupdate.php" onsubmit="return fregisterform_submit(this);" method="POST" autocomplete="off">
@@ -77,42 +76,42 @@ $auth_res = sql_query($auth_sql);
     </td>
   </tr>
 	<tr>
-		<th scope="row"><label for="kf_region1">지역</label><span>(*)</span></th>
+		<th scope="row"><label for="ju_region1">지역</label><span>(*)</span></th>
     <td>
-      <select name="kf_region1" id="kf_region1" onchange="getBranch(this.value)">
+      <select name="ju_region1" id="ju_region1" onchange="getBranch(this.value)">
         <option value=''>지역선택</option>
         <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
-          <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['kf_region1'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
+          <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['ju_region1'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
         <?php } ?>
       </select>
     </td>
   </tr>
   <tr>
-    <th scope="row"><label for="kf_region2">지회명</label><span>(*)</span></th>
+    <th scope="row"><label for="ju_region2">지회명</label><span>(*)</span></th>
     <td>
-      <select name="kf_region2" id="kf_region2">
+      <select name="ju_region2" id="ju_region2">
         <option value=''>지회선택</option>
         <?php
-          if($w != '' && !empty($result['kf_region2'])) {
-            $region2_sel = " SELECT * {$sql_common} WHERE kf_region1 = '{$result['kf_region1']}' AND kf_region3 = '' ";
+          if($w != '' && !empty($result['ju_region2'])) {
+            $region2_sel = " SELECT * {$sql_common} WHERE ju_region1 = '{$result['ju_region1']}' AND ju_region3 = '' ";
             $region2_res = sql_query($region2_sel);
             while ($region2_row = sql_fetch_array($region2_res)) { ?>
-              <option value="<?php echo $region2_row['kf_idx']?>" <?php echo ($w == 'u' && $region2_row['kf_region2'] == $result['kf_region2']) ? "selected" : "" ?> ><?php echo $region2_row['kf_region2'] ?></option>
+              <option value="<?php echo $region2_row['ju_idx']?>" <?php echo ($w == 'u' && $region2_row['ju_region2'] == $result['ju_region2']) ? "selected" : "" ?> ><?php echo $region2_row['ju_region2'] ?></option>
         <?php } } ?>
       </select>
     </td>
   </tr>
   <tr>
-    <th scope="row"><label for="kf_region3">지부명</label><span>(*)</span></th>
+    <th scope="row"><label for="ju_region3">지부명</label><span>(*)</span></th>
     <td>
-      <select name="kf_region3" id="kf_region3">
+      <select name="ju_region3" id="ju_region3">
         <option value=''>지부선택</option>
         <?php // 지부 목록 _20240521_SY
-          if($w != '' && !empty($result['kf_region3'])) {
-            $region3_sel = " SELECT * {$sql_common} WHERE kf_region1 = '{$result['kf_region1']}' AND kf_region3 <> '' ";
+          if($w != '' && !empty($result['ju_region3'])) {
+            $region3_sel = " SELECT * {$sql_common} WHERE ju_region1 = '{$result['ju_region1']}' AND ju_region3 <> '' ";
             $region3_res = sql_query($region3_sel);
             while ($region3_row = sql_fetch_array($region3_res)) { ?>
-              <option value="<?php echo $region3_row['kf_idx']?>" <?php echo ($w == 'u' && $region3_row['kf_region3'] == $result['kf_region3']) ? "selected" : "" ?> ><?php echo $region3_row['kf_region3'] ?></option>
+              <option value="<?php echo $region3_row['ju_idx']?>" <?php echo ($w == 'u' && $region3_row['ju_region3'] == $result['ju_region3']) ? "selected" : "" ?> ><?php echo $region3_row['ju_region3'] ?></option>
         <?php } } ?>
       </select>
     </td>
@@ -172,19 +171,19 @@ function getBranch(e) {
 
       let reg = JSON.parse(res);
 
-      let kf_region2 = $("#kf_region2");
-      kf_region2.empty();
+      let ju_region2 = $("#ju_region2");
+      ju_region2.empty();
 
       let defaultOption = $('<option>');
       defaultOption.val("");
       defaultOption.text("지회선택");
-      kf_region2.append(defaultOption);
+      ju_region2.append(defaultOption);
 
       for (var i = 0; i < reg.length; i++) {
         var option = $('<option>');
         option.val(reg[i].region);
         option.text(reg[i].region);
-        kf_region2.append(option);
+        ju_region2.append(option);
       }
     },
     error: function(xhr, status, error) {
@@ -219,11 +218,11 @@ function fregisterform_submit(f)
     return false;   
   }
 
-  // if(regionValue.length < 1) {
-  //   alert("지역을 선택해 주십시오.");
-  //   f.kf_region1.focus();
-  //   return false;   
-  // }
+  if(regionValue.length < 1) {
+    alert("지역을 선택해 주십시오.");
+    f.ju_region1.focus();
+    return false;   
+  }
 
   // if(chapterValue.length < 1) {
   //   alert("지회명를 선택해 주십시오.");
