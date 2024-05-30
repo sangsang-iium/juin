@@ -265,6 +265,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu1('q60', '담당자관리'); ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_18, BV_ADMIN_URL.'/config.php?code=branch'); ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_20, BV_ADMIN_URL.'/config.php?code=manager_list'); ?>
+		<?php echo printMenu2('q60', ADMIN_MENU10_21, BV_ADMIN_URL.'/config.php?code=authorization_list'); ?>
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU11) { ?>

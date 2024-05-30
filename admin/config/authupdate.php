@@ -18,13 +18,12 @@ for($i=0; $i<$count; $i++) {
 $output = implode(',', $cate);
 exit;
 
+// $auth_str = array();
+// foreach ($auth as $key => $permissions) {
+//   $result[] = $key . '||' . implode('', $permissions);
+// }
+// $output = implode(',', $result);
 
-
-$auth_str = array();
-foreach ($auth as $key => $permissions) {
-  $result[] = $key . '||' . implode('', $permissions);
-}
-$output = implode(',', $result);
 
 // 일단 INSERT 하지 뭐
 if($w == '') {
