@@ -13,7 +13,7 @@ $q2 = $query_string . "&page=$page";
 
 
 if ($sfl && $stx) {
-  $sql_search .= " and $sfl like '%$stx%' ";
+  $sql_search .= " and mn.$sfl like '%$stx%' ";
 }
 
 if (!$orderby) {
@@ -44,54 +44,7 @@ $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 <a href="./config.php?code=manager_register_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 담당자추가</a>
 EOF;
-
-
-// function getMenuFunc($menu, $link, $code) {
-//   global $member;
-//   global $pg_title;
-
-//   if($member['id'] != 'admin' && isset($member['auth_idx'])) {
-    
-//     // 권한체크
-//     $auth_sql = " SELECT * FROM authorization WHERE auth_idx = '{$member['auth_idx']}' ";
-//     $auth_row = sql_fetch($auth_sql);
-//     $exp_menu = explode(",", $auth_row['auth_menu']);
-//     $exp_name = explode(",", $auth_row['auth_menu2']);
-//     $menuArr  = array_combine($exp_menu, $exp_name);
-    
-//     foreach($menuArr as $key => $val) {
-//       if($val == $menu) {
-//         $retun = "<li class='gnb_1dli " . ($pg_title == $menu ? "active" : "") . "'>
-//                     <a href='" . BV_ADMIN_URL . "/{$link}.php?code={$code}' class='gnb_1da'>" . $menu . "</a>
-//                   </li>";
-//         break;
-//       } else {
-//         $retun = "";
-//       }
-//     }
-
-//     return $retun;
-
-//   } else {
-//     $retun = "<li class='gnb_1dli " . ($pg_title == $menu ? "active" : "") . "'>
-//                 <a href='" . BV_ADMIN_URL . "/{$link}.php?code={$code}' class='gnb_1da'>" . $menu . "</a>
-//               </li>";
-
-//     return $retun;
-
-//   }
-
-// }
-
-// echo getMenuFunc(ADMIN_MENU1, "member", "list");
-// echo "<br>";
-
 ?>
-
-<!-- <div>
-  <a href="./config.php?code=branch" class="btn_small">지회관리</a>
-  <a href="./config.php?code=chapter" class="btn_small">지부관리</a>
-</div> -->
 
 <h2>담당자검색</h2>
 <form name="fsearch" id="fsearch" method="get">
