@@ -1,6 +1,9 @@
 <?php
 include_once("./_common.php");
 
+// paytype = 2    일반배송
+// paytype = 1    정기배송
+
 unset($_SESSION['myCart']);
 
 if($act == "buy")

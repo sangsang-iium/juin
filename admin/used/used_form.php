@@ -65,6 +65,10 @@ $qstr .= "&gubun=".$gubun."&page=".$page;
 		</td>
 	</tr>
 	<tr>
+		<th scope="row">가격</th>
+		<td><input type="text" name="price" value="<?php echo $row['price'] ?>" class="frm_input required w150" required placeholder="숫자만입력"></td>
+	</tr>
+	<tr>
 		<th scope="row">제목</th>
 		<td><input type="text" name="title" value="<?php echo $row['title'] ?>" class="frm_input required w100p" required></td>
 	</tr>

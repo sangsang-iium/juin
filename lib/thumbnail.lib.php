@@ -358,7 +358,7 @@ function thumbnail($filename, $source_path, $target_path, $thumb_width, $thumb_h
             return basename($source_file);
     }
 
-    $ext = array(1 => 'gif', 2 => 'jpg', 3 => 'png');
+    $ext = array(1 => 'gif', 2 => 'jpg', 3 => 'png', 4 => 'JPG');
 
     $thumb_filename = preg_replace("/\.[^\.]+$/i", "", $filename); // 확장자제거
 

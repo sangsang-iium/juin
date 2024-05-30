@@ -209,3 +209,43 @@ function liveTime($liveTime) {
 
   return date('m/d')." ".$ampm." ".$liveStartTime;
 }
+
+
+function ymdhisToYmd($date) {
+  if(!$date) {
+    return '';
+  } else {
+    return date('Y-m-d',strtotime($date));
+  }
+}
+
+function ymdhisToHi($date) {
+  if(!$date) {
+    return '';
+  } else {
+    return date('H:i',strtotime($date));
+  }
+}
+
+function ymdhisToYmdhi($date) {
+  if(!$date) {
+    return '';
+  } else {
+    return date('Y-m-d H:i',strtotime($date));
+  }
+}
+
+
+function get_raffle_ahead($it_img, $it_img_del)
+{
+	if(!trim($it_img)) return;
+
+	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == true)
+		$file_url = $it_img;
+	else
+		$file_url = BV_DATA_URL."/raffle/".$it_img;
+
+	$str  = "<a href='{$file_url}' target='_blank' class='btn_small bx-white marr7'>미리보기</a> <label class='marr7'><input type='checkbox' name='{$it_img_del}' value='{$it_img}'>삭제</label>";
+
+	return $str;
+}

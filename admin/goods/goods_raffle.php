@@ -49,14 +49,7 @@ $btn_frmline = <<<EOF
 <a href="./goods.php?code=raffle_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 레플등록</a>
 EOF;
 
-$gw_type = array(
-	"0"=>"발행 날짜 지정",
-	"1"=>"발행 시간/요일 지정",
-	"2"=>"성별구분으로 발급",
-	"3"=>"회원 생일자 발급",
-	"4"=>"연령 구분으로 발급",
-	"5"=>"신규회원가입 발급"
-);
+
 ?>
 
 <h2>기본검색</h2>
@@ -79,7 +72,7 @@ $gw_type = array(
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">사용기간</th>
+		<th scope="row">레플 시작일</th>
 		<td>
 			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
 		</td>
@@ -109,11 +102,12 @@ $gw_type = array(
 		<col class="w50">
 		<col class="w50">
 		<col>
-		<col class="w300">
 		<col class="w100">
 		<col class="w100">
+		<col class="w150">
+		<col class="w150">
 		<col class="w100">
-		<col class="w50">
+		<col class="w100">
 		<col class="w60">
 	</colgroup>
 	<thead>
@@ -151,9 +145,9 @@ $gw_type = array(
 		<td><?php echo $row['goods_name'] ?></td>
 		<td><?php echo $row['raffle_price'] ?></td>
 		<td></td>
-		<td><?php echo $row['event_start_date'].PHP_EOL.$row['event_end_date'] ?></td>
-		<td><?php echo $row['prize_date'] ?></td>
-		<td><?php echo $row['goods_name'] ?></td>
+		<td><?php echo ymdhisToYmdhi($row['event_start_date'])."~<br>".ymdhisToYmdhi($row['event_end_date']) ?></td>
+		<td><?php echo ymdhisToYmdhi($row['prize_date']) ?></td>
+		<td><?php echo $row['mb_name'] ?></td>
 		<td><?php echo substr($row['reg_time'],0,10); ?></td>
 		<td><?php echo $iq_upd; ?></td>
 	</tr>
@@ -195,4 +189,9 @@ $(function(){
 	// 날짜 검색 : TODAY MAX값으로 인식 (maxDate: "+0d")를 삭제하면 MAX값 해제
 	$("#fr_date, #to_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+0d" });
 });
+
+$(document).on('click', '#frmRest', function() {
+    window.location.href = "/admin/goods.php?code=raffle";
+});
+
 </script>

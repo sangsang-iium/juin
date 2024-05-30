@@ -72,7 +72,7 @@ function get_paging($write_pages, $cur_page, $total_page, $url, $add="")
 	// } else {
 	// 	$str .= '<span class="pg_prev">이전</span>'.PHP_EOL;
 	// }
-  
+
   // 수정 _20240314_SY
   if($start_page < $cur_page) {
 		$str .= '<a href="'.$url.($cur_page-1).$add.'" class="pg_page pg_prev">이전</a>'.PHP_EOL;
@@ -749,7 +749,7 @@ function get_encrypt_string($str)
     } else {
         $encrypt = sql_password($str);
     }
-    
+
     return $encrypt;
 }
 
