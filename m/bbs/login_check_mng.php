@@ -39,6 +39,7 @@ if($config['pf_expire_use'] && $config['pf_login_no']) {
 
 // 회원아이디 세션 생성
 set_session('ss_mb_id', $mb['id']);
+set_session('ss_mn_id', $mb['id']);
 
 // FLASH XSS 공격에 대응하기 위하여 회원의 고유키를 생성해 놓는다. 관리자에서 검사함 - 110106
 set_session('ss_mb_key', md5($mb['reg_time'] . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']));

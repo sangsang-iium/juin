@@ -7,13 +7,14 @@ if(!$is_member) {
 
 // admin 세션 변수에 등록
 $admin_id = get_session('admin_ss_mb_id');
+
 if($admin_id) {
 	set_session('ss_mb_id', $admin_id);
 
 	$member = sql_fetch("select * from shop_member where id = '".$admin_id."'");
 
   // Manager Check _20240527_SY
-  if(empty($member)) {
+  if($_SESSION['ss_mn_id']) {
     $member = sql_fetch("SELECT * FROM shop_manager WHERE id = '".$admin_id."'");
   }
 
