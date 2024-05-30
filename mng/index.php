@@ -1,6 +1,9 @@
 <?php
 include_once('../common.php');
 
+if (!$is_member) {
+  goto_url(BV_MBBS_URL . '/login.php?url=' . $urlencode);
+}
 
 
 if (empty($ca_id)) {
@@ -37,6 +40,10 @@ $condition_string = implode(" OR ", $conditions);
 
 // 최종 SQL 검색 조건 설정
 $sql_search = "AND (" . $condition_string . ")";
+if(!$paytype){
+  $paytype = 2;
+}
+$sql_search .= "AND reg_yn = '{$paytype}'";
 
 
 $sql = " select *

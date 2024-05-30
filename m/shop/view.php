@@ -170,11 +170,11 @@ if($default['de_kakao_js_apikey']) {
   $sns_share_links .= "<li>".get_sns_share_link('kakaotalk', $sns_url, $sns_title, '/src/img/share_kakaotalk.png')."</li>";
 }
 $sns_share_links .= "<li>".get_sns_share_link('naver', $sns_url, $sns_title, '/src/img/share_naverblog.png')."</li>";
-$sns_share_links .= "<li>".get_sns_share_link('kakaostory', $sns_url, $sns_title, '/src/img/share_kakaostory.png')."</li>";
-$sns_share_links .= "<li>".get_sns_share_link('naverband', $sns_url, $sns_title, '/src/img/share_naverband.png')."</li>";
-$sns_share_links .= "<li>".get_sns_share_link('facebook', $sns_url, $sns_title, '/src/img/share_facebook.png')."</li>";
-$sns_share_links .= "<li>".get_sns_share_link('twitter', $sns_url, $sns_title, '/src/img/share_twitter.png')."</li>";
-$sns_share_links .= "<li>".get_sns_share_link('pinterest', $sns_url, $sns_title, '/src/img/share_pinterest.png')."</li>";
+// $sns_share_links .= "<li>".get_sns_share_link('kakaostory', $sns_url, $sns_title, '/src/img/share_kakaostory.png')."</li>";
+// $sns_share_links .= "<li>".get_sns_share_link('naverband', $sns_url, $sns_title, '/src/img/share_naverband.png')."</li>";
+// $sns_share_links .= "<li>".get_sns_share_link('facebook', $sns_url, $sns_title, '/src/img/share_facebook.png')."</li>";
+// $sns_share_links .= "<li>".get_sns_share_link('twitter', $sns_url, $sns_title, '/src/img/share_twitter.png')."</li>";
+// $sns_share_links .= "<li>".get_sns_share_link('pinterest', $sns_url, $sns_title, '/src/img/share_pinterest.png')."</li>";
 
 $token = md5(uniqid(rand(), true));
 set_session("ss_token", $token);

@@ -10,10 +10,12 @@ if($w == "") {
 	$gs['noti_qty']		= 999;
 	$gs['simg_type']	= 0;
 	$gs['isopen']		= 1;
+	$gs['reg_yn']		= 2;
 	$gs['notax']		= 1;
 	$gs['ppay_type']	= 0;
 	$gs['ppay_rate']	= 0;
 	$gs['zone']			= '전국';
+
 
 } else if($w == "u") {
 	$gs = get_goods($gs_id);
@@ -324,6 +326,13 @@ $income_per = ($supply_price / $goods_price) * 100;
 			<?php echo radio_checked('isopen', $gs['isopen'], '2', '품절'); ?>
 			<?php echo radio_checked('isopen', $gs['isopen'], '3', '단종'); ?>
 			<?php echo radio_checked('isopen', $gs['isopen'], '4', '중지'); ?>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">일반/정기배송 구분</th>
+		<td class="td_label">
+			<?php echo radio_checked('reg_yn', $gs['reg_yn'], '2', '일반배송'); ?>
+			<?php echo radio_checked('reg_yn', $gs['reg_yn'], '1', '정기배송'); ?>
 		</td>
 	</tr>
 	<!-- <tr>
