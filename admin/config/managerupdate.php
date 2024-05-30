@@ -25,9 +25,9 @@ $db_table = "shop_manager";
 
 $id       = trim($_POST['manager_id']);
 $name     = trim($_POST['manager_name']);
-$region1  = $_POST['kf_region1'];
-$region2  = $_POST['kf_region2'];
-$region3  = $_POST['kf_region3'];
+$region1  = $_POST['ju_region1'];
+$region2  = $_POST['ju_region2'];
+$region3  = $_POST['ju_region3'];
 $auth_idx = $_POST['auth_idx'];
 
 $now = date('Y-m-d H:i:s');
@@ -87,7 +87,8 @@ if($w == '') {
 
 } else if ($w == 'u') {
 
-
+  $msg  = "지금은 이용하실 수 없습니다.";
+  $link = "/config.php?$q1&w=u&idx=$idx";
 
 } 
 

@@ -242,16 +242,17 @@ $income_per = ($supply_price / $goods_price) * 100;
 	</colgroup>
 	<tbody>
 	<tr>
-		<th scope="row">업체코드</th>
+		<th scope="row">업체검색<span>(*)</span></th>
 		<td>
       <input type="text" name="mb_id" value="<?php echo $gs['mb_id']; ?>" required itemname="업체코드" class="required frm_input">
 			<a href="./supply.php" onclick="win_open(this,'pop_supply','550','500','no');return false" class="btn_small">업체선택</a>
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">공급사명</th>
+		<th scope="row">업체명</th>
 		<td>
-      <input type="text" name="name" value="<?php echo $gs['name']; ?>" itemname="공급사명" class="frm_input" readonly>
+      <input type="text" name="name" value="<?php echo $gs['name']; ?>" itemname="공급사명" class="frm_input" readonly style='background-color:#ddd;'>
+      <?php echo help('업체선택 시 자동으로 기입됩니다.'); ?>
 		</td>
 	</tr>
 	<tr>
@@ -259,6 +260,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 		<td>
 			<input type="text" name="gcode" value="<?php echo $gs['gcode']; ?>" required itemname="상품코드" class="required frm_input"<?php echo $readonly; ?>>
 			<?php if($w == "u") { ?><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $gs_id; ?>" target="_blank" class="btn_small">미리보기</a><?php } ?>
+      <?php echo help('상품코드는 자동으로 생성됩니다.'); ?>
 		</td>
 	</tr>
 	<tr>
@@ -268,7 +270,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">상품명</th>
+		<th scope="row">상품명<span>(*)</span></th>
 		<td><input type="text" name="gname" value="<?php echo $gs['gname']; ?>" required itemname="상품명" class="required frm_input" size="80"></td>
 	</tr>
 	<!-- <tr>
@@ -276,7 +278,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 		<td><input type="text" name="explan" value="<?php echo $gs['explan']; ?>" class="frm_input" size="80"></td>
 	</tr> -->
 	<tr>
-		<th scope="row">검색키워드</th>
+		<th scope="row">검색키워드<span>(*)</span></th>
 		<td>
 			<input type="text" name="keywords" value="<?php echo $gs['keywords']; ?>" class="frm_input wfull">
 			<?php echo help('단어와 단어 사이는 콤마 ( , ) 로 구분하여 여러개를 입력할 수 있습니다. 예시) 빨강, 노랑, 파랑'); ?>
@@ -313,7 +315,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 		<td><input type="text" name="maker" value="<?php echo $gs['maker']; ?>" class="frm_input"></td>
 	</tr>
 	<tr>
-		<th scope="row">과세설정</th>
+		<th scope="row">과세설정<span>(*)</span></th>
 		<td class="td_label">
 			<?php echo radio_checked('notax', $gs['notax'], '1', '과세'); ?>
 			<?php echo radio_checked('notax', $gs['notax'], '0', '면세'); ?>
@@ -322,10 +324,10 @@ $income_per = ($supply_price / $goods_price) * 100;
 	<tr>
 		<th scope="row">판매여부</th>
 		<td class="td_label">
-			<?php echo radio_checked('isopen', $gs['isopen'], '1', '진열'); ?>
-			<?php echo radio_checked('isopen', $gs['isopen'], '2', '품절'); ?>
-			<?php echo radio_checked('isopen', $gs['isopen'], '3', '단종'); ?>
-			<?php echo radio_checked('isopen', $gs['isopen'], '4', '중지'); ?>
+			<?php echo radio_checked('isopen', $gs['isopen'], '1', '공급가능'); ?>
+			<?php echo radio_checked('isopen', $gs['isopen'], '2', '일시중단'); ?>
+			<?php //echo radio_checked('isopen', $gs['isopen'], '3', '단종'); ?>
+			<?php echo radio_checked('isopen', $gs['isopen'], '4', '공급중단'); ?>
 		</td>
 	</tr>
 	<tr>
@@ -401,7 +403,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">선택된 카테고리<br><span class="fc_red">(최대 3개까지만 등록)</span></th>
+		<th scope="row">선택된 카테고리<br><span class="fc_red">(복수 카테고리 최대 3개까지만 등록)</span></th>
 		<td>
 			<select name="sel_ca_id" id="sel_ca_id" size="5" class="multiple-select">
 			<?php

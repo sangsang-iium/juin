@@ -65,9 +65,9 @@ $result = sql_query($sql);
 
 include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 
+// <input type="submit" name="act_button" value="선택순위수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
-<input type="submit" name="act_button" value="선택순위수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 <input type="submit" name="act_button" value="선택상품복사" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 <a href="./goods/goods_list_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 엑셀저장</a>
 <!-- <a href="./goods.php?code=form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 상품등록</a> -->
@@ -191,10 +191,10 @@ EOF;
 		<th scope="row">판매여부</th>
 		<td>
 			<?php echo radio_checked('q_isopen', $q_isopen,  '', '전체'); ?>
-			<?php echo radio_checked('q_isopen', $q_isopen, '1', '진열'); ?>
-			<?php echo radio_checked('q_isopen', $q_isopen, '2', '품절'); ?>
-			<?php echo radio_checked('q_isopen', $q_isopen, '3', '단종'); ?>
-			<?php echo radio_checked('q_isopen', $q_isopen, '4', '중지'); ?>
+			<?php echo radio_checked('q_isopen', $q_isopen, '1', '공급가능'); ?>
+			<?php echo radio_checked('q_isopen', $q_isopen, '2', '일시중단'); ?>
+			<?php //echo radio_checked('q_isopen', $q_isopen, '3', '단종'); ?>
+			<?php echo radio_checked('q_isopen', $q_isopen, '4', '공급중단'); ?>
 		</td>
 		<th scope="row">필수옵션</th>
 		<td>
