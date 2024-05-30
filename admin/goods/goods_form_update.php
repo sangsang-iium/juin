@@ -143,6 +143,7 @@ $value['ca_id3']		    = $_POST['ca_id3']; //추가카테고리3
 $value['mb_id']			    = $_POST['mb_id']; //업체코드
 $value['gname']			    = $_POST['gname']; //상품명
 $value['isopen']		    = $_POST['isopen']; //진열상태
+$value['reg_yn']		    = $_POST['reg_yn']; //일반정기 jjh_20240529
 $value['explan']		    = $_POST['explan']; //짧은설명
 $value['keywords']		  = $_POST['keywords']; //키워드
 $value['admin_memo']	  = $_POST['admin_memo']; //관리자메모
