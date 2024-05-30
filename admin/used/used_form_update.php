@@ -7,7 +7,7 @@ check_admin_token();
 if ($w == '') {
     $sub_imgs = [];
     
-    $sql = "insert into shop_used set mb_id='{$member['id']}', gubun='$gubun', status='$status', category='$category', title='$title', content='$content', address='$address', lat='$lat', lng='$lng', regdate='".BV_TIME_YMDHIS."'";
+    $sql = "insert into shop_used set mb_id='{$member['id']}', gubun='$gubun', status='$status', price='$price', category='$category', title='$title', content='$content', address='$address', lat='$lat', lng='$lng', regdate='".BV_TIME_YMDHIS."'";
     sql_query($sql);
     $no = sql_insert_id();
 
@@ -19,7 +19,7 @@ if ($w == '') {
     
     $sub_imgs = explode("|", $row['s_img']);
 
-    $sql = "update shop_used set gubun='$gubun', status='$status', category='$category', title='$title', content='$content', address='$address', lat='$lat', lng='$lng' where no='$no'";
+    $sql = "update shop_used set gubun='$gubun', status='$status', price='$price', category='$category', title='$title', content='$content', address='$address', lat='$lat', lng='$lng' where no='$no'";
     sql_query($sql);
 
 } else {

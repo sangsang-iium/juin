@@ -115,6 +115,44 @@ const usedMenuTarget = '.store-list__category .category-wrap';
 const usedMenu = f.hrizonMenu(usedMenuTarget, usedMenuActive);
 </script>
 
+
+
+<script>
+let user_lat = 0;
+let user_lng = 0;
+
+function getUsedList(lat, lng, region, cate){
+    $.post("ajax.get_used_list.php", {lat:lat, lng:lng, region:region, cate:cate}, function(onj){
+        
+    });
+}
+
+function categoryChange(cate){
+
+}
+
+//$(document).ready(function(){
+//    function successCallback(position) {
+//        /*let pos = {
+//            lat: position.coords.latitude,
+//            lng: position.coords.longitude
+//        };
+//        alert("Your current position is: latitude(" + pos.lat + "), longitude(" + pos.lng + ")");*/
+//        user_lat = position.coords.latitude;
+//        user_lng = position.coords.longitude;
+//        getUsedList(user_lat, user_lng, '', '');
+//    }
+//
+//    function errorCallback(error) {
+//        //alert("Error: " + error.message);
+//        getUsedList(user_lat, user_lng, '', '');
+//    }
+//
+//    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+//});
+</script>
+
+
 <?php
 include_once(BV_MPATH."/_tail.php"); // 하단
 ?>

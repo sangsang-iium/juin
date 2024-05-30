@@ -2,8 +2,8 @@
 if(!defined('_BLUEVATION_')) exit;
 
 if($w == "") {
-	$gs['mb_id']		= 'admin';
-	$gs['simg_type']	= 0;
+	$pl['mb_id']		= 'admin';
+	$pl['simg_type']	= 0;
 }else if($w == 'u') {
 	$pl = sql_fetch("select * from shop_goods_raffle where index_no = '{$index_no}' ");
 	if(!$pl['index_no'])
@@ -21,7 +21,7 @@ $frm_submit .= '</div>';
 include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 ?>
 
-<form name="fregform" method="post" action="./goods/goods_raffle_update.php" enctype="MULTIPART/FORM-DATA">
+<form name="fregform" method="post" action="./goods/goods_raffle_update.php" enctype="MULTIPART/FORM-DATA" onsubmit="return fregform_submit(this);">
 <input type="hidden" name="w" value="<?php echo $w; ?>">
 <input type="hidden" name="sfl" value="<?php echo $sfl; ?>">
 <input type="hidden" name="stx" value="<?php echo $stx; ?>">
@@ -43,65 +43,73 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<th scope="row">응모기간</th>
 		<td>
 			<label for="event_start_date" class="sound_only">시작일</label>
-			<input type="text" name="event_start_date" value="" id="event_start_date" class="frm_input w80" maxlength="10">
+			<input type="text" name="event_start_date" value="<?php echo ymdhisToYmd($pl['event_start_date']) ?>" id="event_start_date" class="frm_input w80" maxlength="10">
+			<input type="text" name="event_start_time" value="<?php echo ymdhisToHi($pl['event_start_date']) ?>" id="event_start_time" class="frm_input w80" maxlength="10">
 			~ 
 			<label for="event_end_date" class="sound_only">종료일</label>
-			<input type="text" name="event_end_date" value="" id="event_end_date" class="frm_input w80" maxlength="10">
+			<input type="text" name="event_end_date" value="<?php echo ymdhisToYmd($pl['event_end_date']) ?>" id="event_end_date" class="frm_input w80" maxlength="10">
+			<input type="text" name="event_end_time" value="<?php echo ymdhisToHi($pl['event_end_date']) ?>" id="event_end_time" class="frm_input w80" maxlength="10">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">당첨자 발표</th>
 		<td>
 			<label for="prize_date" class="sound_only">시작일</label>
-			<input type="text" name="prize_date" value="" id="prize_date" class="frm_input w80" maxlength="10">
+			<input type="text" name="prize_date" value="<?php echo ymdhisToYmd($pl['prize_date']) ?>" id="prize_date" class="frm_input w80" maxlength="10">
+			<input type="text" name="prize_time" value="<?php echo ymdhisToHi($pl['prize_date']) ?>" id="prize_time" class="frm_input w80" maxlength="10">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">당첨자 구매기간</th>
 		<td>
 			<label for="prize_start_date" class="sound_only">시작일</label>
-			<input type="text" name="prize_start_date" value="" id="prize_start_date" class="frm_input w80" maxlength="10">
+			<input type="text" name="prize_start_date" value="<?php echo ymdhisToYmd($pl['prize_start_date']) ?>" id="prize_start_date" class="frm_input w80" maxlength="10">
+			<input type="text" name="prize_start_time" value="<?php echo ymdhisToHi($pl['prize_start_date']) ?>" id="prize_start_time" class="frm_input w80" maxlength="10">
 			~ 
 			<label for="prize_end_date" class="sound_only">종료일</label>
-			<input type="text" name="prize_end_date" value="" id="prize_end_date" class="frm_input w80" maxlength="10">
+			<input type="text" name="prize_end_date" value="<?php echo ymdhisToYmd($pl['prize_end_date']) ?>" id="prize_end_date" class="frm_input w80" maxlength="10">
+			<input type="text" name="prize_end_time" value="<?php echo ymdhisToHi($pl['prize_end_date']) ?>" id="prize_end_time" class="frm_input w80" maxlength="10">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">시중가격</th>
 		<td>
-			<input type="text" name="market_price" value="<?php echo $pl['market_price']; ?>" required itemname="시중가격" class="frm_input required" size="50">
+			<input type="number" name="market_price" value="<?php echo $pl['market_price']; ?>" required itemname="시중가격" class="frm_input required" size="50">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">구매가격</th>
 		<td>
-			<input type="text" name="raffle_price" value="<?php echo $pl['raffle_price']; ?>" required itemname="구매가격" class="frm_input required" size="50">
+			<input type="number" name="raffle_price" value="<?php echo $pl['raffle_price']; ?>" required itemname="구매가격" class="frm_input required" size="50">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">당첨자 수</th>
 		<td>
-			<input type="text" name="winner_number" value="<?php echo $pl['winner_number']; ?>" required itemname="당첨자 수" class="frm_input required" size="50">
+			<input type="number" name="winner_number" id="winner_number" value="<?php echo $pl['winner_number']; ?>" required itemname="당첨자 수" class="frm_input required" size="50">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">응모 제한</th>
-		<td>
-			<input type="text" name="entry" value="<?php echo $pl['entry']; ?>" required itemname="응모 제한" class="frm_input required" size="50">
+		<td>	
+			<input type="radio" name="entry" id="entry_1" value="0"<?php echo get_checked('0', $pl['entry']); ?> onclick="chk_entry_type(0);">
+			<label for="entry_1">예</label>
+			<input type="radio" name="entry" id="entry_2" value="1"<?php echo get_checked('1', $pl['entry']); ?> onclick="chk_entry_type(1);">
+			<label for="entry_2">아니오</label>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">안내사항</th>
 		<td>
-			<textarea name="infomation" class="frm_textbox"><?php echo $gs['infomation']; ?></textarea>
+			<textarea name="infomation" class="frm_textbox"><?php echo $pl['infomation']; ?></textarea>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">이미지 등록방식</th>
 		<td class="td_label">
-			<input type="radio" name="simg_type" id="simg_type_1" value="0"<?php echo get_checked('0', $gs['simg_type']); ?> onclick="chk_simg_type(0);">
+			<input type="radio" name="simg_type" id="simg_type_1" value="0"<?php echo get_checked('0', $pl['simg_type']); ?> onclick="chk_simg_type(0);">
 			<label for="simg_type_1">직접 업로드</label>
-			<input type="radio" name="simg_type" id="simg_type_2" value="1"<?php echo get_checked('1', $gs['simg_type']); ?> onclick="chk_simg_type(1);">
+			<input type="radio" name="simg_type" id="simg_type_2" value="1"<?php echo get_checked('1', $pl['simg_type']); ?> onclick="chk_simg_type(1);">
 			<label for="simg_type_2">URL 입력</label>
 		</td>
 	</tr>
@@ -125,10 +133,10 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<td>
 			<div class="item_file_fld">
 				<input type="file" name="simg<?php echo $i; ?>">
-				<?php echo get_look_ahead($gs['simg'.$i], "simg{$i}_del"); ?>
+				<?php echo get_raffle_ahead($pl['simg'.$i], "simg{$i}_del"); ?>
 			</div>
 			<div class="item_url_fld">
-				<input type="text" name="simg<?php echo $i; ?>" value="<?php echo $gs['simg'.$i]; ?>" class="frm_input" size="80" placeholder="http://">
+				<input type="text" name="simg<?php echo $i; ?>" value="<?php echo $pl['simg'.$i]; ?>" class="frm_input" size="80" placeholder="http://">
 			</div>
 		</td>
 	</tr>
@@ -136,12 +144,12 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 	<tr>
 		<th scope="row">상세설명</th>
 		<td>
-			<?php echo editor_html('memo', get_text(stripcslashes($gs['memo']), 0)); ?>
+			<?php echo editor_html('memo', get_text(stripcslashes($pl['memo']), 0)); ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">관리자메모</th>
-		<td><textarea name="admin_memo" class="frm_textbox"><?php echo $gs['admin_memo']; ?></textarea></td>
+		<td><textarea name="admin_memo" class="frm_textbox"><?php echo $pl['admin_memo']; ?></textarea></td>
 	</tr>
 	</tbody>
 	</table>
@@ -151,6 +159,21 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 </form>
 
 <script>
+	function fregform_submit(f) {
+		<?php echo get_editor_js('memo'); ?>
+
+		return true;
+	}
+
+	function chk_entry_type(type) {
+		if(type == 0) {
+			$("#winner_number").prop('readonly', false);
+		} else {
+			$("#winner_number").val('');
+			$("#winner_number").prop('readonly', true);
+		}
+	}
+
 	// 이미지 등록방식
 	function chk_simg_type(type) {
 		if(type == 0) { // 직접업로드
@@ -165,5 +188,42 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 
 	$("#event_start_date,#event_end_date,#prize_date,#prize_start_date,#prize_end_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99"});
 
-	chk_simg_type("<?php echo $gs['simg_type']; ?>");
+	chk_simg_type("<?php echo $pl['simg_type']; ?>");
+	
+	$(document).ready(function() {
+		$('#event_start_time , #event_end_time , #prize_time , #prize_start_time , #prize_end_time').on('focus', function() {
+			$(this).val('');
+		}).on('input', function() {
+			var inputValue = $(this).val().replace(/\D/g, '');
+			var formattedTime = formatTime(inputValue);
+			$(this).val(formattedTime);
+		}).on('keydown', function(event) {
+			if (event.key === 'Backspace' && $(this).val().length === 3 && $(this).val().includes(':')) {
+			$(this).val($(this).val().slice(0, 2));
+			}
+		});
+	});
+
+	function formatTime(time) {
+		if (time === '') {
+			return '';
+		}
+		if (isNaN(time)) {
+			return '';
+		}
+		if (time.length !== 4) {
+			if (time.length === 1) {
+				return time;
+			} else if (time.length === 2) {
+				return time + ':';
+			} else if (time.length === 3) {
+				return time.slice(0, 2) + ':' + time.slice(2);
+			} else {
+				return '';
+			}
+		}
+		var hours = time.slice(0, 2);
+		var minutes = time.slice(2, 4);
+		return hours + ':' + minutes;
+	}
 </script>

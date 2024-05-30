@@ -1,6 +1,29 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
+if(!empty($paytype)){
+  $paytypeurl = "&paytype=".$paytype;
+} else {
+  $paytype = 2;
+}
+
+if (isset($_SERVER['HTTP_REFERER'])) {
+  $referer_url = $_SERVER['HTTP_REFERER'];
+
+  $query_string = parse_url($referer_url, PHP_URL_QUERY);
+  parse_str($query_string, $query_params);
+
+  $paytype = isset($query_params['paytype']) ? $query_params['paytype'] : 2;
+
+  if ($paytype !== null) {
+    echo "이전 페이지의 paytype 값: $paytype";
+  } else {
+    echo "이전 페이지의 paytype 값을 찾을 수 없습니다.";
+  }
+} else {
+  echo "이전 페이지의 URL을 찾을 수 없습니다.";
+}
+
 
 $qstr1 = 'ca_id='.$ca_id.'&page_rows='.$page_rows.'&sort='.$sort.'&sortodr='.$sortodr.$paytypeurl;
 $qstr2 = 'ca_id='.$ca_id.'&page_rows='.$page_rows.$paytypeurl;

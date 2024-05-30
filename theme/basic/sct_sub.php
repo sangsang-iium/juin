@@ -10,7 +10,7 @@
       // 배열 키 추출
       // name 추가 _20240411_SY
       $arrKeyName = array_keys($myCart['gs_name']);
-      
+
       $arrKeyType = array_keys($myCart['io_type']);
       $arrKeyId   = array_keys($myCart['io_id']);
       $arrKeyVal  = array_keys($myCart['io_value']);
@@ -56,6 +56,7 @@
   <div class="sct_cart_inner">
     <form name="frmcartlist" id="sod_bsk_list" method="post" action="/mng/shop/cartupdate.php">
     <input type="hidden" name="sw_direct">
+    <input type="hidden" name="paytype" value="<?php echo $paytype ?>">
 
     <div class="sct_cart_ct">
       <p class="t1">

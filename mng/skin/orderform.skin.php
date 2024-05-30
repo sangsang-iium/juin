@@ -330,6 +330,25 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       <?php } ?>
       <input type="hidden" name="resulturl" value="pc">
 
+      <!-- 정기배송 주문 추가 -->
+      <!-- <div class="bottomBlank">
+        <div class="container">
+          <div class="arcodianBtn od-top active">
+            <button type="button" class="ui-btn od-toggle-btn">
+              <span class="od-tit">주문자정보</span>
+            </button>
+          </div>
+
+          <div class="od-ct info-list">
+            <div class="info-item">
+              <p class="tit">회원명</p>
+              <input type="text" name="ju_restaurant" value="<?php echo $member['ju_restaurant'] ?>" class="w-per50 frm-input">
+            </div>
+
+          </div>
+        </div>
+      </div> -->
+
       <!-- 주문자 기본 정보 추가 _20240412_SY -->
       <div class="bottomBlank">
         <div class="container">

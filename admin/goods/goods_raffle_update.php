@@ -42,11 +42,13 @@ if($_POST['simg_type']) { // URL 입력
 
 
 $value['goods_name']        =   $_POST['goods_name'];
-$value['event_start_date']  =   $_POST['event_start_date'];
-$value['event_end_date']    =   $_POST['event_end_date'];
-$value['prize_date']        =   $_POST['prize_date'];
-$value['prize_start_date']  =   $_POST['prize_start_date'];
-$value['prize_end_date']    =   $_POST['prize_end_date'];
+$value['mb_id']        		=   $member['id'];
+$value['mb_name']        	=   $member['name'];
+$value['event_start_date']  =   $_POST['event_start_date']." ".$_POST['event_start_time'];
+$value['event_end_date']    =   $_POST['event_end_date']." ".$_POST['event_end_time'];
+$value['prize_date']        =   $_POST['prize_date']." ".$_POST['prize_time'];
+$value['prize_start_date']  =   $_POST['prize_start_date']." ".$_POST['prize_start_time'];
+$value['prize_end_date']    =   $_POST['prize_end_date']." ".$_POST['prize_end_time'];
 $value['market_price']      =   $_POST['market_price'];
 $value['raffle_price']      =   $_POST['raffle_price'];
 $value['winner_number']     =   $_POST['winner_number'];
@@ -54,20 +56,20 @@ $value['entry']             =   $_POST['entry'];
 $value['infomation']        =   $_POST['infomation'];
 $value['memo']              =   $_POST['memo'];
 $value['admin_memo']        =   $_POST['admin_memo'];
-
+$value['simg_type']        	=   $_POST['simg_type'];
 
 if($w == "") {
 	$value['reg_time'] = BV_TIME_YMDHIS; //등록일시
 	insert("shop_goods_raffle", $value);
-	$gs_id = sql_insert_id();
+	$index_no = sql_insert_id();
 
 } else if($w == "u") {
-	update("shop_goods_raffle", $value," where index_no = '$gs_id'");
+	update("shop_goods_raffle", $value," where index_no = '$index_no'");
 }
 
 
 if($w == "")
-    goto_url(BV_ADMIN_URL."/goods.php?code=raffle&w=u&gs_id=$gs_id");
+    goto_url(BV_ADMIN_URL."/goods.php?code=raffle&w=u&gs_id=$index_no");
 else if($w == "u")
-    goto_url(BV_ADMIN_URL."/goods.php?code=raffle&w=u&gs_id=$gs_id$q1&page=$page&bak=$bak");
+    goto_url(BV_ADMIN_URL."/goods.php?code=raffle&w=u&gs_id=$index_no$q1&page=$page&bak=$bak");
 ?>
