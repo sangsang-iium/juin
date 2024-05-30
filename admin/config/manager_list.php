@@ -4,8 +4,14 @@ if (!defined('_BLUEVATION_')) exit;
 
 $sql_common = " FROM shop_manager ";
 $sql_search = " WHERE (1) ";
-$sql_join = " LEFT JOIN authorization AS auth
-                ON (mn.auth_idx = auth.auth_idx) ";
+$sql_join = " LEFT JOIN authorization AS auth 
+                     ON (mn.auth_idx = auth.auth_idx) 
+              LEFT JOIN ( SELECT kf.*, area.areaname, area.areacode
+                            FROM kfia_region AS kf 
+                       LEFT JOIN ( SELECT areacode, areaname FROM area GROUP BY areacode) AS area 
+                              ON kf.kf_region1 = area.areacode
+                         ) AS kfa 
+                     ON mn.ju_region_code = kfa.kf_code ";
 
 $query_string = "code=$code$qstr";
 $q1 = $query_string;
@@ -13,7 +19,11 @@ $q2 = $query_string . "&page=$page";
 
 
 if ($sfl && $stx) {
-  $sql_search .= " and mn.$sfl like '%$stx%' ";
+  if($sfl == "auth_idx") {
+    $sql_search .= " and mn.$sfl like '%$stx%' ";
+  } else {
+    $sql_search .= " and $sfl like '%$stx%' ";
+  }
 }
 
 if (!$orderby) {
@@ -36,7 +46,7 @@ if ($page == "") {
 }
 $from_record = ($page - 1) * $rows;
 
-$sql = " SELECT * {$sql_common} AS mn {$sql_join} {$sql_search} LIMIT {$from_record}, {$rows} ";
+$sql = " SELECT mn.*, auth.*, kfa.* {$sql_common} AS mn {$sql_join} {$sql_search} LIMIT {$from_record}, {$rows} ";
 $result = sql_query($sql);
 
 // <input type="submit" name="act_button" value="선택수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
@@ -62,9 +72,9 @@ EOF;
           <td>
             <select name="sfl">
               <?php echo option_selected('id', $sfl, '아이디'); ?>
-              <?php echo option_selected('ju_region1', $sfl, '지역'); ?>
-              <?php echo option_selected('ju_region2', $sfl, '지회'); ?>
-              <?php echo option_selected('ju_region3', $sfl, '지부'); ?>
+              <?php echo option_selected('areaname', $sfl, '지역'); ?>
+              <?php echo option_selected('kf_region2', $sfl, '지회'); ?>
+              <?php echo option_selected('kf_region3', $sfl, '지부'); ?>
             </select>
             <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
           </td>
@@ -105,9 +115,9 @@ EOF;
           <th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
           <th scope="col"><?php echo subject_sort_link('id',         $q2); ?>아이디</a></th>
           <th scope="col"><?php echo subject_sort_link('name',       $q2); ?>이름</a></th>
-          <th scope="col"><?php echo subject_sort_link('ju_region1', $q2); ?>지역</a></th>
-          <th scope="col"><?php echo subject_sort_link('ju_region2', $q2); ?>지회명</a></th>
-          <th scope="col"><?php echo subject_sort_link('ju_region3', $q2); ?>지부명</a></th>
+          <th scope="col"><?php echo subject_sort_link('areaname',   $q2); ?>지역</a></th>
+          <th scope="col"><?php echo subject_sort_link('kf_region2', $q2); ?>지회명</a></th>
+          <th scope="col"><?php echo subject_sort_link('kf_region3', $q2); ?>지부명</a></th>
           <th scope="col"><?php echo subject_sort_link('reg_time',   $q2); ?>등록일</th>
           <th scope="col">관리</th>
         </tr>
@@ -126,7 +136,7 @@ EOF;
           </td>
           <td><?php echo $row['id'] ?></td>
           <td><?php echo $row['name'] ?></td>
-          <td><?php echo $row['ju_region1'] ?></td>
+          <td><?php echo $row['areaname'] ?></td>
           <td><?php echo $row['kf_region2'] ?></td>
           <td><?php echo $row['kf_region3'] ?></td>
           <td><?php echo substr($row['reg_time'], 0, 10) ?></td>
