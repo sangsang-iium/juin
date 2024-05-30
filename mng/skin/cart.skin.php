@@ -7,9 +7,16 @@ if(!defined('_BLUEVATION_')) exit;
 
 <p><img src="<?php echo BV_IMG_URL; ?>/tit_cart.gif"></p>
 
+<div>
+	<a href="/mng/shop/cart.php?paytype=2" class="<?php echo $paytype == "2"?"wset":"" ?> btn_large bx-white">일반배송 (<?php echo number_format($row_cnt['total_cnt2']) ?>)</a>
+	<a href="/mng/shop/cart.php?paytype=1" class="<?php echo $paytype == "1"?"wset":"" ?> btn_large bx-white">정기배송 (<?php echo number_format($row_cnt['total_cnt1']) ?>)</a>
+</div>
+
 <p class="pg_cnt mart30">
 	<em>총 <?php echo number_format($cart_count); ?>개</em>의 상품이 장바구니에 있습니다.
 </p>
+
+
 
 <form name="frmcartlist" id="sod_bsk_list" method="post" action="<?php echo $cart_action_url; ?>">
 <div class="tbl_head02 tbl_wrap">
@@ -255,6 +262,7 @@ if(!defined('_BLUEVATION_')) exit;
 	<input type="hidden" name="url" value="./orderform.php">
 	<input type="hidden" name="records" value="<?php echo $i; ?>">
 	<input type="hidden" name="act" value="">
+	<input type="hidden" name="paytype" value="<?php echo $paytype ?>">
 	<button type="button" onclick="return form_check('buy');" class="btn_large wset">선택상품주문</button>
 	<a href="<?php echo BV_URL; ?>/mng/" class="btn_large bx-white">쇼핑계속하기</a>
 	<?php if($naverpay_button_js) { ?>
@@ -267,7 +275,7 @@ if(!defined('_BLUEVATION_')) exit;
 <script>
 $(function() {
 	var close_btn_idx;
-  
+
 	// 선택사항수정
 	$(".mod_options").click(function() {
 		var gs_id = $(this).closest("tr").find("input[name^=gs_id]").val();
@@ -276,7 +284,7 @@ $(function() {
 
 		$.post(
 			bv_url+"/mng/shop/cartoption.php",
-			{ gs_id: gs_id },
+			{ gs_id: gs_id, paytype: <?php echo $paytype?> },
 			function(data) {
 				$("#mod_option_frm").remove();
 				$this.after("<div id=\"mod_option_frm\"></div>");
