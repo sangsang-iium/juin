@@ -6,9 +6,11 @@ if (is_admin()) {
   set_session('admin_ss_mb_id', get_session('ss_mb_id'));
 }
 
+print_r2($_GET);
 // 세션 변수에 등록
 set_session('ss_mb_id', $_GET['mb_id']);
 
+exit;
 // lg_type=M 추가 _20240408_SY
 if ($_GET['lg_type'] == 'S') {
   goto_url(BV_MYPAGE_URL . '/page.php?code=seller_main');

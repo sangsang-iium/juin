@@ -295,7 +295,7 @@ if($_SESSION['ss_mb_id']) { // 로그인중이라면
 	$member = get_member($_SESSION['ss_mb_id']);
   
   // Manager Login Check 추가 _20240527_SY
-  if(empty($member)){
+  if($_SESSION['ss_mn_id']){
     $member = get_manager($_SESSION['ss_mb_id']);
   }
 
