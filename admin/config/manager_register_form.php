@@ -111,7 +111,7 @@ $auth_res = sql_query($auth_sql);
             $region3_sel = " SELECT * FROM kfia_region WHERE kf_region1 = '{$result['ju_region1']}' AND kf_region3 <> '' GROUP BY kf_region3 ";
             $region3_res = sql_query($region3_sel);
             while ($region3_row = sql_fetch_array($region3_res)) { ?>
-              <option value="<?php echo $region3_row['kf_region3']?>" <?php echo ($w == 'u' && $region3_row['kf_region3'] == $result['ju_region3']) ? "selected" : "" ?> ><?php echo $region3_row['kf_region3'] ?></option>
+              <option value="<?php echo $region3_row['ju_idx']?>" <?php echo ($w == 'u' && $region3_row['ju_region3'] == $result['ju_region3']) ? "selected" : "" ?> ><?php echo $region3_row['ju_region3'] ?></option>
         <?php } } ?>
       </select>
     </td>
@@ -191,12 +191,10 @@ function getBranch(e) {
       
 
       for (var i = 0; i < reg.length; i++) {
-        if(reg[i].region != "") {
-          var option = $('<option>');
-          option.val(reg[i].region);
-          option.text(reg[i].region);
-          ju_region2.append(option);
-        }
+        var option = $('<option>');
+        option.val(reg[i].region);
+        option.text(reg[i].region);
+        ju_region2.append(option);
       }
     },
     error: function(xhr, status, error) {

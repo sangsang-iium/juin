@@ -72,7 +72,7 @@ define('ADMIN_MENU5_25',	'상품 검색어관리');
 define('ADMIN_MENU5_26',	'상품 검색어순위');
 define('ADMIN_MENU5_27',	'상품등록');
 define('ADMIN_MENU5_28',	'라이브존 목록');
-define('ADMIN_MENU5_29',	'레플응모 관리');
+define('ADMIN_MENU5_29',	'레플 응모 관리');
 
 define('ADMIN_MENU6',		'주문관리');
 define('ADMIN_MENU6_01',	'주문리스트(전체)');

@@ -1,26 +1,45 @@
 <?php
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
+
+if(is_numeric($no)){
+    $row = sql_fetch("select * from shop_used where no = '$no'");
+    if(!$row['no']){
+        alert("상품정보가 존재하지 않습니다.");
+    }
+    //조회수+
+    //sql_query("update shop_used set hit = hit + 1 where no = '$no'");
+}
+
+$imgs = [];
+if(file_exists(BV_DATA_PATH.'/used/'.$row['m_img'])) array_push($imgs, BV_DATA_URL.'/used/'.$row['m_img']);
+$subimgs = explode("|", $row['s_img']);
+foreach($subimgs as $v){
+    if(file_exists(BV_DATA_PATH.'/used/'.$v)) array_push($imgs, BV_DATA_URL.'/used/'.$v);
+}
+$imgs = array_filter($imgs);
+$imgs = array_unique($imgs);
+
+$gubun_status = getUsedGubunStatus($row['gubun'], $row['status']);
+$good_cnt = getUsedGoodCount($row['no']);
+$comment_cnt = getUsedCommentCount($row['no']);
+$goodyn = getUsedGoodRegister($row['no'], $member['id']);
+
+$sql = "select * from shop_used_comment where pno = {$row['no']} order by no";
+$result = sql_query($sql);
 ?>
 
 <div id="contents" class="sub-contents flView usedView">
   <div class="fl-detailThumb">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <div class="swiper-slide item">
-          <a href="" class="link">
-            <figure class="image">
-              <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
-            </figure>
-          </a>
-        </div>
-        <div class="swiper-slide item">
-          <a href="" class="link">
-            <figure class="image">
-              <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
-            </figure>
-          </a>
-        </div>
+      <?php
+      foreach($imgs as $v){
+        echo '<div class="swiper-slide item">';
+        echo '<a href="#none" class="link"><figure class="image"><img src="'.$v.'" class="fitCover" alt="'.$row['title'].'"></figure></a>';
+        echo '</div>';
+      }
+      ?>
       </div>
       <div class="round swiper-control">
         <div class="pagination"></div>
@@ -30,19 +49,19 @@ include_once(BV_MPATH."/_head.php"); // 상단
 
   <div class="bottomBlank container used-item_txtBox item_txtBox">
     <a href="" class="tRow2 title">
-      <span class="cate">[주방용품]</span>
-      <span class="subj">식당용 식탁,의자</span>
+      <span class="cate">[<?php echo $row['category'] ?>]</span>
+      <span class="subj"><?php echo $row['title'] ?></span>
     </a>
     <p class="writer">
-      <span>홍길동</span>
-      <span>대전시 서구 월평동</span>
+      <span><?php echo getMemberName($row['mb_id']) ?></span>
+      <span><?php echo getUsedAddress($row['address']) ?></span>
     </p>
     <ul class="inf">
       <li>
-        <p class="prc">50,000<span class="won">원</span></p>
+        <p class="prc"><?php echo number_format($row['price']) ?><span class="won">원</span></p>
       </li>
       <li>
-        <span class="status ing">판매중</span>
+        <span class="status ing"><?php echo $gubun_status[1] ?></span>
       </li>
     </ul>
     <ul class="extra">
@@ -50,24 +69,24 @@ include_once(BV_MPATH."/_head.php"); // 상단
         <span class="icon">
           <img src="/src/img/used/icon_hit.png" alt="조회수">
         </span>
-        <span class="text">56</span>
+        <span class="text"><?php echo $row['hit'] ?></span>
       </li>
       <li class="like">
         <span class="icon">
           <img src="/src/img/used/icon_like.png" alt="좋아요수">
         </span>
-        <span class="text">23</span>
+        <span class="text"><?php echo $good_cnt ?></span>
       </li>
       <li class="reply">
         <span class="icon">
           <img src="/src/img/used/icon_chat.png" alt="댓글수">
         </span>
-        <span class="text">10</span>
+        <span class="text conmment_cnt"><?php echo $comment_cnt ?></span>
       </li>
     </ul>
   </div>
 
-  <div class="bottomBlank container prod-smInfo__body">
+  <!--<div class="bottomBlank container prod-smInfo__body">
     <div class="info-list">
       <div class="info-item">
         <p class="tit">제품명</p>
@@ -86,22 +105,18 @@ include_once(BV_MPATH."/_head.php"); // 상단
         <p class="cont">경기 시흥시 은계지구</p>
       </div>
     </div>
-  </div>
+  </div>-->
 
-  <div class="bottomBlank container fl-explan">
-    상품설명 영역입니다. <br/>
-    식당에서 쓰는 식탁과 의자 세트입니다. <br/>
-    사용감은 조금 있지만 상태 좋고, 흔들림도 없습니다. <br/>
-    직접 가지러 오셔야 하고, 거래 장소는 월평동입니다.
-  </div>
+  <div class="bottomBlank container fl-explan"><?php echo nl2br($row['content']) ?></div>
 
   <div class="container fl-reply">
     <div class="fl-reply_body">
       <div class="fl-reply_title">
-        <p class="title">댓글(20)</p>
+        <p class="title">댓글(<span class="conmment_cnt"><?php echo $comment_cnt ?></span>)</p>
       </div>
 
       <div class="fl-reply_list">
+        
         <div class="fl-reply_item">
           <div class="fl-reply_top">
             <div class="left">
@@ -158,10 +173,13 @@ include_once(BV_MPATH."/_head.php"); // 상단
             </div>
           </div>
         </div>
+        
       </div>
+      <?php if($comment_cnt > 2){ ?>
       <button type="button" class="ui-btn round moreLong fl-reply_all-btn">
-        <span class="text">전체보기</span>
+        <span class="text" onclick="getUsedCommentList(<?php echo $row['no'] ?>, 'y');">전체보기</span>
       </button>
+      <?php } ?>
 
       <div class="fl-reply_register">
         <form action="">
@@ -178,7 +196,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
     <div class="dfBox">
       <div class="container">
         <div class="prod-buy__btns">
-          <button type="button" class="ui-btn wish-btn" title="관심상품 등록하기"></button>
+          <button type="button" data-no="<?php echo $row['no'] ?>" class="ui-btn wish-btn<?php echo ($goodyn) ? ' on' : '';?>" title="관심상품 등록하기"></button>
           <a href="./chat_list.php" class="ui-btn round stBlack chat-btn">채팅하기</a>
         </div>
       </div>
@@ -186,6 +204,56 @@ include_once(BV_MPATH."/_head.php"); // 상단
   </div>
 
 </div>
+
+<script>
+const pno = Number(<?php echo $no ?>);
+let more = '';
+
+function getUsedCommentList(pno, more){
+    $.post("ajax.get_used_list.php", {pno:pno, more:more}, function(obj){
+        $(".fl-reply_list").html(obj);
+        reEvent();
+    });
+}
+
+function reEvent(){
+    $(".wish-btn").click(function(){
+        var el = $(this);
+        var no = el.data("no");
+        var inout = 'in';
+        if(el.hasClass("on")){
+            inout = 'out';
+        }
+        $.post("ajax.used_good.php", {no:no, inout:inout}, function(obj){
+            if(obj.trim()=='in'){
+                el.addClass("on");
+            } else if(obj.trim()=='out'){
+                el.removeClass("on");
+            }
+        });
+    });
+}
+
+$(document).ready(function(){
+    $(".wish-btn").click(function(){
+        var el = $(this);
+        var no = el.data("no");
+        var inout = 'in';
+        if(el.hasClass("on")){
+            inout = 'out';
+        }
+        $.post("ajax.used_good.php", {no:no, inout:inout}, function(obj){
+            if(obj.trim()=='in'){
+                el.addClass("on");
+            } else if(obj.trim()=='out'){
+                el.removeClass("on");
+            }
+        });
+    });
+    
+    //getUsedCommentList(pno, more);
+});
+</script>
 
 <?php
 include_once(BV_MPATH."/_tail.php"); // 하단

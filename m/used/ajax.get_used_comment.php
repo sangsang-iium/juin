@@ -1,20 +1,19 @@
 <?php
 include_once("./_common.php");
 
-$region1 = trim($_POST['region1']);
-$region2 = trim($_POST['region2']);
-$category = trim($_POST['cate']);
+$pno = trim($_POST['pno']);
+$more = trim($_POST['more']);
 
-if($category=='all'){
-    $sql = "select * from shop_used where del_yn = 'N' and address like '%{$region1}%' and address like '%{$region2}%' order by 1 desc";
+if($more=='y'){
+    $sql = "select * from shop_used_comment where pno = '$pno' order by 1 desc";
 } else {
-    $sql = "select * from shop_used where del_yn = 'N' and category = '$category' and address like '%{$region1}%' and address like '%{$region2}%' order by 1 desc";
+    $sql = "select * from shop_used_comment where pno = '$pno' order by 1 desc limit 2";
 }
 $result = sql_query($sql);
 $rows = sql_num_rows($result);
 
 if($rows == 0){
-    echo '<p class="empty_list">자료가 없습니다.</p>';
+    echo '<p class="empty_list">댓글이 없습니다.</p>';
 } else {
     while($row=sql_fetch_array($result)){
         if($row['m_img']){
@@ -55,52 +54,59 @@ if($rows == 0){
 }
 ?>
 
-<!-- 자료 없을때
-<p class="empty_list">자료가 없습니다.</p>
--->
-<!-- loop { -->
-<!--<div class="used-item">
-  <a href="./view.php" class="used-item_thumbBox">
-    <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
-  </a>
-  <div class="used-item_txtBox">
-    <a href="./view.php" class="tRow2 title">
-      <span class="cate">[주방용품]</span>
-      <span class="subj">식당용 식탁,의자</span>
-    </a>
-    <p class="writer">
-      <span>홍길동</span>
-      <span>대전시 서구 월평동</span>
-    </p>
-    <ul class="inf">
-      <li>
-        <p class="prc">50,000<span class="won">원</span></p>
-      </li>
-      <li>
-        <span class="status ing">판매중</span>
-      </li>
-    </ul>
-    <ul class="extra">
-      <li class="hit">
-        <span class="icon">
-          <img src="/src/img/used/icon_hit.png" alt="조회수">
-        </span>
-        <span class="text">56</span>
-      </li>
-      <li class="like">
-        <span class="icon">
-          <img src="/src/img/used/icon_like.png" alt="좋아요수">
-        </span>
-        <span class="text">23</span>
-      </li>
-      <li class="reply">
-        <span class="icon">
-          <img src="/src/img/used/icon_chat.png" alt="댓글수">
-        </span>
-        <span class="text">10</span>
-      </li>
-    </ul>
-    <button type="button" class="ui-btn wish-btn on" title="관심상품 등록하기"></button>
-  </div>
-</div>-->
-<!-- } loop -->
+        <div class="fl-reply_item">
+          <div class="fl-reply_top">
+            <div class="left">
+              <p class="name">abc***</p>
+            </div>
+            <div class="right">
+              <p class="date">2024-02-27</p>
+            </div>
+          </div>
+          <div class="fl-reply_content-wr">
+            <div class="fl-reply_content">
+              
+              <div class="fl-reply_content-q-wr">
+                댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다.
+              </div>
+
+              <div class="mngArea">
+                <button type="button" class="ui-btn">답글달기</button>
+                <button type="button" class="ui-btn">신고하기</button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="fl-reply_item">
+          <div class="fl-reply_top">
+            <div class="left">
+              <p class="name">abc***</p>
+            </div>
+            <div class="right">
+              <p class="date">2024-02-27</p>
+            </div>
+          </div>
+          <div class="fl-reply_content-wr">
+            <div class="fl-reply_content">
+
+              <div class="fl-reply_content-q-wr">
+                댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다.
+              </div>
+
+              <div class="mngArea">
+                <button type="button" class="ui-btn">답글달기</button>
+                <button type="button" class="ui-btn">신고하기</button>
+              </div>
+
+              <div class="fl-reply_content-a-wr">
+                <p class="name">판매자</p>
+                <div class="cont">
+                  답글 내용입니다. 답글 내용입니다. 답글 내용입니다. 답글 내용입니다. 답글 내용입니다.
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
