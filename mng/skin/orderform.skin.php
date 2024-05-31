@@ -1,8 +1,11 @@
 <?php
-if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
+if (!defined("_BLUEVATION_")) {
+  exit;
+}
+// 개별 페이지 접근 불가
 include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 
-require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
+require_once BV_SHOP_PATH . '/settle_kakaopay.inc.php';
 ?>
 <script>
   function cp_submit2() {
@@ -113,29 +116,29 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 <div id="contents" class="sub-contents prodOrder">
   <div id="sod_approval_frm">
     <?php
-    ob_start();
-    ?>
+ob_start();
+?>
     <div class="cp-cart order">
       <?php
-      $tot_point = 0;
-      $tot_sell_price = 0;
-      $tot_opt_price = 0;
-      $tot_sell_qty = 0;
-      $tot_sell_amt = 0;
-      $seller_id = array();
+$tot_point      = 0;
+$tot_sell_price = 0;
+$tot_opt_price  = 0;
+$tot_sell_qty   = 0;
+$tot_sell_amt   = 0;
+$seller_id      = array();
 
-      $sql = " select *
+$sql = " select *
             from shop_cart
             where index_no IN ({$ss_cart_id})
             and ct_select = '0'
             group by gs_id
             order by index_no ";
-      $result = sql_query($sql);
-      for($i=0; $row=sql_fetch_array($result); $i++) {
-        $gs = get_goods($row['gs_id']);
+$result = sql_query($sql);
+for ($i = 0; $row = sql_fetch_array($result); $i++) {
+  $gs = get_goods($row['gs_id']);
 
-        // 합계금액 계산
-        $sql = " select SUM(IF(io_type = 1, (io_price * ct_qty), ((io_price + ct_price) * ct_qty))) as price,
+  // 합계금액 계산
+  $sql = " select SUM(IF(io_type = 1, (io_price * ct_qty), ((io_price + ct_price) * ct_qty))) as price,
                 SUM(IF(io_type = 1, (io_supply_price * ct_qty), ((io_supply_price + ct_supply_price) * ct_qty))) as supply_price,
                 SUM(IF(io_type = 1, (0),(ct_point * ct_qty))) as point,
                 SUM(IF(io_type = 1, (0),(ct_qty))) as qty,
@@ -144,34 +147,37 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               where gs_id = '$row[gs_id]'
               and ct_direct = '$set_cart_id'
               and ct_select = '0'";
-        $sum = sql_fetch($sql);
+  $sum = sql_fetch($sql);
 
-        $it_name = stripslashes($gs['gname']);
-        $it_options = mobile_print_item_options($row['gs_id'], $set_cart_id);
+  $it_name    = stripslashes($gs['gname']);
+  $it_options = mobile_print_item_options($row['gs_id'], $set_cart_id);
 
-        $point = $sum['point'];
-        $supply_price = $sum['supply_price'];
-        $sell_price = $sum['price'];
-        $sell_opt_price = $sum['opt_price'];
-        $sell_qty = $sum['qty'];
-        $sell_amt = $sum['price'] - $sum['opt_price'];
+  $point          = $sum['point'];
+  $supply_price   = $sum['supply_price'];
+  $sell_price     = $sum['price'];
+  $sell_opt_price = $sum['opt_price'];
+  $sell_qty       = $sum['qty'];
+  $sell_amt       = $sum['price'] - $sum['opt_price'];
 
-        // 회원이 아니면 포인트초기화
-        if(!$is_member) $point = 0;
+  // 회원이 아니면 포인트초기화
+  if (!$is_member) {
+    $point = 0;
+  }
 
-        // 배송비
-        if($gs['use_aff'])
-          $sr = get_partner($gs['mb_id']);
-        else
-          $sr = get_seller_cd($gs['mb_id']);
+  // 배송비
+  if ($gs['use_aff']) {
+    $sr = get_partner($gs['mb_id']);
+  } else {
+    $sr = get_seller_cd($gs['mb_id']);
+  }
 
-        $info = get_item_sendcost($sell_price);
-        $item_sendcost[] = $info['pattern'];
+  $info            = get_item_sendcost($sell_price);
+  $item_sendcost[] = $info['pattern'];
 
-        $seller_id[$i] = $gs['mb_id'];
+  $seller_id[$i] = $gs['mb_id'];
 
-        $href = BV_MSHOP_URL.'/view.php?gs_id='.$row['gs_id'];
-      ?>
+  $href = BV_MSHOP_URL . '/view.php?gs_id=' . $row['gs_id'];
+  ?>
 
       <div class="cp-cart-item">
         <input type="hidden" name="gs_id[<?php echo $i; ?>]" value="<?php echo $row['gs_id']; ?>">
@@ -191,12 +197,12 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             <p class="name"><?php echo $it_name; ?></p>
             <div class="info">
               <div class="set">
-                <div><?php echo number_format($sell_qty).'개'; ?></div>
-                <?php if($row['io_id']) { ?>
+                <div><?php echo number_format($sell_qty) . '개'; ?></div>
+                <?php if ($row['io_id']) {?>
                 <div>
                   <?php echo $it_options; ?>
                 </div>
-                <?php } ?>
+                <?php }?>
               </div>
               <p class="price"><?php echo number_format($row['ct_price']); ?>원<span class="dc-price"><?php echo number_format('99999'); ?>원</span></p>
             </div>
@@ -206,14 +212,14 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
       <!-- 기존소스 {
       <li class="sod_li">
-        <input type="hidden" name="gs_id[<?php //echo $i; ?>]" value="<?php //echo $row['gs_id']; ?>">
-        <input type="hidden" name="gs_notax[<?php //echo $i; ?>]" value="<?php //echo $gs['notax']; ?>">
-        <input type="hidden" name="gs_price[<?php //echo $i; ?>]" value="<?php //echo $sell_price; ?>">
-        <input type="hidden" name="seller_id[<?php //echo $i; ?>]" value="<?php //echo $gs['mb_id']; ?>">
+        <input type="hidden" name="gs_id[<?php        //echo $i; ?>]" value="<?php        //echo $row['gs_id']; ?>">
+        <input type="hidden" name="gs_notax[<?php     //echo $i; ?>]" value="<?php     //echo $gs['notax']; ?>">
+        <input type="hidden" name="gs_price[<?php     //echo $i; ?>]" value="<?php     //echo $sell_price; ?>">
+        <input type="hidden" name="seller_id[<?php    //echo $i; ?>]" value="<?php    //echo $gs['mb_id']; ?>">
         <input type="hidden" name="supply_price[<?php //echo $i; ?>]" value="<?php //echo $supply_price; ?>">
-        <input type="hidden" name="sum_point[<?php //echo $i; ?>]" value="<?php //echo $point; ?>">
-        <input type="hidden" name="sum_qty[<?php //echo $i; ?>]" value="<?php //echo $sell_qty; ?>">
-        <input type="hidden" name="cart_id[<?php //echo $i; ?>]" value="<?php //echo $row['od_no']; ?>">
+        <input type="hidden" name="sum_point[<?php    //echo $i; ?>]" value="<?php    //echo $point; ?>">
+        <input type="hidden" name="sum_qty[<?php      //echo $i; ?>]" value="<?php      //echo $sell_qty; ?>">
+        <input type="hidden" name="cart_id[<?php      //echo $i; ?>]" value="<?php      //echo $row['od_no']; ?>">
 
         <div class="li_name">
           <?php //echo $it_name; ?>
@@ -238,54 +244,54 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       } 기존소스 -->
 
       <?php
-        $tot_point += (int)$point;
-        $tot_sell_price += (int)$sell_price;
-        $tot_opt_price += (int)$sell_opt_price;
-        $tot_sell_qty += (int)$sell_qty;
-        $tot_sell_amt += (int)$sell_amt;
-      } // for 끝
+$tot_point += (int) $point;
+  $tot_sell_price += (int) $sell_price;
+  $tot_opt_price += (int) $sell_opt_price;
+  $tot_sell_qty += (int) $sell_qty;
+  $tot_sell_amt += (int) $sell_amt;
+} // for 끝
 
-      // 배송비 검사
-      $send_cost = 0;
-      $com_send_cost = 0;
-      $sep_send_cost = 0;
-      $max_send_cost = 0;
+// 배송비 검사
+$send_cost     = 0;
+$com_send_cost = 0;
+$sep_send_cost = 0;
+$max_send_cost = 0;
 
-      $k = 0;
-      $condition = array();
-      foreach($item_sendcost as $key) {
-        list($userid, $bundle, $price) = explode('|', $key);
-        $condition[$userid][$bundle][$k] = $price;
-        $k++;
-      }
+$k         = 0;
+$condition = array();
+foreach ($item_sendcost as $key) {
+  list($userid, $bundle, $price)   = explode('|', $key);
+  $condition[$userid][$bundle][$k] = $price;
+  $k++;
+}
 
-      $com_array = array();
-      $val_array = array();
-      foreach($condition as $key=>$value) {
-        if($condition[$key]['묶음']) {
-          $com_send_cost += array_sum($condition[$key]['묶음']); // 묶음배송 합산
-          $max_send_cost += max($condition[$key]['묶음']); // 가장 큰 배송비 합산
-          $com_array[] = max(array_keys($condition[$key]['묶음'])); // max key
-          $val_array[] = max(array_values($condition[$key]['묶음']));// max value
-        }
-        if($condition[$key]['개별']) {
-          $sep_send_cost += array_sum($condition[$key]['개별']); // 묶음배송불가 합산
-          $com_array[] = array_keys($condition[$key]['개별']); // 모든 배열 key
-          $val_array[] = array_values($condition[$key]['개별']); // 모든 배열 value
-        }
-      }
+$com_array = array();
+$val_array = array();
+foreach ($condition as $key => $value) {
+  if ($condition[$key]['묶음']) {
+    $com_send_cost += array_sum($condition[$key]['묶음']);      // 묶음배송 합산
+    $max_send_cost += max($condition[$key]['묶음']);            // 가장 큰 배송비 합산
+    $com_array[] = max(array_keys($condition[$key]['묶음']));   // max key
+    $val_array[] = max(array_values($condition[$key]['묶음'])); // max value
+  }
+  if ($condition[$key]['개별']) {
+    $sep_send_cost += array_sum($condition[$key]['개별']); // 묶음배송불가 합산
+    $com_array[] = array_keys($condition[$key]['개별']);   // 모든 배열 key
+    $val_array[] = array_values($condition[$key]['개별']); // 모든 배열 value
+  }
+}
 
-      $baesong_price = get_tune_sendcost($com_array, $val_array);
+$baesong_price = get_tune_sendcost($com_array, $val_array);
 
-      $send_cost = $com_send_cost + $sep_send_cost; // 총 배송비합계
-      $tot_send_cost = $max_send_cost + $sep_send_cost; // 최종배송비
-      $tot_final_sum = $send_cost - $tot_send_cost; // 배송비할인
-      $tot_price = $tot_sell_price + $tot_send_cost; // 결제예정금액
+$send_cost     = $com_send_cost + $sep_send_cost;  // 총 배송비합계
+$tot_send_cost = $max_send_cost + $sep_send_cost;  // 최종배송비
+$tot_final_sum = $send_cost - $tot_send_cost;      // 배송비할인
+$tot_price     = $tot_sell_price + $tot_send_cost; // 결제예정금액
 
-      if($i == 0) {
-        alert('장바구니가 비어 있습니다.', BV_MSHOP_URL.'/cart.php');
-      }
-      ?>
+if ($i == 0) {
+  alert('장바구니가 비어 있습니다.', BV_MSHOP_URL . '/cart.php');
+}
+?>
     </div>
 
     <!--
@@ -302,12 +308,12 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
     -->
 
     <?php
-    $content = ob_get_contents();
-    ob_end_clean();
+$content = ob_get_contents();
+ob_end_clean();
 
-    $sql_card = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}' AND cr_use = 'Y'";
-    $row_card = sql_fetch($sql_card);
-    ?>
+$sql_card = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}' AND cr_use = 'Y'";
+$row_card = sql_fetch($sql_card);
+?>
   </div>
 
   <!-- 주문서작성 시작 { -->
@@ -326,13 +332,13 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       <input type="hidden" name="baesong_price" value="<?php echo $baesong_price; ?>">
       <input type="hidden" name="baesong_price2" value="0">
       <input type="hidden" name="org_price" value="<?php echo $tot_price; ?>">
-      <?php if(!$is_member || !$config['usepoint_yes']) { ?>
+      <?php if (!$is_member || !$config['usepoint_yes']) {?>
       <input type="hidden" name="use_point" value="0">
-      <?php } ?>
+      <?php }?>
       <input type="hidden" name="resulturl" value="pc">
       <?php
-        if($gs['reg_yn'] == 1) {
-      ?>
+if ($gs['reg_yn'] == 1) {
+  ?>
 
       <!-- 정기배송 주문 추가 -->
       <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
@@ -347,12 +353,12 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
           <div class="od-ct info-list">
             <div class="info-item">
               <p class="tit">배송요일</p>
-              <label><input type="checkbox" name="od_wday1" value="월" > 월</label>
-              <label><input type="checkbox" name="od_wday2" value="화" > 화</label>
-              <label><input type="checkbox" name="od_wday3" value="수" > 수</label>
-              <label><input type="checkbox" name="od_wday4" value="목" > 목</label>
-              <label><input type="checkbox" name="od_wday5" value="금" > 금</label>
-              <label><input type="checkbox" name="od_wday6" value="토" > 토</label>
+              <label><input type="checkbox" name="od_wday[]" value="1" > 월</label>
+              <label><input type="checkbox" name="od_wday[]" value="2" > 화</label>
+              <label><input type="checkbox" name="od_wday[]" value="3" > 수</label>
+              <label><input type="checkbox" name="od_wday[]" value="4" > 목</label>
+              <label><input type="checkbox" name="od_wday[]" value="5" > 금</label>
+              <label><input type="checkbox" name="od_wday[]" value="6" > 토</label>
             </div>
             <div class="info-item">
               <p class="tit">배송요일</p>
@@ -382,28 +388,52 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
           </div>
         </div>
       </div>
-      <script>
-      $(function(){
-        $('#od_begin_date').datepicker({
-          changeMonth: true,
-          changeYear: true,
-          dateFormat: "yy-mm-dd",
-          showButtonPanel: true,
-          yearRange: "-99:c+99",
-          minDate: '-0d',
-          changeMonth: true,
-          onSelect: function(selectedDate) {
-            var currentDate = $.datepicker.formatDate('yy-mm-dd', new Date()); // 현재 날짜
-            // 선택된 날짜가 오늘 날짜보다 과거인 경우
-            if (selectedDate < currentDate) {
-              alert('미래 날짜만 선택할 수 있습니다.');
-              $('#od_begin_date').val(''); // 입력 필드를 비움
+        <script>
+        $(function() {
+            function getSelectedWeekdays() {
+                var selectedWeekdays = [];
+                $('input[name^="od_wday"]:checked').each(function() {
+                    selectedWeekdays.push(parseInt($(this).val()));
+                });
+                return selectedWeekdays;
             }
-          }
+
+            $('#od_begin_date').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy-mm-dd",
+                showButtonPanel: true,
+                yearRange: "-99:+99",
+                minDate: 0,
+                beforeShowDay: function(date) {
+                    var day = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+                    var selectedWeekdays = getSelectedWeekdays();
+                    if (selectedWeekdays.length === 0) {
+                        return [false, "", "배송요일을 선택하세요"]; // 요일이 선택되지 않은 경우
+                    }
+                    var currentDate = new Date();
+                    var daysDifference = (date - currentDate) / (1000 * 60 * 60 * 24);
+
+                      // 3일 이내의 날짜는 선택할 수 없도록 설정
+                    var isSelectable = selectedWeekdays.includes(day) && daysDifference > 3;
+                    return [isSelectable, "", isSelectable ? "" : "3일 이후의 날짜를 선택하세요"];
+                },
+                onSelect: function(selectedDate) {
+                    var currentDate = $.datepicker.formatDate('yy-mm-dd', new Date());
+                    if (selectedDate < currentDate) {
+                        alert('미래 날짜만 선택할 수 있습니다.');
+                        $('#od_begin_date').val('');
+                    }
+                }
+            });
+
+            $('input[name="od_wday[]"]').change(function() {
+                $('#od_begin_date').datepicker('refresh'); // 요일 선택 시 Datepicker 갱신
+            });
         });
-      });
-      </script>
-      <?php } ?>
+    </script>
+      <?php
+}?>
 
       <!-- 주문자 기본 정보 추가 _20240412_SY -->
       <div class="bottomBlank">
@@ -425,7 +455,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             </div>
             <div class="info-item">
               <p class="tit">사업자번호</p>
-              <input type="text" name="ju_b_num" value="<?php echo $member['ju_b_num'] ?>" class="w-per50 frm-input" <?php echo ($is_member) ? "readonly" : ""?> >
+              <input type="text" name="ju_b_num" value="<?php echo $member['ju_b_num'] ?>" class="w-per50 frm-input" <?php echo ($is_member) ? "readonly" : "" ?> >
             </div>
             <div class="info-item">
               <p class="tit">연락처</p>
@@ -528,31 +558,31 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
           <div class="od-ct">
             <div class="od-dtn-info">
               <?php // 배송지 수정 _20240503_SY
-                $mb_id = $member['id'];
-                $addr1 = '';
-                $cellphone = '';
-                $msg = '';
+$mb_id     = $member['id'];
+$addr1     = '';
+$cellphone = '';
+$msg       = '';
 
-                    $sqlb_address = "select * from b_address where mb_id='$mb_id'  and b_base='1' ";
-                    $res = sql_fetch($sqlb_address);
-                    if($res['b_base'] == '1'){
-                      $msg = "<span class='tag'>기본배송지</span></p>";
-                      $addr1 = print_address($res['b_addr1'], $res['b_addr2'], $res['b_addr3'], $res['b_addr_jibeon']);
-                      $cellphone = $res['b_cellphone'];
-                    } else if($res['b_base'] == '0') {
-                      $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
-                    } else {
-                      if(!empty($member['addr1'])) {
-                        $addr1 = print_address($member['addr1'], $member['addr2'], $member['addr3'], '');
-                        $cellphone = $member['cellphone'];
-                      } else if(!empty($member['ju_addr_full'])) {
-                        $addr1 = $member['ju_addr_full'];
-                        $cellphone = $member['cellphone'];
-                      } else {
-                        $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
-                      }
-                    }
-                ?>
+$sqlb_address = "select * from b_address where mb_id='$mb_id'  and b_base='1' ";
+$res          = sql_fetch($sqlb_address);
+if ($res['b_base'] == '1') {
+  $msg       = "<span class='tag'>기본배송지</span></p>";
+  $addr1     = print_address($res['b_addr1'], $res['b_addr2'], $res['b_addr3'], $res['b_addr_jibeon']);
+  $cellphone = $res['b_cellphone'];
+} else if ($res['b_base'] == '0') {
+  $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
+} else {
+  if (!empty($member['addr1'])) {
+    $addr1     = print_address($member['addr1'], $member['addr2'], $member['addr3'], '');
+    $cellphone = $member['cellphone'];
+  } else if (!empty($member['ju_addr_full'])) {
+    $addr1     = $member['ju_addr_full'];
+    $cellphone = $member['cellphone'];
+  } else {
+    $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
+  }
+}
+?>
                   <p class="od-dtn__name">
                     <span class="nm"><?php echo $member['name']; ?></span>
                 <?php echo $msg; ?>
@@ -578,7 +608,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             <div class="od-dtn-info">
               <div class="info-item">
                 <p class="tit">배송요청사항</p>
-                <input type="text" name="b_addr_req" value="<?php echo $b_addr_req?>" class="w-per50 frm-input">
+                <input type="text" name="b_addr_req" value="<?php echo $b_addr_req ?>" class="w-per50 frm-input">
               </div>
             </div>
           </div>
@@ -608,9 +638,9 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
           <div class="od-ct">
             <div class="od-benf-fm">
               <?php
-              if($is_member && $config['coupon_yes']) { // 보유쿠폰
-                $sp_count = get_cp_precompose($member['id']);
-              ?>
+if ($is_member && $config['coupon_yes']) { // 보유쿠폰
+  $sp_count = get_cp_precompose($member['id']);
+  ?>
               <div class="form-row">
                 <div class="form-head">
                   <p class="title">쿠폰할인 <span>(보유쿠폰 : <?php echo $sp_count[3]; ?>장)</span></p>
@@ -629,9 +659,10 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                   </span>
                 </div>
               </div>
-              <?php } ?>
+              <?php
+}?>
 
-              <?php if($is_member && $config['usepoint_yes']) { ?>
+              <?php if ($is_member && $config['usepoint_yes']) {?>
               <div class="form-row">
                 <div class="form-head">
                   <p class="title">적립금 사용 <span>(보유적립금 : <?php echo display_point($member['point']); ?>)</span></p>
@@ -651,7 +682,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                   </div>
                 </div>
               </div>
-              <?php } ?>
+              <?php }?>
             </div>
           </div>
         </div>
@@ -724,99 +755,101 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
           </div>
           <div class="od-ct">
             <?php
-            $escrow_title = "";
-            if($default['de_escrow_use']) {
-              $escrow_title = "에스크로 ";
-            }
+$escrow_title = "";
+if ($default['de_escrow_use']) {
+  $escrow_title = "에스크로 ";
+}
 
-            $multi_settle = '';
-            if($is_kakaopay_use) {
-              // $multi_settle .= "<option value='KAKAOPAY'>카카오페이</option>\n";
-              $multi_settle .= "<li>\n";
-              $multi_settle .= "<div class=\"frm-choice\">\n";
-              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"KAKAOPAY\" id=\"kakaopay\">\n";
-              $multi_settle .= "<label for=\"kakaopay\">카카오페이</label>\n";
-              $multi_settle .= "</div>\n";
-              $multi_settle .= "</li>\n";
-            }
-            if($default['de_bank_use']) {
-              // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
-              $multi_settle .= "<li>\n";
-              $multi_settle .= "<div class=\"frm-choice\">\n";
-              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
-              $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
-              $multi_settle .= "</div>\n";
-              $multi_settle .= "</li>\n";
-            }
-            if($default['de_card_use']) {
-              // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
-              $multi_settle .= "<li>\n";
-              $multi_settle .= "<div class=\"frm-choice\">\n";
-              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"신용카드\" id=\"de_card\">\n";
-              $multi_settle .= "<label for=\"de_card\">신용카드</label>\n";
-              $multi_settle .= "</div>\n";
-              $multi_settle .= "</li>\n";
-            }
-            if($default['de_hp_use']) {
-              // $multi_settle .= "<option value='휴대폰'>휴대폰</option>\n";
-              $multi_settle .= "<li>\n";
-              $multi_settle .= "<div class=\"frm-choice\">\n";
-              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"휴대폰\" id=\"de_hp\">\n";
-              $multi_settle .= "<label for=\"de_hp\">휴대폰</label>\n";
-              $multi_settle .= "</div>\n";
-              $multi_settle .= "</li>\n";
-            }
-            if($default['de_iche_use']) {
-              // $multi_settle .= "<option value='계좌이체'>".$escrow_title."계좌이체</option>\n";
-              $multi_settle .= "<li>\n";
-              $multi_settle .= "<div class=\"frm-choice\">\n";
-              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"계좌이체\" id=\"de_iche\">\n";
-              $multi_settle .= "<label for=\"de_iche\">계좌이체</label>\n";
-              $multi_settle .= "</div>\n";
-              $multi_settle .= "</li>\n";
-            }
-            if($default['de_vbank_use']) {
-              // $multi_settle .= "<option value='가상계좌'>".$escrow_title."가상계좌</option>\n";
-              $multi_settle .= "<li>\n";
-              $multi_settle .= "<div class=\"frm-choice\">\n";
-              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"가상계좌\" id=\"de_vbank\">\n";
-              $multi_settle .= "<label for=\"de_vbank\">가상계좌</label>\n";
-              $multi_settle .= "</div>\n";
-              $multi_settle .= "</li>\n";
-            }
-            if($is_member && $config['usepoint_yes'] && ($tot_price <= $member['point'])) {
-              // $multi_settle .= "<option value='포인트'>포인트결제</option>\n";
-              $multi_settle .= "<li>\n";
-              $multi_settle .= "<div class=\"frm-choice\">\n";
-              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"포인트\" id=\"de_point\">\n";
-              $multi_settle .= "<label for=\"de_point\">포인트결제</label>\n";
-              $multi_settle .= "</div>\n";
-              $multi_settle .= "</li>\n";
-            }
+$multi_settle = '';
+if ($is_kakaopay_use) {
+  // $multi_settle .= "<option value='KAKAOPAY'>카카오페이</option>\n";
+  $multi_settle .= "<li>\n";
+  $multi_settle .= "<div class=\"frm-choice\">\n";
+  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"KAKAOPAY\" id=\"kakaopay\">\n";
+  $multi_settle .= "<label for=\"kakaopay\">카카오페이</label>\n";
+  $multi_settle .= "</div>\n";
+  $multi_settle .= "</li>\n";
+}
+if ($default['de_bank_use']) {
+  // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
+  $multi_settle .= "<li>\n";
+  $multi_settle .= "<div class=\"frm-choice\">\n";
+  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
+  $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+  $multi_settle .= "</div>\n";
+  $multi_settle .= "</li>\n";
+}
+if ($default['de_card_use']) {
+  // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
+  $multi_settle .= "<li>\n";
+  $multi_settle .= "<div class=\"frm-choice\">\n";
+  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"신용카드\" id=\"de_card\">\n";
+  $multi_settle .= "<label for=\"de_card\">신용카드</label>\n";
+  $multi_settle .= "</div>\n";
+  $multi_settle .= "</li>\n";
+}
+if ($default['de_hp_use']) {
+  // $multi_settle .= "<option value='휴대폰'>휴대폰</option>\n";
+  $multi_settle .= "<li>\n";
+  $multi_settle .= "<div class=\"frm-choice\">\n";
+  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"휴대폰\" id=\"de_hp\">\n";
+  $multi_settle .= "<label for=\"de_hp\">휴대폰</label>\n";
+  $multi_settle .= "</div>\n";
+  $multi_settle .= "</li>\n";
+}
+if ($default['de_iche_use']) {
+  // $multi_settle .= "<option value='계좌이체'>".$escrow_title."계좌이체</option>\n";
+  $multi_settle .= "<li>\n";
+  $multi_settle .= "<div class=\"frm-choice\">\n";
+  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"계좌이체\" id=\"de_iche\">\n";
+  $multi_settle .= "<label for=\"de_iche\">계좌이체</label>\n";
+  $multi_settle .= "</div>\n";
+  $multi_settle .= "</li>\n";
+}
+if ($default['de_vbank_use']) {
+  // $multi_settle .= "<option value='가상계좌'>".$escrow_title."가상계좌</option>\n";
+  $multi_settle .= "<li>\n";
+  $multi_settle .= "<div class=\"frm-choice\">\n";
+  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"가상계좌\" id=\"de_vbank\">\n";
+  $multi_settle .= "<label for=\"de_vbank\">가상계좌</label>\n";
+  $multi_settle .= "</div>\n";
+  $multi_settle .= "</li>\n";
+}
+if ($is_member && $config['usepoint_yes'] && ($tot_price <= $member['point'])) {
+  // $multi_settle .= "<option value='포인트'>포인트결제</option>\n";
+  $multi_settle .= "<li>\n";
+  $multi_settle .= "<div class=\"frm-choice\">\n";
+  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"포인트\" id=\"de_point\">\n";
+  $multi_settle .= "<label for=\"de_point\">포인트결제</label>\n";
+  $multi_settle .= "</div>\n";
+  $multi_settle .= "</li>\n";
+}
 
-            // PG 간편결제
-            if($default['de_easy_pay_use']) {
-              switch($default['de_pg_service']) {
-                case 'lg':
-                  $pg_easy_pay_name = 'PAYNOW';
-                  break;
-                case 'inicis':
-                  $pg_easy_pay_name = 'KPAY';
-                  break;
-                case 'kcp':
-                  $pg_easy_pay_name = 'PAYCO';
-                  break;
-              }
-              if($pg_easy_pay_name)
-                $multi_settle .= "<option value='간편결제'>{$pg_easy_pay_name}</option>\n";
-            }
+// PG 간편결제
+if ($default['de_easy_pay_use']) {
+  switch ($default['de_pg_service']) {
+    case 'lg':
+      $pg_easy_pay_name = 'PAYNOW';
+      break;
+    case 'inicis':
+      $pg_easy_pay_name = 'KPAY';
+      break;
+    case 'kcp':
+      $pg_easy_pay_name = 'PAYCO';
+      break;
+  }
+  if ($pg_easy_pay_name) {
+    $multi_settle .= "<option value='간편결제'>{$pg_easy_pay_name}</option>\n";
+  }
 
-            // 이니시스를 사용중일때만 삼성페이 결제가능
-            if($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
-              $multi_settle .= "<option value='삼성페이'>삼성페이</option>\n";
-            }
+}
 
-            ?>
+// 이니시스를 사용중일때만 삼성페이 결제가능
+if ($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
+  $multi_settle .= "<option value='삼성페이'>삼성페이</option>\n";
+}
+
+?>
 
             <section id="sod_frm_pay">
               <ul class="sod_frm_pay_ul">
@@ -846,9 +879,9 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                         <select id="bank_code" name="bank_code" class="frm-select w-per100">
                           <option value="">은행 선택</option>
                           <?php
-                            foreach($BANKS as $bkCode => $v ) { ?>
+foreach ($BANKS as $bkCode => $v) {?>
                               <option value="<?php echo $v['code'] ?>"><?php echo $v['bank'] ?></option>
-                          <?php } ?>
+                          <?php }?>
                         </select>
                       </td>
                     </tr>
@@ -923,13 +956,13 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                         </select>
                         <div id="taxbill_section" style="display:none;">
                           <input type="text" name="company_saupja_no" class="w-per100 frm-input" value="<?php echo $member['ju_b_num'] ?>" placeholder="사업자등록번호"><br>
-                          <input type="text" name="company_name" class="w-per100 frm-input" value="<?php echo $member['ju_restaurant'];?>" placeholder="상호(법인명)"><br>
-                          <input type="text" name="company_owner" class="w-per100 frm-input"value="<?php echo $member['ju_name'];?>" placeholder="대표자명"><br>
-                          <input type="text" name="company_addr" class="w-per100 frm-input"value="<?php echo $member['ju_addr_full'];?>" placeholder="사업장주소"><br>
-                          <input type="text" name="company_item" class="w-per100 frm-input"value="<?php echo $member['ju_business_type'];?>" placeholder="업태"><br>
-                          <input type="text" name="company_service" class="w-per100 frm-input"value="<?php echo $member['ju_sectors'];?>" placeholder="업종">
-                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['cellphone']?>" placeholder="신청자 전화번호">
-                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['email']?>" placeholder="이메일">
+                          <input type="text" name="company_name" class="w-per100 frm-input" value="<?php echo $member['ju_restaurant']; ?>" placeholder="상호(법인명)"><br>
+                          <input type="text" name="company_owner" class="w-per100 frm-input"value="<?php echo $member['ju_name']; ?>" placeholder="대표자명"><br>
+                          <input type="text" name="company_addr" class="w-per100 frm-input"value="<?php echo $member['ju_addr_full']; ?>" placeholder="사업장주소"><br>
+                          <input type="text" name="company_item" class="w-per100 frm-input"value="<?php echo $member['ju_business_type']; ?>" placeholder="업태"><br>
+                          <input type="text" name="company_service" class="w-per100 frm-input"value="<?php echo $member['ju_sectors']; ?>" placeholder="업종">
+                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['cellphone'] ?>" placeholder="신청자 전화번호">
+                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['email'] ?>" placeholder="이메일">
                         </div>
                       </td>
                     </tr>
@@ -941,15 +974,25 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
             <section id="card_section" style="display:none;" >
               <h2 class="anc_tit">신용카드 선택</h2>
               <div class="odf_tbl">
+                <?php
+$sqlCard   = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+$resCard   = sql_query($sqlCard);
+$resNumRow = sql_num_rows($resCard);
+if ($resNumRow > 0) {
+  ?>
                 <select name="cardsel" id="cardsel">
                   <?php
-                    $sqlCard = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
-                    $resCard = sql_query($sqlCard);
-                    for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {
-                  ?>
-                    <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use']=="Y"?"selected":"" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
-                  <?php } ?>
+for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {
+    ?>
+                    <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use'] == "Y" ? "selected" : "" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
+                  <?php
+}?>
                 </select>
+                <?php
+} else {?>
+                  <a href="/m/shop/card.php">카드 등록</a>
+                <?php }?>
+
               </div>
             </section>
 
@@ -978,7 +1021,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
               결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다.
             </div> -->
 
-            <?php if(!$is_member) { ?>
+            <?php if (!$is_member) {?>
             <section id="guest_privacy">
               <h2 class="anc_tit">비회원 구매</h2>
               <div class="tbl_head01 tbl_wrap">
@@ -1010,7 +1053,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
                 <label for="agree">개인정보 수집 및 이용 내용을 읽었으며 이에 동의합니다.</label>
               </div>
             </section>
-            <?php } ?>
+            <?php }?>
           </div>
         </div>
       </div>
@@ -1084,7 +1127,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
   const odId = '<?php echo get_session('ss_order_id'); ?>';
 
   const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
-  const customerKey = '<?php echo $member['id']?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
+  const customerKey = '<?php echo $member['id'] ?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
   var amount = 2000;
 
   const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
@@ -1253,24 +1296,16 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
     var tot_price = sell_price + send_cost2 - (mb_coupon + mb_point);
 
     $("input[name=tot_price]").val(number_format(String(tot_price)));
+    console.log($("input[name=tot_price]").val());
   }
-  function getSelectVal2(selectElement) {
-      // 선택된 라디오 버튼의 값을 반환
-    let selectedValue = '';
-    selectElement.forEach(element => {
-      if (element.checked) {
-        selectedValue = element.value;
-      }
-    });
-    return selectedValue;
-  }
+
   function fbuyform_submit(f) {
 
     errmsg = "";
     errfld = "";
 
     var min_point = parseInt("<?php echo $config['usepoint']; ?>");
-    var temp_point = parseInt(no_comma(f.use_point.value));
+    var temp_point = parseInt(no_comma(f.use_point.value));  // 30000
     var card_id = f.card_id.value.trim();
     var sell_price = parseInt(f.org_price.value);
     var send_cost2 = parseInt(f.baesong_price2.value);
@@ -1279,7 +1314,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
     var tot_price = sell_price + send_cost2 - mb_coupon;
 
     var paymethodRadios = f.querySelectorAll('input[name="paymethod"]');
-    var selectedPaymentMethod = getSelectVal2(paymethodRadios);
+    var selectedPaymentMethod = getSelectVal(paymethodRadios);
     // 무통장 예외 처리 필요
     if (selectedPaymentMethod === '신용카드' && (card_id === '' || card_id === null)) {
         // 카드 등록 여부 확인
@@ -1347,12 +1382,14 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       if ((f.od_pwd.value.length < 3) || (f.od_pwd.value.search(/([^A-Za-z0-9]+)/) != -1))
         error_field(f.od_pwd, "회원이 아니신 경우 주문서 조회시 필요한 비밀번호를 3자리 이상 입력해 주십시오.");
     }
-    if (f . bank_code . value == "") {
-      alert("가상계좌 은행 선택하세요.");
-      f . bank_code . focus();
+    // if (f . bank_code . value == "") {
+    //   alert("가상계좌 은행 선택하세요.");
+    //   f . bank_code . focus();
 
-      return false;
-    }
+    //   return false;
+    // }
+
+    console.log(getSelectVal(f["paymethod"]));
 
     if (getSelectVal(f["paymethod"]) == '무통장') {
       if (f . bank_code . value == "") {
@@ -1369,7 +1406,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
       }
     }
 
-    <?php if (!$config['company_type']) { ?>
+    <?php if (!$config['company_type']) {?>
       if (getSelectVal(f["paymethod"]) == '무통장' && getSelectVal(f["taxsave_yes"]) == 'Y') {
         check_field(f.tax_hp, "핸드폰번호를 입력하세요");
       }
@@ -1386,7 +1423,7 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
         check_field(f.company_item, "업태를 입력하세요");
         check_field(f.company_service, "종목을 입력하세요");
       }
-    <?php } ?>
+    <?php }?>
 
     if (errmsg) {
       alert(errmsg);
@@ -1479,13 +1516,12 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
       $("#refund_section").show();
 
-      <?php if (!$config['company_type']) { ?>
+      <?php if (!$config['company_type']) {?>
         $("#taxsave_section").show();
-      <?php } ?>
+      <?php }?>
 
       return;
     }
-
     switch (type) {
       case '무통장':
         $("#bank_section").show();
@@ -1497,9 +1533,9 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
         $("#refund_section").show();
 
-        <?php if (!$config['company_type']) { ?>
+        <?php if (!$config['company_type']) {?>
           $("#taxsave_section").show();
-        <?php } ?>
+        <?php }?>
         break;
       case '일반':
         $("#toss_section").show();
@@ -1520,6 +1556,9 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
         $("#card_section").show();
         $("#bank_section").hide();
         $("#toss_section").hide();
+        $("#refund_section").hide();
+        $("#taxsave_section").hide();
+        break;
       case '포인트':
         $("#bank_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
@@ -1528,12 +1567,12 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
         $("#refund_section").hide();
 
-        <?php if (!$config['company_type']) { ?>
+        <?php if (!$config['company_type']) {?>
           $("#taxsave_section").hide();
           $("#taxbill_section").hide();
           $("#taxsave_fld_1").hide();
           $("#taxsave_fld_2").hide();
-        <?php } ?>
+        <?php }?>
         break;
       default: // 그외 결제수단
         $("#bank_section").hide();
@@ -1545,12 +1584,12 @@ require_once(BV_SHOP_PATH.'/settle_kakaopay.inc.php');
 
         $("#refund_section").hide();
 
-        <?php if (!$config['company_type']) { ?>
+        <?php if (!$config['company_type']) {?>
           $("#taxsave_section").hide();
           $("#taxbill_section").hide();
           $("#taxsave_fld_1").hide();
           $("#taxsave_fld_2").hide();
-        <?php } ?>
+        <?php }?>
         break;
     }
   });

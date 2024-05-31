@@ -166,6 +166,7 @@ EOF;
 		<th scope="col">총 주문액</th>
 		<th scope="col">배송요일</th>
 		<th scope="col">배송주기</th>
+		<th scope="col">배송 횟수</th>
 		<th scope="col">잔여 / 총<br>배송횟수</th>
 		<th scope="col">첫 배송 시점</th>
 		<th scope="col">판매자</th>
@@ -181,7 +182,7 @@ EOF;
 	for($i=0; $row=sql_fetch_array($result); $i++) {
 		$bg = 'list'.($i%2);
 
-		$amount = get_order_spay($row['od_id']);
+		$amount = get_order_spay2($row['od_id']);
 		$sodr = get_order_list($row, $amount);
 
 		$sql = " select * {$sql_common} {$sql_search} and od_id = '{$row['od_id']}' order by index_no ";
@@ -213,7 +214,8 @@ EOF;
 		<!-- <td class="tar"><?php echo number_format($row2['goods_price']); ?></td> -->
 		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_wday']; ?></td>
 		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_week']; ?></td>
-		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_reg_num']; ?> / <?php echo $row2['od_reg_cnt'] ?></td>
+		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_reg_cnt']; ?></td>
+		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_reg_num']; ?> / <?php echo $row2['od_reg_total_num'] ?></td>
 		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_begin_date']; ?></td>
 		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
 		<?php if($k == 0) { ?>
