@@ -86,9 +86,6 @@ if($w == '') {
   $link = "/config.php?$q1&w=u&idx=$ins_idx";
 
 } else if ($w == 'u') {
-print_r2($_POST);
-exit;
-  $pw = trim($_POST['manager_pw']);
 
   $pw = trim($_POST['manager_pw']);
 
