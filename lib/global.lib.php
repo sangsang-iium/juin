@@ -3587,15 +3587,37 @@ function get_order_spay($od_id, $sql_search='')
 	return $row;
 }
 
+// 주문서별 총합계 정기 결제
+function get_order_spay2($od_id, $sql_search='')
+{
+	$sql = " select SUM(goods_price) as price,
+					SUM(baesong_price) as baesong,
+					SUM(goods_price + baesong_price) as buyprice,
+					SUM(supply_price) as supply,
+					SUM(cancel_price) as cancel,
+					SUM(refund_price) as refund,
+					SUM(coupon_price) as coupon,
+					SUM(use_point) as usepoint,
+					SUM(use_price) as useprice,
+					SUM(sum_qty) as qty,
+					SUM(sum_point) as point
+			   from shop_order_reg
+			  where od_id = '$od_id'
+				{$sql_search} ";
+	$row = sql_fetch($sql);
+
+	return $row;
+}
+
 // 주문정보 주문번호
-function get_order($order_id, $fileds='*')
+function get_order($order_id, $fileds='*', $shop_table='shop_order')
 {
 	if(strlen($order_id) < 14)
 		$sql_where = " where od_no = '$order_id'"; // 주문일련번호
 	else
 		$sql_where = " where od_id = '$order_id'"; // 주문번호
 
-	return sql_fetch(" select $fileds from shop_order {$sql_where} ");
+	return sql_fetch(" select $fileds from {$shop_table} {$sql_where} ");
 }
 
 // 복합과세
@@ -4542,7 +4564,7 @@ function get_columns($tablename)
 }
 
 // 고객이 주문/배송조회를 위해 보관해 둔다.
-function save_goods_data($gs_id, $odrno, $od_id)
+function save_goods_data($gs_id, $odrno, $od_id, $shop_table = "shop_order")
 {
 	if(!$gs_id || !$odrno || !$od_id)
 		return;
@@ -4557,7 +4579,7 @@ function save_goods_data($gs_id, $odrno, $od_id)
 	$data = serialize($cp);
 
 	// 상품정보를 주문서에 업데이트한다.
-	$sql = " update shop_order set od_goods = '$data' where index_no = '$odrno' ";
+	$sql = " update {$shop_table} set od_goods = '$data' where index_no = '$odrno' ";
 	sql_query($sql);
 
 	$ymd_dir = BV_DATA_PATH.'/order/'.date('ym', time());

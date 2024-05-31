@@ -33,7 +33,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
         $st_count1 = $st_count2 = $st_cancel_price = 0;
         $custom_cancel = false;
 
-		$sql = " select * from shop_order where od_id = '$od_id' group by od_id order by index_no desc ";
+		$sql = " select * from {$shop_table} where od_id = '$od_id' group by od_id order by index_no desc ";
 		$result = sql_query($sql);
 		for($i=0; $row=sql_fetch_array($result); $i++) {
 			$sql = " select * from shop_cart where od_id = '$od_id' ";
@@ -42,7 +42,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 			$rowspan = sql_num_rows($res) + 1;
 
 			for($k=0; $ct=sql_fetch_array($res); $k++) {
-				$rw = get_order($ct['od_no']);
+				$rw = get_order($ct['od_no'], '*', $shop_table);
 				$gs = unserialize($rw['od_goods']);
 
 				$hash = md5($rw['gs_id'].$rw['od_no'].$rw['od_id']);
@@ -74,6 +74,9 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 						<col>
 					</colgroup>
 					<tr>
+						<?php
+							print_r($rw['od_id'], $gs['simg1']);
+						?>
 						<td class="vat tal"><a href="<?php echo $href; ?>"><?php echo get_od_image($rw['od_id'], $gs['simg1'], 60, 60); ?></a></td>
 						<td class="vat tal">
 							<a href="<?php echo $href; ?>"><?php echo get_text($gs['gname']); ?></a>
@@ -160,8 +163,10 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 			</tr>
 			<tr>
 				<th scope="row">결제방식</th>
-				<td><?php echo ($easy_pay_name ? $easy_pay_name.'('.$od['paymethod'].')' : $od['paymethod']); ?></td>
+				<?php // echo ($easy_pay_name ? $easy_pay_name.'('.$od['paymethod'].')' : $od['paymethod']); ?>
+				<td><?php echo ($easy_pay_name ? $easy_pay_name.'('.$od['paymethod'].')' : "정기결제"); ?></td>
 			</tr>
+			<?php if ($reg_yn == 2){ ?>
 			<tr>
 				<th scope="row">결제금액</th>
 				<td><?php echo display_price($stotal['useprice']); ?></td>
@@ -173,8 +178,8 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 				<th scope="row">결제일시</th>
 				<td><?php echo $od['receipt_time']; ?></td>
 			</tr>
-			<?php
-			}
+				<?php
+				}
 
 			// 승인번호, 휴대폰번호, 거래번호
 			if($app_no_subj) {
@@ -211,53 +216,71 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 				<td><?php echo get_text($od['bank']); ?></td>
 			</tr> -->
 			<?php
+			if ($disp_receipt) {
+				?>
+						<tr>
+							<th scope="row">영수증</th>
+							<td>
+								<?php
+			if ($od['paymethod'] == '휴대폰') {
+					if ($od['od_pg'] == 'lg') {
+						require_once BV_SHOP_PATH . '/settle_lg.inc.php';
+						$LGD_TID      = $od['od_tno'];
+						$LGD_MERTKEY  = $default['de_lg_mid'];
+						$LGD_HASHDATA = md5($LGD_MID . $LGD_TID . $LGD_MERTKEY);
+
+						$hp_receipt_script = 'showReceiptByTID(\'' . $LGD_MID . '\', \'' . $LGD_TID . '\', \'' . $LGD_HASHDATA . '\');';
+					} else if ($od['od_pg'] == 'inicis') {
+						$hp_receipt_script = 'window.open(\'https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=' . $od['od_tno'] . '&noMethod=1\',\'receipt\',\'width=430,height=700\');';
+					} else if ($od['od_pg'] == 'kcp') {
+						$hp_receipt_script = 'window.open(\'' . BV_BILL_RECEIPT_URL . 'mcash_bill&tno=' . $od['od_tno'] . '&order_no=' . $od['od_id'] . '&trade_mony=' . $stotal['useprice'] . '\', \'winreceipt\', \'width=500,height=690,scrollbars=yes,resizable=yes\');';
+					}
+					?>
+								<a href="javascript:;" onclick="<?php echo $hp_receipt_script; ?>" class="btn_small">영수증 출력</a>
+								<?php
 			}
 
-			if($disp_receipt) {
-			?>
+				if ($od['paymethod'] == '신용카드') {
+					$card_receipt_script = 'window.open(\'' . $toss['receiptUrl'] . '\',\'receipt\',\'width=430,height=700\');';
+					?>
+								<a href="javascript:;" onclick="<?php echo $card_receipt_script; ?>" class="btn_small">영수증 출력</a>
+								<?php
+			}
+
+				if ($od['paymethod'] == 'KAKAOPAY') {
+					$card_receipt_script = 'window.open(\'https://mms.cnspay.co.kr/trans/retrieveIssueLoader.do?TID=' . $od['od_tno'] . '&type=0\', \'popupIssue\', \'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=420,height=540\');';
+					?>
+								<a href="javascript:;" onclick="<?php echo $card_receipt_script; ?>" class="btn_small">영수증 출력</a>
+								<?php
+			}
+				?>
+							</td>
+						</tr>
+						<?php
+			}
+			} } else {?>
 			<tr>
-				<th scope="row">영수증</th>
-				<td>
-					<?php
-					if($od['paymethod'] == '휴대폰')
-					{
-						if($od['od_pg'] == 'lg') {
-							require_once BV_SHOP_PATH.'/settle_lg.inc.php';
-							$LGD_TID      = $od['od_tno'];
-							$LGD_MERTKEY  = $default['de_lg_mid'];
-							$LGD_HASHDATA = md5($LGD_MID.$LGD_TID.$LGD_MERTKEY);
-
-							$hp_receipt_script = 'showReceiptByTID(\''.$LGD_MID.'\', \''.$LGD_TID.'\', \''.$LGD_HASHDATA.'\');';
-						} else if($od['od_pg'] == 'inicis') {
-							$hp_receipt_script = 'window.open(\'https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid='.$od['od_tno'].'&noMethod=1\',\'receipt\',\'width=430,height=700\');';
-						} else if($od['od_pg'] == 'kcp') {
-							$hp_receipt_script = 'window.open(\''.BV_BILL_RECEIPT_URL.'mcash_bill&tno='.$od['od_tno'].'&order_no='.$od['od_id'].'&trade_mony='.$stotal['useprice'].'\', \'winreceipt\', \'width=500,height=690,scrollbars=yes,resizable=yes\');';
-						}
-					?>
-					<a href="javascript:;" onclick="<?php echo $hp_receipt_script; ?>" class="btn_small">영수증 출력</a>
-					<?php
-					}
-
-					if($od['paymethod'] == '신용카드')
-					{
-							$card_receipt_script = 'window.open(\''.$toss['receiptUrl'].'\',\'receipt\',\'width=430,height=700\');';
-					?>
-					<a href="javascript:;" onclick="<?php echo $card_receipt_script; ?>" class="btn_small">영수증 출력</a>
-					<?php
-					}
-
-					if($od['paymethod'] == 'KAKAOPAY')
-					{
-						$card_receipt_script = 'window.open(\'https://mms.cnspay.co.kr/trans/retrieveIssueLoader.do?TID='.$od['od_tno'].'&type=0\', \'popupIssue\', \'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=yes,width=420,height=540\');';
-					?>
-					<a href="javascript:;" onclick="<?php echo $card_receipt_script; ?>" class="btn_small">영수증 출력</a>
-					<?php
-					}
-					?>
-				</td>
+				<th scope="row">배송요일</th>
+				<td><?php echo $od['od_wday']; ?></td>
 			</tr>
-			<?php
-			}
+			<tr>
+				<th scope="row">배송주기</th>
+				<td><?php echo $od['od_week']; ?></td>
+			</tr>
+			<tr>
+				<th scope="row">배송횟수</th>
+				<td><?php echo $od['od_reg_cnt']; ?></td>
+			</tr>
+			<tr>
+				<th scope="row">총 배송횟수</th>
+				<td><?php echo $od['od_reg_total_num']; ?></td>
+			</tr>
+			<tr>
+				<th scope="row">첫 배송 시점</th>
+				<td><?php echo $od['od_begin_date']; ?></td>
+			</tr>
+			<?php }
+
 
 			// 현금영수증 발급을 사용하는 경우에만
 			if($default['de_taxsave_use']) {
