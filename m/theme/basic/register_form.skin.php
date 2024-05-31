@@ -92,13 +92,21 @@ if(!defined('_BLUEVATION_')) exit;
 							<?php } ?>
 						</div>
 					</div>
-					<?php if($config['register_use_tel']) { ?>
+					<?php if($config['register_use_tel']) {
+            // 전화번호 분리 _20240312_SY
+            $tel_phone = explode("-", $member['telephone']);
+          ?>
 					<div class="form-row">
 						<div class="form-head">
 							<p class="title"><label for="reg_mb_tel">전화번호</label><?php echo $config['register_req_tel']?'<b>*</b>':''; ?></p>
 						</div>
 						<div class="form-body">
-							<input type="tel" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); autoHyphen2(this)">
+							<!-- <input type="tel" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); autoHyphen2(this)"> -->
+              <input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[0]); ?>" id="reg_reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							  <span class="hyphen">-</span>
+							<input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[1]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							  <span class="hyphen">-</span>
+							<input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[2]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 						</div>
 					</div>
 					<?php } ?>

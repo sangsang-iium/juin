@@ -27,7 +27,15 @@ $mb_password    = trim($_POST['mb_password']);
 $mb_password_re = trim($_POST['mb_password_re']);
 $mb_name        = trim($_POST['mb_name']);
 $mb_email       = trim($_POST['mb_email']);
-$mb_tel         = isset($_POST['mb_tel'])           ? trim($_POST['mb_tel'])         : "";
+
+
+// mb_tel 배열로 들어옴 _20240531_SY
+if (isset($_POST['mb_tel']) && is_array($_POST['mb_tel'])) {
+  $mb_tel = implode('-', array_map('trim', $_POST['mb_tel']));
+} else {
+  $mb_tel = isset($_POST['mb_tel']) ? trim($_POST['mb_tel']) : "";
+}
+
 
 // mb_hp 배열로 들어옴 _20240228_SY
 if(is_array($_POST['mb_hp'])) {

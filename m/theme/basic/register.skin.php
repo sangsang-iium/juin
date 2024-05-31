@@ -1,6 +1,10 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 ?>
+<!-- 본인인증 _20240531_SY -->
+<?php if($config['cf_cert_use'] && ($config['cf_cert_ipin'] || $config['cf_cert_hp'])) { ?>
+<script src="<?php echo BV_JS_URL; ?>/certify.js?v=<?php echo BV_JS_VER; ?>"></script>
+<?php } ?>
 
 <div id="contents" class="sub-contents joinAgree">
 	<div class="joinAgree-wrap">
@@ -9,8 +13,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 				<p>회원가입을 위해 <br/><b>서비스 이용 약관에 동의</b>해 주세요.</p>
 			</div>
 			<div class="joinAgree-body">
-				<form  name="fregister" id="fregister" action="<?php echo $register_action_url; ?>" onsubmit="return fregister_submit(this);" method="POST" autocomplete="off">
-          
+				<form  name="fregisterform" id="fregisterform" action="<?php echo $register_action_url; ?>" onsubmit="return fregisterform_submit(this);" method="POST" autocomplete="off">
           <!-- 일반 & 사업자 구분 _20240228_SY -->
           <input type="hidden" name="reg_type" value="<?php echo $_GET['type']?>">
 
@@ -63,6 +66,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <?php if ($_SERVER['REMOTE_ADDR']=="106.247.231.170") { ?>
           <?php if($_GET['type'] == '1') { ?>
           <!-- 사업자 회원가입일 경우 노출 { -->
+          <input type="hidden" name="w" value="<?php echo $w; ?>">
+          <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
+          <input type="hidden" name="chk_cb_res" value="0" id="chk_cb_res">
+          <input type="hidden" name="chk_bn_res" value="0" id="chk_bn_res">
+          
           <div class="joinDetail-box type2">
             <div class="joinDetail-body">
               <div class="form-row">
@@ -70,11 +78,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                   <p class="title">사업자 정보 조회<b>*</b></p>
                 </div>
                 <div class="form-body">
-                  <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="" placeholder="***-**-*****" maxlength="12" readonly="">
+                  <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="" placeholder="***-**-*****" maxlength="12" >
                   <div class="joinDetail-btn-box joinDetail-btn-box3">
-                    <button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
-                    <button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
-                    <button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
+                    <button type="button" class="ui-btn st3 w-per100" onclick="getKFIAMember()">사업자 정보 조회</button>
+                    <!-- <button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
+                    <button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button> -->
                   </div>
                 </div>
               </div>
@@ -98,7 +106,130 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 
 <script>
-function fregister_submit(f)
+
+// 사업자번호 중복체크 _20240531_SY
+function chkDuBnum(kfiaMsg) {
+  b_num = document.querySelector('#b_no').value;
+
+  if(b_num.length > 0) {
+    $.ajax({
+        url: bv_url+"/m/bbs/ajax.duplication_check.php",
+        type: "POST",
+        data: { "b_num" : b_num },
+        dataType: "JSON",
+        success: function(data) {
+          if(data.res > 0 ) {
+            $('#chk_bn_res').val('0');
+            alert(kfiaMsg+"\n이미 등록된 사업자등록번호입니다");
+            return false;
+          } else {
+            // alert("가입 가능한 사업자등록번호입니다");
+            $('#chk_bn_res').val('1');
+            chkClosed(kfiaMsg, "가입 가능한 사업자등록번호입니다");
+          }
+        }
+    });
+  } else {
+    alert("사업자등록번호가 존재하지 않습니다.")
+    return false;
+  }
+}
+
+// 휴/폐업 조회 _20240531_SY
+let b_num = '';
+function chkClosed(kfiaMsg, bNumMsg) {
+  b_num = document.querySelector('#b_no').value;
+  
+  let b_stt_cd = "";
+  let end_dt   = "";
+  
+  if(b_num.length > 0) {
+    $.ajax({
+        url: bv_url+"/m/bbs/ajax.closed_check.php",
+        type: "POST",
+        data: { "b_num" : b_num },
+        dataType: "JSON",
+        success: function(res) {
+          // API 값 호출 _20240318_SY
+          if (res.hasOwnProperty('match_cnt')) {
+            $('#chk_cb_res').val(res.data[0].b_stt_cd);
+            let msg = res.data[0].b_stt;
+            alert(kfiaMsg+"\n"+bNumMsg+"\n"+msg);
+          } else {
+            $('#chk_cb_res').val('0');
+            let msg = res.data[0].tax_type;
+            alert(kfiaMsg+"\n"+bNumMsg+"\n"+msg);
+          }
+        }
+    });
+  } else {
+    alert("사업자등록번호가 존재하지 않습니다.")
+    return false;
+  }
+}
+
+// 외식업중앙회원 조회하기 _20240531_SY
+var chkKFIA = false;
+function getKFIAMember() {
+  let inputNum = document.querySelector('#b_no').value;
+
+  if(inputNum.length > 0) {
+    $.ajax({
+      url: bv_url+"/m/bbs/ajax.KFIA_info.php",
+      type: "POST",
+      data: { "b_num" : inputNum },
+      dataType: "JSON",
+      success: function(res) {
+        if(res.data == null) {
+          alert('사업자 정보 조회 실패')
+          chkKFIA = false;
+          return false;
+        } else {
+          // alert(`조회 성공 : ${res.data.MEMBER_NAME}`)
+          chkKFIA = true;
+          chkDuBnum(`조회 성공 : ${res.data.MEMBER_NAME}`);
+        }
+      }
+    });
+  } else {
+    return false;
+  }
+}
+
+function telPass() {
+  <?php if($config['cf_cert_use'] && $config['cf_cert_hp']) { ?>
+	
+    if(!cert_confirm())
+      return false;
+
+    <?php
+    switch($config['cf_cert_hp']) {
+      case 'kcb':
+        $cert_url = BV_OKNAME_URL.'/hpcert1.php';
+        $cert_type = 'kcb-hp';
+        break;
+      case 'kcp':
+        $cert_url = BV_KCPCERT_URL.'/kcpcert_form.php';
+        $cert_type = 'kcp-hp';
+        break;
+      case 'lg':
+        $cert_url = BV_LGXPAY_URL.'/AuthOnlyReq.php';
+        $cert_type = 'lg-hp';
+        break;
+      default:
+        echo 'alert("기본환경설정에서 휴대폰 본인인증 설정을 해주십시오");';
+        echo 'return false;';
+        break;
+    }
+    ?>
+
+    certify_win_open("<?php echo $cert_type; ?>", "<?php echo $cert_url; ?>");
+    return ;
+  <?php } ?>
+}
+
+
+function fregisterform_submit(f)
 {
 	if(!f.agree.checked) {
 		alert("회원가입 약관 내용에 동의하셔야 회원가입 하실 수 있습니다.");
@@ -111,6 +242,40 @@ function fregister_submit(f)
 		f.agree2.focus();
 		return false;
 	}
+
+  // 중앙회원조회 _20240328_SY
+  if(f.w.value == "") {
+    if(chkKFIA == false) {
+      alert('중앙회원이 아닐 경우 사업자회원으로 가입하실 수 없습니다.')
+      f.b_no.focus();
+      return false;
+    }
+  }
+  
+  // 사업자번호 중복체크 _20240318_SY
+  if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
+    if(f.chk_bn_res.value == "0") {
+      alert('이미 등록된 사업자등록번호입니다.');
+      f.b_no.select();
+      return false;
+    };
+  }
+
+
+  // 휴/폐업 검사 _20240227_SY
+  // if((f.w.value == "") || (f.w.value == "u" && f.chk_cb_res.defaultValue != f.chk_cb_res.value)) {
+  //   if(f.chk_cb_res.value == '0') {
+  //     // 휴/폐업일때 어떤 작업 필요한지 확인 필요
+  //     alert('휴/폐업조회를 해 주십시오.');
+  //     f.b_no.select();
+  //     return false;
+  //   };
+  // }
+
+
+  // 휴대폰인증 _20240531_SY
+  // telPass();
+  // Session 체크 필요
 
 	return true;
 }
