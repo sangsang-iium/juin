@@ -304,6 +304,9 @@ for ($i = 0; $i < count($gs_id); $i++) {
 		";
   }
 
+// 1번 시작할 차례 ( reg_y = 1 이면 주문 테이블 shop_order_reg에 쌓아야함 )
+
+
   // b_addr_req 추가 _20240507_SY
   $sql = "insert into shop_order
 			   set od_id				= '{$od_id}'

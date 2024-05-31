@@ -65,35 +65,9 @@ if($pl['live_time']) {
 				<div>
 					<label for="live_mon"><?php echo $dateVal['weekname'] ?></label>
 					<input type="checkbox" name="<?php echo $dateVal['weekval'] ?>_live" id="<?php echo $dateVal['weekval'] ?>_live" value="Y" <?php echo $liveTimeChecked[$dateVal['weekval']]['checked']; ?> >
-					<select name="<?php echo $dateVal['weekval'] ?>_start_time" id="<?php echo $dateVal['weekval'] ?>_start_time">
-					<?php
-						for ($hour = 0; $hour < 24; $hour++) {
-							for ($minute = 0; $minute < 60; $minute += 5) {
-								$display_hour = str_pad($hour, 2, '0', STR_PAD_LEFT);
-								$display_minute = str_pad($minute, 2, '0', STR_PAD_LEFT);
-								$time = "$display_hour:$display_minute";
-								$startSelected = '';
-								if($liveTimeChecked[$dateVal['weekval']]['live_start_time'] == $time) $startSelected = ' selected';
-								echo "<option value=\"$time\" $startSelected>$time</option>";
-							}
-						}
-					?>
-					</select>
+					<input type="text" name="<?php echo $dateVal['weekval'] ?>_start_time" value="<?php echo $liveTimeChecked[$dateVal['weekval']]['live_start_time'] ?>" id="<?php echo $dateVal['weekval'] ?>_start_time" class="frm_input w80" maxlength="10">
 					~
-					<select name="<?php echo $dateVal['weekval'] ?>_end_time" id="<?php echo $dateVal['weekval'] ?>_end_time">
-					<?php
-						for ($hour = 0; $hour < 24; $hour++) {
-							for ($minute = 0; $minute < 60; $minute += 5) {
-								$display_hour = str_pad($hour, 2, '0', STR_PAD_LEFT);
-								$display_minute = str_pad($minute, 2, '0', STR_PAD_LEFT);
-								$time = "$display_hour:$display_minute";
-								$endSelected = '';
-								if($liveTimeChecked[$dateVal['weekval']]['live_end_time'] == $time) $endSelected = ' selected';
-								echo "<option value=\"$time\" $endSelected>$time</option>";
-							}
-						}
-					?>
-					</select>
+					<input type="text" name="<?php echo $dateVal['weekval'] ?>_end_time" value="<?php echo $liveTimeChecked[$dateVal['weekval']]['live_end_time'] ?>" id="<?php echo $dateVal['weekval'] ?>_end_time" class="frm_input w80" maxlength="10">
 				</div>
 			<?php
 				}
@@ -138,3 +112,42 @@ if($pl['live_time']) {
 
 <?php echo $frm_submit; ?>
 </form>
+
+<script>
+	$(document).ready(function() {
+		$('#mon_start_time ,#tues_start_time ,#wednes_start_time ,#thurs_start_time ,#fri_start_time ,#satur_start_time ,#sun_start_time , #mon_end_time , #tues_end_time , #wednes_end_time , #thurs_end_time , #fri_end_time , #satur_end_time , #sun_end_time  ').on('focus', function() {
+			$(this).val('');
+		}).on('input', function() {
+			var inputValue = $(this).val().replace(/\D/g, '');
+			var formattedTime = formatTime(inputValue);
+			$(this).val(formattedTime);
+		}).on('keydown', function(event) {
+			if (event.key === 'Backspace' && $(this).val().length === 3 && $(this).val().includes(':')) {
+			$(this).val($(this).val().slice(0, 2));
+			}
+		});
+	});
+
+	function formatTime(time) {
+		if (time === '') {
+			return '';
+		}
+		if (isNaN(time)) {
+			return '';
+		}
+		if (time.length !== 4) {
+			if (time.length === 1) {
+				return time;
+			} else if (time.length === 2) {
+				return time + ':';
+			} else if (time.length === 3) {
+				return time.slice(0, 2) + ':' + time.slice(2);
+			} else {
+				return '';
+			}
+		}
+		var hours = time.slice(0, 2);
+		var minutes = time.slice(2, 4);
+		return hours + ':' + minutes;
+	}
+</script>

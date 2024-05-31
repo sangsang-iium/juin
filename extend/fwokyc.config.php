@@ -31,6 +31,15 @@ function getUsedGubunStatus($gubun, $status) {
     return $rtn;
 }
 
+function getUsedAddress($addr){
+    $addrs = explode(" ", trim($addr));
+    $rtn = [];
+    if(trim($addrs[0])) array_push($rtn, trim($addrs[0]));
+    if(trim($addrs[1])) array_push($rtn, trim($addrs[1]));
+    if(trim($addrs[2])) array_push($rtn, trim($addrs[2]));
+    return implode(" ", $rtn);
+}
+
 // 중고장터 댓글수
 function getUsedCommentCount($no) {
     $sql = "select count(*) as cnt from shop_used_comment where pno = '$no'";

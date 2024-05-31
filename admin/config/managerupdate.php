@@ -46,7 +46,7 @@ foreach($menuArr as $key => $val) {
 }
 
 // 지역 코드 
-$region_sql = " SELECT * FROM kfia_region
+$region_sql = " SELECT kf_code FROM kfia_region
                 WHERE (1)
                   AND kf_region1 = '{$region1}'
                   AND kf_region2 = '{$region2}'
@@ -86,8 +86,26 @@ if($w == '') {
   $link = "/config.php?$q1&w=u&idx=$ins_idx";
 
 } else if ($w == 'u') {
+print_r2($_POST);
+exit;
+  $pw = trim($_POST['manager_pw']);
 
-  $msg  = "지금은 이용하실 수 없습니다.";
+  if(!empty($pw)) {
+    $upd_data['passwd'] = get_encrypt_string($pw);
+  }
+
+  $upd_data['name']           = $name;
+  $upd_data['ju_region1']     = $region1;
+  $upd_data['ju_region2']     = $region2;
+  $upd_data['ju_region3']     = $region3;
+  $upd_data['ju_region_code'] = $region_res['kf_code'];
+  $upd_data['auth_idx']       = $auth_idx;
+  $upd_where = " WHERE index_no = '{$idx}' ";
+
+  $UPDATE = new IUD_Model;
+  $UPDATE->update($db_table, $upd_data, $upd_where);
+
+  $msg  = "담당자 정보가 수정되었습니다.";
   $link = "/config.php?$q1&w=u&idx=$idx";
 
 } 

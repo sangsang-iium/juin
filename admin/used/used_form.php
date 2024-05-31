@@ -43,7 +43,8 @@ $qstr .= "&gubun=".$gubun."&page=".$page;
 		<td>
 		    <select name="status" required class="required w150">
 		        <option value="0"<?php echo ($row['status']=='0') ? ' checked' : '';?>>판매중</option>
-		        <option value="1"<?php echo ($row['status']=='1') ? ' checked' : '';?>>판매 완료</option>
+		        <option value="1"<?php echo ($row['status']=='1') ? ' checked' : '';?>>판매중</option>
+		        <option value="2"<?php echo ($row['status']=='2') ? ' checked' : '';?>>판매완료</option>
 		    </select>
 		</td>
 	</tr>
