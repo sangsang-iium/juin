@@ -138,7 +138,7 @@ EOF;
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td>			
-			<input type="hidden" name="kf_idx[<?php echo $i; ?>]" value="<?php echo $row['kf_idx']; ?>">
+			<input type="hidden" name="kf_code[<?php echo $i; ?>]" value="<?php echo $row['kf_code']; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
     <td><?php echo $row['kf_code'] ?></td>

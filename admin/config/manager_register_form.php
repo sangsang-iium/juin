@@ -28,7 +28,7 @@ $auth_sql = " SELECT * FROM authorization";
 $auth_res = sql_query($auth_sql);
 ?>
 
-<form name="fmanager" id="fregisterform" action="./config/managerupdate.php" onsubmit="return fregisterform_submit(this);" method="POST" autocomplete="off">
+<form name="fregisterform" id="fregisterform" action="./config/managerupdate.php" onsubmit="return fregisterform_submit(this);" method="POST" autocomplete="off">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 <input type="hidden" name="w" value="<?php echo $w ?>">
@@ -89,14 +89,14 @@ $auth_res = sql_query($auth_sql);
   <tr>
     <th scope="row"><label for="ju_region2">지회명</label><span>(*)</span></th>
     <td>
-      <select name="ju_region2" id="ju_region2">
+      <select name="ju_region2" id="ju_region2" onchange="getChapter(this.value)">
         <option value=''>지회선택</option>
         <?php
           if($w != '' && !empty($result['ju_region2'])) {
-            $region2_sel = " SELECT * {$sql_common} WHERE ju_region1 = '{$result['ju_region1']}' AND ju_region3 = '' ";
+            $region2_sel = " SELECT * FROM kfia_region WHERE kf_region1 = '{$result['ju_region1']}' GROUP BY kf_region2 ";
             $region2_res = sql_query($region2_sel);
             while ($region2_row = sql_fetch_array($region2_res)) { ?>
-              <option value="<?php echo $region2_row['ju_idx']?>" <?php echo ($w == 'u' && $region2_row['ju_region2'] == $result['ju_region2']) ? "selected" : "" ?> ><?php echo $region2_row['ju_region2'] ?></option>
+              <option value="<?php echo $region2_row['kf_region2']?>" <?php echo ($w == 'u' && $region2_row['kf_region2'] == $result['ju_region2']) ? "selected" : "" ?> ><?php echo $region2_row['kf_region2'] ?></option>
         <?php } } ?>
       </select>
     </td>
@@ -108,10 +108,10 @@ $auth_res = sql_query($auth_sql);
         <option value=''>지부선택</option>
         <?php // 지부 목록 _20240521_SY
           if($w != '' && !empty($result['ju_region3'])) {
-            $region3_sel = " SELECT * {$sql_common} WHERE ju_region1 = '{$result['ju_region1']}' AND ju_region3 <> '' ";
+            $region3_sel = " SELECT * FROM kfia_region WHERE kf_region1 = '{$result['ju_region1']}' AND kf_region3 <> '' GROUP BY kf_region3 ";
             $region3_res = sql_query($region3_sel);
             while ($region3_row = sql_fetch_array($region3_res)) { ?>
-              <option value="<?php echo $region3_row['ju_idx']?>" <?php echo ($w == 'u' && $region3_row['ju_region3'] == $result['ju_region3']) ? "selected" : "" ?> ><?php echo $region3_row['ju_region3'] ?></option>
+              <option value="<?php echo $region3_row['kf_region3']?>" <?php echo ($w == 'u' && $region3_row['kf_region3'] == $result['ju_region3']) ? "selected" : "" ?> ><?php echo $region3_row['kf_region3'] ?></option>
         <?php } } ?>
       </select>
     </td>
@@ -121,7 +121,7 @@ $auth_res = sql_query($auth_sql);
 	</table>
 </div>
 <div class="btn_confirm">
-	<input type="submit" value="저장" class="btn_medium red" accesskey="s">
+	<input type="submit" value="저장" id="btn_submit" class="btn_medium red" accesskey="s">
 </div>
 </form>
 
@@ -143,7 +143,10 @@ function duplication_chk() {
   $.ajax({
     url  : "/admin/ajax.branchId_chk.php",
     type : "POST",
-    data : { id : id },
+    data : { 
+      type : "manager",
+      id : id 
+    },
     success : function(res) {
       sessionStorage.setItem("id_duChk", "true");
       alert("사용가능한 아이디입니다");
@@ -158,8 +161,6 @@ function duplication_chk() {
 
 // 지회 SELECT BOX
 function getBranch(e) {
-  console.log(e)
-  
   $.ajax({
     url: '/admin/ajax.gruopdepth.php',
     type: 'POST',
@@ -178,12 +179,24 @@ function getBranch(e) {
       defaultOption.val("");
       defaultOption.text("지회선택");
       ju_region2.append(defaultOption);
+      
+      
+      let ju_region3 = $("#ju_region3");
+      ju_region3.empty();
+
+      let defaultOption2 = $('<option>');
+      defaultOption2.val("");
+      defaultOption2.text("지회선택");
+      ju_region3.append(defaultOption2);
+      
 
       for (var i = 0; i < reg.length; i++) {
-        var option = $('<option>');
-        option.val(reg[i].region);
-        option.text(reg[i].region);
-        ju_region2.append(option);
+        if(reg[i].region != "") {
+          var option = $('<option>');
+          option.val(reg[i].region);
+          option.text(reg[i].region);
+          ju_region2.append(option);
+        }
       }
     },
     error: function(xhr, status, error) {
@@ -193,16 +206,57 @@ function getBranch(e) {
   
 }
 
+
+// 지부 SELECT BOX _20240531_SY
+function getChapter(e) {
+  
+  $.ajax({
+    url: '/admin/ajax.gruopdepth.php',
+    type: 'POST',
+    data: { 
+      depthNum: 2,
+      depthValue: e
+    },
+    success: function(res) {
+
+      let reg = JSON.parse(res);
+
+      let ju_region3 = $("#ju_region3");
+      ju_region3.empty();
+
+      let defaultOption = $('<option>');
+      defaultOption.val("");
+      defaultOption.text("지부선택");
+      ju_region3.append(defaultOption);
+
+      for (var i = 0; i < reg.length; i++) {
+        if(reg[i].region != "") {
+          var option = $('<option>');
+          option.val(reg[i].region);
+          option.text(reg[i].region);
+          ju_region3.append(option);
+        }
+      }
+    },
+    error: function(xhr, status, error) {
+      console.log('요청 실패: ' + error);
+    }
+  })
+  
+}
+
+
+
 // Submit Check _20240516_SY
 function fregisterform_submit(f)
 {
   // 지역 Seleted
-  const regionSelect = f.kf_region1;
+  const regionSelect = f.ju_region1;
   const regionOption = regionSelect.options[regionSelect.selectedIndex];
   const regionValue = regionOption.value;
   
   // 지회 Seleted
-  const chapterSelect = f.kf_region2;
+  const chapterSelect = f.ju_region2;
   const chapterOption = chapterSelect.options[chapterSelect.selectedIndex];
   const chapterValue = chapterOption.value;
 

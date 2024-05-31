@@ -2,9 +2,9 @@
 include_once("./_common.php");
 
 
-check_demo();
+// check_demo();
 
-check_admin_token();
+// check_admin_token();
 
 $db_table   = "kfia_region";
 $kf_code    = preg_replace("/\s+/", "", $_POST['chapter_id']);

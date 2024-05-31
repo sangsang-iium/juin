@@ -87,7 +87,6 @@ EOF;
         <?php echo option_selected('kf_region3', $sfl, '지부명'); ?>
 				<?php echo option_selected('kf_region2', $sfl, '지회명'); ?>
 				<?php echo option_selected('kf_code',    $sfl, '지부아이디'); ?>
-				<?php echo option_selected('kf_code',    $sfl, '지회아이디'); ?>
 			</select>
 			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
 		</td>
@@ -144,7 +143,7 @@ EOF;
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td>			
-			<input type="hidden" name="kf_idx[<?php echo $i; ?>]" value="<?php echo $row['kf_idx']; ?>">
+			<input type="hidden" name="kf_code[<?php echo $i; ?>]" value="<?php echo $row['kf_code']; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
     <td><?php echo $row['kf_code'] ?></td>
