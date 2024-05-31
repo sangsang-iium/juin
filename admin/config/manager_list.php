@@ -3,7 +3,7 @@ if (!defined('_BLUEVATION_')) exit;
 
 
 $sql_common = " FROM shop_manager ";
-$sql_search = " WHERE (1) AND grade > 1";
+$sql_search = " WHERE (1) AND grade > 1 AND id <> 'admin'";
 $sql_join = " LEFT JOIN authorization AS auth 
                      ON (mn.auth_idx = auth.auth_idx) 
               LEFT JOIN ( SELECT kf.*, area.areaname, area.areacode
@@ -142,13 +142,13 @@ EOF;
           <td><?php echo substr($row['reg_time'], 0, 10) ?></td>
           <td>
             <a href="/admin/config.php?code=manager_register_form&amp;w=u&amp;idx=<?php echo $row['index_no'] ?>" class="btn_small blue">수정</a>
-            <!-- <a href="/admin/config/branchupdate.php?w=d" class="btn_small">삭제</a> -->
+            <a href="/admin/config/managerupdate.php?w=d&amp;idx=<?php echo $row['index_no'] ?>" class="btn_small">삭제</a>
           </td>
         </tr>
       <?php
       }
       if ($i == 0)
-        echo '<tbody><tr><td colspan="7" class="empty_table">자료가 없습니다.</td></tr>';
+        echo '<tbody><tr><td colspan="8" class="empty_table">자료가 없습니다.</td></tr>';
       ?>
       </tbody>
     </table>

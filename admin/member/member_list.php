@@ -15,15 +15,22 @@ $query_string = "code=$code$qstr";
 $q1           = $query_string;
 $q2           = $query_string . "&page=$page";
 
-$sql_common = " from shop_member ";
-$sql_search = " where id <> 'admin' ";
+$sql_common = " from shop_member AS mm";
+$sql_search = " where mm.id <> 'admin' ";
+// manager join 추가 _20240531_SY
+$sql_join = " LEFT JOIN shop_manager AS mn
+                     ON (mm.ju_manager = mn.index_no) ";
 
 if ($sfl && $stx) {
-  $sql_search .= " and $sfl like '%$stx%' ";
+  if($sfl == 'ju_manager') {
+    $sql_search .= " and mn.name like '%$stx%' ";  
+  } else {
+    $sql_search .= " and $sfl like '%$stx%' ";
+  }
 }
 
 if ($sst) {
-  $sql_search .= " and grade = '$sst' ";
+  $sql_search .= " and ㅡㅡ.grade = '$sst' ";
 }
 
 // 기간검색
@@ -43,7 +50,7 @@ if ($ssd == '탈퇴') {
 }
 
 if (!$orderby) {
-  $filed = "index_no";
+  $filed = "mm.index_no";
   $sod   = "desc";
 } else {
   $sod = $orderby;
@@ -52,7 +59,7 @@ if (!$orderby) {
 $sql_order = " order by $filed $sod ";
 
 // 테이블의 전체 레코드수만 얻음
-$sql         = " select count(*) as cnt $sql_common $sql_search ";
+$sql         = " select count(*) as cnt $sql_common {$sql_join} $sql_search ";
 $row         = sql_fetch($sql);
 $total_count = $row['cnt'];
 
@@ -62,7 +69,7 @@ if ($page == "") {$page = 1;}             // 페이지가 없으면 첫 페이�
 $from_record = ($page - 1) * $rows;       // 시작 열을 구함
 $num         = $total_count - (($page - 1) * $rows);
 
-$sql    = " select * $sql_common $sql_search $sql_order limit $from_record, $rows ";
+$sql    = " select mm.*, mn.name AS mn_name $sql_common {$sql_join} $sql_search $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
 $is_intro = false;

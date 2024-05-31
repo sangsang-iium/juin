@@ -19,15 +19,11 @@ if($_POST['act_button'] == "선택삭제")
 		$k = $_POST['chk'][$i];
     $kf_code = trim($_POST['kf_code'][$k]);
 
-    // 담당자 지회/지부 체크
-    $mn_region_sql = " SELECT     
-                            (SELECT COUNT(*) FROM shop_manager WHERE ju_region_code = '{$kf_code}') + 
-                            (SELECT COUNT(*) FROM kfia_region WHERE kf_code = '{$kf_code}' AND kf_region3 <> '') 
-                            AS cnt
-                     ";
+    // 담당자 체크
+    $mn_region_sql = " SELECT COUNT(*) AS cnt FROM shop_manager WHERE ju_region_code = '{$kf_code}' ";
     $mn_region_row = sql_fetch($mn_region_sql);
     if($mn_region_row['cnt'])
-      alert("담당자 및 지부정보에 저장된 지회정보는 삭제할 수 없습니다.");
+      alert("담당자에 저장된 지부정보는 삭제할 수 없습니다.");
 
     sql_query(" DELETE FROM kfia_region WHERE kf_code = '{$kf_code}' ");
 	}

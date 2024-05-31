@@ -106,7 +106,10 @@ function duplication_chk() {
   $.ajax({
     url  : "/admin/ajax.branchId_chk.php",
     type : "POST",
-    data : { id : id },
+    data : { 
+      type : "kfia",
+      id : id 
+    },
     success : function(res) {
       sessionStorage.setItem("id_duChk", "true");
       alert("사용가능한 아이디입니다");
