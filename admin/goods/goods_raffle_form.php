@@ -96,6 +96,8 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			<label for="entry_1">예</label>
 			<input type="radio" name="entry" id="entry_2" value="1"<?php echo get_checked('1', $pl['entry']); ?> onclick="chk_entry_type(1);">
 			<label for="entry_2">아니오</label>
+
+			<input type="number" name="entry_number" id="entry_number" value="<?php echo $pl['entry_number']; ?>"  itemname="응모 제한 수" class="frm_input" size="50">
 		</td>
 	</tr>
 	<tr>
@@ -167,10 +169,9 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 
 	function chk_entry_type(type) {
 		if(type == 0) {
-			$("#winner_number").prop('readonly', false);
+			$("#entry_number").show();
 		} else {
-			$("#winner_number").val('');
-			$("#winner_number").prop('readonly', true);
+			$("#entry_number").hide();
 		}
 	}
 

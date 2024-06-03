@@ -129,7 +129,8 @@ EOF;
 		$index_no = $row['index_no'];
 
 		$iq_url = "code=raffle_form&w=u&index_no=$index_no$qstr&page=$page";
-		$iq_upd = "<a href=\"./goods.php?{$iq_url}\" class=\"btn_small\">수정</a>";
+		$iq_url1 = "code=raffle_detail&w=u&index_no=$index_no";
+		$iq_upd = "<a href=\"./goods.php?{$iq_url}\" class=\"btn_small\">수정</a><br><a href=\"./goods.php?{$iq_url1}\" class=\"btn_small\">상세</a>";
 
 		if($i==0)
 			echo '<tbody class="list">'.PHP_EOL;
@@ -144,7 +145,7 @@ EOF;
 		<td><?php echo $num--; ?></td>
 		<td><?php echo $row['goods_name'] ?></td>
 		<td><?php echo $row['raffle_price'] ?></td>
-		<td></td>
+		<td><?php echo raffleWinnerNumber($row['index_no']) ?></td>
 		<td><?php echo ymdhisToYmdhi($row['event_start_date'])."~<br>".ymdhisToYmdhi($row['event_end_date']) ?></td>
 		<td><?php echo ymdhisToYmdhi($row['prize_date']) ?></td>
 		<td><?php echo $row['mb_name'] ?></td>

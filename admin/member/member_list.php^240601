@@ -89,79 +89,63 @@ EOF;
 include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 ?>
 
-<h5 class="htag_title">기본검색</h5>
-<p class="gap20"></p>
+<h2>기본검색</h2>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="board_table">
+<div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col style="width:220px;">
-		<col style="width:auto">
+		<col class="w100">
+		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-            <div class="tel_input">
-                <div class="chk-select w200">
-                    <select name="sfl">
-                        <?php echo option_selected('ju_restaurant', $sfl, '상호명'); ?>
-                        <?php echo option_selected('ju_b_num', $sfl, '사업자번호'); ?>
-                        <?php echo option_selected('name', $sfl, '대표자명'); ?>
-                        <?php echo option_selected('cellphone', $sfl, '연락처'); ?>
-                        <?php echo option_selected('id', $sfl, '아이디'); ?>
-                        <?php echo option_selected('ju_manager', $sfl, '담당직원'); ?>
-                    </select>
-                </div>
-                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
-            </div>
+			<select name="sfl">
+				<?php echo option_selected('ju_restaurant', $sfl, '상호명'); ?>
+				<?php echo option_selected('ju_b_num', $sfl, '사업자번호'); ?>
+				<?php echo option_selected('name', $sfl, '대표자명'); ?>
+				<?php echo option_selected('cellphone', $sfl, '연락처'); ?>
+				<?php echo option_selected('id', $sfl, '아이디'); ?>
+				<?php echo option_selected('ju_manager', $sfl, '담당직원'); ?>
+			</select>
+			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기간검색</th>
 		<td>
-            <div class="tel_input">
-                <div class="chk-select w200">
-                    <select name="spt">
-                        <?php echo option_selected('reg_time', $spt, "가입날짜"); ?>
-                        <?php echo option_selected('today_login', $spt, "최근접속"); ?>
-                    </select>
-                </div>
-                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
-            </div>
+			<select name="spt">
+				<?php echo option_selected('reg_time', $spt, "가입날짜"); ?>
+				<?php echo option_selected('today_login', $spt, "최근접속"); ?>
+			</select>
+			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">레벨검색</th>
 		<td>
-            <ul class="radio_group">
-                <?php echo get_search_level('sst', $sst, 2, 9); ?>
-            </ul>
+			<?php echo get_search_level('sst', $sst, 2, 9); ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">탈퇴,폐업 검색</th>
 		<td>
-            <ul class="radio_group">
-                <li class="radios"><input type="radio" name="ssd" value="탈퇴" id="ssd1"><label for="ssd1">탈퇴</label></li>
-                <li class="radios"><input type="radio" name="ssd" value="폐업" id="ssd2"><label for="ssd2">폐업</label></li>
-            </ul>
-			
+			<label><input type="radio" name="ssd" value="탈퇴" >탈퇴</label>
+			<label><input type="radio" name="ssd" value="폐업" >폐업</label>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
-<div class="board_btns tac mart20">
-    <div class="btn_wrap btn_type">
-        <input type="submit" value="검색" class="btn_acc marr10"></input>
-        <input type="button" value="초기화" id="frmRest" class="btn_cen">
-    </div>
+<div class="btn_confirm">
+	<input type="submit" value="검색" class="btn_medium">
+	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
 </div>
 </form>
 
-<div class="local_ov mart30 fs18">
+<div class="local_ov mart30">
 	총 회원수 : <b class="fc_red"><?php echo number_format($total_count); ?></b>명
 </div>
 <div class="local_frm01">

@@ -33,7 +33,8 @@ include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>
 
 <div class="s_wrap">
-	<h1><?php echo $pg_title2; ?></h1>
+	<h4 class="htag_title"><?php echo $pg_title2; ?></h4>
+    <p class="gap50"></p>
 	<?php
 	include_once(BV_ADMIN_PATH."/member/member_{$code}.php");
 	?>

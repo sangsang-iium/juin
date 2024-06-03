@@ -53,6 +53,7 @@ $value['market_price']      =   $_POST['market_price'];
 $value['raffle_price']      =   $_POST['raffle_price'];
 $value['winner_number']     =   $_POST['winner_number'];
 $value['entry']             =   $_POST['entry'];
+$value['entry_number']      =   $_POST['entry_number'];
 $value['infomation']        =   $_POST['infomation'];
 $value['memo']              =   $_POST['memo'];
 $value['admin_memo']        =   $_POST['admin_memo'];

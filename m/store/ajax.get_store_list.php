@@ -1,11 +1,9 @@
 <?php
 include_once("./_common.php");
 
-$region1 = trim($_POST['region1']);
-$region2 = trim($_POST['region2']);
+$lat = trim($_POST['lat']);
+$lng = trim($_POST['lng']);
 $category = trim($_POST['cate']);
-
-if($region1=="") $region1 = $region2;
 
 if($category=='all'){
     $sql = "select * from shop_used where del_yn = 'N' and address like '%{$region1}%' and address like '%{$region2}%' order by 1 desc";
@@ -57,52 +55,60 @@ if($rows == 0){
 }
 ?>
 
-<!-- 자료 없을때
-<p class="empty_list">자료가 없습니다.</p>
--->
-<!-- loop { -->
-<!--<div class="used-item">
-  <a href="./view.php" class="used-item_thumbBox">
-    <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
+<!--<div class="store-item">
+  <a href="./view.php" class="store-item_thumbBox">
+    <img src="/src/img/store/t-store_thumb1.jpg" class="fitCover" alt="쥔장네 돈까스">
   </a>
-  <div class="used-item_txtBox">
+  <div class="store-item_txtBox">
     <a href="./view.php" class="tRow2 title">
-      <span class="cate">[주방용품]</span>
-      <span class="subj">식당용 식탁,의자</span>
+      <i class="recom"><img src="/src/img/store/recom_label.png" alt=""></i>
+      <span class="cate">[한식]</span>
+      <span class="subj">쥔장네 돈까스</span>
     </a>
-    <p class="writer">
-      <span>홍길동</span>
-      <span>대전시 서구 월평동</span>
-    </p>
-    <ul class="inf">
-      <li>
-        <p class="prc">50,000<span class="won">원</span></p>
-      </li>
-      <li>
-        <span class="status ing">판매중</span>
-      </li>
-    </ul>
+    <p class="address">대전 유성구 동서대로656번길</p>
+    <a href="tel:070-0000-0000" class="tel">070-0000-0000</a>
     <ul class="extra">
       <li class="hit">
         <span class="icon">
-          <img src="/src/img/used/icon_hit.png" alt="조회수">
+          <img src="/src/img/store/icon_hit.png" alt="조회수">
         </span>
         <span class="text">56</span>
       </li>
       <li class="like">
         <span class="icon">
-          <img src="/src/img/used/icon_like.png" alt="좋아요수">
+          <img src="/src/img/store/icon_like.png" alt="좋아요수">
         </span>
         <span class="text">23</span>
-      </li>
-      <li class="reply">
-        <span class="icon">
-          <img src="/src/img/used/icon_chat.png" alt="댓글수">
-        </span>
-        <span class="text">10</span>
       </li>
     </ul>
     <button type="button" class="ui-btn wish-btn on" title="관심상품 등록하기"></button>
   </div>
+</div>
+<div class="store-item">
+  <a href="./view.php" class="store-item_thumbBox">
+    <img src="/src/img/store/t-store_thumb2.jpg" class="fitCover" alt="주인장 초밥">
+  </a>
+  <div class="store-item_txtBox">
+    <a href="./view.php" class="tRow2 title">
+      <span class="cate">[일식]</span>
+      <span class="subj">주인장 초밥</span>
+    </a>
+    <p class="address">대전 유성구 동서대로656번길</p>
+    <a href="tel:070-0000-0000" class="tel">070-0000-0000</a>
+    <ul class="extra">
+      <li class="hit">
+        <span class="icon">
+          <img src="/src/img/store/icon_hit.png" alt="조회수">
+        </span>
+        <span class="text">56</span>
+      </li>
+      <li class="like">
+        <span class="icon">
+          <img src="/src/img/store/icon_like.png" alt="좋아요수">
+        </span>
+        <span class="text">23</span>
+      </li>
+    </ul>
+    <button type="button" class="ui-btn wish-btn" title="관심상품 등록하기"></button>
+  </div>
 </div>-->
-<!-- } loop -->

@@ -1,28 +1,56 @@
 <?php
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
+
+if(is_numeric($pno)){
+    $good = sql_fetch("select * from shop_used where no = '$pno'");
+    if(!$good['no']){
+        alert("상품정보가 존재하지 않습니다.");
+    }
+    $gubun_status = getUsedGubunStatus($good['gubun'], $good['status']);
+} else {
+    alert("상품정보가 존재하지 않습니다.");
+}
+
+$sql = "select * from shop_used_chat where pno = '$pno' and mb_id = '$tid'";
+$chat = sql_fetch($sql);
+if(!$chat['no']){
+    $mb = get_member($tid);
+    if($mb['id']){
+        //채팅방등록
+        sql_query("insert into shop_used_chat set pno='$pno', mb_id='$tid', regdate='".BV_TIME_YMDHIS."'");
+        $chatno = sql_insert_id();
+    } else {
+        alert("잘못된 접근입니다.");
+    }
+} else {
+    $chatno = $chat['no'];
+}
+
+$sql = "select * from shop_used_chatd where pno = '$chatno' order by no";
+$result = sql_query($sql);
 ?>
 
 <div id="contents" class="sub-contents usedChatRoom">
   <div class="bottomBlank container chat-itemBox">
     <div class="used-item">
       <a href="./view.php" class="used-item_thumbBox">
-        <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
+        <img src="<?php echo BV_DATA_URL.'/used/'.$good['m_img'] ?>" class="fitCover" alt="<?php echo $good['title'] ?>">
       </a>
       <div class="used-item_txtBox">
         <a href="./view.php" class="tRow1 title">
-          <span class="cate">[주방용품]</span>
-          <span class="subj">식당용 식탁,의자</span>
+          <span class="cate">[<?php echo $good['category'] ?>]</span>
+          <span class="subj"><?php echo $good['title'] ?></span>
         </a>
         <p class="tRow1 writer">
-          <span>대전시 서구 월평동</span>
+          <span><?php echo getUsedAddress($good['address']) ?></span>
         </p>
         <ul class="inf">
           <li>
-            <p class="prc">50,000<span class="won">원</span></p>
+            <p class="prc"><?php echo number_format($good['price']) ?><span class="won">원</span></p>
           </li>
           <li>
-            <span class="status ing">판매중</span>
+            <span class="status ing"><?php echo $gubun_status[1] ?></span>
           </li>
         </ul>
       </div>
@@ -30,23 +58,35 @@ include_once(BV_MPATH."/_head.php"); // 상단
   </div>
 
   <div class="container chat-vBox">
-    <p class="date">2024년 00월 00일</p>
-    <div class="chat-msg receive">
-      <div class="msgBox">
-        <div class="msgText">안녕하세요! 관심있는데 구매가능한가요? 구매가능한가요? 구매가능한가요?</div>
-        <span class="msgTime">오전 9:07</span>
-      </div>
-    </div>
-    <div class="chat-msg send">
-      <div class="msgBox">
-        <div class="msgText">네~가능합니다.<br>바로 구매하실건가요? 구매하실건가요? 구매하실건가요?</div>
-        <span class="msgTime">오전 9:07</span>
-      </div>
-    </div>
+  <?php
+  $hdate = '';
+  while($row=sql_fetch_array($result)){
+    $ymd = substr($row['regdate'],0,10);
+    if( $ymd != $hdate ){
+        echo '<p class="date">'.date("Y년 m월 d일", strtotime($ymd)).'</p>';
+        $hdate = $ymd;
+    }
+    
+    if($member['id']==$row['mb_id']){
+        echo '<div class="chat-msg send"><div class="msgBox">';
+        echo '<div class="msgText">'.nl2br($row['content']).'</div>';
+        $vtime = str_replace(['AM','PM'], ['오전','오후'], date("A g:i", strtotime($row['regdate'])));
+        echo '<span class="msgTime">'.$vtime.'</span>';
+        echo '</div></div>';
+    } else {
+        echo '<div class="chat-msg receive"><div class="msgBox">';
+        echo '<div class="msgText">'.nl2br($row['content']).'</div>';
+        $vtime = str_replace(['AM','PM'], ['오전','오후'], date("A g:i", strtotime($row['regdate'])));
+        echo '<span class="msgTime">'.$vtime.'</span>';
+        echo '</div></div>';
+    }
+  }
+  ?>
   </div>
+  
   <div class="container chat-wBox">
     <div class="chat-wBox_wrap">
-      <textarea name="" id=""rows="1" class="frm-input w-per100 chat-wBox_input" placeholder="메세지 내용을 입력해주세요."></textarea>
+      <textarea id="chat_content" rows="1" class="frm-input w-per100 chat-wBox_input" placeholder="메세지 내용을 입력해주세요." maxlength="255"></textarea>
       <button type="button" class="chat-wBox_btn">메세지 전송</button>
     </div>
   </div>
@@ -77,10 +117,48 @@ $(document).ready(function(){
 
   //(임시)메세지 보내기 이벤트
   $(".chat-wBox_btn").on('click', function(){
+    insertChat();
     chatScrollInit();
     chatContentInit();
   });
 });
+
+
+const seller = "<?php echo $good['mb_id'] ?>";
+const chatno = Number(<?php echo $chatno ?>);
+var vcount = 0;
+
+var time = 0;
+var alltime = 0;
+const limit = 5;
+
+function insertChat(){
+    var content = $('#chat_content').val();
+    $.post('ajax.chat_insert.php', {chatno:chatno, content:content}, function(){
+        appendChat();
+        time = 0;
+    });
+}
+
+function appendChat(){
+    vcount = $('.chat-msg').length;
+    $.post('ajax.chat_append.php', {chatno:chatno, vcount:vcount, seller:seller}, function(obj){
+        $('.chat-vBox').append(obj);
+    });
+}
+
+// 5초마다글가져오기 10분마다 새로고침
+var timer = setInterval(function(){
+  time++;
+  alltime++;
+  if(alltime > 600){
+    location.reload();
+  }
+  if(time > limit){
+    appendChat();
+    time = 0;
+  }
+}, 1000);
 </script>
 
 <?php

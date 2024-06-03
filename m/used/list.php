@@ -54,12 +54,10 @@ $regions = [
       <select name="region" id="region" class="select" onchange="changeRegion(this.value);">
       <?php
       if($region_key){
-        $region1 = $region_key;
         foreach($regions[$region_key] as $v){
             echo '<option value="'.$v.'">'.$v.'</option>';
         }
       } else {
-        $region1 = '서울';
         foreach($regions as $k => $v){
             echo '<option value="'.$k.'">'.$k.'</option>';
         }
@@ -82,9 +80,8 @@ $regions = [
     </div>
   </div>
 
-  <div class="container used-prod_list">
+  <div class="container used-prod_list"></div>
 
-  </div>
 </div>
 
 <script type="module">
@@ -98,11 +95,11 @@ const usedMenu = f.hrizonMenu(usedMenuTarget, usedMenuActive);
 
 
 <script>
-const region1 = "<?php echo $region1 ?>";
+let region1 = "<?php echo $region_key ?>"; //전국단위(매장주소미등록)일경우 ""
 let region = $("#region").val();
 let cate = 'all';
 
-function getUsedList(region, cate){
+function getUsedList(region, cate){    
     $.post("ajax.get_used_list.php", {region1:region1, region2:region, cate:cate}, function(obj){
         $(".used-prod_list").html(obj);
         reEvent();
