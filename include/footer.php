@@ -35,5 +35,6 @@
   <li><a href="/m/used/list.php">중고장터</a></li>
   <li><a href="/m/store/list.php">회원사현황</a></li>
   <li><a href="/m/service/list.php">제휴서비스</a></li>
+  <li><a href="/m/shop/introjuin.php">인트로</a></li>
 </ul>
 <?php //} ?>
