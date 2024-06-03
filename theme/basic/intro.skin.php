@@ -15,11 +15,11 @@ include_once(BV_PATH.'/head.sub.php');
 				<dt><input type="submit" value="로그인" class="btn_large wset"></dt>
 				<dd>
 					<label for="login_id" class="sound_only">회원아이디</label>
-					<input type="text" name="mb_id" id="login_id" class="frm_input" maxLength="20" placeholder="아이디">					
+					<input type="text" name="mb_id" id="login_id" class="frm_input" maxLength="20" placeholder="아이디">
 				</dd>
 				<dd>
 					<label for="login_pw" class="sound_only">비밀번호</label>
-					<input type="password" name="mb_password" id="login_pw" class="frm_input" maxLength="20" placeholder="비밀번호">		
+					<input type="password" name="mb_password" id="login_pw" class="frm_input" maxLength="20" placeholder="비밀번호">
 				</dd>
 			</dl>
 			<p class="marb20">

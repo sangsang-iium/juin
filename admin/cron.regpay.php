@@ -39,11 +39,20 @@ while ($row = sql_fetch_array($res)) {
                 {$AND}
                 ";
   $res_order = sql_query($sql_order);
+
   while ($row_order = sql_fetch_array($res_order)) {
     if(!empty($row_order['index_no'])){
       $sql_cart = "SELECT * FROM shop_cart
                     WHERE od_id = '{$row_order['od_id']}'";
       $res_cart = sql_query($sql_cart);
+
+      $sql_card = "SELECT * FROM iu_card_reg WHERE mb_id = '{$row_order['mb_id']}' AND cr_use = 'Y'";
+      $row_card = sql_fetch($sql_card);
+
+      print_r($row_order );
+      exit;
+
+      $card_id = $row_card['idx'];
 
       while ($row_cart = sql_fetch_array($res_cart)) {
         $gs_id[] = $row_cart['gs_id'];
@@ -52,9 +61,6 @@ while ($row = sql_fetch_array($res)) {
       $gs_count    = count($gs_id);
       $sql_gs      = "SELECT * FROM shop_goods WHERE index_no = '{$gs_first_id}'";
       $row_gs      = sql_fetch($sql_gs);
-
-      $sql_card = "SELECT * FROM iu_card_reg WHERE idx = '{$card_id}'";
-      $row_card = sql_fetch($sql_card);
 
       if ($gs_count > 1) {
         $t_turnstr = truncateString($row_gs['gname'], 8) . '외' . $gs_count . '건';

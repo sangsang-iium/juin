@@ -185,6 +185,10 @@ $(function(){
 			<em>예) 토요일,공휴일 휴무</em>
 		</td>
 	</tr>
+	<tr>
+		<th scope="row">인트로 사용여부</th>
+		<td><label><input type="checkbox" name="shop_intro_yes" value="1"<?php echo $config['shop_intro_yes']?' checked':''; ?>> 사용함</label></td>
+	</tr>
 	</tbody>
 	</table>
 </div>
