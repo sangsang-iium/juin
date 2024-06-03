@@ -75,19 +75,19 @@ while ($row = sql_fetch_array($res)) {
 
       $billingkey      = $row_card['cr_billing'];
       $t_ckey          = $row_card['cr_customer_key'];
-      $t_amount        = str_replace(',', '', $_POST['tot_price']);
-      $t_orderid       = $od_id;
+      $t_amount        = str_replace(',', '', $row_order['use_price']);
+      $t_orderid       = $row_order['od_id'];
       $t_ordername     = $t_turnstr;
       $t_taxfreeamount = 0;
-      $t_name          = $_POST['name'];
-      $t_email         = $_POST['email'];
+      $t_name          = $row_order['name'];
+      $t_email         = $row_order['email'];
       $TossRun         = new Tosspay();
       $toss_run        = $TossRun->autoPay($t_ckey, $t_amount, $t_orderid, $t_ordername, $t_taxfreeamount, $t_name, $t_email, $billingkey);
       if ($toss_run->code) {
         if ($resulturl == 'pc') {
-          alert("결제 오류 ".$toss_run->code, '/mng/shop/cart.php');
+          log_write("결제 오류 ".$toss_run->code);
         } else {
-          alert("결제 오류 ".$toss_run->code, BV_MSHOP_URL . '/cart.php');
+          log_write("결제 오류 ".$toss_run->code);
         }
       }
       $orderInsert                            = new IUD_Model();
@@ -142,64 +142,79 @@ while ($row = sql_fetch_array($res)) {
       $tran_id = $orderInsert->insert('toss_transactions', $or_insert);
 
       if(!empty($tran_id)){
-        $sql = "insert into {$shop_table}
-			   set od_id				= '{$od_id}'
-			     , od_no				= '{$od_no}'
-				 , mb_id				= '{$member['id']}'
-				 , name					= '{$_POST['name']}'
-				 , cellphone			= '{$_POST['cellphone']}'
-				 , telephone			= '{$_POST['telephone']}'
-				 , email				= '{$_POST['email']}'
+        if ($row_order['zip']) {
+          $order_info_query = "
+              , zip					= '{$row_order['zip']}'
+              , addr1				= '{$row_order['addr1']}'
+              , addr2				= '{$row_order['addr2']}'
+              , addr3				= '{$row_order['addr3']}'
+          ";
+        } else {
+          $order_info_query = "
+              , zip				= '{$row_order['b_zip']}'
+              , addr1				= '{$row_order['b_addr1']}'
+              , addr2				= '{$row_order['b_addr2']}'
+              , addr3				= '{$row_order['b_addr3']}'
+          ";
+        }
+        $sql = "insert into shop_order
+			   set od_id				= '{$row_order['od_id']}'
+			     , od_no				= '{$row_order['od_no']}'
+				 , mb_id				= '{$row_order['mb_id']}'
+				 , name					= '{$row_order['name']}'
+				 , cellphone			= '{$row_order['cellphone']}'
+				 , telephone			= '{$row_order['telephone']}'
+				 , email				= '{$row_order['email']}'
 
 				  $order_info_query
 
-				 , addr_jibeon			= '{$_POST['addr_jibeon']}'
-				 , b_name				= '{$_POST['b_name']}'
-				 , b_cellphone			= '{$b_cellp}'
-				 , b_telephone			= '{$_POST['b_telephone']}'
+				 , addr_jibeon			= '{$row_order['addr_jibeon']}'
+				 , b_name				= '{$row_order['b_name']}'
+				 , b_cellphone			= '{$row_order['b_cellphone']}'
+				 , b_telephone			= '{$row_order['b_telephone']}'
 
-				 , b_zip				= '{$_POST['b_zip']}'
-				 , b_addr1				= '{$_POST['b_addr1']}'
-				 , b_addr2				= '{$_POST['b_addr2']}'
-				 , b_addr3				= '{$_POST['b_addr3']}'
+				 , b_zip				= '{$row_order['b_zip']}'
+				 , b_addr1				= '{$row_order['b_addr1']}'
+				 , b_addr2				= '{$row_order['b_addr2']}'
+				 , b_addr3				= '{$row_order['b_addr3']}'
 
-				 , b_addr_jibeon		= '{$_POST['b_addr_jibeon']}'
-         , b_addr_req       = '{$_POST['b_addr_req']}'
-				 , gs_id				    = '{$gs_id[$i]}'
-				 , gs_notax				  = '{$gs_notax[$i]}'
-				 , seller_id			  = '{$seller_id[$i]}'
-				 , goods_price			= '{$gs_price[$i]}'
-				 , supply_price			= '{$supply_price[$i]}'
-				 , sum_point			  = '{$sum_point[$i]}'
-				 , sum_qty				  = '{$sum_qty[$i]}'
-				 , coupon_price			= '{$coupon_price[$i]}'
-				 , coupon_lo_id			= '{$coupon_lo_id[$i]}'
-				 , coupon_cp_id			= '{$coupon_cp_id[$i]}'
-				 , use_price			  = '{$i_use_price[$i]}'
-				 , use_point			  = '{$i_use_point[$i]}'
-				 , baesong_price		= '{$baesong_price[$i]}'
-				 , baesong_price2		= '{$baesong_price2}'
-				 , paymethod			  = '{$_POST['paymethod']}'
-				 , bank					    = '{$_POST['bank']}'
-				 , deposit_name			= '{$_POST['deposit_name']}'
-				 , dan					    = '{$dan}'
-				 , memo					    = '{$_POST['memo']}'
-				 , taxsave_yes			= '{$_POST['taxsave_yes']}'
-				 , taxbill_yes			= '{$_POST['taxbill_yes']}'
+				 , b_addr_jibeon		= '{$row_order['b_addr_jibeon']}'
+         , b_addr_req       = '{$row_order['b_addr_req']}'
+				 , gs_id				    = '{$row_order['gs_id']}'
+				 , gs_notax				  = '{$row_order['gs_notax']}'
+				 , seller_id			  = '{$row_order['seller_id']}'
+				 , goods_price			= '{$row_order['gs_price']}'
+				 , supply_price			= '{$row_order['supply_price']}'
+				 , sum_point			  = '{$row_order['sum_point']}'
+				 , sum_qty				  = '{$row_order['sum_qty']}'
+				 , coupon_price			= '{$row_order['coupon_price']}'
+				 , coupon_lo_id			= '{$row_order['coupon_lo_id']}'
+				 , coupon_cp_id			= '{$row_order['coupon_cp_id']}'
+				 , use_price			  = '{$row_order['i_use_price']}'
+				 , use_point			  = '{$row_order['i_use_point']}'
+				 , baesong_price		= '{$row_order['baesong_price']}'
+				 , baesong_price2		= '{$row_order['baesong_price2']}'
+				 , paymethod			  = '{$row_order['paymethod']}'
+				 , bank					    = '{$row_order['bank']}'
+				 , deposit_name			= '{$row_order['deposit_name']}'
+				 , dan					    = '2'
+				 , memo					    = '{$row_order['memo']}'
+				 , taxsave_yes			= '{$row_order['taxsave_yes']}'
+				 , taxbill_yes			= '{$row_order['taxbill_yes']}'
 				 , od_time				  = '" . BV_TIME_YMDHIS . "'
-				 , od_pwd				    = '{$od_pwd}'
+				 , od_pwd				    = '{$row_order['od_pwd']}'
 				 , od_ip				    = '{$_SERVER['REMOTE_ADDR']}'
-				 , od_test				  = '{$default['de_card_test']}'
-				 , od_tax_flag			= '{$default['de_tax_flag_use']}'
-				 , od_settle_pid		= '{$pt_settle_pid}'
-				 , pt_id				    = '{$_POST['pt_id']}'
-				 , shop_id				  = '{$_POST['shop_id']}'
+				 , od_test				  = '{$row_order['de_card_test']}'
+				 , od_tax_flag			= '{$row_order['de_tax_flag_use']}'
+				 , od_settle_pid		= '{$row_order['pt_settle_pid']}'
+				 , pt_id				    = '{$row_order['pt_id']}'
+				 , shop_id				  = '{$row_order['shop_id']}'
 				 , od_mobile			  = '1'
          ";
          sql_query($sql, true);
         $insert_id = sql_insert_id();
         $shop_table = "shop_order";
-        save_goods_data($gs_id[$i], $insert_id, $od_id, $shop_table);
+        save_goods_data($gs_id, $insert_id, $row_order['od_id'], $shop_table);
         // 뒤에 더 있는데...... 업데이트도 있고.................................................
       }
     }
