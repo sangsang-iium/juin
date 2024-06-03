@@ -10,7 +10,45 @@ if(!defined('_BLUEVATION_')) exit;
 </div> -->
 
 <div id="sod_bsk">
-	<form name="frmcartlist" id="sod_bsk_list" method="post" action="<?php echo $cart_action_url; ?>">	
+	<form name="frmcartlist" id="sod_bsk_list" method="post" action="<?php echo $cart_action_url; ?>">
+
+    <div class="cart-sec container">
+      <!-- 2024-06-03 :  일반/정기 배송 탭 -->
+      <div class="cart-regular-tab">
+        <div class="regular-tab-item">
+          <button class="tab-btn normal" type="button">
+            <span><img src="/src/img/icon-tab-normal.png" alt="일반배송"></span>
+            <span>일반</span>
+          </button>
+        </div>
+        <div class="regular-tab-item">
+          <button class="tab-btn regular" type="button">
+            <span><img src="/src/img/icon-tab-regular.png" alt="정기배송"></span>
+            <span>정기</span>
+          </button>
+        </div>
+      </div>
+      <!-- 2024-06-03 : 주문 금액 프로세스 바 -->
+      <div class="cart-process-bar-wr">
+        <div class="cart-process-top">
+          <p class="company">A 공급사</p>
+          <div class="available-price">
+            <p class="text01">(주문가능 금액 50,000원)</p>
+            <p class="text02">
+              <span>16,000원</span> 추가시 주문가능
+            </p>
+          </div>
+        </div>
+        <div class="cart-process-bot">
+          <div class="cart-process-bar">
+            <span class="active-bar" style="width: 65%;"></span>
+          </div>
+          <div class="cart-process-icon">
+            <img src="/src/img/cart-process-icon.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
 
     <?php if($cart_count) { ?>
     <div class="cart-sec container">

@@ -339,6 +339,77 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         <input type="hidden" name="use_point" value="0">
       <?php } ?>
 
+      <!-- 2024-06-03 : 정기기간 / 배송일 추가 -->
+      <div class="bottomBlank">
+        <div class="container">
+          <div class="arcodianBtn od-top active">
+            <button type="button" class="ui-btn od-toggle-btn">
+              <span class="od-tit">정기기간/배송일</span>
+            </button>
+          </div>
+
+          <div class="od-ct info-list">
+            <div class="info-item">
+              <p class="tit">배송요일</p>
+              <div class="check-wr">
+                <div class="frm-choice">
+                  <input type="checkbox" name="chk" id="chk1" value="">
+                  <label for="chk1">월</label>
+                </div>
+                <div class="frm-choice">
+                  <input type="checkbox" name="chk" id="chk2" value="">
+                  <label for="chk2">화</label>
+                </div>
+                <div class="frm-choice">
+                  <input type="checkbox" name="chk" id="chk3" value="">
+                  <label for="chk3">수</label>
+                </div>
+                <div class="frm-choice">
+                  <input type="checkbox" name="chk" id="chk4" value="">
+                  <label for="chk4">목</label>
+                </div>
+                <div class="frm-choice">
+                  <input type="checkbox" name="chk" id="chk5" value="">
+                  <label for="chk5">금</label>
+                </div>
+                <div class="frm-choice">
+                  <input type="checkbox" name="chk" id="chk6" value="">
+                  <label for="chk6">토</label>
+                </div>
+              </div>
+            </div>
+            <div class="info-item">
+              <p class="tit">배송주기</p>
+              <div class="select-wr">
+                <select name="" id="" class="frm-select">
+                  <option value="">1주마다 배송</option>
+                  <option value="">2주마다 배송</option>
+                  <option value="">3주마다 배송</option>
+                  <option value="">4주마다 배송</option>
+                </select>
+              </div>
+            </div>
+            <div class="info-item">
+              <p class="tit">배송횟수</p>
+              <div class="select-wr">
+                <select name="" id="" class="frm-select">
+                  <option value="">2회</option>
+                  <option value="">4회</option>
+                  <option value="">6회</option>
+                  <option value="">8회</option>
+                  <option value="">10회</option>
+                  <option value="">12회</option>
+                </select>
+              </div>
+            </div>
+            <div class="info-item">
+              <p class="tit">첫 배송 시점</p>
+              <input type="date" class="frm-input" value="2024-06-03">
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- 주문자 기본 정보 추가 _20240412_SY -->
       <div class="bottomBlank">
         <div class="container">
