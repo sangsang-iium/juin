@@ -81,8 +81,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                   <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="" placeholder="***-**-*****" maxlength="12" >
                   <div class="joinDetail-btn-box joinDetail-btn-box3">
                     <button type="button" class="ui-btn st3 w-per100" onclick="getKFIAMember()">사업자 정보 조회</button>
-                    <!-- <button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
-                    <button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button> -->
                   </div>
                 </div>
               </div>
@@ -125,7 +123,7 @@ function chkDuBnum(kfiaMsg) {
           } else {
             // alert("가입 가능한 사업자등록번호입니다");
             $('#chk_bn_res').val('1');
-            chkClosed(kfiaMsg, "가입 가능한 사업자등록번호입니다");
+            chkClosed(kfiaMsg, "가입여부 : 가입 가능한 사업자등록번호입니다");
           }
         }
     });
@@ -154,11 +152,11 @@ function chkClosed(kfiaMsg, bNumMsg) {
           if (res.hasOwnProperty('match_cnt')) {
             $('#chk_cb_res').val(res.data[0].b_stt_cd);
             let msg = res.data[0].b_stt;
-            alert(kfiaMsg+"\n"+bNumMsg+"\n"+msg);
+            alert(kfiaMsg+"\n"+bNumMsg+"\n"+"휴/폐업 여부 : "+msg);
           } else {
             $('#chk_cb_res').val('0');
             let msg = res.data[0].tax_type;
-            alert(kfiaMsg+"\n"+bNumMsg+"\n"+msg);
+            alert(kfiaMsg+"\n"+bNumMsg+"\n"+"휴/폐업 여부 : "+msg);
           }
         }
     });
@@ -261,18 +259,6 @@ function fregisterform_submit(f)
       return false;
     };
   }
-
-
-  // 휴/폐업 검사 _20240227_SY
-  // if((f.w.value == "") || (f.w.value == "u" && f.chk_cb_res.defaultValue != f.chk_cb_res.value)) {
-  //   if(f.chk_cb_res.value == '0') {
-  //     // 휴/폐업일때 어떤 작업 필요한지 확인 필요
-  //     alert('휴/폐업조회를 해 주십시오.');
-  //     f.b_no.select();
-  //     return false;
-  //   };
-  // }
-
 
   // 휴대폰인증 _20240531_SY
   // telPass();

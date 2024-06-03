@@ -53,7 +53,6 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 						<div class="form-body">
 							<input type="password" name="mb_password_re" id="reg_mb_password_re"<?php echo $required; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" maxlength="20" placeholder="비밀번호를 한번 더 입력해주세요.">
-              <p id="password-message" class="reg-message"></p>
 						</div>
 					</div>
 					<div class="form-row">
@@ -124,11 +123,11 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title"><label for="reg_mb_email">이메일</label><b>*</b></p>
 						</div>
 						<div class="form-body">
-              <div class="input-button id-confirm">
-                <input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
-                <input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
-                <button type="button" class="ui-btn st3" onclick="chk_email()">중복확인</button>
-              </div>
+						<div class="input-button id-confirm">
+							<input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
+							<input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
+							<button type="button" class="ui-btn st3" onclick="chk_email()">중복확인</button>
+						</div>
 							<!-- <span class="at">@</span>
 							<select name="" class="frm-select">
 								<option value="">선택하세요.</option>
@@ -149,7 +148,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">주소<b>*</b></p>
 						</div>
 						<div class="form-body address">
-              <label for="reg_mb_zip" class="sound_only">우편번호</label>
+             				 <label for="reg_mb_zip" class="sound_only">우편번호</label>
 							<input type="tel" name="mb_zip" value="<?php echo $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호">
 							<button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
 							
@@ -164,9 +163,99 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 					</div>
 					<?php } ?>
+
+					 
 				</div>
 			</div>
 			<!-- } 기본정보 -->
+
+			<!-- 사업자정보 { -->
+				<div class="joinDetail-box">
+				<div class="joinDetail-head">
+					<p class="joinDetail-title">사업자정보</p>
+					<!-- 개인 회원가입일 경우 노출 { -->
+					<!-- <button type="button" class="ui-btn st3 w-per100">사업자 정보 불러오기</button> -->
+					<!-- } 개인 회원가입일 경우 노출 -->
+				</div>
+				<div class="joinDetail-body">
+					<!-- 사업자 회원가입일 경우 노출 { -->
+					<div class="form-row">
+						<div class="form-head">
+							<p class="title">사업자등록번호<b>*</b></p>
+						</div>
+						<div class="form-body">
+							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_b_num'] : "" ?>" placeholder="***-**-*****" maxlength="12" <?php echo ($w != '') ? "readonly" : "" ?> >
+							<div class="joinDetail-btn-box joinDetail-btn-box3"> 
+								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
+								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
+							</div>
+						</div>
+					</div>
+
+					 
+					<!-- } 사업자 회원가입일 경우 노출 -->
+					<!-- 개인 회원가입일 경우 { -->
+					<!-- <div class="form-row">
+						<div class="form-head">
+							<p class="title">사업자등록번호<b>*</b></p>
+						</div>
+						<div class="form-body">
+							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" readonly value="">
+							<div class="joinDetail-btn-box">
+								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
+								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
+							</div>
+						</div>
+					</div> -->
+					<!-- <div class="form-row">
+						<div class="form-head">
+							<p class="title">상호명<b>*</b></p>
+						</div>
+						<div class="form-body">
+							<input type="text" name="" class="frm-input w-per100" readonly value="상호명">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-head">
+							<p class="title">업종/업태<b>*</b></p>
+						</div>
+						<div class="form-body">
+							<input type="text" name="" class="frm-input w-per100" readonly value="업종/업태">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-head">
+							<p class="title">대표자<b>*</b></p>
+						</div>
+						<div class="form-body">
+							<input type="text" name="" class="frm-input w-per100" readonly value="대표자">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-head">
+							<p class="title">대표번호<b>*</b></p>
+						</div>
+						<div class="form-body phone">
+							<input type="text" name="" class="frm-input" readonly value="010">
+							<span class="hyphen">-</span>
+							<input type="text" name="" class="frm-input" readonly value="1234">
+							<span class="hyphen">-</span>
+							<input type="text" name="" class="frm-input" readonly value="5678">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-head">
+							<p class="title">주소</p>
+						</div>
+						<div class="form-body address">
+							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
+							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
+						</div>
+					</div> -->
+					<!-- } 개인 회원가입일 경우 -->
+				</div>
+			</div>
+			<!-- } 사업자정보 -->
 		</div>
 	</div>
 	<div class="cp-btnbar">
@@ -195,22 +284,6 @@ if(!defined('_BLUEVATION_')) exit;
 <script src="/js/postcode.v2.js"></script>
 
 <script>
-// 비밀번호 확인 일치여부
-$('#reg_mb_password_re').on('input', function() {
-  // 비밀번호와 비밀번호 확인 입력란의 값을 가져오기
-  let password = $('#reg_mb_password').val();
-  let confirmPassword = $('#reg_mb_password_re').val();
-  let messageElement = $('#password-message');
-  
-  if (!password) { // 비밀번호 입력란이 비어 있는지 확인
-      messageElement.text('비밀번호를 입력하세요.');
-  }  else if (password !== confirmPassword) {  // 비밀번호와 비밀번호 확인 입력란의 값이 일치하는지 확인
-      messageElement.text('비밀번호가 일치하지 않습니다.')
-  } else { // 비밀번호가 일치하는 경우
-      messageElement.text('');
-  }
-});
-
 /** 우편번호 찾기 */
 var element_wrap0 = document.getElementById('post_wrap');
 
@@ -615,5 +688,101 @@ function member_leave() {  // 회원 탈퇴 tto
   if (confirm("회원에서 탈퇴 하시겠습니까?"))
     location.href = '<?php echo BV_MBBS_URL ?>/leave_form_update.php';
  }
+
+
+
+ //20240603 박원주
+
+// 외식업중앙회원 조회하기 _20240328_SY
+var chkKFIA = false;
+function getKFIAMember() {
+  let inputNum = document.querySelector('#b_no').value;
+
+  if(inputNum.length > 0) {
+    $.ajax({
+      url: bv_url+"/m/bbs/ajax.KFIA_info.php",
+      type: "POST",
+      data: { "b_num" : inputNum },
+      dataType: "JSON",
+      success: function(res) {
+        console.log(res.data)
+        if(res.data == null) {
+          alert('사업자 정보 조회 실패')
+          chkKFIA = false;
+          return false;
+        } else {
+          alert(`조회 성공 : ${res.data.MEMBER_NAME}`)
+          chkKFIA = true;
+        }
+      }
+    });
+  } else {
+    return false;
+  }
+  
+}
+
+
+// 사업자번호 중복체크 _20240227_SY
+function chkDuBnum() {
+  b_num = document.querySelector('#b_no').value;
+
+  if(b_num.length > 0) {
+    $.ajax({
+        url: bv_url+"/m/bbs/ajax.duplication_check.php",
+        type: "POST",
+        data: { "b_num" : b_num },
+        dataType: "JSON",
+        success: function(data) {
+          if(data.res > 0 ) {
+            $('#chk_bn_res').val('0');
+            alert("이미 등록된 사업자등록번호입니다");
+            return false;
+          } else {
+            alert("가입 가능한 사업자등록번호입니다");
+            $('#chk_bn_res').val('1');
+          }
+        }
+    });
+  } else {
+    alert("사업자등록번호가 존재하지 않습니다.")
+    return false;
+  }
+}
+
+
+// 휴/폐업 조회 _20240227_SY
+let b_num = '';
+function chkClosed() {
+  b_num = document.querySelector('#b_no').value;
+  
+  let b_stt_cd = "";
+  let end_dt   = "";
+  
+  if(b_num.length > 0) {
+    $.ajax({
+        url: bv_url+"/m/bbs/ajax.closed_check.php",
+        type: "POST",
+        data: { "b_num" : b_num },
+        dataType: "JSON",
+        success: function(res) {
+          // API 값 호출 _20240318_SY
+          if (res.hasOwnProperty('match_cnt')) {
+            $('#chk_cb_res').val(res.data[0].b_stt_cd);
+            let msg = res.data[0].b_stt;
+            alert(msg);
+          } else {
+            $('#chk_cb_res').val('0');
+            let msg = res.data[0].tax_type;
+            alert(msg);
+          }
+        }
+    });
+  } else {
+    alert("사업자등록번호가 존재하지 않습니다.")
+    return false;
+  }
+}
+
 </script>
 <!-- } 회원정보 입력/수정 끝 -->

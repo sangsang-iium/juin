@@ -256,7 +256,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               .rv-img-list {overflow-x: scroll; white-space: nowrap; }
               .rv-img-list::-webkit-scrollbar { display: none; }
             </style>
-            <?php
+            <?php 
               // 상품 리뷰 이미지 전체
               $reviewTotalImgArr = reviewTotalImg($gs_id);
               if(sizeof($reviewTotalImgArr) > 0) {
@@ -268,7 +268,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                 </div>
               </a>
             <?php } } ?>
-
+            
           </div>
         </div>
         <div class="rv-body">
@@ -290,7 +290,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               </div>
             </div>
           </div>
-
+          
           <div class="rv-item-list">
             <?php echo mobile_goods_review("구매후기", $item_use_count, $gs_id); ?>
           </div>
@@ -323,11 +323,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <a href="<?php echo BV_MSHOP_URL.'/qaform.php?gs_id='.$gs_id; ?>" class="ui-btn round st2 iq-wbtn">문의하기</a>
           -->
           <button type="button" class="ui-btn round st2 iq-wbtn">문의하기</button>
-          <p class="iq-wtext">배송 및 주문관련 문의는 <a href="<?php echo BV_MBBS_URL.'/qna_list.php'; ?>" class="link">FAQ 또는 1:1문의</a>를 이용해주세요.</p>
+          <!-- <p class="iq-wtext">배송 및 주문관련 문의는 <a href="<?php echo BV_MBBS_URL.'/qna_list.php'; ?>" class="link">FAQ 또는 1:1문의</a>를 이용해주세요.</p> -->
         </div>
         <div class="iq-body">
           <div class="iq-title">
-            <p class="title">문의(<?php echo number_format($itemqa_count); ?>)</p>
+            <p class="title">문의(<?php echo number_format($itemqa_count); ?>)</p>+
             <div class="iq-sort-wr">
               <div class="frm-choice">
                 <input type="checkbox" name="myInqSort" id="myInqSort" value="">
@@ -999,7 +999,7 @@ function reviewMore() {
     let reviewCon = $(this).find(".content_in");
     let reviewConMore = $(this).find(".cont-more-btn");
     let reviewConMax = parseInt(reviewCon.css('max-height'));
-
+    
     if(reviewCon.height() < reviewConMax) {
       reviewConMore.remove();
     }

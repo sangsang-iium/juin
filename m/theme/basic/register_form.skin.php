@@ -20,8 +20,8 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="cert_no" value="">
 
 <input type="hidden" name="reg_type" value="1">
-<input type="hidden" name="chk_cb_res" value="0" id="chk_cb_res">
-<input type="hidden" name="chk_bn_res" value="0" id="chk_bn_res">
+<input type="hidden" name="chk_cb_res" value="<?php ($w=='') ? $_POST['chk_cb_res'] : 0?>" id="chk_cb_res">
+<input type="hidden" name="chk_bn_res" value="<?php ($w=='') ? $_POST['chk_bn_res'] : 0?>" id="chk_bn_res">
 
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
@@ -100,7 +100,7 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-head">
 							<p class="title"><label for="reg_mb_tel">전화번호</label><?php echo $config['register_req_tel']?'<b>*</b>':''; ?></p>
 						</div>
-						<div class="form-body">
+						<div class="form-body phone">
 							<!-- <input type="tel" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); autoHyphen2(this)"> -->
               <input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[0]); ?>" id="reg_reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							  <span class="hyphen">-</span>
@@ -252,6 +252,7 @@ if(!defined('_BLUEVATION_')) exit;
 			<!-- } 중앙회원정보 / 개인 회원가입일 경우 노출 -->
 
 			<!-- 사업자정보 { -->
+      <?php if($w != '') { ?>
 			<div class="joinDetail-box">
 				<div class="joinDetail-head">
 					<p class="joinDetail-title">사업자정보</p>
@@ -266,7 +267,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_b_num'] : "" ?>" placeholder="***-**-*****" maxlength="12" <?php echo ($w != '') ? "readonly" : "" ?> >
+							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w=='') ? $_POST['b_no'] : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" <?php echo ($w != '') ? "readonly" : "" ?> >
 							<div class="joinDetail-btn-box joinDetail-btn-box3">
 								<button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
 								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
@@ -304,70 +305,11 @@ if(!defined('_BLUEVATION_')) exit;
             </div>
           <?php } ?>
 					<!-- } 사업자 회원가입일 경우 노출 -->
-					<!-- 개인 회원가입일 경우 { -->
-					<!-- <div class="form-row">
-						<div class="form-head">
-							<p class="title">사업자등록번호<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" readonly value="">
-							<div class="joinDetail-btn-box">
-								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
-								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
-							</div>
-						</div>
-					</div> -->
-					<!-- <div class="form-row">
-						<div class="form-head">
-							<p class="title">상호명<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="상호명">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">업종/업태<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="업종/업태">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">대표자<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="대표자">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">대표번호<b>*</b></p>
-						</div>
-						<div class="form-body phone">
-							<input type="text" name="" class="frm-input" readonly value="010">
-							<span class="hyphen">-</span>
-							<input type="text" name="" class="frm-input" readonly value="1234">
-							<span class="hyphen">-</span>
-							<input type="text" name="" class="frm-input" readonly value="5678">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">주소</p>
-						</div>
-						<div class="form-body address">
-							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
-							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
-						</div>
-					</div> -->
-					<!-- } 개인 회원가입일 경우 -->
 				</div>
 			</div>
 			<!-- } 사업자정보 -->
 			<!-- 매장정보 { -->
-      <?php if($w == 'u') { ?>
+      <?php //if($w == 'u') { ?>
       <div class="joinDetail-box">
 				<div class="joinDetail-head">
 					<p class="joinDetail-title">매장정보</p>

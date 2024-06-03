@@ -3,7 +3,28 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 include_once("./_head.php");
 ?>
-<form name="flogin" action="<?php echo BV_HTTPS_MBBS_URL; ?>/login_check.php" onsubmit="return flogin_submit(this);" method="post">
+
+<style>
+	#topMenu {display: none;}
+	#footer {display: none;}
+</style>
+
+<div class="intro">
+
+	<div class="container intro-top">
+		<div class="intro-top-text-box">
+			<p class="intro-top-title">사장님이 왕이되는 <br>특별한 <span><img src="/src/img/intro-top-title-icon.png" alt=""></span></p>
+			<p class="intro-top-text">장사를 위한 편리한 장보기 플랫폼 <br>다양한 왕족급 서비스를 경험해 보세요!</p>
+		</div>
+	</div>
+
+	<div class="container intro-btn-wrap">
+		
+	</div>
+
+</div>
+
+<!-- <form name="flogin" action="<?php echo BV_HTTPS_MBBS_URL; ?>/login_check.php" onsubmit="return flogin_submit(this);" method="post">
 <div class="mb_login">
 	<section class="login_fs">
 		<h2 class="log_tit">MEMBER <strong>LOGIN</strong></h2>
@@ -50,7 +71,7 @@ function flogin_submit(f)
 
 	return true;
 }
-</script>
+</script> -->
 
 <?php
 include_once("./_tail.php");

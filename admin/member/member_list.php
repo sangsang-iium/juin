@@ -30,7 +30,7 @@ if ($sfl && $stx) {
 }
 
 if ($sst) {
-  $sql_search .= " and ㅡㅡ.grade = '$sst' ";
+  $sql_search .= " and mm.grade = '$sst' ";
 }
 
 // 기간검색
@@ -106,12 +106,12 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
             <div class="tel_input">
                 <div class="chk-select w200">
                     <select name="sfl">
-                        <?php echo option_selected('ju_restaurant', $sfl, '상호명'); ?>
-                        <?php echo option_selected('ju_b_num', $sfl, '사업자번호'); ?>
-                        <?php echo option_selected('name', $sfl, '대표자명'); ?>
-                        <?php echo option_selected('cellphone', $sfl, '연락처'); ?>
-                        <?php echo option_selected('id', $sfl, '아이디'); ?>
-                        <?php echo option_selected('ju_manager', $sfl, '담당직원'); ?>
+                        <?php echo option_selected('mm.ju_restaurant', $sfl, '상호명'); ?>
+                        <?php echo option_selected('mm.ju_b_num', $sfl, '사업자번호'); ?>
+                        <?php echo option_selected('mm.name', $sfl, '대표자명'); ?>
+                        <?php echo option_selected('mm.cellphone', $sfl, '연락처'); ?>
+                        <?php echo option_selected('mm.id', $sfl, '아이디'); ?>
+                        <?php echo option_selected('mm.ju_manager', $sfl, '담당직원'); ?>
                     </select>
                 </div>
                 <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">

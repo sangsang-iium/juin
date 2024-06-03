@@ -33,8 +33,9 @@ if(!isset($mb_mailling)) $mb_mailling = 1;
 <form name="fsendmailselectform" action="<?php echo BV_ADMIN_URL; ?>/member.php?code=mail_select_list" method="post" autocomplete="off">
 <input type="hidden" name="ma_id" value="<?php echo $ma_id; ?>">
 
-<h2>회원정보</h2>
-<div class="tbl_frm01">
+<h5 class="htag_title">회원정보</h5>
+<p class="gap20"></p> 
+<div class="board_table">
 	<table>
 	<colgroup>
 		<col class="w140">
@@ -47,15 +48,24 @@ if(!isset($mb_mailling)) $mb_mailling = 1;
 	</tr>
 	<tr>
 		<th scope="row">회원 아이디</th>
-		<td class="td_article">
-			<article>
-			<input type="radio" name="mb_id1" value="1" id="mb_id1_all" <?php echo $mb_id1?"checked":""; ?>> <label for="mb_id1_all">전체</label>
-			<input type="radio" name="mb_id1" value="0" id="mb_id1_section" <?php echo !$mb_id1?"checked":""; ?>> <label for="mb_id1_section">구간</label>
-			</article>
-			<article>
-			<input type="text" name="mb_id1_from" value="<?php echo $mb_id1_from; ?>" id="mb_id1_from" title="시작구간" class="frm_input" size="10"> 에서
-			<input type="text" name="mb_id1_to" value="<?php echo $mb_id1_to; ?>" id="mb_id1_to" title="종료구간" class="frm_input" size="10"> 까지
-			</article>
+		<td>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="mb_id1" value="1" id="mb_id1_all" <?php echo $mb_id1?"checked":""; ?>>
+                    <label for="mb_id1_all">전체</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="mb_id1" value="0" id="mb_id1_section" <?php echo !$mb_id1?"checked":""; ?>> 
+                    <label for="mb_id1_section">구간</label>
+                </li>
+            </ul>
+            <div class="write_address mart20">
+                <div class="addressMore">
+                    <input type="text" name="mb_id1_from" value="<?php echo $mb_id1_from; ?>" id="mb_id1_from" title="시작구간" class="frm_input" size="10">
+                    <span>~</span>
+                    <input type="text" name="mb_id1_to" value="<?php echo $mb_id1_to; ?>" id="mb_id1_to" title="종료구간" class="frm_input" size="10">
+                </div>
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -68,39 +78,60 @@ if(!isset($mb_mailling)) $mb_mailling = 1;
 	<tr>
 		<th scope="row"><label for="mb_mailling">메일링</label></th>
 		<td>
-			<select name="mb_mailling" id="mb_mailling">
-				<option value="Y">수신동의한 회원만
-				<option value="">전체
-			</select>
+            <div class="chk_select">
+                <select name="mb_mailling" id="mb_mailling">
+                    <option value="Y">수신동의한 회원만
+                    <option value="">전체
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">레벨</th>
 		<td>
-			<label for="mb_level_from" class="sound_only">최소레벨</label>
-			<?php echo get_member_select("mb_level_from", $mb_level_from); ?> 에서
-			<label for="mb_level_to" class="sound_only">최대레벨</label>
-			<?php echo get_member_select("mb_level_to", $mb_level_to); ?> 까지
+            <div class="email_input">
+                <div class="chk_select w300">
+                    <label for="mb_level_from" class="sound_only">최소레벨</label>
+			        <?php echo get_member_select("mb_level_from", $mb_level_from); ?>
+                </div>
+                <span class="at">에서</span>
+                <div class="chk_select w300">
+                    <label for="mb_level_to" class="sound_only">최대레벨</label>
+                    <?php echo get_member_select("mb_level_to", $mb_level_to); ?> 
+                </div>
+                <span class="at">까지</span>
+            </div>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
 
-<div class="btn_confirm">
+<div class="board_btns tac mart20">
+    <div class="btn_wrap btn_type">
+        <input type="submit" value="다음" class="btn_acc marr10" accesskey="s">
+        <a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=mail_list<?php echo $qstr; ?>&page=<?php echo $page; ?>" class="btn_cen">목록</a>
+    </div>
+</div>
+<!-- <div class="btn_confirm">
 	<input type="submit" value="다음" class="btn_large" accesskey="s">
 	<a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=mail_list<?php echo $qstr; ?>&page=<?php echo $page; ?>" class="btn_large bx-white">목록</a>
-</div>
+</div> -->
 </form>
-
-<div class="information">
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ul class="cnt_list step01">
+        <li>차단된 회원과 공급사 회원을 제외한 정상 회원에게만 메일이 발송됩니다.</li>
+    </ul>
+</div>
+<!-- <div class="information">
 	<h4>도움말</h4>
 	<div class="content">
 		<div class="desc02">
 			<p>ㆍ차단된 회원과 공급사 회원을 제외한 정상 회원에게만 메일이 발송됩니다.</p>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <script>
 $(function() {

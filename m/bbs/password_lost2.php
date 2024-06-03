@@ -77,7 +77,7 @@ $content .= '</div>';
 
 echo mailer($config['company_name'], $super['email'], $mb['email'], $subject, $content, 1);
 
-exit;
+
 
 alert($email.' 메일로 회원아이디와 비밀번호를 인증할 수 있는 메일이 발송 되었습니다.\\n\\n메일을 확인하여 주십시오.', BV_MBBS_URL.'/login.php');
 ?>

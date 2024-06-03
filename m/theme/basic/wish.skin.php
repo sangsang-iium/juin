@@ -66,7 +66,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
     <div class="btn_confirm">
       <button type="button" onclick="return fwishlist_check(document.fwishlist,'');" class="ui-btn round stBlack cart-btn">장바구니</button>
-      <button type="button" onclick="return fwishlist_check(document.fwishlist,'direct_buy');" class="ui-btn round stWhite buy-btn">바로구매</button>
+      <!-- <button type="button" onclick="return fwishlist_check(document.fwishlist,'direct_buy');" class="ui-btn round stWhite buy-btn">바로구매</button> -->
     </div>
     <?php } ?>
 
