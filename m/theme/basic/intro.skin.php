@@ -3,7 +3,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 include_once("./_head.php");
 ?>
-
 <form name="flogin" action="<?php echo BV_HTTPS_MBBS_URL; ?>/login_check.php" onsubmit="return flogin_submit(this);" method="post">
 <div class="mb_login">
 	<section class="login_fs">
