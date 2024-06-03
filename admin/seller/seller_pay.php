@@ -237,14 +237,14 @@ EOF;
       $od_goods_array = unserialize($row2['od_goods']);
       $od_supply_type = $od_goods_array['supply_type'];
       $od_supply_sub = $od_goods_array['income_per_type'];
-      
+
       // 정산방식구분 _ 20240509_SY
       // 업체 설정
       if($od_supply_type == '2') {
         $income_price += $row['income_price'];
         $income_percent += $row2['goods_price'] * ($row['income_per'] / 100);
-      } 
-      // 매입가 
+      }
+      // 매입가
       if($od_supply_type == '0') {
         $supply_price += $row2['supply_price'];
       }
@@ -287,7 +287,7 @@ EOF;
 
 		// 본사마진 = (판매가 - 공급가 - 가맹점수수료 - 포인트결제 - 쿠폰할인)
 		$tot_admin = ($tot_price - $tot_supply - $tot_partner - $tot_point - $tot_coupon);
-  
+
     // 총 합계 _20240503_SY
     $sum_price += $tot_price;
     $sum_supply_price += $supply_price;
@@ -296,7 +296,7 @@ EOF;
     $sum_seller += $tot_seller;
     $sum_admin += $tot_admin;
     $sum_count +=  count($order_idx);
-    
+
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td>

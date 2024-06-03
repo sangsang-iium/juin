@@ -2871,95 +2871,261 @@ function delete_point($mb_id, $rel_table, $rel_id, $rel_action)
 }
 
 // 상품 이미지를 얻는다
-function get_it_image($gs_id, $it_img, $wpx, $hpx=0, $img_id='')
-{
-    if(!$gs_id || !$wpx)
-		return '';
+// function get_it_image($gs_id, $it_img, $wpx, $hpx=0, $img_id='')
+// {
+//     if(!$gs_id || !$wpx)
+// 		return '';
 
-	$gs = get_goods($gs_id, 'gcode');
+// 	$gs = get_goods($gs_id, 'gcode');
 
-	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == false)
-	{
-		$file = BV_DATA_PATH."/goods/".$it_img;
-		if(is_file($file) && $it_img)
-		{
-			$size = @getimagesize($file);
-			$img_wpx  = $size[0];
-			$img_hpx  = $size[1];
-			$filepath = dirname($file);
-			$filename = basename($file);
+// 	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == false)
+// 	{
+// 		$file = BV_DATA_PATH."/goods/".$it_img;
+// 		if(is_file($file) && $it_img)
+// 		{
+// 			$size = @getimagesize($file);
+// 			$img_wpx  = $size[0];
+// 			$img_hpx  = $size[1];
+// 			$filepath = dirname($file);
+// 			$filename = basename($file);
 
-			if($img_wpx != $wpx && $img_hpx != $hpx) {
-				if($img_wpx && !$hpx)
-					$hpx = round(($wpx * $img_hpx) / $img_wpx);
+// 			if($img_wpx != $wpx && $img_hpx != $hpx) {
+// 				if($img_wpx && !$hpx)
+// 					$hpx = round(($wpx * $img_hpx) / $img_wpx);
 
-				if($filename) {
-					$savepath = BV_DATA_PATH."/goods/".$gs['gcode'];
-					$size = @getimagesize($file);
-					// Animated GIF는 썸네일 생성하지 않음
-					if($size[2] == 1) {
-						if(is_animated_gif($file))
-							$savepath = BV_DATA_PATH."/goods";
-					}
-					$thumb = @thumbnail($filename, $filepath, $savepath, $wpx, $hpx, false, true, 'center', false, $um_value='80/0.5/3', false);
+// 				if($filename) {
+// 					$savepath = BV_DATA_PATH."/goods/".$gs['gcode'];
+// 					$size = @getimagesize($file);
+// 					// Animated GIF는 썸네일 생성하지 않음
+// 					if($size[2] == 1) {
+// 						if(is_animated_gif($file))
+// 							$savepath = BV_DATA_PATH."/goods";
+// 					}
+// 					$thumb = @thumbnail($filename, $filepath, $savepath, $wpx, $hpx, false, true, 'center', false, $um_value='80/0.5/3', false);
+// 				}
+
+// 				$file_url = rpc($savepath, BV_PATH, BV_URL);
+// 			} else {
+// 				$file_url = rpc($filepath, BV_PATH, BV_URL);
+// 			}
+
+// 			if($thumb) $img = '<img src="'.$file_url.'/'.$thumb.'" width="'.$wpx.'" height="'.$hpx.'"';
+// 			else $img = '<img src="'.$file_url.'/'.$filename.'" width="'.$wpx.'" height="'.$hpx.'"';
+// 		}
+// 		else {
+// 			$img = '<img src="'.BV_IMG_URL.'/noimage.gif" width="'.$wpx.'" height="'.$hpx.'"';
+// 		}
+// 	}
+// 	else {
+// 		$img = '<img src="'.$it_img.'" width="'.$wpx.'" height="'.$hpx.'"';
+// 	}
+
+// 	if($img_id) {
+// 		$img .= ' '.$img_id;
+// 	}
+// 	$img .= '>';
+
+// 	return $img;
+// }
+// 상품 이미지를 얻는다
+function get_it_image($gs_id, $it_img, $wpx, $hpx = 0, $img_id = '') {
+  if (!$gs_id || !$wpx) {
+    return '';
+  }
+
+  $gs              = get_goods($gs_id, 'gcode');
+  $extensions      = ['jpg', 'jpeg', 'png', 'gif', 'JPG', 'PNG']; // 지원하는 확장자 목록
+  $file_found      = false;
+  $file            = '';
+  $original_it_img = $it_img;
+
+  if (preg_match("/^(http[s]?:\/\/)/", $it_img) == false) {
+    if (preg_match('/\.(jpg|jpeg|png|gif|JPG|PNG)$/i', $it_img)) {
+      // The image name has an extension, check if the file exists
+      $file = BV_DATA_PATH . "/goods/" . $it_img;
+      if (is_file($file)) {
+        $file_found = true;
+      } else {
+				$filename = pathinfo($it_img, PATHINFO_FILENAME);
+				$dirname  = pathinfo($it_img, PATHINFO_DIRNAME);
+				if ($dirname != '.') { // 경로가 있는 경우
+					$it_img = $dirname . '/' . $filename;
 				}
+				$file = '';
+      }
+    }
 
-				$file_url = rpc($savepath, BV_PATH, BV_URL);
-			} else {
-				$file_url = rpc($filepath, BV_PATH, BV_URL);
-			}
+    if (!$file_found) {
+      foreach ($extensions as $ext) {
+        $file_with_ext = BV_DATA_PATH . "/goods/" . $it_img . "." . $ext;
+        if (is_file($file_with_ext)) {
+          $file_found = true;
+          $file       = $file_with_ext;
+          $it_img     = $it_img . "." . $ext;
+          break;
+        }
+      }
+    }
 
-			if($thumb) $img = '<img src="'.$file_url.'/'.$thumb.'" width="'.$wpx.'" height="'.$hpx.'"';
-			else $img = '<img src="'.$file_url.'/'.$filename.'" width="'.$wpx.'" height="'.$hpx.'"';
-		}
-		else {
-			$img = '<img src="'.BV_IMG_URL.'/noimage.gif" width="'.$wpx.'" height="'.$hpx.'"';
-		}
-	}
-	else {
-		$img = '<img src="'.$it_img.'" width="'.$wpx.'" height="'.$hpx.'"';
-	}
+    if ($file_found) {
+      $size     = @getimagesize($file);
+      $img_wpx  = $size[0];
+      $img_hpx  = $size[1];
+      $filepath = dirname($file);
+      $filename = basename($file);
 
-	if($img_id) {
-		$img .= ' '.$img_id;
-	}
-	$img .= '>';
+      if ($img_wpx != $wpx || $img_hpx != $hpx) {
+        if ($img_wpx && !$hpx) {
+          $hpx = round(($wpx * $img_hpx) / $img_wpx);
+        }
 
-	return $img;
+        if ($filename) {
+          $savepath = BV_DATA_PATH . "/goods/" . $gs['gcode'];
+          $size     = @getimagesize($file);
+          // Animated GIF는 썸네일 생성하지 않음
+          if ($size[2] == 1 && is_animated_gif($file)) {
+            $savepath = BV_DATA_PATH . "/goods";
+          }
+          $thumb = @thumbnail($filename, $filepath, $savepath, $wpx, $hpx, false, true, 'center', false, $um_value = '80/0.5/3', false);
+        }
+
+        $file_url = rpc($savepath, BV_PATH, BV_URL);
+      } else {
+        $file_url = rpc($filepath, BV_PATH, BV_URL);
+      }
+
+      if (isset($thumb) && $thumb) {
+        $img = '<img src="' . $file_url . '/' . $thumb . '" width="' . $wpx . '" height="' . $hpx . '"';
+      } else {
+        $img = '<img src="' . $file_url . '/' . $filename . '" width="' . $wpx . '" height="' . $hpx . '"';
+      }
+    } else {
+      $img = '<img src="' . BV_IMG_URL . '/noimage.gif" width="' . $wpx . '" height="' . $hpx . '"';
+    }
+  } else {
+    $img = '<img src="' . $it_img . '" width="' . $wpx . '" height="' . $hpx . '"';
+  }
+
+  if ($img_id) {
+    $img .= ' ' . $img_id;
+  }
+  $img .= '>';
+
+  return $img;
 }
 
 // 상품 이미지 URL을 얻는다
-function get_it_image_url($gs_id, $it_img, $wpx, $hpx=0)
-{
-    if(!$gs_id || !$wpx)
-		return '';
+// function get_it_image_url($gs_id, $it_img, $wpx, $hpx=0)
+// {
+//     if(!$gs_id || !$wpx)
+// 		return '';
 
-	$gs = get_goods($gs_id, 'gcode');
+// 	$gs = get_goods($gs_id, 'gcode');
 
-	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == false)
-	{
-		$file = BV_DATA_PATH."/goods/".$it_img;
-		if(is_file($file) && $it_img)
-		{
-			$size = @getimagesize($file);
+// 	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == false)
+// 	{
+// 		$file = BV_DATA_PATH."/goods/".$it_img;
+// 		if(is_file($file) && $it_img)
+// 		{
+// 			$size = @getimagesize($file);
+// 			$img_wpx  = $size[0];
+// 			$img_hpx  = $size[1];
+// 			$filepath = dirname($file);
+// 			$filename = basename($file);
+
+// 			if($img_wpx != $wpx && $img_hpx != $hpx) {
+// 				if($img_wpx && !$hpx)
+// 					$hpx = round(($wpx * $img_hpx) / $img_wpx);
+
+// 				if($filename) {
+// 					$savepath = BV_DATA_PATH."/goods/".$gs['gcode'];
+// 					$size = @getimagesize($file);
+// 					// Animated GIF는 썸네일 생성하지 않음
+// 					if($size[2] == 1) {
+// 						if(is_animated_gif($file))
+// 							$savepath = BV_DATA_PATH."/goods";
+// 					}
+// 					$thumb = @thumbnail($filename, $filepath, $savepath, $wpx, $hpx, false, true, 'center', false, $um_value='80/0.5/3', false);
+// 				}
+
+// 				$file_url = rpc($savepath, BV_PATH, BV_URL);
+// 			} else {
+// 				$file_url = rpc($filepath, BV_PATH, BV_URL);
+// 			}
+
+// 			if($thumb) $img = $file_url.'/'.$thumb;
+// 			else $img = $file_url.'/'.$filename;
+// 		}
+// 		else {
+// 			$img = BV_IMG_URL.'/noimage.gif';
+// 		}
+// 	}
+// 	else {
+// 		$img = $it_img;
+// 	}
+
+// 	return $img;
+// }
+
+function get_it_image_url($gs_id, $it_img, $wpx, $hpx = 0) {
+  if (!$gs_id || !$wpx) {
+    return '';
+  }
+
+  $gs              = get_goods($gs_id, 'gcode');
+  $extensions      = ['jpg', 'jpeg', 'png', 'gif', 'JPG', 'PNG']; // 지원하는 확장자 목록
+  $file_found      = false;
+  $file            = '';
+  $original_it_img = $it_img;
+
+	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == false){
+
+		if (preg_match('/\.(jpg|jpeg|png|gif|JPG|PNG)$/i', $it_img)) {
+			$file = BV_DATA_PATH . "/goods/" . $it_img;
+			if (is_file($file)) {
+				$file_found = true;
+			} else {
+				$filename = pathinfo($it_img, PATHINFO_FILENAME);
+        $dirname = pathinfo($it_img, PATHINFO_DIRNAME);
+        if ($dirname != '.') { // 경로가 있는 경우
+            $it_img = $dirname . '/' . $filename;
+        }
+        $file = '';
+			}
+		}
+
+		if (!$file_found) {
+			foreach ($extensions as $ext) {
+				$file_with_ext = BV_DATA_PATH . "/goods/" . $it_img . "." . $ext;
+				if (is_file($file_with_ext)) {
+					$file_found = true;
+					$file       = $file_with_ext;
+					$it_img     = $it_img . "." . $ext;
+					break;
+				}
+			}
+		}
+
+		if ($file_found) {
+			$size     = @getimagesize($file);
 			$img_wpx  = $size[0];
 			$img_hpx  = $size[1];
 			$filepath = dirname($file);
 			$filename = basename($file);
 
-			if($img_wpx != $wpx && $img_hpx != $hpx) {
-				if($img_wpx && !$hpx)
+			if ($img_wpx != $wpx || $img_hpx != $hpx) {
+				if ($img_wpx && !$hpx) {
 					$hpx = round(($wpx * $img_hpx) / $img_wpx);
+				}
 
-				if($filename) {
-					$savepath = BV_DATA_PATH."/goods/".$gs['gcode'];
-					$size = @getimagesize($file);
+				if ($filename) {
+					$savepath = BV_DATA_PATH . "/goods/" . $gs['gcode'];
+					$size     = @getimagesize($file);
 					// Animated GIF는 썸네일 생성하지 않음
-					if($size[2] == 1) {
-						if(is_animated_gif($file))
-							$savepath = BV_DATA_PATH."/goods";
+					if ($size[2] == 1 && is_animated_gif($file)) {
+						$savepath = BV_DATA_PATH . "/goods";
 					}
-					$thumb = @thumbnail($filename, $filepath, $savepath, $wpx, $hpx, false, true, 'center', false, $um_value='80/0.5/3', false);
+					$thumb = @thumbnail($filename, $filepath, $savepath, $wpx, $hpx, false, true, 'center', false, $um_value = '80/0.5/3', false);
 				}
 
 				$file_url = rpc($savepath, BV_PATH, BV_URL);
@@ -2967,19 +3133,21 @@ function get_it_image_url($gs_id, $it_img, $wpx, $hpx=0)
 				$file_url = rpc($filepath, BV_PATH, BV_URL);
 			}
 
-			if($thumb) $img = $file_url.'/'.$thumb;
-			else $img = $file_url.'/'.$filename;
+			if (isset($thumb) && $thumb) {
+				$img = $file_url . '/' . $thumb;
+			} else {
+				$img = $file_url . '/' . $filename;
+			}
+		} else {
+			$img = BV_IMG_URL . '/noimage.gif';
 		}
-		else {
-			$img = BV_IMG_URL.'/noimage.gif';
-		}
-	}
-	else {
+	} else {
 		$img = $it_img;
 	}
 
-	return $img;
+  return $img;
 }
+
 
 // 주문상품 이미지를 얻는다
 function get_od_image($od_id, $it_img, $wpx, $hpx=0)
