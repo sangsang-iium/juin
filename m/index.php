@@ -3,11 +3,9 @@ define('_MINDEX_', true);
 include_once("./_common.php");
 
 // 인트로를 사용중인지 검사
-if ($_SERVER['REMOTE_ADDR'] === '106.247.231.170') {
-    if(!$is_member && $config['shop_intro_yes']) {
-        include_once(BV_MTHEME_PATH.'/intro.skin.php');
-        return;
-    }
+if(!$is_member && $config['shop_intro_yes']) {
+	include_once(BV_MTHEME_PATH.'/intro.skin.php');
+    return;
 }
 
 include_once(BV_MPATH."/_head.php"); // 상단
