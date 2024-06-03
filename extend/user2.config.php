@@ -249,3 +249,27 @@ function get_raffle_ahead($it_img, $it_img_del)
 
 	return $str;
 }
+
+
+function get_raffle_detail_ahead($it_img, $it_img_del)
+{
+	if(!trim($it_img)) return;
+
+	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == true)
+		$file_url = $it_img;
+	else
+		$file_url = BV_DATA_URL."/raffle/".$it_img;
+
+	$str  = "<a href='{$file_url}' target='_blank' class='btn_small bx-white marr7'>미리보기</a> <label class='marr7'>";
+
+	return $str;
+}
+
+
+function raffleWinnerNumber($index_no) {
+  $sql = " SELECT count(*) as cnt FROM shop_goods_raffle_log WHERE raffle_index = '$index_no' ";
+  $res = sql_fetch($sql);
+  $winnerNumber = $res['cnt'];
+
+  return $winnerNumber;
+}

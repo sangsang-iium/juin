@@ -9,6 +9,8 @@ if(is_numeric($no)){
     }
     //조회수+
     //sql_query("update shop_used set hit = hit + 1 where no = '$no'");
+} else {
+    alert("상품정보가 존재하지 않습니다.");
 }
 
 $imgs = [];
@@ -25,8 +27,8 @@ $good_cnt = getUsedGoodCount($row['no']);
 $comment_cnt = getUsedCommentCount($row['no']);
 $goodyn = getUsedGoodRegister($row['no'], $member['id']);
 
-$sql = "select * from shop_used_comment where pno = {$row['no']} order by no";
-$result = sql_query($sql);
+/*$sql = "select * from shop_used_comment where pno = {$row['no']} order by no";
+$result = sql_query($sql);*/
 ?>
 
 <div id="contents" class="sub-contents flView usedView">
@@ -86,6 +88,7 @@ $result = sql_query($sql);
     </ul>
   </div>
 
+  <!-- 입력에 없는내용/기획서에서 관련내용없음-->
   <!--<div class="bottomBlank container prod-smInfo__body">
     <div class="info-list">
       <div class="info-item">
@@ -197,7 +200,18 @@ $result = sql_query($sql);
       <div class="container">
         <div class="prod-buy__btns">
           <button type="button" data-no="<?php echo $row['no'] ?>" class="ui-btn wish-btn<?php echo ($goodyn) ? ' on' : '';?>" title="관심상품 등록하기"></button>
-          <a href="./chat_list.php" class="ui-btn round stBlack chat-btn">채팅하기</a>
+          <?php
+          if($member['id']==$row['mb_id']){
+            $chat_cnt = getUsedChatCount($row['no']);
+            if($chat_cnt){
+              echo '<a href="./chat_list.php?pno='.$row['no'].'" class="ui-btn round stBlack chat-btn">채팅하기</a>';
+            } else {
+              echo '<a href="#none" class="ui-btn round stBlack chat-btn">채팅이 없습니다</a>';
+            }
+          } else {
+            echo '<a href="./chat_room.php?pno='.$row['no'].'&tid='.$member['id'].'" class="ui-btn round stBlack chat-btn">채팅하기</a>';
+          }
+          ?>
         </div>
       </div>
     </div>

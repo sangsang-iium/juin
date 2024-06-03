@@ -35,13 +35,17 @@
 	src:local(※), url('/plugin/font/NanumGothicExtraBold.woff') format('woff');
 }
 
+/* 폰트스타일.S */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
+
 html, body{min-width:100%;min-height:100%;}
 html{overflow-y:scroll;}
 html, body, div, p, h1, h2, h3, h4, h5, h6,
 ul, ol, li, dl, dt, dd, table, th, td, pre, blockquote, thead, tfoot,
 form, fieldset, legend, input, textarea, button, select{margin:0;padding:0;}
 body, div, table, th, td, pre, blockquote, thead, tfoot,
-input, button, textarea, ol, li, ul, dl, dt, dd{font-family:'나눔고딕','Nanum Gothic','맑은고딕','Malgun Gothic','gulim','arial', 'Dotum', 'AppleGothic', sans-serif;font-weight:400;letter-spacing:-0.05em;}
+input, button, textarea, ol, li, ul, dl, dt, dd{font-family:"Noto Sans KR", sans-serif, '나눔고딕','Nanum Gothic','맑은고딕','Malgun Gothic','gulim','arial', 'Dotum', 'AppleGothic', sans-serif;font-weight:500;letter-spacing:-0.05em;}
 body, div, table, th, td, pre, blockquote, em{font-weight:normal;font-style:normal;color:#454545;}
 body, div, table, th, td, pre, blockquote{font-size:12px;}
 h1, h2, h3, h4, h5, h6{font-size:1em;font-weight:600;}

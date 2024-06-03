@@ -192,6 +192,7 @@ function getKFIAMember() {
       }
     });
   } else {
+    alert("사업자 번호를 입력하여 주십시오.")
     return false;
   }
 }
@@ -246,7 +247,7 @@ function fregisterform_submit(f)
   // 중앙회원조회 _20240328_SY
   if(f.w.value == "") {
     if(chkKFIA == false) {
-      alert('중앙회원이 아닐 경우 사업자회원으로 가입하실 수 없습니다.')
+      alert('중앙회 회원이 아닐 경우 일반회원으로 가입하여 주십시오.')
       f.b_no.focus();
       return false;
     }
