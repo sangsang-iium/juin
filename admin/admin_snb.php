@@ -47,13 +47,14 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('m10', ADMIN_MENU1_03, BV_ADMIN_URL.'/member.php?code=register_form'); ?>
 		<?php echo printMenu2('m10', ADMIN_MENU1_04, BV_ADMIN_URL.'/member.php?code=xls'); ?>
 		<?php echo printMenu2('m10', ADMIN_MENU1_10, BV_ADMIN_URL.'/member.php?code=mail_list'); ?>
+    <?php echo printMenu2('h10', ADMIN_MENU8_02, BV_ADMIN_URL.'/member.php?code=leave'); ?>
 		<?php echo printMenu1('m20', '포인트관리'); ?>
 		<?php echo printMenu2('m20', ADMIN_MENU1_07, BV_ADMIN_URL.'/member.php?code=point'); ?>
 		<?php //echo printMenu2('m20', ADMIN_MENU1_08, BV_ADMIN_URL.'/member.php?code=pointxls'); ?>
 		<?php //echo printMenu2('m20', ADMIN_MENU1_09, BV_ADMIN_URL.'/member.php?code=point_select_form'); ?>
-		<?php echo printMenu1('m30', '가입통계'); ?>
-		<?php echo printMenu2('m30', ADMIN_MENU1_05, BV_ADMIN_URL.'/member.php?code=month'); ?>
-		<?php echo printMenu2('m30', ADMIN_MENU1_06, BV_ADMIN_URL.'/member.php?code=day'); ?>
+		<?php //echo printMenu1('m30', '가입통계'); ?>
+		<?php //echo printMenu2('m30', ADMIN_MENU1_05, BV_ADMIN_URL.'/member.php?code=month'); ?>
+		<?php //echo printMenu2('m30', ADMIN_MENU1_06, BV_ADMIN_URL.'/member.php?code=day'); ?>
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU2) {
@@ -192,6 +193,9 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	<?php }
 	else if($pg_title == ADMIN_MENU7) { ?>
 	<dl>
+    <?php echo printMenu1('m30', '가입통계'); ?>
+		<?php echo printMenu2('m30', ADMIN_MENU1_05, BV_ADMIN_URL.'/visit.php?code=regmonth'); ?>
+		<?php echo printMenu2('m30', ADMIN_MENU1_06, BV_ADMIN_URL.'/visit.php?code=regday'); ?>
 		<?php echo printMenu1('v10', '접속자통계'); ?>
 		<?php echo printMenu2('v10', ADMIN_MENU7_01, BV_ADMIN_URL.'/visit.php?code=hour'); ?>
 		<?php echo printMenu2('v10', ADMIN_MENU7_02, BV_ADMIN_URL.'/visit.php?code=date'); ?>
@@ -217,7 +221,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	<dl>
 		<?php echo printMenu1('h10', '고객지원'); ?>
 		<?php echo printMenu2('h10', ADMIN_MENU8_01, BV_ADMIN_URL.'/help.php?code=qa', $qaCnt); ?>
-		<?php echo printMenu2('h10', ADMIN_MENU8_02, BV_ADMIN_URL.'/help.php?code=leave'); ?>
+		<?php //echo printMenu2('h10', ADMIN_MENU8_02, BV_ADMIN_URL.'/help.php?code=leave'); ?>
 		<?php echo printMenu1('h20', 'FAQ 관리'); ?>
 		<?php echo printMenu2('h20', ADMIN_MENU8_03, BV_ADMIN_URL.'/help.php?code=faq_group'); ?>
 		<?php echo printMenu2('h20', ADMIN_MENU8_04, BV_ADMIN_URL.'/help.php?code=faq'); ?>

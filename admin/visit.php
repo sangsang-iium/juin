@@ -27,6 +27,10 @@ if($code == "return")	$pg_title2 = ADMIN_MENU7_13;
 if($code == "change")	$pg_title2 = ADMIN_MENU7_14;
 if($code == "refund")	$pg_title2 = ADMIN_MENU7_15;
 
+// Ãß°¡ _20240604_SY
+if($code == "regmonth")	$pg_title2 = ADMIN_MENU1_05;
+if($code == "regday")		$pg_title2 = ADMIN_MENU1_06;
+
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>
 
