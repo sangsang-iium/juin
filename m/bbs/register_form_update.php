@@ -67,6 +67,12 @@ $mb_addr2       = clean_xss_tags($mb_addr2);
 $mb_addr3       = clean_xss_tags($mb_addr3);
 $mb_addr_jibeon = preg_match("/^(N|R)$/", $mb_addr_jibeon) ? $mb_addr_jibeon : '';
 
+// 추가 _20240604_SY
+$manager_idx    = isset($_POST['mn_idx'])        ? trim($_POST['mn_idx']) : "";
+$ju_restaurant  = isset($_POST['ju_restaurant']) ? trim($_POST['ju_restaurant']) : "";
+$ju_sectors     = isset($_POST['ju_sectors'])    ? trim($_POST['ju_sectors']) : "";
+$OFFICE_NAME     = isset($_POST['OFFICE_NAME'])   ? trim($_POST['OFFICE_NAME']) : ""; // 지회/지부 부분 kfia_region 조회하고 INSERT 하는 기능 필요 _20240604_SY
+
 if($w == '' || $w == 'u') {
 
     if($msg = empty_mb_id($mb_id))	alert($msg);
@@ -203,10 +209,15 @@ if($w == '') {
   $value['ju_mem']    = $reg_type; // 사업자 여부
 
   if($reg_type == 1) {
-    $value['ju_name']       = $pop_nm;
+    $value['ju_name']       = $mb_name;
     $value['ju_unique_num'] = $pop_u_no;
     $value['ju_b_num']      = $b_no;
     $value['ju_closed']     = $chk_cb_res;
+    // 추가 _20240604_SY
+    $value['ju_restaurant'] = $ju_restaurant;
+    $value['ju_sectors']    = $ju_sectors;
+    $value['ju_cate']       = $ju_sectors;
+    $value['ju_manager']    = $manager_idx;
   }
 
     // 관리자인증을 사용하지 않는다면 인증으로 간주함.

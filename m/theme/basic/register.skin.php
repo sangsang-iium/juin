@@ -47,7 +47,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                 </div>
               </div>
               <div class="joinAgree-row-body">
-                <textarea><?php echo nl2br($config['shop_provision']); ?></textarea>
+                <textarea><?php echo preg_replace("/\\\/", "", $config['shop_provision']); //nl2br($config['shop_provision']); ?></textarea>
               </div>
             </div>
             <div class="joinAgree-row">
@@ -58,7 +58,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                 </div>
               </div>
               <div class="joinAgree-row-body">
-                <textarea><?php echo nl2br($config['shop_private']); ?></textarea>
+                <textarea><?php echo preg_replace("/\\\/", "", $config['shop_private']); //nl2br($config['shop_private']); ?></textarea>
               </div>
             </div>
           </div>
@@ -169,6 +169,7 @@ function chkClosed(kfiaMsg, bNumMsg) {
 // 외식업중앙회원 조회하기 _20240531_SY
 var chkKFIA = false;
 function getKFIAMember() {
+  const form = $('#fregisterform');
   let inputNum = document.querySelector('#b_no').value;
 
   if(inputNum.length > 0) {
@@ -183,7 +184,13 @@ function getKFIAMember() {
           chkKFIA = false;
           return false;
         } else {
+          console.log(res.data);
           // alert(`조회 성공 : ${res.data.MEMBER_NAME}`)
+          
+          Object.entries(res.data).forEach(([key, value]) => {
+            form.append(`<input type="hidden" name="${key}" value="${value}">`);
+          });
+          
           chkKFIA = true;
           chkDuBnum(`조회 성공 : ${res.data.MEMBER_NAME}`);
         }

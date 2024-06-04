@@ -13,7 +13,7 @@ if(!defined('_BLUEVATION_')) exit;
 		<col>
 	</colgroup>
 	<tbody>
-		<tr>
+		<!-- <tr>
 		<th scope="row">배송관리</th>
 		<td>
 			<div id="sit_supply_frm2" class="tbl_frm02">
@@ -73,7 +73,7 @@ if(!defined('_BLUEVATION_')) exit;
 			});
 			</script>
 		</td>
-	</tr>
+	</tr> -->
 	<tr>
 		<th scope="row">배송업체</th>
 		<td>

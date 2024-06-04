@@ -38,6 +38,7 @@ if(!defined('_BLUEVATION_')) exit;
 	</table>
 </div>
 
+<!-- 주석처리 _20240604_SY
 <h2>가입설정</h2>
 <div class="tbl_frm01">
 	<table class="tablef">
@@ -65,6 +66,11 @@ if(!defined('_BLUEVATION_')) exit;
 	</tbody>
 	</table>
 </div>
+-->
+<!-- 주석에 따른 input 추가 _20240604_SY -->
+<input type="hidden" name="seller_reg_agree" value="<?php echo preg_replace("/\\\/", "", $config['seller_reg_agree']); ?>">
+<input type="hidden" name="seller_reg_guide" value="<?php echo $config['seller_reg_guide']; ?>">
+<input type="hidden" name="seller_reg_mobile_guide" value="<?php echo $config['seller_reg_mobile_guide']; ?>">
 
 <div class="btn_confirm">
 	<input type="submit" value="저장" class="btn_large" accesskey="s">
