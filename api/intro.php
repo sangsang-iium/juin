@@ -16,6 +16,13 @@ parse_str($_SERVER['QUERY_STRING'], $queries);
 
 $sql = "SELECT * FROM iu_app WHERE idx = 1";
 $row = sql_fetch($sql);
+$sqlSch = "SELECT * FROM shop_popular ORDER BY pp_date desc LIMIT 5";
+$resSch = sql_query($sqlSch);
+$schArr = array();
+while ($rowSch = sql_fetch_array($resSch)) {
+  $schArr[] = $rowSch['pp_word'];
+}
+
 $row['ia_result'] = $row['ia_result'] == 0?true:false;
 
 $data = array(
@@ -34,9 +41,7 @@ $data = array(
     'name'           => $row['ia_iname'],
     'value'          => $row['ia_ivalue'],
   ),
-  'keyword' => array (
-    '미국산','고기','소고기'
-  )
+  'keyword' => $schArr
 );
 header('Content-Type: application/json');
 

@@ -331,7 +331,7 @@ class Tosspay {
     return $this->callApi($url, $data, $credential);
   }
 
-  function virtualAcc($amount, $orderId, $orderName, $customerName, $customerEmail, $bank) {
+  function virtualAcc($amount, $orderId, $orderName, $customerName, $customerEmail, $bank, $customerMobilePhone = "") {
     $url  = "https://api.tosspayments.com/v1/virtual-accounts";
     $data = array(
       'amount'        => $amount,
@@ -340,6 +340,7 @@ class Tosspay {
       'customerName'  => $customerName,
       'customerEmail' => $customerEmail,
       'bank'          => $bank,
+      'customerMobilePhone' => $customerMobilePhone,
     );
 
     return $this->callApi($url, $data);
@@ -507,17 +508,17 @@ function log_write($str) {
 function getMenuFunc($menu, $link, $code) {
   global $member;
   global $pg_title;
-  
+
   $exp_name = constant($menu);
-  
+
   if($member['id'] != 'admin' && isset($member['auth_idx'])) {
-    
+
     // 권한체크
     $auth_sql = " SELECT * FROM authorization WHERE auth_idx = '{$member['auth_idx']}' ";
     $auth_row = sql_fetch($auth_sql);
     $exp_menu = explode(",", $auth_row['auth_menu']);
-    
-    
+
+
     foreach($exp_menu as $key => $val) {
       if($menu == $val) {
         $retun = "<li class='gnb_1dli " . ($pg_title == $exp_name ? "active" : "") . "'>

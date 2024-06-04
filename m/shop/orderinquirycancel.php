@@ -9,16 +9,21 @@ if ($token && get_session("ss_token") == $token) {
   set_session("ss_token", "");
   alert("토큰 에러", BV_MURL);
 }
-
+print_r($reg_yn);
+if($reg_yn == 1 ){
+  $shop_table = "shop_order_reg";
+} else if ($reg_yn == 2 ) {
+  $shop_table      = "shop_order";
+}
 // $od = sql_fetch(" select * from shop_order where od_id = '$od_id' and mb_id = '{$member['id']}' ");
-$sql1 = "select * from shop_order where od_id = '$od_id' and mb_id = '{$member['id']}'";
+$sql1 = "select * from {$shop_table} where od_id = '$od_id' and mb_id = '{$member['id']}'";
 $od1  = sql_fetch($sql1);
 if ($od1['paymethod'] == '무통장') {
   $JOIN = "JOIN toss_virtual_account b";
 } else {
   $JOIN = "JOIN toss_transactions b";
 }
-$od = sql_fetch("SELECT * FROM shop_order a
+$od = sql_fetch("SELECT * FROM {$shop_table} a
                     $JOIN
                     ON (a.od_id = b.orderId)
                     WHERE a.od_id = '{$od_id}'
@@ -31,7 +36,7 @@ if (!$od['od_id']) {
 // 주문취소 가능여부 체크
 $od_count1 = $od_count2 = $od_cancel_price = 0;
 
-$sql = " select dan, cancel_price from shop_order where od_id = '$od_id' order by index_no asc ";
+$sql = " select dan, cancel_price from {$shop_table} where od_id = '$od_id' order by index_no asc ";
 $res = sql_query($sql);
 while ($row = sql_fetch_array($res)) {
   $od_count1++;
@@ -180,14 +185,14 @@ if ($od['od_tno'] || $od['paymentKey']) {
 // 주문 취소
 $cancel_memo = addslashes(strip_tags($cancel_memo));
 
-$sql    = " select od_no from shop_order where od_id = '$od_id' order by index_no asc ";
+$sql    = " select od_no from {$shop_table} where od_id = '$od_id' order by index_no asc ";
 $result = sql_query($sql);
 while ($row = sql_fetch_array($result)) {
   change_order_status_6($row['od_no']);
 }
 
 // 메모남김
-$sql = " update shop_order
+$sql = " update {$shop_table}
 			set shop_memo = CONCAT(shop_memo,\"\\n주문자 본인 직접 취소 - " . BV_TIME_YMDHIS . " (취소이유 : {$cancel_memo})\")
 		 where od_id = '$od_id' ";
 sql_query($sql);
@@ -195,5 +200,5 @@ sql_query($sql);
 // 주문취소 문자전송
 icode_order_sms_send($od['pt_id'], $od['cellphone'], $od_id, 5);
 
-goto_url(BV_MSHOP_URL . "/orderinquiryview.php?od_id=$od_id&uid=$uid&list=Y");
+goto_url(BV_MSHOP_URL . "/orderinquiryview.php?od_id=$od_id&uid=$uid&list=Y&reg_yn={$reg_yn}");
 ?>

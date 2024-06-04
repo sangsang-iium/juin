@@ -37,7 +37,7 @@ $frm_submit .= '</div>';
 <script src="<?php echo BV_JS_URL; ?>/colorpicker.js"></script>
 
 <form name="fbanner" id="fbanner" action="./design/mbanner_form_update.php" method="post" enctype="MULTIPART/FORM-DATA">
-<input type="hidden" name="w" value="<?php echo $w; ?>">	
+<input type="hidden" name="w" value="<?php echo $w; ?>">
 <input type="hidden" name="sca"  value="<?php echo $sca; ?>">
 <input type="hidden" name="page"  value="<?php echo $page; ?>">
 <input type="hidden" name="bn_id" value="<?php echo $bn_id; ?>">
@@ -47,16 +47,16 @@ $frm_submit .= '</div>';
 	<table>
 	<colgroup>
 		<col class="w140">
-		<col> 
+		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">노출위치</th>
 		<td>
 			<select name="bn_code" onchange="chk_js_position(this.value);">
-			<?php 
+			<?php
 			for($i=0; $i<count($position); $i++)
-				echo option_selected($position[$i][0], $bn['bn_code'], $position[$i][3]); 
+				echo option_selected($position[$i][0], $bn['bn_code'], $position[$i][3]);
 			?>
 			</select>
 			<?php echo help('[고정] 같은 위치에 고정되어 노출되며 2개이상 등록시 랜덤으로 노출됩니다.<br>[연속] 2개이상 등록시 세로로 연속하여 노출됩니다.<br>[롤링] 2개이상 등록시 슬라이드형식으로 롤링되며 노출됩니다.'); ?>
@@ -107,10 +107,10 @@ $frm_submit .= '</div>';
 		<th scope="row">세로사이즈</th>
 		<td><input type="text" name="bn_height" value="<?php echo $bn['bn_height']; ?>" class="frm_input" size="7"> px</td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<th scope="row">백그라운드 색상</th>
 		<td>
-			<input type="text" name="bn_bg" value="<?php echo $bn['bn_bg']; ?>" id="bn_bg" class="frm_input" size="7" maxlength="6"> 
+			<input type="text" name="bn_bg" value="<?php echo $bn['bn_bg']; ?>" id="bn_bg" class="frm_input" size="7" maxlength="6">
 			<?php echo help('"#" 기호없이 색상값 6자만 입력하세요. 예) F6E3FB'); ?>
 			<script>
 			$(function() {
@@ -136,7 +136,7 @@ $frm_submit .= '</div>';
 			<input type="text" name="bn_text" value="<?php echo $bn['bn_text']; ?>" class="frm_input" size="40">
 			<?php echo help('특정 배너에만 문구가 노출되는 부분으로 모든 배너에 문구가 노출되지는 않습니다.'); ?>
 		</td>
-	</tr>
+	</tr> -->
 	<tr>
 		<th scope="row">순서</th>
 		<td>
@@ -158,7 +158,7 @@ $frm_submit .= '</div>';
 </form>
 
 <script>
-function chk_js_position(val) { 
+function chk_js_position(val) {
     switch(val){
 		<?php for($i=0; $i<count($position); $i++) { ?>
 		case '<?php echo $position[$i][0]; ?>':

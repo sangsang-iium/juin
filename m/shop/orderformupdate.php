@@ -76,6 +76,7 @@ $ss_cart_id    = explode(",", $_POST['ss_cart_id']);    // 장바구니 idx
 $use_point      = (int) $_POST['use_point'];      // 포인트결제
 $baesong_price2 = (int) $_POST['baesong_price2']; // 추가배송비
 
+
 if ($is_member) {
   $od_pwd = $member['passwd'];
 } else {
@@ -96,20 +97,24 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   }
 
   $t_amount    = str_replace(',', '', $_POST['tot_price']);
+  $t_usepoint    = str_replace(',', '', $_POST['use_point']);
+
   $t_orderid   = $od_id;
   $t_ordername = $t_turnstr;
   $t_name      = $_POST['name'];
   $t_bank      = $_POST['bank_code'];
   $t_email     = $_POST['customerEmail'];
 
+  $customerMobilePhone = $_POST['customerMobilePhone']; // 추가배송비
+
 
   $TossVirtualAcc = new Tosspay();
-  $toss_acc       = $TossVirtualAcc->virtualAcc($t_amount, $t_orderid, $t_ordername, $t_name, $t_email, $t_bank);
+  $toss_acc       = $TossVirtualAcc->virtualAcc($t_amount, $t_orderid, $t_ordername, $t_name, $t_email, $t_bank, $customerMobilePhone);
   if ($toss_acc->code) {
     if ($resulturl == 'pc') {
-      alert("가상계좌 결제 오류 ".$t_amount. $t_orderid .$t_ordername .$t_name. $t_email .$t_bank, '/mng/shop/cart.php');
+      alert("가상계좌 결제 오류 ".$t_amount. $t_orderid .$t_ordername .$t_name. $t_email .$t_bank .$customerMobilePhone, '/mng/shop/cart.php');
     } else {
-      alert("가상계좌 결제 오류 ".$t_amount .$t_orderid .$t_ordername .$t_name .$t_email .$t_bank, BV_MSHOP_URL . '/cart.php');
+      alert("가상계좌 결제 오류 ".$t_amount .$t_orderid .$t_ordername .$t_name .$t_email .$t_bank.$customerMobilePhone, BV_MSHOP_URL . '/cart.php');
     }
   }
 
