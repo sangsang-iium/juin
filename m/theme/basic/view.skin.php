@@ -263,7 +263,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               if(sizeof($reviewTotalImgArr) > 0) {
                 foreach ($reviewTotalImgArr as $reviewImg) {
             ?>
-              <a href="" class="rv-img-item">
+              <a href="javascript:void(0);" class="rv-img-item">
                 <div class="rv-img">
                   <img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
                 </div>

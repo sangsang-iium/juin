@@ -337,12 +337,14 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       <input type="hidden" name="baesong_price" value="<?php echo $baesong_price; ?>">
       <input type="hidden" name="baesong_price2" value="0">
       <input type="hidden" name="org_price" value="<?php echo $tot_price; ?>">
+      <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
+
       <?php if (!$is_member || !$config['usepoint_yes']) { ?>
         <input type="hidden" name="use_point" value="0">
       <?php } ?>
 
       <?php
-        //if ($gs['reg_yn'] == 1) {
+        if ($gs['reg_yn'] == 1) {
       ?>
       <!-- 2024-06-03 : 정기기간 / 배송일 추가 -->
       <div class="bottomBlank">
@@ -352,7 +354,6 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               <span class="od-tit">정기기간/배송일</span>
             </button>
           </div>
-          <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
           <div class="od-ct info-list">
             <div class="info-item">
               <p class="tit">배송요일</p>
@@ -459,7 +460,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             });
         });
     </script>
-          <?php //} ?>
+          <?php } ?>
 
 
       <!-- 주문자 기본 정보 추가 _20240412_SY -->
@@ -888,7 +889,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
             }
-            if($default['de_bank_use']) {
+            if($default['de_bank_use'] && $gs['reg_yn'] == 2) {
               // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
@@ -897,7 +898,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
             }
-            if($default['de_card_use']) {
+            if($default['de_card_use'] &&  $gs['reg_yn'] == 1) {
               // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
               // $multi_settle .= "<li>\n";
               // $multi_settle .= "<div class=\"frm-choice\">\n";
@@ -1018,8 +1019,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row">이메일</th>
-                      <td><input type="text" name="customerEmail" value="" class="frm-input w-per100">
+                      <th scope="row">휴대전화</th>
+                      <td><input type="text" name="customerMobilePhone" value="" class="frm-input w-per100">
                       </td>
                     </tr>
                   </tbody>
@@ -1586,6 +1587,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   }
 
   function calculate_temp_point(val) {
+    console.log(val)
     var f = document.buyform;
     var temp_point = parseInt(no_comma(f.use_point.value));
     var sell_price = parseInt(f.org_price.value);
@@ -1645,7 +1647,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("#bank_section").show();
         $("#card_section").hide();
         $("#toss_section").hide();
-        $("input[name=use_point]").val(0);
+        // $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         calculate_order_price();
 
@@ -1659,7 +1661,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("#toss_section").show();
         $("#card_section").hide();
         $("#bank_section").hide();
-        $("input[name=use_point]").val(0);
+        // $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         $("#taxsave_section").hide();
         $("#taxbill_section").hide();
@@ -1693,7 +1695,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("#bank_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
-        $("input[name=use_point]").val(0);
+        // $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         calculate_order_price();
 

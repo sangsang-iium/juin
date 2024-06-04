@@ -41,7 +41,11 @@ if($od['od_pg'] == 'lg') {
     }
 }
 
-$stotal = get_order_spay($od_id); // 총계
+if ($reg_yn == 1) {
+	$stotal = get_order_spay2($od_id); // 총계
+} else if ($reg_yn == 2) {
+	$stotal = get_order_spay($od_id); // 총계
+}
 
 // 결제정보처리
 $app_no_subj = '';
