@@ -93,6 +93,10 @@ $income_per = ($supply_price / $goods_price) * 100;
 <input type="hidden" name="ca_id" value="">
 <input type="hidden" name="ca_id2" value="">
 <input type="hidden" name="ca_id3" value="">
+<input type="hidden" name="in_type" value="">
+<input type="hidden" name="in_per_type" value="">
+<input type="hidden" name="in_price" value="">
+<input type="hidden" name="in_per" value="" >
 <style>
 	.icon-plus {
   width: 47px;
@@ -1005,6 +1009,27 @@ $income_per = ($supply_price / $goods_price) * 100;
       $('.incomePer_tr').hide();
       $('#incomePer_sub2').hide();
       $('#incomePer_sub1').hide();
+      // 20240603_SY
+      $('#goods_price').keyup(function() {
+        let seller_code  = $('input[name=mb_id]').val();
+        let in_type      = $('input[name=in_type]').val();
+        let in_per_type  = $('input[name=in_per_type]').val();
+        let in_price     = $('input[name=in_price]').val();
+        let in_per       = $('input[name=in_per]').val();
+        let total_price  = 0;
+
+        // if(in_type == 1) {
+        //   if(in_per_type == 1) {
+        //     total_price = stringNumberToInt($('#goods_price').val()) - in_price;
+        //     $('#supply_price').val(total_price);
+        //   } else {
+        //     total_price = stringNumberToInt($('#goods_price').val()) * (1 + in_per/ 100);
+        //     $('#supply_price').val(total_price);
+        //   }
+        // } else {
+
+        // }
+      })
     }
 
     $('#income_type0').change(function() {

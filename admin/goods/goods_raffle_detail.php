@@ -89,7 +89,7 @@ if(!$pl['index_no'])
 		}
 
 		$image_str = '';
-		if(in_array($i,array(1,2))) {
+		if(in_array($i,array(1,2,3))) {
 			$image_str = ' <strong class="fc_red">[필수]</strong>';
 		}
 	?>
@@ -98,7 +98,7 @@ if(!$pl['index_no'])
 		<td>
 			<div class="item_file_fld">
 				<!-- <input type="file" name="simg<?php echo $i; ?>"> -->
-				<?php echo get_raffle_detail_ahead($pl['simg'.$i], "simg{$i}_del"); ?>
+				<?php echo get_raffle_detail_ahead($pl['simg'.$i]); ?>
 			</div>
 			<div class="item_url_fld">
 				<input type="text" name="simg<?php echo $i; ?>" value="<?php echo $pl['simg'.$i]; ?>" class="frm_input" size="80" placeholder="http://">
