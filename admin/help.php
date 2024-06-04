@@ -13,7 +13,7 @@ if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
 
 if($code == "qa")			$pg_title2 = ADMIN_MENU8_01;
 if($code == "qa_form")		$pg_title2 = ADMIN_MENU8_01;
-if($code == "leave")		$pg_title2 = ADMIN_MENU8_02;
+// if($code == "leave")		$pg_title2 = ADMIN_MENU8_02;
 if($code == "faq_group")	$pg_title2 = ADMIN_MENU8_03;
 if($code == "faq")			$pg_title2 = ADMIN_MENU8_04;
 if($code == "faq_from")		$pg_title2 = ADMIN_MENU8_04;
