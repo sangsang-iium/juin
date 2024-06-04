@@ -1,5 +1,32 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
+if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
+  print_r2($_POST);  
+}
+  // 사업자 번호 하이픈(-)추가 _20240604_SY
+  function formatBno($no) {
+    $no = preg_replace('/[^0-9]/', '', $no);
+    if (strlen($no) !== 10) {
+        return '';
+    }
+    return substr($no, 0, 3) . '-' . substr($no, 3, 2) . '-' . substr($no, 5, 5);
+  }
+
+  // 매장 주소 _20240604_SY
+  $position = strpos($_POST['DORO_ADDRESS'], '(');
+  if($position != false) {
+    $parts = explode('(', $_POST['DORO_ADDRESS']);
+    $doro1 = $parts[0];
+    $doro2 = "(".$parts[1];
+  } else {
+    $doro1 = $_POST['DORO_ADDRESS'];
+    $doro2 = "";
+  }
+
+  // 업종 SELECT _20240604_SY
+  $ju_sectors = explode('|', $config['cf_food']);
+
+
 ?>
 
 <!-- 회원정보 입력/수정 시작 { -->
@@ -20,8 +47,9 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="cert_no" value="">
 
 <input type="hidden" name="reg_type" value="1">
-<input type="hidden" name="chk_cb_res" value="<?php ($w=='') ? $_POST['chk_cb_res'] : 0?>" id="chk_cb_res">
-<input type="hidden" name="chk_bn_res" value="<?php ($w=='') ? $_POST['chk_bn_res'] : 0?>" id="chk_bn_res">
+<input type="hidden" name="chk_cb_res" value="<?php echo ($w=='') ? $_POST['chk_cb_res'] : 0?>" id="chk_cb_res">
+<input type="hidden" name="chk_bn_res" value="<?php echo ($w=='') ? $_POST['chk_bn_res'] : 0?>" id="chk_bn_res">
+<input type="hidden" name="OFFICE_NAME" value="<?php echo ($w=='') ?$_POST['OFFICE_NAME'] : "" ?>">
 
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
@@ -165,14 +193,14 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 						<div class="form-body address">
               <label for="reg_mb_zip" class="sound_only">우편번호</label>
-							<input type="tel" name="mb_zip" value="<?php echo $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호" >
+							<input type="tel" name="mb_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호" >
 							<button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
 							
-							<input type="text" name="mb_addr1" value="<?php echo get_text($member['addr1']); ?>" id="reg_mb_addr1"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_2 <?php echo $config['register_req_addr']?' required':''; ?> frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+							<input type="text" name="mb_addr1" value="<?php echo ($w == '') ? get_text($doro1) : get_text($member['addr1']); ?>" id="reg_mb_addr1"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_2 <?php echo $config['register_req_addr']?' required':''; ?> frm_address" size="60" placeholder="기본주소" autocapitalize="off">
 							<label for="reg_mb_addr1" class="sound_only">기본주소</label>
 							<input type="text" name="mb_addr2" value="<?php echo get_text($member['addr2']); ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
 							<label for="reg_mb_addr2" class="sound_only">상세주소</label>
-							<input type="text" name="mb_addr3" value="<?php echo get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
+							<input type="text" name="mb_addr3" value="<?php echo ($w == '') ? get_text($doro2) : get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
 							<label for="reg_mb_addr3" class="sound_only">참고항목</label>
 
 							<input type="hidden" name="mb_addr_jibeon" value="<?php echo get_text($member['addr_jibeon']); ?>">
@@ -184,7 +212,6 @@ if(!defined('_BLUEVATION_')) exit;
 			<!-- } 기본정보 -->
 
 			<!-- 담당자정보 _20240603 / 개인 회원가입일 경우 노출 { -->
-      <?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
 			<div class="joinDetail-box">
 				<div class="joinDetail-head">
 					<p class="joinDetail-title">담당자 등록</p>
@@ -221,6 +248,7 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 						<div class="form-body">
 							<input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="" placeholder="홍길동" readonly>
+              <input type="hidden" name="mn_idx" id="mn_idx" value="">
 						</div>
 					</div>
 					<!-- <div class="form-row">
@@ -230,8 +258,8 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-body">
 							<input type="text" name="pop_u_no" id="pop_u_no" class="frm-input w-per100" readonly value="123456789">
 						</div>
-					</div>
-					<div class="form-row">
+					</div> -->
+					<!-- <div class="form-row">
 						<div class="form-head">
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
@@ -241,12 +269,11 @@ if(!defined('_BLUEVATION_')) exit;
 					</div> -->
 				</div>
 			</div>
-      <?php } ?>
 			<!-- } 중앙회원정보 / 개인 회원가입일 경우 노출 -->
 
 			<!-- 사업자정보 { -->
-      <?php if($w != '') { ?>
-			<div class="joinDetail-box">
+      
+			<div class="joinDetail-box" id="b_area">
 				<div class="joinDetail-head">
 					<p class="joinDetail-title">사업자정보</p>
 					<!-- 개인 회원가입일 경우 노출 { -->
@@ -260,12 +287,12 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w=='') ? $_POST['b_no'] : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" <?php echo ($w != '') ? "readonly" : "" ?> >
-							<div class="joinDetail-btn-box joinDetail-btn-box3">
+							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w == '') ? formatBno($_POST['IRS_NO']) : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" readonly >              
+							<!-- <div class="joinDetail-btn-box joinDetail-btn-box3">
 								<button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
 								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
 								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
-							</div>
+							</div> -->
 						</div>
 					</div>
 
@@ -279,7 +306,7 @@ if(!defined('_BLUEVATION_')) exit;
                   <input type="text" name="<?php echo (!empty($member['ju_region2'])) ? "ju_region2" : "ju_region3" ?>" value=" <?php echo (!empty($member['ju_region2'])) ? $member['ju_region2'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
                 </div>
               </div>
-              <div class="form-row">
+              <!-- <div class="form-row">
                 <div class="form-head">
                   <p class="title">업태</p>
                 </div>
@@ -294,7 +321,7 @@ if(!defined('_BLUEVATION_')) exit;
                 <div class="form-body">
                   <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
                 </div>
-              </div>
+              </div> -->
             </div>
           <?php } ?>
 					<!-- } 사업자 회원가입일 경우 노출 -->
@@ -308,7 +335,7 @@ if(!defined('_BLUEVATION_')) exit;
 					<p class="joinDetail-title">매장정보</p>
 				</div>
 				<div class="joinDetail-body">
-					<div class="form-row">
+					<div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">매장 노출 여부<b>*</b></p>
 						</div>
@@ -334,12 +361,24 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">업종</p>
 						</div>
 						<div class="form-body">
-							<select name="" id="" class="frm-select w-per100">
+							<select name="ju_sectors" id="ju_sectors" class="frm-select w-per100">
                 <option value="">선택</option>
+                <?php foreach($ju_sectors as $key => $val) { ?> 
+                  <option value="<?php echo $val ?>"><?php echo $val ?></option>
+                <?php } ?>
               </select>
 						</div>
 					</div>
+          <!-- 매장명 추가 _20240604_SY -->
           <div class="form-row">
+            <div class="form-head">
+              <p class="title">매장명</p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="ju_restaurant" class="frm-input w-per100" value="<?php echo ($w == '') ? $_POST['MEMBER_NAME'] : $member['ju_restaurant'] ?>" readonly >
+            </div>
+          </div>
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">매장 썸네일 사진</p>
 						</div>
@@ -347,7 +386,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<input type="file" name="" id="" class="frm-file w-per100">
 						</div>
 					</div>
-          <div class="form-row">
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">매장 상세 사진</p>
 						</div>
@@ -375,7 +414,7 @@ if(!defined('_BLUEVATION_')) exit;
               </button>
 						</div>
 					</div>
-          <div class="form-row">
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">운영시간</p>
 						</div>
@@ -391,7 +430,7 @@ if(!defined('_BLUEVATION_')) exit;
               </ul>
 						</div>
 					</div>
-          <div class="form-row">
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">휴무일</p>
 						</div>
@@ -442,7 +481,7 @@ if(!defined('_BLUEVATION_')) exit;
               </ul>
 						</div>
 					</div>
-          <div class="form-row">
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">브레이크 타임</p>
 						</div>
@@ -464,12 +503,12 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 						<div class="form-body address">
               <label for="store_zip" class="sound_only">우편번호</label>
-							<input type="tel" name="store_zip" value="<?php echo $member['zip']; ?>" id="store_zip" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" >
+							<input type="tel" name="store_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="store_zip" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" >
 							<button type="button" class="ui-btn st3" onclick="execDaumPostcode2()">주소검색</button>
 							
-							<input type="text" name="store_addr1" value="" id="store_addr1" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+							<input type="text" name="store_addr1" value="<?php echo ($w == '') ? get_text($doro1) : "" ?>" id="store_addr1" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
 							<label for="store_addr1" class="sound_only">기본주소</label>
-							<input type="text" name="store_addr2" value="" id="store_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
+							<input type="text" name="store_addr2" value="<?php echo ($w == '') ? get_text($doro2) : "" ?>" id="store_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
 							<label for="store_addr2" class="sound_only">상세주소</label>
 							<input type="hidden" name="store_addr3" value="" id="store_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
 							<label for="store_addr3" class="sound_only">참고항목</label>
@@ -477,7 +516,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<input type="hidden" name="store_addr_jibeon" value="">
 						</div>
 					</div>
-          <div class="form-row">
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">매장설명</p>
 						</div>
@@ -487,7 +526,7 @@ if(!defined('_BLUEVATION_')) exit;
 					</div>
         </div>
       </div>
-      <?php } ?>
+      <?php //} ?>
       <br>
       <br>
       <br>
@@ -524,6 +563,8 @@ if(!defined('_BLUEVATION_')) exit;
 <script src="/js/postcode.v2.js"></script>
 
 <script>
+let w = $('input[name=w]').val();
+
 $(document).ready(function(){
   // 매장정보 > 매장 상세사진 추가하기
   $(".frm-file-add_btn").on('click', function(){
@@ -573,6 +614,12 @@ $(document).ready(function(){
         messageElement.text('');
     }
   });
+
+
+  // 매장정보 hide() _20240604_SY
+  if(w == '') {
+    $('.store_info').hide(); // 각 요소를 숨깁니다.
+  }
 });
 
 /** 우편번호 찾기 */
@@ -852,6 +899,7 @@ function getManager() {
           html += '<p class="pop-result-title">' + data.res[i].name + '</p>';
           html += '<p class="pop-result-text">담당자코드 : ' + data.res[i].id + '</p>';
           html += '<p class="pop-result-text">지회/지부 : ' + data.res[i].ju_region2 +'/'+ data.res[i].ju_region3 + '</p>';
+          html += '<input type="hidden" class="pop-result-text" value="'+ data.res[i].index_no +'">';
           html += '</div>';
         }
         search_resIn.innerHTML = html;
@@ -861,18 +909,19 @@ function getManager() {
           $(this).css("border", "solid");
 
           let nm     = $(this).find('.pop-result-title').text();
-          let id     = $(this).find('.pop-result-text:eq(0)').text().split(':')[1].trim();
+          let id     = $(this).find('.pop-result-text:eq(0)').text();
           let region = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
+          let idx    = $(this).find('.pop-result-text:eq(2)').val();
           
           
           // 팝업 닫기
           $('#info_ok').on('click', function() {
             $('#pop_nm').val(nm);
-            $('#pop_u_no').val(id);
-            $('#pop_b_no').val(region);
+            $('#mn_idx').val(idx);
 
             $('#popMemberSch').hide();
             $('.popDim').hide();
+            $('#pop_nm').focus();
           })
         });
       }
@@ -1158,33 +1207,33 @@ function fregisterform_submit(f)
   }
 
   // 중앙회원조회 _20240328_SY
-  if(f.w.value == "") {
-    if(chkKFIA == false) {
-      alert('중앙회원이 아닐 경우 사업자회원으로 가입하실 수 없습니다.')
-      f.b_no.focus();
-      return false;
-    }
-  }
+  // if(f.w.value == "") {
+  //   if(chkKFIA == false) {
+  //     alert('중앙회원이 아닐 경우 사업자회원으로 가입하실 수 없습니다.')
+  //     f.b_no.focus();
+  //     return false;
+  //   }
+  // }
   
   // 사업자번호 중복체크 _20240318_SY
-  if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
-    if(f.chk_bn_res.value == "0") {
-      alert('사업자등록번호 중복 확인을 해 주십시오');
-      f.b_no.select();
-      return false;
-    };
-  }
+  // if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
+  //   if(f.chk_bn_res.value == "0") {
+  //     alert('사업자등록번호 중복 확인을 해 주십시오');
+  //     f.b_no.select();
+  //     return false;
+  //   };
+  // }
 
 
   // 휴/폐업 검사 _20240227_SY
-  if((f.w.value == "") || (f.w.value == "u" && f.chk_cb_res.defaultValue != f.chk_cb_res.value)) {
-    if(f.chk_cb_res.value == '0') {
-      // 휴/폐업일때 어떤 작업 필요한지 확인 필요
-      alert('휴/폐업조회를 해 주십시오.');
-      f.b_no.select();
-      return false;
-    };
-  }
+  // if((f.w.value == "") || (f.w.value == "u" && f.chk_cb_res.defaultValue != f.chk_cb_res.value)) {
+  //   if(f.chk_cb_res.value == '0') {
+  //     // 휴/폐업일때 어떤 작업 필요한지 확인 필요
+  //     alert('휴/폐업조회를 해 주십시오.');
+  //     f.b_no.select();
+  //     return false;
+  //   };
+  // }
 
   
 	if(typeof(f.mb_recommend) != "undefined" && f.mb_recommend.value) {

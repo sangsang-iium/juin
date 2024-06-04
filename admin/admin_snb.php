@@ -232,12 +232,12 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu1('d10', '배너관리'); ?>
 		<?php //echo printMenu2('d10', ADMIN_MENU9_01, BV_ADMIN_URL.'/design.php?code=banner_list'); ?>
 		<?php echo printMenu2('d10', ADMIN_MENU9_02, BV_ADMIN_URL.'/design.php?code=mbanner_list'); ?>
-		<?php echo printMenu1('d20', '로고/페이지관리'); ?>
-		<?php echo printMenu2('d20', ADMIN_MENU9_03, BV_ADMIN_URL.'/design.php?code=logo'); ?>
-		<?php echo printMenu2('d20', ADMIN_MENU9_04, BV_ADMIN_URL.'/design.php?code=contentlist'); ?>
+		<?php //echo printMenu1('d20', '로고/페이지관리'); ?>
+		<?php //echo printMenu2('d20', ADMIN_MENU9_03, BV_ADMIN_URL.'/design.php?code=logo'); ?>
+		<?php //echo printMenu2('d20', ADMIN_MENU9_04, BV_ADMIN_URL.'/design.php?code=contentlist'); ?>
 		<?php echo printMenu1('d30', '기타관리'); ?>
 		<?php echo printMenu2('d30', ADMIN_MENU9_05, BV_ADMIN_URL.'/design.php?code=menu_form'); ?>
-		<?php echo printMenu2('d30', ADMIN_MENU9_06, BV_ADMIN_URL.'/design.php?code=best_item'); ?>
+		<?php //echo printMenu2('d30', ADMIN_MENU9_06, BV_ADMIN_URL.'/design.php?code=best_item'); ?>
 		<?php echo printMenu2('d30', ADMIN_MENU9_07, BV_ADMIN_URL.'/design.php?code=popup_list'); ?>
 	</dl>
 	<?php }
@@ -259,13 +259,13 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php //echo printMenu2('q20', ADMIN_MENU10_11, BV_ADMIN_URL.'/config.php?code=naverpay'); ?>
 		<?php echo printMenu1('q30', '배송관리'); ?>
 		<?php echo printMenu2('q30', ADMIN_MENU10_12, BV_ADMIN_URL.'/config.php?code=baesong'); ?>
-		<?php echo printMenu2('q30', ADMIN_MENU10_13, BV_ADMIN_URL.'/config.php?code=islandlist'); ?>
+		<?php //echo printMenu2('q30', ADMIN_MENU10_13, BV_ADMIN_URL.'/config.php?code=islandlist'); ?>
 		<?php echo printMenu1('q40', '보안관리'); ?>
 		<?php echo printMenu2('q40', ADMIN_MENU10_14, BV_ADMIN_URL.'/config.php?code=nicecheck'); ?>
 		<?php echo printMenu2('q40', ADMIN_MENU10_15, BV_ADMIN_URL.'/config.php?code=ipaccess'); ?>
-		<?php echo printMenu1('q50', '게시판관리'); ?>
-		<?php echo printMenu2('q50', ADMIN_MENU10_16, BV_ADMIN_URL.'/config.php?code=board_group_list'); ?>
-		<?php echo printMenu2('q50', ADMIN_MENU10_17, BV_ADMIN_URL.'/config.php?code=board_list'); ?>
+		<?php //echo printMenu1('q50', '게시판관리'); ?>
+		<?php //echo printMenu2('q50', ADMIN_MENU10_16, BV_ADMIN_URL.'/config.php?code=board_group_list'); ?>
+		<?php //echo printMenu2('q50', ADMIN_MENU10_17, BV_ADMIN_URL.'/config.php?code=board_list'); ?>
 		<?php echo printMenu1('q60', '담당자관리'); ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_18, BV_ADMIN_URL.'/config.php?code=branch'); ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_20, BV_ADMIN_URL.'/config.php?code=manager_list'); ?>

@@ -16,19 +16,20 @@ if($delivery_count) {
 	$delivery_company = implode(',', $arr_spl);
 }
 
-$delivery_mg = '';
-$delivery_mg_count = count($_POST['spl_name2']);
-if($delivery_mg_count) {
-	$arr_spl2 = array();
-	for($i=0; $i<$delivery_mg_count; $i++) {
-		$spl2_val = trim($_POST['spl_name2'][$i]);
-		$arr_spl2[] = $spl2_val;
-	}
-	$delivery_mg = implode(',', $arr_spl2);
-}
+// 주석처리함 _20240604_SY
+// $delivery_mg = '';
+// $delivery_mg_count = count($_POST['spl_name2']);
+// if($delivery_mg_count) {
+// 	$arr_spl2 = array();
+// 	for($i=0; $i<$delivery_mg_count; $i++) {
+// 		$spl2_val = trim($_POST['spl_name2'][$i]);
+// 		$arr_spl2[] = $spl2_val;
+// 	}
+// 	$delivery_mg = implode(',', $arr_spl2);
+// }
 
 unset($value);
-$value['delivery_mg']	= $delivery_mg;
+// $value['delivery_mg']	= $delivery_mg;
 $value['delivery_company']	= $delivery_company;
 $value['delivery_method']	= $_POST['delivery_method'];
 $value['delivery_price']	= conv_number($_POST['delivery_price']);

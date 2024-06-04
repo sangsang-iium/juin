@@ -888,28 +888,28 @@ $income_per = ($supply_price / $goods_price) * 100;
 	<tr>
 		<th scope="row">판매가격</th>
 		<td>
-			<input type="text" name="goods_price" id="goods_price" value="<?php echo number_format($gs['goods_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+			<input type="text" name="goods_price" id="goods_price" value="<?php echo number_format($gs['goods_price']); ?>" class="frm_input w80" onkeyup="addComma(this); zeroVal(this);"> 원
 			<span class="fc_197 marl5">실제 판매가 입력 (대표가격으로 사용)</span>
 		</td>
 	</tr>
 	<tr class="incomePer_tr" id="incomePer_sub1" style="<?php echo ($gs['income_per_type'] == 1) ? 'display:none;' : '' ?>">
 		<th scope="row">수수료(정액)</th>
 		<td>
-			<input type="text" name="income_price"  value="<?php echo ($w == 'u' && $gs['supply_type'] == '1' && $gs['income_per_type'] == '0') ? number_format($gs['supply_price']) : 0 ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+			<input type="text" name="income_price"  value="<?php echo ($w == 'u' && $gs['supply_type'] == '1' && $gs['income_per_type'] == '0') ? number_format($gs['supply_price']) : 0 ?>" class="frm_input w80" onkeyup="addComma(this); zeroVal(this);"> 원
 			<span class="fc_197 marl5">이익률</span>
 		</td>
 	</tr>
 	<tr class="incomePer_tr" id="incomePer_sub2" style="<?php echo ($gs['income_per_type'] == 0) ? 'display:none;' : '' ?>">
 		<th scope="row">수수료(정률)</th>
 		<td>
-			<input type="text" name="income_per"  value="<?php echo ($w == 'u' && $gs['income_per_type'] == '1') ? $income_per: 0 ?>" class="frm_input w80" onkeyup="addComma(this);"> %
+			<input type="text" name="income_per"  value="<?php echo ($w == 'u' && $gs['income_per_type'] == '1') ? $income_per: 0 ?>" class="frm_input w80" onkeyup="addComma(this); zeroVal(this);"> %
 			<span class="fc_197 marl5">이익률</span>
 		</td>
 	</tr>
   <tr class="supply_tr">
 		<th scope="row">매입가격</th>
 		<td>
-			<input type="text" name="supply_price" id="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+			<input type="text" name="supply_price" id="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this); zeroVal(this);"> 원
 			<span class="fc_197 marl5">사입처에서 공급받은 가격</span>
 		</td>
 	</tr>
@@ -999,6 +999,12 @@ $income_per = ($supply_price / $goods_price) * 100;
       return parseFloat(stringNumber.replace(/,/g , ''));
   }
 
+  function zeroVal(input) {
+    if (input.value.trim() === '') {
+        input.value = '0';
+    }
+  }
+
   // let income_type1   = $('.income_type1');
   // let income_type2   = $('.income_type2');
 
@@ -1011,6 +1017,7 @@ $income_per = ($supply_price / $goods_price) * 100;
       $('#incomePer_sub1').hide();
       // 20240603_SY
       $('#goods_price').keyup(function() {
+        zeroVal(this);
         let seller_code  = $('input[name=mb_id]').val();
         let in_type      = $('input[name=in_type]').val();
         let in_per_type  = $('input[name=in_per_type]').val();
@@ -1018,17 +1025,18 @@ $income_per = ($supply_price / $goods_price) * 100;
         let in_per       = $('input[name=in_per]').val();
         let total_price  = 0;
 
-        // if(in_type == 1) {
-        //   if(in_per_type == 1) {
-        //     total_price = stringNumberToInt($('#goods_price').val()) - in_price;
-        //     $('#supply_price').val(total_price);
-        //   } else {
-        //     total_price = stringNumberToInt($('#goods_price').val()) * (1 + in_per/ 100);
-        //     $('#supply_price').val(total_price);
-        //   }
-        // } else {
-
-        // }
+        if(in_type == 1) {
+          if(in_per_type == 1) {
+            total_price = stringNumberToInt($('#goods_price').val()) * (1 - in_per/ 100);
+            $('#supply_price').val(total_price.toFixed(0));
+          } else {
+            total_price = stringNumberToInt($('#goods_price').val()) - in_price;
+            $('#supply_price').val(total_price);
+          }
+        } else {
+          total_price = stringNumberToInt($('#goods_price').val()) - in_price;
+          $('#supply_price').val(total_price);
+        }
       })
     }
 
