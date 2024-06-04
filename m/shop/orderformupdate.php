@@ -577,9 +577,9 @@ function truncateString($string, $length) {
 
 if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   if ($resulturl == 'pc') {
-    goto_url(BV_URL . '/mng/shop/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid. '&tran_id=' . $tran_id);
+    goto_url(BV_URL . '/mng/shop/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid. '&tran_id=' . $tran_id.'&reg_yn='.$reg_yn );
   } else {
-    goto_url(BV_MSHOP_URL . '/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid. '&tran_id=' . $tran_id);
+    goto_url(BV_MSHOP_URL . '/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid. '&tran_id=' . $tran_id.'&reg_yn='.$reg_yn );
   }
 } else if ($_POST['paymethod'] == 'KAKAOPAY') {
   goto_url(BV_MSHOP_URL . '/orderkakaopay.php?od_id=' . $od_id);

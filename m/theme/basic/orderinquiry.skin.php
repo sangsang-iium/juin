@@ -27,14 +27,14 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           }
 
           $uid = md5($rw['od_id'].$rw['od_time'].$rw['od_ip']);
-          
+
          $dan_process =  $row['dan'];
           if($k == 0) {
       ?>
       <div class="order-info">
         <div class="order-info-box">
           <p class="order-date"><?php echo date("Y.m.d", strtotime($rw['od_time'])); ?></p>
-          <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $rw['od_id']; ?>&uid=<?php echo $uid; ?>&list=Y" class="view">
+          <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $rw['od_id']; ?>&uid=<?php echo $uid; ?>&list=Y&#38;reg_yn=<?php echo $ct['reg_yn'] ?>" class="view">
             <span>상세보기</span>
             <span><img src="/src/img/order-view-right.png" alt="상세보기"></span>
           </a>
@@ -46,7 +46,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
       <?php } ?>
       <div class="cp-orderItem">
-        <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $rw['od_id']; ?>&uid=<?php echo $uid; ?>" class="thumb round60">
+        <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $rw['od_id']; ?>&uid=<?php echo $uid; ?>&list=Y&#38;reg_yn=<?php echo $rw['reg_yn'] ?>" class="thumb round60">
           <img src="<?php echo get_it_image_url($ct['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>">
         </a>
         <div class="content">
@@ -67,7 +67,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
         <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
         <?php
-          // 환불 버튼 생성  20240527 박원주 
+          // 환불 버튼 생성  20240527 박원주
           if($dan_process=='3')
           {
             ?>
@@ -77,7 +77,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         ?>
 
 <?php
-          // 환불 버튼 생성  20240527 박원주 
+          // 환불 버튼 생성  20240527 박원주
           if($dan_process=='5')
           {
             ?>
@@ -155,7 +155,7 @@ document.querySelectorAll(".reoder-btn").forEach(btn => {
           return false;
         }
     });
-    
+
   });
 });
 
@@ -168,7 +168,7 @@ document.querySelectorAll(".return-money").forEach(btn => {
          url: "./orderinquiry_update.php",
         type: "POST",
         data: { "odId": odId,"evt":"return-money" },
-        dataType: "json", 
+        dataType: "json",
         async: false,
         cache: false,
         success: function(data, textStatus) {
@@ -176,7 +176,7 @@ document.querySelectorAll(".return-money").forEach(btn => {
           return false;
         }
     });
-    
+
   });
 });
 //교환  20240527 박원주
@@ -188,16 +188,16 @@ document.querySelectorAll(".change-product").forEach(btn => {
       url: "./orderinquiry_update.php",
         type: "POST",
         data: { "odId": odId,"evt":"change-product" },
-        dataType: "json", 
+        dataType: "json",
         async: false,
         cache: false,
         success: function(data, textStatus) {
           document.location.href = data.url;
-          
+
           return false;
         }
     });
-    
+
   });
 });
 //반품 20240527 박원주
@@ -209,15 +209,15 @@ document.querySelectorAll(".return-product").forEach(btn => {
       url: "./orderinquiry_update.php",
         type: "POST",
         data: { "odId": odId,"evt":"return-product" },
-        dataType: "json", 
+        dataType: "json",
         async: false,
         cache: false,
         success: function(data, textStatus) {
-          document.location.href = data.url; 
+          document.location.href = data.url;
           return false;
         }
     });
-    
+
   });
 });
 

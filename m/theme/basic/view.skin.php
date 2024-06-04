@@ -17,6 +17,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <input type="hidden" name="gs_id[]" value="<?php echo $gs_id; ?>">
 <input type="hidden" id="it_price" value="<?php echo get_sale_price($gs_id); ?>">
 <input type="hidden" name="ca_id" value="<?php echo $gs['ca_id']; ?>">
+<input type="hidden" name="paytype" value="<?php echo $gs['reg_yn']; ?>">
 <input type="hidden" name="sw_direct">
 
 <div id="contents" class="sub-contents prodDetail">
@@ -256,7 +257,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               .rv-img-list {overflow-x: scroll; white-space: nowrap; }
               .rv-img-list::-webkit-scrollbar { display: none; }
             </style>
-            <?php 
+            <?php
               // 상품 리뷰 이미지 전체
               $reviewTotalImgArr = reviewTotalImg($gs_id);
               if(sizeof($reviewTotalImgArr) > 0) {
@@ -268,7 +269,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                 </div>
               </a>
             <?php } } ?>
-            
+
           </div>
         </div>
         <div class="rv-body">
@@ -290,7 +291,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               </div>
             </div>
           </div>
-          
+
           <div class="rv-item-list">
             <?php echo mobile_goods_review("구매후기", $item_use_count, $gs_id); ?>
           </div>
@@ -999,7 +1000,7 @@ function reviewMore() {
     let reviewCon = $(this).find(".content_in");
     let reviewConMore = $(this).find(".cont-more-btn");
     let reviewConMax = parseInt(reviewCon.css('max-height'));
-    
+
     if(reviewCon.height() < reviewConMax) {
       reviewConMore.remove();
     }

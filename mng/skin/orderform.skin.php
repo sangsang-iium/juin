@@ -337,8 +337,8 @@ $row_card = sql_fetch($sql_card);
       <?php }?>
       <input type="hidden" name="resulturl" value="pc">
       <?php
-if ($gs['reg_yn'] == 1) {
-  ?>
+        if ($gs['reg_yn'] == 1) {
+          ?>
 
       <!-- 정기배송 주문 추가 -->
       <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
@@ -361,7 +361,7 @@ if ($gs['reg_yn'] == 1) {
               <label><input type="checkbox" name="od_wday[]" value="6" > 토</label>
             </div>
             <div class="info-item">
-              <p class="tit">배송요일</p>
+              <p class="tit">배송주기</p>
               <select name="od_week" id="od_week" require>
                 <option value="1">1주</option>
                 <option value="2">2주</option>
