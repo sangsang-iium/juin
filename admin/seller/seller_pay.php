@@ -22,14 +22,15 @@ if($sfl && $stx) {
 
 
 // 주문일 검색 수정 _20240513_SY
+// od_time → user_date 로 변경 _20240603_SY
 $time = time();
 $bf_month = date("Y-m-d",strtotime("-1 month", $time));
 $now_date = date("Y-m-d");
 if($fr_date && $to_date) {
-  $sql_search .= " and left(a.od_time,10) between '$fr_date' and '$to_date' ";
+  $sql_search .= " and left(a.user_date,10) between '$fr_date' and '$to_date' ";
 }
 if(!isset($_GET['fr_date']) && !isset($_GET['to_date'])) {
-	$sql_search .= " and left(a.od_time,10) between '$bf_month' and '$now_date' ";
+	$sql_search .= " and left(a.user_date,10) between '$bf_month' and '$now_date' ";
 }
 
 // 주문상태 검색조건 추가 _20240509_SY
@@ -94,7 +95,7 @@ EOF;
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">주문일</th>
+		<th scope="row">정산일</th>
 		<td>
 			<?php if(!isset($_GET['fr_date']) && !isset($_GET['$to_date'])) {
         echo get_search_date("fr_date", "to_date", $bf_month, $now_date);
@@ -210,7 +211,7 @@ EOF;
 					 and user_ok = '1'
            ";
 		if($fr_date && $to_date) {
-			$sql2 .= " and left(od_time,10) between '$fr_date' and '$to_date' ";
+			$sql2 .= " and left(user_date,10) between '$fr_date' and '$to_date' ";
 		} else {
       // $sql2 .= "  AND DATE(od_time) BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE() ";
     }
