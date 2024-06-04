@@ -69,10 +69,10 @@ EOF;
 		<th scope="row">노출위치</th>
 		<td>
 			<select name="sca">
-				<?php 
+				<?php
 				echo option_selected('', $sca, '전체');
 				for($i=0; $i<count($position); $i++)
-					echo option_selected($position[$i][0], $sca, $position[$i][3]); 
+					echo option_selected($position[$i][0], $sca, $position[$i][3]);
 				?>
 			</select>
 		</td>
@@ -119,9 +119,9 @@ EOF;
 		<th scope="col" rowspan="2"><?php echo subject_sort_link('bn_use',$q2); ?>노출</a></th>
 		<th scope="col" rowspan="2"><?php echo subject_sort_link('bn_order',$q2); ?>순서</a></th>
 		<th scope="col">노출위치</th>
-		<th scope="col">링크주소</th>	
-		<th scope="col">TARGET</th>	
-		<th scope="col">가로사이즈</th>	
+		<th scope="col">링크주소</th>
+		<th scope="col">TARGET</th>
+		<th scope="col">가로사이즈</th>
 		<th scope="col">세로사이즈</th>
 		<th scope="col">관리</th>
 	</tr>
@@ -132,7 +132,7 @@ EOF;
 	<tbody>
 	<?php
 	for($i=0; $row=sql_fetch_array($result); $i++) {
-		$bn_id = $row['bn_id'];		
+		$bn_id = $row['bn_id'];
 
 		$position = $gw_pbanner[$row['bn_theme']];
 		foreach($position as $key=>$value) {
@@ -158,21 +158,21 @@ EOF;
 		$bg = 'list'.($i%2);
 	?>
 	<tr class="<?php echo $bg; ?>">
-		<td rowspan="2">			
+		<td rowspan="2">
 			<input type="hidden" name="bn_id[<?php echo $i; ?>]" value="<?php echo $bn_id; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
 		<td rowspan="2"><?php echo $row['bn_code']; ?></td>
 		<td rowspan="2"><input type="checkbox" name="bn_use[<?php echo $i; ?>]" value="1" <?php echo get_checked($row['bn_use'],"1"); ?>></td>
 		<td rowspan="2"><input type="text" name="bn_order[<?php echo $i; ?>]" value="<?php echo $row['bn_order']; ?>" class="frm_input"></td>
-		<td class="tal"><?php echo $subj; ?></td>	
+		<td class="tal"><?php echo $subj; ?></td>
 		<td><input type="text" name="bn_link[<?php echo $i; ?>]" value="<?php echo $row['bn_link']; ?>" placeholder="URL" class="frm_input"></td>
 		<td>
 			<select name="bn_target[<?php echo $i; ?>]">
 				<?php echo option_selected('_self', $row['bn_target'], "현재창"); ?>
 				<?php echo option_selected('_blank', $row['bn_target'], "새창"); ?>
 			</select>
-		</td>	
+		</td>
 		<td><input type="text" name="bn_width[<?php echo $i; ?>]" value="<?php echo $row['bn_width']; ?>" class="frm_input"></td>
 		<td><input type="text" name="bn_height[<?php echo $i; ?>]" value="<?php echo $row['bn_height']; ?>" class="frm_input"></td>
 		<td><?php echo $s_upd; ?></td>
@@ -185,7 +185,7 @@ EOF;
 			<button type="button" class="btn_lsmall bx-yellow sbn_all_close">모두닫기</button>
 		</td>
 	</tr>
-	<?php 
+	<?php
 	}
 	if($i==0)
 		echo '<tbody><tr><td colspan="10" class="empty_table">자료가 없습니다.</td></tr>';
@@ -236,7 +236,7 @@ $(function(){
         $(".sbn_image").slideDown("fast");
 		$(".sbn_img_view").text("이미지닫기");
     });
-	
+
 	// 모두닫기
     $(".sbn_all_close").click(function(){
         $(".sbn_image").slideUp("fast");

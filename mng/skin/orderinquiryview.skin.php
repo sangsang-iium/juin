@@ -440,6 +440,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 			<form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquirycancel.php" onsubmit="return fcancel_check(this);">
 			<input type="hidden" name="od_id"  value="<?php echo $od_id; ?>">
 			<input type="hidden" name="token"  value="<?php echo $token; ?>">
+			<input type="hidden" name="reg_yn"  value="<?php echo $reg_yn; ?>">
 			<label for="cancel_memo">취소사유</label>
 			<input type="text" name="cancel_memo" id="cancel_memo" required class="frm_input required" size="40" maxlength="100">
 			<input type="submit" value="확인" class="btn_small">
