@@ -65,7 +65,7 @@
 /* main */
 /* 메인 팝업 배너 */
 .main-popup {position: fixed; bottom: -100%; left: 50%; transform: translateX(-50%); width: 100%; max-width: 1440px; z-index: 550; transition: 1s ease-in-out;}
-.main-popup.active {bottom: 0;}
+.main-popup.active {bottom: 80px;}
 
 .mtb-wrap {margin-top: 0; max-height: 200px; transition: .6s; overflow: hidden;}
 
@@ -125,7 +125,6 @@
 .prod-smInfo {margin-top: 2rem;}
 .prod-smInfo__head {position: relative; padding-bottom: 4rem;}
 .prod-smInfo__head .prod-tag_area {margin-bottom: 2.6rem;}
-.prod-smInfo__head .prod-tag_area.mt {margin-bottom: 0; margin-top: 2rem;}
 .prod-smInfo__head .prod-info_area .name {margin-bottom: 1.4rem;}
 .prod-smInfo__head .prod-info_area .dc-price {font-size: 2.4rem;}
 .prod-smInfo__head .prod-info_area .dc-percent {font-size: 3.2rem;}
@@ -182,7 +181,6 @@
 .prod-buy_area .dfBox {display: block;}
 .prod-buy_area .dfBox .buy-btn {display: block; width: calc(100% - 8rem); height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
 .prod-buy_area .dfBox .chat-btn {display: block; width: calc(100% - 8rem); height: 6.8rem; line-height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
-.prod-buy_area .dfBox .raffle-submit-btn {display: block; width: 100%; height: 6.8rem; line-height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
 
 .prod-buy_area .wish-btn {display: block; width: 6.8rem; height: 6.8rem; border: 0.16rem solid var(--color-gray5); border-radius: 50%; background: url('../img/wish-gray.png') no-repeat center/2.48rem auto;}
 .prod-buy_area .wish-btn.on {background-image: url("../img/wish-fill.png"); background-color: var(--color-white); border-color: var(--color-main);}
@@ -350,30 +348,11 @@
 .joinDetail-head .ui-btn.st3 {height: 6.4rem;}
 .joinDetail-body {padding-top: 2rem;}
 .joinDetail-btn-box {margin-top: 0.6rem; font-size: 0;}
-.joinDetail-btn-box .ui-btn.st3 {display: inline-block; vertical-align: middle; width: calc((100% - 0.8rem) / 2); font-size: 1.8rem; padding: 0 1rem;}
+.joinDetail-btn-box .ui-btn.st3 {display: inline-block; vertical-align: middle; width: calc((100% - 0.8rem) / 2);}
 .joinDetail-btn-box .ui-btn.st3 ~ .ui-btn.st3 {margin-left: 0.8rem;}
 .joinDetail-btn-box.joinDetail-btn-box3 .ui-btn.st3 {width: calc((100% - 1.6rem) / 3);}
 .mb-leave_btn {font-size: 2rem; font-weight: 400; color: var(--color-gray3);}
 .mb-leave_btn img {width: 0.9rem; margin: -3px 0 0 0.8rem; vertical-align: middle;}
-.form-file_box > li {display: none; margin-bottom: 1rem;}
-.form-file_box > li.view {display: block;}
-.frm-file-add_btn {height: 5.6rem; padding: 0 2.8rem; font-size: 1.8rem; font-weight: 500; border-radius: 0.8rem;}
-.form-inline.time {gap: 1rem;}
-.form-inline.time > li:not(.time_mid_txt) {width: 15rem;}
-.form-inline.time .time_mid_txt {font-size: 1.8rem; line-height: 5.6rem;}
-.ui-timepicker-standard {}
-.ui-timepicker-standard a {font-size: 1.8rem;}
-.form-inline.yoil {gap: 1rem 1.5rem;}
-.form-inline.yoil .frm-choice {margin-top: 0;}
-.form-inline.yoil .frm-choice input[type='checkbox'] + label {padding-left: 2.7rem; font-size: 2rem;}
-.form-inline.yoil .frm-choice input[type='checkbox'] + label:before {width: 2.2rem; height: 2.2rem;}
-.store-txtar {padding: 1rem; height: 20rem;}
-
-.joinDetail-box.type2 {overflow: hidden; border-radius: 1rem; margin-top: 2rem; padding: 0; border: 1px solid #ddd; background-color: #fff;}
-.joinDetail-box.type2 .joinDetail-body {padding-top: 0;}
-.joinDetail-box.type2 .form-head {margin-bottom: 0; padding: 0.5rem; background-color: var(--color-main); text-align: center;}
-.joinDetail-box.type2 .form-head .title {color: #fff;}
-.joinDetail-box.type2 .form-body {padding: 2rem;}
 
 /* > 회원가입 - 가입완료 */
 #contents.joinComplete {padding-top: 6.68rem;}
@@ -499,7 +478,7 @@
 
 .od-userInfo {margin-top: 4rem; padding: 2.8rem 3.2rem; font-size: 2rem; font-weight: 300; color: var(--color-gray2); background-color: var(--color-gray8); line-height: 1.4;}
 
-#guest_privacy .tbl_head01 th, 
+#guest_privacy .tbl_head01 th,
 #guest_privacy .tbl_head01 td {font-size: 2rem;}
 
 #buyform .btn_confirm {position: fixed; bottom: 0; left: 0; z-index: 100; margin: 0; padding: 1.6rem 0; border-radius: 2rem 2rem 0 0; background-color: #fff; width: 100%; box-shadow: 0 0 3.2rem rgba(0,0,0,0.1);}
@@ -891,50 +870,11 @@
 .raffle-prod_list {margin-top: 2rem;}
 .raffle-prod_list .cp-item ~ .cp-item {margin-top: 5rem;}
 
-/*  === 인트로 === */
-.intro {padding: 2.12rem 0 2.4rem;}
-.intro-top {padding-bottom: 3.2rem;}
-.intro-top-text-box {background: url('/src/img/intro-top-bg.png') no-repeat center right; background-size: 15rem;}
-.intro-top-title {font-weight: 700; font-size: 4rem; color: #222; line-height: 1.38; position: relative;}
-.intro-top-title span {display: inline-block; width: 12.92rem; font-size: 0; position: absolute; bottom: 1.2rem; left: 11rem;}
-.intro-top-text {font-weight: 400; font-size: 1.92rem; color: #999; line-height: 1.333; padding-top: 3.36rem;}
-
-.intro-btn-list {display: flex; gap: 1.92rem;}
-.intro-btn-list:first-child {padding-bottom: 1.92rem;}
-.intro-btn {display: flex; height: 28.44rem; flex-direction: column; padding: 2.12rem 1.48rem;}
-.intro-btn.left-btn {border-radius: 0 40px 40px 0;}
-.intro-btn.right-btn {border-radius: 40px 0 0 40px;}
-
-.intro-btn .text-box {}
-.intro-btn .text-box .text01 {font-weight: 800; font-size: 2.84rem; color: #222; line-height: 1.18;}
-.intro-btn .text-box .text02 {font-weight: 400; font-size: 1.52rem; color: #636363; line-height: 1.3; padding-top: 0.4rem;}
-.intro-btn .icon {display: flex; align-items: center; justify-content: center; height: calc(100% - 2.68rem);}
-
-.intro-btn01 {background: url('/src/img/icon-intro-btn01-bg.png') no-repeat center/cover; width: calc(60% - 0.96rem);}
-.intro-btn02 {background: url('/src/img/icon-intro-btn02-bg.png') no-repeat center/cover; width: calc(40% - 0.96rem);}
-.intro-btn03 {background: url('/src/img/icon-intro-btn03-bg.png') no-repeat center/cover; width: calc(45% - 0.96rem);}
-.intro-btn04 {background: url('/src/img/icon-intro-btn04-bg.png') no-repeat center/cover; width: calc(55% - 0.96rem);}
-
-.intro-btn01 .icon img {width: 14.6rem;}
-.intro-btn02 .icon img {width: 9.6rem;}
-.intro-btn03 .icon img {width: 7.56rem;}
-.intro-btn04 .icon img {width: 8rem;}
-
-.intro-bottom-wrap {padding-top: 3.6rem;}
-.intro-bottom-btn-box {display: flex; gap: 0.32rem; align-items: center;}
-.intro-bottom-btn-box .home-btn {display: flex; align-items: center; justify-content: center; background-color: var(--color-main); border-radius: 0.8rem; width: 8.04rem; height: 6.8rem;}
-.intro-bottom-btn-box .home-btn img {width: 5.6rem;}
-.intro-bottom-btn-box .login-btn {display: flex; width: calc(100% - 8.36rem); height: 6.8rem; background-color: #222; gap: 1.2rem; font-weight: 700; font-size: 2.32rem; color: #fff; border-radius: 0.8rem; align-items: center; justify-content: center; margin-top: 0;}
-.intro-bottom-btn-box .login-btn img {width: 2.72rem;}
-
-.intro-bottom-text {text-align: center; font-weight: 400; font-size: 2rem; color: #999; padding-top: 2.4rem;}
-.intro-bottom-text a {color: #222; text-decoration: underline;}
-
 /*  === 2024-06-03 추가 === */
 .info-item {align-items: center;}
 .info-item ~ .info-item {margin-top: 1rem;}
 .info-list {}
-.info-list .check-wr {display: flex; flex-flow: row wrap; align-items: flex-start; justify-content: flex-start; gap: 2rem;}
+.info-list .check-wr {display: flex; flex-flow: row wrap; align-items: flex-start; justify-content: flex-start; gap: 0.6rem;}
 
 .cart-regular-tab {display: flex; align-items: center; gap: 1.6rem;}
 .cart-regular-tab .regular-tab-item {width: calc((100% - 1.4rem) / 2);}

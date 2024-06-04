@@ -1,5 +1,6 @@
 <?php
 if (!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
+include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 
 require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 ?>
@@ -94,6 +95,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   #sod_frm_pay .sod_frm_pay_ul {display: flex; flex-flow: row wrap; gap: 10px 20px;}
   #sod_frm .odf_tbl table tbody td,
   #sod_frm .odf_tbl table tbody th {font-size: 1.8rem; border: 1px solid #ddd}
+  .frm-choice {margin-right: 16px;}
 </style>
 
 <div id="contents" class="sub-contents prodOrder">
@@ -339,6 +341,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         <input type="hidden" name="use_point" value="0">
       <?php } ?>
 
+      <?php
+        //if ($gs['reg_yn'] == 1) {
+      ?>
       <!-- 2024-06-03 : 정기기간 / 배송일 추가 -->
       <div class="bottomBlank">
         <div class="container">
@@ -347,33 +352,33 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               <span class="od-tit">정기기간/배송일</span>
             </button>
           </div>
-
+          <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
           <div class="od-ct info-list">
             <div class="info-item">
               <p class="tit">배송요일</p>
-              <div class="check-wr">
+              <div class="check-wr" style="display: flex;flex-direction: row;">
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk1" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk1" value="1">
                   <label for="chk1">월</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk2" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk2" value="2">
                   <label for="chk2">화</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk3" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk3" value="3">
                   <label for="chk3">수</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk4" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk4" value="4">
                   <label for="chk4">목</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk5" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk5" value="5">
                   <label for="chk5">금</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk6" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk6" value="6">
                   <label for="chk6">토</label>
                 </div>
               </div>
@@ -381,34 +386,81 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             <div class="info-item">
               <p class="tit">배송주기</p>
               <div class="select-wr">
-                <select name="" id="" class="frm-select">
-                  <option value="">1주마다 배송</option>
-                  <option value="">2주마다 배송</option>
-                  <option value="">3주마다 배송</option>
-                  <option value="">4주마다 배송</option>
+                <select name="od_week" id="od_week" class="frm-select">
+                  <option value="1">1주마다 배송</option>
+                  <option value="2">2주마다 배송</option>
+                  <option value="3">3주마다 배송</option>
+                  <option value="4">4주마다 배송</option>
                 </select>
               </div>
             </div>
             <div class="info-item">
               <p class="tit">배송횟수</p>
               <div class="select-wr">
-                <select name="" id="" class="frm-select">
-                  <option value="">2회</option>
-                  <option value="">4회</option>
-                  <option value="">6회</option>
-                  <option value="">8회</option>
-                  <option value="">10회</option>
-                  <option value="">12회</option>
+                <select name="od_reg_cnt" id="od_reg_cnt" class="frm-select">
+                  <option value="2">2회</option>
+                  <option value="4">4회</option>
+                  <option value="6">6회</option>
+                  <option value="8">8회</option>
+                  <option value="10">10회</option>
+                  <option value="12">12회</option>
                 </select>
               </div>
             </div>
             <div class="info-item">
               <p class="tit">첫 배송 시점</p>
-              <input type="date" class="frm-input" value="2024-06-03">
+              <input type="text" id="od_begin_date" name="od_begin_date" class="frm-input" value="2024-06-03">
             </div>
           </div>
         </div>
       </div>
+
+       <script>
+        $(function() {
+            function getSelectedWeekdays() {
+                var selectedWeekdays = [];
+                $('input[name^="od_wday"]:checked').each(function() {
+                    selectedWeekdays.push(parseInt($(this).val()));
+                });
+                return selectedWeekdays;
+            }
+
+            $('#od_begin_date').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy-mm-dd",
+                showButtonPanel: true,
+                yearRange: "-99:+99",
+                minDate: 0,
+                beforeShowDay: function(date) {
+                    var day = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+                    var selectedWeekdays = getSelectedWeekdays();
+                    if (selectedWeekdays.length === 0) {
+                        return [false, "", "배송요일을 선택하세요"]; // 요일이 선택되지 않은 경우
+                    }
+                    var currentDate = new Date();
+                    var daysDifference = (date - currentDate) / (1000 * 60 * 60 * 24);
+
+                      // 3일 이내의 날짜는 선택할 수 없도록 설정
+                    var isSelectable = selectedWeekdays.includes(day) && daysDifference > 3;
+                    return [isSelectable, "", isSelectable ? "" : "3일 이후의 날짜를 선택하세요"];
+                },
+                onSelect: function(selectedDate) {
+                    var currentDate = $.datepicker.formatDate('yy-mm-dd', new Date());
+                    if (selectedDate < currentDate) {
+                        alert('미래 날짜만 선택할 수 있습니다.');
+                        $('#od_begin_date').val('');
+                    }
+                }
+            });
+
+            $('input[name="od_wday[]"]').change(function() {
+                $('#od_begin_date').datepicker('refresh'); // 요일 선택 시 Datepicker 갱신
+            });
+        });
+    </script>
+          <?php //} ?>
+
 
       <!-- 주문자 기본 정보 추가 _20240412_SY -->
       <div class="bottomBlank">

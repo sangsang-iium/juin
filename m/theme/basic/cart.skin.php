@@ -1,5 +1,6 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
+
 ?>
 
 <!-- 장바구니 시작 { -->
@@ -16,16 +17,16 @@ if(!defined('_BLUEVATION_')) exit;
       <!-- 2024-06-03 :  일반/정기 배송 탭 -->
       <div class="cart-regular-tab">
         <div class="regular-tab-item">
-          <button class="tab-btn normal" type="button">
+          <a href="/m/shop/cart.php?paytype=2" class="tab-btn <?php echo $paytype == "2" ? "regular" : "normal" ?>">
             <span><img src="/src/img/icon-tab-normal.png" alt="일반배송"></span>
             <span>일반</span>
-          </button>
+          </a>
         </div>
         <div class="regular-tab-item">
-          <button class="tab-btn regular" type="button">
+          <a href="/m/shop/cart.php?paytype=1" class="tab-btn <?php echo $paytype == "1" ? "regular" : "normal" ?>">
             <span><img src="/src/img/icon-tab-regular.png" alt="정기배송"></span>
             <span>정기</span>
-          </button>
+          </a>
         </div>
       </div>
       <!-- 2024-06-03 : 주문 금액 프로세스 바 -->
@@ -75,7 +76,7 @@ if(!defined('_BLUEVATION_')) exit;
           $gs = get_goods($row['gs_id']);
 
           // 합계금액 계산
-          $sql = " select 
+          $sql = " select
                   SUM(IF(io_type = 1, (io_price * ct_qty),((io_price + ct_price) * ct_qty))) as price,
                   SUM(IF(io_type = 1, (0),(ct_point * ct_qty))) as point,
                   SUM(IF(io_type = 1, (0),(ct_qty))) as qty,
@@ -120,12 +121,12 @@ if(!defined('_BLUEVATION_')) exit;
                   <?php if($it_options) { ?>
                   <div class="sod_opt"><?php echo $it_options; ?></div>
                   <?php } ?>
-                  <span class="total_img"><?php echo get_it_image($row['gs_id'], $gs['simg1'], 80, 80); ?></span> 
+                  <span class="total_img"><?php echo get_it_image($row['gs_id'], $gs['simg1'], 80, 80); ?></span>
           <div class="li_mod" style="padding-left:100px;">
             <?php if($it_options) { ?>
             <button type="button" id="mod_opt_<?php echo $row['gs_id']; ?>" class="mod_btn mod_options">옵션변경/추가</button>
             <?php } ?>
-          </div>				
+          </div>
               </div>
               <div class="li_prqty">
                   <span class="prqty_price li_prqty_sp"><span>판매가</span>
@@ -159,7 +160,7 @@ if(!defined('_BLUEVATION_')) exit;
           <div class="cp-cart-body">
             <div class="thumb round60">
               <img src="<?php echo get_it_image_url($row['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
-              
+
             </div>
             <div class="content">
               <div class="count">
@@ -179,7 +180,7 @@ if(!defined('_BLUEVATION_')) exit;
             </div>
           </div>
         </div>
-        <?php 
+        <?php
           $tot_point		+= $point;
           $tot_sell_price += $sell_price;
           $tot_opt_price	+= $sell_opt_price;
@@ -189,7 +190,7 @@ if(!defined('_BLUEVATION_')) exit;
           if(!$is_member) {
             $tot_point = 0;
           }
-        } // for 
+        } // for
 
         // 배송비 검사
         $send_cost = 0;
@@ -293,7 +294,7 @@ if(!defined('_BLUEVATION_')) exit;
           <p class="price">
             <?php echo display_price2($tot_price); ?>
             <span class="txt"> 구매하기</span>
-          </p> 
+          </p>
         </button>
         <!-- <div><button type="button" onclick="return form_check('seldelete');" class="btn01">선택삭제</button>
         <button type="button" onclick="return form_check('alldelete');" class="btn01">비우기</button></div> -->
@@ -318,7 +319,8 @@ $(function() {
 
         $.post(
             "./cartoption.php",
-            { gs_id: gs_id },
+            // { gs_id: gs_id },
+            { gs_id: gs_id, paytype: <?php echo $paytype?> },
             function(data) {
                 $("#mod_option_frm").remove();
                 $this.after("<div id=\"mod_option_frm\" class=\"layer-bg\"></div>");
@@ -398,7 +400,7 @@ function remove_cartItem(e) {
   form.method = 'POST';
   form.action = bv_url + '/m/shop/cartupdate.php';
 
-  
+
   var actInput = document.createElement('input');
   actInput.type = 'hidden';
   actInput.name = 'act';
@@ -411,7 +413,7 @@ function remove_cartItem(e) {
   indexNoInput.value = e;
   form.appendChild(indexNoInput);
 
-  
+
   document.body.appendChild(form);
   form.submit();
 
