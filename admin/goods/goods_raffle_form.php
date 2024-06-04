@@ -126,7 +126,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		}
 
 		$image_str = '';
-		if(in_array($i,array(1,2))) {
+		if(in_array($i,array(1,2,3))) {
 			$image_str = ' <strong class="fc_red">[필수]</strong>';
 		}
 	?>
@@ -187,7 +187,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		}
 	}
 
-	$("#event_start_date,#event_end_date,#prize_date,#prize_start_date,#prize_end_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99"});
+	$("#event_start_date,#event_end_date,#prize_date,#prize_start_date,#prize_end_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99",minDate: 0 });
 
 	chk_simg_type("<?php echo $pl['simg_type']; ?>");
 	

@@ -212,12 +212,28 @@ EOF;
 		<th scope="row">선택한 주문을</th>
 		<td>
 			<input type="submit" name="act_button" value="배송준비" class="btn_medium red" onclick="document.pressed=this.value">
+
+			
+			작업중---
+			<input type="button" name="act_button" value="전체환불" class="btn_lsmall white" onclick="fn_return_money(this)"> 
+			
+			<input type="button" name="act_button" value="전체반품" class="btn_lsmall white" onclick="fn_return_goods(this)"> 
+			
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
 </form>
+<script>
+	var frm = $("#forderlist").serialize();
+function fn_return_money(a1){ 
+	console.log(frm);
+}
+function fn_return_goods(a1){
+	console.log(frm);
+}
+</script>
 
 <?php
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');

@@ -183,35 +183,27 @@ if(!defined('_BLUEVATION_')) exit;
 			</div>
 			<!-- } 기본정보 -->
 
-			<!-- 중앙회원정보 / 개인 회원가입일 경우 노출 { -->
-			<!-- <div class="joinDetail-box"> -->
-				<!-- <div class="joinDetail-head">
-					<p class="joinDetail-title">중앙회원정보</p>
-					<button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">중앙회원 조회하기</button> -->
-					<!-- 중앙회원 조회하기 팝업 { -->
-          <!-- <div class="popup type01" id="popMemberSch">
+			<!-- 담당자정보 _20240603 / 개인 회원가입일 경우 노출 { -->
+      <?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+			<div class="joinDetail-box">
+				<div class="joinDetail-head">
+					<p class="joinDetail-title">담당자 등록</p>
+					<button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">담당자 조회하기</button>
+					<!-- 담당자 조회하기 팝업 { -->
+          <div class="popup type01" id="popMemberSch">
             <div class="pop-inner">
               <div class="pop-top">
-                <p class="tit">중앙회원 조회하기</p>
+                <p class="tit">담당자 조회하기</p>
               </div>
 							<div class="pop-search input-button">
-								<input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="고유번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-								<button type="button" class="ui-btn st3" onclick="getKFIAMember()">회원조회</button>
+								<input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="담당자 코드를 입력해주세요.">
+								<button type="button" class="ui-btn st3" onclick="getManager()">조회</button>
 							</div>
               <div class="pop-content line">
                 <div class="pop-content-in" style="height: 500px;">
-                  <div class="pop-result"> -->
-                    <!-- <div class="pop-result-item">
-                      <p class="pop-result-title">회원이름영역</p>
-                      <p class="pop-result-text">고유번호 : 22012617052419</p>
-                      <p class="pop-result-text">사업자등록번호 : 000-00-00000</p>
-                    </div>
-                    <div class="pop-result-item">
-                      <p class="pop-result-title">회원이름영역</p>
-                      <p class="pop-result-text">고유번호 : 22012617052419</p>
-                      <p class="pop-result-text">사업자등록번호 : 000-00-00000</p>
-                    </div> -->
-                  <!-- </div>
+                  <div class="pop-result">
+                    <!-- 검색 결과 나올 곳 _20240603_SY -->
+                  </div>
                 </div>
               </div>
               <div class="pop-btm">
@@ -219,19 +211,19 @@ if(!defined('_BLUEVATION_')) exit;
                 <button type="button" class="ui-btn round stWhite close">취소</button>
               </div>
             </div>
-          </div> -->
-					<!-- } 중앙회원 조회하기 팝업 -->
-				<!-- </div> -->
-				<!-- <div class="joinDetail-body">
+          </div>
+					<!-- } 담당자 조회하기 팝업 -->
+				</div>
+				<div class="joinDetail-body">
 					<div class="form-row">
 						<div class="form-head">
-							<p class="title">이름<b>*</b></p>
+							<p class="title">담당자<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" readonly value="홍길동">
+							<input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="" placeholder="홍길동" readonly>
 						</div>
 					</div>
-					<div class="form-row">
+					<!-- <div class="form-row">
 						<div class="form-head">
 							<p class="title">고유번호<b>*</b></p>
 						</div>
@@ -246,9 +238,10 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-body">
 							<input type="text" name="pop_b_no" id="pop_b_no" class="frm-input w-per100" readonly value="123-45-67890">
 						</div>
-					</div>
+					</div> -->
 				</div>
-			</div> -->
+			</div>
+      <?php } ?>
 			<!-- } 중앙회원정보 / 개인 회원가입일 경우 노출 -->
 
 			<!-- 사업자정보 { -->
@@ -837,51 +830,58 @@ function phoneNumber(value) {
   return result.filter((val) => val).join("-");
 }
 
-// 외식업중앙회원 조회하기 _20240227_SY
-// function getKFIAMember() {
-//   let search_input = document.querySelector('#KFIA_search');
-//   let search_words = search_input.value;
+// 담당자 조회하기 _20240603_SY
+function getManager() {
+  let search_input = document.querySelector('#KFIA_search');
+  let search_words = search_input.value;
 
-//   let search_resIn = document.querySelector('.pop-result');
+  let search_resIn = document.querySelector('.pop-result');
   
-//   if(search_words.length > 0) {
-//     $.ajax({
-//       url: bv_url+"/m/bbs/ajax.KFIA_info.php",
-//       type: "POST",
-//       data: { "b_num" : search_words },
-//       dataType: "JSON",
-//       success: function(data) {
-//         console.log(data)
-//         let html = '';
+  if(search_words.length > 0) {
+    $.ajax({
+      url: bv_url+"/m/bbs/ajax.getManager.php",
+      type: "POST",
+      data: { "mcode" : search_words },
+      dataType: "JSON",
+      success: function(data) {
+        console.log(data)
+        let html = '';
 
-//         for(let i=0; i<data.res.length; i++) {
-//           html += '<div class="pop-result-item">';
-//           html += '<p class="pop-result-title">' + data.res[i].nm + '</p>';
-//           html += '<p class="pop-result-text">고유번호 : ' + data.res[i].u_no + '</p>';
-//           html += '<p class="pop-result-text">사업자등록번호 : ' + data.res[i].b_no + '</p>';
-//           html += '</div>';
-//         }
-//         search_resIn.innerHTML = html;
+        for(let i=0; i<data.res.length; i++) {
+          html += '<div class="pop-result-item">';
+          html += '<p class="pop-result-title">' + data.res[i].name + '</p>';
+          html += '<p class="pop-result-text">담당자코드 : ' + data.res[i].id + '</p>';
+          html += '<p class="pop-result-text">지회/지부 : ' + data.res[i].ju_region2 +'/'+ data.res[i].ju_region3 + '</p>';
+          html += '</div>';
+        }
+        search_resIn.innerHTML = html;
         
-//         $('.pop-result').on('click', '.pop-result-item', function() {  
-//           let nm   = $(this).find('.pop-result-title').text();
-//           let u_no = $(this).find('.pop-result-text:eq(0)').text().split(':')[1].trim();
-//           let b_no = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
-          
-//           $('#pop_nm').val(nm);
-//           $('#pop_u_no').val(u_no);
-//           $('#pop_b_no').val(b_no);
+        $('.pop-result').on('click', '.pop-result-item', function() {  
+          $('.pop-result-item').css("border", "");
+          $(this).css("border", "solid");
 
-//           $('#b_no').val(b_no);
+          let nm     = $(this).find('.pop-result-title').text();
+          let id     = $(this).find('.pop-result-text:eq(0)').text().split(':')[1].trim();
+          let region = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
           
-//           // 팝업 닫기 필요
-//         });
-//       }
-//     });
-//   } else {
-//     return false;
-//   }
-// }
+          
+          // 팝업 닫기
+          $('#info_ok').on('click', function() {
+            $('#pop_nm').val(nm);
+            $('#pop_u_no').val(id);
+            $('#pop_b_no').val(region);
+
+            $('#popMemberSch').hide();
+            $('.popDim').hide();
+          })
+        });
+      }
+    });
+
+  } else {
+    return false;
+  }
+}
 
 
 

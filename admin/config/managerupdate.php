@@ -33,17 +33,32 @@ $auth_idx = $_POST['auth_idx'];
 $now = date('Y-m-d H:i:s');
 
 // 권한
-$auth_sql = " SELECT * FROM authorization WHERE auth_idx = '$auth_idx' ";
+$auth_sql = "SELECT * FROM authorization WHERE auth_idx = '$auth_idx'";
 $auth_res = sql_fetch($auth_sql);
 
-$menuArr  = str_replace(',','',$auth_res['auth_menu']);
-$menuArr  = explode("ADMIN_MENU", $menuArr);
+$menuArr = str_replace(',', '', $auth_res['auth_menu']);
+$menuArr = explode("ADMIN_MENU", $menuArr);
 
-foreach($menuArr as $key => $val) {
-  if(!empty($val)) {
-    $ins_data["auth_{$val}"] = 1;
-  }
+$menuArr = array_map('trim', $menuArr); // 배열 요소의 앞뒤 공백 제거
+
+// 기본값 설정
+$upd_data = [];
+foreach (range(1, 10) as $i) {
+    $upd_data["auth_{$i}"] = 0;
 }
+
+// $menuArr의 값들에 대해 업데이트
+foreach ($menuArr as $val) {
+    if (!empty($val) && is_numeric($val)) {
+        $key = "auth_{$val}";
+        if ($w == '') {
+            $ins_data[$key] = 1;
+        } else {
+            $upd_data[$key] = 1;
+        }
+    }
+}
+
 
 // 지역 코드 
 $region_sql = " SELECT kf_code FROM kfia_region

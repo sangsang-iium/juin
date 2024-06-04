@@ -64,7 +64,7 @@ $auth_res = sql_query($auth_sql);
     <td>
       <select name="auth_idx" id="auth_idx">
         <?php while($authArr = sql_fetch_array($auth_res)) { ?>
-          <option value="<?php echo $authArr['auth_idx']; ?>" <?php ($result['auth_idx'] == $authArr['auth_idx']) ? "selected" : "" ?> ><?php echo $authArr['auth_title'] ?></option>
+          <option value="<?php echo $authArr['auth_idx']; ?>" <?php echo ($result['auth_idx'] == $authArr['auth_idx']) ? "selected" : "" ?> ><?php echo $authArr['auth_title'] ?></option>
         <?php } ?>
       </select>
     </td>
