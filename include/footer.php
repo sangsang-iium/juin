@@ -26,15 +26,16 @@
   <li><a href="<?php echo BV_MBBS_URL;?>/logout.php">로그아웃</a></li>
   <?php } else { ?>
   <li><a href="<?php echo BV_MBBS_URL;?>/login.php">로그인</a></li>
-  <li><a href="<?php echo BV_MBBS_URL;?>/register.php">회원가입</a></li>
+  <li><a href="<?php echo BV_MBBS_URL;?>/register_type.php">회원가입</a></li>
   <?php } ?>
   <li><a href="<?php echo BV_MSHOP_URL;?>/mypage.php">마이페이지</a></li>
   <li><a href="<?php echo BV_MSHOP_URL;?>/cart.php">장바구니</a></li>
   <li><a href="<?php echo BV_MSHOP_URL;?>/orderinquiry.php">주문/배송조회</a></li>
   <li><a href="<?php echo BV_MBBS_URL;?>/faq.php?faqcate=1">고객센터</a></li>
-  <li><a href="/m/used/list.php">중고장터</a></li>
-  <li><a href="/m/store/list.php">회원사현황</a></li>
-  <li><a href="/m/service/list.php">제휴서비스</a></li>
+  <li><a href="/m/raffle/list.php?menu=raffle">중고장터</a></li>
+  <li><a href="/m/used/list.php?menu=used">중고장터</a></li>
+  <li><a href="/m/store/list.php?menu=store">회원사현황</a></li>
+  <li><a href="/m/service/list.php?menu=service">제휴서비스</a></li>
   <li><a href="/m/shop/introjuin.php">인트로</a></li>
 </ul>
 <?php //} ?>
