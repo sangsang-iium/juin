@@ -62,15 +62,14 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               </div>
             </div>
           </div>
-          
-          <?php if ($_SERVER['REMOTE_ADDR']=="106.247.231.170") { ?>
+
           <?php if($_GET['type'] == '1') { ?>
           <!-- 사업자 회원가입일 경우 노출 { -->
           <input type="hidden" name="w" value="<?php echo $w; ?>">
           <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
           <input type="hidden" name="chk_cb_res" value="0" id="chk_cb_res">
           <input type="hidden" name="chk_bn_res" value="0" id="chk_bn_res">
-          
+
           <div class="joinDetail-box type2">
             <div class="joinDetail-body">
               <div class="form-row">
@@ -87,7 +86,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             </div>
           </div>
           <!-- } 사업자 회원가입일 경우 노출 -->
-          <?php } ?>
           <?php } ?>
 
 					<div class="cp-btnbar">
@@ -137,10 +135,10 @@ function chkDuBnum(kfiaMsg) {
 let b_num = '';
 function chkClosed(kfiaMsg, bNumMsg) {
   b_num = document.querySelector('#b_no').value;
-  
+
   let b_stt_cd = "";
   let end_dt   = "";
-  
+
   if(b_num.length > 0) {
     $.ajax({
         url: bv_url+"/m/bbs/ajax.closed_check.php",
@@ -186,11 +184,11 @@ function getKFIAMember() {
         } else {
           console.log(res.data);
           // alert(`조회 성공 : ${res.data.MEMBER_NAME}`)
-          
+
           Object.entries(res.data).forEach(([key, value]) => {
             form.append(`<input type="hidden" name="${key}" value="${value}">`);
           });
-          
+
           chkKFIA = true;
           chkDuBnum(`조회 성공 : ${res.data.MEMBER_NAME}`);
         }
@@ -204,7 +202,7 @@ function getKFIAMember() {
 
 function telPass() {
   <?php if($config['cf_cert_use'] && $config['cf_cert_hp']) { ?>
-	
+
     if(!cert_confirm())
       return false;
 
@@ -257,7 +255,7 @@ function fregisterform_submit(f)
       return false;
     }
   }
-  
+
   // 사업자번호 중복체크 _20240318_SY
   if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
     if(f.chk_bn_res.value == "0") {

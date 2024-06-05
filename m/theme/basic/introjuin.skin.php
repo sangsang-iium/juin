@@ -22,7 +22,7 @@ include_once "./_head.php";
 
 	<div class="container intro-btn-wrap">
 		<div class="intro-btn-list">
-      <a href="" class="intro-btn left-btn intro-btn01">
+      <a href="/" class="intro-btn left-btn intro-btn01">
         <div class="text-box">
           <p class="text01">장보기</p>
           <p class="text02">장사에 필요한 식자재 고민 해결</p>
@@ -31,7 +31,7 @@ include_once "./_head.php";
           <img src="/src/img/icon-intro-btn01.png" alt="">
         </div>
       </a>
-      <a href="" class="intro-btn right-btn intro-btn02">
+      <a href="/m/raffle/list.php?menu=used" class="intro-btn right-btn intro-btn02">
         <div class="text-box">
           <p class="text01">중고장터</p>
           <p class="text02">저렴하게 누리는 중고장터</p>
@@ -51,7 +51,7 @@ include_once "./_head.php";
           <img src="/src/img/icon-intro-btn03.png" alt="">
         </div>
       </a>
-      <a href="" class="intro-btn right-btn intro-btn04">
+      <a href="/m/service/list.php?menu=service" class="intro-btn right-btn intro-btn04">
         <div class="text-box">
           <p class="text01">제휴서비스</p>
           <p class="text02">제휴서비스를 통한 다양한 혜택</p>
@@ -73,7 +73,7 @@ include_once "./_head.php";
         <span>로그인</span>
       </a>
     </div>
-    <p class="intro-bottom-text">아직 주인장 계정이 없으신가요? <a href="<?php echo BV_MBBS_URL;?>/register.php">회원가입</a></p>
+    <p class="intro-bottom-text">아직 주인장 계정이 없으신가요? <a href="<?php echo BV_MBBS_URL;?>/register_type.php">회원가입</a></p>
   </div>
 
 </div>
