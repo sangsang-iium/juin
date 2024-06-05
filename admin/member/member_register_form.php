@@ -58,7 +58,7 @@ if(!defined('_BLUEVATION_')) exit;
 		<th scope="row"><label for="reg_mb_hp">휴대폰번호</label></th>
 		<td>
 			<input type="text" name="mb_hp" id="reg_mb_hp" class="frm_input w400" size="20" maxlength="20">
-			<div class="checks marl10">
+			<div class="checks mart10">
 				<label><input type="checkbox" name="mb_sms" value="Y" checked="checked"> 휴대폰 문자메세지를 받겠습니다.</label>
 			</div>
 		</td>
@@ -67,7 +67,7 @@ if(!defined('_BLUEVATION_')) exit;
 		<th scope="row"><label for="reg_mb_email">E-mail</label></th>
 		<td>
 			<input type="text" name="mb_email" id="reg_mb_email" required class="frm_input required w400" size="40" maxlength="100">
-			<div class="checks marl10">
+			<div class="checks mart10">
 				<label><input type="checkbox" name="mb_mailling" value="Y" id="reg_mb_mailling" checked="checked"> 정보 메일을 받겠습니다.</label>
 			</div>
 		</td>

@@ -8,22 +8,22 @@ include_once(BV_ADMIN_PATH.'/goods/goods_sub.php');
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
-	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
-	<span class="ov_a">
+<div class="local_ov mart30 fs18 line_search">
+	<p>전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회</p>
+	<div class="chk_select">
 		<select id="page_rows" onchange="location='<?php echo "{$_SERVER['SCRIPT_NAME']}?{$q1}&page=1"; ?>&page_rows='+this.value;">
 			<?php echo option_selected('30',  $page_rows, '30줄 정렬'); ?>
 			<?php echo option_selected('50',  $page_rows, '50줄 정렬'); ?>
 			<?php echo option_selected('100', $page_rows, '100줄 정렬'); ?>
 			<?php echo option_selected('150', $page_rows, '150줄 정렬'); ?>
 		</select>
-	</span>
+	</div>
 </div>
 <div class="local_frm01">
 	<?php echo $btn_frmline; ?>
 </div>
 
-<div class="tbl_head02">
+<div class="tbl_head01">
 	<table id="sodr_list" class="tablef">
 	<colgroup>
 		<col class="w50">
@@ -32,8 +32,8 @@ include_once(BV_ADMIN_PATH.'/goods/goods_sub.php');
 		<col class="w120">
 		<col>
 		<col>
-		<col class="w80">
-		<col class="w80">
+		<col class="w120">
+		<col class="w100">
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
@@ -45,12 +45,12 @@ include_once(BV_ADMIN_PATH.'/goods/goods_sub.php');
 	<tr>
 		<th scope="col" rowspan="2"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
 		<th scope="col" rowspan="2">번호</th>
-		<th scope="col" rowspan="2">이미지</th>
+		<th scope="col" rowspan="2" class="bd_none">이미지</th>
 		<th scope="col"><?php echo subject_sort_link('gcode',$q2); ?>상품코드</a></th>
 		<th scope="col" colspan="2"><?php echo subject_sort_link('gname',$q2); ?>상품명</a></th>
 		<th scope="col"><?php echo subject_sort_link('reg_time',$q2); ?>최초등록일</a></th>
 		<th scope="col"><?php echo subject_sort_link('isopen',$q2); ?>진열</a></th>
-		<th scope="col" colspan="4" class="th_bg">가격정보</th>
+		<th scope="col" colspan="4" class="th_bg bd_none">가격정보</th>
 		<th scope="col" rowspan="2"><?php echo subject_sort_link('rank',$q2); ?>순위</a></th>
 		<th scope="col" rowspan="2">관리</th>
 	</tr>

@@ -60,7 +60,7 @@ kakao.maps.event.addListener(map, 'idle', function() {
     var latlng = map.getCenter();
     user_lat = latlng.getLat();
     user_lng = latlng.getLng();
-    console.log(user_lat+'/'+user_lng)
+    //console.log(user_lat+'/'+user_lng)
 });
 
 
@@ -80,7 +80,6 @@ kakao.maps.event.addListener(map, 'idle', function() {
         img: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'
     },
 ];*/
-var positions = [];
 var markers = [];
 function addMarker(positions){
     hideMarkers();
@@ -93,10 +92,9 @@ function addMarker(positions){
         var markerImage = new kakao.maps.MarkerImage(positions[i].img, imageSize); 
         // 마커를 생성합니다
         var marker = new kakao.maps.Marker({
-            position : positions[i].latlng,
+            position : new kakao.maps.LatLng(positions[i].lat, positions[i].lng),
             title : positions[i].title,
-            image : markerImage,
-            url : positions[i].url
+            image : markerImage
         });
         
         markers.push(marker);
@@ -120,12 +118,27 @@ function hideMarkers() {
 
 
 
-function getStoreList(cate){
+function getStoreList(){
     //지도중심이동
     var moveLatLon = new kakao.maps.LatLng(user_lat, user_lng);
     map.setCenter(moveLatLon);
     
     $.post("ajax.get_store_list.php", {lat:user_lat, lng:user_lng, cate:cate}, function(obj){
+        var data = JSON.parse(obj);
+        $(".store-prod_list").html(data['slist']);
+        var positions = data['positions'];
+        addMarker(positions);
+        
+        /*var titles = data['title'].split("|");
+        var lats = data['lat'].split("|");
+        var lngs = data['lng'].split("|");
+        var imgs = data['img'].split("|");
+        positions = [];
+        for(var i = 0;i < titles.length;i++){
+            
+        }*/
+        console.log(data['positions'])
+        
         
         reEvent();
     });
@@ -154,26 +167,26 @@ $(document).ready(function(){
         user_lat = position.coords.latitude;
         user_lng = position.coords.longitude;
         
-        getStoreList(cate);
+        getStoreList();
     }
 
     function errorCallback(error) {
         //alert("Error: " + error.message);
-        getStoreList(cate);
+        getStoreList();
     }
 
-    //navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
     $(".swiper-slide").click(function(){
         cate = $(this).data("id");
         $(".swiper-slide").removeClass("active");
         $(this).addClass("active");
         
-        getStoreList(cate);
+        getStoreList();
     });
 
     $(".current_position").click(function(){
-        getStoreList(cate);
+        getStoreList();
     });   
 });
 </script>

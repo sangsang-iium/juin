@@ -52,7 +52,7 @@ ol.onum li, .onum li {list-style-type:decimal}
 
 fieldset {padding:0px;margin:0px;border:0px;}
 legend{display:none;}
-
+label, input, button, textarea, select{vertical-align: baseline;}
 img {border:0px;vertical-align:middle;}
 img.button {cursor:pointer;}
 button.imgBtn {padding:0px;margin:0px;border:0px;cursor:pointer;}

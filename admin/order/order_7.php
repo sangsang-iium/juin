@@ -118,6 +118,7 @@ EOF;
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
+		<col class="w90">
 	</colgroup>
 	<thead>
 	<tr>
@@ -132,6 +133,7 @@ EOF;
 		<th scope="col">주문자</th>
 		<th scope="col">총주문액</th>
 		<th scope="col">결제방법</th>
+		<th scope="col">반품상태</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -177,6 +179,9 @@ EOF;
 		</td>
 		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>">
+			<?php echo $row['dan2']!='0'? $gw_status[$row2['dan2']]:""; ?>
+		</td>
 		<?php } ?>
 	<?php
 		}
@@ -193,6 +198,31 @@ EOF;
 </div>
 </form>
 
+
+<h2>주문 일괄처리</h2>
+<div class="tbl_frm01">
+	<table>
+	<colgroup>
+		<col class="w100">
+		<col>
+	</colgroup>
+	<tbody>
+	<tr>
+		<th scope="row">선택한 주문을</th>
+		<td>
+			<input type="button"  id="return_goods"  name="act_button" value="반품완료 처리" class="btn_medium red">
+
+			
+			
+			<!-- <input type="submit" name="act_button" value="전체환불" class="btn_lsmall white" onclick="document.pressed=this.value">
+			
+			<input type="submit" name="act_button" value="전체반품" class="btn_lsmall white" onclick="document.pressed=this.value"> -->
+			
+		</td>
+	</tr>
+	</tbody>
+	</table>
+</div>
 <?php
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
 ?>
@@ -242,5 +272,38 @@ $(function(){
 			}
 		}
 	});
+
+	$("#return_goods").on("click", function() {
+		console.log("return_goods")
+		var type = $(this).attr("id");
+		var od_chk = new Array();
+		var od_id = "";
+		var $el_chk = $("input[name='chk[]']");
+		
+
+		$el_chk.each(function(index) {
+			if($(this).is(":checked")) {
+				od_chk.push($("input[name='od_id["+index+"]']").val());
+			}
+		});
+
+		console.log(type,od_chk,od_id);
+
+		if(od_chk.length > 0) {
+			od_id = od_chk.join();
+		}
+
+		if(od_id == "") {
+			alert("처리할 자료를 하나 이상 선택해 주십시오.");
+			return false;
+		} else {
+			if(type == 'return_goods') {
+				var url = "./order/order_return_money.php?code=7&od_id="+od_id; 
+				window.location.href=url;
+				return false;
+			}  
+		}
+	});
+
 });
 </script>

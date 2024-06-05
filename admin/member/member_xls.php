@@ -24,12 +24,10 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">파일 업로드</th>
 		<td>
-        <ul class="file_wrap">
-            <li>
+            <div class="file_wrap">
                 <label for="excelfile" class="hide">파일선택</label>
                 <input type="file" name="excelfile" class="uploadBtn">
-            </li>
-        </ul>    
+            </div>
         </td>
 	</tr>
 	</tbody>

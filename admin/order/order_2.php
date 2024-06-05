@@ -214,10 +214,10 @@ EOF;
 			<input type="submit" name="act_button" value="배송준비" class="btn_medium red" onclick="document.pressed=this.value">
 
 			
-			작업중---
-			<input type="button" name="act_button" value="전체환불" class="btn_lsmall white" onclick="fn_return_money(this)"> 
 			
-			<input type="button" name="act_button" value="전체반품" class="btn_lsmall white" onclick="fn_return_goods(this)"> 
+			<!-- <input type="submit" name="act_button" value="전체환불" class="btn_lsmall white" onclick="document.pressed=this.value">
+			
+			<input type="submit" name="act_button" value="전체반품" class="btn_lsmall white" onclick="document.pressed=this.value"> -->
 			
 		</td>
 	</tr>
@@ -226,12 +226,18 @@ EOF;
 </div>
 </form>
 <script>
-	var frm = $("#forderlist").serialize();
-function fn_return_money(a1){ 
-	console.log(frm);
+	
+function fn_return_money(){ 
+	var frm = $("#forderlist");
+	frm.prop("action","/admin/orderstatusupdate.php?code=2");
+	//frm.action="/admin/orderstatusupdate.php"; 
+	frm.submit(); 
 }
-function fn_return_goods(a1){
-	console.log(frm);
+function fn_return_goods(){
+	var frm = $("#forderlist");
+	frm.prop("action","/admin/orderstatusupdate.php?code=2");
+	//frm.action="/admin/orderstatusupdate.php"; 
+	frm.submit(); 
 }
 </script>
 
@@ -318,6 +324,10 @@ $(function(){
 <script>
 function forderlist_submit(f)
 {
+	if(document.pressed=="전체환불"||document.pressed=="전체반품"){
+		fn_return_money();
+		return false;
+	}
     if(!is_checked("chk[]")) {
         alert(document.pressed+" 하실 항목을 하나 이상 선택하세요.");
         return false;

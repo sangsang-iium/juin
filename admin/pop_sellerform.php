@@ -21,8 +21,9 @@ $sr = get_seller($mb_id);
 	<section class="new_win_desc marb50">
 
 	<?php echo mb_pg_anchor($mb_id); ?>
-
-	<h3 class="anc_tit">사업자정보</h3>
+    <p class="gap40"></p>
+	<h5 class="htag_title">사업자정보</h5>
+    <p class="gap20"></p>
 	<div class="tbl_frm01">
 		<table class="tablef">
 		<colgroup>
@@ -34,16 +35,20 @@ $sr = get_seller($mb_id);
 		<tbody>
 		<tr>
 			<th scope="row">입점 승인상태</th>
-			<td class="td_label">
-				<?php echo radio_checked('state', $sr['state'], '1', '승인'); ?>
-				<?php echo radio_checked('state', $sr['state'], '0', '대기'); ?>
+			<td>
+                <div class="radio_group">
+                    <?php echo radio_checked('state', $sr['state'], '1', '승인'); ?>
+                    <?php echo radio_checked('state', $sr['state'], '0', '대기'); ?>
+                </div>
 			</td>
 			<th scope="row">전체 상품진열</th>
-			<td class="td_label">
-				<?php echo radio_checked('seller_open', $sr['seller_open'], '1', '진열'); ?>
-				<?php echo radio_checked('seller_open', $sr['seller_open'], '2', '품절'); ?>
-				<?php echo radio_checked('seller_open', $sr['seller_open'], '3', '단종'); ?>
-				<?php echo radio_checked('seller_open', $sr['seller_open'], '4', '중지'); ?>
+			<td>
+                <div class="radio_group">
+                    <?php echo radio_checked('seller_open', $sr['seller_open'], '1', '진열'); ?>
+                    <?php echo radio_checked('seller_open', $sr['seller_open'], '2', '품절'); ?>
+                    <?php echo radio_checked('seller_open', $sr['seller_open'], '3', '단종'); ?>
+                    <?php echo radio_checked('seller_open', $sr['seller_open'], '4', '중지'); ?>
+                </div>
 			</td>
 		</tr>
 		<tr>
@@ -73,11 +78,20 @@ $sr = get_seller($mb_id);
 		<tr>
 			<th scope="row">사업장주소</th>
 			<td colspan="3">
-				<input type="text" name="company_zip" value="<?php echo $sr['company_zip']; ?>" class="frm_input" size="8" maxlength="5"> <a href="javascript:win_zip('fsellerform', 'company_zip', 'company_addr1', 'company_addr2', 'company_addr3', 'company_addr_jibeon');" class="btn_small grey">주소검색</a>
-				<p class="mart5"><input type="text" name="company_addr1" value="<?php echo $sr['company_addr1']; ?>" class="frm_input" size="60"> 기본주소</p>
-				<p class="mart5"><input type="text" name="company_addr2" value="<?php echo $sr['company_addr2']; ?>" class="frm_input" size="60"> 상세주소</p>
-				<p class="mart5"><input type="text" name="company_addr3" value="<?php echo $sr['company_addr3']; ?>" class="frm_input" size="60"> 참고항목
-				<input type="hidden" name="company_addr_jibeon" value="<?php echo $sr['company_addr_jibeon']; ?>"></p>
+                <div class="write_address">
+                    <div class="file_wrap address">
+                        <input type="text" name="company_zip" value="<?php echo $sr['company_zip']; ?>" class="frm_input" size="8" maxlength="5"> 
+                        <a href="javascript:win_zip('fsellerform', 'company_zip', 'company_addr1', 'company_addr2', 'company_addr3', 'company_addr_jibeon');" class="btn_file">주소검색</a>
+                    </div>
+                    <div class="addressMore">
+                        <!-- 기본주소 -->
+                        <input type="text" name="company_addr1" value="<?php echo $sr['company_addr1']; ?>" class="frm_input frm_address" size="60"> 
+                        <!-- 상세주소 -->
+                        <input type="text" name="company_addr2" value="<?php echo $sr['company_addr2']; ?>" class="frm_input frm_address" size="60">
+                    </div>
+                    <input type="text" name="company_addr3" value="<?php echo $sr['company_addr3']; ?>" class="frm_input frm_address" size="60">
+                    <input type="hidden" name="company_addr_jibeon" value="<?php echo $sr['company_addr_jibeon']; ?>">
+                </div>
 			</td>
 		</tr>
 		<tr>
@@ -93,7 +107,9 @@ $sr = get_seller($mb_id);
 	</div>
 
 <!-- 정산방식 추가 _20240508_SY -->
-<h3 class="anc_tit mart30">정산방식</h3>
+<p class="gap50"></p>
+<h5 class="htag_title">정산방식</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
   <table>
     <colgroup>
@@ -104,10 +120,16 @@ $sr = get_seller($mb_id);
       <tr>
         <th scope="row">정산방식</th>
         <td>
-          <input type="radio" name="income_type" value="0" id="income_type1" <?php echo get_checked('0', $sr['income_type']); ?>>
-          <label for="income_type1" class="marr10">매입가 정산 지급</label>
-          <input type="radio" name="income_type" value="1" id="income_type2"<?php echo get_checked('1', $sr['income_type']); ?> >
-          <label for="income_type2" class="marr10">수수료 정산 지급</label>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="income_type" value="0" id="income_type1" <?php echo get_checked('0', $sr['income_type']); ?>>
+                    <label for="income_type1" class="marr10">매입가 정산 지급</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="income_type" value="1" id="income_type2"<?php echo get_checked('1', $sr['income_type']); ?> >
+                    <label for="income_type2" class="marr10">수수료 정산 지급</label>
+                </li>
+            </ul>
         </td>
       </tr>
       <?php
@@ -139,8 +161,9 @@ $sr = get_seller($mb_id);
     </tbody>
   </table>
 </div>
-
-	<h3 class="anc_tit mart30">정산계좌 정보</h3>
+    <p class="gap50"></p>
+	<h5 class="htag_title">정산계좌 정보</h5>
+    <p class="gap20"></p>
 	<div class="tbl_frm01">
 		<table class="tablef">
 		<colgroup>
@@ -170,8 +193,9 @@ $sr = get_seller($mb_id);
 		</tbody>
 		</table>
 	</div>
-
-	<h3 class="anc_tit mart30">담당자 정보</h3>
+    <p class="gap50"></p>
+	<h5 class="htag_title">담당자 정보</h5>
+    <p class="gap20"></p>
 	<div class="tbl_frm01">
 		<table class="tablef">
 		<colgroup>

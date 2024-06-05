@@ -4,25 +4,31 @@ if(!defined('_BLUEVATION_')) exit;
 
 <header id="hd">
 	<div id="hd_wrap">
-		<h1>
-            <span><?php echo $config['shop_name']; ?></span>
-            <a href="<?php echo BV_ADMIN_URL; ?>/" id="logo">
-                <img src="<?php echo BV_ADMIN_URL; ?>/img/images/common/juin_logo.png" alt="<?php echo $config['shop_name']; ?> 관리자">
-            </a>
-        </h1>
+		<h1><?php echo $config['shop_name']; ?></h1>
+		<div id="logo"><a href="<?php echo BV_ADMIN_URL; ?>/"><img src="<?php echo BV_ADMIN_URL; ?>/img/logo.gif" alt="<?php echo $config['shop_name']; ?> 관리자"></a></div>
+		<div id="tnb">
+			<ul>
+				<li><?php echo $super['vi_history']; ?></li>
+				<li><a href="<?php echo BV_ADMIN_URL; ?>/config.php?code=super">관리자정보</a></li>
+				<li><a href="<?php echo BV_ADMIN_URL; ?>/">관리자홈</a></li>
+				<li><a href="<?php echo BV_URL; ?>" target="_blank">쇼핑몰</a></li>
+				<li id="tnb_logout"><a href="<?php echo BV_BBS_URL; ?>/logout.php">로그아웃</a></li>
+			</ul>
+		</div>
+
 		<nav id="gnb">
 			<h2>관리자 주메뉴</h2>
 			<ul id="gnb_1dul">
-                <?php echo getMenuFunc("ADMIN_MENU1",  "member",   "list"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU3",  "seller",   "list"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU4",  "category", "list"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU5",  "goods",    "list"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU6",  "order",    "list"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU7",  "visit",    "regmonth"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU8",  "help",     "qa"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU9",  "design",   "banner_list"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU11", "used",     "list"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU10", "config",   "default"); ?>
+      <?php echo getMenuFunc("ADMIN_MENU1",  "member",   "list"); ?>
+      <?php echo getMenuFunc("ADMIN_MENU3",  "seller",   "list"); ?>
+      <?php echo getMenuFunc("ADMIN_MENU4",  "category", "list"); ?>
+      <?php echo getMenuFunc("ADMIN_MENU5",  "goods",    "list"); ?>
+      <?php echo getMenuFunc("ADMIN_MENU6",  "order",    "list"); ?>
+      <?php echo getMenuFunc("ADMIN_MENU7",  "visit",    "regmonth"); ?>
+      <?php echo getMenuFunc("ADMIN_MENU8",  "help",     "qa"); ?>
+      <?php echo getMenuFunc("ADMIN_MENU9",  "design",   "banner_list"); ?>
+      <?php echo getMenuFunc("ADMIN_MENU11", "used",     "list"); ?>
+      <?php echo getMenuFunc("ADMIN_MENU10", "config",   "default"); ?>
 
 				<!-- <li class="gnb_1dli<?php if($pg_title == ADMIN_MENU1){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=list" class="gnb_1da"><?php echo ADMIN_MENU1; ?></a>
@@ -64,16 +70,7 @@ if(!defined('_BLUEVATION_')) exit;
 				</li>
 			</ul>
 		</nav>
-    </div>
-    <div id="tnb">
-        <ul>
-            <!-- <li><?php echo $super['vi_history']; ?></li> -->
-            <li><a href="<?php echo BV_ADMIN_URL; ?>/config.php?code=super">관리자정보</a></li>
-            <li><a href="<?php echo BV_ADMIN_URL; ?>/">관리자홈</a></li>
-            <li><a href="<?php echo BV_URL; ?>" target="_blank">쇼핑몰</a></li>
-            <li id="tnb_logout"><a href="<?php echo BV_BBS_URL; ?>/logout.php">로그아웃</a></li>
-        </ul>
-    </div>
+	</div>
 </header>
 <div id="wrapper">
 	<?php

@@ -32,33 +32,38 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
-<input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
-	<table>
-	<colgroup>
-		<col class="w100">
-		<col>
-	</colgroup>
-	<tbody>
-	<tr>
-		<th scope="row">검색어</th>
-		<td>
-			<select name="sfl">
-				<?php echo option_selected('mb_id', $sfl, '아이디'); ?>
-				<?php echo option_selected('mb_name', $sfl, '회원명'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">	
-</div>
+    <input type="hidden" name="code" value="<?php echo $code; ?>">
+    <div class="board_table">
+        <table>
+            <colgroup>
+                <col style="width:220px;">
+                <col style="width:auto">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th scope="row">검색어</th>
+                    <td>
+                        <div class="tel_input">
+                            <div class="chk_select w200">
+                                <select name="sfl">
+                                    <?php echo option_selected('mb_id', $sfl, '아이디'); ?>
+                                    <?php echo option_selected('mb_name', $sfl, '회원명'); ?>
+                                </select>
+                            </div>
+                            <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="btn_confirm">
+        <input type="submit" value="검색" class="btn_medium">
+        <input type="button" value="초기화" id="frmRest" class="btn_medium grey">	
+    </div>
 </form>
 
 <form name="fleavelist" id="fleavelist" method="post" action="./help/help_leave_delete.php" onsubmit="return fleavelist_submit(this);">
@@ -75,10 +80,10 @@ EOF;
 	<table>
 	<colgroup>
 		<col class="w50">
-		<col class="w50">
-		<col class="w130">
-		<col class="w130">
-		<col class="w130">
+		<col class="w100">
+		<col class="w200">
+		<col class="w200">
+		<col class="w300">
 		<col>		
 	</colgroup>
 	<thead>
@@ -105,10 +110,10 @@ EOF;
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>" id="chk_<?php echo $i; ?>">
 		</td>
 		<td><?php echo $num--; ?></td>
-		<td class="tal"><?php echo $row['mb_name']; ?></td>
-		<td class="tal"><?php echo $row['mb_id']; ?></td>
+		<td><?php echo $row['mb_name']; ?></td>
+		<td><?php echo $row['mb_id']; ?></td>
 		<td><?php echo $row['reg_time']; ?></td>
-		<td class="tal">
+		<td>
 			<?php
 			if($row['memo']=='기타' && $row['other'])
 				echo get_text($row['other']);

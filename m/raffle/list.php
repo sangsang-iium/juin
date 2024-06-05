@@ -35,7 +35,7 @@ $raffleList = raffleList();
         <!-- 자료 없을때 -->
           <p class="empty_list">자료가 없습니다.</p>
         <!-- 자료 없을때 -->
-        <?php } else { 
+        <?php } else {
           foreach ($raffleList as $raffleVal) {
             $per = round(($raffleVal['raffle_price'] / $raffleVal['market_price']) * 100);
           ?>
@@ -68,7 +68,7 @@ $raffleList = raffleList();
             </div>
           </div>
 
-        <?php } 
+        <?php }
         }
         ?>
         <!-- loop { -->

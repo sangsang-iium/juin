@@ -35,24 +35,38 @@ EOF;
 
 <h5 class="htag_title">기본검색</h5>
 <p class="gap20"></p>
-<div class="board_selecter">
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-	<div class="boardSearch">
+<div class="board_table">
+	<table>
+	<colgroup>
+		<col style="width:220px;">
+		<col style="width:auto">
+	</colgroup>
+	<tbody>
+	<tr>
+		<th scope="row">검색어</th>
+		<td>
+            <div class="tel_input">
+                <div class="chk_select w200">
         <select name="sfl" id="sfl">
             <option value="ma_subject" checked>제목</option>
         </select>
-        <div class="boardSearch_input">
-            <label for="stx" class="sound_only">검색어</label>
-            <input type="text" name="stx" value="<?php echo $stx; ?>" id="stx" class="frm_input" size="30">
-	        <input type="submit" value="검색" class="btn_medium">
         </div>
-	</div>
-<!-- <div class="btn_confirm">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
-</div> -->
-</form>
+        <label for="stx" class="sound_only">검색어</label>
+        <input type="text" name="stx" value="<?php echo $stx; ?>" id="stx" class="frm_input" size="30">
+        </div>
+    </td>
+</tr>
+</tbody>
+</table>
+<div class="board_btns tac mart20">
+    <div class="btn_wrap btn_type">
+        <input type="submit" value="검색" class="btn_acc marr10">
+        <input type="button" value="초기화" id="frmRest" class="btn_cen">
+    </div>
 </div>
+</form>
 
 
 <form name="fmaillist" id="fmaillist" method="post" action="./member/member_mail_list_delete.php" onsubmit="return fmaillist_submit(this);">
