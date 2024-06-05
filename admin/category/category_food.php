@@ -2,7 +2,9 @@
 if(!defined('_BLUEVATION_')) exit;
 ?>
 
-<h2>음식점 카테고리 관리</h2>
+<p class="gap30"></p>
+<h5 class="htag_title">음식점 카테고리 관리</h5>
+<p class="gap20"></p>
 <form name="fcategoryform" method="post" action="./category/category_update2.php">
 <input type="hidden" name="code" value="food">
 <div class="tbl_frm01">

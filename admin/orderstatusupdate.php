@@ -1,10 +1,6 @@
 <?php
 include_once "./_common.php";
 
-check_demo();
-
-check_admin_token();
-
 $chk_count = count($_POST['chk']);
 if (!$chk_count) {
   alert('처리할 자료를 하나 이상 선택해 주십시오.');
@@ -22,24 +18,12 @@ $od_cancel_change       = 0;
 for ($i = 0; $i < $chk_count; $i++) {
   // 실제 번호를 넘김
   $k              = $_POST['chk'][$i];
-  $od_no          = $_POST['od_no'][$k];
-  $change_status  = $_POST['change_status'][$k];
-  $current_status = $_POST['current_status'][$k];
-  $delivery       = trim($_POST['delivery'][$k]);
-  $delivery_no    = trim($_POST['delivery_no'][$k]);
+  $od_no          = $_POST['od_no'][$k];  
 
-  if ($_POST['act_button'] == '입금대기') {
-    $change_status = 1;
-  }
-
-  if ($_POST['act_button'] == '입금완료') {
-    $change_status = 2;
-  }
-
-  if ($_POST['act_button'] == '주문취소') {
-    $change_status = 6;
-  }
-
+//   echo $_POST['act_button'];
+//   echo "<br/>";
+//   echo $od_no; 
+//   echo "<br/>";
   if ($_POST['act_button'] == '전체반품') {
     $change_status = 7;
   }
@@ -48,108 +32,19 @@ for ($i = 0; $i < $chk_count; $i++) {
     $change_status = 9;
   }
 
-  switch ($change_status) {
-    case '1': // 입금대기
-      if ($current_status != 2) {
-        continue;
-      }
-
-      change_order_status_1($od_no);
-      break;
-    case '2': // 입금완료
-      if ($current_status != 1) {
-        continue;
-      }
-
-      change_order_status_2($od_no);
-      $od_sms_ipgum_check++;
-      break;
-    case '3': // 배송준비
-      if ($current_status != 2) {
-        continue;
-      }
-
-      change_order_status_3($od_no, $delivery, $delivery_no);
-      break;
-    case '4': // 배송중
-      if ($current_status != 3) {
-        continue;
-      }
-
-      change_order_status_4($od_no, $delivery, $delivery_no);
-      $od_sms_baesong_check++;
-      break;
-    case '5': // 배송완료
-      if (!in_array($current_status, array(3, 4))) {
-        continue;
-      }
-
-      change_order_status_5($od_no);
-      $od_sms_delivered_check++;
-      break;
-    case '6': // 취소
-      if ($current_status != 1) {
-        continue;
-      }
-
-      change_order_status_6($od_no);
-      $od_sms_cancel_check++;
-      $od_cancel_change++;
-      break;
+  switch ($change_status) { 
     case '7': // 반품
-      if ($current_status != 5) {
-        continue;
-      }
-
       change_order_status_7($od_no);
       $od_cancel_change++;
-      break;
-    case '8': // 교환
-      if ($current_status != 5) {
-        continue;
-      }
-
-      change_order_status_8($od_no);
-      break;
-
-    case '10': // 반품 -> 반품완료 
-      change_order_status_10($od_no);
-      break;
-
-    case '9': // 환불
-      if (!in_array($current_status, array(2, 3))) {
-        continue;
-      }
-
+      break; 
+    case '9': // 환불 
       change_order_status_9($od_no);
       $od_sms_cancel_check++;
       $od_cancel_change++;
       break;
   }
 }
-//------------------------------------------------------------------------------
-
-//==============================================================================
-// 문자전송
-//------------------------------------------------------------------------------
-if ($od_sms_ipgum_check) {
-  icode_order_sms_send($pt_id, $od_hp, $od_id, 3);
-}
-// 입금완료 문자
-
-if ($od_sms_baesong_check) {
-  icode_order_sms_send($pt_id, $od_hp, $od_id, 4);
-}
-// 배송중 문자
-
-if ($od_sms_delivered_check) {
-  icode_order_sms_send($pt_id, $od_hp, $od_id, 6);
-}
-// 배송완료 문자
-
-if ($od_sms_cancel_check) {
-  icode_order_sms_send($pt_id, $od_hp, $od_id, 5);
-}
+ 
 // 주문취소 문자
 //------------------------------------------------------------------------------
 
@@ -166,6 +61,7 @@ if ($od_cancel_change) {
 					SUM(use_price) as od_receipt_price
 			   from shop_order
 			  where od_id = '$od_id' ";
+
   $row = sql_fetch($sql);
 
   if ($row['od_count1'] == $row['od_count2']) {
@@ -365,12 +261,12 @@ if ($mod_history) { // 주문변경 히스토리 기록
   sql_query($sql);
 }
 
-$url = BV_ADMIN_URL . "/pop_orderform.php?od_id=$od_id";
+$url = "/admin/order.php?code=".$code;
 
 // 신용카드 취소 때 오류가 있으면 알림
 if ($pg_res_cd && $pg_res_msg) {
   alert('오류코드 : ' . $pg_res_cd . ' 오류내용 : ' . $pg_res_msg, $url);
 }
-
+//echo $url;
 goto_url($url);
 ?>

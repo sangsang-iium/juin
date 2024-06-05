@@ -5,7 +5,9 @@ if(!defined('_BLUEVATION_')) exit;
 <form name="fregform" method="post" onsubmit="return fregform_submit(this);">
 <input type="hidden" name="token" value="">
 
-<h2>사업자 정보</h2>
+<p class="gap30"></p>
+<h5 class="htag_title">사업자 정보</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table class="tablef">
 	<colgroup>
@@ -18,9 +20,12 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">회원선택</th>
 		<td colspan="3">
-			<input type="text" name="mb_id" class="required frm_input" readonly value="" style="width: 200px;">
-
-			<a href="./seller/seller_reglist.php" onclick="win_open(this,'seller_reglist','550','500','1'); return false" class="btn_small grey">선택</a>
+            <div class="write_address">
+                <div class="file_wrap address">
+                    <input type="text" name="mb_id" class="required frm_input w200" readonly value="">
+                    <a href="./seller/seller_reglist.php" onclick="win_open(this,'seller_reglist','550','500','1'); return false" class="btn_file">선택</a>
+                </div>
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -50,11 +55,20 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">사업장주소</th>
 		<td colspan="3">
-			<p><input type="text" name="company_zip" class="frm_input" size="8" maxlength="5"> <a href="javascript:win_zip('fregform', 'company_zip', 'company_addr1', 'company_addr2', 'company_addr3', 'company_addr_jibeon');" class="btn_small grey">주소검색</a></p>
-			<p class="mart3"><input type="text" name="company_addr1" class="frm_input" size="60"> 기본주소</p>
-			<p class="mart3"><input type="text" name="company_addr2" class="frm_input" size="60"> 상세주소</p>
-			<p class="mart3"><input type="text" name="company_addr3" class="frm_input" size="60"> 참고항목
-			<input type="hidden" name="company_addr_jibeon" value=""></p>
+            <div class="write_address">
+                <div class="file_wrap address">
+                    <input type="text" name="company_zip" class="frm_input" size="8" maxlength="5"> 
+                    <a href="javascript:win_zip('fregform', 'company_zip', 'company_addr1', 'company_addr2', 'company_addr3', 'company_addr_jibeon');" class="btn_file">주소검색</a>
+                </div>
+                <div class="addressMore mart5">
+                    <input type="text" name="company_addr1" class="frm_input" size="60">
+                    <input type="text" name="company_addr2" class="frm_input" size="60">
+                </div>
+                <div class="mart5">
+                    <input type="text" name="company_addr3 mart5" class="frm_input" size="60">
+                    <input type="hidden" name="company_addr_jibeon" value=""></p>
+                </div>
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -66,7 +80,9 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 
 <!-- 정산방식 추가 _20240508_SY -->
-<h2>정산방식</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">정산방식</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
   <table>
     <colgroup>
@@ -77,10 +93,16 @@ if(!defined('_BLUEVATION_')) exit;
       <tr>
         <th scope="row">정산방식</th>
         <td>
-          <input type="radio" name="income_type" value="0" id="income_type1" checked>
-          <label for="income_type1" class="marr10">매입가 정산 지급 <b class="income_type1"></b> </label>
-          <input type="radio" name="income_type" value="1" id="income_type2">
-          <label for="income_type2" class="marr10">수수료 정산 지급 <b class="income_type2"></b></label>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="income_type" value="0" id="income_type1" checked>
+                    <label for="income_type1" class="marr10">매입가 정산 지급 <b class="income_type1"></b> </label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="income_type" value="1" id="income_type2">
+                    <label for="income_type2" class="marr10">수수료 정산 지급 <b class="income_type2"></b></label>
+                </li>
+            </ul>
         </td>
       </tr>
       <tr class="incomePer_tr">
@@ -107,8 +129,9 @@ if(!defined('_BLUEVATION_')) exit;
     </tbody>
   </table>
 </div>
-
-<h2>정산계좌 정보</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">정산계좌 정보</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table class="tablef">
 	<colgroup>
@@ -137,7 +160,9 @@ if(!defined('_BLUEVATION_')) exit;
 	</table>
 </div>
 
-<h2>담당자 정보</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">담당자 정보</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table class="tablef">
 	<colgroup>

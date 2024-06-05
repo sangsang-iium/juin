@@ -12,6 +12,10 @@ if($sfl && $stx) {
     $sql_search .= " and ($sfl like '%$stx%') ";
 }
 
+if($prize == 'Y') {
+	$sql_search .= " AND prize = 'Y' ";
+}
+
 if($fr_date && $to_date)
 	$sql_search .= " and (event_start_date >= '$fr_date' and event_end_date <= '$to_date') ";
 else if($fr_date && !$to_date)
@@ -103,6 +107,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		</select>
 	</span>
 	<button onclick="randomPrize()" >랜덤 선정</button>
+	<button onclick="showWinners()" >선정자 보기</button>
 </div>
 
 <div class="tbl_head01">
@@ -241,4 +246,8 @@ function randomPrize() {
 	});
 }
 
+function showWinners() {
+  var url = '<?php echo $_SERVER['SCRIPT_NAME'].'?'.$q1.'&prize=Y' ?>';
+  window.location.href = url;
+}
 </script>

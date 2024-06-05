@@ -15,7 +15,9 @@ $finish_cnt = $row['cnt'];
 <form name="fsendmailselectform" action="<?php echo BV_ADMIN_URL; ?>/seller.php?code=mail_select_list" onsubmit="return fmailform_check(this);" method="post" autocomplete="off">
 <input type="hidden" name="token" value="">
 
-<h2>메일 정보</h2>
+<p class="gap30"></p>
+<h5 class="htag_title">메일 정보</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>

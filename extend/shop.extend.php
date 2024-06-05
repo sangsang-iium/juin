@@ -137,11 +137,11 @@ $gw_star = array(
 // 메뉴바
 $gw_menu = array(
 	array("홈",	"/"),
-	array("쇼핑특가",	"/shop/listtype.php?type=1&menu=sales"),
+	// array("쇼핑특가",	"/shop/listtype.php?type=1&menu=sales"),
 	array("베스트",	"/shop/listtype.php?type=2&menu=best"),
-	array("신상품",		"/shop/listtype.php?type=3&menu=new"),
-	array("인기상품",	"/shop/listtype.php?type=4&menu=popular"),
-	array("추천상품",	"/shop/listtype.php?type=5&menu=recomm"),
+	// array("신상품",		"/shop/listtype.php?type=3&menu=new"),
+	// array("인기상품",	"/shop/listtype.php?type=4&menu=popular"),
+	// array("추천상품",	"/shop/listtype.php?type=5&menu=recomm"),
 	array("기획전",		"/shop/plan.php?menu=exhibition"),
 	array("오늘만할인",	"/shop/timesale.php?menu=timesale"),
 	array("래플응모",	"/raffle/list.php?menu=raffle"),

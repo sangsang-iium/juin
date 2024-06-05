@@ -8,19 +8,22 @@ if(is_numeric($no)){
         alert("상품정보가 존재하지 않습니다.");
     }
     //조회수+
-    //sql_query("update shop_used set hit = hit + 1 where no = '$no'");
+    sql_query("update shop_used set hit = hit + 1 where no = '$no'");
 } else {
     alert("상품정보가 존재하지 않습니다.");
 }
 
 $imgs = [];
-if(file_exists(BV_DATA_PATH.'/used/'.$row['m_img'])) array_push($imgs, BV_DATA_URL.'/used/'.$row['m_img']);
+if(file(BV_DATA_URL.'/used/'.$row['m_img'])) array_push($imgs, BV_DATA_URL.'/used/'.$row['m_img']);
 $subimgs = explode("|", $row['s_img']);
+$subimgs = array_filter($subimgs);
 foreach($subimgs as $v){
-    if(file_exists(BV_DATA_PATH.'/used/'.$v)) array_push($imgs, BV_DATA_URL.'/used/'.$v);
+    if(file(BV_DATA_URL.'/used/'.$v)) array_push($imgs, BV_DATA_URL.'/used/'.$v);
 }
-$imgs = array_filter($imgs);
 $imgs = array_unique($imgs);
+if(empty($imgs)){
+    $imgs = ['/src/img/used/t-item_thumb1.jpg'];
+}
 
 $gubun_status = getUsedGubunStatus($row['gubun'], $row['status']);
 $good_cnt = getUsedGoodCount($row['no']);

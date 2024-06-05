@@ -30,7 +30,7 @@ if ($sfl && $stx) {
 }
 
 if ($sst) {
-  $sql_search .= " and mm.grade = '$sst' ";
+  $sql_search .= " and ㅡㅡ.grade = '$sst' ";
 }
 
 // 기간검색
@@ -104,14 +104,14 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 		<th scope="row">검색어</th>
 		<td>
             <div class="tel_input">
-                <div class="chk-select w200">
+                <div class="chk_select w200">
                     <select name="sfl">
-                        <?php echo option_selected('mm.ju_restaurant', $sfl, '상호명'); ?>
-                        <?php echo option_selected('mm.ju_b_num', $sfl, '사업자번호'); ?>
-                        <?php echo option_selected('mm.name', $sfl, '대표자명'); ?>
-                        <?php echo option_selected('mm.cellphone', $sfl, '연락처'); ?>
-                        <?php echo option_selected('mm.id', $sfl, '아이디'); ?>
-                        <?php echo option_selected('mm.ju_manager', $sfl, '담당직원'); ?>
+                        <?php echo option_selected('ju_restaurant', $sfl, '상호명'); ?>
+                        <?php echo option_selected('ju_b_num', $sfl, '사업자번호'); ?>
+                        <?php echo option_selected('name', $sfl, '대표자명'); ?>
+                        <?php echo option_selected('cellphone', $sfl, '연락처'); ?>
+                        <?php echo option_selected('id', $sfl, '아이디'); ?>
+                        <?php echo option_selected('ju_manager', $sfl, '담당직원'); ?>
                     </select>
                 </div>
                 <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
@@ -122,7 +122,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 		<th scope="row">기간검색</th>
 		<td>
             <div class="tel_input">
-                <div class="chk-select w200">
+                <div class="chk_select w200">
                     <select name="spt">
                         <?php echo option_selected('reg_time', $spt, "가입날짜"); ?>
                         <?php echo option_selected('today_login', $spt, "최근접속"); ?>
@@ -135,9 +135,9 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 	<tr>
 		<th scope="row">레벨검색</th>
 		<td>
-            <ul class="radio_group">
+            <div class="radio_group">
                 <?php echo get_search_level('sst', $sst, 2, 9); ?>
-            </ul>
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -155,7 +155,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 </div>
 <div class="board_btns tac mart20">
     <div class="btn_wrap btn_type">
-        <input type="submit" value="검색" class="btn_acc marr10"></input>
+        <input type="submit" value="검색" class="btn_acc marr10">
         <input type="button" value="초기화" id="frmRest" class="btn_cen">
     </div>
 </div>
@@ -167,19 +167,19 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 <div class="local_frm01">
 	<?php echo $btn_frmline; ?>
 </div>
-<div class="tbl_head01">
-	<table>
+<div class="board_list">
+	<table class="list01">
 	<colgroup>
-		<col class="w50">
-		<col class="w130">
-		<col class="w150">
-		<col>
-		<col class="w130">
 		<col class="w100">
-		<col class="w130">
-		<col class="w60">
-		<col class="w60">
-		<col class="w60">
+		<col class="w150">
+		<col class="w200">
+		<col class="w150">
+		<col class="w200">
+		<col class="w300">
+		<col class="w300">
+		<col class="w100">
+		<col class="w100">
+		<col class="w100">
 		<?php if ($is_intro) {?>
 		<col class="w40">
 		<?php }?>
@@ -213,10 +213,10 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
   ?>
 	<tr class="<?php echo $bg; ?>">
 		<td><?php echo $num--; ?></td>
-		<td class="tal"><?php echo get_sideview($row['id'], $row['name']); ?></td>
-		<td class="tal"><?php echo $row['id']; ?></td>
+		<td><?php echo get_sideview($row['id'], $row['name']); ?></td>
+		<td><?php echo $row['id']; ?></td>
 		<td><?php echo get_grade($row['grade']); ?></td>
-		<td class="tal"><?php echo $row['pt_id']; ?></td>
+		<td><?php echo $row['pt_id']; ?></td>
 		<td><?php echo replace_tel($row['cellphone']); ?></td>
 		<td><?php echo $row['reg_time']; ?></td>
 		<td><?php echo number_format(shop_count($row['id'])); ?></td>

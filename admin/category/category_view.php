@@ -51,22 +51,40 @@ if(!defined('_BLUEVATION_')) exit;
 	</tbody>
 	</table>
 </div>
-
-<div class="information">
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ol class="cnt_list number_type">
+        <li>
+            <p>카테고리 순위변경 안내</p>
+            <ul class="cnt_list step02">
+                <li>1차 카테고리명을 먼저 클릭하시면 2차~5차까지 순차적으로 항목이 노출 됩니다.</li>
+            </ul>
+        </li>
+        <li>
+            <p>버튼 사용방법 안내</p>
+            <ul class="cnt_list step02">
+                <li><em>[위　로]</em> 버튼을 클릭시 상위로 한칸씩 이동되며 우선순위로 노출 됩니다.</li>
+                <li><em>[아래로]</em> 버튼을 클릭시 하위로 한칸씩 이동됩니다.</li>
+                <li><em>[저　장]</em> 버튼을 클릭시 해당 카테고리 항목만 처리되며 그외 카테고리는 처리되지 않습니다.</li>
+            </ul>
+        </li>
+    </ol>
+</div>
+<!-- <div class="information">
 	<h4>도움말</h4>
 	<div class="content">
-		<div class="hd">1, 카테고리 순위변경 안내</div>
+		<div class="hd">1, </div>
 		<div class="desc01">
-			<p>ㆍ1차 카테고리명을 먼저 클릭하시면 2차~5차까지 순차적으로 항목이 노출 됩니다.</p>
+			<p>ㆍ</p>
 		</div>
-		<div class="hd">2, 버튼 사용방법 안내</div>
+		<div class="hd">2, </div>
 		<div class="desc01">
 			<p>ㆍ<em>[위　로]</em> 버튼을 클릭시 상위로 한칸씩 이동되며 우선순위로 노출 됩니다.</p>
 			<p>ㆍ<em>[아래로]</em> 버튼을 클릭시 하위로 한칸씩 이동됩니다.</p>
 			<p>ㆍ<em>[저　장]</em> 버튼을 클릭시 해당 카테고리 항목만 처리되며 그외 카테고리는 처리되지 않습니다.</p>
 		</div>
 	 </div>
-</div>
+</div> -->
 
 <script>
 $(function(){

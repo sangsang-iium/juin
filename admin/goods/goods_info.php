@@ -32,12 +32,14 @@ if($article) {
 			$el_value = $info_value[$key];
 ?>
 <tr>
-	<th scope="row"><?php echo $el_title; ?></th>
+	<th scope="row">
+        <?php echo $el_title; ?>
+        <?php if($el_example) echo help($el_example,1); ?>
+    </th>
 	<td>
 		<input type="hidden" name="ii_article[]" value="<?php echo $el_name; ?>">
 		<label for="ii_article_<?php echo $el_name; ?>" class="sound_only"><?php echo $el_title; ?></label>
-		<input type="text" name="ii_value[]" value="<?php echo $el_value; ?>" id="ii_article_<?php echo $el_name; ?>" required class="frm_input required" size="60">
-		<?php if($el_example) echo help($el_example,1); ?>
+		<input type="text" name="ii_value[]" value="<?php echo $el_value; ?>" id="ii_article_<?php echo $el_name; ?>" required class="frm_input required w50p" size="60">
 	</td>
 </tr>
 <?php

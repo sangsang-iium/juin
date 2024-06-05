@@ -351,3 +351,34 @@ function rafflePrizeCheck($index_no) {
   
   return $check;
 }
+
+
+function get_raffle_list_img($it_img)
+{
+	if(!trim($it_img)) return;
+
+	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == true)
+		$file_url = $it_img;
+	else
+		$file_url = BV_DATA_URL."/raffle/".$it_img;
+
+	$str  = "<img src=\"".$file_url."\" alt=\"\" style=\"width:140px;height:140px;\">";
+
+	return $str;
+}
+
+function raffleEventDateCheck($event_end_date,$prize_date) {
+  $raffleEndCheck = 0;
+  $nowDate = new DateTime();
+  $eventEndDate = new DateTime($event_end_date);
+  $prizeEndDate = new DateTime($prize_date);
+  if($nowDate < $eventEndDate) {
+    $raffleEndCheck = 1;
+  } else if($nowDate >= $eventEndDate && $nowDate < $prizeEndDate) {
+    $raffleEndCheck = 2;
+  } else if($nowDate >= $prizeEndDate) {
+    $raffleEndCheck = 3;
+  }
+
+  return $raffleEndCheck;
+}

@@ -25,9 +25,8 @@ if($cnt == 0)
 	<table>
 	<colgroup>
 		<col width="50px">
-		<col width="150px">
-		<col width="150px">
-		<col width="150px">
+		<col>
+		<col>
 		<col>
 	</colgroup>
 	<thead>
@@ -65,10 +64,10 @@ if($cnt == 0)
 			<?php echo ($i+1); ?>
 			<input type="hidden" name="ma_list" value="<?php echo $ma_list; ?>">
 		</td>
-		<td class="tal"><?php echo $row['mb_id']; ?></td>
-		<td class="tal"><?php echo get_text($row['company_name']); ?></td>
-		<td class="tal"><?php echo get_text($row['info_name']); ?></td>
-		<td class="tal"><?php echo $row['info_email']; ?></td>
+		<td><?php echo $row['mb_id']; ?></td>
+		<td><?php echo get_text($row['company_name']); ?></td>
+		<td><?php echo get_text($row['info_name']); ?></td>
+		<td><?php echo $row['info_email']; ?></td>
 	</tr>
 	<?php } ?>
 	</tbody>
