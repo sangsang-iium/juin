@@ -492,13 +492,11 @@ function form_check(act) {
 
 // 장바구니 개별 삭제 _20240312_SY
 function remove_cartItem(e) {
-  console.log("remove_cartItem called with index: ", e);
 
   var form = document.createElement('form');
   form.method = 'POST';
   form.action = bv_url + '/m/shop/cartupdate.php';
 
-  console.log("Form action URL: ", form.action);
 
   var actInput = document.createElement('input');
   actInput.type = 'hidden';
@@ -513,10 +511,8 @@ function remove_cartItem(e) {
   form.appendChild(indexNoInput);
 
   document.body.appendChild(form);
-  console.log("Form appended to document body: ", form);
 
   form.submit();
-  console.log("Form submitted");
 }
 </script>
 <!-- } 장바구니 끝 -->
