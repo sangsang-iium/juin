@@ -944,3 +944,29 @@
 .cp-tag-item .cp-tag.tag02 {background: url('/src/img/cp-tag02.png') no-repeat center left 0.64rem #FFD2D2; background-size: 2.08rem;}
 .cp-tag-item .cp-tag.tag03 {background: url('/src/img/cp-tag03.png') no-repeat center left 0.64rem #D4F0FF; background-size: 2.08rem;}
 .cp-tag-item .cp-tag.tag04 {background: url('/src/img/cp-tag04.png') no-repeat center left 0.64rem #D2FFDF; background-size: 2.08rem;}
+
+/* === 2024-06-07 추가 === */
+/* 신고하기 */
+.siren-btn {padding: 0.8rem 1.5rem; border-radius: 0.5rem;}
+.siren-btn .icn {width: 1.6rem;}
+.siren-btn .icn img {margin-top: -2px; vertical-align: middle;}
+.used-item_txtBox .siren-btn {margin-bottom: 1rem;}
+
+.siren-reg_tit {display: block; padding: 1rem 2rem; font-size: 2rem; font-weight: 700; color: #fff; background-color: var(--color-main);}
+.siren-reg_tit img {width: 2.2rem; margin-top: -2px; margin-right: 0.8rem; vertical-align: middle;}
+
+.siren-reg_top {margin-bottom: 3rem; padding: 2rem; background-color: #fafafa;}
+.siren-reg_top .used-item_thumbBox {width: 10rem; height: 10rem;}
+.siren-reg_top .used-item_txtBox .title {font-size: 1.8rem;}
+.siren-reg_top .used-item_txtBox .prc {font-size: 1.8rem;}
+
+.siren-reg_top .siren-reg_post .mb_name {font-weight: 600; font-size: 2.16rem; color: #0f0f0f;}
+.siren-reg_top .siren-reg_post .post_expl {margin: 1.4rem 0 1rem; font-weight: 400; font-size: 2rem; color: var(--color-gray3); line-height: 1;}
+.siren-reg_top .siren-reg_post .post_date {font-weight: 400; font-size: 2rem; color: var(--color-gray3); line-height: 1;}
+
+.siren-reg_con {padding: 1rem 2rem 2rem; border: 1px solid #ddd; border-top: 0; background-color: #fafafa;}
+.form-row .form-body .col2 {display: flex; flex-flow: row wrap;}
+.form-row .form-body .col2 > li {width: 50%;}
+
+.siren-reg_bot {margin-top: 2rem;}
+.siren-reg_submit {display: block; width: 100%; height: 6.8rem; line-height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
