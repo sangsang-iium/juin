@@ -53,6 +53,12 @@ $result = sql_query($sql);*/
   </div>
 
   <div class="bottomBlank container used-item_txtBox item_txtBox">
+    <button type="button" class="ui-btn st2 siren-btn" data="stIconLeft">
+      <i class="icn">
+        <img src="/src/img/siren_c.png" alt="">
+      </i>
+      <span class="txt">신고하기</span>
+    </button>
     <a href="" class="tRow2 title">
       <span class="cate">[<?php echo $row['category'] ?>]</span>
       <span class="subj"><?php echo $row['title'] ?></span>

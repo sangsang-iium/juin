@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주인장</title>
+
+  <!-- src > css, js 연결 -->
+  <link rel="stylesheet" href="./src/plugin/swiper/swiper-bundle.min.css">
+  <link rel="stylesheet" href="./src/css/fonts.css">
+  <link rel="stylesheet" href="./src/css/common.css">
+  <link rel="stylesheet" href="./src/css/ui.css">
+  <link rel="stylesheet" href="./src/css/normal.css">
+  <link rel="stylesheet" href="./src/css/responsive.css">
+
+  <script src="./src/js/jquery-3.7.0.min.js" defer></script>
+  <script src="./src/plugin/feather.min.js" defer></script>
+  <script src="./src/plugin/prefixfree.min.js" defer></script>
+  <script src="./src/plugin/matchheight/jquery.matchHeight.js" defer></script>
+  <script src="./src/plugin/swiper/swiper-bundle.min.js" defer></script>
+  <script src="./src/js/common.js" defer></script>
+  <script src="./src/js/normal.js" type="module" defer></script>
+
+</head>
+<body>
+<div class="popDim"></div>
+
+<!-- 여기만 가져다 쓰세요 { -->
+<div class="siren-reg">
+  <div class="container">
+    <form action="">
+      <div class="siren-reg_wrap">
+        <div class="siren-reg_top">
+          <!-- 중고상품일 경우 { -->
+          <div class="used-item siren-reg_used-item">
+            <a href="" class="used-item_thumbBox">
+              <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
+            </a>
+            <div class="used-item_txtBox">
+              <a href="" class="tRow2 title">
+                <span class="cate">[주방용품]</span>
+                <span class="subj">식당용 식탁,의자</span>
+              </a>
+              <p class="writer">
+                <span>홍길동</span>
+                <span>대전시 서구 월평동</span>
+              </p>
+              <ul class="inf">
+                <li>
+                  <p class="prc">50,000<span class="won">원</span></p>
+                </li>
+                <li>
+                  <span class="status ing">판매중</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- } 중고상품일 경우 -->
+
+          <!-- 글일 경우 { -->
+          <!--
+          <div class="siren-reg_post">
+            <p class="mb_name">회원명</p>
+            <p class="post_expl">내용이 나타납니다. 내용이 나타납니다.</p>
+            <p class="post_date">2024.01.01</p>
+          </div>
+          -->
+          <!-- } 글일 경우 -->
+        </div>
+        <p class="siren-reg_tit"><img src="/src/img/siren_w.png" alt="">신고하기</p>
+        <div class="siren-reg_con">
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">신고사유</p>
+            </div>
+            <div class="form-body">
+              <ul class="col2">
+                <li>
+                  <div class="frm-choice">
+                    <input type="radio" name="test-radio" value="" id="test-radio1">
+                    <label for="test-radio1">광고/홍보 게시글</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="radio" name="test-radio" value="" id="test-radio2">
+                    <label for="test-radio2">부적절한 게시글</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="radio" name="test-radio" value="" id="test-radio3">
+                    <label for="test-radio3">욕설/비방</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="radio" name="test-radio" value="" id="test-radio4">
+                    <label for="test-radio4">도배성 게시글</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="radio" name="test-radio" value="" id="test-radio5">
+                    <label for="test-radio5">이미지 표절</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="radio" name="test-radio" value="" id="test-radio6">
+                    <label for="test-radio6">사기 게시글</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="radio" name="test-radio" value="" id="test-radio7">
+                    <label for="test-radio7">음란성 게시글</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="frm-choice">
+                    <input type="radio" name="test-radio" value="" id="test-radio8">
+                    <label for="test-radio8">기타</label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">상세내용</p>
+            </div>
+            <div class="form-body">
+              <textarea name="" rows="7" class="frm-txtar w-per100" placeholder="신고 게시글에 대한 자세한 설명을 입력해 주세요"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="siren-reg_bot">
+          <button type="submit" class="ui-btn round stBlack siren-reg_submit">신고 접수하기</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- } 여기만 가져다 쓰세요 -->
+
+<br>
+<br>
+<button type="button" class="siren-wBtn_open">신고하기 팝업 열기</button>
+
+<div id="siren-write-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">신고하기</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+        <div class="siren-reg">
+          <div class="container">
+            <form action="">
+              <div class="siren-reg_wrap">
+                <div class="siren-reg_top">
+                  <!-- 중고상품일 경우 { -->
+                  <div class="used-item siren-reg_used-item">
+                    <a href="" class="used-item_thumbBox">
+                      <img src="/src/img/used/t-item_thumb1.jpg" class="fitCover" alt="식당용 식탁,의자 세트">
+                    </a>
+                    <div class="used-item_txtBox">
+                      <a href="" class="tRow2 title">
+                        <span class="cate">[주방용품]</span>
+                        <span class="subj">식당용 식탁,의자</span>
+                      </a>
+                      <p class="writer">
+                        <span>홍길동</span>
+                        <span>대전시 서구 월평동</span>
+                      </p>
+                      <ul class="inf">
+                        <li>
+                          <p class="prc">50,000<span class="won">원</span></p>
+                        </li>
+                        <li>
+                          <span class="status ing">판매중</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- } 중고상품일 경우 -->
+        
+                  <!-- 글일 경우 { -->
+                  <!--
+                  <div class="siren-reg_post">
+                    <p class="mb_name">회원명</p>
+                    <p class="post_expl">내용이 나타납니다. 내용이 나타납니다.</p>
+                    <p class="post_date">2024.01.01</p>
+                  </div>
+                  -->
+                  <!-- } 글일 경우 -->
+                </div>
+                <p class="siren-reg_tit"><img src="/src/img/siren_w.png" alt="">신고하기</p>
+                <div class="siren-reg_con">
+                  <div class="form-row">
+                    <div class="form-head">
+                      <p class="title">신고사유</p>
+                    </div>
+                    <div class="form-body">
+                      <ul class="col2">
+                        <li>
+                          <div class="frm-choice">
+                            <input type="radio" name="test-radio" value="" id="test-radio1">
+                            <label for="test-radio1">광고/홍보 게시글</label>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="frm-choice">
+                            <input type="radio" name="test-radio" value="" id="test-radio2">
+                            <label for="test-radio2">부적절한 게시글</label>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="frm-choice">
+                            <input type="radio" name="test-radio" value="" id="test-radio3">
+                            <label for="test-radio3">욕설/비방</label>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="frm-choice">
+                            <input type="radio" name="test-radio" value="" id="test-radio4">
+                            <label for="test-radio4">도배성 게시글</label>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="frm-choice">
+                            <input type="radio" name="test-radio" value="" id="test-radio5">
+                            <label for="test-radio5">이미지 표절</label>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="frm-choice">
+                            <input type="radio" name="test-radio" value="" id="test-radio6">
+                            <label for="test-radio6">사기 게시글</label>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="frm-choice">
+                            <input type="radio" name="test-radio" value="" id="test-radio7">
+                            <label for="test-radio7">음란성 게시글</label>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="frm-choice">
+                            <input type="radio" name="test-radio" value="" id="test-radio8">
+                            <label for="test-radio8">기타</label>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-head">
+                      <p class="title">상세내용</p>
+                    </div>
+                    <div class="form-body">
+                      <textarea name="" rows="7" class="frm-txtar w-per100" placeholder="신고 게시글에 대한 자세한 설명을 입력해 주세요"></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="siren-reg_bot">
+                  <button type="submit" class="ui-btn round stBlack siren-reg_submit">신고 접수하기</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as f from '/src/js/function.js';
+
+$(".siren-wBtn_open").on("click", function () {
+  $(".popDim").show();
+  f.popupOpen('siren-write-popup');
+});
+</script>
+
+</body>
+</html>
