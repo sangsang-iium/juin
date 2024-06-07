@@ -90,7 +90,8 @@ if ($act == "buy") {
   $del_table = "shop_cart";
   $del_where = " WHERE index_no = '{$index_no}' ";
   $CART_DELETE = new IUD_Model;
-  $CART_DELETE->delete($del_table, $del_where);
+  $dddddd = $CART_DELETE->delete($del_table, $del_where);
+  echo $dddddd;
 } else // 장바구니에 담기
 {
 	$count = count($_POST['gs_id']);

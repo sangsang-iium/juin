@@ -16,7 +16,7 @@ if($is_member) {
 } else {
   $sql_add = "";
 }
-$sql = "SELECT * FROM shop_cart a
+$sql = "SELECT a.* FROM shop_cart a
 				JOIN shop_goods b ON (a.gs_id = b.index_no)
 				WHERE a.ct_direct = '{$set_cart_id}'
 				AND a.ct_select = '0'
