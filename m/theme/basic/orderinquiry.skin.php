@@ -46,7 +46,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
       <?php } ?>
       <div class="cp-orderItem">
-        <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $rw['od_id']; ?>&uid=<?php echo $uid; ?>&list=Y&#38;reg_yn=<?php echo $rw['reg_yn'] ?>" class="thumb round60">
+        <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $rw['od_id']; ?>&uid=<?php echo $uid; ?>&list=Y&#38;reg_yn=<?php echo $ct['reg_yn'] ?>" class="thumb round60">
           <img src="<?php echo get_it_image_url($ct['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>">
         </a>
         <div class="content">

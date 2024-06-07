@@ -1,24 +1,5 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
-
-function groupAndSortArray($array) {
-  $groupedArray = [];
-  foreach ($array as $item) {
-    if (!isset($groupedArray[$item])) {
-      $groupedArray[$item] = [];
-    }
-    $groupedArray[$item][] = $item;
-  }
-
-  $sortedArray = [];
-  foreach ($groupedArray as $group) {
-    $sortedArray = array_merge($sortedArray, $group);
-  }
-
-  return $sortedArray;
-}
-
-
 ?>
 
 <!-- 장바구니 시작 { -->
@@ -27,6 +8,12 @@ function groupAndSortArray($array) {
 <!-- <div class="stit_txt">
 	※ 총 <?php echo number_format($cart_count); ?>개의 상품이 담겨 있습니다.
 </div> -->
+<style>
+  .btn-disabled {
+    background-color: #ccc!important;
+    cursor: not-allowed;
+  }
+</style>
 
 <div id="sod_bsk">
 	<form name="frmcartlist" id="sod_bsk_list" method="post" action="<?php echo $cart_action_url; ?>">
@@ -132,9 +119,8 @@ function groupAndSortArray($array) {
 
           $href = BV_MSHOP_URL.'/view.php?gs_id='.$row['gs_id'];
 
-
-          $targetGs = $row['gs_id']; // 찾고자 하는 gs_idx 값
-
+          $targetGs = $row['gs_id']; // 찾고자 하는 gs_id 값
+          $targetId = $row['mb_id']; // 찾고자 하는 mb_id 값
           $filteredResults = array_filter($CARTGROUP, function ($item) use ($targetGs) {
             $indicesArray = explode(',', $item['gs_idx']);
             return in_array($targetGs, $indicesArray);
@@ -142,8 +128,13 @@ function groupAndSortArray($array) {
           $filteredResults = array_values($filteredResults);
 
           $curVal = $gs['mb_id'];
+          $sellerMinInfo = get_seller_cd($filteredResults[0]['mb_id']);
+          if($filteredResults[0]['mb_id'] == 'admin'){
+            $sellerMinInfo['company_name'] = "관리자";
+            $sellerMinInfo['min_delivery'] = 50000;
+          }
 
-
+          $preSum = 0;
           if (($filteredResults[0]['mb_id'] == $gs['mb_id']) && ($filteredResults[0]['sc_type'] == 4)) {
             if ($preVal !== $curVal) {
               if ($groupStarted) {
@@ -151,21 +142,29 @@ function groupAndSortArray($array) {
                 echo "</div>";
                 $groupStarted = false;
               }
+              if($filteredResults[0]['price'] >= $sellerMinInfo['min_delivery']){
+                $orderable_txt = '주문가능';
+                $orderable_per = 100;
+              } else {
+                $orderable_amt = $sellerMinInfo['min_delivery'] - $filteredResults[0]['price'];
+                $orderable_txt = '<span>' . number_format($orderable_amt) . '</span> 추가시 주문가능';
+                $orderable_per = ($filteredResults[0]['price'] / $sellerMinInfo['min_delivery']) * 100;
+              }
+
               // 새로운 그룹 시작
               echo '<div class="cart-gbox" style="border: solid 1px red;">';
               echo '  <div class="cart-process-bar-wr"> ';
               echo '    <div class="cart-process-top"> ';
-              echo '      <p class="company">A 공급사</p> ';
+              echo '      <p class="company">'.$sellerMinInfo['company_name'].'</p> ';
               echo '      <div class="available-price"> ';
-              echo '        <p class="text01">(주문가능 금액 50,000원)</p> ';
-              echo '        <p class="text02"> ';
-              echo '          <span>16,000원</span> 추가시 주문가능 ';
+              echo '        <p class="text01 odprice" data-minprice="'.$sellerMinInfo['min_delivery'].'" data-odprice="'.$filteredResults[0]['price'].'">(주문가능 금액 '.number_format($sellerMinInfo['min_delivery']).'원)</p> ';
+              echo '        <p class="text02">'.$orderable_txt;
               echo '        </p> ';
               echo '      </div> ';
               echo '    </div> ';
               echo '    <div class="cart-process-bot"> ';
               echo '      <div class="cart-process-bar"> ';
-              echo '        <span class="active-bar" style="width: 65%;"></span> ';
+              echo '        <span class="active-bar" data-orderper="'.$orderable_per.'" style="width: '.$orderable_per.'%;"></span> ';
               echo '      </div> ';
               echo '      <div class="cart-process-icon"> ';
               echo '        <img src="/src/img/cart-process-icon.png" alt=""> ';
@@ -338,7 +337,7 @@ function groupAndSortArray($array) {
         <!-- <a href="<?php echo BV_MSHOP_URL; ?>/list.php?ca_id=<?php echo $continue_ca_id; ?>" class="btn_medium bx-black">쇼핑 계속하기</a> -->
         <button type="button" onclick="return form_check('buy');" class="btn_medium btn-buy">
           <p class="price">
-            <?php echo display_price2($tot_price); ?>
+            <?php // echo display_price2($tot_price); ?>
             <span class="txt"> 구매하기</span>
           </p>
         </button>
@@ -354,6 +353,57 @@ function groupAndSortArray($array) {
 </div>
 
 <script>
+  function checkOrderValues() {
+    const cartGboxes = document.querySelectorAll('.cart-gbox');
+    let shouldDisableButton = false;
+
+    cartGboxes.forEach(gbox => {
+      const cartItems = gbox.querySelectorAll('.cp-cart-item');
+      let totalCheckedPrice = 0;
+      let anyChecked = false;
+
+      cartItems.forEach(cart => {
+        const checkbox = cart.querySelector('input[type="checkbox"]');
+        const priceEl = cart.querySelector('.spr');
+        if (checkbox && checkbox.checked && priceEl) {
+          const price = parseInt(priceEl.textContent.replace(/[^0-9]/g, ''), 10);
+          totalCheckedPrice += price;
+          anyChecked = true;
+        }
+      });
+
+      const odPriceEl = gbox.querySelector('.odprice');
+      const orderLimit = parseInt(odPriceEl.getAttribute('data-minprice'), 10);
+
+      if (totalCheckedPrice < orderLimit && anyChecked) {
+        shouldDisableButton = true;
+      }
+    });
+
+    const buyButton = document.querySelector('.btn-buy');
+    if (shouldDisableButton) {
+      buyButton.disabled = true;
+      buyButton.classList.add('btn-disabled');
+    } else {
+      buyButton.disabled = false;
+      buyButton.classList.remove('btn-disabled');
+    }
+  }
+
+  function setupCheckboxListeners() {
+    const checkboxes = document.querySelectorAll('.cp-cart-item input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', checkOrderValues);
+    });
+  }
+
+  // 초기 로드 시 실행
+  document.addEventListener('DOMContentLoaded', () => {
+      checkOrderValues();
+      setupCheckboxListeners();
+  });
+
+
 $(function() {
     var close_btn_idx;
 
@@ -442,10 +492,13 @@ function form_check(act) {
 
 // 장바구니 개별 삭제 _20240312_SY
 function remove_cartItem(e) {
+  console.log("remove_cartItem called with index: ", e);
+
   var form = document.createElement('form');
   form.method = 'POST';
   form.action = bv_url + '/m/shop/cartupdate.php';
 
+  console.log("Form action URL: ", form.action);
 
   var actInput = document.createElement('input');
   actInput.type = 'hidden';
@@ -459,10 +512,11 @@ function remove_cartItem(e) {
   indexNoInput.value = e;
   form.appendChild(indexNoInput);
 
-
   document.body.appendChild(form);
-  form.submit();
+  console.log("Form appended to document body: ", form);
 
+  form.submit();
+  console.log("Form submitted");
 }
 </script>
 <!-- } 장바구니 끝 -->
