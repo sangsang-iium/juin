@@ -16,8 +16,8 @@ include_once("./admin_head.sub.php");
 		<col>
 	</colgroup>
 	<tbody>
-		<tr>
-		<th scope="row">배송관리</th>
+		<!--<tr>
+		 <th scope="row">배송관리</th>
 		<td>
 			<div id="sit_supply_frm2" class="tbl_frm02">
 				<table>
@@ -76,7 +76,7 @@ include_once("./admin_head.sub.php");
 			});
 			</script>
 		</td>
-	</tr>
+	</tr>-->
 	<tr>
 		<th scope="row">배송업체</th>
 		<td>
@@ -140,6 +140,13 @@ include_once("./admin_head.sub.php");
 				</tr>
 				<tr>
 					<th scope="row">
+						<input type="radio" name="delivery_method" value="4" id="delivery_method4"<?php echo get_checked($seller['delivery_method'], "4"); ?>>
+						<label for="delivery_method4">차량배송</label>
+					</th>
+					<td>공급사 배송 최소금액에 영향을 받습니다.</td>
+				</tr>
+				<!-- <tr>
+					<th scope="row">
 						<input type="radio" name="delivery_method" value="2" id="delivery_method2"<?php echo get_checked($seller['delivery_method'], "2"); ?>>
 						<label for="delivery_method2">착불배송</label>
 					</th>
@@ -161,7 +168,7 @@ include_once("./admin_head.sub.php");
 						<input type="text" name="delivery_price2" value="<?php echo number_format($seller['delivery_price2']); ?>" class="frm_input" size="10" onkeyup="addComma(this);"> 원의 배송비를 부과하며 단! 주문금액이
 						<input type="text" name="delivery_minimum" value="<?php echo number_format($seller["delivery_minimum"]); ?>" class="frm_input" size="10" onkeyup="addComma(this);"> 원 이상이면 무료배송 처리됩니다
 					</td>
-				</tr>
+				</tr> -->
 				</tbody>
 				</table>
 			</div>

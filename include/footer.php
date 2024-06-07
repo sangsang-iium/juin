@@ -19,9 +19,13 @@
 <?php //if ($_SERVER['REMOTE_ADDR']=="106.247.231.170") { ?>
 <ul class="container" style="display: flex; flex-flow: row wrap; gap: 10px; margin-top: 10px; font-size: 15px; font-weight: bold;">
   <li><a href="/">메인</a></li>
-  <?php if($is_admin) { ?>
-  <li><a href="<?php echo $is_admin;?>" target="_blank">관리자</a></li>
-  <?php } ?>
+  <?php if($is_admin) {
+    if (is_seller($member['id'])){ ?>
+    <li><a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=seller_main">공급사 관리</a></li>
+    <?php } else { ?>
+    <li><a href="<?php echo $is_admin;?>" target="_blank">관리자</a></li>
+    <?php }
+    }  ?>
   <?php if($is_member) { ?>
   <li><a href="<?php echo BV_MBBS_URL;?>/logout.php">로그아웃</a></li>
   <?php } else { ?>

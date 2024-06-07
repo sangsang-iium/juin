@@ -12,19 +12,18 @@ include_once("./_head.php");
 
 // 장바구니 구분 추가 _20240312_SY
 if($is_member) {
-  $sql_add = " AND mb_id = '{$member['id']}' ";
+  $sql_add = " AND a.mb_id = '{$member['id']}' ";
 } else {
   $sql_add = "";
 }
-
-$sql = " select *
-		   from shop_cart
-		  where ct_direct = '$set_cart_id'
-		    and ct_select = '0'
-				and reg_yn = '{$paytype}'
-        {$sql_add}
-		  group by gs_id
-		  order by index_no ";
+$sql = "SELECT * FROM shop_cart a
+				JOIN shop_goods b ON (a.gs_id = b.index_no)
+				WHERE a.ct_direct = '{$set_cart_id}'
+				AND a.ct_select = '0'
+				AND a.reg_yn = '{$paytype}}'
+				 {$sql_add}
+				group BY a.gs_id
+				order BY b.mb_id, a.index_no";
 $result = sql_query($sql);
 $cart_count = sql_num_rows($result);
 

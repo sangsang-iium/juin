@@ -161,6 +161,13 @@ if(!defined('_BLUEVATION_')) exit;
 				</tr>
 				<tr>
 					<th scope="row">
+						<input type="radio" name="delivery_method" value="4" id="delivery_method4"<?php echo get_checked($config['delivery_method'], "4"); ?>>
+						<label for="delivery_method4">차량배송</label>
+					</th>
+					<td>공급사 배송 최소금액에 영향을 받습니다.</td>
+				</tr>
+				<!-- <tr>
+					<th scope="row">
 						<input type="radio" name="delivery_method" value="2" id="delivery_method2"<?php echo get_checked($config['delivery_method'], "2"); ?>>
 						<label for="delivery_method2">착불배송</label>
 					</th>
@@ -182,7 +189,7 @@ if(!defined('_BLUEVATION_')) exit;
 						<input type="text" name="delivery_price2" value="<?php echo number_format($config['delivery_price2']); ?>" class="frm_input" size="10" onkeyup="addComma(this);"> 원의 배송비를 부과하며 단! 주문금액이
 						<input type="text" name="delivery_minimum" value="<?php echo number_format($config["delivery_minimum"]); ?>" class="frm_input" size="10" onkeyup="addComma(this);"> 원 이상이면 무료배송 처리됩니다
 					</td>
-				</tr>
+				</tr> -->
 				</tbody>
 				</table>
 			</div>
