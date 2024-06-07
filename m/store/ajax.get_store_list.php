@@ -4,7 +4,7 @@ include_once("./_common.php");
 $lat = trim($_POST['lat']);
 $lng = trim($_POST['lng']);
 $category = trim($_POST['cate']);
-$km = 10;
+$km = 5; //지름10Km
 
 
 if($category=='all'){
@@ -18,7 +18,7 @@ $result = sql_query($sql);
 $rows = sql_num_rows($result);
 
 $slist = '';
-$positions = [];
+$positions = []; //마커를 표시할 상호명/위치/이미지/키 객체 배열입니다 
 
 if($rows == 0){
     $slist .= '<p class="empty_list">자료가 없습니다.</p>';
@@ -49,7 +49,7 @@ if($rows == 0){
         }
         $slist .= '</div></div>';
         
-        array_push($positions, ['title'=>$row['ju_restaurant'], 'lat'=>$row['ju_lat'], 'lng'=>$row['ju_lng'], 'img'=>'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png']);
+        array_push($positions, ['title'=>$row['ju_restaurant'], 'lat'=>$row['ju_lat'], 'lng'=>$row['ju_lng'], 'img'=>'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', 'no'=>$row['index_no']]);
     }
 }
 

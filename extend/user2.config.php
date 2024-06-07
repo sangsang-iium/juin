@@ -382,3 +382,23 @@ function raffleEventDateCheck($event_end_date,$prize_date) {
 
   return $raffleEndCheck;
 }
+
+function raffleIndexCheck($index_no) {
+  if(substr($index_no, -6) === '000000') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function get_raffle_img_src($it_img) {
+
+	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == true)
+		$file_url = $it_img;
+	else
+		$file_url = BV_DATA_URL."/raffle/".$it_img;
+
+	// $str  = "<img src=\"".$file_url."\" alt=\"\" style=\"width:140px;height:140px;\">";
+
+	return $file_url;
+}

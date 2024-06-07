@@ -225,6 +225,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu1('h20', 'FAQ 관리'); ?>
 		<?php echo printMenu2('h20', ADMIN_MENU8_03, BV_ADMIN_URL.'/help.php?code=faq_group'); ?>
 		<?php echo printMenu2('h20', ADMIN_MENU8_04, BV_ADMIN_URL.'/help.php?code=faq'); ?>
+		<?php echo printMenu2('h20', ADMIN_MENU8_05, BV_ADMIN_URL.'/help.php?code=singo'); ?>
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU9) { ?>

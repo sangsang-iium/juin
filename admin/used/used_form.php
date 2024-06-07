@@ -33,8 +33,8 @@ $qstr .= "&gubun=".$gubun."&page=".$page;
 		<th scope="row">유형(*)</th>
 		<td>
 		    <select name="gubun" required class="required w150">
-		        <option value="0"<?php echo ($row['gubun']=='0') ? ' checked' : '';?>>팝니다</option>
-		        <option value="1"<?php echo ($row['gubun']=='1') ? ' checked' : '';?>>삽니다</option>
+		        <option value="0"<?php echo ($row['gubun']=='0') ? ' selected' : '';?>>팝니다</option>
+		        <option value="1"<?php echo ($row['gubun']=='1') ? ' selected' : '';?>>삽니다</option>
 		    </select>
 		</td>
 	</tr>
@@ -42,9 +42,9 @@ $qstr .= "&gubun=".$gubun."&page=".$page;
 		<th scope="row">상태(*)</th>
 		<td>
 		    <select name="status" required class="required w150">
-		        <option value="0"<?php echo ($row['status']=='0') ? ' checked' : '';?>>판매중</option>
-		        <option value="1"<?php echo ($row['status']=='1') ? ' checked' : '';?>>판매중</option>
-		        <option value="2"<?php echo ($row['status']=='2') ? ' checked' : '';?>>판매완료</option>
+		        <option value="0"<?php echo ($row['status']=='0') ? ' selected' : '';?>>판매중</option>
+		        <option value="1"<?php echo ($row['status']=='1') ? ' selected' : '';?>>예약중</option>
+		        <option value="2"<?php echo ($row['status']=='2') ? ' selected' : '';?>>판매완료</option>
 		    </select>
 		</td>
 	</tr>
@@ -107,9 +107,9 @@ $qstr .= "&gubun=".$gubun."&page=".$page;
 		$sub_imgs = array_filter($sub_imgs);
 		$sub_imgs = array_values($sub_imgs);
 		for($i=0;$i < 5;$i++){
-		    echo '<div class="fl w20p"><input type="file" name="s_img[]">';
+		    echo '<div class="fl"><input type="file" name="s_img[]">';
 		    if($sub_imgs[$i]){
-		        echo '<img src="'.BV_DATA_URL.'/used/'.$sub_imgs[$i].'" class="w90p"> &nbsp; <span class="image_del curp fs18" data-img_name="'.$sub_imgs[$i].'">X</span>';
+		        echo '<div class="img_container"><img src="'.BV_DATA_URL.'/used/'.$sub_imgs[$i].'" class="w90p"> &nbsp; <span class="image_del curp fs18" data-img_name="'.$sub_imgs[$i].'">X</span></a>';
 		    }
 		    echo '</div>';
 		}
@@ -136,11 +136,12 @@ function fregisterform_submit(f) {
 const no = Number(<?php echo $row['no'] ?>);
 
 $(document).on("click", ".image_del", function(){
+    var idx = $(".image_del").index(this);
     var img_name = $(this).data("img_name");
     if(confirm("이미지를 삭제하시겠습니까?")){
         $.post(bv_admin_url+"/used/ajax.sub.image.del.php", {no:no, img_name:img_name}, function(obj){
             if(obj=='Y'){
-                location.reload();
+                $(".img_container").eq(idx).remove();
             }
         })
     }

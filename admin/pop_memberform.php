@@ -340,6 +340,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
         /* 서브이미지 삭제 */
         const mb_id = "<?php echo $mb['id'] ?>";
         $(document).on("click", ".image_del", function() {
+          var idx = $(".image_del").index(this);
           var img_name = $(this).data("img_name");
           if (confirm("이미지를 삭제하시겠습니까?")) {
             $.post(bv_admin_url + "/member/ajax.sub.image.del.php", {
@@ -347,7 +348,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
               img_name: img_name
             }, function(obj) {
               if (obj == 'Y') {
-                location.reload();
+                $(".img_container").eq(idx).remove();
               }
             })
           }
@@ -400,7 +401,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                 <th scope="row">음식점분류</th>
                 <td>
                   <div class="chk_select">
-                    <select name="ju_cate" id="ju_cate" required>
+                    <select name="ju_cate" id="ju_cate">
                       <option value="">분류 선택</option>
                       <?php
                       foreach ($food_categorys as $v) {
@@ -439,7 +440,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                     for ($i = 0; $i < 5; $i++) {
                       echo '<li><input type="file" name="ju_simg[]">';
                       if ($sub_imgs[$i]) {
-                        echo '<img src="' . BV_DATA_URL . '/member/' . $sub_imgs[$i] . '" class="w90p"> &nbsp; <span class="image_del curp fs18" data-img_name="' . $sub_imgs[$i] . '">X</span>';
+                        echo '<div class="img_container"><img src="' . BV_DATA_URL . '/member/' . $sub_imgs[$i] . '" class="w90p"> &nbsp; <span class="image_del curp fs18" data-img_name="' . $sub_imgs[$i] . '">X</span></a>';
                       }
                       echo '</li>';
                     }

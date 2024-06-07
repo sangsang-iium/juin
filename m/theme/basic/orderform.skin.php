@@ -120,6 +120,14 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             order by index_no ";
       $result = sql_query($sql);
       for ($i = 0; $row = sql_fetch_array($result); $i++) {
+        $raffleCheck = false;
+        if(raffleIndexCheck($row['gs_id'])) {
+          $raffleCheck = true;
+          $raffleIndexNo = preg_replace('/000000$/', '', $row['gs_id']);
+          $gs = raffleDetail($raffleIndexNo);
+          $it_name = stripslashes($gs['goods_name']);
+          $sell_qty = 1;
+        } else {
         $gs = get_goods($row['gs_id']);
 
         // 합계금액 계산
@@ -159,6 +167,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $seller_id[$i] = $gs['mb_id'];
 
         $href = BV_MSHOP_URL . '/view.php?gs_id=' . $row['gs_id'];
+        }
       ?>
 
         <div class="cp-cart-item">
@@ -173,7 +182,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
           <div class="cp-cart-body">
             <div class="thumb round60">
-              <img src="<?php echo get_it_image_url($row['gs_id'], $gs['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
+              <?php if($raffleCheck) { ?>
+                <img src="<?php echo get_raffle_img_src($gs['simg1']); ?>" alt="<?php echo $it_name; ?>" class="fitCover">
+              <?php } else { ?>
+                <img src="<?php echo get_it_image_url($row['gs_id'], $gs['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
+              <?php } ?>
             </div>
             <div class="content">
               <p class="name"><?php echo $it_name; ?></p>

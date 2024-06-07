@@ -11,7 +11,7 @@ $sql = "select * from shop_used_chatd where pno = {$chatno} order by no limit {$
 $result = sql_query($sql);
 
 $str = '';
-while($row=sql_fetch_array($result)){    
+while($row=sql_fetch_array($result)){
     if($member['id']==$row['mb_id']){
         $str .= '<div class="chat-msg send"><div class="msgBox">';
         $str .= '<div class="msgText">'.nl2br($row['content']).'</div>';

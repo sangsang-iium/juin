@@ -28,10 +28,18 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <p class="ui-btn ord-review__btn iq-wbtn rv-write-btn">레플 추첨중</p>
         <?php } else if ($raffleEndCheck == 3) { ?>
           <?php if($row['prize'] == 'Y') { ?>
-            <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn">구매하기</button>
+            <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn rf-order-btn">구매하기</button>
           <?php } else { ?>
             <p class="ui-btn ord-review__btn iq-wbtn rv-write-btn">다음에 도전해주세요</p>
           <?php } ?>
+        <?php } ?>
+
+
+        <?php 
+        if($member['id'] == 'test') {
+        ?>
+            <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn rf-order-btn" data-index-no="<?php echo $row['raffle_index'];?>">구매하기</button>
+
         <?php } ?>
 
       </div>
@@ -56,5 +64,24 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <script type="module">
 import * as f from '/src/js/function.js';
 
+
+document.querySelectorAll(".rf-order-btn").forEach(btn => {
+  btn.addEventListener("click", function(event) {
+    const index_no = event.currentTarget.dataset.indexNo;
+    $.ajax({
+      url: "./raffleOrder.php",
+        type: "POST",
+        data: { "index_no": index_no },
+        dataType: "json",
+        async: false,
+        cache: false,
+        success: function(data, textStatus) {
+          document.location.href = data.url;
+          return false;
+        }
+    });
+
+  });
+});
 
 </script>
