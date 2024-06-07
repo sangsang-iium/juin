@@ -26,6 +26,7 @@ $value['bank_holder']			= $_POST['bank_holder']; //예금주명
 $value['info_name']				= $_POST['info_name']; //담당자명
 $value['info_tel']				= $_POST['info_tel']; //담당자 핸드폰
 $value['info_email']			= $_POST['info_email']; //담당자 이메일
+$value['min_delivery']			= $_POST['min_delivery']; //최소 배송 금액
 $value['update_time']			= BV_TIME_YMDHIS;
 
 // income 추가 _20240508_SY

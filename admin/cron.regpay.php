@@ -1,6 +1,85 @@
 <?php
 include_once "./_common.php";
 
+$today         = date('Y-m-d'); // 오늘 날짜 (20240605)
+$daysOfWeek    = ['일', '월', '화', '수', '목', '금', '토'];
+$daysOfWeekMap = ['일' => 0, '월' => 1, '화' => 2, '수' => 3, '목' => 4, '금' => 5, '토' => 6];
+$todayIndex    = date('w'); // 오늘 요일 인덱스
+
+// DB에서 배송 관련 데이터 가져오기
+$sql = "SELECT * FROM shop_order_reg
+        WHERE od_reg_total_num > od_reg_num";
+$res = sql_query($sql);
+
+while ($row = sql_fetch_array($res)) {
+  $beginDate           = $row['od_begin_date'];         // 배송 시작일
+  $deliveryCycle       = $row['od_week'];               // 배송 주기
+  $totalDeliveryCount  = $row['od_reg_total_num'];      // 총 배송 횟수
+  $remainingDeliveries = $row['od_reg_num'];            // 남은 배송 횟수
+  $deliveryDays        = explode(',', $row['od_wday']); // 배송 요일 (월, 수 등)
+  $orderId             = $row['index_no'];              // 주문 번호
+
+  // 다음 배송 날짜 계산
+  $nextDeliveryDate  = date('Y-m-d', strtotime($beginDate));
+  $currentCycleCount = 0;
+
+  // 오늘 날짜를 기준으로 다음 배송 날짜 찾기
+  while (strtotime($nextDeliveryDate) < strtotime($today) && $currentCycleCount < $remainingDeliveries) {
+    foreach ($deliveryDays as $day) {
+      $day      = trim($day); // 앞뒤 공백 제거
+      $dayIndex = $daysOfWeekMap[$day];
+      if ($dayIndex >= $todayIndex) {
+        $nextDeliveryDate = date('Y-m-d', strtotime("next $day", strtotime($today)));
+      } else {
+        $nextDeliveryDate = date('Y-m-d', strtotime("next $day", strtotime($nextDeliveryDate)));
+      }
+
+      if (strtotime($nextDeliveryDate) > strtotime($today)) {
+        $currentCycleCount++;
+        break;
+      }
+    }
+
+    // 배송 주기 반영
+    if ($currentCycleCount % count($deliveryDays) == 0) {
+      $nextDeliveryDate = date('Y-m-d', strtotime("+{$deliveryCycle} weeks", strtotime($nextDeliveryDate)));
+    }
+  }
+
+  // 현재 주문서가 배송 대상인지 확인
+  if (strtotime($nextDeliveryDate) >= strtotime($today) && strtotime($nextDeliveryDate) <= strtotime('+3 days', strtotime($today))) {
+    $sql_order = "SELECT * FROM shop_order_reg
+                      WHERE index_no = '{$orderId}'
+                      AND od_reg_total_num > od_reg_num";
+    $res_order = sql_query($sql_order);
+
+    while ($row_order = sql_fetch_array($res_order)) {
+      print_r($row_order);
+      if (!empty($row_order['index_no'])) {
+        $sql_cart = "SELECT * FROM shop_cart
+                             WHERE od_id = '{$row_order['od_id']}'";
+        $res_cart = sql_query($sql_cart);
+
+        $sql_card = "SELECT * FROM iu_card_reg WHERE mb_id = '{$row_order['mb_id']}' AND cr_use = 'Y'";
+        $row_card = sql_fetch($sql_card);
+
+        // // 일반 주문 데이터 테이블에 추가
+        // $sql_insert_order = "INSERT INTO shop_orders (od_id, mb_id, od_total_price, od_status, od_date)
+        //                              VALUES ('{$row_order['od_id']}', '{$row_order['mb_id']}', '{$row_order['od_total_price']}', 'pending', NOW())";
+        // sql_query($sql_insert_order);
+
+        // // 주문 횟수 증가
+        // $sql_update_order = "UPDATE shop_order_reg
+        //                              SET od_reg_num = od_reg_num + 1
+        //                              WHERE index_no = '{$row_order['index_no']}'";
+        // sql_query($sql_update_order);
+
+
+      }
+    }
+  }
+}
+exit;
 $today      = date('w'); // 0 (일요일)부터 6 (토요일)까지
 $daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 

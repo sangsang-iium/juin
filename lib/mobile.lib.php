@@ -175,12 +175,15 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 			echo "<div class=\"cp-tag tag02\">정기</div>";
 			echo "</div>";
 		}
-		echo "<div class=\"cp-tag-item\">";
-		echo "<div class=\"cp-tag tag03\">차량</div>";
-		echo "</div>";
-		// echo "<div class=\"cp-tag-item\">";
-		// echo "<div class=\"cp-tag tag04\">택배</div>";
-		// echo "</div>";
+		if($row['sc_type'] == 4){
+			echo "<div class=\"cp-tag-item\">";
+			echo "<div class=\"cp-tag tag03\">차량</div>";
+			echo "</div>";
+		} else {
+			echo "<div class=\"cp-tag-item\">";
+			echo "<div class=\"cp-tag tag04\">택배</div>";
+			echo "</div>";
+		}
 		echo "</div>";
 
     echo "</div>\n";
@@ -1189,12 +1192,15 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 		echo "<div class=\"cp-tag tag02\">정기</div>";
 		echo "</div>";
 	}
-	echo "<div class=\"cp-tag-item\">";
-	echo "<div class=\"cp-tag tag03\">차량</div>";
-	echo "</div>";
-	// echo "<div class=\"cp-tag-item\">";
-	// echo "<div class=\"cp-tag tag04\">택배</div>";
-	// echo "</div>";
+	if($row['sc_type'] == 4){
+		echo "<div class=\"cp-tag-item\">";
+		echo "<div class=\"cp-tag tag03\">차량</div>";
+		echo "</div>";
+	} else {
+		echo "<div class=\"cp-tag-item\">";
+		echo "<div class=\"cp-tag tag04\">택배</div>";
+		echo "</div>";
+	}
   echo "</div>";
 
   echo "<button type=\"button\" onclick=\"javascript:itemlistwish('$it_idx')\" id='$it_idx' class='$it_idx ui-btn wish-btn ".zzimCheck($it_idx)."' title=\"관심상품 등록하기\"></button>\n";

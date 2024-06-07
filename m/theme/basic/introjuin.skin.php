@@ -31,7 +31,7 @@ include_once "./_head.php";
           <img src="/src/img/icon-intro-btn01.png" alt="">
         </div>
       </a>
-      <a href="/m/raffle/list.php?menu=used" class="intro-btn right-btn intro-btn02">
+      <a href="/m/used/list.php?menu=used" class="intro-btn right-btn intro-btn02">
         <div class="text-box">
           <p class="text01">중고장터</p>
           <p class="text02">저렴하게 누리는 중고장터</p>
