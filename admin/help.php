@@ -17,6 +17,8 @@ if($code == "qa_form")		$pg_title2 = ADMIN_MENU8_01;
 if($code == "faq_group")	$pg_title2 = ADMIN_MENU8_03;
 if($code == "faq")			$pg_title2 = ADMIN_MENU8_04;
 if($code == "faq_from")		$pg_title2 = ADMIN_MENU8_04;
+if($code == "singo")		$pg_title2 = ADMIN_MENU8_05;
+if($code == "singod")		$pg_title2 = ADMIN_MENU8_05;
 
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>

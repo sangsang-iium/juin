@@ -25,8 +25,11 @@ if(empty($imgs)){
     $imgs = ['/src/img/store/t-store_detail1.jpg'];
 }
 
-$good_cnt = getStoreGoodCount($row['index_no']);
 //$goodyn = getStoreGoodRegister($row['index_no'], $member['id']);
+//운영시간/브레이크타임/휴무일
+$works = str_replace("~"," ~ ",$row['ju_worktime']);
+$breaks = str_replace("~"," ~ ",$row['ju_breaktime']);
+$offs = str_replace(['|','요일'],[',',''],$row['ju_off']);
 ?>
 
 <div id="contents" class="sub-contents flView storeView">
@@ -52,23 +55,23 @@ $good_cnt = getStoreGoodCount($row['index_no']);
 
   <div class="bottomBlank container store-item_txtBox item_txtBox">
     <a href="" class="tRow2 title">
-      <span class="cate">[한식]</span>
-      <span class="subj">쥔장네 돈까스</span>
+      <span class="cate">[<?php echo $row['ju_cate'] ?>]</span>
+      <span class="subj"><?php echo $row['ju_restaurant'] ?></span>
     </a>
-    <p class="address">대전 유성구 동서대로656번길</p>
-    <a href="" class="tel">070-0000-0000</a>
+    <p class="address"><?php echo $row['ju_addr_full'] ?></p>
+    <a href="" class="tel"><?php echo $row['ju_tel'] ?></a>
     <ul class="extra">
       <li class="hit">
         <span class="icon">
           <img src="/src/img/store/icon_hit.png" alt="조회수">
         </span>
-        <span class="text">56</span>
+        <span class="text"><?php echo $row['ju_hit'] ?></span>
       </li>
       <li class="like">
         <span class="icon">
           <img src="/src/img/store/icon_like.png" alt="좋아요수">
         </span>
-        <span class="text">23</span>
+        <span class="text"><?php echo getStoreGoodCount($row['index_no']) ?></span>
       </li>
     </ul>
   </div>
@@ -77,24 +80,20 @@ $good_cnt = getStoreGoodCount($row['index_no']);
     <div class="info-list">
       <div class="info-item">
         <p class="tit">운영시간</p>
-        <p class="cont">10:00 ~ 22:00(매주 월 휴무)</p>
+        <p class="cont"><?php echo $works.'(매주 '.$offs.' 휴무)'; ?></p>
       </div>
       <div class="info-item">
         <p class="tit">브레이크타임</p>
-        <p class="cont">브레이크 타임 : 15:00 ~ 17:00</p>
+        <p class="cont">브레이크 타임 : <?php echo $breaks ?></p>
       </div>
       <div class="info-item">
         <p class="tit">주소</p>
-        <p class="cont">주소 : 대전 유성구 동서대로656번길 31-24</p>
+        <p class="cont"><?php echo $row['ju_addr_full'] ?></p>
       </div>
     </div>
   </div>
 
-  <div class="bottomBlank container fl-explan">
-    돈까스 외길 인생 어언 10년 <br/>
-    고기 한장에 모든 노력을 아끼지 않고 제작한 수제 돈까스 전문점입니다. <br/>
-    직접 만든 소스로 더욱 새콤하고 고소한 돈까스를 체험하실 수 있습니다.
-  </div>
+  <div class="bottomBlank container fl-explan"><?php echo nl2br($row['ju_content']) ?></div>
 
 </div>
 

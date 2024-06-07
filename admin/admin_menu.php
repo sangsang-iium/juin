@@ -113,6 +113,7 @@ define('ADMIN_MENU8_01',	'1:1 상담문의');
 define('ADMIN_MENU8_02',	'회원 탈퇴내역');
 define('ADMIN_MENU8_03',	'FAQ 분류');
 define('ADMIN_MENU8_04',	'FAQ 관리');
+define('ADMIN_MENU8_05',	'신고하기 관리');
 
 // 디자인관리
 define('ADMIN_MENU9',		'배너 관리');
@@ -150,9 +151,9 @@ define('ADMIN_MENU10_21',	'권한관리');
 
 // 중고장터관리
 define('ADMIN_MENU11',		'중고장터관리');
-define('ADMIN_MENU11_01',	'중고장터 게시글 리스트');
-define('ADMIN_MENU11_02',	'중고장터 게시글 등록/수정');
-define('ADMIN_MENU11_03',	'중고장터 게시글 상세');
+define('ADMIN_MENU11_01',	'중고장터 상품 리스트');
+define('ADMIN_MENU11_02',	'중고장터 상품 등록/수정');
+define('ADMIN_MENU11_03',	'중고장터 상품 상세');
 
 // 제휴서비스 관리
 define('ADMIN_MENU12',		'제휴 서비스');

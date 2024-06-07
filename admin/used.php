@@ -11,16 +11,22 @@ if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
 	alert("접근권한이 없습니다.");
 }
 
-if($code == "list") $pg_title2 = ADMIN_MENU11_01;
-if($code == "form") $pg_title2 = ADMIN_MENU11_02;
-if($code == "view") $pg_title2 = ADMIN_MENU11_03;
-
+if($code == "list"){
+    $pg_title2 = ADMIN_MENU11_01;
+    $pg_title3 = ADMIN_MENU11_01;
+} else if($code == "form"){
+    $pg_title2 = ADMIN_MENU11_01;
+    $pg_title3 = ADMIN_MENU11_02;
+} else if($code == "view"){
+    $pg_title2 = ADMIN_MENU11_01;
+    $pg_title3 = ADMIN_MENU11_03;
+}
 
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>
 
 <div class="s_wrap">
-	<h1><?php echo $pg_title2; ?></h1>
+	<h1><?php echo $pg_title3; ?></h1>
 	<?php
 	include_once(BV_ADMIN_PATH."/used/used_{$code}.php");
 	?>

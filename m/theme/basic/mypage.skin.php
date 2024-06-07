@@ -125,6 +125,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			<ul class="pdc smb-my-url-list">
 				<li><a href="<?php echo BV_MBBS_URL;?>/qna_list.php">1대1 문의</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/review.php">상품후기</a></li>
+				<li><a href="<?php echo BV_MSHOP_URL;?>/raffleList.php">레플 응모 내역</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/board_list.php?boardid=13">공지사항</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/faq.php">자주 묻는 질문</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/policy.php">개인정보처리방침</a></li>

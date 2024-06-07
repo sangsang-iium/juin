@@ -3,7 +3,7 @@ include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
 
 if(is_numeric($no)){
-    $row = sql_fetch("select * from shop_used where no = '$no'");
+    $row = sql_fetch("select * from shop_used where no = '$no' and del_yn='N'");
     if(!$row['no']){
         alert("상품정보가 존재하지 않습니다.");
     }
@@ -205,12 +205,7 @@ $result = sql_query($sql);*/
           <button type="button" data-no="<?php echo $row['no'] ?>" class="ui-btn wish-btn<?php echo ($goodyn) ? ' on' : '';?>" title="관심상품 등록하기"></button>
           <?php
           if($member['id']==$row['mb_id']){
-            $chat_cnt = getUsedChatCount($row['no']);
-            if($chat_cnt){
-              echo '<a href="./chat_list.php?pno='.$row['no'].'" class="ui-btn round stBlack chat-btn">채팅하기</a>';
-            } else {
-              echo '<a href="#none" class="ui-btn round stBlack chat-btn">채팅이 없습니다</a>';
-            }
+            echo '<a href="./write.php?no='.$row['no'].'" class="ui-btn round stBlack chat-btn">상품정보 수정</a>';
           } else {
             echo '<a href="./chat_room.php?pno='.$row['no'].'&tid='.$member['id'].'" class="ui-btn round stBlack chat-btn">채팅하기</a>';
           }

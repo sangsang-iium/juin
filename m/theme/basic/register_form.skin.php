@@ -1,8 +1,6 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
-if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
-  print_r2($_POST);  
-}
+
   // 사업자 번호 하이픈(-)추가 _20240604_SY
   function formatBno($no) {
     $no = preg_replace('/[^0-9]/', '', $no);
