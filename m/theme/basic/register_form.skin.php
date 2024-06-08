@@ -24,6 +24,21 @@ if(!defined('_BLUEVATION_')) exit;
   // 업종 SELECT _20240604_SY
   $ju_sectors = explode('|', $config['cf_food']);
 
+  if($w=='u') {
+    $mng_sel_sql = " SELECT * FROM shop_manager WHERE index_no = '{$member['ju_manager']}' ";
+    $mng_sel_row = sql_fetch($mng_sel_sql);
+
+    // 지회/지부 SELECT 추가 _20240608__SY
+    if(empty($member['ju_region3'])) {
+      $jibu_sql = " SELECT * FROM kfia_branch WHERE branch_code = '{$member['ju_region2']}' ";
+      $jibu_row = sql_fetch($jibu_sql);
+      $jibu_name = $jibu_row['branch_name'];
+    } else {
+      $jibu_sql = " SELECT * FROM kfia_office WHERE branch_code = '{$member['ju_region2']}' AND office_code = '{$member['ju_region3']}' ";
+      $jibu_row = sql_fetch($jibu_sql);
+      $jibu_name = $jibu_row['office_name'];
+    }
+  }
 
 ?>
 
@@ -205,6 +220,33 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 					</div>
 					<?php } ?>
+
+					<div class="form-row">
+						<div class="form-head">
+							<p class="title">환불계좌등록<b>*</b></p>
+						</div>
+						<div class="form-body phone">	  
+							<label for="reg_mb_addr2" class="sound_only">은행</label> 
+							<?php 
+								
+							?>
+							<select name="refund_bank" class="frm-input">
+									<option>은행을선택하세요</option>
+									<?php 
+									sort($BANKS, SORT_NATURAL | SORT_FLAG_CASE); 
+									//sort($BANKS);
+										for($a=0;$a<count($BANKS);$a++){   
+											?>
+											<option value='<? echo $BANKS[$a]['code']; ?>' <?php  if(get_text($member['refund_bank'])==$BANKS[$a]['code']) echo "selected"; ?>><?php echo $BANKS[$a]['bank'];?></option>
+											<?php
+										}
+									?>
+							</select>
+							<input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
+							<input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
+						</div>
+					</div>
+
 				</div>
 			</div>
 			<!-- } 기본정보 -->
@@ -245,8 +287,8 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">담당자<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="" placeholder="홍길동" readonly>
-              <input type="hidden" name="mn_idx" id="mn_idx" value="">
+							<input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="<?php echo $mng_sel_row['name']; ?>" placeholder="홍길동" readonly>
+              <input type="hidden" name="mn_idx" id="mn_idx" value="<?php echo $mng_sel_row['index_no']; ?>">
 						</div>
 					</div>
 					<!-- <div class="form-row">
@@ -294,34 +336,6 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 					</div>
 
-          <?php if($w != '' ) { ?>
-            <div class="joinDetail-body">
-              <div class="form-row">
-                <div class="form-head">
-                  <p class="title">지회/지부</p>
-                </div>
-                <div class="form-body">
-                  <input type="text" name="<?php echo (!empty($member['ju_region2'])) ? "ju_region2" : "ju_region3" ?>" value=" <?php echo (!empty($member['ju_region2'])) ? $member['ju_region2'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
-                </div>
-              </div>
-              <!-- <div class="form-row">
-                <div class="form-head">
-                  <p class="title">업태</p>
-                </div>
-                <div class="form-body">
-                  <input type="text" name="ju_business_type" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_business_type'] : ""?>" >
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-head">
-                  <p class="title">업종</p>
-                </div>
-                <div class="form-body">
-                  <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
-                </div>
-              </div> -->
-            </div>
-          <?php } ?>
 					<!-- } 사업자 회원가입일 경우 노출 -->
 				</div>
 			</div>
@@ -362,11 +376,40 @@ if(!defined('_BLUEVATION_')) exit;
 							<select name="ju_sectors" id="ju_sectors" class="frm-select w-per100">
                 <option value="">선택</option>
                 <?php foreach($ju_sectors as $key => $val) { ?> 
-                  <option value="<?php echo $val ?>"><?php echo $val ?></option>
+                  <option value="<?php echo $val ?>" <?php echo (($w=='u') && $val == $member['ju_sectors']) ? "selected" : "" ?> ><?php echo $val ?></option>
                 <?php } ?>
               </select>
 						</div>
 					</div>
+          <!-- 지회/지부 정보 _20240608_SY -->
+          <div class="joinDetail-body">
+            <div class="form-row">
+              <div class="form-head">
+                <p class="title">지회/지부</p>
+              </div>
+              <div class="form-body">
+                <input type="hidden" name="ju_region2" value="<?php echo ($w=='') ? (int)$_POST['BRANCH_CODE'] : $member['ju_region2'] ?>" class="frm-input w-per100" >
+                <input type="hidden" name="ju_region3" value="<?php echo ($w=='') ? (int)$_POST['OFFICE_CODE'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
+                <input type="text" name="ju_region_code" value="<?php echo ($w=='') ? $_POST['OFFICE_NAME'] : $jibu_name ?>" class="frm-input w-per100" readonly>
+              </div>
+            </div>
+            <!-- <div class="form-row">
+              <div class="form-head">
+                <p class="title">업태</p>
+              </div>
+              <div class="form-body">
+                <input type="text" name="ju_business_type" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_business_type'] : ""?>" >
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-head">
+                <p class="title">업종</p>
+              </div>
+              <div class="form-body">
+                <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
+              </div>
+            </div> -->
+          </div>
           <!-- 매장명 추가 _20240604_SY -->
           <div class="form-row">
             <div class="form-head">
@@ -504,7 +547,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<input type="tel" name="store_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="store_zip" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" >
 							<button type="button" class="ui-btn st3" onclick="execDaumPostcode2()">주소검색</button>
 							
-							<input type="text" name="store_addr1" value="<?php echo ($w == '') ? get_text($doro1) : "" ?>" id="store_addr1" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+							<input type="text" name="store_addr1" value="<?php echo ($w == '') ? get_text($doro1) : $member['ju_addr_full'] ?>" id="store_addr1" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
 							<label for="store_addr1" class="sound_only">기본주소</label>
 							<input type="text" name="store_addr2" value="<?php echo ($w == '') ? get_text($doro2) : "" ?>" id="store_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
 							<label for="store_addr2" class="sound_only">상세주소</label>

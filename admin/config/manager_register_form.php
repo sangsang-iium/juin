@@ -80,10 +80,10 @@ $region_res = sql_query($region_sel);
         <option value=''>지회선택</option>
         <?php
           if($w != '' && !empty($result['ju_region2'])) {
-            $region2_sel = " SELECT * FROM kfia_region WHERE kf_region1 = '{$result['ju_region1']}' GROUP BY kf_region2 ";
-            $region2_res = sql_query($region2_sel);
-            while ($region2_row = sql_fetch_array($region2_res)) { ?>
-              <option value="<?php echo $region2_row['kf_region2']?>" <?php echo ($w == 'u' && $region2_row['kf_region2'] == $result['ju_region2']) ? "selected" : "" ?> ><?php echo $region2_row['kf_region2'] ?></option>
+            $re2_where = " WHERE (1) AND areacode = '{$result['ju_region1']}' ";
+            $re2_res   = getRegionFunc("branch", $re2_where);
+            foreach ($re2_res as $key => $val) { ?>
+              <option value="<?php echo $val['branch_code'] ?>" <?php echo ($w == 'u' && $val['branch_code'] == $result['ju_region2']) ? "selected" : "" ?> ><?php echo $val['branch_name'] ?></option>
         <?php } } ?>
       </select>
     </td>
@@ -93,12 +93,12 @@ $region_res = sql_query($region_sel);
     <td>
       <select name="ju_region3" id="ju_region3">
         <option value=''>지부선택</option>
-        <?php // 지부 목록 _20240521_SY
+        <?php
           if($w != '' && !empty($result['ju_region3'])) {
-            $region3_sel = " SELECT * FROM kfia_region WHERE kf_region1 = '{$result['ju_region1']}' AND kf_region3 <> '' GROUP BY kf_region3 ";
-            $region3_res = sql_query($region3_sel);
-            while ($region3_row = sql_fetch_array($region3_res)) { ?>
-              <option value="<?php echo $region3_row['kf_region3']?>" <?php echo ($w == 'u' && $region3_row['kf_region3'] == $result['ju_region3']) ? "selected" : "" ?> ><?php echo $region3_row['kf_region3'] ?></option>
+            $re3_where = " WHERE (1) AND areacode = '{$result['ju_region1']}' AND b.branch_code = '{$result['ju_region2']}' ";
+            $re3_res   = getRegionFunc("office", $re3_where);
+            foreach ($re3_res as $key => $val) { ?>
+              <option value="<?php echo $val['office_code'] ?>" <?php echo ($w == 'u' && $val['office_code'] == $result['ju_region3']) ? "selected" : "" ?> ><?php echo $val['office_name'] ?></option>
         <?php } } ?>
       </select>
     </td>
@@ -180,7 +180,7 @@ function getBranch(e) {
       for (var i = 0; i < reg.length; i++) {
         if(reg[i].region != "") {
           var option = $('<option>');
-          option.val(reg[i].region);
+          option.val(reg[i].code);
           option.text(reg[i].region);
           ju_region2.append(option);
         }
@@ -196,12 +196,12 @@ function getBranch(e) {
 
 // 지부 SELECT BOX _20240531_SY
 function getChapter(e) {
-  
+console.log(e)  
   $.ajax({
     url: '/admin/ajax.gruopdepth.php',
     type: 'POST',
     data: { 
-      depthNum: 2,
+      depthNum: 4,
       depthValue: e
     },
     success: function(res) {
@@ -219,7 +219,7 @@ function getChapter(e) {
       for (var i = 0; i < reg.length; i++) {
         if(reg[i].region != "") {
           var option = $('<option>');
-          option.val(reg[i].region);
+          option.val(reg[i].code);
           option.text(reg[i].region);
           ju_region3.append(option);
         }

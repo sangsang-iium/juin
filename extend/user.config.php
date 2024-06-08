@@ -437,11 +437,16 @@ function juinGroupInfo($depth, $depth2 = '') {
               GROUP BY kf_region3";
       break;
     case '3':
-      $sql = " SELECT kf_region2 AS region, COUNT(kf_region2)
-                FROM kfia_region
-                WHERE kf_region1 = '{$depth2}'
-                  AND kf_region3 = ''
-            GROUP BY kf_region2 ";
+      $sql = " SELECT branch_name AS region, branch_code AS code, COUNT(branch_code)
+                 FROM kfia_branch
+                WHERE area_idx = '{$depth2}'
+                GROUP BY branch_code ";
+      break;
+    case '4':
+      $sql = " SELECT office_name AS region, office_code AS code, COUNT(office_code)
+                 FROM kfia_office
+                WHERE branch_code = '{$depth2}'
+                GROUP BY office_code ";
       break;
 
   }
@@ -503,6 +508,37 @@ function log_write($str) {
   // system("find " . $log_dir . " -name '*.txt' -type f -ctime 6 -exec rm -f {} \;");
 }
 
+
+// 지회/지부 Info _20240608_SY
+function getRegionFunc($type, $where) {
+  switch($type) {
+    case "branch":
+      $sel = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname ";
+      $join = " LEFT JOIN area c 
+                  ON (b.area_idx = c.areacode) ";
+      $group = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname ";
+      break;
+    case "office":
+      $sel = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname, a.office_code, a.office_name, a.auth_idx ";
+      $join = " LEFT JOIN area c 
+                  ON (b.area_idx = c.areacode)
+            LEFT JOIN kfia_office a 
+                  ON (b.branch_code = a.branch_code) ";
+      $group = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname, a.office_code, a.office_name ";
+      break;
+  }
+
+  $region_sql = " SELECT {$sel} FROM kfia_branch b {$join} {$where}GROUP BY {$group} " ;
+  $region_res = sql_query($region_sql);
+  
+  $data = [];
+  while ($region_row = sql_fetch_array($region_res)) {
+    $data[] = $region_row;
+  }
+
+  return $data;
+  
+}
 
 // Admin Top Menu _20240528_SY
 function getMenuFunc($menu, $link, $code) {

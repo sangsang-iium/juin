@@ -9,6 +9,7 @@ $depthValue = $_POST['depthValue'];
 
 $depth = juinGroupInfo($depthNum, $depthValue);
 
+
 $data = array();
 for ($d = 0; $d < count($depth); $d++) {
   $data[] = $depth[$d];

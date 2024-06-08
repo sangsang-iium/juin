@@ -17,15 +17,18 @@ if($_POST['act_button'] == "선택삭제")
 	{
 		// 실제 번호를 넘김
 		$k = $_POST['chk'][$i];
-    $kf_code = trim($_POST['kf_code'][$k]);
+    $office_idx = trim($_POST['office_idx'][$k]);
 
     // 담당자 체크
-    $mn_region_sql = " SELECT COUNT(*) AS cnt FROM shop_manager WHERE ju_region_code = '{$kf_code}' ";
+    $mn_region_sql = " SELECT COUNT(*) AS cnt FROM shop_manager a 
+                         LEFT JOIN kfia_office b 
+                           ON (a.ju_region3 = b.office_code)
+                        WHERE office_idx = '{$office_idx}' ";
     $mn_region_row = sql_fetch($mn_region_sql);
     if($mn_region_row['cnt'])
       alert("담당자에 저장된 지부정보는 삭제할 수 없습니다.");
 
-    sql_query(" DELETE FROM kfia_region WHERE kf_code = '{$kf_code}' ");
+    sql_query(" DELETE FROM kfia_office WHERE office_idx = '{$office_idx}' ");
 	}
 }
 
