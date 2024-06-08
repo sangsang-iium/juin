@@ -30,13 +30,11 @@ if(!defined('_BLUEVATION_')) exit;
 
     // 지회/지부 SELECT 추가 _20240608__SY
     if(empty($member['ju_region3'])) {
-      $jibu_sql = " SELECT * FROM kfia_branch WHERE branch_code = '{$member['ju_region2']}' ";
-      $jibu_row = sql_fetch($jibu_sql);
-      $jibu_name = $jibu_row['branch_name'];
+      $jibu_row = getRegionFunc("branch", " WHERE b.branch_code = '{$member['ju_region2']}'");
+      $jibu_name = $jibu_row[0]['branch_name'];
     } else {
-      $jibu_sql = " SELECT * FROM kfia_office WHERE branch_code = '{$member['ju_region2']}' AND office_code = '{$member['ju_region3']}' ";
-      $jibu_row = sql_fetch($jibu_sql);
-      $jibu_name = $jibu_row['office_name'];
+      $jibu_row = getRegionFunc("office", " WHERE b.branch_code = '{$member['ju_region2']}' AND a.office_code = '{$member['ju_region3']}'");
+      $jibu_name = $jibu_row[0]['office_name'];
     }
   }
 

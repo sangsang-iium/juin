@@ -280,7 +280,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
               url: '/admin/ajax.gruopdepth.php', // 데이터를 처리할 서버 측 파일의 경로
               type: 'POST', // 요청 방식 (POST 또는 GET)
               data: {
-                depthNum: '2',
+                depthNum: '4',
                 depthValue: depth2
               }, // 서버로 전송할 데이터
               success: function(res) {
@@ -296,7 +296,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
 
                 for (var i = 0; i < reg.length; i++) {
                   var option = $('<option>'); // 새로운 옵션 요소 생성
-                  option.val(reg[i].region); // 옵션의 값 설정
+                  option.val(reg[i].code); // 옵션의 값 설정
                   option.text(reg[i].region); // 옵션의 텍스트 설정
                   ju_region3.append(option); // ju_region3에 옵션 추가
 
@@ -545,7 +545,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                       <?php
                       $depth1 = juinGroupInfo(1);
                       for ($d = 0; $d < count($depth1); $d++) { ?>
-                        <option value="<?php echo $depth1[$d]['region'] ?>" <?php echo $mb['ju_region2'] == $depth1[$d]['region'] ? "selected" : "" ?>><?php echo $depth1[$d]['region'] ?></option>
+                        <option value="<?php echo $depth1[$d]['code'] ?>" <?php echo $mb['ju_region2'] == $depth1[$d]['code'] ? "selected" : "" ?>><?php echo $depth1[$d]['region'] ?></option>
                       <?php  }
                       ?>
                     </select>
