@@ -46,7 +46,7 @@ if($w == '') {
   $auth_idx = $_GET['idx'];
 
   // 사용중인 담당자 여부 체크
-  $mng_chk_sql = " SELECT COUNT(*) as cnt FROM shop_manager WHERE auth_idx = '{$auth_idx}' ";
+  $mng_chk_sql = " SELECT COUNT(*) as cnt FROM shop_manager WHERE region_idx = '{$auth_idx}' ";
   $mng_chk_row = sql_fetch($mng_chk_sql);
 
   if($mng_chk_row['cnt'] > 0) {

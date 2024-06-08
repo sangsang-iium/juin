@@ -23,6 +23,9 @@ $q2 = $query_string."&page=$page";
 $region_sel = "SELECT areacode, areaname FROM area GROUP BY areacode";
 $region_res = sql_query($region_sel);
 // $regionArr = array('서울', '부산', '대구', '인천', '광주', '대전', '울산', '강원', '경기', '경남', '경북', '전남', '전북', '제주', '충남', '충북');
+
+$auth_sql = " SELECT * FROM authorization";
+$auth_res = sql_query($auth_sql);
 ?>
 
 <form name="fchapter" id="fregisterform" action="./config/chapterupdate.php" onsubmit="return fregisterform_submit(this);" method="POST" autocomplete="off">
@@ -46,6 +49,17 @@ $region_res = sql_query($region_sel);
     <td>
       <input type="text" name="chapter_id" id="chapter_id" value="<?php echo ($w == '') ? '' : $result['kf_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
       <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
+    </td>
+  </tr>
+  <!-- 권한 추가 _20240608_SY -->
+  <tr>
+    <th scope="row"><label for="auth_idx">권한</label><span>(*)</span></th>
+    <td>
+      <select name="auth_idx" id="auth_idx">
+        <?php while($authArr = sql_fetch_array($auth_res)) { ?>
+          <option value="<?php echo $authArr['auth_idx']; ?>" <?php echo ($result['auth_idx'] == $authArr['auth_idx']) ? "selected" : "" ?> ><?php echo $authArr['auth_title'] ?></option>
+        <?php } ?>
+      </select>
     </td>
   </tr>
 	<tr>
