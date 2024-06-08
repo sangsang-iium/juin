@@ -428,8 +428,10 @@ function juinGroupInfo($depth, $depth2 = '') {
   // case 3 추가 _20240517_SY
   switch ($depth) {
     case '1':
-      $sql = "SELECT kf_region2 AS region, COUNT(kf_region2) FROM kfia_region
-              GROUP BY kf_region2";
+      // $sql = "SELECT kf_region2 AS region, COUNT(kf_region2) FROM kfia_region
+      //         GROUP BY kf_region2";
+      $sql = "SELECT branch_name AS region, branch_code AS code, COUNT(branch_code) FROM kfia_branch
+              GROUP BY branch_code";
       break;
     case '2':
       $sql = "SELECT kf_region3 AS region, COUNT(kf_region3) FROM kfia_region
