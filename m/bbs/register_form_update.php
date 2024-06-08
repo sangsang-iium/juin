@@ -71,7 +71,9 @@ $mb_addr_jibeon = preg_match("/^(N|R)$/", $mb_addr_jibeon) ? $mb_addr_jibeon : '
 $manager_idx    = isset($_POST['mn_idx'])        ? trim($_POST['mn_idx']) : "";
 $ju_restaurant  = isset($_POST['ju_restaurant']) ? trim($_POST['ju_restaurant']) : "";
 $ju_sectors     = isset($_POST['ju_sectors'])    ? trim($_POST['ju_sectors']) : "";
-$OFFICE_NAME     = isset($_POST['OFFICE_NAME'])   ? trim($_POST['OFFICE_NAME']) : ""; // 지회/지부 부분 kfia_region 조회하고 INSERT 하는 기능 필요 _20240604_SY
+// 추가 _20240608_SY
+$ju_region2     = isset($_POST['ju_region2'])   ? trim($_POST['ju_region2']) : ""; 
+$ju_region3     = isset($_POST['ju_region3'])   ? trim($_POST['ju_region3']) : ""; 
 
 if($w == '' || $w == 'u') {
 
@@ -160,9 +162,9 @@ if($config['cf_cert_use'] && $cert_type && $md5_cert_no) {
         $value['mb_certify']	= $cert_type;
         $value['mb_adult']		= $_SESSION['ss_cert_adult'];
         $value['mb_birth']		= $_SESSION['ss_cert_birth'];
-        $value['gender']		= $_SESSION['ss_cert_sex'];
+        $value['gender']		  = $_SESSION['ss_cert_sex'];
         $value['mb_dupinfo']	= $_SESSION['ss_cert_dupinfo'];
-		$value['age']			= get_birth_age($_SESSION['ss_cert_birth']);
+		    $value['age']			    = get_birth_age($_SESSION['ss_cert_birth']);
         if($w == 'u')
 			$value['name'] = $mb_name;
     } else {
@@ -170,8 +172,8 @@ if($config['cf_cert_use'] && $cert_type && $md5_cert_no) {
         $value['mb_certify']	= '';
         $value['mb_adult']		= '0';
         $value['mb_birth']		= '';
-        $value['gender']		= '';
-		$value['age']			= '';
+        $value['gender']		  = '';
+        $value['age']			    = '';
     }
 } else {
     if(get_session("ss_reg_mb_name") != $mb_name || get_session("ss_reg_mb_hp") != $mb_hp) {
@@ -179,8 +181,8 @@ if($config['cf_cert_use'] && $cert_type && $md5_cert_no) {
         $value['mb_certify']	= '';
         $value['mb_adult']		= '0';
         $value['mb_birth']		= '';
-        $value['gender']		= '';
-		$value['age']			= '';
+        $value['gender']		  = '';
+		    $value['age']			    = '';
     }
 }
 //===============================================================
@@ -207,7 +209,11 @@ if($w == '') {
 	$value['mailser']		= $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 	$value['smsser']		= $mb_sms ? $mb_sms : 'N'; //SMS를 수신
   $value['ju_mem']    = $reg_type; // 사업자 여부
-
+  
+    $value['refund_bank']   =$refund_bank;//환불은행
+    $value['refund_num']   =$refund_num;//환불계좌번호
+    $value['refund_name']   =$refund_name;//환불계좌주
+  
   if($reg_type == 1) {
     $value['ju_name']       = $mb_name;
     $value['ju_unique_num'] = $pop_u_no;
@@ -218,6 +224,9 @@ if($w == '') {
     $value['ju_sectors']    = $ju_sectors;
     $value['ju_cate']       = $ju_sectors;
     $value['ju_manager']    = $manager_idx;
+    $value['ju_addr_full']  = $mb_addr1." ".$mb_addr2;
+    $value['ju_region2']    = $ju_region2;
+    $value['ju_region3']    = $ju_region3;
   }
 
     // 관리자인증을 사용하지 않는다면 인증으로 간주함.
@@ -285,6 +294,11 @@ if($w == '') {
 	$value['addr_jibeon']	= $mb_addr_jibeon; //지번주소
 	$value['mailser']		= $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 	$value['smsser']		= $mb_sms ? $mb_sms : 'N'; //SMS를 수신
+
+    $value['refund_bank']   =$refund_bank;//환불은행
+    $value['refund_num']   =$refund_num;//환불계좌번호
+    $value['refund_name']   =$refund_name;//환불계좌주
+    
 	update("shop_member", $value, " where id = '{$member['id']}' ");
 }
 

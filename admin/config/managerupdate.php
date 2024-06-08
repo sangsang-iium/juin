@@ -1,7 +1,6 @@
 <?php // 담당자 _20240527_SY
 include_once("./_common.php");
 
-
 /* POST 값
   [token] => fcd84f7e807272cc5c9af75bed9de507
   [q1] => code=manager_register_form
@@ -16,9 +15,9 @@ include_once("./_common.php");
 */
  
  
-// check_demo();
+check_demo();
 
-// check_admin_token();
+check_admin_token();
 
 $db_table = "shop_manager";
 
@@ -32,17 +31,20 @@ $region3  = $_POST['ju_region3'];
 $now = date('Y-m-d H:i:s');
 
 
-// 지역 코드 
-$region_sql = " SELECT kf_idx, kf_code, auth_idx FROM kfia_region
-                WHERE (1)
-                  AND kf_region1 = '{$region1}'
-                  AND kf_region2 = '{$region2}'
-                  AND kf_region3 = '{$region3}'
-              ";
-$region_res = sql_fetch($region_sql);
+// 지회/지부 SELECT 수정 _20240608_SY
+if(!empty($region3)) {
+  $sql_where .= " AND b.branch_code = '{$region2}' 
+                  AND a.office_code = '{$region3}' 
+                ";
+  $type = "office";
+} else {
+  $sql_where .= " AND b.branch_code = '{$region2}' ";
+  $type = "branch";
+}
+$region_res = getRegionFunc($type, $sql_where);
 
 // 권한
-$auth_sql = "SELECT * FROM authorization WHERE auth_idx = '{$region_res['auth_idx']}'";
+$auth_sql = "SELECT * FROM authorization WHERE auth_idx = '{$region_res[0]['auth_idx']}'";
 $auth_res = sql_fetch($auth_sql);
 
 $menuArr = str_replace(',', '', $auth_res['auth_menu']);
@@ -89,8 +91,6 @@ if($w == '') {
   $ins_data['ju_region1']     = $region1;
   $ins_data['ju_region2']     = $region2;
   $ins_data['ju_region3']     = $region3;
-  $ins_data['ju_region_code'] = $region_res['kf_code'];
-  $ins_data['region_idx']     = $region_res['kf_idx'];
  
   $INSERT = new IUD_Model;
   $INSERT->insert($db_table, $ins_data);
@@ -111,8 +111,6 @@ if($w == '') {
   $upd_data['ju_region1']     = $region1;
   $upd_data['ju_region2']     = $region2;
   $upd_data['ju_region3']     = $region3;
-  $upd_data['ju_region_code'] = $region_res['kf_code'];
-  $upd_data['region_idx']     = $region_res['kf_idx'];
   $upd_where = " WHERE index_no = '{$idx}' ";
 
   $UPDATE = new IUD_Model;
