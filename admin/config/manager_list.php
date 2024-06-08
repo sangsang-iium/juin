@@ -4,9 +4,7 @@ if (!defined('_BLUEVATION_')) exit;
 
 $sql_common = " FROM shop_manager ";
 $sql_search = " WHERE (1) AND grade > 1 AND id <> 'admin'";
-$sql_join = " LEFT JOIN authorization AS auth 
-                     ON (mn.auth_idx = auth.auth_idx) 
-              LEFT JOIN ( SELECT kf.*, area.areaname, area.areacode
+$sql_join = " LEFT JOIN ( SELECT kf.*, area.areaname, area.areacode
                             FROM kfia_region AS kf 
                        LEFT JOIN ( SELECT areacode, areaname FROM area GROUP BY areacode) AS area 
                               ON kf.kf_region1 = area.areacode
@@ -20,7 +18,12 @@ $q2 = $query_string . "&page=$page";
 
 if ($sfl && $stx) {
   if($sfl == "auth_idx") {
-    $sql_search .= " and mn.$sfl like '%$stx%' ";
+    // 권한 삭제 시 sql 수정 _20240608_SY
+    $sql_join .= " LEFT JOIN authorization AS auth 
+			                    ON (kfa.auth_idx = auth.auth_idx) ";
+    $sql_search .= " and kfa.$sfl like '%$stx%' ";
+    $auth_row = sql_fetch(" SELECT * FROM authorization WHERE auth_idx='$stx' ");
+    $stx = $auth_row['auth_title'];
   } else {
     $sql_search .= " and $sfl like '%$stx%' ";
   }
@@ -46,7 +49,7 @@ if ($page == "") {
 }
 $from_record = ($page - 1) * $rows;
 
-$sql = " SELECT mn.*, auth.*, kfa.* {$sql_common} AS mn {$sql_join} {$sql_search} LIMIT {$from_record}, {$rows} ";
+$sql = " SELECT mn.*, kfa.* {$sql_common} AS mn {$sql_join} {$sql_search} LIMIT {$from_record}, {$rows} ";
 $result = sql_query($sql);
 
 // <input type="submit" name="act_button" value="선택수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
@@ -84,7 +87,7 @@ EOF;
   </div>
   <div class="btn_confirm">
     <input type="submit" value="검색" class="btn_medium">
-    <input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+    <a href="<?php echo BV_ADMIN_URL."/config.php?code=".$code ?>" id="frmRest" class="btn_medium grey">초기화</a>
   </div>
 </form>
 
@@ -161,7 +164,6 @@ echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAM
 
 <script>
   sessionStorage.removeItem("id_duChk");
-
 
   function fmanagerlist_submit(f) {
     if (!is_checked("chk[]")) {

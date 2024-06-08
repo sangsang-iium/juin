@@ -93,7 +93,7 @@ EOF;
 </div>
 <div class="btn_confirm">
 	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+  <a href="<?php echo BV_ADMIN_URL."/config.php?code=".$code ?>" id="frmRest" class="btn_medium grey">초기화</a>
 </div>
 </form>
 

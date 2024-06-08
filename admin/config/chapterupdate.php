@@ -2,15 +2,16 @@
 include_once("./_common.php");
 
 
-// check_demo();
+check_demo();
 
-// check_admin_token();
+check_admin_token();
 
 $db_table   = "kfia_region";
 $kf_code    = preg_replace("/\s+/", "", $_POST['chapter_id']);
 $kf_region1 = $_POST['kf_region1'];
 $kf_region2 = $_POST['kf_region2'];;
 $kf_region3 = preg_replace("/\s+/", "", $_POST['kf_region3']);
+$auth_idx   = $_POST['auth_idx'];
 
 $duChk_sql = " SELECT kf_idx, COUNT(*) AS cnt FROM kfia_region 
                 WHERE kf_region1 = '{$kf_region1}' 
@@ -29,6 +30,7 @@ if($w == '') {
     $db_insert['kf_region1'] = $kf_region1;
     $db_insert['kf_region2'] = $kf_region2;
     $db_insert['kf_region3'] = $kf_region3;
+    $db_insert['auth_idx']   = $auth_idx;
     $db_insert['kf_wdate']   = date('Y-m-d H:i:s');
     $db_insert['kf_udate']   = date('Y-m-d H:i:s');
     
@@ -48,6 +50,7 @@ if($w == '') {
     $db_update['kf_region1'] = $kf_region1;
     $db_update['kf_region2'] = $kf_region2;
     $db_update['kf_region3'] = $kf_region3;
+    $db_update['auth_idx']   = $auth_idx;
     $db_update['kf_udate']   = date('Y-m-d H:i:s');
     $db_where = " WHERE kf_idx = '{$idx}' ";
 

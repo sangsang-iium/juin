@@ -9,7 +9,6 @@ include_once("./_common.php");
   [w] => 
   [manager_id] => sss
   [manager_pw] => 1234
-  [auth_idx] => 1
   [manager_name] => aaaaaa
   [kf_region1] => 1
   [kf_region2] => 성동구지회
@@ -28,12 +27,22 @@ $name     = trim($_POST['manager_name']);
 $region1  = $_POST['ju_region1'];
 $region2  = $_POST['ju_region2'];
 $region3  = $_POST['ju_region3'];
-$auth_idx = $_POST['auth_idx'];
+// $auth_idx = $_POST['auth_idx'];
 
 $now = date('Y-m-d H:i:s');
 
+
+// 지역 코드 
+$region_sql = " SELECT kf_idx, kf_code, auth_idx FROM kfia_region
+                WHERE (1)
+                  AND kf_region1 = '{$region1}'
+                  AND kf_region2 = '{$region2}'
+                  AND kf_region3 = '{$region3}'
+              ";
+$region_res = sql_fetch($region_sql);
+
 // 권한
-$auth_sql = "SELECT * FROM authorization WHERE auth_idx = '$auth_idx'";
+$auth_sql = "SELECT * FROM authorization WHERE auth_idx = '{$region_res['auth_idx']}'";
 $auth_res = sql_fetch($auth_sql);
 
 $menuArr = str_replace(',', '', $auth_res['auth_menu']);
@@ -59,16 +68,6 @@ foreach ($menuArr as $val) {
     }
 }
 
-
-// 지역 코드 
-$region_sql = " SELECT kf_code FROM kfia_region
-                WHERE (1)
-                  AND kf_region1 = '{$region1}'
-                  AND kf_region2 = '{$region2}'
-                  AND kf_region3 = '{$region3}'
-              ";
-$region_res = sql_fetch($region_sql);
-
 if($w == '') {
 
 /** INSERT 항목
@@ -91,7 +90,7 @@ if($w == '') {
   $ins_data['ju_region2']     = $region2;
   $ins_data['ju_region3']     = $region3;
   $ins_data['ju_region_code'] = $region_res['kf_code'];
-  $ins_data['auth_idx']       = $auth_idx;
+  $ins_data['region_idx']     = $region_res['kf_idx'];
  
   $INSERT = new IUD_Model;
   $INSERT->insert($db_table, $ins_data);
@@ -113,7 +112,7 @@ if($w == '') {
   $upd_data['ju_region2']     = $region2;
   $upd_data['ju_region3']     = $region3;
   $upd_data['ju_region_code'] = $region_res['kf_code'];
-  $upd_data['auth_idx']       = $auth_idx;
+  $upd_data['region_idx']     = $region_res['kf_idx'];
   $upd_where = " WHERE index_no = '{$idx}' ";
 
   $UPDATE = new IUD_Model;
