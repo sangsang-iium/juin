@@ -166,7 +166,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 
 		// 2024-06-03 : 정기/일반 배송 추가
 		echo "<div class=\"cp-tag-box\">";
-		if($row['reg_yn'] == 2){
+		if ($row['reg_yn'] == 2) {
 			echo "<div class=\"cp-tag-item\">";
 			echo "<div class=\"cp-tag tag01\">일반</div>";
 			echo "</div>";
@@ -175,7 +175,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 			echo "<div class=\"cp-tag tag02\">정기</div>";
 			echo "</div>";
 		}
-		if($row['sc_type'] == 4){
+		if ($row['sc_type'] == 4) {
 			echo "<div class=\"cp-tag-item\">";
 			echo "<div class=\"cp-tag tag03\">차량</div>";
 			echo "</div>";
@@ -544,8 +544,8 @@ function mobile_buy_button($msg, $gs_id)
 			// 	$sw_direct = "wish";
 			// 	break;
 			case '1':
-				$sw_direct = "buy";
-				break;
+			 	$sw_direct = "buy";
+			 	break;
 			case '2':
 				$sw_direct = "cart";
 				break;
@@ -1183,7 +1183,7 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 
 	// 2024-06-03 : 정기/일반 배송 추가
 	echo "<div class=\"cp-tag-box\">";
-	if($row['reg_yn'] == 2 ){
+	if ($row['reg_yn'] == 2) {
 		echo "<div class=\"cp-tag-item\">";
 		echo "<div class=\"cp-tag tag01\">일반</div>";
 		echo "</div>";
@@ -1192,7 +1192,7 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 		echo "<div class=\"cp-tag tag02\">정기</div>";
 		echo "</div>";
 	}
-	if($row['sc_type'] == 4){
+	if ($row['sc_type'] == 4) {
 		echo "<div class=\"cp-tag-item\">";
 		echo "<div class=\"cp-tag tag03\">차량</div>";
 		echo "</div>";
@@ -1201,7 +1201,7 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 		echo "<div class=\"cp-tag tag04\">택배</div>";
 		echo "</div>";
 	}
-  echo "</div>";
+	echo "</div>";
 
   echo "<button type=\"button\" onclick=\"javascript:itemlistwish('$it_idx')\" id='$it_idx' class='$it_idx ui-btn wish-btn ".zzimCheck($it_idx)."' title=\"관심상품 등록하기\"></button>\n";
   echo "</div>\n";

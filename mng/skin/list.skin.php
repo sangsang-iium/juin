@@ -290,7 +290,24 @@ function get_move_pc($ca_id)
 
           <a href="<?php echo $it_href;?>" class="it_li_top">
             <dl>
-              <dt><?php echo $it_image; ?></dt>
+              <dt>
+                <?php echo $it_image; ?>
+                <?php
+                  switch ($row['sc_type']) {
+                    case '1':
+                      $scType = "택배";
+                      break;
+                    case '4':
+                      $scType = "차량";
+                      break;
+
+                    default:
+                      $scType ="택배";
+                      break;
+                  }
+                  echo "<span style='background-color: black;color: white;position: absolute;top: 0;right: 0;'>$scType</span>";
+                ?>
+              </dt>
               <dd class="pname"><?php echo $it_name; ?></dd>
               <dd class="price"><?php echo $it_price; ?></dd>
             </dl>

@@ -121,12 +121,15 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       $result = sql_query($sql);
       for ($i = 0; $row = sql_fetch_array($result); $i++) {
         $raffleCheck = false;
-        if(raffleIndexCheck($row['gs_id'])) {
+        if($row['raffle'] == 1) {
           $raffleCheck = true;
           $raffleIndexNo = preg_replace('/000000$/', '', $row['gs_id']);
           $gs = raffleDetail($raffleIndexNo);
           $it_name = stripslashes($gs['goods_name']);
           $sell_qty = 1;
+          $config['usepoint_yes'] = 0;
+          $tot_sell_price = $gs['raffle_price'];
+          $gs['reg_yn'] = 1;
         } else {
         $gs = get_goods($row['gs_id']);
 
@@ -357,7 +360,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       <?php } ?>
 
       <?php
-        if ($gs['reg_yn'] == 1) {
+        if ($gs['reg_yn'] == 1 && !$raffleCheck) {
       ?>
       <!-- 2024-06-03 : 정기기간 / 배송일 추가 -->
       <div class="bottomBlank">

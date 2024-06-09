@@ -8,6 +8,7 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="gs_id[]" value="<?php echo $index_no; ?>">
 <input type="hidden" id="it_price" value="<?php echo get_sale_price($index_no); ?>">
 <input type="hidden" name="ca_id" value="<?php echo $gs['ca_id']; ?>">
+<input type="hidden" name="paytype" value="<?php echo $paytype; ?>">
 <input type="hidden" name="sw_direct">
 
 <p class="tit_navi marb15"><?php echo $navi; ?></p>

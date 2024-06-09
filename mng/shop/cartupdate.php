@@ -231,6 +231,6 @@ if($sw_direct) {
     else
     	goto_url(BV_BBS_URL.'/login.php?url='.urlencode('/mng/shop/orderform.php'));
 } else {
-   goto_url(BV_MNG_SHOP_URL."/cart.php");
+   goto_url(BV_MNG_SHOP_URL."/cart.php?paytype={$paytype}");
 }
 ?>
