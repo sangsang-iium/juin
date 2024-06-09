@@ -20,7 +20,7 @@ $sql = "SELECT a.* FROM shop_cart a
 				JOIN shop_goods b ON (a.gs_id = b.index_no)
 				WHERE a.ct_direct = '{$set_cart_id}'
 				AND a.ct_select = '0'
-				AND a.reg_yn = '{$paytype}}'
+				AND a.reg_yn = '{$paytype}'
 				 {$sql_add}
 				group BY a.gs_id
 				order BY b.mb_id, a.index_no";
