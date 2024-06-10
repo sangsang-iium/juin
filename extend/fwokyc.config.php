@@ -19,13 +19,13 @@ function getMemberName($mb_id){
 
 // 중고장터 구분/상태
 function getUsedGubunStatus($gubun, $status) {
-    $rtn = ['팝니다', '판매중'];
+    $rtn = ['팝니다', '판매중', 'ing'];
     if($gubun=='1'){
-        $rtn = ['삽니다', '-'];
+        $rtn = ['삽니다', '-', 'ing'];
     } else if($status=='1'){
-        $rtn[1] = '예약중';
+        $rtn = ['팝니다', '예약중', 'resv'];
     } else if($status=='1'){
-        $rtn[1] = '판매완료';
+        $rtn = ['팝니다', '판매완료', 'end'];
     }
     
     return $rtn;

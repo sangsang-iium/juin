@@ -98,7 +98,7 @@ EOF;
 	</table>
 </div>
 <div class="board_btns tac mart20">
-    <div class="btn_wrap btn_type">
+    <div class="btn_wrap">
         <input type="submit" value="검색" class="btn_acc marr10">
         <input type="button" value="초기화" id="frmRest" class="btn_cen">
     </div>
@@ -152,7 +152,7 @@ EOF;
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
 		<td><?php echo $num--; ?></td>
-		<td><a href="<?php echo $vlink ?>"><?php echo $row['title']; ?></a></td>
+		<td><a href="<?php echo $vlink ?>"><b><?php echo $row['title']; ?></b></a></td>
 		<td><?php echo $row['mb_id']; ?></td>
 		<td><?php echo $row['target_id']; ?></td>
 		<td><?php echo $row['category']; ?></td>

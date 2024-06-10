@@ -10,7 +10,7 @@ if($gs['index_no']) {
 ?>
 <table>
 <colgroup>
-	<col class="w180">
+	<col width="220px">
 	<col>
 </colgroup>
 <tbody>

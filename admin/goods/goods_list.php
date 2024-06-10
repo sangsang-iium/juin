@@ -39,7 +39,7 @@ include_once(BV_ADMIN_PATH.'/goods/goods_sub.php');
 		<col class="w90">
 		<col class="w90">
 		<col class="w60">
-		<col class="w60">
+		<col class="w120">
 	</colgroup>
 	<thead>
 	<tr>
@@ -94,7 +94,14 @@ include_once(BV_ADMIN_PATH.'/goods/goods_sub.php');
 		<td rowspan="2" class="tar"><?php echo number_format($row['goods_price']); ?></td>
 		<td rowspan="2" class="tar"><?php echo number_format($row['gpoint']); ?></td>
 		<td rowspan="2"><input type="text" name="rank[<?php echo $i; ?>]" value="<?php echo $row['rank']; ?>" class="frm_input"></td>
-		<td rowspan="2"><a href="./goods.php?code=form&w=u&gs_id=<?php echo $gs_id.$qstr; ?>&page=<?php echo $page; ?>&bak=<?php echo $code; ?>" class="btn_small">수정</a></td>
+		<td rowspan="2">
+            <div class="btn_wrap">
+                <a href="./goods.php?code=form&w=u&gs_id=<?php echo $gs_id.$qstr; ?>&page=<?php echo $page; ?>&bak=<?php echo $code; ?>" class="btn_fix bg_type2">
+                    <span>수정</span>
+                </a>
+                <!-- <a href="./goods.php?code=form&w=u&gs_id=<?php echo $gs_id.$qstr; ?>&page=<?php echo $page; ?>&bak=<?php echo $code; ?>" class="btn_small">수정</a> -->
+            </div>
+        </td>
 	</tr>
 	<tr class="<?php echo $bg; ?>">
 		<td class="fc_00f"><?php echo $row['mb_id']; ?></td>

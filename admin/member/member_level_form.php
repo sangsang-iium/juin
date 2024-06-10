@@ -91,7 +91,7 @@ $arr_memo[8] = '최고 관리자';
 </div>
 
 <div class="board_btns tac mart20">
-    <div class="btn_wrap btn_type">
+    <div class="btn_wrap">
 	    <input type="submit" value="저장" class="btn_acc">
     </div>
 </div>

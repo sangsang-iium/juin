@@ -233,9 +233,8 @@ $income_per = ($supply_price / $goods_price) * 100;
 
 
 <section id="anc_sitfrm_ini">
-<h5 class="htag_title">기본정보</h5>
-<p class="gap20"></p>
-<?php echo $pg_anchor; ?>
+    <h5 class="htag_title">기본정보</h5>
+    <?php echo $pg_anchor; ?>
 <?php if($w == 'u') { ?>
 <div class="local_desc02 local_desc">
 	<p>상품 등록일시 : <b><?php echo $gs['reg_time']; ?></b>, 최근 수정일시 : <b><?php echo $gs['update_time']; ?></b></p>
@@ -361,9 +360,9 @@ $income_per = ($supply_price / $goods_price) * 100;
 
 <?php echo $frm_submit; ?>
 
-<section id="anc_sitfrm_cate">
 <p class="gap70"></p>
-<h5 class="htag_title">카테고리</h5>
+<section id="anc_sitfrm_cate">
+    <h5 class="htag_title">카테고리</h5>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p>선택된 카테고리에 <span class="fc_084">최상위 카테고리는 대표 카테고리로 자동설정</span>되며, 최소 1개의 카테고리는 등록하셔야 합니다.</p>
@@ -443,8 +442,8 @@ $income_per = ($supply_price / $goods_price) * 100;
 <?php echo $frm_submit; ?>
 
 
+<p class="gap70"></p>
 <section id="anc_sitfrm_option">
-<p class="gap50"></p>
 <h5 class="htag_title">옵션정보</h5>
 <?php echo $pg_anchor; ?>
 <div class="tbl_frm01">
@@ -858,9 +857,9 @@ $income_per = ($supply_price / $goods_price) * 100;
 </section>
 
 <?php echo $frm_submit; ?>
+<p class="gap70"></p>
 <section id="anc_sitfrm_cost">
-    <p class="gap50"></p>
-<h5 class="htag_title">가격 및 재고</h5>
+    <h5 class="htag_title">가격 및 재고</h5>
 <?php echo $pg_anchor; ?>
 <div class="tbl_frm01">
 	<table>
@@ -1194,9 +1193,9 @@ $income_per = ($supply_price / $goods_price) * 100;
 
 <!-- <?php echo $frm_submit; ?> -->
 
+<p class="gap70"></p>
 <section id="anc_sitfrm_sendcost">
-<p class="gap50"></p>
-<h5 class="htag_title">배송정보</h5>
+    <h5 class="htag_title">배송정보</h5>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p>※ <span>참고사항) : 고객이 동일 판매자의 상품을 복수 구매시 배송비는 단 한번만 부과 됩니다. 단! 배송비는 가장 큰값을 산출하여 적용 됩니다.</span></p>
@@ -1316,9 +1315,9 @@ $income_per = ($supply_price / $goods_price) * 100;
 
 </style>
 
-<p class="gap50"></p>
+<p class="gap70"></p>
 <section id="anc_sitfrm_compact">
-<h5 class="htag_title">상품정보 제공고시</h5>
+    <h5 class="htag_title">상품정보 제공고시</h5>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p><strong>전자상거래 등에서의 상품 등의 정보제공에 관한 고시</strong>에 따라 총 35개 상품군에 대해 상품 특성 등을 양식에 따라 입력할 수 있습니다.</p>
@@ -1415,9 +1414,9 @@ $(function(){
 
 <?php echo $frm_submit; ?>
 
-<p class="gap50"></p>
+<p class="gap70"></p>
 <section id="anc_sitfrm_relation" style="display:none">
-<h5 class="htag_title">관련상품</h5>
+    <h5 class="htag_title">관련상품</h5>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p>

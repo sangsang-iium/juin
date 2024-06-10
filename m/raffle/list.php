@@ -3,7 +3,11 @@ include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
 include_once(BV_PATH.'/include/topMenu.php');
 
-$raffleList = raffleList();
+if(!$raffleEnd) {
+  $raffleList = raffleList();
+} else {
+  $raffleList = raffleEndList();
+}
 ?>
 
 <div id="contents" class="sub-contents raffleList">
@@ -11,10 +15,10 @@ $raffleList = raffleList();
     <div class="cp-tab-menu">
       <ul class="inner">
         <li>
-          <button type="button" class="ui-btn tab-btn on">진행중 응모</button>
+          <button type="button" class="ui-btn tab-btn <?php echo (!$raffleEnd)? "on":""; ?>" data-raffle-end="N">진행중 응모</button>
         </li>
         <li>
-          <button type="button" class="ui-btn tab-btn">종료된 응모</button>
+          <button type="button" class="ui-btn tab-btn <?php echo ($raffleEnd)? "on":""; ?>" data-raffle-end="Y">종료된 응모</button>
         </li>
       </ul>
     </div>
@@ -33,7 +37,7 @@ $raffleList = raffleList();
       <div class="container raffle-prod_list">
         <?php if(sizeof($raffleList) < 1 ) { ?>
         <!-- 자료 없을때 -->
-          <p class="empty_list">자료가 없습니다.</p>
+          <p class="empty_list"><?php echo ($raffleEnd)? "종료된":"진행중인"; ?> 레플이 없습니다.</p>
         <!-- 자료 없을때 -->
         <?php } else {
           foreach ($raffleList as $raffleVal) {
@@ -46,9 +50,13 @@ $raffleList = raffleList();
               </a>
               <div class="cp-timer">
                 <div class="cp-timer-wrap white">
+                <?php if($raffleEnd) { ?>
+                  <span class="cp-timer__text">종료</span>
+                <?php } else { ?>
                   <i class="cp-timer__icon"></i>
                   <span class="cp-timer__num" data-deadline="<?php echo $raffleVal['event_end_date'] ?>">00:00:00</span>
                   <span class="cp-timer__text">남음</span>
+                <?php } ?>
                 </div>
               </div>
             </div>
@@ -134,6 +142,17 @@ $raffleList = raffleList();
     </div>
   </div>
 </div>
+
+<script>
+  $('.tab-btn').on('click', function() {
+    var raffleEnd = $(this).data('raffle-end');
+    if(raffleEnd == "N") {
+      if(!$(this).hasClass('on')) location.href = "/m/raffle/list.php?menu=raffle";
+    } else {
+      if(!$(this).hasClass('on')) location.href = "/m/raffle/list.php?menu=raffle&raffleEnd=1";
+    }
+  })
+</script>
 
 <?php
 include_once(BV_MPATH."/_tail.php"); // 하단

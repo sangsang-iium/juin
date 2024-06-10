@@ -27,19 +27,15 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         <?php } else if ($raffleEndCheck == 2) { ?>
           <p class="ui-btn ord-review__btn iq-wbtn rv-write-btn">레플 추첨중</p>
         <?php } else if ($raffleEndCheck == 3) { ?>
-          <?php if($row['prize'] == 'Y') { ?>
-            <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn rf-order-btn">구매하기</button>
+          <?php if($row['prize'] == 'Y') { 
+              if($row['order'] == 'N') {?>
+            <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn rf-order-btn" data-index-no="<?php echo $row['raffle_index'];?>">구매하기</button>
+            <?php } else { ?>
+              <p class="ui-btn ord-review__btn iq-wbtn rv-write-btn">구매 완료</p>
+            <?php } ?>
           <?php } else { ?>
             <p class="ui-btn ord-review__btn iq-wbtn rv-write-btn">다음에 도전해주세요</p>
           <?php } ?>
-        <?php } ?>
-
-
-        <?php 
-        if($member['id'] == 'test') {
-        ?>
-            <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn rf-order-btn" data-index-no="<?php echo $row['raffle_index'];?>">구매하기</button>
-
         <?php } ?>
 
       </div>

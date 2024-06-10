@@ -287,6 +287,18 @@ function raffleList() {
   return $list;
 }
 
+function raffleEndList() {
+  $nowDate = date('Y-m-d H:i:s');
+  $sql = " SELECT * FROM shop_goods_raffle WHERE event_end_date <= '$nowDate' ";
+  $res  = sql_query($sql);
+  $list = array();
+  while ($rows = sql_fetch_array($res)) {
+    $list[] = $rows;
+  }
+
+  return $list;
+}
+
 function raffleDetail($index_no) {
   $sql = " SELECT * FROM shop_goods_raffle WHERE index_no = '$index_no' ";
   $res = sql_fetch($sql);
@@ -381,14 +393,6 @@ function raffleEventDateCheck($event_end_date,$prize_date) {
   }
 
   return $raffleEndCheck;
-}
-
-function raffleIndexCheck($index_no) {
-  if(substr($index_no, -6) === '000000') {
-    return true;
-  } else {
-    return false;
-  }
 }
 
 function get_raffle_img_src($it_img) {

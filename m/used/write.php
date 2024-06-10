@@ -13,7 +13,7 @@ if(is_numeric($no)){
 ?>
 
 <div id="contents" class="sub-contents usedWrite">
-<form name="fqaform" id="fqaform" method="post" action="./write_update.php" onsubmit="return fqaform_submit(this);" autocomplete="off" enctype="MULTIPART/FORM-DATA">
+<form name="fqaform" id="fqaform" method="post" action="./write_used.php" onsubmit="return fqaform_submit(this);" autocomplete="off" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="w" value="<?php echo $w ?>">
 <input type="hidden" name="no" value="<?php echo $no ?>">
 

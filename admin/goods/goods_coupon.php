@@ -59,30 +59,37 @@ $gw_type = array(
 );
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
-	<tbody>	
+	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('cp_subject', $sfl, '쿠폰명'); ?>
-				<?php echo option_selected('cp_explan', $sfl, '설명'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
-		</td>
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('cp_subject', $sfl, '쿠폰명'); ?>
+                        <?php echo option_selected('cp_explan', $sfl, '설명'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
+        </td>
 	</tr>
 	<tr>
 		<th scope="row">사용기간</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>	
 	</tbody>
@@ -98,7 +105,7 @@ $gw_type = array(
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
 <div class="local_frm01">
@@ -110,12 +117,12 @@ $gw_type = array(
 		<col class="w50">
 		<col class="w50">
 		<col>
+		<col class="w100">
+		<col class="w100">
 		<col class="w80">
 		<col class="w80">
 		<col class="w80">
-		<col class="w80">
-		<col class="w50">
-		<col class="w60">
+		<col class="w120">
 	</colgroup>
 	<thead>
 	<tr>
@@ -134,7 +141,7 @@ $gw_type = array(
 	for($i=0; $row=sql_fetch_array($result); $i++) {
 		$cp_id = $row['cp_id'];
 
-		$s_upd = "<a href='./goods.php?code=coupon_form&w=u&cp_id=$cp_id$qstr&page=$page' class=\"btn_small\">수정</a>";
+		$s_upd = "<a href='./goods.php?code=coupon_form&w=u&cp_id=$cp_id$qstr&page=$page' class=\"btn_fix bg_type2\"><span>수정</span></a>";
 
 		switch($row['cp_type']){
 			case '3':
@@ -176,7 +183,11 @@ $gw_type = array(
 		<td><?php echo number_format($log['cnt']); ?></td>
 		<td><?php echo number_format($row['cp_odr_cnt']); ?></td>
 		<td><?php echo $row['cp_use']?'yes':''; ?></td>
-		<td><?php echo $s_upd; ?></td>
+		<td>
+            <div class="btn_wrap">
+                <?php echo $s_upd; ?>
+            </div>
+        </td>
 	</tr>
 	<?php 
 	}

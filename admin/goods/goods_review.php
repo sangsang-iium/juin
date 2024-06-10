@@ -40,7 +40,8 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
@@ -53,11 +54,15 @@ EOF;
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('mb_id', $sfl, '작성자'); ?>
-				<?php echo option_selected('seller_id', $sfl, '판매자'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('mb_id', $sfl, '작성자'); ?>
+                        <?php echo option_selected('seller_id', $sfl, '판매자'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -73,7 +78,7 @@ EOF;
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
 <div class="local_frm01">
@@ -83,13 +88,13 @@ EOF;
 	<table>
 	<colgroup>
 		<col class="w50">
-		<col class="w50">
-		<col class="w60">
+		<col class="w70">
+		<col class="w100">
 		<col>
-		<col class="w100">
-		<col class="w100">
-		<col class="w80">
-		<col class="w100">
+		<col class="w120">
+		<col class="w120">
+		<col class="w150">
+		<col class="w120">
 	</colgroup>
 	<thead>
 	<tr>

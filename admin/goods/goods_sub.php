@@ -73,7 +73,6 @@ $btn_frmline = <<<EOF
 <!-- <a href="./goods.php?code=form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 상품등록</a> -->
 EOF;
 ?>
-<p class="gap30"></p>
 <h5 class="htag_title">기본검색</h5>
 <p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
@@ -87,9 +86,9 @@ EOF;
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
-		<td>
+		<td colspan="3">
             <div class="tel_input">
-                <div class="chk_select w30p">
+                <div class="chk_select w200">
                     <select name="sfl">
                         <?php echo option_selected('gname', $sfl, '상품명'); ?>
                         <?php echo option_selected('gcode', $sfl, '상품코드'); ?>

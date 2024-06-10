@@ -4,7 +4,8 @@ if(!defined('_BLUEVATION_')) exit;
 
 <script src="<?php echo BV_JS_URL; ?>/categoryform.js?ver=<?php echo BV_JS_VER; ?>"></script>
 
-<h2>카테고리 순위 설정</h2>
+<h5 class="htag_title">카테고리 순위 설정</h5>
+<p class="gap30"></p>
 <div class="tbl_frm01">
 	<table>
 	<thead>

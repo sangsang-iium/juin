@@ -12,7 +12,8 @@ $q1 = $query_string;
 $sql_order = " order by caterank, catecode ";
 ?>
 
-<h2>카테고리 등록</h2>
+<h5 class="htag_title">카테고리 등록</h5>
+<p class="gap30"></p>
 <form name="fcategoryform" method="post" action="./category/category_update.php" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="token" value="">

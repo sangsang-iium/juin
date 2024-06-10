@@ -26,20 +26,22 @@ $default = set_partner_value($od['od_settle_pid']); // 가맹점 PG결제 정보
 $tb['title'] = "주문내역 수정";
 include_once(BV_ADMIN_PATH."/admin_head.php");
 
-$pg_anchor = '<ul class="anchor">
+$pg_anchor = '<div class="tap_box">
+<ul class="taps type3 mart20 marb20">
 <li><a href="#anc_sodr_list">주문상품 목록</a></li>
 <li><a href="#anc_sodr_pay">주문결제 내역</a></li>
 <li><a href="#anc_sodr_memo">관리자메모</a></li>
 <li><a href="#anc_sodr_addr">주문자/배송지 정보</a></li>
 <li><a href="#anc_sodr_tax">증빙서류 정보</a></li>
-</ul>';
+</ul>
+</div>';
 ?>
 
 <div id="sodr_pop" class="new_win">
-	<h1><?php echo $tb['title']; ?></h1>
-
+<h4 class="htag_title"><?php echo $tb['title']; ?></h4>
+    <p class="gap50"></p>
 	<section id="anc_sodr_list">
-		<h4 class="anc_tit">주문상품 목록</h4>
+		<h5 class="htag_title">주문상품 목록</h5>
 		<?php echo $pg_anchor; ?>
 		<div class="local_desc02 local_desc">
 			<p>
@@ -61,16 +63,16 @@ $pg_anchor = '<ul class="anchor">
 			<table id="sodr_list">
 			<colgroup>
 				<col class="w40">
-				<col class="w60">
+				<col class="w80">
 				<col>
 				<col class="w90">
-				<col class="w90">
+				<col class="w150">
 				<col class="w60">
+				<col class="w120">
 				<col class="w70">
 				<col class="w70">
 				<col class="w70">
-				<col class="w70">
-				<col class="w70">
+				<col class="w120">
 			</colgroup>
 			<thead>
 			<tr>
@@ -181,35 +183,37 @@ $pg_anchor = '<ul class="anchor">
 		</div>
 
 		<?php if($chk_cnt != $chk_cancel) { // 정상 주문건만 노출 ?>
-		<div class="btn_list marb20">
-			<input type="hidden" name="chk_cnt" value="<?php echo $chk_cnt; ?>">
-			<strong class="marr5">선택한 상품을</strong>
-		<?php if($chk_cnt == $chk_count1) { // 모두 입금대기 상태인가? ?>
-			<input type="submit" name="act_button" value="입금완료" class="btn_lsmall red" onclick="document.pressed=this.value">
-			<input type="submit" name="act_button" value="주문취소" class="btn_lsmall white" onclick="document.pressed=this.value">
-		<?php } else { ?>
-			<input type="submit" name="act_button" value="주문상태저장" class="btn_lsmall red" onclick="document.pressed=this.value">
-			<?php if($baesong_run) { ?>
-			<input type="submit" name="act_button" value="운송장번호수정" class="btn_lsmall white" onclick="document.pressed=this.value">
-			<?php } ?>
+		    <div class="btn_list mart20">
+                <input type="hidden" name="chk_cnt" value="<?php echo $chk_cnt; ?>">
+                <strong class="marr5">선택한 상품을</strong>
+                <?php if($chk_cnt == $chk_count1) { // 모두 입금대기 상태인가? ?>
+                    <input type="submit" name="act_button" value="입금완료" class="btn_lsmall red" onclick="document.pressed=this.value">
+                    <input type="submit" name="act_button" value="주문취소" class="btn_lsmall white" onclick="document.pressed=this.value">
+		        <?php } else { ?>
+			        <input type="submit" name="act_button" value="주문상태저장" class="btn_lsmall red" onclick="document.pressed=this.value">
+                <?php if($baesong_run) { ?>
+                    <input type="submit" name="act_button" value="운송장번호수정" class="btn_lsmall white" onclick="document.pressed=this.value">
+                <?php } ?>
 
-			<?php if($chk_cnt == $chk_count2) { // 모두 입금완료 상태인가? ?>
-			<input type="submit" name="act_button" value="입금대기" class="btn_lsmall white" onclick="document.pressed=this.value">
-			<input type="submit" name="act_button" value="전체환불" class="btn_lsmall white" onclick="document.pressed=this.value">
-			<?php } ?>
+                <?php if($chk_cnt == $chk_count2) { // 모두 입금완료 상태인가? ?>
+                    <input type="submit" name="act_button" value="입금대기" class="btn_lsmall white" onclick="document.pressed=this.value">
+                    <input type="submit" name="act_button" value="전체환불" class="btn_lsmall white" onclick="document.pressed=this.value">
+                <?php } ?>
 
-			<?php if($chk_cnt == $chk_count5) { // 모두 배송완료 상태인가? ?>
-			<input type="submit" name="act_button" value="전체반품" class="btn_lsmall white" onclick="document.pressed=this.value">
-			<?php } ?>
-			
-			
-		<?php } ?>   
-		</div>
+			    <?php if($chk_cnt == $chk_count5) { // 모두 배송완료 상태인가? ?>
+                    <input type="submit" name="act_button" value="전체반품" class="btn_lsmall white" onclick="document.pressed=this.value">
+                <?php } ?>
+		    <?php } ?>   
+            </div>
 		<?php } ?>
 		<?php  
 			if( $chk_count7!=0) { // 반품일 경우에만 ?>
-				선택한 상품의 <input type="submit" name="act_button" value="주문상태저장" class="btn_lsmall red" onclick="document.pressed=this.value">
+                <div class="btn_list">
+                    <strong class="marr5">선택한 상품을</strong>
+                    <input type="submit" name="act_button" value="주문상태저장" class="btn_lsmall red" onclick="document.pressed=this.value">
+                </div>
 		<?php } ?>	
+
 		</form>
 
 		<?php if($od['od_test']) { ?>
@@ -217,10 +221,12 @@ $pg_anchor = '<ul class="anchor">
 		<?php } ?>
 
 		<?php if($od['od_mod_history']) { ?>
+        <p class="gap30"></p>
 		<section id="sodr_qty_log">
-			<h3>주문 전체취소 처리 내역</h3>
-			<div>
-				<?php echo conv_content($od['od_mod_history'], 0); ?>
+			<h6 class="htag_title">주문 전체취소 처리 내역</h6>
+            <p class="gap20"></p>
+			<div class="text_box">
+				<p><?php echo conv_content($od['od_mod_history'], 0); ?></p>
 			</div>
 		</section>
 		<?php } ?>
@@ -245,8 +251,8 @@ $pg_anchor = '<ul class="anchor">
 		$s_receipt_way .= "+포인트";
 	?>
 
-	<section id="anc_sodr_pay" class="new_win_desc mart30">
-		<h3 class="anc_tit">주문결제 내역</h3>
+	<section id="anc_sodr_pay" class="new_win_desc mart80">
+		<h5 class="htag_title">주문결제 내역</h5>
 		<?php echo $pg_anchor; ?>
 		<form name="frmorderreceiptform" action="./pop_orderformupdate.php" method="post" autocomplete="off">
 		<input type="hidden" name="od_id" value="<?php echo $od_id; ?>">
@@ -569,7 +575,7 @@ $pg_anchor = '<ul class="anchor">
 	</section>
 
 	<section id="anc_sodr_memo">
-		<h3 class="anc_tit">관리자메모</h3>
+		<h5 class="htag_title">관리자메모</h5>
 		<?php echo $pg_anchor; ?>
 		<div class="local_desc02 local_desc">
 			<p>현재 열람 중인 주문에 대한 내용을 메모하는곳입니다.</p>
@@ -590,7 +596,7 @@ $pg_anchor = '<ul class="anchor">
 	</section>
 
 	<section id="anc_sodr_addr">
-		<h3 class="anc_tit">주문자/배송지 정보</h3>
+		<h5 class="htag_title">주문자/배송지 정보</h5>
 		<?php echo $pg_anchor; ?>
 
 		<form name="frmorderform2" action="./pop_orderformupdate.php" method="post">
@@ -623,17 +629,23 @@ $pg_anchor = '<ul class="anchor">
 					<tr>
 						<th scope="row">주소</th>
 						<td>
-							<label for="zip" class="sound_only">우편번호</label>
-							<input type="text" name="zip" value="<?php echo $od['zip']; ?>" id="zip" required class="frm_input required" size="5" maxlength="5">
-							<button type="button" class="btn_small grey" onclick="win_zip('frmorderform2', 'zip', 'addr1', 'addr2', 'addr3', 'addr_jibeon');">주소검색</button><br>
-							<span id="od_win_zip" style="display:block"></span>
-							<input type="text" name="addr1" value="<?php echo get_text($od['addr1']); ?>" id="addr1" required class="frm_input required" size="35">
-							<label for="addr1">기본주소</label><br>
-							<input type="text" name="addr2" value="<?php echo get_text($od['addr2']); ?>" id="addr2" class="frm_input" size="35">
-							<label for="addr2">상세주소</label><br>
-							<input type="text" name="addr3" value="<?php echo get_text($od['addr3']); ?>" id="addr3" class="frm_input" size="35">
-							<label for="addr3">참고항목</label><br>
-							<input type="hidden" name="addr_jibeon" value="<?php echo get_text($od['addr_jibeon']); ?>">
+                            <div class="write_address">
+                                <div class="file_wrap address">
+                                    <label for="zip" class="sound_only">우편번호</label>
+                                    <input type="text" name="zip" value="<?php echo $od['zip']; ?>" id="zip" required class="frm_input required" size="5" maxlength="5">
+                                    <a class="btn_file" onclick="win_zip('frmorderform2', 'zip', 'addr1', 'addr2', 'addr3', 'addr_jibeon');">주소검색</a>
+                                </div>
+                                </div>
+                            <!-- <span id="od_win_zip" style="display:block"></span> -->
+                            <div>
+                                <input type="text" name="addr1" value="<?php echo get_text($od['addr1']); ?>" id="addr1" required class="frm_input required" size="35">
+                                <label for="addr1" class="hide">기본주소</label><br>
+                                <input type="text" name="addr2" value="<?php echo get_text($od['addr2']); ?>" id="addr2" class="frm_input" size="35">
+                                <label for="addr2" class="hide">상세주소</label><br>
+                                <input type="text" name="addr3" value="<?php echo get_text($od['addr3']); ?>" id="addr3" class="frm_input" size="35">
+                                <label for="addr3" class="hide">참고항목</label><br>
+                                <input type="hidden" name="addr_jibeon" value="<?php echo get_text($od['addr_jibeon']); ?>">
+                            </div>
 						</td>
 					</tr>
 					<tr>
@@ -674,16 +686,22 @@ $pg_anchor = '<ul class="anchor">
 					<tr>
 						<th scope="row">주소</th>
 						<td>
-							<label for="b_zip" class="sound_only">우편번호</label>
-							<input type="text" name="b_zip" value="<?php echo $od['b_zip']; ?>" id="b_zip" required class="frm_input required" size="5" maxlength="5">
-							<button type="button" class="btn_small grey" onclick="win_zip('frmorderform2', 'b_zip', 'b_addr1', 'b_addr2', 'b_addr3', 'b_addr_jibeon');">주소검색</button><br>
-							<input type="text" name="b_addr1" value="<?php echo get_text($od['b_addr1']); ?>" id="b_addr1" required class="frm_input required" size="35">
-							<label for="b_addr1">기본주소</label><br>
-							<input type="text" name="b_addr2" value="<?php echo get_text($od['b_addr2']); ?>" id="b_addr2" class="frm_input" size="35">
-							<label for="b_addr2">상세주소</label><br>
-							<input type="text" name="b_addr3" value="<?php echo get_text($od['b_addr3']); ?>" id="b_addr3" class="frm_input" size="35">
-							<label for="b_addr3">참고항목</label><br>
-							<input type="hidden" name="b_addr_jibeon" value="<?php echo get_text($od['b_addr_jibeon']); ?>">
+                            <div class="write_address">
+                                <div class="file_wrap address">
+                                    <label for="b_zip" class="sound_only">우편번호</label>
+                                    <input type="text" name="b_zip" value="<?php echo $od['b_zip']; ?>" id="b_zip" required class="frm_input required" size="5" maxlength="5">
+                                    <a class="btn_file" onclick="win_zip('frmorderform2', 'b_zip', 'b_addr1', 'b_addr2', 'b_addr3', 'b_addr_jibeon');">주소검색</a>
+                                </div>
+                            </div>
+                            <div>
+                                <input type="text" name="b_addr1" value="<?php echo get_text($od['b_addr1']); ?>" id="b_addr1" required class="frm_input required" size="35">
+                                <label for="b_addr1" class="hide">기본주소</label><br>
+                                <input type="text" name="b_addr2" value="<?php echo get_text($od['b_addr2']); ?>" id="b_addr2" class="frm_input" size="35">
+                                <label for="b_addr2" class="hide">상세주소</label><br>
+                                <input type="text" name="b_addr3" value="<?php echo get_text($od['b_addr3']); ?>" id="b_addr3" class="frm_input" size="35">
+                                <label for="b_addr3" class="hide">참고항목</label><br>
+                                <input type="hidden" name="b_addr_jibeon" value="<?php echo get_text($od['b_addr_jibeon']); ?>">
+                            </div>
 						</td>
 					</tr>
 					<tr>
@@ -706,7 +724,7 @@ $pg_anchor = '<ul class="anchor">
 
 <!-- Tax 상세 정보 추가 _20240507_SY -->
 	<section id="anc_sodr_tax">
-		<h3 class="anc_tit">증빙서류 정보</h3>
+		<h5 class="htag_title">증빙서류 정보</h5>
 		<?php echo $pg_anchor; ?>
 
 		<form name="frmorderform3" action="./pop_orderformupdate.php" method="post">

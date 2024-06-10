@@ -107,39 +107,56 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5  class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('gname', $sfl, '상품명'); ?>
-				<?php echo option_selected('gcode', $sfl, '상품코드'); ?>
-				<?php echo option_selected('mb_id', $sfl, '업체코드'); ?>
-				<?php echo option_selected('maker', $sfl, '제조사'); ?>
-				<?php echo option_selected('origin', $sfl, '원산지'); ?>
-				<?php echo option_selected('model', $sfl, '모델명'); ?>
-				<?php echo option_selected('explan', $sfl, '짧은설명'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('gname', $sfl, '상품명'); ?>
+                        <?php echo option_selected('gcode', $sfl, '상품코드'); ?>
+                        <?php echo option_selected('mb_id', $sfl, '업체코드'); ?>
+                        <?php echo option_selected('maker', $sfl, '제조사'); ?>
+                        <?php echo option_selected('origin', $sfl, '원산지'); ?>
+                        <?php echo option_selected('model', $sfl, '모델명'); ?>
+                        <?php echo option_selected('explan', $sfl, '짧은설명'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">카테고리</th>
 		<td colspan="3">
-			<?php echo get_category_select_1('sel_ca1', $sca); ?>
-			<?php echo get_category_select_2('sel_ca2', $sca); ?>
-			<?php echo get_category_select_3('sel_ca3', $sca); ?>
-			<?php echo get_category_select_4('sel_ca4', $sca); ?>
-			<?php echo get_category_select_5('sel_ca5', $sca); ?>
+            <ul class="tel_input">
+                <li class="chk_select">
+                    <?php echo get_category_select_1('sel_ca1', $sca); ?>
+                </li>
+                <li class="chk_select">
+                    <?php echo get_category_select_2('sel_ca2', $sca); ?>
+                </li>
+                <li class="chk_select">
+                    <?php echo get_category_select_3('sel_ca3', $sca); ?>
+                </li>
+                <li class="chk_select">
+                    <?php echo get_category_select_4('sel_ca4', $sca); ?>
+                </li>
+                <li class="chk_select">
+                    <?php echo get_category_select_5('sel_ca5', $sca); ?>
+                </li>
+            </ul>
 
 			<script>
 			$(function() {
@@ -155,11 +172,13 @@ EOF;
 	<tr>
 		<th scope="row">진열영역</th>
 		<td>
-      <?php echo check_checked('q_type2', $q_type2, '1', '베스트'); ?>
-			<?php echo check_checked('q_type5', $q_type5, '1', '추천상품'); ?>
-			<?php echo check_checked('q_type4', $q_type4, '1', '인기상품'); ?>
-			<?php echo check_checked('q_type1', $q_type1, '1', '오늘만특가'); ?>
-			<?php echo check_checked('q_type3', $q_type3, '1', '신상품'); ?>
+            <div class="checks">
+                <?php echo check_checked('q_type2', $q_type2, '1', '베스트'); ?>
+                <?php echo check_checked('q_type5', $q_type5, '1', '추천상품'); ?>
+                <?php echo check_checked('q_type4', $q_type4, '1', '인기상품'); ?>
+                <?php echo check_checked('q_type1', $q_type1, '1', '오늘만특가'); ?>
+                <?php echo check_checked('q_type3', $q_type3, '1', '신상품'); ?>
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -193,30 +212,30 @@ EOF;
 <div class="tbl_head01">
 	<table>
 	<colgroup>
-		<col class="w60">
-		<col class="w60">
 		<col class="w80">
+		<col class="w100">
+		<col class="w150">
 		<col>
-		<col class="w50">
-		<col class="w50">
-		<col class="w50">
-		<col class="w50">
-		<col class="w50">
-		<col class="w80">
-		<col class="w80">
-		<col class="w80">
+		<col class="w100">
+		<col class="w100">
+		<col class="w100">
+		<col class="w100">
+		<col class="w100">
+		<col class="w100">
+		<col class="w100">
+		<col class="w100">
 	</colgroup>
 	<thead>
 	<tr>
 		<th scope="col" rowspan="2">번호</th>
 		<th scope="col" rowspan="2">이미지</th>
 		<th scope="col" rowspan="2">상품코드</th>
-		<th scope="col" rowspan="2">상품명</th>
+		<th scope="col" rowspan="2" class="bd_none">상품명</th>
 		<th scope="col" class="th_bg">베스트</th>
 		<th scope="col" class="th_bg">추천상품</th>
 		<th scope="col" class="th_bg">인기상품</th>
 		<th scope="col" class="th_bg">오늘만특가</th>
-		<th scope="col" class="th_bg">신상품</th>
+		<th scope="col" class="th_bg bd_none">신상품</th>
 		<th scope="col" rowspan="2">진열</th>
 		<th scope="col" rowspan="2">재고</th>
 		<th scope="col" rowspan="2">판매가</th>

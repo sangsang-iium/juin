@@ -40,38 +40,39 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
-	<table>
-	<colgroup>
-		<col class="w100">
-		<col>
-	</colgroup>
-	<tbody>
-	<tr>
-		<th scope="row">검색어</th>
-		<td>
-			<select name="sst">
-				<option value="라이브존 타이틀">라이브존 타이틀</option>
-				<!-- <option value="상품"<?php echo get_selected($sst, '상품'); ?>>상품</option> -->
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
-</div>
+    <div class="board_table">
+        <table>
+        <colgroup>
+            <col style="width:220px;">
+            <col style="width:auto">
+        </colgroup>
+        <tbody>
+            <tr>
+                <th scope="row">검색어</th>
+                <td>
+                    <div class="tel_input">
+                        <div class="chk_select w200">
+                            <select name="sst">
+                                <option value="라이브존 타이틀">라이브존 타이틀</option>
+                                <!-- <option value="상품"<?php echo get_selected($sst, '상품'); ?>>상품</option> -->
+                            </select>
+                        </div>
+                        <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+    <div class="btn_confirm">
+        <input type="submit" value="검색" class="btn_medium">
+        <input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+    </div>
 </form>
-
-<div>
-	<a href="./goods.php?code=live_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 라이브 등록</a>
-</div>
 
 <form name="fqalist" id="fqalist" method="post" action="./goods/goods_live_delete.php" onsubmit="return fqalist_submit(this);">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
@@ -82,17 +83,18 @@ EOF;
 </div>
 <div class="local_frm01">
 	<?php echo $btn_frmline; ?>
+    <a href="./goods.php?code=live_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 라이브 등록</a>
 </div>
 <div class="tbl_head01">
 	<table>
 	<colgroup>
 		<col class="w50">
 		<col class="w50">
-		<col class="w130">
-		<col class="w130">
-		<col class="w80">
-		<col class="w60">
-		<col class="w60">
+		<col class="w400">
+		<col>
+		<col class="w400">
+		<col class="w200">
+		<col class="w150">
 	</colgroup>
 	<thead>
 	<tr>
@@ -110,7 +112,7 @@ EOF;
 		$index_no = $row['index_no'];
 
 		$iq_url = "code=live_form&w=u&index_no=$index_no$qstr&page=$page";
-		$iq_upd = "<a href=\"./goods.php?{$iq_url}\" class=\"btn_small\">수정</a>";
+		$iq_upd = "<a href=\"./goods.php?{$iq_url}\" class=\"btn_fix bg_type2\"><span>수정</span></a>";
 		$iq_subject = "<a href=\"./goods.php?{$iq_url}\">".cut_str($row['iq_subject'],50)."</a>";
 
 		if($i==0)
@@ -132,7 +134,7 @@ EOF;
 
 		$liveTime = '';
 		foreach ($liveTimeArr as $liveTimeVal) {
-			$liveTime .= $dateArr[$liveTimeVal['live_date']]." ".$liveTimeVal['live_start_time']." ~ ".$liveTimeVal['live_end_time']."<br>";
+			$liveTime .= "<p><b>".$dateArr[$liveTimeVal['live_date']]."</b> : ".$liveTimeVal['live_start_time']." ~ ".$liveTimeVal['live_end_time']."</p>";
 		}
 		
 	?>
@@ -143,10 +145,18 @@ EOF;
 		</td>
 		<td><?php echo $num--; ?></td>
 		<td><?php echo $row['title']; ?></td>
-		<td><?php echo $liveTime; ?></td>
+		<td>
+            <div class="liveTimeBox">
+                <?php echo $liveTime; ?>
+            </div>
+        </td>
 		<td><a href="<?php echo $row['url']; ?>" target="_blank"><?php echo $row['url']; ?></a></td>
 		<td><?php echo substr($row['reg_time'],0,10); ?></td>
-		<td><?php echo $iq_upd; ?></td>
+		<td>
+            <div class="btn_wrap">
+                <?php echo $iq_upd; ?>
+            </div>
+        </td>
 	</tr>
 	<?php
 	}

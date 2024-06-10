@@ -14,9 +14,12 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">샘플파일 다운</th>
 		<td>
-            <div class="btn_wrap">
-                <a href="<?php echo BV_LIB_URL; ?>/Excel/sellerexcel.xls" class="dwn"><i class="fa fa-download"></i> 샘플파일 다운로드</a></td>
+            <div class="btn_wrap tal">
+                <a href="<?php echo BV_LIB_URL; ?>/Excel/sellerexcel.xls" class="fbtn xls">
+                    <span>샘플파일 다운로드</span>
+                </a>
             </div>
+        </td>
 	</tr>
 	<tr>
 		<th scope="row">파일 업로드</th>

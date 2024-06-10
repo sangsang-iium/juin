@@ -180,6 +180,10 @@ if($w == '') {
 	$value['login_ip']		= $_SERVER['REMOTE_ADDR']; //최근 로그인IP
 	$value['mailser']		= $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 	$value['smsser']		= $mb_sms ? $mb_sms : 'N'; //SMS를 수신
+    
+    
+    
+
 
     // 관리자인증을 사용하지 않는다면 인증으로 간주함.
     if(!$config['cert_admin_yes'])
