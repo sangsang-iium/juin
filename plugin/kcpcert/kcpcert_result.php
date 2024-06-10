@@ -65,7 +65,7 @@ for($i=0; $i<count($key); $i++)
 
     if ( $nmParam == "enc_cert_data" )
     {
-        $enc_cert_data = f_get_parm_str ( $valParam );
+      $enc_cert_data = f_get_parm_str ( $valParam );
     }
 
     if ( $nmParam == "dn_hash" )
@@ -116,15 +116,12 @@ if( $cert_enc_use == "Y" )
         }
 
         // 가맹점 DB 처리 페이지 영역
-
         // 인증데이터 복호화 함수
         // 해당 함수는 암호화된 enc_cert_data 를
         // site_cd 와 cert_no 를 가지고 복화화 하는 함수 입니다.
         // 정상적으로 복호화 된경우에만 인증데이터를 가져올수 있습니다.
         $opt = "1" ; // 복호화 인코딩 옵션 ( UTF - 8 사용시 "1" )
         $ct_cert->decrypt_enc_cert( $home_dir , $site_cd , $cert_no , $enc_cert_data , $opt );
-
-        // var_dump("인증 요청 전:", $_POST);
         
         $comm_id        = $ct_cert->mf_get_key_value("comm_id"    );                // 이동통신사 코드
         $phone_no       = $ct_cert->mf_get_key_value("phone_no"   );                // 전화번호
@@ -138,10 +135,7 @@ if( $cert_enc_use == "Y" )
         $di_url         = urldecode( $ct_cert->mf_get_key_value("di"         ) );   // DI 중복가입 확인값
         $dec_res_cd     = $ct_cert->mf_get_key_value("res_cd"     );                // 암호화된 결과코드
         $dec_mes_msg    = $ct_cert->mf_get_key_value("res_msg"    );                // 암호화된 결과메시지
-
-        // 인증 데이터 수신 후
-        // $enc_cert_data = $_POST['enc_cert_data'];
-        // var_dump("인증 데이터 수신 후:", $enc_cert_data);
+        
         
         // 정상인증인지 체크
         if(!$phone_no)

@@ -3,14 +3,14 @@ include_once('./_common.php');
 include_once(BV_LIB_PATH.'/register.lib.php');
 include_once(BV_LIB_PATH.'/mailer.lib.php');
 
-check_demo();
+// check_demo();
 
 if(!($w == '' || $w == 'u')) {
     alert('w 값이 제대로 넘어오지 않았습니다.');
 }
 
 if($_SESSION['ss_hash_token'] != BV_HASH_TOKEN) {
-    alert('잘못된 접근입니다.', BV_MURL);
+    // alert('잘못된 접근입니다.', BV_MURL);
 }
 
 if($w == 'u')
@@ -18,10 +18,10 @@ if($w == 'u')
 else if($w == '')
     $mb_id = trim($_POST['mb_id']);
 else
-    alert('잘못된 접근입니다.', BV_MURL);
+    // alert('잘못된 접근입니다.', BV_MURL);
 
 if(!$mb_id)
-    alert('회원아이디 값이 없습니다. 올바른 방법으로 이용해 주십시오.');
+    // alert('회원아이디 값이 없습니다. 올바른 방법으로 이용해 주십시오.');
 
 $mb_password    = trim($_POST['mb_password']);
 $mb_password_re = trim($_POST['mb_password_re']);
@@ -190,34 +190,35 @@ if($config['cf_cert_use'] && $cert_type && $md5_cert_no) {
 $msg = "";
 
 if($w == '') {
-	$value['id']			  = $mb_id; //회원아이디
-	$value['passwd']		= $mb_password; //비밀번호
-	$value['name']			= $mb_name; //이름
-	$value['email']			= $mb_email; //이메일
-  $value['telephone']	= $mb_tel;	 //전화번호
-	$value['zip']			  = $mb_zip; //우편번호
-	$value['addr1']			= $mb_addr1; //주소
-	$value['addr2']			= $mb_addr2; //상세주소
-	$value['addr3']			= $mb_addr3; //참고항목
+	$value['id']			    = $mb_id; //회원아이디
+	$value['passwd']		  = $mb_password; //비밀번호
+	$value['name']			  = $mb_name; //이름
+	$value['email']			  = $mb_email; //이메일
+  $value['telephone']	  = $mb_tel;	 //전화번호
+	$value['zip']			    = $mb_zip; //우편번호
+	$value['addr1']			  = $mb_addr1; //주소
+	$value['addr2']			  = $mb_addr2; //상세주소
+	$value['addr3']			  = $mb_addr3; //참고항목
 	$value['addr_jibeon']	= $mb_addr_jibeon; //지번주소
 	$value['today_login']	= BV_TIME_YMDHIS; //최근 로그인일시
 	$value['reg_time']		= BV_TIME_YMDHIS; //가입일시
-	$value['mb_ip']			= $_SERVER['REMOTE_ADDR']; //IP
-	$value['grade']			= '9'; //레벨
-	$value['pt_id']			= $mb_recommend; //추천인아이디
-	$value['login_ip']	= $_SERVER['REMOTE_ADDR']; //최근 로그인IP
-	$value['mailser']		= $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
-	$value['smsser']		= $mb_sms ? $mb_sms : 'N'; //SMS를 수신
-  $value['ju_mem']    = $reg_type; // 사업자 여부
+	$value['mb_ip']			  = $_SERVER['REMOTE_ADDR']; //IP
+	$value['grade']			  = ($reg_type == 1) ? 8 : 9; //레벨
+	$value['pt_id']			  = $mb_recommend; //추천인아이디
+	$value['login_ip']	  = $_SERVER['REMOTE_ADDR']; //최근 로그인IP
+	$value['mailser']		  = $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
+	$value['smsser']		  = $mb_sms ? $mb_sms : 'N'; //SMS를 수신
+  $value['ju_mem']      = $reg_type; // 사업자 여부
   
     $value['refund_bank']   =$refund_bank;//환불은행
     $value['refund_num']   =$refund_num;//환불계좌번호
     $value['refund_name']   =$refund_name;//환불계좌주
-  
+    
+    
+    $value['ju_b_num']      = $b_no;
   if($reg_type == 1) {
     $value['ju_name']       = $mb_name;
     $value['ju_unique_num'] = $pop_u_no;
-    $value['ju_b_num']      = $b_no;
     $value['ju_closed']     = $chk_cb_res;
     // 추가 _20240604_SY
     $value['ju_restaurant'] = $ju_restaurant;
@@ -228,7 +229,6 @@ if($w == '') {
     $value['ju_region2']    = $ju_region2;
     $value['ju_region3']    = $ju_region3;
   }
-
     // 관리자인증을 사용하지 않는다면 인증으로 간주함.
     if(!$config['cert_admin_yes'])
         $value['use_app']	= '1';

@@ -42,18 +42,16 @@ if($w == '') {
     alert("이미 등록되어 있는 정보입니다.", $_SERVER['HTTP_REFERER']);
     die();
   } else {
-    // 수정 _20240521_SY
+    // 수정 _20240610_SY
     $db_where = " WHERE branch_idx = '{$idx}' ";
     $data_sel = " SELECT * FROM {$db_table} {$db_where}";
     $data_row = sql_fetch($data_sel);
-    $upd_sql = " UPDATE {$db_table}
-                    SET area_idx     = '{$area_idx}', 
-                        branch_name  = '{$branch_name}',
-                        branch_udate = '{$now_date}'
-                  WHERE area_idx     = '{$data_row['area_idx']}' 
-                    AND branch_name  = '{$data_row['branch_name']}' 
-               ";
-    $upd_res = sql_query($upd_sql);
+    $db_update['area_idx']     = $area_idx;
+    $db_update['branch_name']  = $branch_name;
+    $db_update['branch_udate'] = $now_date;
+    
+    $UPDATE = new IUD_Model;
+    $UPDATE->update($db_table, $db_update, $db_where);
 
     alert("지회 정보가 수정되었습니다.", BV_ADMIN_URL."/config.php?$q1&w=u&idx=$idx");
   }

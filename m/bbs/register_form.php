@@ -70,8 +70,11 @@ if($w == "") {
         if($member['passwd'] != $tmp_password)
             alert('비밀번호가 틀립니다.');
     }
-
-	$tb['title'] = '회원정보수정';
+    
+    // 보안상 암호화로 수정 _20240610_SY  
+    $_POST['mb_password'] = $tmp_password;
+	
+    $tb['title'] = '회원정보수정';
 
     set_session("ss_reg_mb_name", $member['name']);
     set_session("ss_reg_mb_hp", $member['cellphone']);
@@ -95,11 +98,11 @@ $agree2 = preg_replace('#[^0-9]#', '', $agree2);
 
 $register_action_url = BV_HTTPS_MBBS_URL.'/register_form_update.php';
 
-// 일반 & 사업자 구분 _20240228_SY
-if($reg_type == '2') {
-  include_once(BV_MTHEME_PATH.'/register_form.normal.skin.php');
-} else {
+// 중앙회 회원 / 일반회원 구분 _20240610_SY
+if($member['grade'] == 8) {
   include_once(BV_MTHEME_PATH.'/register_form.skin.php');
+} else {
+  include_once(BV_MTHEME_PATH.'/register_form.normal.skin.php');
 }
 
 include_once("./_tail.php");
