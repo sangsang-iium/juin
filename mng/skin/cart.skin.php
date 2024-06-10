@@ -58,14 +58,14 @@ if(!defined('_BLUEVATION_')) exit;
                       where a.ct_direct = '{$set_cart_id}'
                       AND a.ct_select = '0'
                       AND a.reg_yn = '{$paytype}'
-                      GROUP BY p.mb_id";
+                      GROUP BY p.mb_id, p.sc_type;";
     $res_group = sql_query($sql_group);
 
     $groupNumRow = sql_num_rows($res_group);
     for ($z = 0; $rowG = sql_fetch_array($res_group); $z++) {
         $CARTGROUP[] = $rowG;
     }
-
+// print_r2($sql_group);
     $tot_point = 0;
     $tot_sell_price = 0;
     $tot_opt_price = 0;
@@ -134,6 +134,7 @@ if(!defined('_BLUEVATION_')) exit;
             $sellerMinInfo['min_delivery'] = 50000;
         }
 				$styleTr = "";
+
         if (($filteredResults[0]['mb_id'] == $gs['mb_id']) && ($filteredResults[0]['sc_type'] == 4)) {
 					$styleTr = "border: 1px solid red";
 
