@@ -154,7 +154,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 	</table>
 </div>
 <div class="board_btns tac mart20">
-    <div class="btn_wrap btn_type">
+    <div class="btn_wrap">
         <input type="submit" value="검색" class="btn_acc marr10">
         <input type="button" value="초기화" id="frmRest" class="btn_cen">
     </div>

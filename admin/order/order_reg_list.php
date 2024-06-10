@@ -5,127 +5,148 @@ if(!defined('_BLUEVATION_')) exit;
 include_once(BV_ADMIN_PATH.'/order/order_query.php');
 
 $btn_frmline = <<<EOF
-<a href="#" id="frmOrderPrint" class="btn_lsmall white"><i class="fa fa-print"></i> 거래명세서 출력</a>
-<a href="#" id="frmOrderExcel" class="btn_lsmall white"><i class="fa fa-file-excel-o"></i> 선택 엑셀저장</a>
-<a href="./order/order_excel.php?$q1" class="btn_lsmall white"><i class="fa fa-file-excel-o"></i> 검색결과 엑셀저장</a>
+<a href="#" id="frmOrderPrint" class="btn_lsmall bx-white"><i class="fa fa-print"></i> 거래명세서 출력</a>
+<a href="#" id="frmOrderExcel" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 선택 엑셀저장</a>
+<a href="./order/order_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 검색결과 엑셀저장</a>
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('od_id', $sfl, '주문번호'); ?>
-				<?php echo option_selected('od_no', $sfl, '일련번호'); ?>
-				<?php echo option_selected("mb_id", $sfl, '회원아이디'); ?>
-				<?php echo option_selected('name', $sfl, '주문자명'); ?>
-				<?php echo option_selected('deposit_name', $sfl, '입금자명'); ?>
-				<?php echo option_selected('bank', $sfl, '입금계좌'); ?>
-				<?php echo option_selected('b_name', $sfl, '수령자명'); ?>
-				<?php echo option_selected('b_telephone', $sfl, '수령자집전화'); ?>
-				<?php echo option_selected('b_cellphone', $sfl, '수령자핸드폰'); ?>
-				<?php echo option_selected('delivery_no', $sfl, '운송장번호'); ?>
-				<?php echo option_selected('seller_id', $sfl, '판매자ID'); ?>
-				<?php echo option_selected('pt_id', $sfl, '가맹점ID'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('od_id', $sfl, '주문번호'); ?>
+                        <?php echo option_selected('od_no', $sfl, '일련번호'); ?>
+                        <?php echo option_selected("mb_id", $sfl, '회원아이디'); ?>
+                        <?php echo option_selected('name', $sfl, '주문자명'); ?>
+                        <?php echo option_selected('deposit_name', $sfl, '입금자명'); ?>
+                        <?php echo option_selected('bank', $sfl, '입금계좌'); ?>
+                        <?php echo option_selected('b_name', $sfl, '수령자명'); ?>
+                        <?php echo option_selected('b_telephone', $sfl, '수령자집전화'); ?>
+                        <?php echo option_selected('b_cellphone', $sfl, '수령자핸드폰'); ?>
+                        <?php echo option_selected('delivery_no', $sfl, '운송장번호'); ?>
+                        <?php echo option_selected('seller_id', $sfl, '판매자ID'); ?>
+                        <?php echo option_selected('pt_id', $sfl, '가맹점ID'); ?>
+                    </select>
+                </div>
+			    <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기간검색</th>
 		<td>
-			<select name="sel_field">
-				<?php echo option_selected('od_time', $sel_field, "주문일"); ?>
-				<?php echo option_selected('receipt_time', $sel_field, "입금완료일"); ?>
-				<?php echo option_selected('delivery_date', $sel_field, "배송일"); ?>
-				<?php echo option_selected('invoice_date', $sel_field, "배송완료일"); ?>
-				<?php echo option_selected('user_date', $sel_field, "구매확정일"); ?>
-				<?php echo option_selected('cancel_date', $sel_field, "주문취소일"); ?>
-				<?php echo option_selected('refund_date', $sel_field, "환불완료일"); ?>
-				<?php echo option_selected('return_date', $sel_field, "반품완료일"); ?>
-				<?php echo option_selected('change_date', $sel_field, "교환완료일"); ?>
-			</select>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sel_field">
+                        <?php echo option_selected('od_time', $sel_field, "주문일"); ?>
+                        <?php echo option_selected('receipt_time', $sel_field, "입금완료일"); ?>
+                        <?php echo option_selected('delivery_date', $sel_field, "배송일"); ?>
+                        <?php echo option_selected('invoice_date', $sel_field, "배송완료일"); ?>
+                        <?php echo option_selected('user_date', $sel_field, "구매확정일"); ?>
+                        <?php echo option_selected('cancel_date', $sel_field, "주문취소일"); ?>
+                        <?php echo option_selected('refund_date', $sel_field, "환불완료일"); ?>
+                        <?php echo option_selected('return_date', $sel_field, "반품완료일"); ?>
+                        <?php echo option_selected('change_date', $sel_field, "교환완료일"); ?>
+                    </select>
+                </div>
+			    <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">결제방법</th>
 		<td>
-			<?php echo radio_checked('od_settle_case', $od_settle_case,  '', '전체'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '무통장', '무통장'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '가상계좌', '가상계좌'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '계좌이체', '계좌이체'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '휴대폰', '휴대폰'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '신용카드', '신용카드'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '간편결제', 'PG간편결제'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, 'KAKAOPAY', 'KAKAOPAY'); ?>
+            <div class="radio_group">
+                <?php echo radio_checked('od_settle_case', $od_settle_case,  '', '전체'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '무통장', '무통장'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '가상계좌', '가상계좌'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '계좌이체', '계좌이체'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '휴대폰', '휴대폰'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '신용카드', '신용카드'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '간편결제', 'PG간편결제'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, 'KAKAOPAY', 'KAKAOPAY'); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">배송요일</th>
 		<td>
-			<?php echo check_checked('od_wday1', $od_wday1,  '월', '월'); ?>
-			<?php echo check_checked('od_wday2', $od_wday2,  '화', '화'); ?>
-			<?php echo check_checked('od_wday3', $od_wday3,  '수', '수'); ?>
-			<?php echo check_checked('od_wday4', $od_wday4,  '목', '목'); ?>
-			<?php echo check_checked('od_wday5', $od_wday5,  '금', '금'); ?>
-			<?php echo check_checked('od_wday6', $od_wday6,  '토', '토'); ?>
+            <div class="checks">
+                <?php echo check_checked('od_wday1', $od_wday1,  '월', '월'); ?>
+                <?php echo check_checked('od_wday2', $od_wday2,  '화', '화'); ?>
+                <?php echo check_checked('od_wday3', $od_wday3,  '수', '수'); ?>
+                <?php echo check_checked('od_wday4', $od_wday4,  '목', '목'); ?>
+                <?php echo check_checked('od_wday5', $od_wday5,  '금', '금'); ?>
+                <?php echo check_checked('od_wday6', $od_wday6,  '토', '토'); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">배송주기</th>
 		<td>
-			<?php echo radio_checked('od_week', $od_week,  '1', '1주'); ?>
-			<?php echo radio_checked('od_week', $od_week,  '2', '2주'); ?>
-			<?php echo radio_checked('od_week', $od_week,  '3', '3주'); ?>
-			<?php echo radio_checked('od_week', $od_week,  '4', '4주'); ?>
+            <div class="radio_group">
+                <?php echo radio_checked('od_week', $od_week,  '1', '1주'); ?>
+                <?php echo radio_checked('od_week', $od_week,  '2', '2주'); ?>
+                <?php echo radio_checked('od_week', $od_week,  '3', '3주'); ?>
+                <?php echo radio_checked('od_week', $od_week,  '4', '4주'); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">배송횟수</th>
 		<td>
-			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '2', '2주'); ?>
-			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '4', '4주'); ?>
-			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '6', '6주'); ?>
-			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '8', '8주'); ?>
-			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '10', '10주'); ?>
-			<?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '12', '12주'); ?>
+            <div class="radio_group">
+                <?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '2', '2주'); ?>
+                <?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '4', '4주'); ?>
+                <?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '6', '6주'); ?>
+                <?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '8', '8주'); ?>
+                <?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '10', '10주'); ?>
+                <?php echo radio_checked('od_reg_cnt', $od_reg_cnt,  '12', '12주'); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">첫 배송 시점</th>
 		<td>
-			<input type="date" name="od_begin_date" value="<?php echo $od_begin_date ?>" id="od_begin_date" class="frm_input w100 " maxlength="10">
+			<input type="date" name="od_begin_date" value="<?php echo $od_begin_date ?>" id="od_begin_date" class="w200" maxlength="10">
 		</td>
 	</tr>
 
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+<div class="board_btns tac mart20">
+    <div class="btn_wrap">
+        <input type="submit" value="검색" class="btn_acc marr10">
+        <input type="button" value="초기화" id="frmRest" class="btn_cen">
+    </div>
 </div>
 </form>
 
-<div class="local_ov mart30">
-	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
-	<select id="page_rows" onchange="location='<?php echo "{$_SERVER['SCRIPT_NAME']}?{$q1}&page=1"; ?>&page_rows='+this.value;" class="marl5">
-		<?php echo option_selected('30',  $page_rows, '30줄 정렬'); ?>
-		<?php echo option_selected('50',  $page_rows, '50줄 정렬'); ?>
-		<?php echo option_selected('100', $page_rows, '100줄 정렬'); ?>
-		<?php echo option_selected('150', $page_rows, '150줄 정렬'); ?>
-	</select>
+<div class="local_ov mart30 fs18 line_search">
+	<p>전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회</p>
+    <div class="chk_select">
+        <select id="page_rows" onchange="location='<?php echo "{$_SERVER['SCRIPT_NAME']}?{$q1}&page=1"; ?>&page_rows='+this.value;">
+            <?php echo option_selected('30',  $page_rows, '30줄 정렬'); ?>
+            <?php echo option_selected('50',  $page_rows, '50줄 정렬'); ?>
+            <?php echo option_selected('100', $page_rows, '100줄 정렬'); ?>
+            <?php echo option_selected('150', $page_rows, '150줄 정렬'); ?>
+        </select>
+    </div>
 	<strong class="ov_a">총주문액 : <?php echo number_format($tot_orderprice); ?>원</strong>
 </div>
 
@@ -140,21 +161,23 @@ EOF;
 	<table id="sodr_list">
 	<colgroup>
 		<col class="w50">
-		<col class="w100">
 		<col class="w150">
-		<col class="w40">
+		<col class="w150">
+		<col class="w50">
+		<col class="w150">
+		<col class="w50">
 		<col class="w80">
 		<col class="w80">
+		<col class="w90">
+		<col class="w90">
+		<col class="w90">
+		<col class="w90">
+		<col class="w90">
 		<col class="w80">
-		<col class="w80">
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
+		<col class="w120">
 	</colgroup>
 	<thead>
 	<tr>
@@ -167,7 +190,7 @@ EOF;
 		<th scope="col">배송요일</th>
 		<th scope="col">배송주기</th>
 		<th scope="col">배송 횟수</th>
-		<th scope="col">잔여 / 총<br>배송횟수</th>
+		<th scope="col">잔여 /<br>총 배송횟수</th>
 		<th scope="col">첫 배송 시점</th>
 		<th scope="col">판매자</th>
 		<th scope="col">주문자</th>
@@ -212,11 +235,11 @@ EOF;
 		<td><?php echo number_format($row2['sum_qty']); ?></td>
 		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
 		<!-- <td class="tar"><?php echo number_format($row2['goods_price']); ?></td> -->
-		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_wday']; ?></td>
-		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_week']; ?></td>
-		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_reg_cnt']; ?></td>
-		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_reg_num']; ?> / <?php echo $row2['od_reg_total_num'] ?></td>
-		<td class="tar" rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_begin_date']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_wday']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_week']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_reg_cnt']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_reg_num']; ?> / <?php echo $row2['od_reg_total_num'] ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_begin_date']; ?></td>
 		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
 		<?php if($k == 0) { ?>
 		<td rowspan="<?php echo $rowspan; ?>">
@@ -227,7 +250,9 @@ EOF;
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
 		<td><?php echo $gw_status[$row2['dan']]; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>">
-			<a href="javascipt:void(0);">취소</a>
+            <div class="btn_wrap">
+                <a href="javascipt:void(0);" class="btn_cen bg_type2"><span>취소</span></a>
+            </div>
 		</td>
 		<?php } ?>
 	<?php

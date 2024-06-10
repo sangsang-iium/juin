@@ -7,17 +7,27 @@ if(!defined('_BLUEVATION_')) exit;
 <div class="tbl_frm02">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">샘플파일 다운</th>
-		<td><a href="<?php echo BV_LIB_URL; ?>/Excel/itemexcel.xls" class="btn_small bx-blue"><i class="fa fa-download"></i> 샘플파일 다운로드</a></td>
+		<td>
+            <div class="btn_wrap tal">
+                <a href="<?php echo BV_LIB_URL; ?>/Excel/itemexcel.xls" class="fbtn xls">
+                    <span>샘플파일 다운로드</span>
+                </a>
+            </div>
+        </td>
 	</tr>
 	<tr>
 		<th scope="row">파일 업로드</th>
-		<td><input type="file" name="excelfile"></td>
+        <td>
+            <div class="file_wrap">
+                <input type="file" name="excelfile">
+            </div>
+        </td>
 	</tr>
 	</tbody>
 	</table>
@@ -28,7 +38,17 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 </form>
 
-<div class="information">
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ul class="cnt_list step01">
+        <li>엑셀자료는 1회 업로드당 최대 1,000건까지 이므로 1,000건씩 나누어 업로드 하시기 바랍니다.</li>
+        <li>엑셀파일을 저장하실 때는 <strong>Excel 97 - 2003 통합문서 (*.xls)</strong>로 저장하셔야 합니다.</li>
+        <li>상품관리에서 엑셀다운로드 하시고 수정 후 그대로 업로드 하시면 됩니다.</li>
+        <li>상품관리에서 다운로드 받으신 엑셀데이터는 2번째 라인부터 저장되므로 타이틀은 지우시면 안됩니다.</li>
+    </ul>
+</div>
+
+<!-- <div class="information">
 	<h4>도움말</h4>
 	<div class="content">
 		<div class="desc02">
@@ -38,7 +58,7 @@ if(!defined('_BLUEVATION_')) exit;
 			<p>ㆍ상품관리에서 다운로드 받으신 엑셀데이터는 2번째 라인부터 저장되므로 타이틀은 지우시면 안됩니다.</p>
 		</div>
 	 </div>
-</div>
+</div> -->
 
 <script>
 function fitemexcel_submit(f)

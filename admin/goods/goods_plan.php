@@ -34,23 +34,28 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('pl_name', $sfl, '기획전명'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('pl_name', $sfl, '기획전명'); ?>
+                    </select>
+                </div>
+			    <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -75,11 +80,11 @@ EOF;
 <div class="tbl_head01">
 	<table>
 	<colgroup>
-		<col class="w50">
-		<col class="w50">
-		<col class="w50">
+		<col class="w70">
+		<col class="w80">
+		<col class="w80">
 		<col>
-		<col class="w60">
+		<col class="w150">
 	</colgroup>
 	<thead>
 	<tr>
@@ -92,7 +97,7 @@ EOF;
 	</thead>
 	<?php
 	for($i=0; $row=sql_fetch_array($result); $i++) {
-		$s_upd = "<a href=\"./goods.php?code=plan_form&w=u&pl_no={$row['pl_no']}$qstr&page=$page\" class=\"btn_small\">수정</a>";
+		$s_upd = "<a href=\"./goods.php?code=plan_form&w=u&pl_no={$row['pl_no']}$qstr&page=$page\" class=\"btn_fix bg_type2\"><span>수정</span></a>";
 
 		if($i==0)
 			echo '<tbody class="list">'.PHP_EOL;
@@ -107,7 +112,11 @@ EOF;
 		<td><?php echo $num--; ?></td>
 		<td><input type="checkbox" name="pl_use[<?php echo $i; ?>]" value="1"<?php echo get_checked($row['pl_use'], 1); ?>></td>
 		<td><input type="text" name="pl_name[<?php echo $i; ?>]" value="<?php echo $row['pl_name']; ?>" class="frm_input"></td>
-		<td><?php echo $s_upd; ?></td>
+		<td>
+            <div class="btn_wrap">
+                <?php echo $s_upd; ?>
+            </div>
+        </td>
 	</tr>
 	<?php
 	}

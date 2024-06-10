@@ -163,7 +163,33 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 					</div>
 					<?php } ?>
+					
+					<div class="form-row">
+						<div class="form-head">
+							<p class="title">환불계좌등록<b>*</b></p>
+						</div>
+						<div class="form-body phone">	  
+							<label for="reg_mb_addr2" class="sound_only">은행</label> 
+							<?php 
+								
+							?>
+							<select name="refund_bank" class="frm-input">
+									<option>은행을선택하세요</option>
+									<?php 
+									sort($BANKS, SORT_NATURAL | SORT_FLAG_CASE); 
+									//sort($BANKS);
+										for($a=0;$a<count($BANKS);$a++){   
+											?>
+											<option value='<? echo $BANKS[$a]['code']; ?>' <?php  if(get_text($member['refund_bank'])==$BANKS[$a]['code']) echo "selected"; ?>><?php echo $BANKS[$a]['bank'];?></option>
+											<?php
+										}
+									?>
+							</select>
+							<input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
+							<input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
 
+						</div>
+					</div>
 					 
 				</div>
 			</div>

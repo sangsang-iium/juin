@@ -260,7 +260,7 @@ if(!defined('_BLUEVATION_')) exit;
 	</table>
 </div> -->
 <div class="board_btns tac mart20">
-    <div class="btn_wrap btn_type">
+    <div class="btn_wrap">
         <input type="submit" value="저장" id="btn_submit" class="btn_acc" accesskey="s">
     </div>
 </div>

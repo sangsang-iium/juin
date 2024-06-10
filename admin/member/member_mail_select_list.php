@@ -93,9 +93,9 @@ sql_query(" update shop_mail set ma_last_option = '{$ma_last_option}' where ma_i
 </div>
 
 <div class="board_btns tac mart20">
-    <div class="btn_wrap btn_type">
+    <div class="btn_wrap">
         <input type="submit" value="메일전송" class="btn_acc marr10" accesskey="s">
-        <a href="javascript:history.go(-1);" class="btn_cen">취소</a>
+        <a href="javascript:history.go(-1);" class="btn_cen bg_type2"><span>취소</span></a>
 
     </div>
 </div>

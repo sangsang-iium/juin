@@ -88,6 +88,10 @@
 
 }
 
+strong{
+    font-weight: var(--fw_700);
+}
+
 /* 헤더 레이아웃 */
 header#hd {
     height:118px;
@@ -356,7 +360,7 @@ h6[class*="htag_title"]:before {
     height: 18px;
     background: url("/admin/img/images/common/h5_icon.png") no-repeat center / 17px;
     position: absolute;
-    top: 0;
+    top: 4px;
     left: 0;
 }
 
@@ -520,24 +524,43 @@ h6[class*="htag_title"]:before {
 
 
 /* 버튼 */
-[class*="btn_wrap"] a {
-    display: inline-block;
+[class^="btn_wrap"]{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    gap:10px 0;
+    flex-wrap: wrap;
+}
+
+[class^="btn_wrap"].tal{
+    justify-content: flex-start;
+}
+
+[class^="btn_wrap"] a {
+    display: block;
     border: solid 1px #ccc;
     border-radius: 30px;
-    padding: 7px 15px;
+    padding: 6px 15px;
     box-sizing: border-box;
     background: var(--color_white);
     transition: all .3s ease-in-out;
-    vertical-align: top;
+    min-width: 87px;
+    text-align: center;
+    cursor: pointer;
+    margin:0;
 }
 
-[class*="btn_wrap"] a:hover {
+[class^="btn_wrap"] > *:not([class*="marr"]){
+    margin-right:10px
+}
+
+[class^="btn_wrap"] a:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.18);
 }
 
-[class*="btn_wrap"] a span {
+[class^="btn_wrap"] a span {
     font-weight: var(--fw_500);
-    font-size: var(--fs_14);
+    font-size: var(--font_14);
     color: var(--color_0);
     display: inline-block;
     position: relative;
@@ -546,70 +569,76 @@ h6[class*="htag_title"]:before {
     background-repeat: no-repeat;
 }
 
-[class*="btn_wrap"][class*="btn_type"] a {
-    min-width: 87px;
-    text-align: center;
-}
-
-[class*="btn_wrap"].btn_type .btn_write span {
+[class^="btn_wrap"] .btn_write[class*="bg_type"] span {
     background-image: var(--btn_write);
 }
 
-[class*="btn_wrap"].btn_type .btn_list span {
+[class^="btn_wrap"] .btn_list[class*="bg_type"] span {
     background-image: var(--btn_list);
 }
 
-[class*="btn_wrap"].btn_type .btn_fix span {
+[class^="btn_wrap"] .btn_fix[class*="bg_type"] span {
     background-image: var(--btn_fix);
 }
 
-[class*="btn_wrap"].btn_type .btn_del span {
+[class^="btn_wrap"] .btn_del[class*="bg_type"] span {
     background-image: var(--btn_del);
 }
 
-[class*="btn_wrap"].btn_type .btn_cen span {
+[class^="btn_wrap"] .btn_cen[class*="bg_type"] span {
     background-image: var(--btn_cen);
 }
 
-[class*="btn_wrap"].btn_type .btn_acc span {
+[class^="btn_wrap"] .btn_acc[class*="bg_type"] span {
     background-image: var(--btn_acc);
 }
 
-[class*="btn_wrap"].bg_type1 a {
+[class^="btn_wrap"] a.bg_type2 {
     background-color: var(--color_5);
+    border-color: var(--color_5);
 }
 
-[class*="btn_wrap"].bg_type2 a {
+[class^="btn_wrap"] a.bg_type3 {
     background-color: var(--color_green2);
+    border-color: var(--color_green2);
 }
 
-[class*="btn_wrap"][class*="bg_type"] a span {
-    color: var(--color_white)
+[class^="btn_wrap"] a.bg_type2 span,
+[class^="btn_wrap"] a.bg_type3 span {
+    color: var(--color_white);
 }
 
-[class*="btn_wrap"][class*="bg_type"] .btn_write span {
+[class^="btn_wrap"] input[type="submit"].btn_write {
+    background: url('/admin/img/images/board/btn_write2.png');
+    font-size:0;
+    width: 101px;
+    border: none;
+}
+
+[class^="btn_wrap"] .btn_write[class*="bg_type"]:not(.bg_type1) span{
     background-image: var(--btn_write2);
 }
 
-[class*="btn_wrap"][class*="bg_type"] .btn_list span {
+[class^="btn_wrap"] .btn_list[class*="bg_type"]:not(.bg_type1) span {
     background-image: var(--btn_list2);
 }
 
-[class*="btn_wrap"][class*="bg_type"] .btn_fix span {
+[class^="btn_wrap"] .btn_fix[class*="bg_type"]:not(.bg_type1) span {
     background-image: var(--btn_fix2);
 }
 
-[class*="btn_wrap"][class*="bg_type"] .btn_del span {
+[class^="btn_wrap"] .btn_del[class*="bg_type"]:not(.bg_type1) span {
     background-image: var(--btn_del2);
 }
 
-[class*="btn_wrap"][class*="bg_type"] .btn_cen span {
+[class^="btn_wrap"] .btn_cen[class*="bg_type"]:not(.bg_type1) span {
     background-image: var(--btn_cen2);
 }
 
-[class*="btn_wrap"][class*="bg_type"] .btn_acc span {
+[class^="btn_wrap"] .btn_acc[class*="bg_type"]:not(.bg_type1) span {
     background-image: var(--btn_acc2);
 }
+
 
 [class*="btn_wrap"].small_type a {
     width: 46px;
@@ -737,8 +766,8 @@ h6[class*="htag_title"]:before {
 
 [class*="btn_wrap"] .fbtn span {
     display: block;
-    height: 22px;
     padding-left: 30px;
+    padding-right:0;
 }
 
 [class*="btn_wrap"] .fbtn.sbtn {
@@ -794,7 +823,7 @@ h6[class*="htag_title"]:before {
 
 [class*="text_box"] {
     font-weight: var(--fw_500);
-    font-size: var(--fs_14);
+    font-size: var(--fs_16);
     color: var(--color_5);
     width: 100%;
     padding: 20px 20px;
@@ -835,6 +864,7 @@ h6[class*="htag_title"]:before {
 
 /*인풋텍스트,셀렉트,라디오 공통*/
 input[type="text"],
+input[type="date"],
 input[type="password"],
 input[type="number"] {
     font-weight: var(--fw_400);
@@ -851,6 +881,7 @@ input[type="number"] {
 }
 
 input[type="text"]::placeholder,
+input[type="date"],::placeholder,
 input[type="password"]::placeholder,
 input[type="number"]::placeholder {
     color: #a5a5a5;
@@ -861,6 +892,9 @@ input[type="number"]::placeholder {
     position: relative;
     display: inline-block;
     vertical-align: top;
+}
+ul:has([class*="chk_select"]) li{
+    margin-right:5px;
 }
 
 [class*="chk_select"]:before {
@@ -1437,13 +1471,16 @@ textarea {
     box-sizing: border-box;
     font-size: var(--fs_16);
     font-weight: var(--fw_400);
-    border: 1px solid #d1d1d1;
-    color: var(--color_5) !important;
-    background: var(--color_white);
     border-radius: 50px;
     cursor: pointer;
     transition: all .3s ease-in-out;
 
+}
+[class*="board_btns"] input,
+[class*="board_btns"] button {
+    border: 1px solid #d1d1d1;
+    color: var(--color_5);
+    background: var(--color_white);
 }
 
 [class*="btn_confirm"] a{
@@ -1453,7 +1490,7 @@ textarea {
 
 [class*="board_btns"] .btn_acc,
 [class*="btn_confirm"] input[type="submit"],
-[class*="btn_confirm"] .btn_large:not(.bx-white){
+[class*="btn_confirm"] .btn_large:not([class*="bx-"]){
     background-color: var(--color_3);
     border-color:var(--color_3);
     color:var(--color_white) !important;
@@ -1485,7 +1522,7 @@ textarea {
 [class*="board_table"] table thead th {
     background: var(--color_f7);
     color: var(--color_0);
-    text-align: left;
+    text-align: center;
     letter-spacing: -0.03em;
     padding: 12px;
     font-size: var(--fs_16);
@@ -1517,7 +1554,6 @@ textarea {
     color: var(--color_5);
     font-size: var(--fs_16);
     font-weight: var(--fw_400);
-    text-align: left;
     letter-spacing: -0.02em;
 
 }
@@ -1543,6 +1579,10 @@ textarea {
     align-items: center;
     justify-content: flex-start;
     gap: 15px
+}
+
+[class*="tel_input"].wrapType {
+    flex-wrap: wrap;
 }
 
 [class*="tel_input"] [class*="chk_select"] {
@@ -1889,4 +1929,30 @@ textarea {
 .fsitem{
     font-size:16px;
     font-family: "Noto Sans KR", sans-serif;
+}
+
+.frm_textbox{
+    font-size:var(--fs_16);
+}
+
+.frm_input, input[type=file]{
+    height: auto;
+}
+
+[class^="liveTimeBox"]{
+    display: flex;
+    flex-wrap: wrap;
+    gap:10px 1%;
+    align-items: center;
+    justify-content: flex-start;
+}
+[class^="liveTimeBox"] p{
+    width: 49%;
+}
+
+.new_win {
+    margin:20px 0;
+}
+[class^="new_win"] h4.htag_title{
+    padding-left:20px;
 }

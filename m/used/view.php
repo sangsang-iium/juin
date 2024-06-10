@@ -7,8 +7,10 @@ if(is_numeric($no)){
     if(!$row['no']){
         alert("상품정보가 존재하지 않습니다.");
     }
-    //조회수+
-    sql_query("update shop_used set hit = hit + 1 where no = '$no'");
+    //조회수+ refresh(신고)제외
+    if(!$r){
+        sql_query("update shop_used set hit = hit + 1 where no = '$no'");
+    }
 } else {
     alert("상품정보가 존재하지 않습니다.");
 }
@@ -27,11 +29,9 @@ if(empty($imgs)){
 
 $gubun_status = getUsedGubunStatus($row['gubun'], $row['status']);
 $good_cnt = getUsedGoodCount($row['no']);
+$chat_cnt = getUsedChatCount($row['no']);
 $comment_cnt = getUsedCommentCount($row['no']);
 $goodyn = getUsedGoodRegister($row['no'], $member['id']);
-
-/*$sql = "select * from shop_used_comment where pno = {$row['no']} order by no";
-$result = sql_query($sql);*/
 ?>
 
 <div id="contents" class="sub-contents flView usedView">
@@ -57,7 +57,7 @@ $result = sql_query($sql);*/
       <i class="icn">
         <img src="/src/img/siren_c.png" alt="">
       </i>
-      <span class="txt">신고하기</span>
+      <span class="txt siren-wBtn_open">신고하기</span>
     </button>
     <a href="" class="tRow2 title">
       <span class="cate">[<?php echo $row['category'] ?>]</span>
@@ -72,7 +72,7 @@ $result = sql_query($sql);*/
         <p class="prc"><?php echo number_format($row['price']) ?><span class="won">원</span></p>
       </li>
       <li>
-        <span class="status ing"><?php echo $gubun_status[1] ?></span>
+        <span class="status <?php echo $gubun_status[2] ?>"><?php echo $gubun_status[1] ?></span>
       </li>
     </ul>
     <ul class="extra">
@@ -90,9 +90,9 @@ $result = sql_query($sql);*/
       </li>
       <li class="reply">
         <span class="icon">
-          <img src="/src/img/used/icon_chat.png" alt="댓글수">
+          <img src="/src/img/used/icon_chat.png" alt="채팅수">
         </span>
-        <span class="text conmment_cnt"><?php echo $comment_cnt ?></span>
+        <span class="text"><?php echo $chat_cnt ?></span>
       </li>
     </ul>
   </div>
@@ -123,83 +123,24 @@ $result = sql_query($sql);*/
 
   <div class="container fl-reply">
     <div class="fl-reply_body">
-      <div class="fl-reply_title">
-        <p class="title">댓글(<span class="conmment_cnt"><?php echo $comment_cnt ?></span>)</p>
+      <div class="fl-reply_title" id="comment_top">
+        <p class="title">댓글(<span class="comment_cnt">0</span>)</p>
       </div>
 
-      <div class="fl-reply_list">
-        
-        <div class="fl-reply_item">
-          <div class="fl-reply_top">
-            <div class="left">
-              <p class="name">abc***</p>
-            </div>
-            <div class="right">
-              <p class="date">2024-02-27</p>
-            </div>
-          </div>
-          <div class="fl-reply_content-wr">
-            <div class="fl-reply_content">
-              
-              <div class="fl-reply_content-q-wr">
-                댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다.
-              </div>
+      <div class="fl-reply_list"></div>
 
-              <div class="mngArea">
-                <button type="button" class="ui-btn">답글달기</button>
-                <button type="button" class="ui-btn">신고하기</button>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-
-        <div class="fl-reply_item">
-          <div class="fl-reply_top">
-            <div class="left">
-              <p class="name">abc***</p>
-            </div>
-            <div class="right">
-              <p class="date">2024-02-27</p>
-            </div>
-          </div>
-          <div class="fl-reply_content-wr">
-            <div class="fl-reply_content">
-
-              <div class="fl-reply_content-q-wr">
-                댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다. 댓글 내용입니다.
-              </div>
-
-              <div class="mngArea">
-                <button type="button" class="ui-btn">답글달기</button>
-                <button type="button" class="ui-btn">신고하기</button>
-              </div>
-
-              <div class="fl-reply_content-a-wr">
-                <p class="name">판매자</p>
-                <div class="cont">
-                  답글 내용입니다. 답글 내용입니다. 답글 내용입니다. 답글 내용입니다. 답글 내용입니다.
-                </div>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-        
-      </div>
       <?php if($comment_cnt > 2){ ?>
-      <button type="button" class="ui-btn round moreLong fl-reply_all-btn">
-        <span class="text" onclick="getUsedCommentList(<?php echo $row['no'] ?>, 'y');">전체보기</span>
+      <button type="button" class="ui-btn round moreLong fl-reply_all-btn" onclick="getUsedCommentList('Y');">
+        <span class="text">전체보기</span>
       </button>
       <?php } ?>
 
-      <div class="fl-reply_register">
-        <form action="">
-          <textarea name="" id="" required class="frm-txtar w-per100" placeholder="댓글을 입력해주세요."></textarea>
+      <div class="fl-reply_register" id="comment_bottom">
+          <input type="hidden" id="edit_no"><!--수정시 댓글 key-->
+          <textarea name="comment" id="comment" class="frm-txtar w-per100" placeholder="댓글을 입력해주세요."></textarea>
           <div class="bottomArea">
-            <button type="submit" class="ui-btn st3 register-btn">등록하기</button>
+            <button type="button" class="ui-btn st3 register-btn" onclick="addComment();">등록하기</button>
           </div>
-        </form>
       </div>
     </div>
   </div>
@@ -223,32 +164,185 @@ $result = sql_query($sql);*/
 
 </div>
 
-<script>
-const pno = Number(<?php echo $no ?>);
-let more = '';
 
-function getUsedCommentList(pno, more){
-    $.post("ajax.get_used_list.php", {pno:pno, more:more}, function(obj){
-        $(".fl-reply_list").html(obj);
+<!--신고하기팝업-->
+<div id="siren-write-popup" class="popup type02 add-popup">
+  <div class="pop-inner">
+    <div class="pop-top">
+      <p class="tit">신고하기</p>
+      <button type="button" class="btn close"></button>
+    </div>
+    <div class="pop-content line">
+      <div class="pop-content-in">
+        <div class="siren-reg">
+          <div class="container">
+            <form method="post" id="sform" action="write_singo.php" onsubmit="return singoSend(this);" enctype="MULTIPART/FORM-DATA">
+            <input type="hidden" name="pno" value="<?php echo $row['no'] ?>">
+            <input type="hidden" name="mb_id" value="<?php echo $member['id'] ?>">
+              <div class="siren-reg_wrap">
+                <div class="siren-reg_top">
+                  <!-- 중고상품일 경우 { -->
+                  <div class="used-item siren-reg_used-item">
+                    <a href="#none" class="used-item_thumbBox">
+                      <img src="<?php echo $imgs[0] ?>" class="fitCover" alt="<?php echo $row['title'] ?>">
+                    </a>
+                    <div class="used-item_txtBox">
+                      <a href="" class="tRow2 title">
+                        <span class="cate">[<?php echo $row['category'] ?>]</span>
+                        <span class="subj"><?php echo $row['title'] ?></span>
+                      </a>
+                      <p class="writer">
+                        <span><?php echo getMemberName($row['mb_id']) ?></span>
+                        <span><?php echo getUsedAddress($row['address']) ?></span>
+                      </p>
+                      <ul class="inf">
+                        <li>
+                          <p class="prc"><?php echo number_format($row['price']) ?><span class="won">원</span></p>
+                        </li>
+                        <li>
+                          <span class="status <?php echo $gubun_status[2] ?>"><?php echo $gubun_status[1] ?></span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- } 중고상품일 경우 -->
+                </div>
+                <p class="siren-reg_tit"><img src="/src/img/siren_w.png" alt="">신고하기</p>
+                <div class="siren-reg_con">
+                  <div class="form-row">
+                    <div class="form-head">
+                      <p class="title">신고사유</p>
+                    </div>
+                    <div class="form-body">
+                      <ul class="col2">
+                      <?php
+                      foreach($singo_categorys as $k => $v){
+                        echo '<li><div class="frm-choice"><input type="radio" name="category" value="'.$v.'" id="test-radio'.$k.'"><label for="test-radio'.$k.'">'.$v.'</label></div></li>';
+                      }
+                      ?>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-head">
+                      <p class="title">상세내용</p>
+                    </div>
+                    <div class="form-body">
+                      <textarea name="content" rows="7" class="frm-txtar w-per100" required placeholder="신고 게시글에 대한 자세한 설명을 입력해 주세요"></textarea>
+                    </div>
+                    <div class="form-head">
+                      <p class="title">이미지(jpg,jpeg,gif,png)</p>
+                    </div>
+					<div class="form-body">
+						<div class="img-upload">
+							<div class="img-upload-list">
+								<div class="img-upload-item">
+									<input type="file" name="img">
+								</div>
+							</div>
+						</div>
+					</div>
+                  </div>
+                </div>
+                <div class="siren-reg_bot">
+                  <button type="submit" class="ui-btn round stBlack siren-reg_submit">신고 접수하기</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--신고하기팝업-->
+
+<script type="module">
+import * as f from '/src/js/function.js';
+
+$(".siren-wBtn_open").on("click", function () {
+  $(".popDim").show();
+  f.popupOpen('siren-write-popup');
+  $(".prod-buy_area").hide();
+});
+
+$("#siren-write-popup .close").on("click", function () {
+  $("#sform")[0].reset();
+  $(".prod-buy_area").show();
+});
+</script>
+
+<script>
+function singoSend(f){
+    if(f.category.value==''){
+        alert("신고사유를 선택하세요.");
+        return false;
+    }
+    
+    if(confirm("신고하시겠습니까?")){
+        return true;
+    }
+    
+    return false;
+}
+
+
+
+const mb_id = "<?php echo $member['id'] ?>";
+const pno = Number(<?php echo $no ?>);
+
+function getUsedCommentList(more){
+    $.post("ajax.get_used_comment.php", {pno:pno, more:more}, function(obj){
+        var data = JSON.parse(obj);
+        $(".fl-reply_list").html(data['comment']);
+        $(".comment_cnt").text(data['comment_cnt']);
+        if(more=='Y'){
+            $(".moreLong").remove();
+        }
+        
         reEvent();
     });
 }
 
 function reEvent(){
-    $(".wish-btn").click(function(){
-        var el = $(this);
-        var no = el.data("no");
-        var inout = 'in';
-        if(el.hasClass("on")){
-            inout = 'out';
+    $(".comment_edit").click(function(){
+        var idx = $(".comment_edit").index(this);
+        var cno = $(this).data("no");
+        var edit_text = $(".fl-reply_content-q-wr").eq(idx).text();
+        
+        $("#edit_no").val(cno);
+        $("#comment").val(edit_text);
+        $(".register-btn").text('수정하기');
+        location.href = '#comment_bottom';
+    });
+
+    $(".comment_del").click(function(){
+        var idx = $(".comment_del").index(this);
+        var cno = $(this).data("no");
+        if(confirm("댓글을 삭제하시겠습니까?\n삭제하시면 복구하실 수 없습니다.")){
+            $.post("ajax.del_comment.php", {cno:cno, mb_id:mb_id}, function(obj){
+                if(obj.trim()=='Y'){
+                    $(".fl-reply_item").eq(idx).remove();
+                }
+            });
         }
-        $.post("ajax.used_good.php", {no:no, inout:inout}, function(obj){
-            if(obj.trim()=='in'){
-                el.addClass("on");
-            } else if(obj.trim()=='out'){
-                el.removeClass("on");
-            }
-        });
+    })
+}
+
+function addComment(){
+    var edit_no = $("#edit_no").val();
+    var comment = $("#comment").val();
+    if(comment==''){
+        alert("댓글을 입력하세요.");
+        return false;
+    }
+    $.post("ajax.add_comment.php", {edit_no:edit_no, pno:pno, comment:comment, mb_id:mb_id}, function(obj){
+        if(obj.trim()=='Y'){
+            $("#comment").val('');
+            $(".register-btn").text('등록하기');
+            getUsedCommentList('Y');
+            location.href = '#comment_top';
+        }
     });
 }
 
@@ -269,7 +363,7 @@ $(document).ready(function(){
         });
     });
     
-    //getUsedCommentList(pno, more);
+    getUsedCommentList('N');
 });
 </script>
 

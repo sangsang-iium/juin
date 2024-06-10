@@ -11,6 +11,7 @@ $per = round(($raffle['raffle_price'] / $raffle['market_price']) * 100);
 
 $raffleLimit = raffleEntryCheck($index_no,$raffle['entry'],$raffle['entry_number']);
 $rafflePrizeCheck = rafflePrizeCheck($index_no);
+$raffleEndCheck = raffleEventDateCheck($raffle['event_end_date'],$raffle['prize_date']);
 ?>
 
 <div id="contents" class="sub-contents flView raffleView">
@@ -18,9 +19,13 @@ $rafflePrizeCheck = rafflePrizeCheck($index_no);
     <div class="swiper-container">
       <div class="cp-timer">
         <div class="cp-timer-wrap white">
-          <i class="cp-timer__icon"></i>
-          <span class="cp-timer__num" data-deadline="<?php echo $raffle['event_end_date'] ?>">00:00:00</span>
-          <span class="cp-timer__text">남음</span>
+          <?php if($raffleEndCheck > 1) { ?>
+            <span class="cp-timer__text">종료</span>
+          <?php } else { ?>
+            <i class="cp-timer__icon"></i>
+            <span class="cp-timer__num" data-deadline="<?php echo $raffle['event_end_date'] ?>">00:00:00</span>
+            <span class="cp-timer__text">남음</span>
+          <?php } ?>
         </div>
       </div>
       <div class="swiper-wrapper">
@@ -154,9 +159,13 @@ $rafflePrizeCheck = rafflePrizeCheck($index_no);
       <div class="container">
         <div class="prod-buy__btns">
           <?php if(!$rafflePrizeCheck) { ?>
-            <button href="" class="ui-btn round stBlack">응모완료</button>
+            <button class="ui-btn round stBlack">응모완료</button>
           <?php } else { ?>
-            <button href="" class="ui-btn round stBlack raffle-submit-btn">응모하기</button>
+            <?php if($raffleEndCheck > 1) { ?>
+              <button class="ui-btn round stBlack">응모 종료</button>
+            <?php } else { ?>
+              <button class="ui-btn round stBlack raffle-submit-btn">응모하기</button>
+            <?php } ?>
           <?php } ?>
         </div>
       </div>

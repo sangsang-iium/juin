@@ -7,14 +7,14 @@ if(!defined('_BLUEVATION_')) exit;
 <div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">샘플파일 다운</th>
 		<td>
-            <div class="btn_wrap">
+            <div class="btn_wrap tal">
                 <a href="<?php echo BV_LIB_URL; ?>/Excel/memberexcel.xls" class="dwn">
                     <span>샘플파일 다운로드</span>
                 </a>
@@ -34,7 +34,7 @@ if(!defined('_BLUEVATION_')) exit;
 	</table>
 </div>
 <div class="board_btns tac mart20">
-    <div class="btn_wrap btn_type">
+    <div class="btn_wrap">
         <input type="submit" value="회원 일괄등록" class="btn_acc">
     </div>
 </div>

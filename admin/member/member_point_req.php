@@ -55,8 +55,8 @@ if($config['cf_point_term'] > 0) {
 		</table>
 	</div>
 	<div class="board_btns tac mart20">
-        <div class="btn_wrap btn_type">
-            <input type="submit" value="포인트적용" class="btn_acc" accesskey="s">
+        <div class="btn_wrap">
+            <input type="submit" value="포인트적용" class="btn_acc marr10" accesskey="s">
             <button type="button" onclick="self.close();" class="btn_cen">닫기</button>
         </div>
 	</div>

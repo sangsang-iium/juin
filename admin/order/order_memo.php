@@ -44,71 +44,82 @@ $result = sql_query($sql);
 include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 
 $btn_frmline = <<<EOF
-<input type="submit" name="act_button" value="선택삭제" class="btn_lsmall white" onclick="document.pressed=this.value">
+<input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('od_id', $sfl, '주문번호'); ?>
-				<?php echo option_selected('od_no', $sfl, '일련번호'); ?>
-				<?php echo option_selected("mb_id", $sfl, '회원아이디'); ?>
-				<?php echo option_selected('name', $sfl, '주문자명'); ?>
-				<?php echo option_selected('deposit_name', $sfl, '입금자명'); ?>
-				<?php echo option_selected('bank', $sfl, '입금계좌'); ?>
-				<?php echo option_selected('b_name', $sfl, '수령자명'); ?>
-				<?php echo option_selected('b_telephone', $sfl, '수령자집전화'); ?>
-				<?php echo option_selected('b_cellphone', $sfl, '수령자핸드폰'); ?>
-				<?php echo option_selected('delivery_no', $sfl, '운송장번호'); ?>
-				<?php echo option_selected('seller_id', $sfl, '판매자ID'); ?>
-				<?php echo option_selected('pt_id', $sfl, '가맹점ID'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('od_id', $sfl, '주문번호'); ?>
+                        <?php echo option_selected('od_no', $sfl, '일련번호'); ?>
+                        <?php echo option_selected("mb_id", $sfl, '회원아이디'); ?>
+                        <?php echo option_selected('name', $sfl, '주문자명'); ?>
+                        <?php echo option_selected('deposit_name', $sfl, '입금자명'); ?>
+                        <?php echo option_selected('bank', $sfl, '입금계좌'); ?>
+                        <?php echo option_selected('b_name', $sfl, '수령자명'); ?>
+                        <?php echo option_selected('b_telephone', $sfl, '수령자집전화'); ?>
+                        <?php echo option_selected('b_cellphone', $sfl, '수령자핸드폰'); ?>
+                        <?php echo option_selected('delivery_no', $sfl, '운송장번호'); ?>
+                        <?php echo option_selected('seller_id', $sfl, '판매자ID'); ?>
+                        <?php echo option_selected('pt_id', $sfl, '가맹점ID'); ?>
+                    </select>
+                </div>
+			    <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input"     size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">주문일</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+			    <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">주문상태</th>
 		<td>
-			<?php echo radio_checked('sca', $sca,  '', '전체'); ?>
-			<?php echo radio_checked('sca', $sca, '1', $gw_status[1]); ?>
-			<?php echo radio_checked('sca', $sca, '2', $gw_status[2]); ?>
-			<?php echo radio_checked('sca', $sca, '3', $gw_status[3]); ?>
-			<?php echo radio_checked('sca', $sca, '4', $gw_status[4]); ?>
-			<?php echo radio_checked('sca', $sca, '5', $gw_status[5]); ?>
-			<?php echo radio_checked('sca', $sca, '6', $gw_status[6]); ?>
-			<?php echo radio_checked('sca', $sca, '9', $gw_status[9]); ?>
-			<?php echo radio_checked('sca', $sca, '7', $gw_status[7]); ?>
-			<?php echo radio_checked('sca', $sca, '8', $gw_status[8]); ?>
+            <div class="radio_group">
+                <?php echo radio_checked('sca', $sca,  '', '전체'); ?>
+                <?php echo radio_checked('sca', $sca, '1', $gw_status[1]); ?>
+                <?php echo radio_checked('sca', $sca, '2', $gw_status[2]); ?>
+                <?php echo radio_checked('sca', $sca, '3', $gw_status[3]); ?>
+                <?php echo radio_checked('sca', $sca, '4', $gw_status[4]); ?>
+                <?php echo radio_checked('sca', $sca, '5', $gw_status[5]); ?>
+                <?php echo radio_checked('sca', $sca, '6', $gw_status[6]); ?>
+                <?php echo radio_checked('sca', $sca, '9', $gw_status[9]); ?>
+                <?php echo radio_checked('sca', $sca, '7', $gw_status[7]); ?>
+                <?php echo radio_checked('sca', $sca, '8', $gw_status[8]); ?>
+            </div>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+<div class="board_btns tac mart20">
+    <div class="btn_wrap">
+        <input type="submit" value="검색" class="btn_acc marr10">
+        <input type="button" value="초기화" id="frmRest" class="btn_cen">
+    </div>
 </div>
 </form>
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
 
@@ -123,9 +134,9 @@ EOF;
 	<table>
 	<colgroup>
 		<col class="w50">
-		<col class="w50">
-		<col class="w100">
+		<col class="w80">
 		<col class="w150">
+		<col class="w170">
 		<col class="w90">
 		<col class="w90">
 		<col>

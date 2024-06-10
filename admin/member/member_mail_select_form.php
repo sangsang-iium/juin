@@ -108,9 +108,9 @@ if(!isset($mb_mailling)) $mb_mailling = 1;
 </div>
 
 <div class="board_btns tac mart20">
-    <div class="btn_wrap btn_type">
+    <div class="btn_wrap">
         <input type="submit" value="다음" class="btn_acc marr10" accesskey="s">
-        <a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=mail_list<?php echo $qstr; ?>&page=<?php echo $page; ?>" class="btn_cen">목록</a>
+        <a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=mail_list<?php echo $qstr; ?>&page=<?php echo $page; ?>" class="btn_list bg_type1"><span>목록</span></a>
     </div>
 </div>
 <!-- <div class="btn_confirm">
