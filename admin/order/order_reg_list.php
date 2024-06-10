@@ -222,7 +222,8 @@ EOF;
 			<?php echo $sodr['disp_test']; ?>
 		</td>
 		<td rowspan="<?php echo $rowspan; ?>">
-			<a href="<?php echo BV_ADMIN_URL; ?>/pop_orderregform.php?od_id=<?php echo $row['od_id']; ?>" onclick="win_open(this,'pop_orderform','1200','800','yes');return false;" class="fc_197"><?php echo $row['od_id']; ?></a>
+			<a href="javascript:void(0)"><?php echo $row['od_id']; ?></a>
+			<!-- <a href="<?php echo BV_ADMIN_URL; ?>/pop_orderregform.php?od_id=<?php echo $row['od_id']; ?>" onclick="win_open(this,'pop_orderform','1200','800','yes');return false;" class="fc_197"><?php echo $row['od_id']; ?></a> -->
 		</td>
 		<!-- <td rowspan="<?php echo $rowspan; ?>">
 			<input type="hidden" name="od_id[<?php echo $i; ?>]" value="<?php echo $row['od_id']; ?>">

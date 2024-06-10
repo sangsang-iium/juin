@@ -12,6 +12,7 @@ $sql = "SELECT * FROM shop_order_reg
 $res = sql_query($sql);
 
 while ($row = sql_fetch_array($res)) {
+  print_r2($row);
   $beginDate           = $row['od_begin_date'];         // 배송 시작일
   $deliveryCycle       = $row['od_week'];               // 배송 주기
   $totalDeliveryCount  = $row['od_reg_total_num'];      // 총 배송 횟수
@@ -54,7 +55,7 @@ while ($row = sql_fetch_array($res)) {
     $res_order = sql_query($sql_order);
 
     while ($row_order = sql_fetch_array($res_order)) {
-      print_r($row_order);
+      // print_r2($row_order);
       if (!empty($row_order['index_no'])) {
         $sql_cart = "SELECT * FROM shop_cart
                              WHERE od_id = '{$row_order['od_id']}'";

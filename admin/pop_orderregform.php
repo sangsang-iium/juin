@@ -2,14 +2,14 @@
 define('_NEWWIN_', true);
 include_once('./_common.php');
 
-$sql1 = "SELECT * FROM shop_order WHERE od_id = '$od_id'";
+$sql1 = "SELECT * FROM shop_order_reg WHERE od_id = '$od_id'";
 $od1  = sql_fetch($sql1);
 if ($od1['paymethod'] == '무통장') {
   $JOIN = "JOIN toss_virtual_account b";
 } else {
   $JOIN = "JOIN toss_transactions b";
 }
-$od = sql_fetch("SELECT * FROM shop_order a
+$od = sql_fetch("SELECT * FROM shop_order_reg a
 								$JOIN
 								ON (a.od_id = b.orderId)
 								WHERE a.od_id = '{$od_id}'
@@ -20,7 +20,7 @@ if(!$od['od_id']) {
 
 $od['mb_id'] = $od['mb_id'] ? $od['mb_id'] : "비회원";
 
-$amount = get_order_spay($od_id); // 결제정보 합계
+$amount = get_order_spay2($od_id); // 결제정보 합계
 $default = set_partner_value($od['od_settle_pid']); // 가맹점 PG결제 정보
 
 $tb['title'] = "주문내역 수정";
@@ -100,7 +100,7 @@ $pg_anchor = '<ul class="anchor">
 			$chk_cancel = 0; // 클래임 수
 			$sum_point  = 0; // 포인트적립
 
-			$sql = " select * from shop_order where od_id = '$od_id' order by od_time desc, index_no asc ";
+			$sql = " select * from shop_order_reg where od_id = '$od_id' order by od_time desc, index_no asc ";
 			$result = sql_query($sql);
 			for($i=0; $row=sql_fetch_array($result); $i++) {
 				$gs = unserialize($row['od_goods']);
@@ -127,7 +127,7 @@ $pg_anchor = '<ul class="anchor">
 					<td>
 						<a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 40, 40); ?></a>
 					</td>
-					<td class="tal"> 
+					<td class="tal">
 						<a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a>
 						<?php if($row['od_tax_flag'] && !$gs['notax']) echo '[비과세상품]'; ?>
 						<?php echo $it_options; ?>
@@ -137,7 +137,7 @@ $pg_anchor = '<ul class="anchor">
 						if(in_array($row['dan'], array(3,4,5))) {
 							$baesong_run++;
 						?>
-						<div class="frm_info"> 
+						<div class="frm_info">
 							<?php echo get_delivery_select("delivery[".$i."]", $row['delivery']); ?>
 							<input type="text" name="delivery_no[<?php echo $i; ?>]" value="<?php echo $row['delivery_no']; ?>" class="frm_input w130" placeholder="개별 운송장번호">
 							<?php echo get_delivery_inquiry($row['delivery'], $row['delivery_no'], 'btn_ssmall'); ?>
@@ -145,7 +145,7 @@ $pg_anchor = '<ul class="anchor">
 						<?php } ?>
 					</td>
 					<td>
-						
+
 						<?php echo get_change_select("change_status[".$i."]", $row['dan']); ?>
 						<?php if(in_array($row['dan'], array(7,9)) && $row['refund_price'] == 0 && in_array($row['paymethod'], array('신용카드', '계좌이체', 'KAKAOPAY'))) { ?>
 						<p class="padt3"><a href="<?php echo BV_ADMIN_URL; ?>/pop_orderpartcancel.php?od_id=<?php echo $row['od_id']; ?>&od_no=<?php echo $row['od_no']; ?>" class="btn_ssmall orderpartcancel red">PG부분취소</a></p>
@@ -160,12 +160,12 @@ $pg_anchor = '<ul class="anchor">
 					<td class="td_price"><?php echo number_format($row['use_price']); ?></td>
 				</tr>
 				<?php
-				
-				$chk_cnt++;				
+
+				$chk_cnt++;
 				if($row['dan'] == 1) $chk_count1++;
 				if($row['dan'] == 2) $chk_count2++;
 				if($row['dan'] == 5) $chk_count5++;
-				if($row['dan'] == 7) $chk_count7++; 
+				if($row['dan'] == 7) $chk_count7++;
 
 				// 취소.반품.교환.환불 수
 				if(in_array($row['dan'], array(6,7,8,9,10))) {
@@ -201,15 +201,15 @@ $pg_anchor = '<ul class="anchor">
 			<?php if($chk_cnt == $chk_count5) { // 모두 배송완료 상태인가? ?>
 			<input type="submit" name="act_button" value="전체반품" class="btn_lsmall white" onclick="document.pressed=this.value">
 			<?php } ?>
-			
-			
-		<?php } ?>   
+
+
+		<?php } ?>
 		</div>
 		<?php } ?>
-		<?php  
+		<?php
 			if( $chk_count7!=0) { // 반품일 경우에만 ?>
 				선택한 상품의 <input type="submit" name="act_button" value="주문상태저장" class="btn_lsmall red" onclick="document.pressed=this.value">
-		<?php } ?>	
+		<?php } ?>
 		</form>
 
 		<?php if($od['od_test']) { ?>

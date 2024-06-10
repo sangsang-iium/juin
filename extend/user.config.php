@@ -304,7 +304,7 @@ class Tosspay {
    * @param  string   $email         고객 이메일
    * @return stdClass API 응답
    */
-  function autoPay($customerKey, $amount, $orderId, $orderName, $taxFreeAmount, $name, $email, $billingKey) {
+  function autoPay($customerKey, $amount, $orderId, $orderName, $taxFreeAmount, $name, $email, $billingKey, $credential) {
     $url  = 'https://api.tosspayments.com/v1/billing/' . $billingKey;
     $data = array(
       'customerKey'        => $customerKey,
@@ -317,7 +317,7 @@ class Tosspay {
       'customerEmail'      => $email,
     );
 
-    return $this->callApi($url, $data);
+    return $this->callApi($url, $data, $credential);
   }
 
   function normalPay($paymentKey, $orderId, $amount, $credential = '') {
@@ -516,15 +516,15 @@ function getRegionFunc($type, $where) {
   switch($type) {
     case "branch":
       $sel = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname ";
-      $join = " LEFT JOIN area c 
+      $join = " LEFT JOIN area c
                   ON (b.area_idx = c.areacode) ";
       $group = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname ";
       break;
     case "office":
       $sel = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname, a.office_code, a.office_name, a.auth_idx ";
-      $join = " LEFT JOIN area c 
+      $join = " LEFT JOIN area c
                   ON (b.area_idx = c.areacode)
-            LEFT JOIN kfia_office a 
+            LEFT JOIN kfia_office a
                   ON (b.branch_code = a.branch_code) ";
       $group = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname, a.office_code, a.office_name ";
       break;
@@ -532,14 +532,14 @@ function getRegionFunc($type, $where) {
 
   $region_sql = " SELECT {$sel} FROM kfia_branch b {$join} {$where}GROUP BY {$group} " ;
   $region_res = sql_query($region_sql);
-  
+
   $data = [];
   while ($region_row = sql_fetch_array($region_res)) {
     $data[] = $region_row;
   }
 
   return $data;
-  
+
 }
 
 // Admin Top Menu _20240528_SY
@@ -555,9 +555,9 @@ function getMenuFunc($menu, $link, $code) {
     // $auth_sql = " SELECT * FROM authorization WHERE auth_idx = '{$member['auth_idx']}' ";
     // sql 수정 _20240608_SY
     $auth_sql = " SELECT * FROM shop_manager AS mng
-                    LEFT JOIN kfia_region AS kf 
+                    LEFT JOIN kfia_region AS kf
                       ON (mng.region_idx = kf.kf_idx)
-                    JOIN authorization AS auth 
+                    JOIN authorization AS auth
                       ON (kf.auth_idx = auth.auth_idx)
                    WHERE mng.region_idx = '{$member['region_idx']}' ";
     $auth_row = sql_fetch($auth_sql);
