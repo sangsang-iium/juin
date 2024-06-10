@@ -37,6 +37,7 @@ if(!$ordr_idxx)
 <input type="hidden" name="cert_otp_use" value="Y"/>
 <!-- cert_enc_use 필수 (고정값 : 메뉴얼 참고) -->
 <input type="hidden" name="cert_enc_use" value="Y"/>
+<input type="hidden" name="enc_cert_data" value="9eb2cc7e320e2d7d54bc4a92ec1e9dc1057f386f2435d42e9f9e051404b249f8"/>
 
 <input type="hidden" name="res_cd"       value=""/>
 <input type="hidden" name="res_msg"      value=""/>

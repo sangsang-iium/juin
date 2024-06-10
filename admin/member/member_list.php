@@ -21,32 +21,45 @@ $sql_search = " where mm.id <> 'admin' ";
 $sql_join = " LEFT JOIN shop_manager AS mn
                      ON (mm.ju_manager = mn.index_no) ";
 
-if ($sfl && $stx) {
-  if($sfl == 'ju_manager') {
-    $sql_search .= " and mn.name like '%$stx%' ";  
-  } else {
-    $sql_search .= " and $sfl like '%$stx%' ";
-  }
+// Search > AliasFunc 추가 _20240610_SY
+function addAliasFunc($column) {
+    if (strpos($column, '.') !== false) {
+        return $column; // 이미 별칭이 붙어 있는 경우 그대로 반환
+    }
+    if($column == 'ju_manager') {
+      $alias = "mn.name";
+    } else {
+      $alias = "mm.$column";
+    }
+    return "$alias";
 }
 
-if ($sst) {
-  $sql_search .= " and ㅡㅡ.grade = '$sst' ";
+if ($sfl && $stx) {
+  $sflColumn = addAliasFunc($sfl);
+  $sql_search .= " AND {$sflColumn} like '%$stx%' ";
 }
+
+if($sst) {
+  $gradeColumn = addAliasFunc("grade");
+  $sql_search .= " AND $gradeColumn = '$sst'";
+}
+
 
 // 기간검색
+$sptColumn = addAliasFunc($spt);
 if ($fr_date && $to_date) {
-  $sql_search .= " and {$spt} between '$fr_date 00:00:00' and '$to_date 23:59:59' ";
+  $sql_search .= " and {$sptColumn} between '$fr_date 00:00:00' and '$to_date 23:59:59' ";
 } else if ($fr_date && !$to_date) {
-  $sql_search .= " and {$spt} between '$fr_date 00:00:00' and '$fr_date 23:59:59' ";
+  $sql_search .= " and {$sptColumn} between '$fr_date 00:00:00' and '$fr_date 23:59:59' ";
 } else if (!$fr_date && $to_date) {
-  $sql_search .= " and {$spt} between '$to_date 00:00:00' and '$to_date 23:59:59' ";
+  $sql_search .= " and {$sptColumn} between '$to_date 00:00:00' and '$to_date 23:59:59' ";
 }
 
 // 탈퇴 검색
 if ($ssd == '탈퇴') {
-  $sql_search .= " and intercept_date <> '' ";
+  $sql_search .= " and mm.intercept_date <> '' ";
 } else if ($ssd =='폐업') {
-  $sql_search .= " and  ";
+  $sql_search .= " and mm.ju_closed ";
 }
 
 if (!$orderby) {

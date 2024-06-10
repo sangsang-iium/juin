@@ -353,13 +353,13 @@ if(!defined('_BLUEVATION_')) exit;
               <ul class="form-inline">
                 <li>
                   <div class="frm-choice">
-                    <input type="radio" name="store_display" id="store_display-y">
+                    <input type="radio" name="store_display" id="store_display-y" value="1" <?php echo get_checked($member['ju_mem'], '1'); ?> >
                     <label for="store_display-y">예</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="radio" name="store_display" id="store_display-n">
+                    <input type="radio" name="store_display" id="store_display-n" value="2" <?php echo get_checked($member['ju_mem'], '2'); ?> >
                     <label for="store_display-n">아니오</label>
                   </div>
                 </li>
@@ -573,14 +573,6 @@ if(!defined('_BLUEVATION_')) exit;
 			<!-- } 매장정보 -->
 
 		</div>
-
-    <?php if($w != '') { ?>
-    <div class="joinDetail-box">
-        <div class="joinDetail-body">
-          <button type="button" class="ui-btn mb-leave_btn" onclick="member_leave()">회원탈퇴하기<img src="/src/img/arrow-right2.svg" alt=""></button>
-        </div>
-    </div>
-  <?php } ?>
 	</div>
 	<div class="cp-btnbar">
 		<div class="container">
@@ -591,6 +583,13 @@ if(!defined('_BLUEVATION_')) exit;
 	</div>
 
   
+  <?php if($w != '') { ?>
+    <div class="joinDetail-box">
+        <div class="joinDetail-body">
+          <button type="button" class="ui-btn mb-leave_btn" onclick="member_leave()">회원탈퇴하기<img src="/src/img/arrow-right2.svg" alt=""></button>
+        </div>
+    </div>
+  <?php } ?>
 
   <div id="post_wrap" >
     <img src="/src/img/post_close.png" id="btnFoldWrap"
