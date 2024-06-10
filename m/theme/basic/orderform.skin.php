@@ -400,18 +400,18 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                 </div>
               </div>
             </div>
-            <div class="info-item">
+            <div class="info-item" style="display:none">
               <p class="tit">배송주기</p>
               <div class="select-wr">
                 <select name="od_week" id="od_week" class="frm-select">
-                  <option value="1">1주마다 배송</option>
+                  <option value="1" selected>1주마다 배송</option>
                   <option value="2">2주마다 배송</option>
                   <option value="3">3주마다 배송</option>
                   <option value="4">4주마다 배송</option>
                 </select>
               </div>
             </div>
-            <div class="info-item">
+            <div class="info-item" style="display:none">
               <p class="tit">배송횟수</p>
               <div class="select-wr">
                 <select name="od_reg_cnt" id="od_reg_cnt" class="frm-select">
@@ -421,12 +421,13 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                   <option value="8">8회</option>
                   <option value="10">10회</option>
                   <option value="12">12회</option>
+                  <option value="52" selected>52회</option>
                 </select>
               </div>
             </div>
             <div class="info-item">
               <p class="tit">첫 배송 시점</p>
-              <input type="text" id="od_begin_date" name="od_begin_date" class="frm-input" value="2024-06-03">
+              <input type="text" id="od_begin_date" name="od_begin_date" class="frm-input" value="">
             </div>
           </div>
         </div>
@@ -1052,15 +1053,24 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                   <tbody>
                     <tr>
                       <th scope="row"><label for="refund_bank">은행명</label></th>
-                      <td><input type="text" name="refund_bank" value="" class="frm-input w-per100" id="refund_bank"></td>
+                      <?php
+                        $refund_bank_code = $member['refund_bank'];
+
+                        // 은행 코드로 해당 은행 이름 찾기
+                        $bankCodes = array_column($BANKS, 'code');
+                        $bankIndex = array_search($refund_bank_code, $bankCodes);
+
+                        $refund_bank_name = ($bankIndex !== false) ? $BANKS[array_keys($BANKS)[$bankIndex]]['bank'] : "";
+                      ?>
+                      <td><input type="text" name="refund_bank" value="<?php echo $refund_bank_name ?>" class="frm-input w-per100" id="refund_bank"></td>
                     </tr>
                     <tr>
                       <th scope="row"><label for="refund_num">계좌번호</label></th>
-                      <td><input type="text" name="refund_num" value="" class="frm-input w-per100" id="refund_num"></td>
+                      <td><input type="text" name="refund_num" value="<?php echo $member['refund_num'] ?>" class="frm-input w-per100" id="refund_num"></td>
                     </tr>
                     <tr>
                       <th scope="row"><label for="refund_name">예금주</label></th>
-                      <td><input type="text" name="refund_name" value="" class="frm-input w-per100" id="refund_name"></td>
+                      <td><input type="text" name="refund_name" value="<?php echo $member['refund_name'] ?>" class="frm-input w-per100" id="refund_name"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -1091,10 +1101,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                           <option value="S">사업자 지출증빙용</option>
                         </select>
                         <div id="taxsave_fld_1" style="display:none;">
-                          <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호">
+                          <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호" value="<?php echo $member['cellphone'] ?>">
                         </div>
                         <div id="taxsave_fld_2" style="display:none;">
-                          <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호">
+                          <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호" value="<?php echo $member['ju_b_num'] ?>">
                         </div>
                       </td>
                     </tr>
@@ -1125,15 +1135,20 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             <section id="card_section" style="display:none;" >
               <h2 class="anc_tit">신용카드 선택</h2>
               <div class="odf_tbl">
+                <?php
+                  $sqlCard = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+                  $resCard = sql_query($sqlCard);
+                  $resNumRow = sql_num_rows($resCard);
+                  if ($resNumRow > 0) {
+                ?>
                 <select name="cardsel" id="cardsel">
-                  <?php
-                    $sqlCard = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
-                    $resCard = sql_query($sqlCard);
-                    for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {
-                  ?>
+                  <?php for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) { ?>
                     <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use']=="Y"?"selected":"" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
                   <?php } ?>
                 </select>
+                <?php } else {?>
+                  <a href="/m/shop/card.php">카드 등록</a>
+                <?php }?>
               </div>
             </section>
 
@@ -1518,11 +1533,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       if ((f.od_pwd.value.length < 3) || (f.od_pwd.value.search(/([^A-Za-z0-9]+)/) != -1))
         error_field(f.od_pwd, "회원이 아니신 경우 주문서 조회시 필요한 비밀번호를 3자리 이상 입력해 주십시오.");
     }
-    if(f.bank_code.value == "" ){
-      alert("가상계좌 은행 선택하세요.");
-      f.bank_code.focus();
-      return false;
-    }
+    // if(f.bank_code.value == "" ){
+    //   alert("가상계좌 은행 선택하세요.");
+    //   f.bank_code.focus();
+    //   return false;
+    // }
 
     if (getSelectVal(f["paymethod"]) == '무통장') {
       if (f.bank_code.value == "") {
@@ -1677,7 +1692,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("#toss_section").show();
         $("#card_section").hide();
         $("#bank_section").hide();
-        // $("input[name=use_point]").val(0);
+        $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         $("#taxsave_section").hide();
         $("#taxbill_section").hide();
@@ -1692,8 +1707,13 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("#card_section").show();
         $("#bank_section").hide();
         $("#toss_section").hide();
+        $("#refund_section").hide();
+        $("#taxsave_section").hide();
+        break;
+
       case '포인트':
         $("#bank_section").hide();
+        $("#card_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
         $("input[name=use_point]").attr("readonly", true);
         calculate_order_price();
@@ -1711,7 +1731,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("#bank_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
-        // $("input[name=use_point]").val(0);
+        $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         calculate_order_price();
 

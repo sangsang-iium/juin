@@ -15,9 +15,9 @@ if ($reg_yn == 1) {
 $od1 = sql_fetch("select * from {$shop_table} where od_id = '$od_id'");
 
 if($od1['paymethod'] == '무통장'){
-	$JOIN = "JOIN toss_virtual_account b";
+	$JOIN = "left JOIN toss_virtual_account b";
 } else {
-	$JOIN = "JOIN toss_transactions b";
+	$JOIN = "left JOIN toss_transactions b";
 }
 
 $sqlOd = "SELECT * FROM {$shop_table} a

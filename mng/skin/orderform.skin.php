@@ -985,11 +985,11 @@ if ($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
               <h2 class="anc_tit">신용카드 선택</h2>
               <div class="odf_tbl">
                 <?php
-$sqlCard   = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
-$resCard   = sql_query($sqlCard);
-$resNumRow = sql_num_rows($resCard);
-if ($resNumRow > 0) {
-  ?>
+                  $sqlCard   = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+                  $resCard   = sql_query($sqlCard);
+                  $resNumRow = sql_num_rows($resCard);
+                  if ($resNumRow > 0) {
+                    ?>
                 <select name="cardsel" id="cardsel">
                   <?php
 for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {
