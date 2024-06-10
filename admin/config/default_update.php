@@ -6,8 +6,8 @@ check_demo();
 check_admin_token();
 
 unset($value);
-$value['theme']					= $_POST['theme']; //테마스킨
-$value['mobile_theme']			= $_POST['mobile_theme']; //모바일테마스킨
+// $value['theme']					= $_POST['theme']; //테마스킨
+// $value['mobile_theme']			= $_POST['mobile_theme']; //모바일테마스킨
 update("shop_member",$value,"where id='admin'");
 
 unset($value);

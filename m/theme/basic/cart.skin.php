@@ -64,7 +64,7 @@ if(!defined('_BLUEVATION_')) exit;
                       AND a.ct_select = '0'
                       AND a.reg_yn = '{$paytype}'
                       AND a.mb_id = '{$member['id']}'
-                      GROUP BY p.mb_id";
+                      GROUP BY p.mb_id, p.sc_type";
         $res_group = sql_query($sql_group);
         $groupNumRow = sql_num_rows($res_group);
         for ($z = 0; $rowG = sql_fetch_array($res_group); $z++) {
