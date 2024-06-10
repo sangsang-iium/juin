@@ -9,13 +9,13 @@ if (empty($paytype)) {
 $tb['title'] = '장바구니';
 include_once("./_head.php");
 
-$sql = "SELECT a.* FROM shop_cart a
+$sql = "SELECT a.*, b.sc_type FROM shop_cart a
 				JOIN shop_goods b ON (a.gs_id = b.index_no)
 				WHERE a.ct_direct = '{$set_cart_id}'
 				AND a.ct_select = '0'
 				AND a.reg_yn = '{$paytype}'
 				group BY a.gs_id
-				order BY b.mb_id, a.index_no ";
+				order BY b.sc_type desc, b.mb_id, a.index_no ";
 // $sql = " select *
 // 		   from shop_cart
 // 		  where ct_direct = '$set_cart_id'
