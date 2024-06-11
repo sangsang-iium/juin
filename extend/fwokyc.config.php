@@ -19,13 +19,13 @@ function getMemberName($mb_id){
 
 // 중고장터 구분/상태
 function getUsedGubunStatus($gubun, $status) {
-    $rtn = ['팝니다', '판매중'];
+    $rtn = ['팝니다', '판매중', 'ing'];
     if($gubun=='1'){
-        $rtn = ['삽니다', '-'];
+        $rtn = ['삽니다', '-', 'ing'];
     } else if($status=='1'){
-        $rtn[1] = '예약중';
+        $rtn = ['팝니다', '예약중', 'resv'];
     } else if($status=='1'){
-        $rtn[1] = '판매완료';
+        $rtn = ['팝니다', '판매완료', 'end'];
     }
     
     return $rtn;
@@ -117,14 +117,19 @@ function getUsedChatPasstime($lasttime){
     return $result;
 }
 
+// 음식점 좋아요(관심상품)수
+// 회원테이블의 index_no 이용
+function getStoreGoodCount($index_no) {
+    $sql = "select count(*) as cnt from shop_store_good where pno = '$index_no'";
+    $row = sql_fetch($sql);
 
+    return $row['cnt'];
+}
 
+// 음식점 좋아요(관심상품) 등록여부
+function getStoreGoodRegister($index_no, $mb_id) {
+    $sql = "select count(*) as cnt from shop_store_good where pno = '$index_no' and mb_id = '$mb_id'";
+    $row = sql_fetch($sql);
 
-// 회원사현황 리스트 가져오기
-function getStoreList($lat, $lng, $dong='', $cate=''){
-    $lat = (int)$lat;
-    $lng = (int)$lng;
-    $sql = "SELECT *, ( 6371 * acos( cos( radians({$lat}) ) * cos( radians( ju_lat ) ) * cos( radians( ju_lng ) - radians({$lng}) ) + sin( radians({$lat}) ) * sin( radians( ju_lat ) ) ) ) AS distance ";
-    $sql .= "FROM shop_member HAVING distance < 25 ORDER BY distance";
-    echo $sql;
+    return $row['cnt'];
 }

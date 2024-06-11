@@ -1,5 +1,43 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
+
+  // 사업자 번호 하이픈(-)추가 _20240604_SY
+  function formatBno($no) {
+    $no = preg_replace('/[^0-9]/', '', $no);
+    if (strlen($no) !== 10) {
+        return '';
+    }
+    return substr($no, 0, 3) . '-' . substr($no, 3, 2) . '-' . substr($no, 5, 5);
+  }
+
+  // 매장 주소 _20240604_SY
+  $position = strpos($_POST['DORO_ADDRESS'], '(');
+  if($position != false) {
+    $parts = explode('(', $_POST['DORO_ADDRESS']);
+    $doro1 = $parts[0];
+    $doro2 = "(".$parts[1];
+  } else {
+    $doro1 = $_POST['DORO_ADDRESS'];
+    $doro2 = "";
+  }
+
+  // 업종 SELECT _20240604_SY
+  $ju_sectors = explode('|', $config['cf_food']);
+
+  if($w=='u') {
+    $mng_sel_sql = " SELECT * FROM shop_manager WHERE index_no = '{$member['ju_manager']}' ";
+    $mng_sel_row = sql_fetch($mng_sel_sql);
+
+    // 지회/지부 SELECT 추가 _20240608__SY
+    if(empty($member['ju_region3'])) {
+      $jibu_row = getRegionFunc("branch", " WHERE b.branch_code = '{$member['ju_region2']}'");
+      $jibu_name = $jibu_row[0]['branch_name'];
+    } else {
+      $jibu_row = getRegionFunc("office", " WHERE b.branch_code = '{$member['ju_region2']}' AND a.office_code = '{$member['ju_region3']}'");
+      $jibu_name = $jibu_row[0]['office_name'];
+    }
+  }
+
 ?>
 
 <!-- 회원정보 입력/수정 시작 { -->
@@ -20,8 +58,9 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="cert_no" value="">
 
 <input type="hidden" name="reg_type" value="1">
-<input type="hidden" name="chk_cb_res" value="0" id="chk_cb_res">
-<input type="hidden" name="chk_bn_res" value="0" id="chk_bn_res">
+<input type="hidden" name="chk_cb_res" value="<?php echo ($w=='') ? $_POST['chk_cb_res'] : 0?>" id="chk_cb_res">
+<input type="hidden" name="chk_bn_res" value="<?php echo ($w=='') ? $_POST['chk_bn_res'] : 0?>" id="chk_bn_res">
+<input type="hidden" name="OFFICE_NAME" value="<?php echo ($w=='') ?$_POST['OFFICE_NAME'] : "" ?>">
 
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
@@ -100,7 +139,7 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-head">
 							<p class="title"><label for="reg_mb_tel">전화번호</label><?php echo $config['register_req_tel']?'<b>*</b>':''; ?></p>
 						</div>
-						<div class="form-body">
+						<div class="form-body phone">
 							<!-- <input type="tel" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); autoHyphen2(this)"> -->
               <input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[0]); ?>" id="reg_reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 							  <span class="hyphen">-</span>
@@ -165,53 +204,71 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 						<div class="form-body address">
               <label for="reg_mb_zip" class="sound_only">우편번호</label>
-							<input type="tel" name="mb_zip" value="<?php echo $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호" >
+							<input type="tel" name="mb_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호" >
 							<button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
 							
-							<input type="text" name="mb_addr1" value="<?php echo get_text($member['addr1']); ?>" id="reg_mb_addr1"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_2 <?php echo $config['register_req_addr']?' required':''; ?> frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+							<input type="text" name="mb_addr1" value="<?php echo ($w == '') ? get_text($doro1) : get_text($member['addr1']); ?>" id="reg_mb_addr1"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_2 <?php echo $config['register_req_addr']?' required':''; ?> frm_address" size="60" placeholder="기본주소" autocapitalize="off">
 							<label for="reg_mb_addr1" class="sound_only">기본주소</label>
 							<input type="text" name="mb_addr2" value="<?php echo get_text($member['addr2']); ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
 							<label for="reg_mb_addr2" class="sound_only">상세주소</label>
-							<input type="text" name="mb_addr3" value="<?php echo get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
+							<input type="text" name="mb_addr3" value="<?php echo ($w == '') ? get_text($doro2) : get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
 							<label for="reg_mb_addr3" class="sound_only">참고항목</label>
 
 							<input type="hidden" name="mb_addr_jibeon" value="<?php echo get_text($member['addr_jibeon']); ?>">
 						</div>
 					</div>
 					<?php } ?>
+
+					<div class="form-row">
+						<div class="form-head">
+							<p class="title">환불계좌등록<b>*</b></p>
+						</div>
+						<div class="form-body phone">	  
+							<label for="reg_mb_addr2" class="sound_only">은행</label> 
+							<?php 
+								
+							?>
+							<select name="refund_bank" class="frm-input">
+									<option>은행을선택하세요</option>
+									<?php 
+									sort($BANKS, SORT_NATURAL | SORT_FLAG_CASE); 
+									//sort($BANKS);
+										for($a=0;$a<count($BANKS);$a++){   
+											?>
+											<option value='<? echo $BANKS[$a]['code']; ?>' <?php  if(get_text($member['refund_bank'])==$BANKS[$a]['code']) echo "selected"; ?>><?php echo $BANKS[$a]['bank'];?></option>
+											<?php
+										}
+									?>
+							</select>
+							<input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
+							<input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
+						</div>
+					</div>
+
 				</div>
 			</div>
 			<!-- } 기본정보 -->
 
-			<!-- 중앙회원정보 / 개인 회원가입일 경우 노출 { -->
-			<!-- <div class="joinDetail-box"> -->
-				<!-- <div class="joinDetail-head">
-					<p class="joinDetail-title">중앙회원정보</p>
-					<button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">중앙회원 조회하기</button> -->
-					<!-- 중앙회원 조회하기 팝업 { -->
-          <!-- <div class="popup type01" id="popMemberSch">
+			<!-- 담당자정보 _20240603 / 개인 회원가입일 경우 노출 { -->
+			<div class="joinDetail-box">
+				<div class="joinDetail-head">
+					<p class="joinDetail-title">담당자 등록</p>
+					<button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">담당자 조회하기</button>
+					<!-- 담당자 조회하기 팝업 { -->
+          <div class="popup type01" id="popMemberSch">
             <div class="pop-inner">
               <div class="pop-top">
-                <p class="tit">중앙회원 조회하기</p>
+                <p class="tit">담당자 조회하기</p>
               </div>
 							<div class="pop-search input-button">
-								<input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="고유번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-								<button type="button" class="ui-btn st3" onclick="getKFIAMember()">회원조회</button>
+								<input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="담당자 코드를 입력해주세요.">
+								<button type="button" class="ui-btn st3" onclick="getManager()">조회</button>
 							</div>
               <div class="pop-content line">
                 <div class="pop-content-in" style="height: 500px;">
-                  <div class="pop-result"> -->
-                    <!-- <div class="pop-result-item">
-                      <p class="pop-result-title">회원이름영역</p>
-                      <p class="pop-result-text">고유번호 : 22012617052419</p>
-                      <p class="pop-result-text">사업자등록번호 : 000-00-00000</p>
-                    </div>
-                    <div class="pop-result-item">
-                      <p class="pop-result-title">회원이름영역</p>
-                      <p class="pop-result-text">고유번호 : 22012617052419</p>
-                      <p class="pop-result-text">사업자등록번호 : 000-00-00000</p>
-                    </div> -->
-                  <!-- </div>
+                  <div class="pop-result">
+                    <!-- 검색 결과 나올 곳 _20240603_SY -->
+                  </div>
                 </div>
               </div>
               <div class="pop-btm">
@@ -219,40 +276,42 @@ if(!defined('_BLUEVATION_')) exit;
                 <button type="button" class="ui-btn round stWhite close">취소</button>
               </div>
             </div>
-          </div> -->
-					<!-- } 중앙회원 조회하기 팝업 -->
-				<!-- </div> -->
-				<!-- <div class="joinDetail-body">
+          </div>
+					<!-- } 담당자 조회하기 팝업 -->
+				</div>
+				<div class="joinDetail-body">
 					<div class="form-row">
 						<div class="form-head">
-							<p class="title">이름<b>*</b></p>
+							<p class="title">담당자<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" readonly value="홍길동">
+							<input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="<?php echo $mng_sel_row['name']; ?>" placeholder="홍길동" readonly>
+              <input type="hidden" name="mn_idx" id="mn_idx" value="<?php echo $mng_sel_row['index_no']; ?>">
 						</div>
 					</div>
-					<div class="form-row">
+					<!-- <div class="form-row">
 						<div class="form-head">
 							<p class="title">고유번호<b>*</b></p>
 						</div>
 						<div class="form-body">
 							<input type="text" name="pop_u_no" id="pop_u_no" class="frm-input w-per100" readonly value="123456789">
 						</div>
-					</div>
-					<div class="form-row">
+					</div> -->
+					<!-- <div class="form-row">
 						<div class="form-head">
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
 							<input type="text" name="pop_b_no" id="pop_b_no" class="frm-input w-per100" readonly value="123-45-67890">
 						</div>
-					</div>
+					</div> -->
 				</div>
-			</div> -->
+			</div>
 			<!-- } 중앙회원정보 / 개인 회원가입일 경우 노출 -->
 
 			<!-- 사업자정보 { -->
-			<div class="joinDetail-box">
+      
+			<div class="joinDetail-box" id="b_area">
 				<div class="joinDetail-head">
 					<p class="joinDetail-title">사업자정보</p>
 					<!-- 개인 회원가입일 경우 노출 { -->
@@ -266,114 +325,27 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">사업자등록번호<b>*</b></p>
 						</div>
 						<div class="form-body">
-							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_b_num'] : "" ?>" placeholder="***-**-*****" maxlength="12" <?php echo ($w != '') ? "readonly" : "" ?> >
-							<div class="joinDetail-btn-box joinDetail-btn-box3">
+							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w == '') ? formatBno($_POST['IRS_NO']) : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" readonly >              
+							<!-- <div class="joinDetail-btn-box joinDetail-btn-box3">
 								<button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
 								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
 								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
-							</div>
+							</div> -->
 						</div>
 					</div>
 
-          <?php if($w != '' ) { ?>
-            <div class="joinDetail-body">
-              <div class="form-row">
-                <div class="form-head">
-                  <p class="title">지회/지부</p>
-                </div>
-                <div class="form-body">
-                  <input type="text" name="<?php echo (!empty($member['ju_region2'])) ? "ju_region2" : "ju_region3" ?>" value=" <?php echo (!empty($member['ju_region2'])) ? $member['ju_region2'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-head">
-                  <p class="title">업태</p>
-                </div>
-                <div class="form-body">
-                  <input type="text" name="ju_business_type" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_business_type'] : ""?>" >
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-head">
-                  <p class="title">업종</p>
-                </div>
-                <div class="form-body">
-                  <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
-                </div>
-              </div>
-            </div>
-          <?php } ?>
 					<!-- } 사업자 회원가입일 경우 노출 -->
-					<!-- 개인 회원가입일 경우 { -->
-					<!-- <div class="form-row">
-						<div class="form-head">
-							<p class="title">사업자등록번호<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="b_no" id="b_no" class="frm-input w-per100" readonly value="">
-							<div class="joinDetail-btn-box">
-								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
-								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
-							</div>
-						</div>
-					</div> -->
-					<!-- <div class="form-row">
-						<div class="form-head">
-							<p class="title">상호명<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="상호명">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">업종/업태<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="업종/업태">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">대표자<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="" class="frm-input w-per100" readonly value="대표자">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">대표번호<b>*</b></p>
-						</div>
-						<div class="form-body phone">
-							<input type="text" name="" class="frm-input" readonly value="010">
-							<span class="hyphen">-</span>
-							<input type="text" name="" class="frm-input" readonly value="1234">
-							<span class="hyphen">-</span>
-							<input type="text" name="" class="frm-input" readonly value="5678">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">주소</p>
-						</div>
-						<div class="form-body address">
-							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
-							<input type="text" name="" class="frm-input w-per100" readonly value="매장주소">
-						</div>
-					</div> -->
-					<!-- } 개인 회원가입일 경우 -->
 				</div>
 			</div>
 			<!-- } 사업자정보 -->
 			<!-- 매장정보 { -->
-      <?php if($w == 'u') { ?>
+      <?php //if($w == 'u') { ?>
       <div class="joinDetail-box">
 				<div class="joinDetail-head">
 					<p class="joinDetail-title">매장정보</p>
 				</div>
 				<div class="joinDetail-body">
-					<div class="form-row">
+					<div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">매장 노출 여부<b>*</b></p>
 						</div>
@@ -381,13 +353,13 @@ if(!defined('_BLUEVATION_')) exit;
               <ul class="form-inline">
                 <li>
                   <div class="frm-choice">
-                    <input type="radio" name="store_display" id="store_display-y">
+                    <input type="radio" name="store_display" id="store_display-y" value="1" <?php echo get_checked($member['ju_mem'], '1'); ?> >
                     <label for="store_display-y">예</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="radio" name="store_display" id="store_display-n">
+                    <input type="radio" name="store_display" id="store_display-n" value="2" <?php echo get_checked($member['ju_mem'], '2'); ?> >
                     <label for="store_display-n">아니오</label>
                   </div>
                 </li>
@@ -399,12 +371,53 @@ if(!defined('_BLUEVATION_')) exit;
 							<p class="title">업종</p>
 						</div>
 						<div class="form-body">
-							<select name="" id="" class="frm-select w-per100">
+							<select name="ju_sectors" id="ju_sectors" class="frm-select w-per100">
                 <option value="">선택</option>
+                <?php foreach($ju_sectors as $key => $val) { ?> 
+                  <option value="<?php echo $val ?>" <?php echo (($w=='u') && $val == $member['ju_sectors']) ? "selected" : "" ?> ><?php echo $val ?></option>
+                <?php } ?>
               </select>
 						</div>
 					</div>
+          <!-- 지회/지부 정보 _20240608_SY -->
+          <div class="joinDetail-body">
+            <div class="form-row">
+              <div class="form-head">
+                <p class="title">지회/지부</p>
+              </div>
+              <div class="form-body">
+                <input type="hidden" name="ju_region2" value="<?php echo ($w=='') ? (int)$_POST['BRANCH_CODE'] : $member['ju_region2'] ?>" class="frm-input w-per100" >
+                <input type="hidden" name="ju_region3" value="<?php echo ($w=='') ? (int)$_POST['OFFICE_CODE'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
+                <input type="text" name="ju_region_code" value="<?php echo ($w=='') ? $_POST['OFFICE_NAME'] : $jibu_name ?>" class="frm-input w-per100" readonly>
+              </div>
+            </div>
+            <!-- <div class="form-row">
+              <div class="form-head">
+                <p class="title">업태</p>
+              </div>
+              <div class="form-body">
+                <input type="text" name="ju_business_type" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_business_type'] : ""?>" >
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-head">
+                <p class="title">업종</p>
+              </div>
+              <div class="form-body">
+                <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
+              </div>
+            </div> -->
+          </div>
+          <!-- 매장명 추가 _20240604_SY -->
           <div class="form-row">
+            <div class="form-head">
+              <p class="title">매장명</p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="ju_restaurant" class="frm-input w-per100" value="<?php echo ($w == '') ? $_POST['MEMBER_NAME'] : $member['ju_restaurant'] ?>" readonly >
+            </div>
+          </div>
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">매장 썸네일 사진</p>
 						</div>
@@ -412,7 +425,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<input type="file" name="" id="" class="frm-file w-per100">
 						</div>
 					</div>
-          <div class="form-row">
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">매장 상세 사진</p>
 						</div>
@@ -440,7 +453,7 @@ if(!defined('_BLUEVATION_')) exit;
               </button>
 						</div>
 					</div>
-          <div class="form-row">
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">운영시간</p>
 						</div>
@@ -456,7 +469,7 @@ if(!defined('_BLUEVATION_')) exit;
               </ul>
 						</div>
 					</div>
-          <div class="form-row">
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">휴무일</p>
 						</div>
@@ -507,7 +520,7 @@ if(!defined('_BLUEVATION_')) exit;
               </ul>
 						</div>
 					</div>
-          <div class="form-row">
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">브레이크 타임</p>
 						</div>
@@ -529,12 +542,12 @@ if(!defined('_BLUEVATION_')) exit;
 						</div>
 						<div class="form-body address">
               <label for="store_zip" class="sound_only">우편번호</label>
-							<input type="tel" name="store_zip" value="<?php echo $member['zip']; ?>" id="store_zip" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" >
+							<input type="tel" name="store_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="store_zip" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" >
 							<button type="button" class="ui-btn st3" onclick="execDaumPostcode2()">주소검색</button>
 							
-							<input type="text" name="store_addr1" value="" id="store_addr1" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+							<input type="text" name="store_addr1" value="<?php echo ($w == '') ? get_text($doro1) : $member['ju_addr_full'] ?>" id="store_addr1" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
 							<label for="store_addr1" class="sound_only">기본주소</label>
-							<input type="text" name="store_addr2" value="" id="store_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
+							<input type="text" name="store_addr2" value="<?php echo ($w == '') ? get_text($doro2) : "" ?>" id="store_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
 							<label for="store_addr2" class="sound_only">상세주소</label>
 							<input type="hidden" name="store_addr3" value="" id="store_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
 							<label for="store_addr3" class="sound_only">참고항목</label>
@@ -542,7 +555,7 @@ if(!defined('_BLUEVATION_')) exit;
 							<input type="hidden" name="store_addr_jibeon" value="">
 						</div>
 					</div>
-          <div class="form-row">
+          <div class="form-row store_info">
 						<div class="form-head">
 							<p class="title">매장설명</p>
 						</div>
@@ -552,7 +565,7 @@ if(!defined('_BLUEVATION_')) exit;
 					</div>
         </div>
       </div>
-      <?php } ?>
+      <?php //} ?>
       <br>
       <br>
       <br>
@@ -560,14 +573,6 @@ if(!defined('_BLUEVATION_')) exit;
 			<!-- } 매장정보 -->
 
 		</div>
-
-    <?php if($w != '') { ?>
-    <div class="joinDetail-box">
-        <div class="joinDetail-body">
-          <button type="button" class="ui-btn mb-leave_btn" onclick="member_leave()">회원탈퇴하기<img src="/src/img/arrow-right2.svg" alt=""></button>
-        </div>
-    </div>
-  <?php } ?>
 	</div>
 	<div class="cp-btnbar">
 		<div class="container">
@@ -578,6 +583,13 @@ if(!defined('_BLUEVATION_')) exit;
 	</div>
 
   
+  <?php if($w != '') { ?>
+    <div class="joinDetail-box">
+        <div class="joinDetail-body">
+          <button type="button" class="ui-btn mb-leave_btn" onclick="member_leave()">회원탈퇴하기<img src="/src/img/arrow-right2.svg" alt=""></button>
+        </div>
+    </div>
+  <?php } ?>
 
   <div id="post_wrap" >
     <img src="/src/img/post_close.png" id="btnFoldWrap"
@@ -589,6 +601,8 @@ if(!defined('_BLUEVATION_')) exit;
 <script src="/js/postcode.v2.js"></script>
 
 <script>
+let w = $('input[name=w]').val();
+
 $(document).ready(function(){
   // 매장정보 > 매장 상세사진 추가하기
   $(".frm-file-add_btn").on('click', function(){
@@ -638,6 +652,12 @@ $(document).ready(function(){
         messageElement.text('');
     }
   });
+
+
+  // 매장정보 hide() _20240604_SY
+  if(w == '') {
+    $('.store_info').hide(); // 각 요소를 숨깁니다.
+  }
 });
 
 /** 우편번호 찾기 */
@@ -895,51 +915,60 @@ function phoneNumber(value) {
   return result.filter((val) => val).join("-");
 }
 
-// 외식업중앙회원 조회하기 _20240227_SY
-// function getKFIAMember() {
-//   let search_input = document.querySelector('#KFIA_search');
-//   let search_words = search_input.value;
+// 담당자 조회하기 _20240603_SY
+function getManager() {
+  let search_input = document.querySelector('#KFIA_search');
+  let search_words = search_input.value;
 
-//   let search_resIn = document.querySelector('.pop-result');
+  let search_resIn = document.querySelector('.pop-result');
   
-//   if(search_words.length > 0) {
-//     $.ajax({
-//       url: bv_url+"/m/bbs/ajax.KFIA_info.php",
-//       type: "POST",
-//       data: { "b_num" : search_words },
-//       dataType: "JSON",
-//       success: function(data) {
-//         console.log(data)
-//         let html = '';
+  if(search_words.length > 0) {
+    $.ajax({
+      url: bv_url+"/m/bbs/ajax.getManager.php",
+      type: "POST",
+      data: { "mcode" : search_words },
+      dataType: "JSON",
+      success: function(data) {
+        console.log(data)
+        let html = '';
 
-//         for(let i=0; i<data.res.length; i++) {
-//           html += '<div class="pop-result-item">';
-//           html += '<p class="pop-result-title">' + data.res[i].nm + '</p>';
-//           html += '<p class="pop-result-text">고유번호 : ' + data.res[i].u_no + '</p>';
-//           html += '<p class="pop-result-text">사업자등록번호 : ' + data.res[i].b_no + '</p>';
-//           html += '</div>';
-//         }
-//         search_resIn.innerHTML = html;
+        for(let i=0; i<data.res.length; i++) {
+          html += '<div class="pop-result-item">';
+          html += '<p class="pop-result-title">' + data.res[i].name + '</p>';
+          html += '<p class="pop-result-text">담당자코드 : ' + data.res[i].id + '</p>';
+          html += '<p class="pop-result-text">지회/지부 : ' + data.res[i].branch_name +'/'+ data.res[i].office_name + '</p>';
+          html += '<input type="hidden" class="pop-result-text" value="'+ data.res[i].index_no +'">';
+          html += '</div>';
+        }
+        search_resIn.innerHTML = html;
         
-//         $('.pop-result').on('click', '.pop-result-item', function() {  
-//           let nm   = $(this).find('.pop-result-title').text();
-//           let u_no = $(this).find('.pop-result-text:eq(0)').text().split(':')[1].trim();
-//           let b_no = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
-          
-//           $('#pop_nm').val(nm);
-//           $('#pop_u_no').val(u_no);
-//           $('#pop_b_no').val(b_no);
+        $('.pop-result').on('click', '.pop-result-item', function() {  
+          $('.pop-result-item').css("border", "");
+          $(this).css("border", "solid");
 
-//           $('#b_no').val(b_no);
+          let nm     = $(this).find('.pop-result-title').text();
+          let id     = $(this).find('.pop-result-text:eq(0)').text();
+          let region = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
+          let idx    = $(this).find('.pop-result-text:eq(2)').val();
           
-//           // 팝업 닫기 필요
-//         });
-//       }
-//     });
-//   } else {
-//     return false;
-//   }
-// }
+          
+          // 팝업 닫기
+          $('#info_ok').on('click', function() {
+            $('#pop_nm').val(nm);
+            $('#mn_idx').val(idx);
+
+            $('#popMemberSch').hide();
+            $('.popDim').hide();
+            $('#pop_nm').focus();
+          })
+        });
+      }
+    });
+
+  } else {
+    return false;
+  }
+}
 
 
 
@@ -1216,33 +1245,33 @@ function fregisterform_submit(f)
   }
 
   // 중앙회원조회 _20240328_SY
-  if(f.w.value == "") {
-    if(chkKFIA == false) {
-      alert('중앙회원이 아닐 경우 사업자회원으로 가입하실 수 없습니다.')
-      f.b_no.focus();
-      return false;
-    }
-  }
+  // if(f.w.value == "") {
+  //   if(chkKFIA == false) {
+  //     alert('중앙회원이 아닐 경우 사업자회원으로 가입하실 수 없습니다.')
+  //     f.b_no.focus();
+  //     return false;
+  //   }
+  // }
   
   // 사업자번호 중복체크 _20240318_SY
-  if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
-    if(f.chk_bn_res.value == "0") {
-      alert('사업자등록번호 중복 확인을 해 주십시오');
-      f.b_no.select();
-      return false;
-    };
-  }
+  // if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
+  //   if(f.chk_bn_res.value == "0") {
+  //     alert('사업자등록번호 중복 확인을 해 주십시오');
+  //     f.b_no.select();
+  //     return false;
+  //   };
+  // }
 
 
   // 휴/폐업 검사 _20240227_SY
-  if((f.w.value == "") || (f.w.value == "u" && f.chk_cb_res.defaultValue != f.chk_cb_res.value)) {
-    if(f.chk_cb_res.value == '0') {
-      // 휴/폐업일때 어떤 작업 필요한지 확인 필요
-      alert('휴/폐업조회를 해 주십시오.');
-      f.b_no.select();
-      return false;
-    };
-  }
+  // if((f.w.value == "") || (f.w.value == "u" && f.chk_cb_res.defaultValue != f.chk_cb_res.value)) {
+  //   if(f.chk_cb_res.value == '0') {
+  //     // 휴/폐업일때 어떤 작업 필요한지 확인 필요
+  //     alert('휴/폐업조회를 해 주십시오.');
+  //     f.b_no.select();
+  //     return false;
+  //   };
+  // }
 
   
 	if(typeof(f.mb_recommend) != "undefined" && f.mb_recommend.value) {

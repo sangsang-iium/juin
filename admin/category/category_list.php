@@ -12,7 +12,8 @@ $q1 = $query_string;
 $sql_order = " order by caterank, catecode ";
 ?>
 
-<h2>카테고리 등록</h2>
+<h5 class="htag_title">카테고리 등록</h5>
+<p class="gap30"></p>
 <form name="fcategoryform" method="post" action="./category/category_update.php" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="token" value="">
@@ -27,10 +28,20 @@ $sql_order = " order by caterank, catecode ";
 	<tr>
 		<th scope="row">카테고리 소속</th>
 		<td>
-			<?php echo get_category_select_1('sel_ca1', $sel_ca1); ?>
-			<?php echo get_category_select_2('sel_ca2', $sel_ca2); ?>
-			<?php echo get_category_select_3('sel_ca3', $sel_ca3); ?>
-			<?php echo get_category_select_4('sel_ca4', $sel_ca4); ?>
+            <ul class="tel_input ">
+                <li class="chk_select">
+                    <?php echo get_category_select_1('sel_ca1', $sel_ca1); ?>
+                </li>
+                <li class="chk_select">
+                    <?php echo get_category_select_2('sel_ca2', $sel_ca2); ?>
+                </li>
+                <li class="chk_select">
+                    <?php echo get_category_select_3('sel_ca3', $sel_ca3); ?>
+                </li>
+                <li class="chk_select">
+                    <?php echo get_category_select_4('sel_ca4', $sel_ca4); ?>
+                </li>
+            </ul>
 
 			<script>
 			$(function() {
@@ -48,7 +59,11 @@ $sql_order = " order by caterank, catecode ";
 	</tr>
 	<tr>
 		<th scope="row">카테고리 아이콘</th>
-		<td><input type="file" name="cateimg1"></td>
+		<td>   
+            <div class="file_wrap">
+                <input type="file" name="cateimg1">
+            </div>
+        </td>
 	</tr>
 	<!-- <tr>
 		<th scope="row">카테고리 상단배너 링크</th>
@@ -69,7 +84,7 @@ $sql_order = " order by caterank, catecode ";
 	<div class="local_frm02">
 		<a href="<?php echo BV_ADMIN_URL; ?>/category/category_excel.php" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 카테고리 엑셀저장</a>
 	</div>
-	<ul>
+	<ol>
 	<?php
 	$sql = "select * from shop_category where length(catecode)='3' $sql_order";
 	$res = sql_query($sql);
@@ -81,8 +96,8 @@ $sql_order = " order by caterank, catecode ";
 		<div>
 			<img src="<?php echo BV_IMG_URL; ?>/icon/no_01_over.gif" class="vam" alt="1차">
 			<b><?php echo $row['catecode']; ?></b>
-			<a href="javascript:post_delete('<?php echo BV_ADMIN_URL; ?>/category/category_delete.php', '<?php echo $row['index_no']; ?>');" class="btn_ssmall red">삭제</a>
-			<a href="javascript:modok('<?php echo $row['index_no']; ?>');" class="btn_ssmall">수정</a>
+			<a href="javascript:post_delete('<?php echo BV_ADMIN_URL; ?>/category/category_delete.php', '<?php echo $row['index_no']; ?>');" class="btn_small red">삭제</a>
+			<a href="javascript:modok('<?php echo $row['index_no']; ?>');" class="btn_small">수정</a>
 			<a href="<?php echo $href1; ?>"><b><?php echo $row['catename']; ?></b></a> <b class="fc_255">(<?php echo $count1; ?>)</b>
 			<div id="co<?php echo $row['index_no']; ?>" style="display:none;"><iframe id="cos<?php echo $row['index_no']; ?>" frameborder="0" width="100%" height="350"></iframe></div>
 		</div>
@@ -98,8 +113,8 @@ $sql_order = " order by caterank, catecode ";
 		<dt>
 			<img src="<?php echo BV_IMG_URL; ?>/icon/no_02.gif" class="vam" alt="2차">
 			<b><?php echo $row2['catecode']; ?></b>
-			<a href="javascript:post_delete('<?php echo BV_ADMIN_URL; ?>/category/category_delete.php', '<?php echo $row2['index_no']; ?>');" class="btn_ssmall red">삭제</a>
-			<a href="javascript:modok('<?php echo $row2['index_no']; ?>');" class="btn_ssmall">수정</a>
+			<a href="javascript:post_delete('<?php echo BV_ADMIN_URL; ?>/category/category_delete.php', '<?php echo $row2['index_no']; ?>');" class="btn_small red">삭제</a>
+			<a href="javascript:modok('<?php echo $row2['index_no']; ?>');" class="btn_small">수정</a>
 			<a href="<?php echo $href2; ?>"><b><?php echo $row2['catename']; ?></b></a> <b class="fc_255">(<?php echo $count2; ?>)</b>
 			<div style="display:none;" id="co<?php echo $row2['index_no']; ?>"><iframe id="cos<?php echo $row2['index_no']; ?>" frameborder="0" width="100%" height="270"></iframe></div>
 		</dt>
@@ -115,8 +130,8 @@ $sql_order = " order by caterank, catecode ";
 		<dd>
 			<img src="<?php echo BV_IMG_URL; ?>/icon/no_03.gif" class="vam" alt="3차">
 			<b><?php echo $row3['catecode']; ?></b>
-			<a href="javascript:post_delete('<?php echo BV_ADMIN_URL; ?>/category/category_delete.php', '<?php echo $row3['index_no']; ?>');" class="btn_ssmall red">삭제</a>
-			<a href="javascript:modok('<?php echo $row3['index_no']; ?>');" class="btn_ssmall">수정</a>
+			<a href="javascript:post_delete('<?php echo BV_ADMIN_URL; ?>/category/category_delete.php', '<?php echo $row3['index_no']; ?>');" class="btn_small red">삭제</a>
+			<a href="javascript:modok('<?php echo $row3['index_no']; ?>');" class="btn_small">수정</a>
 			<a href="<?php echo $href3; ?>"><b><?php echo $row3['catename']; ?></b></a> <b class="fc_255">(<?php echo $count3; ?>)</b>
 			<div style="display:none;" id="co<?php echo $row3['index_no']; ?>"><iframe id="cos<?php echo $row3['index_no']; ?>" frameborder="0" width="100%" height="270"></iframe></div>
 		</dd>
@@ -132,8 +147,8 @@ $sql_order = " order by caterank, catecode ";
 		<dd>
 			<img src="<?php echo BV_IMG_URL; ?>/icon/no_04.gif" class="vam" alt="4차">
 			<b><?php echo $row4['catecode']; ?></b>
-			<a href="javascript:post_delete('<?php echo BV_ADMIN_URL; ?>/category/category_delete.php', '<?php echo $row4['index_no']; ?>');" class="btn_ssmall red">삭제</a>
-			<a href="javascript:modok('<?php echo $row4['index_no']; ?>');" class="btn_ssmall">수정</a>
+			<a href="javascript:post_delete('<?php echo BV_ADMIN_URL; ?>/category/category_delete.php', '<?php echo $row4['index_no']; ?>');" class="btn_small red">삭제</a>
+			<a href="javascript:modok('<?php echo $row4['index_no']; ?>');" class="btn_small">수정</a>
 			<a href="<?php echo $href4; ?>"><b><?php echo $row4['catename']; ?></b></a> <b class="fc_255">(<?php echo $count4; ?>)</b>
 			<div style="display:none;" id="co<?php echo $row4['index_no']; ?>"><iframe id="cos<?php echo $row4['index_no']; ?>" frameborder="0" width="100%" height="270"></iframe></div>
 		</dd>
@@ -147,8 +162,8 @@ $sql_order = " order by caterank, catecode ";
 		<dd>
 			<img src="<?php echo BV_IMG_URL; ?>/icon/no_05.gif" class="vam" alt="5차">
 			<b><?php echo $row5['catecode']; ?></b>
-			<a href="javascript:post_delete('<?php echo BV_ADMIN_URL; ?>/category/category_delete.php', '<?php echo $row5['index_no']; ?>');" class="btn_ssmall red">삭제</a>
-			<a href="javascript:modok('<?php echo $row5['index_no']; ?>');" class="btn_ssmall">수정</a>
+			<a href="javascript:post_delete('<?php echo BV_ADMIN_URL; ?>/category/category_delete.php', '<?php echo $row5['index_no']; ?>');" class="btn_small red">삭제</a>
+			<a href="javascript:modok('<?php echo $row5['index_no']; ?>');" class="btn_small">수정</a>
 			<b><?php echo $row5['catename']; ?></b>
 			<div style="display:none;" id="co<?php echo $row5['index_no']; ?>"><iframe id="cos<?php echo $row5['index_no']; ?>" frameborder="0" width="100%" height="270"></iframe></div>
 		</dd>
@@ -169,7 +184,7 @@ $sql_order = " order by caterank, catecode ";
 		echo "</li>\n";
 	} //while 1
 	?>
-	</ul>
+	</ol>
 </div>
 
 <script>

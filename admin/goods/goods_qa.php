@@ -44,7 +44,8 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
@@ -57,23 +58,29 @@ EOF;
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sst">
-				<option value="">구분</option>
-				<option value="상품"<?php echo get_selected($sst, '상품'); ?>>상품</option>
-				<option value="배송"<?php echo get_selected($sst, '배송'); ?>>배송</option>
-				<option value="반품/환불/취소"<?php echo get_selected($sst, '반품/환불/취소'); ?>>반품/환불/취소</option>
-				<option value="교환/변경"<?php echo get_selected($sst, '교환/변경'); ?>>교환/변경</option>
-				<option value="기타"<?php echo get_selected($sst, '기타'); ?>>기타</option>
-			</select>
-			<select name="sfl">
-				<option value="iq_name"<?php echo get_selected($sfl, 'iq_name'); ?>>작성자명</option>
-				<option value="iq_email"<?php echo get_selected($sfl, 'iq_email'); ?>>작성자 이메일</option>
-				<option value="iq_hp"<?php echo get_selected($sfl, 'iq_hp'); ?>>작성자 핸드폰</option>
-				<option value="iq_subject"<?php echo get_selected($sfl, 'iq_subject'); ?>>제목</option>
-				<option value="iq_question"<?php echo get_selected($sfl, 'iq_question'); ?>>질문내용</option>
-				<option value="iq_answer"<?php echo get_selected($sfl, 'iq_answer'); ?>>답변내용</option>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sst">
+                        <option value="">구분</option>
+                        <option value="상품"<?php echo get_selected($sst, '상품'); ?>>상품</option>
+                        <option value="배송"<?php echo get_selected($sst, '배송'); ?>>배송</option>
+                        <option value="반품/환불/취소"<?php echo get_selected($sst, '반품/환불/취소'); ?>>반품/환불/취소</option>
+                        <option value="교환/변경"<?php echo get_selected($sst, '교환/변경'); ?>>교환/변경</option>
+                        <option value="기타"<?php echo get_selected($sst, '기타'); ?>>기타</option>
+                    </select>
+                </div>
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <option value="iq_name"<?php echo get_selected($sfl, 'iq_name'); ?>>작성자명</option>
+                        <option value="iq_email"<?php echo get_selected($sfl, 'iq_email'); ?>>작성자 이메일</option>
+                        <option value="iq_hp"<?php echo get_selected($sfl, 'iq_hp'); ?>>작성자 핸드폰</option>
+                        <option value="iq_subject"<?php echo get_selected($sfl, 'iq_subject'); ?>>제목</option>
+                        <option value="iq_question"<?php echo get_selected($sfl, 'iq_question'); ?>>질문내용</option>
+                        <option value="iq_answer"<?php echo get_selected($sfl, 'iq_answer'); ?>>답변내용</option>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -99,13 +106,13 @@ EOF;
 	<table>
 	<colgroup>
 		<col class="w50">
-		<col class="w50">
-		<col class="w130">
+		<col class="w70">
+		<col class="w150">
 		<col>
 		<col class="w130">
-		<col class="w80">
-		<col class="w60">
-		<col class="w60">
+		<col class="w150">
+		<col class="w100">
+		<col class="w150">
 	</colgroup>
 	<thead>
 	<tr>
@@ -125,7 +132,7 @@ EOF;
 
 		$iq_name = get_sideview($row['mb_id'], $row['iq_name']);
 		$iq_url = "code=qa_form&w=u&iq_id=$iq_id$qstr&page=$page";
-		$iq_upd = "<a href=\"./goods.php?{$iq_url}\" class=\"btn_small\">수정</a>";
+		$iq_upd = "<a href=\"./goods.php?{$iq_url}\" class=\"btn_fix bg_type2\"><span>수정</span></a>";
 		$iq_subject = "<a href=\"./goods.php?{$iq_url}\">".cut_str($row['iq_subject'],50)."</a>";
 
 		if($i==0)
@@ -144,7 +151,11 @@ EOF;
 		<td><?php echo $iq_name; ?></a></td>
 		<td><?php echo substr($row['iq_time'],0,10); ?></td>
 		<td><?php echo $row['iq_answer']?'yes':''; ?></td>
-		<td><?php echo $iq_upd; ?></td>
+		<td>
+            <div class="btn_wrap">
+                <?php echo $iq_upd; ?>
+            </div>
+        </td>
 	</tr>
 	<?php
 	}

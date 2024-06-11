@@ -63,40 +63,52 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<div>
-  <a href="./seller.php?code=pay" class="btn_small">미정산내역</a>
-  <a href="./seller.php?code=pay_history" class="btn_small">정산완료내역</a>
+<div class="btn_wrap tal">
+    <a href="./seller.php?code=pay" class="link_type1 marr10">
+        <span>미정산내역</span>
+    </a>
+    <a href="./seller.php?code=pay_history" class="link_type2">
+        <span>정산완료내역</span>
+    </a>
 </div>
 
-<h2>기본검색</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('b.company_name', $sfl, '공급사명'); ?>
-				<?php echo option_selected('b.seller_code', $sfl, '업체코드'); ?>
-				<?php echo option_selected('a.mb_id', $sfl, '아이디'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('b.company_name', $sfl, '공급사명'); ?>
+                        <?php echo option_selected('b.seller_code', $sfl, '업체코드'); ?>
+                        <?php echo option_selected('a.mb_id', $sfl, '아이디'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">정산일</th>
 		<td>
-    <?php if(!isset($_GET['fr_date']) && !isset($_GET['$to_date'])) {
-        echo get_search_date("fr_date", "to_date", $bf_month, $now_date);
-      } else {
-        echo get_search_date("fr_date", "to_date", $fr_date, $to_date);
-      } ?>
+            <div class="tel_input">
+                <?php if(!isset($_GET['fr_date']) && !isset($_GET['$to_date'])) {
+                    echo get_search_date("fr_date", "to_date", $bf_month, $now_date);
+                } else {
+                    echo get_search_date("fr_date", "to_date", $fr_date, $to_date);
+                } ?>
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -112,7 +124,7 @@ EOF;
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
 <div class="local_frm01">
@@ -120,24 +132,6 @@ EOF;
 </div>
 <div class="tbl_head01">
 	<table>
-	<colgroup>
-		<col class="w50">
-		<col class="w50">
-		<col class="w80">
-		<col>
-		<col class="w130">
-		<col class="w60">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w90">
-		<col class="w60">
-	</colgroup>
 	<thead>
 	<tr>
 		<th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
@@ -198,7 +192,7 @@ EOF;
 	<?php
 	}
 	if($i==0)
-		echo '<tr><td colspan="15" class="empty_table">자료가 없습니다.</td></tr>';
+		echo '<tr><td colspan="16" class="empty_table">자료가 없습니다.</td></tr>';
 	?>
 	</tbody>
 	</table>
@@ -209,42 +203,42 @@ EOF;
 </form>
 
 <!-- 합계 _20240509_SY -->
-<div class="local_ov mart30">
-  <h2>합계</h2>
-  <div class="tbl_head01">
-    <table>
-      <colgroup>
-        <col class="">
-        <col class="">
-        <col class="">
-        <col class="">
-        <col class="">
-        <col class="">
-        <col class="">
-      </colgroup>
-      <thead>
-        <tr>
-          <th scope="col">총 건수</th>
-          <th scope="col">총 주문금액</th>
-          <th scope="col">매입가 총액</th>
-          <th scope="col">수수료(정액) 총액</th>
-          <th scope="col">수수료(정률) 총액</th>
-          <th scope="col">정산 총액</th>
-          <th scope="col">본사마진 총액</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><?php echo $sum_count; ?></td>
-          <td><?php echo number_format($sum_price) . "원"; ?></td>
-          <td><?php echo number_format($sum_supply_price) . "원"; ?></td>
-          <td><?php echo number_format($sum_income_price) . "원";?></td>
-          <td><?php echo number_format($sum_income_per) . "원"; ?></td>
-          <td><?php echo number_format($sum_seller) . "원"; ?></td>
-          <td><?php echo number_format($sum_admin) . "원"; ?></td>        </tr>
-      </tbody>
-    </table>
-  </div>
+<p class="gap50"></p>
+<h5 class="htag_title">합계</h5>
+<p class="gap20"></p>
+<div class="tbl_head01">
+<table>
+    <colgroup>
+    <col class="">
+    <col class="">
+    <col class="">
+    <col class="">
+    <col class="">
+    <col class="">
+    <col class="">
+    </colgroup>
+    <thead>
+    <tr>
+        <th scope="col">총 건수</th>
+        <th scope="col">총 주문금액</th>
+        <th scope="col">매입가 총액</th>
+        <th scope="col">수수료(정액) 총액</th>
+        <th scope="col">수수료(정률) 총액</th>
+        <th scope="col">정산 총액</th>
+        <th scope="col">본사마진 총액</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><?php echo $sum_count; ?></td>
+        <td><?php echo number_format($sum_price) . "원"; ?></td>
+        <td><?php echo number_format($sum_supply_price) . "원"; ?></td>
+        <td><?php echo number_format($sum_income_price) . "원";?></td>
+        <td><?php echo number_format($sum_income_per) . "원"; ?></td>
+        <td><?php echo number_format($sum_seller) . "원"; ?></td>
+        <td><?php echo number_format($sum_admin) . "원"; ?></td>        </tr>
+    </tbody>
+</table>
 </div>
 
 <?php

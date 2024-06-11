@@ -21,32 +21,45 @@ $sql_search = " where mm.id <> 'admin' ";
 $sql_join = " LEFT JOIN shop_manager AS mn
                      ON (mm.ju_manager = mn.index_no) ";
 
-if ($sfl && $stx) {
-  if($sfl == 'ju_manager') {
-    $sql_search .= " and mn.name like '%$stx%' ";  
-  } else {
-    $sql_search .= " and $sfl like '%$stx%' ";
-  }
+// Search > AliasFunc 추가 _20240610_SY
+function addAliasFunc($column) {
+    if (strpos($column, '.') !== false) {
+        return $column; // 이미 별칭이 붙어 있는 경우 그대로 반환
+    }
+    if($column == 'ju_manager') {
+      $alias = "mn.name";
+    } else {
+      $alias = "mm.$column";
+    }
+    return "$alias";
 }
 
-if ($sst) {
-  $sql_search .= " and ㅡㅡ.grade = '$sst' ";
+if ($sfl && $stx) {
+  $sflColumn = addAliasFunc($sfl);
+  $sql_search .= " AND {$sflColumn} like '%$stx%' ";
 }
+
+if($sst) {
+  $gradeColumn = addAliasFunc("grade");
+  $sql_search .= " AND $gradeColumn = '$sst'";
+}
+
 
 // 기간검색
+$sptColumn = addAliasFunc($spt);
 if ($fr_date && $to_date) {
-  $sql_search .= " and {$spt} between '$fr_date 00:00:00' and '$to_date 23:59:59' ";
+  $sql_search .= " and {$sptColumn} between '$fr_date 00:00:00' and '$to_date 23:59:59' ";
 } else if ($fr_date && !$to_date) {
-  $sql_search .= " and {$spt} between '$fr_date 00:00:00' and '$fr_date 23:59:59' ";
+  $sql_search .= " and {$sptColumn} between '$fr_date 00:00:00' and '$fr_date 23:59:59' ";
 } else if (!$fr_date && $to_date) {
-  $sql_search .= " and {$spt} between '$to_date 00:00:00' and '$to_date 23:59:59' ";
+  $sql_search .= " and {$sptColumn} between '$to_date 00:00:00' and '$to_date 23:59:59' ";
 }
 
 // 탈퇴 검색
 if ($ssd == '탈퇴') {
-  $sql_search .= " and intercept_date <> '' ";
+  $sql_search .= " and mm.intercept_date <> '' ";
 } else if ($ssd =='폐업') {
-  $sql_search .= " and  ";
+  $sql_search .= " and mm.ju_closed ";
 }
 
 if (!$orderby) {
@@ -104,7 +117,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 		<th scope="row">검색어</th>
 		<td>
             <div class="tel_input">
-                <div class="chk-select w200">
+                <div class="chk_select w200">
                     <select name="sfl">
                         <?php echo option_selected('ju_restaurant', $sfl, '상호명'); ?>
                         <?php echo option_selected('ju_b_num', $sfl, '사업자번호'); ?>
@@ -122,7 +135,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 		<th scope="row">기간검색</th>
 		<td>
             <div class="tel_input">
-                <div class="chk-select w200">
+                <div class="chk_select w200">
                     <select name="spt">
                         <?php echo option_selected('reg_time', $spt, "가입날짜"); ?>
                         <?php echo option_selected('today_login', $spt, "최근접속"); ?>
@@ -135,9 +148,9 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 	<tr>
 		<th scope="row">레벨검색</th>
 		<td>
-            <ul class="radio_group">
+            <div class="radio_group">
                 <?php echo get_search_level('sst', $sst, 2, 9); ?>
-            </ul>
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -154,8 +167,8 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 	</table>
 </div>
 <div class="board_btns tac mart20">
-    <div class="btn_wrap btn_type">
-        <input type="submit" value="검색" class="btn_acc marr10"></input>
+    <div class="btn_wrap">
+        <input type="submit" value="검색" class="btn_acc marr10">
         <input type="button" value="초기화" id="frmRest" class="btn_cen">
     </div>
 </div>
@@ -167,19 +180,19 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 <div class="local_frm01">
 	<?php echo $btn_frmline; ?>
 </div>
-<div class="tbl_head01">
-	<table>
+<div class="board_list">
+	<table class="list01">
 	<colgroup>
-		<col class="w50">
-		<col class="w130">
-		<col class="w150">
-		<col>
-		<col class="w130">
 		<col class="w100">
-		<col class="w130">
-		<col class="w60">
-		<col class="w60">
-		<col class="w60">
+		<col class="w150">
+		<col class="w200">
+		<col class="w150">
+		<col class="w200">
+		<col class="w300">
+		<col class="w300">
+		<col class="w100">
+		<col class="w100">
+		<col class="w100">
 		<?php if ($is_intro) {?>
 		<col class="w40">
 		<?php }?>
@@ -213,10 +226,10 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
   ?>
 	<tr class="<?php echo $bg; ?>">
 		<td><?php echo $num--; ?></td>
-		<td class="tal"><?php echo get_sideview($row['id'], $row['name']); ?></td>
-		<td class="tal"><?php echo $row['id']; ?></td>
+		<td><?php echo get_sideview($row['id'], $row['name']); ?></td>
+		<td><?php echo $row['id']; ?></td>
 		<td><?php echo get_grade($row['grade']); ?></td>
-		<td class="tal"><?php echo $row['pt_id']; ?></td>
+		<td><?php echo $row['pt_id']; ?></td>
 		<td><?php echo replace_tel($row['cellphone']); ?></td>
 		<td><?php echo $row['reg_time']; ?></td>
 		<td><?php echo number_format(shop_count($row['id'])); ?></td>

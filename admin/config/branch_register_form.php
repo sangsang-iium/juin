@@ -1,16 +1,16 @@
 <?php // 지회/지부 관리 _20240516_SY
 if(!defined('_BLUEVATION_')) exit;
 
-$form_title = "지회/지부 등록";
+$form_title = "지회 등록";
 if($w == 'u') {
-  $form_title = "지회/지부 수정";
+  $form_title = "지회 수정";
 }
 
-$sql_common = " FROM kfia_region ";
+$sql_common = " FROM kfia_branch ";
 $sql_search = " WHERE (1) ";
 
 if($w == 'u') {
-  $sql_search .= " AND kf_idx = '{$idx}' ";
+  $sql_search .= " AND branch_idx = '{$idx}' ";
 }
 
 $sql = " SELECT * {$sql_common} {$sql_search} ";
@@ -44,26 +44,26 @@ $region_res = sql_query($region_sel);
 	</colgroup>
 	<tbody>
   <tr>
-    <th scope="row"><label for="branch_id">아이디</label><span>(*)</span></th>
+    <th scope="row"><label for="branch_code">지회코드</label><span>(*)</span></th>
     <td>
-      <input type="text" name="branch_id" id="branch_id" value="<?php echo ($w == '') ? '' : $result['kf_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
+      <input type="text" name="branch_code" id="branch_code" value="<?php echo ($w == '') ? '' : $result['branch_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
       <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
     </td>
   </tr>
 	<tr>
-		<th scope="row"><label for="kf_region1">지역</label><span>(*)</span></th>
+		<th scope="row"><label for="area_idx">지역</label><span>(*)</span></th>
     <td>
-      <select name="kf_region1" id="kf_region1">
+      <select name="area_idx" id="area_idx">
         <option value=''>지역선택</option>
         <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
-          <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['kf_region1'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
+          <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['area_idx'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
         <?php } ?>
       </select>
     </td>
   </tr>
   <tr>
-    <th scope="row"><label for="kf_region2">지회명</label><span>(*)</span></th>
-    <td><input type="text" name="kf_region2" id="kf_region2" value="<?php echo ($w == '') ? '' : $result['kf_region2']; ?>" required itemname="지회명" class="frm_input required"></td>
+    <th scope="row"><label for="branch_name">지회명</label><span>(*)</span></th>
+    <td><input type="text" name="branch_name" id="branch_name" value="<?php echo ($w == '') ? '' : $result['branch_name']; ?>" required itemname="지회명" class="frm_input required"></td>
   </tr>
   
 	</tbody>
@@ -88,22 +88,22 @@ function getId() {
 }
 
 function duplication_chk() {
-  let id = document.querySelector("input[name=branch_id]").value
+  let id = document.querySelector("input[name=branch_code]").value
   
   $.ajax({
     url  : "/admin/ajax.branchId_chk.php",
     type : "POST",
     data : { 
-      type : "kfia",
+      type : "kfia_branch",
       id : id 
     },
     success : function(res) {
       sessionStorage.setItem("id_duChk", "true");
-      alert("사용가능한 아이디입니다");
+      alert("사용가능한 코드입니다");
     },
     error: function(xhr, status, error) {
       sessionStorage.setItem("id_duChk", "false");
-      alert("이미 사용중인 아이디입니다");
+      alert("이미 사용중인 코드입니다");
       return false;
     }
   })
@@ -112,31 +112,31 @@ function duplication_chk() {
 // Submit Check _20240516_SY
 function fregisterform_submit(f)
 {
-  const regionSelect = f.kf_region1;
+  const regionSelect = f.auth_idx;
   const regionOption = regionSelect.options[regionSelect.selectedIndex];
   const regionValue = regionOption.value;
 
-  if(f.branch_id.value.length < 1 ) {
-    alert("아이디를 입력해 주십시오.");
-    f.branch_id.focus();
+  if(f.branch_code.value.length < 1 ) {
+    alert("지회코드를 입력해 주십시오.");
+    f.branch_code.focus();
     return false;
   }
 
   if(sessionStorage.getItem('id_duChk') == 'false') {
-    alert("아이디 중복확인을 해 주십시오.");
-    f.branch_id.focus();
+    alert("지회코드 중복확인을 해 주십시오.");
+    f.branch_code.focus();
     return false;   
   }
 
   if(regionValue.length < 1) {
     alert("지역을 선택해 주십시오.");
-    f.kf_region1.focus();
+    f.area_idx.focus();
     return false;   
   }
 
-  if(f.kf_region2.value.length < 1) {
+  if(f.branch_name.value.length < 1) {
     alert("지회명을 입력하여 주십시오.");
-    f.kf_region2.focus();
+    f.branch_name.focus();
     return false;   
   }
   

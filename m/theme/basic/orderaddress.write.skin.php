@@ -56,11 +56,11 @@ if($wr_id){
                 </div>
                 <div class="form-body phone">
 
-                    <input type="text" name="b_cellphone" id="b_cellphone1_save" class="frm-input" value="<?=$phone0?>";>
+                    <input type="number" name="b_cellphone" id="b_cellphone1_save" class="frm-input" value="<?=$phone0?>";>
                     <span class="hyphen">-</span>
-                    <input type="text" name="b_cellphone" id="b_cellphone2_save" class="frm-input" value="<?=$phone1?>";>
+                    <input type="number" name="b_cellphone" id="b_cellphone2_save" class="frm-input" value="<?=$phone1?>";>
                     <span class="hyphen">-</span>
-                    <input type="text" name="b_cellphone" id="b_cellphone3_save" class="frm-input"  value="<?=$phone2?>";>
+                    <input type="number" name="b_cellphone" id="b_cellphone3_save" class="frm-input"  value="<?=$phone2?>";>
                 </div>
             </div>
             <div class="form-row">

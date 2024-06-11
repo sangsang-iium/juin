@@ -17,6 +17,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <input type="hidden" name="gs_id[]" value="<?php echo $gs_id; ?>">
 <input type="hidden" id="it_price" value="<?php echo get_sale_price($gs_id); ?>">
 <input type="hidden" name="ca_id" value="<?php echo $gs['ca_id']; ?>">
+<input type="hidden" name="paytype" value="<?php echo $gs['reg_yn']; ?>">
 <input type="hidden" name="sw_direct">
 
 <div id="contents" class="sub-contents prodDetail">
@@ -262,7 +263,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               if(sizeof($reviewTotalImgArr) > 0) {
                 foreach ($reviewTotalImgArr as $reviewImg) {
             ?>
-              <a href="" class="rv-img-item">
+              <a href="javascript:void(0);" class="rv-img-item">
                 <div class="rv-img">
                   <img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
                 </div>
@@ -323,11 +324,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <a href="<?php echo BV_MSHOP_URL.'/qaform.php?gs_id='.$gs_id; ?>" class="ui-btn round st2 iq-wbtn">문의하기</a>
           -->
           <button type="button" class="ui-btn round st2 iq-wbtn">문의하기</button>
-          <p class="iq-wtext">배송 및 주문관련 문의는 <a href="<?php echo BV_MBBS_URL.'/qna_list.php'; ?>" class="link">FAQ 또는 1:1문의</a>를 이용해주세요.</p>
+          <!-- <p class="iq-wtext">배송 및 주문관련 문의는 <a href="<?php echo BV_MBBS_URL.'/qna_list.php'; ?>" class="link">FAQ 또는 1:1문의</a>를 이용해주세요.</p> -->
         </div>
         <div class="iq-body">
           <div class="iq-title">
-            <p class="title">문의(<?php echo number_format($itemqa_count); ?>)</p>
+            <p class="title">문의(<?php echo number_format($itemqa_count); ?>)</p>+
             <div class="iq-sort-wr">
               <div class="frm-choice">
                 <input type="checkbox" name="myInqSort" id="myInqSort" value="">

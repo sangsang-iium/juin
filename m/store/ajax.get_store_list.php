@@ -4,55 +4,60 @@ include_once("./_common.php");
 $lat = trim($_POST['lat']);
 $lng = trim($_POST['lng']);
 $category = trim($_POST['cate']);
+$km = 5; //지름10Km
+
 
 if($category=='all'){
-    $sql = "select * from shop_used where del_yn = 'N' and address like '%{$region1}%' and address like '%{$region2}%' order by 1 desc";
+    $sql = "SELECT *, ( 6371 * acos( cos( radians({$lat}) ) * cos( radians( ju_lat ) ) * cos( radians( ju_lng ) - radians({$lng}) ) + sin( radians({$lat}) ) * sin( radians( ju_lat ) ) ) ) AS distance ";
+    $sql .= "FROM shop_member WHERE grade = 8 and ju_mem = 1 HAVING distance < {$km} ORDER BY distance";
 } else {
-    $sql = "select * from shop_used where del_yn = 'N' and category = '$category' and address like '%{$region1}%' and address like '%{$region2}%' order by 1 desc";
+    $sql = "SELECT *, ( 6371 * acos( cos( radians({$lat}) ) * cos( radians( ju_lat ) ) * cos( radians( ju_lng ) - radians({$lng}) ) + sin( radians({$lat}) ) * sin( radians( ju_lat ) ) ) ) AS distance ";
+    $sql .= "FROM shop_member WHERE grade = 8 and ju_mem = 1 and ju_cate = '$category' HAVING distance < {$km} ORDER BY distance";
 }
 $result = sql_query($sql);
 $rows = sql_num_rows($result);
 
+$slist = '';
+$positions = []; //마커를 표시할 상호명/위치/이미지/키 객체 배열입니다 
+
 if($rows == 0){
-    echo '<p class="empty_list">자료가 없습니다.</p>';
+    $slist .= '<p class="empty_list">자료가 없습니다.</p>';
 } else {
     while($row=sql_fetch_array($result)){
-        if($row['m_img']){
-            $thumb = BV_DATA_URL.'/used/'.$row['m_img'];
+        if($row['ju_mimg']){
+            $thumb = BV_DATA_URL.'/member/'.$row['ju_mimg'];
         } else {
-            $thumb = '/src/img/used/t-item_thumb1.jpg';
+            $thumb = '/src/img/store/t-store_thumb2.jpg';
         }
-        $gubun_status = getUsedGubunStatus($row['gubun'], $row['status']);
-        $goodyn = getUsedGoodRegister($row['no'], $member['id']);
         
-        echo '<div class="used-item">';
-        echo '<a href="./view.php?no='.$row['no'].'" class="used-item_thumbBox"><img src="'.$thumb.'" class="fitCover" alt="'.$row['title'].'"></a>';
-        echo '<div class="used-item_txtBox">';
-        echo '<a href="./view.php?no='.$row['no'].'" class="tRow2 title"><span class="cate">['.$row['category'].']</span><span class="subj">'.$row['title'].'</span></a>';
-        echo '<p class="writer"><span>'.getMemberName($row['mb_id']).'</span><span>'.getUsedAddress($row['address']).'</span></p>';
-        echo '<ul class="inf"><li><p class="prc">'.number_format($row['price']).'<span class="won">원</span></p></li>';
-        if($row['gubun']){
-            echo '<li><span class="status ing">'.$gubun_status[0].'</span></li></ul>';
-        } else if($row['status']=='1'){
-            echo '<li><span class="status resv">'.$gubun_status[1].'</span></li></ul>';
-        } else if($row['status']=='2'){
-            echo '<li><span class="status end">'.$gubun_status[1].'</span></li></ul>';
-        } else {
-            echo '<li><span class="status ing">'.$gubun_status[1].'</span></li></ul>';
-        }
-        echo '<ul class="extra">';
-        echo '<li class="hit"><span class="icon"><img src="/src/img/used/icon_hit.png" alt="조회수"></span><span class="text">'.$row['hit'].'</span></li>';
-        echo '<li class="like"><span class="icon"><img src="/src/img/used/icon_like.png" alt="좋아요수"></span><span class="text">'.getUsedGoodCount($row['no']).'</span></li>';
-        echo '<li class="reply"><span class="icon"><img src="/src/img/used/icon_chat.png" alt="채팅수"></span><span class="text">'.getUsedChatCount($row['no']).'</span></li>';
-        echo '</ul>';
+        $goodyn = getStoreGoodRegister($row['index_no'], $member['id']);
+        
+        $slist .= '<div class="store-item">';
+        $slist .= '<a href="./view.php?no='.$row['index_no'].'" class="store-item_thumbBox"><img src="'.$thumb.'" class="fitCover" alt="'.$row['ju_restaurant'].'"></a>';
+        $slist .= '<div class="store-item_txtBox">';
+        $slist .= '<a href="./view.php?no='.$row['index_no'].'" class="tRow2 title"><span class="cate">['.$row['ju_cate'].']</span><span class="subj">'.$row['ju_restaurant'].'</span></a>';
+        $slist .= '<p class="address">'.$row['ju_addr_full'].'</p>';
+        $slist .= '<a href="tel:'.$row['ju_tel'].'" class="tel">'.$row['ju_tel'].'</a>';
+        $slist .= '<ul class="extra">';
+        $slist .= '<li class="hit"><span class="icon"><img src="/src/img/store/icon_hit.png" alt="조회수"></span><span class="text">'.$row['ju_hit'].'</span></li>';
+        $slist .= '<li class="like"><span class="icon"><img src="/src/img/store/icon_like.png" alt="좋아요수"></span><span class="text">'.getStoreGoodCount($row['index_no']).'</span></li>';
+        $slist .= '</ul>';
         if($goodyn){
-            echo '<button type="button" class="ui-btn wish-btn on" data-no="'.$row['no'].'" title="관심상품 등록하기"></button>';
+            $slist .= '<button type="button" class="ui-btn wish-btn on" data-no="'.$row['index_no'].'" title="관심상품 등록하기"></button>';
         } else {
-            echo '<button type="button" class="ui-btn wish-btn" data-no="'.$row['no'].'" title="관심상품 등록하기"></button>';
+            $slist .= '<button type="button" class="ui-btn wish-btn" data-no="'.$row['index_no'].'" title="관심상품 등록하기"></button>';
         }
-        echo '</div></div>';
+        $slist .= '</div></div>';
+        
+        array_push($positions, ['title'=>$row['ju_restaurant'], 'lat'=>$row['ju_lat'], 'lng'=>$row['ju_lng'], 'img'=>'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', 'no'=>$row['index_no']]);
     }
 }
+
+$data['slist'] = $slist;
+$data['positions'] = $positions;
+
+echo json_encode($data);
+exit;
 ?>
 
 <!--<div class="store-item">

@@ -13,11 +13,21 @@ if(!defined('_BLUEVATION_')) exit;
 	<tbody>
 	<tr>
 		<th scope="row">샘플파일 다운</th>
-		<td><a href="<?php echo BV_LIB_URL; ?>/Excel/sellerexcel.xls" class="btn_small bx-blue"><i class="fa fa-download"></i> 샘플파일 다운로드</a></td>
+		<td>
+            <div class="btn_wrap tal">
+                <a href="<?php echo BV_LIB_URL; ?>/Excel/sellerexcel.xls" class="fbtn xls">
+                    <span>샘플파일 다운로드</span>
+                </a>
+            </div>
+        </td>
 	</tr>
 	<tr>
 		<th scope="row">파일 업로드</th>
-		<td><input type="file" name="excelfile"></td>
+		<td>
+            <div class="file_wrap">
+                <input type="file" name="excelfile" class="uploadBtn">
+            </div>
+        </td>
 	</tr>
 	</tbody>
 	</table>
@@ -28,15 +38,13 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 </form>
 
-<div class="information">
-	<h4>도움말</h4>
-	<div class="content">
-		<div class="desc02">
-			<p>ㆍ엑셀자료는 1회 업로드당 최대 1,000건까지 이므로 1,000건씩 나누어 업로드 하시기 바랍니다.</p>
-			<p>ㆍ엑셀파일을 저장하실 때는 <strong>Excel 97 - 2003 통합문서 (*.xls)</strong>로 저장하셔야 합니다.</p>
-			<p>ㆍ엑셀데이터는 4번째 라인부터 저장되므로 샘플파일 설명글과 타이틀은 지우시면 안됩니다.</p>
-		</div>
-	 </div>
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ul class="cnt_list step01">
+        <li>엑셀자료는 1회 업로드당 최대 1,000건까지 이므로 1,000건씩 나누어 업로드 하시기 바랍니다.</li>
+        <li>엑셀파일을 저장하실 때는 <strong>Excel 97 - 2003 통합문서 (*.xls)</strong>로 저장하셔야 합니다.</li>
+        <li>엑셀데이터는 4번째 라인부터 저장되므로 샘플파일 설명글과 타이틀은 지우시면 안됩니다.</li>
+    </ul>
 </div>
 
 <script>

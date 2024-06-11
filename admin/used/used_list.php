@@ -51,7 +51,7 @@ $result = sql_query($sql);
 $colspan  = 12;
 
 $btn_frmline = <<<EOF
-<a href="#none" class="fr btn_lsmall" style="float:left;" onclick="chkDelete();">선택삭제</a>
+<a href="#none" class="fr btn_lsmall bx-white" style="float:left;" onclick="chkDelete();">선택삭제</a>
 <a href="./used.php?code=form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 상품등록</a>
 EOF;
 
@@ -61,46 +61,57 @@ $q2 = "&gubun=".$gubun.$qstr."&page=".$page;
 include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('title', $sfl, '제목'); ?>
-				<?php echo option_selected('content', $sfl, '내용'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('title', $sfl, '제목'); ?>
+                        <?php echo option_selected('content', $sfl, '내용'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기간검색</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
-		<th scope="row">구분검색</th>
-		<td>
-		    <label><input type="radio" name="gubun" value=""<?php echo ($gubun=='') ? ' checked' : '';?>>전체</label>
-			<label><input type="radio" name="gubun" value="0"<?php echo ($gubun=='0') ? ' checked' : '';?>>팝니다</label>
-			<label><input type="radio" name="gubun" value="1"<?php echo ($gubun=='1') ? ' checked' : '';?>>삽니다</label>
-		</td>
+	    <th scope="row">구분검색</th>
+	    <td>
+	        <ul class="radio_group">
+	            <li class="radios"><input type="radio" name="gubun" value="" id="gubun1"<?php echo ($gubun=='') ? ' checked' : '';?>><label for="gubun1">전체</label></li>
+	            <li class="radios"><input type="radio" name="gubun" value="0" id="gubun2"<?php echo ($gubun=='0') ? ' checked' : '';?>><label for="gubun2">팝니다</label></li>
+	            <li class="radios"><input type="radio" name="gubun" value="1" id="gubun3"<?php echo ($gubun=='1') ? ' checked' : '';?>><label for="gubun3">삽니다</label></li>
+	        </ul>
+	    </td>
 	</tr>
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+<div class="board_btns tac mart20">
+    <div class="btn_wrap">
+        <input type="submit" value="검색" class="btn_acc marr10">
+        <input type="button" value="초기화" id="frmRest" class="btn_cen">
+    </div>
 </div>
 </form>
 
@@ -124,7 +135,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 		<col class="w60">
 		<col class="w100">
 		<col class="w200">
-		<col class="w110">
+		<col width="250px">
 	</colgroup>
 	<thead>
 	<tr>
@@ -164,8 +175,10 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 		<td><?php echo $row['mb_id']; ?></td>
 		<td><?php echo $row['regdate']; ?></td>
 		<td>
-		    <a href="<?php echo BV_ADMIN_URL.'/used.php?code=view&no='.$row['no'].$q2; ?>" class="btn_ssmall red">상세</a> &nbsp; &nbsp;
-			<a href="<?php echo BV_ADMIN_URL.'/used.php?code=form&no='.$row['no'].$q2; ?>" class="btn_ssmall">수정</a>
+            <div class="btn_wrap">
+                <a href="<?php echo BV_ADMIN_URL.'/used.php?code=view&no='.$row['no'].$q2; ?>" class="detail color_type"><span>상세보기</span></a>
+                <a href="<?php echo BV_ADMIN_URL.'/used.php?code=form&no='.$row['no'].$q2; ?>" class="btn_del bg_type2"><span>수정</span></a>
+            </div>
 		</td>
 	</tr>
 	<?php

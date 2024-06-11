@@ -1,6 +1,91 @@
 <?php
 include_once "./_common.php";
 
+$today = date('Y-m-d'); // 오늘 날짜
+<<<<<<< Updated upstream
+echo "test";
+=======
+echo "sdfasdgsdg";
+>>>>>>> Stashed changes
+// 요일 배열과 매핑을 설정합니다.
+$daysOfWeekMap = ['일' => 0, '월' => 1, '화' => 2, '수' => 3, '목' => 4, '금' => 5, '토' => 6];
+
+// DB에서 배송 관련 데이터 가져오기
+$sql = "SELECT * FROM shop_order_reg WHERE od_reg_total_num > od_reg_num";
+$res = sql_query($sql);
+
+// 배송 대상 주문을 저장할 배열
+$deliveryTargets = [];
+
+while ($row = sql_fetch_array($res)) {
+  $beginDate            = $row['od_begin_date'];         // 배송 시작일
+  $deliveryCycle        = $row['od_week'];               // 배송 주기
+  $totalDeliveryCount   = $row['od_reg_total_num'];      // 총 배송 횟수
+  $currentDeliveryCount = $row['od_reg_num'];            // 현재 배송 횟수
+  $deliveryDays         = explode(',', $row['od_wday']); // 배송 요일 (월, 수 등)
+  $orderId              = $row['index_no'];              // 주문 번호
+
+  // 시작 날짜가 0000-00-00인 경우 무시
+  if ($beginDate === '0000-00-00') {
+    continue;
+  }
+
+  // 현재 배송 횟수와 총 배송 횟수가 같으면 주문을 중단
+  if ($currentDeliveryCount >= $totalDeliveryCount) {
+    continue;
+  }
+
+  // 다음 배송 날짜 계산
+  $nextDeliveryDate = $beginDate;
+  $cycleCount       = $currentDeliveryCount;
+
+  // 배송 요일을 반복하여 다음 배송 날짜 찾기
+  while ($cycleCount < $totalDeliveryCount) {
+    foreach ($deliveryDays as $day) {
+      $day = trim($day); // 앞뒤 공백 제거
+
+      // 배송 시작일이 과거이면 다음 배송 요일을 계산
+      if (strtotime($nextDeliveryDate) < strtotime($today)) {
+        $nextDeliveryDate = date('Y-m-d', strtotime("next {$day}", strtotime($nextDeliveryDate)));
+      }
+
+      // 배송 주기 반영
+      if ($cycleCount > 0 && $cycleCount % count($deliveryDays) == 0) {
+        $nextDeliveryDate = date('Y-m-d', strtotime("+{$deliveryCycle} weeks", strtotime($nextDeliveryDate)));
+      }
+
+      // 배송 날짜가 오늘 이후인 경우 계산을 멈추고 조건 확인
+      if (strtotime($nextDeliveryDate) >= strtotime($today)) {
+        $cycleCount++;
+        break;
+      }
+    }
+
+    // 무한 루프 방지
+    if (strtotime($nextDeliveryDate) >= strtotime('+1 year', strtotime($today))) {
+      break;
+    }
+  }
+
+  // 배송 날짜의 3일 전 조건을 확인하여 결제 대상인지 확인
+  $checkDate = date('Y-m-d', strtotime('-3 days', strtotime($nextDeliveryDate)));
+  if (strtotime($checkDate) <= strtotime($today) && strtotime($nextDeliveryDate) >= strtotime($today)) {
+    // 배송 대상 주문을 배열에 저장
+    $deliveryTargets[] = [
+      'orderId'          => $orderId,
+      'nextDeliveryDate' => $nextDeliveryDate,
+      'checkDate'        => $checkDate,
+    ];
+  }
+}
+
+// deliveryTargets 출력
+echo "<pre>";
+print_r($deliveryTargets);
+echo "</pre>";
+
+exit;
+
 $today      = date('w'); // 0 (일요일)부터 6 (토요일)까지
 $daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 

@@ -7,8 +7,8 @@ if(!defined('_BLUEVATION_')) exit;
 <form name="fregisterform" id="fregisterform" action="./member/member_register_form_update.php" onsubmit="return fregisterform_submit(this);" method="post" autocomplete="off">
 <input type="hidden" name="token" value="">
 
-<h2>사이트 이용정보 입력</h2>
-<div class="tbl_frm01">
+<h5 class="htag_title">사이트 이용정보 입력</h5>
+<div class="board_table mart20">
 	<table>
 	<colgroup>
 		<col class="w180">
@@ -18,25 +18,28 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row"><label for="reg_mb_id">아이디</label></th>
 		<td>
-			<input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required" size="20" maxlength="20">
+			<input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required w400" size="20" maxlength="20">
 			<span id="msg_mb_id"></span>
 			<?php echo help('영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요.'); ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="reg_mb_password">비밀번호</label></th>
-		<td><input type="password" name="mb_password" id="reg_mb_password" required class="frm_input required" size="20" maxlength="20"> 4자 이상의 영문 및 숫자</td>
+		<td>
+            <input type="password" name="mb_password" id="reg_mb_password" required class="frm_input required w400 marr10" size="20" maxlength="20">
+            <?php echo help('4자 이상의 영문 및 숫자'); ?>
+        </td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="reg_mb_password_re">비밀번호 확인</label></th>
-		<td><input type="password" name="mb_password_re" id="reg_mb_password_re" required class="frm_input required" size="20" maxlength="20"></td>
+		<td><input type="password" name="mb_password_re" id="reg_mb_password_re" required class="frm_input required w400" size="20" maxlength="20"></td>
 	</tr>
 	</tbody>
 	</table>
 </div>
-
-<h2 class="mart30">개인정보 입력</h2>
-<div class="tbl_frm01">
+<p class="gap70"></p>
+<h5 class="htag_title">개인정보 입력</h5>
+<div class="board_table mart20">
 	<table>
 	<colgroup>
 		<col class="w180">
@@ -45,81 +48,107 @@ if(!defined('_BLUEVATION_')) exit;
 	<tbody>
 	<tr>
 		<th scope="row"><label for="reg_mb_name">이름(실명)</label></th>
-		<td><input type="text" name="mb_name" id="reg_mb_name" required class="frm_input required" size="20"></td>
+		<td><input type="text" name="mb_name" id="reg_mb_name" required class="frm_input required w400" size="20"></td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="reg_mb_tel">전화번호</label></th>
-		<td><input type="text" name="mb_tel" id="reg_mb_tel" class="frm_input" size="20" maxlength="20"></td>
+		<td><input type="text" name="mb_tel" id="reg_mb_tel" class="frm_input w400" size="20" maxlength="20"></td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="reg_mb_hp">휴대폰번호</label></th>
 		<td>
-			<input type="text" name="mb_hp" id="reg_mb_hp" class="frm_input" size="20" maxlength="20">
-			<span class="frm_info">
+			<input type="text" name="mb_hp" id="reg_mb_hp" class="frm_input w400" size="20" maxlength="20">
+			<div class="checks mart10">
 				<label><input type="checkbox" name="mb_sms" value="Y" checked="checked"> 휴대폰 문자메세지를 받겠습니다.</label>
-			</span>
+			</div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="reg_mb_email">E-mail</label></th>
 		<td>
-			<input type="text" name="mb_email" id="reg_mb_email" required class="frm_input required" size="40" maxlength="100">
-			<span class="frm_info">
+			<input type="text" name="mb_email" id="reg_mb_email" required class="frm_input required w400" size="40" maxlength="100">
+			<div class="checks mart10">
 				<label><input type="checkbox" name="mb_mailling" value="Y" id="reg_mb_mailling" checked="checked"> 정보 메일을 받겠습니다.</label>
-			</span>
+			</div>
 		</td>
 	</tr>
     <tr>
         <th scope="row">본인확인방법</th>
         <td>
-            <input type="radio" name="mb_certify_case" value="ipin" id="mb_certify_ipin">
-            <label for="mb_certify_ipin">아이핀</label>
-            <input type="radio" name="mb_certify_case" value="hp" id="mb_certify_hp">
-            <label for="mb_certify_hp">휴대폰</label>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="mb_certify_case" value="ipin" id="mb_certify_ipin">
+                    <label for="mb_certify_ipin">아이핀</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="mb_certify_case" value="hp" id="mb_certify_hp">
+                    <label for="mb_certify_hp">휴대폰</label>
+                </li>
+            </ul>
         </td>
     </tr>
     <tr>
         <th scope="row">본인확인</th>
         <td>
-            <input type="radio" name="mb_certify" value="1" id="mb_certify_yes">
-            <label for="mb_certify_yes">예</label>
-            <input type="radio" name="mb_certify" value="" id="mb_certify_no" checked="checked">
-            <label for="mb_certify_no">아니오</label>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="mb_certify" value="1" id="mb_certify_yes">
+                    <label for="mb_certify_yes">예</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="mb_certify" value="" id="mb_certify_no" checked="checked">
+                    <label for="mb_certify_no">아니오</label>
+                </li>
+            </ul>
         </td>
 	</tr>
   <tr>
       <th scope="row">성인인증</th>
       <td>
-          <input type="radio" name="mb_adult" value="1" id="mb_adult_yes">
+        <ul class="radio_group">
+                <li class="radios">
+                <input type="radio" name="mb_adult" value="1" id="mb_adult_yes">
           <label for="mb_adult_yes">예</label>
-          <input type="radio" name="mb_adult" value="0" id="mb_adult_no" checked="checked">
-          <label for="mb_adult_no">아니오</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="mb_adult" value="0" id="mb_adult_no" checked="checked">
+                    <label for="mb_adult_no">아니오</label>
+                </li>
+            </ul>
       </td>
   </tr>
   <tr>
     <th scope="row">레벨</th>
     <td>
-      <?php echo get_member_select("mb_grade", $mb['grade']); ?>
+        <div class="chk_select">
+            <?php echo get_member_select("mb_grade", $mb['grade']); ?>
+        </div>
     </td>
   </tr>
 	<tr>
 		<th scope="row">주소</th>
 		<td>
-			<label for="reg_mb_zip" class="sound_only">우편번호</label>
-			<input type="text" name="mb_zip" id="reg_mb_zip" class="frm_input" size="8" maxlength="5">
-			<button type="button" class="btn_small" onclick="win_zip('fregisterform', 'mb_zip', 'mb_addr1', 'mb_addr2', 'mb_addr3', 'mb_addr_jibeon');">주소검색</button><br>
-			<input type="text" name="mb_addr1" id="reg_mb_addr1" class="frm_input frm_address" size="60">
-			<label for="reg_mb_addr1">기본주소</label><br>
-			<input type="text" name="mb_addr2" id="reg_mb_addr2" class="frm_input frm_address" size="60">
-			<label for="reg_mb_addr2">상세주소</label><br>
-			<input type="text" name="mb_addr3" id="reg_mb_addr3" class="frm_input frm_address" size="60" readonly="readonly">
-			<label for="reg_mb_addr3">참고항목</label>
-			<input type="hidden" name="mb_addr_jibeon" value="">
+            <div class="write_address">
+                <div class="file_wrap address">
+                    <label for="reg_mb_zip" class="sound_only">우편번호</label>
+                    <input type="text" name="mb_zip" id="reg_mb_zip" class="frm_input" size="8" maxlength="5">
+                    <button type="button" class="btn_file" onclick="win_zip('fregisterform', 'mb_zip', 'mb_addr1', 'mb_addr2', 'mb_addr3', 'mb_addr_jibeon');">주소검색</button>
+                </div>
+                <div class="addressMore">
+                    <input type="text" name="mb_addr1" id="reg_mb_addr1" class="frm_input frm_address" size="60">
+                    <label for="reg_mb_addr1" class="hide">기본주소</label>
+                    <input type="text" name="mb_addr2" id="reg_mb_addr2" class="frm_input frm_address" size="60">
+                    <label for="reg_mb_addr2" class="hide">상세주소</label>
+                    <input type="hidden" name="mb_addr_jibeon" value="">
+                </div>
+                <input type="text" name="mb_addr3" id="reg_mb_addr3" class="frm_input frm_address" size="60" readonly="readonly">
+                <label for="reg_mb_addr3" class="hide">참고항목</label>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="reg_mb_recommend">추천인</label></th>
-		<td><input type="text" name="mb_recommend" value="admin" id="reg_mb_recommend" required class="frm_input required"></td>
+		<td><input type="text" name="mb_recommend" value="admin" id="reg_mb_recommend" required class="frm_input required w400"></td>
 	</tr>
 	</tbody>
 	</table>
@@ -230,9 +259,12 @@ if(!defined('_BLUEVATION_')) exit;
     </tbody>
 	</table>
 </div> -->
-<div class="btn_confirm">
-	<input type="submit" value="저장" id="btn_submit" class="btn_large" accesskey="s">
+<div class="board_btns tac mart20">
+    <div class="btn_wrap">
+        <input type="submit" value="저장" id="btn_submit" class="btn_acc" accesskey="s">
+    </div>
 </div>
+
 </form>
 
 <script>

@@ -52,11 +52,12 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 	<section class="new_win_desc marb50">
 
 	<?php echo mb_pg_anchor($mb_id); ?>
-
-	<h3 class="anc_tit">기본검색</h3>
+    <p class="gap30"></p>
+	<h5 class="htag_title">기본검색</h5>
+    <p class="gap20"></p>
 	<form name="fsearch" id="fsearch" method="get">
 	<input type="hidden" name="mb_id" value="<?php echo $mb_id; ?>">
-	<div class="tbl_frm01">
+	<div class="board_table">
 		<table>
 		<colgroup>
 			<col class="w100">
@@ -66,30 +67,34 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<tr>
 			<th scope="row">기간검색</th>
 			<td>
-				<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+                <div class="tel_input">
+                    <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+                </div>
 			</td>
 		</tr>
 		</tbody>
 		</table>
 	</div>
-	<div class="btn_confirm">
-		<input type="submit" value="검색" class="btn_medium">
-		<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
-	</div>
+    <div class="board_btns tac mart20">
+        <div class="btn_wrap">
+            <input type="submit" value="검색" class="btn_acc marr10">
+            <input type="button" value="초기화" id="frmRest" class="btn_cen">
+        </div>
+    </div>
 	</form>
 
-	<div class="local_ov mart30">
+	<div class="local_ov mart30 fs18">
 		전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 		<strong class="ov_a">포인트 합계 : <?php echo number_format($sum_point); ?>원</strong>
 	</div>
 
-	<div class="tbl_head01">
-		<table>
+	<div class="board_list">
+		<table class="list01">
 		<colgroup>
 			<col class="w50">
 			<col>
-			<col class="w130">
-			<col class="w90">
+			<col class="w200">
+			<col class="w200">
 			<col class="w90">
 			<col class="w90">
 		</colgroup>
@@ -116,15 +121,15 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		?>
 		<tr class="<?php echo $bg; ?>">
 			<td><?php echo $num--; ?></td>
-			<td class="tal"><?php echo $row['po_content']; ?></td>
+			<td><?php echo $row['po_content']; ?></td>
 			<td><?php echo $row['po_datetime']; ?></td>
-			<td class="tac<?php echo $expr; ?>">
+			<td class="<?php echo $expr; ?>">
 				<?php if($row['po_expired'] == 1) { ?>
 				만료<?php echo substr(str_replace('-', '', $row['po_expire_date']), 2); ?>
 				<?php } else echo $row['po_expire_date'] == '9999-12-31' ? '&nbsp;' : $row['po_expire_date']; ?>
 			</td>
-			<td class="tar"><?php echo number_format($row['po_point']); ?></td>
-			<td class="tar"><?php echo number_format($row['po_mb_point']); ?></td>
+			<td><?php echo number_format($row['po_point']); ?></td>
+			<td><?php echo number_format($row['po_mb_point']); ?></td>
 		</tr>
 		<?php
 		}

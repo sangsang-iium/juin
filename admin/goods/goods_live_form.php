@@ -28,10 +28,10 @@ if($pl['live_time']) {
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 <input type="hidden" name="index_no" value="<?php echo $index_no; ?>">
 
-<div class="tbl_frm02">
+<div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -42,36 +42,38 @@ if($pl['live_time']) {
 	<tr>
 		<th scope="row">라이브 시간</th>
 		<td>
-			<?php 
-				$dateArr = array(
-					array('weekname'=>'월','weekval'=>'mon'),
-					array('weekname'=>'화','weekval'=>'tues'),
-					array('weekname'=>'수','weekval'=>'wednes'),
-					array('weekname'=>'목','weekval'=>'thurs'),
-					array('weekname'=>'금','weekval'=>'fri'),
-					array('weekname'=>'토','weekval'=>'satur'),
-					array('weekname'=>'일','weekval'=>'sun'),
-				);
+                <?php 
+                    $dateArr = array(
+                        array('weekname'=>'월','weekval'=>'mon'),
+                        array('weekname'=>'화','weekval'=>'tues'),
+                        array('weekname'=>'수','weekval'=>'wednes'),
+                        array('weekname'=>'목','weekval'=>'thurs'),
+                        array('weekname'=>'금','weekval'=>'fri'),
+                        array('weekname'=>'토','weekval'=>'satur'),
+                        array('weekname'=>'일','weekval'=>'sun'),
+                    );
 
-				foreach ($dateArr as $dateVal) {
-					foreach ($liveTimeArr as $liveTimeVal) {
-						if($liveTimeVal['live_date'] == $dateVal['weekval']) {
-							$liveTimeChecked[$dateVal['weekval']]['checked'] = ' checked';
-							$liveTimeChecked[$dateVal['weekval']]['live_start_time'] = $liveTimeVal['live_start_time'];
-							$liveTimeChecked[$dateVal['weekval']]['live_end_time'] = $liveTimeVal['live_end_time'];
-						}
-					}
-			?>
-				<div>
-					<label for="live_mon"><?php echo $dateVal['weekname'] ?></label>
-					<input type="checkbox" name="<?php echo $dateVal['weekval'] ?>_live" id="<?php echo $dateVal['weekval'] ?>_live" value="Y" <?php echo $liveTimeChecked[$dateVal['weekval']]['checked']; ?> >
-					<input type="text" name="<?php echo $dateVal['weekval'] ?>_start_time" value="<?php echo $liveTimeChecked[$dateVal['weekval']]['live_start_time'] ?>" id="<?php echo $dateVal['weekval'] ?>_start_time" class="frm_input w80" maxlength="10">
-					~
-					<input type="text" name="<?php echo $dateVal['weekval'] ?>_end_time" value="<?php echo $liveTimeChecked[$dateVal['weekval']]['live_end_time'] ?>" id="<?php echo $dateVal['weekval'] ?>_end_time" class="frm_input w80" maxlength="10">
-				</div>
-			<?php
-				}
-			?>
+                    foreach ($dateArr as $dateVal) {
+                        foreach ($liveTimeArr as $liveTimeVal) {
+                            if($liveTimeVal['live_date'] == $dateVal['weekval']) {
+                                $liveTimeChecked[$dateVal['weekval']]['checked'] = ' checked';
+                                $liveTimeChecked[$dateVal['weekval']]['live_start_time'] = $liveTimeVal['live_start_time'];
+                                $liveTimeChecked[$dateVal['weekval']]['live_end_time'] = $liveTimeVal['live_end_time'];
+                            }
+                        }
+                ?>
+                    <div class="mart10 tel_input">
+                        <div class="checks">
+                            <input type="checkbox" name="<?php echo $dateVal['weekval'] ?>_live" id="<?php echo $dateVal['weekval'] ?>_live" value="Y" <?php echo $liveTimeChecked[$dateVal['weekval']]['checked']; ?> >
+                            <label for="<?php echo $dateVal['weekval'] ?>_live"><?php echo $dateVal['weekname'] ?></label>
+                        </div>
+                        <input type="text" name="<?php echo $dateVal['weekval'] ?>_start_time" value="<?php echo $liveTimeChecked[$dateVal['weekval']]['live_start_time'] ?>" id="<?php echo $dateVal['weekval'] ?>_start_time" class="frm_input tac w120" maxlength="10">
+                        ~
+                        <input type="text" name="<?php echo $dateVal['weekval'] ?>_end_time" value="<?php echo $liveTimeChecked[$dateVal['weekval']]['live_end_time'] ?>" id="<?php echo $dateVal['weekval'] ?>_end_time" class="frm_input tac w120" maxlength="10">
+                    </div>
+                <?php
+                    }
+                ?>
 		</td>
 	</tr>
 	<tr>
@@ -114,19 +116,36 @@ if($pl['live_time']) {
 </form>
 
 <script>
-	$(document).ready(function() {
-		$('#mon_start_time ,#tues_start_time ,#wednes_start_time ,#thurs_start_time ,#fri_start_time ,#satur_start_time ,#sun_start_time , #mon_end_time , #tues_end_time , #wednes_end_time , #thurs_end_time , #fri_end_time , #satur_end_time , #sun_end_time  ').on('focus', function() {
-			$(this).val('');
-		}).on('input', function() {
-			var inputValue = $(this).val().replace(/\D/g, '');
-			var formattedTime = formatTime(inputValue);
-			$(this).val(formattedTime);
-		}).on('keydown', function(event) {
-			if (event.key === 'Backspace' && $(this).val().length === 3 && $(this).val().includes(':')) {
-			$(this).val($(this).val().slice(0, 2));
-			}
+
+	// $(document).ready(function() {
+	// 	$('#mon_start_time ,#tues_start_time ,#wednes_start_time ,#thurs_start_time ,#fri_start_time ,#satur_start_time ,#sun_start_time , #mon_end_time , #tues_end_time , #wednes_end_time , #thurs_end_time , #fri_end_time , #satur_end_time , #sun_end_time  ').on('focus', function() {
+	// 		$(this).val('');
+	// 	}).on('input', function() {
+	// 		var inputValue = $(this).val().replace(/\D/g, '');
+	// 		var formattedTime = formatTime(inputValue);
+	// 		$(this).val(formattedTime);
+	// 	}).on('keydown', function(event) {
+	// 		if (event.key === 'Backspace' && $(this).val().length === 3 && $(this).val().includes(':')) {
+	// 		$(this).val($(this).val().slice(0, 2));
+	// 		}
+	// 	});
+	// });
+
+
+
+	$(document).ready(function(){
+		$('#mon_start_time ,#tues_start_time ,#wednes_start_time ,#thurs_start_time ,#fri_start_time ,#satur_start_time ,#sun_start_time , #mon_end_time , #tues_end_time , #wednes_end_time , #thurs_end_time , #fri_end_time , #satur_end_time , #sun_end_time ').timepicker({
+			timeFormat: 'HH:mm', // 시간 표시 형식 설정
+			interval: 30, // 30분 단위로 설정
+			minTime: '00:00', // 최소 시간 설정
+			maxTime: '23:30', // 최대 시간 설정
+			startTime: '00:00', // 시작 시간 설정
+			dynamic: false,
+			dropdown: true,
+			scrollbar: true
 		});
 	});
+		
 
 	function formatTime(time) {
 		if (time === '') {

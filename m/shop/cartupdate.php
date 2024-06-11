@@ -90,7 +90,8 @@ if ($act == "buy") {
   $del_table = "shop_cart";
   $del_where = " WHERE index_no = '{$index_no}' ";
   $CART_DELETE = new IUD_Model;
-  $CART_DELETE->delete($del_table, $del_where);
+  $dddddd = $CART_DELETE->delete($del_table, $del_where);
+  echo $dddddd;
 } else // 장바구니에 담기
 {
 	$count = count($_POST['gs_id']);
@@ -228,9 +229,9 @@ if ($act == "buy") {
       $od_no = cart_uniqid();
 
       $sql = " insert into shop_cart
-						( ca_id, mb_id, gs_id, ct_direct, ct_time, ct_price, ct_supply_price, ct_qty, ct_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, od_no, ct_ip )
+						( ca_id, mb_id, gs_id, ct_direct, ct_time, ct_price, ct_supply_price, ct_qty, ct_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, od_no, ct_ip, reg_yn )
 					VALUES ";
-      $sql .= "( '$ca_id', '{$member['id']}', '{$gs['index_no']}', '$set_cart_id', '" . BV_TIME_YMDHIS . "', '{$gs['goods_price']}', '{$gs['supply_price']}', '$ct_qty', '{$gs['gpoint']}', '$io_id', '$io_type', '$io_supply_price', '$io_price', '$io_value', '$ct_send_cost', '$od_no', '{$_SERVER['REMOTE_ADDR']}' )";
+      $sql .= "( '$ca_id', '{$member['id']}', '{$gs['index_no']}', '$set_cart_id', '" . BV_TIME_YMDHIS . "', '{$gs['goods_price']}', '{$gs['supply_price']}', '$ct_qty', '{$gs['gpoint']}', '$io_id', '$io_type', '$io_supply_price', '$io_price', '$io_value', '$ct_send_cost', '$od_no', '{$_SERVER['REMOTE_ADDR']}', '{$paytype}' )";
       sql_query($sql);
       $ss_cart_id .= $comma . sql_insert_id();
       $comma = ",";
@@ -250,6 +251,6 @@ if ($sw_direct) {
   }
 
 } else {
-  goto_url(BV_MSHOP_URL . "/cart.php");
+  goto_url(BV_MSHOP_URL . "/cart.php?paytype={$paytype}");
 }
 ?>

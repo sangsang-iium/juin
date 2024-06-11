@@ -1,5 +1,6 @@
 <?php
 if (!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
+include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 
 require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 ?>
@@ -94,6 +95,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   #sod_frm_pay .sod_frm_pay_ul {display: flex; flex-flow: row wrap; gap: 10px 20px;}
   #sod_frm .odf_tbl table tbody td,
   #sod_frm .odf_tbl table tbody th {font-size: 1.8rem; border: 1px solid #ddd}
+  .frm-choice {margin-right: 16px;}
 </style>
 
 <div id="contents" class="sub-contents prodOrder">
@@ -118,6 +120,17 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             order by index_no ";
       $result = sql_query($sql);
       for ($i = 0; $row = sql_fetch_array($result); $i++) {
+        $raffleCheck = false;
+        if($row['raffle'] == 1) {
+          $raffleCheck = true;
+          $raffleIndexNo = preg_replace('/000000$/', '', $row['gs_id']);
+          $gs = raffleDetail($raffleIndexNo);
+          $it_name = stripslashes($gs['goods_name']);
+          $sell_qty = 1;
+          $config['usepoint_yes'] = 0;
+          $tot_sell_price = $gs['raffle_price'];
+          $gs['reg_yn'] = 1;
+        } else {
         $gs = get_goods($row['gs_id']);
 
         // 합계금액 계산
@@ -157,6 +170,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $seller_id[$i] = $gs['mb_id'];
 
         $href = BV_MSHOP_URL . '/view.php?gs_id=' . $row['gs_id'];
+        }
       ?>
 
         <div class="cp-cart-item">
@@ -171,7 +185,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
           <div class="cp-cart-body">
             <div class="thumb round60">
-              <img src="<?php echo get_it_image_url($row['gs_id'], $gs['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
+              <?php if($raffleCheck) { ?>
+                <img src="<?php echo get_raffle_img_src($gs['simg1']); ?>" alt="<?php echo $it_name; ?>" class="fitCover">
+              <?php } else { ?>
+                <img src="<?php echo get_it_image_url($row['gs_id'], $gs['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
+              <?php } ?>
             </div>
             <div class="content">
               <p class="name"><?php echo $it_name; ?></p>
@@ -335,10 +353,15 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       <input type="hidden" name="baesong_price" value="<?php echo $baesong_price; ?>">
       <input type="hidden" name="baesong_price2" value="0">
       <input type="hidden" name="org_price" value="<?php echo $tot_price; ?>">
+      <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
+
       <?php if (!$is_member || !$config['usepoint_yes']) { ?>
         <input type="hidden" name="use_point" value="0">
       <?php } ?>
 
+      <?php
+        if ($gs['reg_yn'] == 1 && !$raffleCheck) {
+      ?>
       <!-- 2024-06-03 : 정기기간 / 배송일 추가 -->
       <div class="bottomBlank">
         <div class="container">
@@ -347,68 +370,115 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               <span class="od-tit">정기기간/배송일</span>
             </button>
           </div>
-
           <div class="od-ct info-list">
             <div class="info-item">
               <p class="tit">배송요일</p>
-              <div class="check-wr">
+              <div class="check-wr" style="display: flex;flex-direction: row;">
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk1" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk1" value="1">
                   <label for="chk1">월</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk2" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk2" value="2">
                   <label for="chk2">화</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk3" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk3" value="3">
                   <label for="chk3">수</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk4" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk4" value="4">
                   <label for="chk4">목</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk5" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk5" value="5">
                   <label for="chk5">금</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="chk" id="chk6" value="">
+                  <input type="checkbox" name="od_wday[]" id="chk6" value="6">
                   <label for="chk6">토</label>
                 </div>
               </div>
             </div>
-            <div class="info-item">
+            <div class="info-item" style="display:none">
               <p class="tit">배송주기</p>
               <div class="select-wr">
-                <select name="" id="" class="frm-select">
-                  <option value="">1주마다 배송</option>
-                  <option value="">2주마다 배송</option>
-                  <option value="">3주마다 배송</option>
-                  <option value="">4주마다 배송</option>
+                <select name="od_week" id="od_week" class="frm-select">
+                  <option value="1" selected>1주마다 배송</option>
+                  <option value="2">2주마다 배송</option>
+                  <option value="3">3주마다 배송</option>
+                  <option value="4">4주마다 배송</option>
                 </select>
               </div>
             </div>
-            <div class="info-item">
+            <div class="info-item" style="display:none">
               <p class="tit">배송횟수</p>
               <div class="select-wr">
-                <select name="" id="" class="frm-select">
-                  <option value="">2회</option>
-                  <option value="">4회</option>
-                  <option value="">6회</option>
-                  <option value="">8회</option>
-                  <option value="">10회</option>
-                  <option value="">12회</option>
+                <select name="od_reg_cnt" id="od_reg_cnt" class="frm-select">
+                  <option value="2">2회</option>
+                  <option value="4">4회</option>
+                  <option value="6">6회</option>
+                  <option value="8">8회</option>
+                  <option value="10">10회</option>
+                  <option value="12">12회</option>
+                  <option value="52" selected>52회</option>
                 </select>
               </div>
             </div>
             <div class="info-item">
               <p class="tit">첫 배송 시점</p>
-              <input type="date" class="frm-input" value="2024-06-03">
+              <input type="text" id="od_begin_date" name="od_begin_date" class="frm-input" value="">
             </div>
           </div>
         </div>
       </div>
+
+       <script>
+        $(function() {
+            function getSelectedWeekdays() {
+                var selectedWeekdays = [];
+                $('input[name^="od_wday"]:checked').each(function() {
+                    selectedWeekdays.push(parseInt($(this).val()));
+                });
+                return selectedWeekdays;
+            }
+
+            $('#od_begin_date').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy-mm-dd",
+                showButtonPanel: true,
+                yearRange: "-99:+99",
+                minDate: 0,
+                beforeShowDay: function(date) {
+                    var day = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+                    var selectedWeekdays = getSelectedWeekdays();
+                    if (selectedWeekdays.length === 0) {
+                        return [false, "", "배송요일을 선택하세요"]; // 요일이 선택되지 않은 경우
+                    }
+                    var currentDate = new Date();
+                    var daysDifference = (date - currentDate) / (1000 * 60 * 60 * 24);
+
+                      // 3일 이내의 날짜는 선택할 수 없도록 설정
+                    var isSelectable = selectedWeekdays.includes(day) && daysDifference > 3;
+                    return [isSelectable, "", isSelectable ? "" : "3일 이후의 날짜를 선택하세요"];
+                },
+                onSelect: function(selectedDate) {
+                    var currentDate = $.datepicker.formatDate('yy-mm-dd', new Date());
+                    if (selectedDate < currentDate) {
+                        alert('미래 날짜만 선택할 수 있습니다.');
+                        $('#od_begin_date').val('');
+                    }
+                }
+            });
+
+            $('input[name="od_wday[]"]').change(function() {
+                $('#od_begin_date').datepicker('refresh'); // 요일 선택 시 Datepicker 갱신
+            });
+        });
+    </script>
+          <?php } ?>
+
 
       <!-- 주문자 기본 정보 추가 _20240412_SY -->
       <div class="bottomBlank">
@@ -836,7 +906,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
             }
-            if($default['de_bank_use']) {
+            if($default['de_bank_use'] && $gs['reg_yn'] == 2) {
               // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
@@ -845,7 +915,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
             }
-            if($default['de_card_use']) {
+            if($default['de_card_use'] &&  $gs['reg_yn'] == 1) {
               // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
               // $multi_settle .= "<li>\n";
               // $multi_settle .= "<div class=\"frm-choice\">\n";
@@ -966,8 +1036,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row">이메일</th>
-                      <td><input type="text" name="customerEmail" value="" class="frm-input w-per100">
+                      <th scope="row">휴대전화</th>
+                      <td><input type="text" name="customerMobilePhone" value="" class="frm-input w-per100">
                       </td>
                     </tr>
                   </tbody>
@@ -983,15 +1053,24 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                   <tbody>
                     <tr>
                       <th scope="row"><label for="refund_bank">은행명</label></th>
-                      <td><input type="text" name="refund_bank" value="" class="frm-input w-per100" id="refund_bank"></td>
+                      <?php
+                        $refund_bank_code = $member['refund_bank'];
+
+                        // 은행 코드로 해당 은행 이름 찾기
+                        $bankCodes = array_column($BANKS, 'code');
+                        $bankIndex = array_search($refund_bank_code, $bankCodes);
+
+                        $refund_bank_name = ($bankIndex !== false) ? $BANKS[array_keys($BANKS)[$bankIndex]]['bank'] : "";
+                      ?>
+                      <td><input type="text" name="refund_bank" value="<?php echo $refund_bank_name ?>" class="frm-input w-per100" id="refund_bank"></td>
                     </tr>
                     <tr>
                       <th scope="row"><label for="refund_num">계좌번호</label></th>
-                      <td><input type="text" name="refund_num" value="" class="frm-input w-per100" id="refund_num"></td>
+                      <td><input type="text" name="refund_num" value="<?php echo $member['refund_num'] ?>" class="frm-input w-per100" id="refund_num"></td>
                     </tr>
                     <tr>
                       <th scope="row"><label for="refund_name">예금주</label></th>
-                      <td><input type="text" name="refund_name" value="" class="frm-input w-per100" id="refund_name"></td>
+                      <td><input type="text" name="refund_name" value="<?php echo $member['refund_name'] ?>" class="frm-input w-per100" id="refund_name"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -1022,10 +1101,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                           <option value="S">사업자 지출증빙용</option>
                         </select>
                         <div id="taxsave_fld_1" style="display:none;">
-                          <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호">
+                          <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호" value="<?php echo $member['cellphone'] ?>">
                         </div>
                         <div id="taxsave_fld_2" style="display:none;">
-                          <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호">
+                          <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호" value="<?php echo $member['ju_b_num'] ?>">
                         </div>
                       </td>
                     </tr>
@@ -1056,15 +1135,20 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             <section id="card_section" style="display:none;" >
               <h2 class="anc_tit">신용카드 선택</h2>
               <div class="odf_tbl">
+                <?php
+                  $sqlCard = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+                  $resCard = sql_query($sqlCard);
+                  $resNumRow = sql_num_rows($resCard);
+                  if ($resNumRow > 0) {
+                ?>
                 <select name="cardsel" id="cardsel">
-                  <?php
-                    $sqlCard = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
-                    $resCard = sql_query($sqlCard);
-                    for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {
-                  ?>
+                  <?php for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) { ?>
                     <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use']=="Y"?"selected":"" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
                   <?php } ?>
                 </select>
+                <?php } else {?>
+                  <a href="/m/shop/card.php">카드 등록</a>
+                <?php }?>
               </div>
             </section>
 
@@ -1449,11 +1533,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       if ((f.od_pwd.value.length < 3) || (f.od_pwd.value.search(/([^A-Za-z0-9]+)/) != -1))
         error_field(f.od_pwd, "회원이 아니신 경우 주문서 조회시 필요한 비밀번호를 3자리 이상 입력해 주십시오.");
     }
-    if(f.bank_code.value == "" ){
-      alert("가상계좌 은행 선택하세요.");
-      f.bank_code.focus();
-      return false;
-    }
+    // if(f.bank_code.value == "" ){
+    //   alert("가상계좌 은행 선택하세요.");
+    //   f.bank_code.focus();
+    //   return false;
+    // }
 
     if (getSelectVal(f["paymethod"]) == '무통장') {
       if (f.bank_code.value == "") {
@@ -1534,6 +1618,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   }
 
   function calculate_temp_point(val) {
+    console.log(val)
     var f = document.buyform;
     var temp_point = parseInt(no_comma(f.use_point.value));
     var sell_price = parseInt(f.org_price.value);
@@ -1593,7 +1678,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("#bank_section").show();
         $("#card_section").hide();
         $("#toss_section").hide();
-        $("input[name=use_point]").val(0);
+        // $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
         calculate_order_price();
 
@@ -1622,8 +1707,13 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("#card_section").show();
         $("#bank_section").hide();
         $("#toss_section").hide();
+        $("#refund_section").hide();
+        $("#taxsave_section").hide();
+        break;
+
       case '포인트':
         $("#bank_section").hide();
+        $("#card_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
         $("input[name=use_point]").attr("readonly", true);
         calculate_order_price();

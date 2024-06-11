@@ -267,14 +267,14 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 				<th scope="row">배송주기</th>
 				<td><?php echo $od['od_week']; ?></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<th scope="row">배송횟수</th>
 				<td><?php echo $od['od_reg_cnt']; ?></td>
 			</tr>
 			<tr>
 				<th scope="row">총 배송횟수</th>
 				<td><?php echo $od['od_reg_total_num']; ?></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<th scope="row">첫 배송 시점</th>
 				<td><?php echo $od['od_begin_date']; ?></td>
@@ -440,6 +440,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 			<form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquirycancel.php" onsubmit="return fcancel_check(this);">
 			<input type="hidden" name="od_id"  value="<?php echo $od_id; ?>">
 			<input type="hidden" name="token"  value="<?php echo $token; ?>">
+			<input type="hidden" name="reg_yn"  value="<?php echo $reg_yn; ?>">
 			<label for="cancel_memo">취소사유</label>
 			<input type="text" name="cancel_memo" id="cancel_memo" required class="frm_input required" size="40" maxlength="100">
 			<input type="submit" value="확인" class="btn_small">

@@ -397,6 +397,15 @@ $income_per = ($supply_price / $goods_price) * 100;
 			<?php echo radio_checked('isopen', $gs['isopen'], '4', '중지'); ?>
 		</td>
 	</tr>
+		<tr>
+		<th scope="row">일반/정기배송 구분</th>
+		<td class="td_label" colspan="3">
+			<div class="radio_group">
+				<?php echo radio_checked('reg_yn', $gs['reg_yn'], '2', '일반배송'); ?>
+				<?php echo radio_checked('reg_yn', $gs['reg_yn'], '1', '정기배송'); ?>
+			</div>
+		</td>
+	</tr>
 	</tbody>
 	</table>
 </div>
@@ -1081,8 +1090,8 @@ $income_per = ($supply_price / $goods_price) * 100;
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p>※ <span>참고사항) : 고객이 동일 판매자의 상품을 복수 구매시 배송비는 단 한번만 부과 됩니다. 단! 배송비는 가장 큰값을 산출하여 적용 됩니다.</span></p>
-	<p>※ <span>조건부무료배송) : 고객이 동일 판매자의 상품을 복수 구매시 가장 큰 값의 (조건 배송비) 금액을 산출하여 최종배송비가 자동 적용 됩니다.</span></p>
-	<p>※ <span>유료배송) : 고객이 동일 판매자의 상품을 복수 구매시 가장 큰 값의 (기본 배송비) 금액을 산출하여 최종배송비가 자동 적용 됩니다.</span></p>
+	<!-- <p>※ <span>조건부무료배송) : 고객이 동일 판매자의 상품을 복수 구매시 가장 큰 값의 (조건 배송비) 금액을 산출하여 최종배송비가 자동 적용 됩니다.</span></p>
+	<p>※ <span>유료배송) : 고객이 동일 판매자의 상품을 복수 구매시 가장 큰 값의 (기본 배송비) 금액을 산출하여 최종배송비가 자동 적용 됩니다.</span></p> -->
 </div>
 <div class="tbl_frm02">
 	<table id="add_row">
@@ -1099,6 +1108,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 				<?php echo option_selected('1', $gs['sc_type'], '무료배송'); ?>
 				<?php //echo option_selected('2', $gs['sc_type'], '조건부무료배송'); ?>
 				<?php //echo option_selected('3', $gs['sc_type'], '유료배송'); ?>
+				<?php echo option_selected('4', $gs['sc_type'], '차량배송'); ?>
 			</select>
 			<a href="./page.php?code=seller_baesong" target="_blank" class="btn_small grey">설정</a>
 			<!-- <div id="sc_method" class="mart7">
@@ -1109,13 +1119,13 @@ $income_per = ($supply_price / $goods_price) * 100;
 				<?php echo option_selected('2', $gs['sc_method'], '사용자선택'); ?>
 				</select>
 			</div> -->
-			<div id="sc_amt" class="padt5">
+			<!-- <div id="sc_amt" class="padt5">
 				기본배송비 <input type="text" name="sc_amt" value="<?php echo number_format($gs['sc_amt']); ?>" class="frm_input w80 marl10" onkeyup="addComma(this);"> 원
 				<label class="marl10"><input type="checkbox" name="sc_each_use" value="1"<?php echo get_checked('1', $gs['sc_each_use']); ?>> 묶음배송불가</label>
 			</div>
 			<div id="sc_minimum" class="padt5">
 				조건배송비 <input type="text" name="sc_minimum" value="<?php echo number_format($gs['sc_minimum']); ?>" class="frm_input w80 marl10" onkeyup="addComma(this);"> 원 이상이면 무료배송
-			</div>
+			</div> -->
 		</td>
 	</tr>
 	<tr>

@@ -71,7 +71,7 @@ if($w == "")
 	// 최고 관리자에게 문자전송
 	icode_direct_sms_send('admin', $super_hp, $subject);
 
-    alert("정상적으로 등록 되었습니다.","replace");
+    alert("정상적으로 등록 되었습니다.","/m/shop/view.php?gs_id=".$gs_id);
 }
 else if($w == "u")
 {
@@ -86,7 +86,7 @@ else if($w == "u")
 			  where iq_id		= '$iq_id' ";
     sql_query($sql);
 
-	alert("정상적으로 수정 되었습니다.","replace");
+	alert("정상적으로 수정 되었습니다.","/m/shop/view.php?gs_id=".$gs_id);
 }
 else if($w == "d")
 {

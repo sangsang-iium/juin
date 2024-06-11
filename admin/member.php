@@ -16,8 +16,8 @@ if($code == "level_form")			$pg_title2 = ADMIN_MENU1_02;
 if($code == "register_form")		$pg_title2 = ADMIN_MENU1_03;
 if($code == "xls")					$pg_title2 = ADMIN_MENU1_04;
 if($code == "xls_update")			$pg_title2 = ADMIN_MENU1_04;
-if($code == "month")				$pg_title2 = ADMIN_MENU1_05;
-if($code == "day")					$pg_title2 = ADMIN_MENU1_06;
+// if($code == "month")				$pg_title2 = ADMIN_MENU1_05;
+// if($code == "day")					$pg_title2 = ADMIN_MENU1_06;
 if($code == "point")				$pg_title2 = ADMIN_MENU1_07;
 if($code == "pointxls")				$pg_title2 = ADMIN_MENU1_08;
 if($code == "pointxls_update")		$pg_title2 = ADMIN_MENU1_08;
@@ -28,6 +28,9 @@ if($code == "mail_form")			$pg_title2 = ADMIN_MENU1_10;
 if($code == "mail_select_form")		$pg_title2 = ADMIN_MENU1_10;
 if($code == "mail_select_list")		$pg_title2 = ADMIN_MENU1_10;
 if($code == "mail_select_update")	$pg_title2 = ADMIN_MENU1_10;
+if($code == "mail_select_update")	$pg_title2 = ADMIN_MENU1_10;
+// 탈퇴 추가 _20240604_SY
+if($code == "leave")		$pg_title2 = ADMIN_MENU8_02;
 
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>

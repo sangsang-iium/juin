@@ -52,16 +52,16 @@ $result = sql_query($sql);
 	</div>
 	</form>
 
-	<div class="local_frm01 mart20">
+	<div class="local_frm01 mart20 fs18">
 		전체 : <b class="fc_197"><?php echo number_format($total_count); ?></b> 명 조회
 	</div>
 	<div class="tbl_head01">
 		<table>
 		<colgroup>
-			<col class="w50">
+			<col class="w100">
 			<col class="w100">
 			<col>
-			<col class="w90">
+			<col class="w130">
 			<col class="w60">
 		</colgroup>
 		<thead>
@@ -82,8 +82,8 @@ $result = sql_query($sql);
 		?>
 		<tr class="<?php echo $bg; ?>">
 			<td><?php echo $num--; ?></td>
-			<td class="tal"><?php echo $row['id']; ?></td>
-			<td class="tal"><?php echo $row['name']; ?></td>
+			<td><?php echo $row['id']; ?></td>
+			<td><?php echo $row['name']; ?></td>
 			<td><?php echo substr($row['reg_time'],0,10); ?></td>
 			<td><button type="button" onClick="yes('<?php echo $row['name'].'|'.$row['id']; ?>')" class="btn_small grey">선택</button></td>
 		</tr>

@@ -41,14 +41,15 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>브랜드 등록</h2>
+<h5 class="htag_title">브랜드 등록</h5>
+<p class="gap20 "></p>
 <form name="fbrandlist2" id="fbrandlist2" action="./goods/goods_brand_form_update.php" method="post" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w100">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -69,8 +70,10 @@ EOF;
 	<tr>
 		<th scope="row">브랜드로고</th>
 		<td>
-			<input type="file" name="br_logo" id="br_logo">
-			<span class="fc_197">사이즈(128픽셀 * 40픽셀)</span>
+			<div>
+				<input type="file" name="br_logo" id="br_logo" class="w200">
+				<span class="fc_197">사이즈(128픽셀 * 40픽셀)</span>
+			</div>
 		</td>
 	</tr>
 	</tbody>
@@ -81,25 +84,31 @@ EOF;
 </div>
 </form>
 
-<h2>기본검색</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('br_name', $sfl, '브랜드명 (KOR)'); ?>
-				<?php echo option_selected('br_name_eng', $sfl, '브랜드명 (ENG)'); ?>
-				<?php echo option_selected('mb_id', $sfl, '회원ID'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+				<div class="chk_select w200">
+					<select name="sfl">
+						<?php echo option_selected('br_name', $sfl, '브랜드명 (KOR)'); ?>
+						<?php echo option_selected('br_name_eng', $sfl, '브랜드명 (ENG)'); ?>
+						<?php echo option_selected('mb_id', $sfl, '회원ID'); ?>
+					</select>
+				</div>
+				<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+			</div>
 		</td>
 	</tr>
 	</tbody>
@@ -115,7 +124,7 @@ EOF;
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
 <div class="local_frm01">
@@ -125,13 +134,13 @@ EOF;
 	<table>
 	<colgroup>
 		<col class="w50">
-		<col class="w50">
-		<col>
-		<col>
-		<col class="w130">
 		<col class="w80">
-		<col class="w110">
-		<col class="w60">
+		<col>
+		<col>
+		<col class="w150">
+		<col class="w100">
+		<col class="w170">
+		<col class="w150">
 	</colgroup>
 	<thead>
 	<tr>
@@ -151,7 +160,7 @@ EOF;
 
 		$row2 = sql_fetch("select count(*) as cnt from shop_goods where brand_uid='{$row['br_id']}'");
 
-		$s_upd = "<a href='./goods.php?code=brand_form&w=u&br_id=$br_id$qstr&page=$page' class=\"btn_small\">수정</a>";		
+		$s_upd = "<a href='./goods.php?code=brand_form&w=u&br_id=$br_id$qstr&page=$page' class=\"btn_fix bg_type2\"><span>수정</span></a>";		
 
 		if($i==0)
 			echo '<tbody class="list">'.PHP_EOL;
@@ -168,8 +177,18 @@ EOF;
 		<td><input type="text" name="br_name_eng[<?php echo $i; ?>]" value="<?php echo$row['br_name_eng']; ?>" class="frm_input"></td>
 		<td><?php echo $row['mb_id']; ?></td>
 		<td><?php echo number_format($row2['cnt']); ?></td>
-		<td><a href="/shop/brandlist.php?br_id=<?php echo $br_id; ?>" target="_blank" class="btn_small grey">브랜드 바로가기</a></td>
-		<td><?php echo $s_upd; ?></td>
+		<td>
+			<div class="btn_wrap">
+				<a href="/shop/brandlist.php?br_id=<?php echo $br_id; ?>" target="_blank" class="go">
+					<span>바로가기</span>
+				</a>
+			</div>
+		</td>
+		<td>
+			<div class="btn_wrap">
+				<?php echo $s_upd; ?>
+			</div>
+		</td>
 	</tr>
 	<?php 
 	}

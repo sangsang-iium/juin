@@ -57,34 +57,41 @@ EOF;
 
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
-	<table>
+<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('a.company_name', $sfl, '공급사명'); ?>
-				<?php echo option_selected('a.seller_code', $sfl, '업체코드'); ?>
-				<?php echo option_selected('a.info_name', $sfl, '담당자명'); ?>
-				<?php echo option_selected('a.company_owner', $sfl, '대표자명'); ?>
-				<?php echo option_selected('a.mb_id', $sfl, '아이디'); ?>
-				<?php echo option_selected('b.name', $sfl, '회원명'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('a.company_name', $sfl, '공급사명'); ?>
+                        <?php echo option_selected('a.seller_code', $sfl, '업체코드'); ?>
+                        <?php echo option_selected('a.info_name', $sfl, '담당자명'); ?>
+                        <?php echo option_selected('a.company_owner', $sfl, '대표자명'); ?>
+                        <?php echo option_selected('a.mb_id', $sfl, '아이디'); ?>
+                        <?php echo option_selected('b.name', $sfl, '회원명'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">신청일</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -100,7 +107,7 @@ EOF;
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
 <div class="local_frm01">
@@ -110,14 +117,14 @@ EOF;
 	<table>
 	<colgroup>
 		<col class="w50">
-		<col class="w50">
-		<col class="w50">
-		<col class="w130">
-		<col class="w130">
-		<col class="w80">
-		<col>
 		<col class="w100">
-		<col class="w130">
+		<col class="w100">
+		<col class="w200">
+		<col class="w200">
+		<col class="w200">
+		<col>
+		<col class="w200">
+		<col class="w300">
 	</colgroup>
 	<thead>
 	<tr>
@@ -151,10 +158,10 @@ EOF;
 		</td>
 		<td><?php echo $row['state']?'yes':'no'; ?></td>
 		<td><?php echo $gw_isopen[$row['seller_open']]; ?></td>
-		<td class="tal"><?php echo get_sideview($row['mb_id'], $row['name']); ?></td>
-		<td class="tal"><?php echo $row['mb_id']; ?></td>
+		<td><?php echo get_sideview($row['mb_id'], $row['name']); ?></td>
+		<td><?php echo $row['mb_id']; ?></td>
 		<td><?php echo $row['seller_code']; ?></td>
-		<td class="tal"><?php echo get_text($row['company_name']); ?></td>
+		<td><?php echo get_text($row['company_name']); ?></td>
 		<td><?php echo $row['company_tel']; ?></td>
 		<td><?php echo $row['reg_time']; ?></td>
 	</tr>

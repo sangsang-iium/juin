@@ -251,7 +251,7 @@ function get_raffle_ahead($it_img, $it_img_del)
 }
 
 
-function get_raffle_detail_ahead($it_img, $it_img_del)
+function get_raffle_detail_ahead($it_img)
 {
 	if(!trim($it_img)) return;
 
@@ -272,4 +272,137 @@ function raffleWinnerNumber($index_no) {
   $winnerNumber = $res['cnt'];
 
   return $winnerNumber;
+}
+
+
+function raffleList() {
+  $nowDate = date('Y-m-d H:i:s');
+  $sql = " SELECT * FROM shop_goods_raffle WHERE event_start_date <= '$nowDate' AND event_end_date >= '$nowDate' ";
+  $res  = sql_query($sql);
+  $list = array();
+  while ($rows = sql_fetch_array($res)) {
+    $list[] = $rows;
+  }
+
+  return $list;
+}
+
+function raffleEndList() {
+  $nowDate = date('Y-m-d H:i:s');
+  $sql = " SELECT * FROM shop_goods_raffle WHERE event_end_date <= '$nowDate' ";
+  $res  = sql_query($sql);
+  $list = array();
+  while ($rows = sql_fetch_array($res)) {
+    $list[] = $rows;
+  }
+
+  return $list;
+}
+
+function raffleDetail($index_no) {
+  $sql = " SELECT * FROM shop_goods_raffle WHERE index_no = '$index_no' ";
+  $res = sql_fetch($sql);
+  
+  return $res;
+}
+
+function get_raffle_img($it_img)
+{
+	if(!trim($it_img)) return;
+
+	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == true)
+		$file_url = $it_img;
+	else
+		$file_url = BV_DATA_URL."/raffle/".$it_img;
+
+	$str  = "<img src=\"".$file_url."\" alt=\"\">";
+
+	return $str;
+}
+
+function get_raffle_detail_img($it_img)
+{
+	if(!trim($it_img)) return;
+
+	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == true)
+		$file_url = $it_img;
+	else
+		$file_url = BV_DATA_URL."/raffle/".$it_img;
+
+	$str  = "<img src=\"".$file_url."\" class=\"fitCover\" alt=\"\">";
+
+	return $str;
+}
+
+function raffleEntryCheck($index_no,$entry,$entry_number) {
+  $raffleLimit = false;
+  if($entry == 0) {
+    $nowNum = raffleWinnerNumber($index_no);
+    $limitNum = $entry_number;
+    if($limitNum >= $nowNum) {
+      $raffleLimit = true;
+    }
+  }
+
+  return $raffleLimit;
+}
+
+function rafflePrizeCheck($index_no) {
+  global $member;
+  if($member['id']) {
+    $sql = " SELECT count(*) as cnt FROM shop_goods_raffle_log WHERE raffle_index = '$index_no' AND mb_id = '{$member['id']}' ";
+    $res = sql_fetch($sql);
+    if($res['cnt'] > 0) {
+      $check = false;
+    } else {
+      $check = true;
+    }
+  } else {
+    $check = true;   
+  }
+  
+  return $check;
+}
+
+
+function get_raffle_list_img($it_img)
+{
+	if(!trim($it_img)) return;
+
+	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == true)
+		$file_url = $it_img;
+	else
+		$file_url = BV_DATA_URL."/raffle/".$it_img;
+
+	$str  = "<img src=\"".$file_url."\" alt=\"\" style=\"width:140px;height:140px;\">";
+
+	return $str;
+}
+
+function raffleEventDateCheck($event_end_date,$prize_date) {
+  $raffleEndCheck = 0;
+  $nowDate = new DateTime();
+  $eventEndDate = new DateTime($event_end_date);
+  $prizeEndDate = new DateTime($prize_date);
+  if($nowDate < $eventEndDate) {
+    $raffleEndCheck = 1;
+  } else if($nowDate >= $eventEndDate && $nowDate < $prizeEndDate) {
+    $raffleEndCheck = 2;
+  } else if($nowDate >= $prizeEndDate) {
+    $raffleEndCheck = 3;
+  }
+
+  return $raffleEndCheck;
+}
+
+function get_raffle_img_src($it_img) {
+
+	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == true)
+		$file_url = $it_img;
+	else
+		$file_url = BV_DATA_URL."/raffle/".$it_img;
+
+	// $str  = "<img src=\"".$file_url."\" alt=\"\" style=\"width:140px;height:140px;\">";
+
+	return $file_url;
 }

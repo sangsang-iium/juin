@@ -77,12 +77,15 @@ while($row=sql_fetch_array($result)) {
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td><?php echo $no; ?></td>
-		<td class="tal"><?php echo $key; ?></td>
-		<td class="tal">
+		<td class=""><?php echo $key; ?></td>
+        <td>
+            <progress class="board_progress" max="100" value="<?php echo $s_rate; ?>">
+        </td>
+		<!-- <td class="tal">
 			<div class="graph">
 				<span class="bar" style="width:<?php echo $s_rate; ?>%"></span>
 			</div>
-		</td>
+		</td> -->
 		<td><?php echo number_format($count); ?></td>
 		<td><?php echo $s_rate; ?></td>
 	</tr>

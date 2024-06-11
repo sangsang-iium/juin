@@ -105,6 +105,8 @@ $mfrm['ju_worktime'] = implode("~", $_POST['worktime']);
 $mfrm['ju_breaktime'] = implode("~", $_POST['breaktime']);
 $mfrm['ju_off'] = implode("|", $_POST['off']);
 $mfrm['ju_content'] = $_POST['ju_content'];
+$mfrm['ju_tel'] = $_POST['ju_tel'];
+$mfrm['ju_hp'] = $_POST['ju_hp'];
 
 if($_POST['passwd']) {
 	$mfrm['passwd'] = $_POST['passwd']; // 패스워드

@@ -27,6 +27,14 @@ if(!$chat['no']){
     $chatno = $chat['no'];
 }
 
+//읽음기록업데이트
+$seller = $good['mb_id'];
+if($member['id']==$seller){
+    sql_query("update shop_used_chatd set mread = 1 where pno = {$chatno}");
+} else {
+    sql_query("update shop_used_chatd set uread = 1 where pno = {$chatno}");
+}
+
 $sql = "select * from shop_used_chatd where pno = '$chatno' order by no";
 $result = sql_query($sql);
 ?>
@@ -124,7 +132,7 @@ $(document).ready(function(){
 });
 
 
-const seller = "<?php echo $good['mb_id'] ?>";
+const seller = "<?php echo $seller ?>";
 const chatno = Number(<?php echo $chatno ?>);
 var vcount = 0;
 

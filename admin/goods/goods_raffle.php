@@ -52,29 +52,36 @@ EOF;
 
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
-	<tbody>	
+	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('goods_name', $sfl, '레플명'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('goods_name', $sfl, '레플명'); ?>
+                    </select>
+                </div>
+			    <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">레플 시작일</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>	
 	</tbody>
@@ -90,7 +97,7 @@ EOF;
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
 <div class="local_frm01">
@@ -104,11 +111,11 @@ EOF;
 		<col>
 		<col class="w100">
 		<col class="w100">
-		<col class="w150">
-		<col class="w150">
+		<col class="w200">
+		<col class="w200">
 		<col class="w100">
-		<col class="w100">
-		<col class="w60">
+		<col class="w150">
+		<col class="w200">
 	</colgroup>
 	<thead>
 	<tr>
@@ -130,7 +137,7 @@ EOF;
 
 		$iq_url = "code=raffle_form&w=u&index_no=$index_no$qstr&page=$page";
 		$iq_url1 = "code=raffle_detail&w=u&index_no=$index_no";
-		$iq_upd = "<a href=\"./goods.php?{$iq_url}\" class=\"btn_small\">수정</a><br><a href=\"./goods.php?{$iq_url1}\" class=\"btn_small\">상세</a>";
+		$iq_upd = "<a href=\"./goods.php?{$iq_url}\" class=\"btn_fix bg_type2\"><span>수정</span></a> <a href=\"./goods.php?{$iq_url1}\" class=\"detail\"><span>상세</span></a>";
 
 		if($i==0)
 			echo '<tbody class="list">'.PHP_EOL;
@@ -146,11 +153,15 @@ EOF;
 		<td><?php echo $row['goods_name'] ?></td>
 		<td><?php echo $row['raffle_price'] ?></td>
 		<td><?php echo raffleWinnerNumber($row['index_no']) ?></td>
-		<td><?php echo ymdhisToYmdhi($row['event_start_date'])."~<br>".ymdhisToYmdhi($row['event_end_date']) ?></td>
+		<td><?php echo ymdhisToYmdhi($row['event_start_date'])." ~ <br/>".ymdhisToYmdhi($row['event_end_date']) ?></td>
 		<td><?php echo ymdhisToYmdhi($row['prize_date']) ?></td>
 		<td><?php echo $row['mb_name'] ?></td>
 		<td><?php echo substr($row['reg_time'],0,10); ?></td>
-		<td><?php echo $iq_upd; ?></td>
+		<td>
+            <div class="btn_wrap btn_type">
+                <?php echo $iq_upd; ?>
+            </div>
+        </td>
 	</tr>
 	<?php 
 	}

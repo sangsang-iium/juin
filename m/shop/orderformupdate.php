@@ -76,6 +76,7 @@ $ss_cart_id    = explode(",", $_POST['ss_cart_id']);    // 장바구니 idx
 $use_point      = (int) $_POST['use_point'];      // 포인트결제
 $baesong_price2 = (int) $_POST['baesong_price2']; // 추가배송비
 
+
 if ($is_member) {
   $od_pwd = $member['passwd'];
 } else {
@@ -96,20 +97,24 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   }
 
   $t_amount    = str_replace(',', '', $_POST['tot_price']);
+  $t_usepoint    = str_replace(',', '', $_POST['use_point']);
+
   $t_orderid   = $od_id;
   $t_ordername = $t_turnstr;
   $t_name      = $_POST['name'];
   $t_bank      = $_POST['bank_code'];
   $t_email     = $_POST['customerEmail'];
 
+  $customerMobilePhone = $_POST['customerMobilePhone']; // 추가배송비
+
 
   $TossVirtualAcc = new Tosspay();
-  $toss_acc       = $TossVirtualAcc->virtualAcc($t_amount, $t_orderid, $t_ordername, $t_name, $t_email, $t_bank);
+  $toss_acc       = $TossVirtualAcc->virtualAcc($t_amount, $t_orderid, $t_ordername, $t_name, $t_email, $t_bank, $customerMobilePhone);
   if ($toss_acc->code) {
     if ($resulturl == 'pc') {
-      alert("가상계좌 결제 오류 ".$t_amount. $t_orderid .$t_ordername .$t_name. $t_email .$t_bank, '/mng/shop/cart.php');
+      alert("가상계좌 결제 오류 ".$t_amount. $t_orderid .$t_ordername .$t_name. $t_email .$t_bank .$customerMobilePhone, '/mng/shop/cart.php');
     } else {
-      alert("가상계좌 결제 오류 ".$t_amount .$t_orderid .$t_ordername .$t_name .$t_email .$t_bank, BV_MSHOP_URL . '/cart.php');
+      alert("가상계좌 결제 오류 ".$t_amount .$t_orderid .$t_ordername .$t_name .$t_email .$t_bank.$customerMobilePhone, BV_MSHOP_URL . '/cart.php');
     }
   }
 
@@ -160,91 +165,91 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
 // $or_where = "WHERE od_id = {$od_id}";
   $tran_id = $accInsert->insert('toss_virtual_account', $acc_insert);
 
+} else if ($_POST['paymethod'] == '신용카드') {
+  $gs_first_id = $gs_id[0];
+  $gs_count    = count($gs_id);
+  $sql_gs      = "SELECT * FROM shop_goods WHERE index_no = '{$gs_first_id}'";
+  $row_gs      = sql_fetch($sql_gs);
+
+  $sql_card = "SELECT * FROM iu_card_reg WHERE idx = '{$card_id}'";
+  $row_card = sql_fetch($sql_card);
+
+  if ($gs_count > 1) {
+    $t_turnstr = truncateString($row_gs['gname'], 8) . '외' . $gs_count . '건';
+  } else {
+    $t_turnstr = truncateString($row_gs['gname'], 10);
+  }
+
+  $billingkey      = $row_card['cr_billing'];
+  $t_ckey          = $row_card['cr_customer_key'];
+  $t_amount        = str_replace(',', '', $_POST['tot_price']);
+  $t_orderid       = $od_id;
+  $t_ordername     = $t_turnstr;
+  $t_taxfreeamount = 0;
+  $credential      = "test_sk_QbgMGZzorzKD26y2w4728l5E1em4";
+  $t_name          = $_POST['name'];
+  $t_email         = $_POST['email'];
+  $TossRun         = new Tosspay();
+  $toss_run        = $TossRun->autoPay($t_ckey, $t_amount, $t_orderid, $t_ordername, $t_taxfreeamount, $t_name, $t_email, $billingkey, $credential);
+  if ($toss_run->code) {
+    if ($resulturl == 'pc') {
+      alert("결제 오류 ".$toss_run->code, '/mng/shop/cart.php');
+    } else {
+      alert("결제 오류 ".$toss_run->code, BV_MSHOP_URL . '/cart.php');
+    }
+  }
+  $orderInsert                            = new IUD_Model();
+  $or_insert['mId']                       = $toss_run->mId;
+  $or_insert['lastTransactionKey']        = $toss_run->lastTransactionKey;
+  $or_insert['paymentKey']                = $toss_run->paymentKey;
+  $or_insert['orderId']                   = $toss_run->orderId;
+  $or_insert['orderName']                 = $toss_run->orderName;
+  $or_insert['taxExemptionAmount']        = $toss_run->taxExemptionAmount;
+  $or_insert['status']                    = $toss_run->status;
+  $or_insert['requestedAt']               = $toss_run->requestedAt;
+  $or_insert['approvedAt']                = $toss_run->approvedAt;
+  $or_insert['useEscrow']                 = $toss_run->useEscrow;
+  $or_insert['cultureExpense']            = $toss_run->cultureExpense;
+  $or_insert['cardIssuerCode']            = $toss_run->card->issuerCode;
+  $or_insert['cardAcquirerCode']          = $toss_run->card->acquirerCode;
+  $or_insert['cardNumber']                = $toss_run->card->number;
+  $or_insert['cardInstallmentPlanMonths'] = $toss_run->card->installmentPlanMonths;
+  $or_insert['cardIsInterestFree']        = $toss_run->card->isInterestFree;
+  $or_insert['cardInterestPayer']         = $toss_run->card->interestPayer;
+  $or_insert['cardApproveNo']             = $toss_run->card->approveNo;
+  $or_insert['cardUseCardPoint']          = $toss_run->card->useCardPoint;
+  $or_insert['cardType']                  = $toss_run->card->cardType;
+  $or_insert['cardOwnerType']             = $toss_run->card->ownerType;
+  $or_insert['cardAcquireStatus']         = $toss_run->card->acquireStatus;
+  $or_insert['cardAmount']                = $toss_run->card->amount;
+  $or_insert['virtualAccount']            = $toss_run->virtualAccount;
+  $or_insert['transfer']                  = $toss_run->transfer;
+  $or_insert['mobilePhone']               = $toss_run->mobilePhone;
+  $or_insert['giftCertificate']           = $toss_run->giftCertificate;
+  $or_insert['cashReceipt']               = $toss_run->cashReceipt;
+  $or_insert['cashReceipts']              = $toss_run->cashReceipts;
+  $or_insert['discount']                  = $toss_run->discount;
+  $or_insert['cancels']                   = $toss_run->cancels;
+  $or_insert['secret']                    = $toss_run->secret;
+  $or_insert['type']                      = $toss_run->type;
+  $or_insert['easyPay']                   = $toss_run->easyPay;
+  $or_insert['country']                   = $toss_run->country;
+  $or_insert['failure']                   = $toss_run->failure;
+  $or_insert['isPartialCancelable']       = $toss_run->isPartialCancelable;
+  $or_insert['receiptUrl']                = $toss_run->receipt->url;
+  $or_insert['checkoutUrl']               = $toss_run->checkout->url;
+  $or_insert['currency']                  = $toss_run->currency;
+  $or_insert['totalAmount']               = $toss_run->totalAmount;
+  $or_insert['balanceAmount']             = $toss_run->balanceAmount;
+  $or_insert['suppliedAmount']            = $toss_run->suppliedAmount;
+  $or_insert['vat']                       = $toss_run->vat;
+  $or_insert['taxFreeAmount']             = $toss_run->taxFreeAmount;
+  $or_insert['method']                    = $toss_run->method;
+  $or_insert['version']                   = $toss_run->version;
+// $or_where = "WHERE od_id = {$od_id}";
+  $tran_id = $orderInsert->insert('toss_transactions', $or_insert);
+
 }
-// else if ($_POST['paymethod'] == '신용카드') {
-//   $gs_first_id = $gs_id[0];
-//   $gs_count    = count($gs_id);
-//   $sql_gs      = "SELECT * FROM shop_goods WHERE index_no = '{$gs_first_id}'";
-//   $row_gs      = sql_fetch($sql_gs);
-
-//   $sql_card = "SELECT * FROM iu_card_reg WHERE idx = '{$card_id}'";
-//   $row_card = sql_fetch($sql_card);
-
-//   if ($gs_count > 1) {
-//     $t_turnstr = truncateString($row_gs['gname'], 8) . '외' . $gs_count . '건';
-//   } else {
-//     $t_turnstr = truncateString($row_gs['gname'], 10);
-//   }
-
-//   $billingkey      = $row_card['cr_billing'];
-//   $t_ckey          = $row_card['cr_customer_key'];
-//   $t_amount        = str_replace(',', '', $_POST['tot_price']);
-//   $t_orderid       = $od_id;
-//   $t_ordername     = $t_turnstr;
-//   $t_taxfreeamount = 0;
-//   $t_name          = $_POST['name'];
-//   $t_email         = $_POST['email'];
-//   $TossRun         = new Tosspay();
-//   $toss_run        = $TossRun->autoPay($t_ckey, $t_amount, $t_orderid, $t_ordername, $t_taxfreeamount, $t_name, $t_email, $billingkey);
-//   if ($toss_run->code) {
-//     if ($resulturl == 'pc') {
-//       alert("결제 오류 ".$toss_run->code, '/mng/shop/cart.php');
-//     } else {
-//       alert("결제 오류 ".$toss_run->code, BV_MSHOP_URL . '/cart.php');
-//     }
-//   }
-//   $orderInsert                            = new IUD_Model();
-//   $or_insert['mId']                       = $toss_run->mId;
-//   $or_insert['lastTransactionKey']        = $toss_run->lastTransactionKey;
-//   $or_insert['paymentKey']                = $toss_run->paymentKey;
-//   $or_insert['orderId']                   = $toss_run->orderId;
-//   $or_insert['orderName']                 = $toss_run->orderName;
-//   $or_insert['taxExemptionAmount']        = $toss_run->taxExemptionAmount;
-//   $or_insert['status']                    = $toss_run->status;
-//   $or_insert['requestedAt']               = $toss_run->requestedAt;
-//   $or_insert['approvedAt']                = $toss_run->approvedAt;
-//   $or_insert['useEscrow']                 = $toss_run->useEscrow;
-//   $or_insert['cultureExpense']            = $toss_run->cultureExpense;
-//   $or_insert['cardIssuerCode']            = $toss_run->card->issuerCode;
-//   $or_insert['cardAcquirerCode']          = $toss_run->card->acquirerCode;
-//   $or_insert['cardNumber']                = $toss_run->card->number;
-//   $or_insert['cardInstallmentPlanMonths'] = $toss_run->card->installmentPlanMonths;
-//   $or_insert['cardIsInterestFree']        = $toss_run->card->isInterestFree;
-//   $or_insert['cardInterestPayer']         = $toss_run->card->interestPayer;
-//   $or_insert['cardApproveNo']             = $toss_run->card->approveNo;
-//   $or_insert['cardUseCardPoint']          = $toss_run->card->useCardPoint;
-//   $or_insert['cardType']                  = $toss_run->card->cardType;
-//   $or_insert['cardOwnerType']             = $toss_run->card->ownerType;
-//   $or_insert['cardAcquireStatus']         = $toss_run->card->acquireStatus;
-//   $or_insert['cardAmount']                = $toss_run->card->amount;
-//   $or_insert['virtualAccount']            = $toss_run->virtualAccount;
-//   $or_insert['transfer']                  = $toss_run->transfer;
-//   $or_insert['mobilePhone']               = $toss_run->mobilePhone;
-//   $or_insert['giftCertificate']           = $toss_run->giftCertificate;
-//   $or_insert['cashReceipt']               = $toss_run->cashReceipt;
-//   $or_insert['cashReceipts']              = $toss_run->cashReceipts;
-//   $or_insert['discount']                  = $toss_run->discount;
-//   $or_insert['cancels']                   = $toss_run->cancels;
-//   $or_insert['secret']                    = $toss_run->secret;
-//   $or_insert['type']                      = $toss_run->type;
-//   $or_insert['easyPay']                   = $toss_run->easyPay;
-//   $or_insert['country']                   = $toss_run->country;
-//   $or_insert['failure']                   = $toss_run->failure;
-//   $or_insert['isPartialCancelable']       = $toss_run->isPartialCancelable;
-//   $or_insert['receiptUrl']                = $toss_run->receipt->url;
-//   $or_insert['checkoutUrl']               = $toss_run->checkout->url;
-//   $or_insert['currency']                  = $toss_run->currency;
-//   $or_insert['totalAmount']               = $toss_run->totalAmount;
-//   $or_insert['balanceAmount']             = $toss_run->balanceAmount;
-//   $or_insert['suppliedAmount']            = $toss_run->suppliedAmount;
-//   $or_insert['vat']                       = $toss_run->vat;
-//   $or_insert['taxFreeAmount']             = $toss_run->taxFreeAmount;
-//   $or_insert['method']                    = $toss_run->method;
-//   $or_insert['version']                   = $toss_run->version;
-// // $or_where = "WHERE od_id = {$od_id}";
-//   $tran_id = $orderInsert->insert('toss_transactions', $or_insert);
-
-// }
 // 비회원 전화번호 _20240415_SY
 if (is_array($_POST['b_cellphone'])) {
   $b_cellp = implode("-", $_POST['b_cellphone']);
@@ -577,9 +582,9 @@ function truncateString($string, $length) {
 
 if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   if ($resulturl == 'pc') {
-    goto_url(BV_URL . '/mng/shop/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid. '&tran_id=' . $tran_id);
+    goto_url(BV_URL . '/mng/shop/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid. '&tran_id=' . $tran_id.'&reg_yn='.$reg_yn );
   } else {
-    goto_url(BV_MSHOP_URL . '/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid. '&tran_id=' . $tran_id);
+    goto_url(BV_MSHOP_URL . '/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid. '&tran_id=' . $tran_id.'&reg_yn='.$reg_yn );
   }
 } else if ($_POST['paymethod'] == 'KAKAOPAY') {
   goto_url(BV_MSHOP_URL . '/orderkakaopay.php?od_id=' . $od_id);

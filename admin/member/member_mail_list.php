@@ -33,54 +33,61 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
-		<th scope="row"><label for="sfl">검색어</label></th>
+		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl" id="sfl">
-				<option value="ma_subject">제목</option>
-			</select>
-			<label for="stx" class="sound_only">검색어</label>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" id="stx" class="frm_input" size="30">
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+            <div class="tel_input">
+                <div class="chk_select w200">
+        <select name="sfl" id="sfl">
+            <option value="ma_subject" checked>제목</option>
+        </select>
+        </div>
+        <label for="stx" class="sound_only">검색어</label>
+        <input type="text" name="stx" value="<?php echo $stx; ?>" id="stx" class="frm_input" size="30">
+        </div>
+    </td>
+</tr>
+</tbody>
+</table>
+<div class="board_btns tac mart20">
+    <div class="btn_wrap">
+        <input type="submit" value="검색" class="btn_acc marr10">
+        <input type="button" value="초기화" id="frmRest" class="btn_cen">
+    </div>
 </div>
 </form>
+
 
 <form name="fmaillist" id="fmaillist" method="post" action="./member/member_mail_list_delete.php" onsubmit="return fmaillist_submit(this);">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	총 메일수 : <b class="fc_red"><?php echo number_format($total_count); ?></b>건
 </div>
 <div class="local_frm01">
 	<?php echo $btn_frmline; ?>
 </div>
-<div class="tbl_head01">
-	<table>
+<div class="board_list">
+	<table class="list01">
 		<col class="w50">
-		<col class="w60">
+		<col class="w100">
 		<col>
-		<col class="w130">
-		<col class="w80">
-		<col class="w80">
-		<col class="w90">
+		<col class="w300">
+		<col class="w150">
+		<col class="w150">
+		<col class="w300">
 	</colgroup>
 	<thead>
 	<tr>
@@ -101,8 +108,8 @@ EOF;
 		$ma_id = $row['ma_id'];
 		$ma_subject = get_text($row['ma_subject']);
 
-		$s_frm = "<a href=\"".BV_ADMIN_URL."/member.php?code=mail_select_form&ma_id=$ma_id$qstr&page=$page\" class=\"tu\">보내기</a>";
-		$s_upd = "<a href=\"".BV_ADMIN_URL."/member.php?code=mail_form&w=u&ma_id=$ma_id$qstr&page=$page\" class=\"btn_small bx-white\">수정</a>";
+		$s_frm = "<a href=\"".BV_ADMIN_URL."/member.php?code=mail_select_form&ma_id=$ma_id$qstr&page=$page\" class=\"go color_type\"><span>보내기</span></a>";
+		$s_upd = "<a href=\"".BV_ADMIN_URL."/member.php?code=mail_form&w=u&ma_id=$ma_id$qstr&page=$page\" class=\"btn_fix bg_type2\"><span>수정</span></a>";
 
 		if($i==0)
 			echo '<tbody class="list">'.PHP_EOL;
@@ -118,11 +125,23 @@ EOF;
 		<td><?php echo $num--; ?></td>
 		<td class="tal"><?php echo $ma_subject; ?></td>
 		<td><?php echo $row['ma_time']; ?></td>
-		<td><a href="<?php echo BV_ADMIN_URL; ?>/member/member_mail_test.php?ma_id=<?php echo $ma_id; ?>" class="tu">테스트</a></td>
-		<td><?php echo $s_frm; ?></td>
-		<td class="btn_group">
-			<?php echo $s_upd; ?>
-			<a href="<?php echo BV_ADMIN_URL; ?>/member/member_mail_preview.php?ma_id=<?php echo $ma_id; ?>" target="_blank" class="btn_small bx-white">보기</a>
+		<td>
+            <div class="btn_wrap">
+                <a href="<?php echo BV_ADMIN_URL; ?>/member/member_mail_test.php?ma_id=<?php echo $ma_id; ?>" class="go">
+                    <span>테스트</span>
+                </a>
+            </div>
+        </td>
+		<td>
+            <div class="btn_wrap">
+                <?php echo $s_frm; ?>
+            </div>
+        </td>
+		<td>
+            <div class="btn_wrap btn_type">
+                <?php echo $s_upd; ?>
+                <a href="<?php echo BV_ADMIN_URL; ?>/member/member_mail_preview.php?ma_id=<?php echo $ma_id; ?>" target="_blank" class="detail marl10"><span>보기</span></a>
+            </div>
 		</td>
 	</tr>
 	<?php
@@ -141,8 +160,14 @@ EOF;
 <?php
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
 ?>
-
-<div class="information">
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ul class="cnt_list step01">
+        <li><b>테스트</b>는 등록된 최고관리자의 이메일로 테스트 메일을 발송합니다.</li>
+        <li class="fc_red">주의) 수신자가 동의하지 않은 대량 메일 발송에는 적합하지 않습니다. 수십건 단위로 발송해 주십시오.</li>
+    </ul>
+</div>
+<!-- <div class="information">
 	<h4>도움말</h4>
 	<div class="content">
 		<div class="desc02">
@@ -150,7 +175,7 @@ echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAM
 			<p class="fc_red">ㆍ주의) 수신자가 동의하지 않은 대량 메일 발송에는 적합하지 않습니다. 수십건 단위로 발송해 주십시오.</p>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <script>
 function fmaillist_submit(f)

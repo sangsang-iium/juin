@@ -81,7 +81,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 
 .frm-choice input[type='radio'] {display: none;}
 .frm-choice input[type='radio'] + label {display: block; position: relative; padding-left: 4rem; font-size: 2.08rem; font-weight: 400; color: var(--color-black3); cursor: pointer;}
-.frm-choice input[type='radio'] + label:before {content: ""; display: block; position: absolute; top: 50%; left: 0; z-index: 1; width: 3.2rem; height: 3.2rem; transform: translateY(-50%); border: 1px solid var(--color-gray7); border-radius: 50%; box-sizing: border-box;}
+.frm-choice input[type='radio'] + label:before {content: ""; display: block; position: absolute; top: 50%; left: 0; z-index: 1; width: 3.2rem; height: 3.2rem; transform: translateY(-50%); border: 1px solid var(--color-gray7); border-radius: 50%; box-sizing: border-box; background-color: #fff;}
 .frm-choice input[type='radio'] + label:after {content: ""; display: block; position: absolute; top: 50%; left: 0.7rem; z-index: 1; width: 1.76rem; height: 1.76rem; transform: translateY(-50%); border: 0; border-radius: 50%; box-sizing: border-box;}
 .frm-choice input[type='radio']:checked + label {}
 .frm-choice input[type='radio']:checked + label:before {border-color: var(--color-main);}

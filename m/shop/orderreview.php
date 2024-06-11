@@ -2,7 +2,7 @@
 include_once("./_common.php");
 
 if(!$is_member)
-    alert_close("로그인 후 작성 가능합니다.");
+    alert("로그인 후 작성 가능합니다.","/m/shop/view.php?gs_id=".$gs_id);
 
 // $tb['title'] = "구매후기 작성";
 // include_once(BV_MPATH."/head.sub.php");

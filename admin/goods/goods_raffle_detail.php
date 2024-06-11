@@ -8,10 +8,10 @@ if(!$pl['index_no'])
 ?>
 
 
-<div class="tbl_frm02">
+<div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -89,7 +89,7 @@ if(!$pl['index_no'])
 		}
 
 		$image_str = '';
-		if(in_array($i,array(1,2))) {
+		if(in_array($i,array(1,2,3))) {
 			$image_str = ' <strong class="fc_red">[필수]</strong>';
 		}
 	?>
@@ -98,7 +98,7 @@ if(!$pl['index_no'])
 		<td>
 			<div class="item_file_fld">
 				<!-- <input type="file" name="simg<?php echo $i; ?>"> -->
-				<?php echo get_raffle_detail_ahead($pl['simg'.$i], "simg{$i}_del"); ?>
+				<?php echo get_raffle_detail_ahead($pl['simg'.$i]); ?>
 			</div>
 			<div class="item_url_fld">
 				<input type="text" name="simg<?php echo $i; ?>" value="<?php echo $pl['simg'.$i]; ?>" class="frm_input" size="80" placeholder="http://">
@@ -121,9 +121,9 @@ if(!$pl['index_no'])
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<a href="<?php echo './goods.php?code=raffle'.$qstr.'&page='.$page.'' ?>" class="btn_large bx-white">목록</a>
-	<a href="<?php echo './goods.php?code=raffle_log&raffle_index='.$index_no.'' ?>" class="btn_large bx-white">신청 목록</a>
+<div class="btn_wrap mart20">
+	<a href="<?php echo './goods.php?code=raffle'.$qstr.'&page='.$page.'' ?>" class="btn_list bg_type1 marr10"><span>목록</span></a>
+	<a href="<?php echo './goods.php?code=raffle_log&raffle_index='.$index_no.'' ?>" class="btn_list bg_type2"><span>신청 목록</span></a>
 </div>
 <script>
 	function chk_entry_type(type) {

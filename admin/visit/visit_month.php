@@ -23,10 +23,10 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
 <div class="tbl_head01">
 	<table>
 	<colgroup>
-		<col class="w100">	
+		<col class="w150">	
 		<col>
-		<col class="w80">
-		<col class="w80">
+		<col class="w100">
+		<col class="w100">
 	</colgroup>
 	<thead>
 	<tr>
@@ -59,11 +59,14 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td><?php echo $key; ?></td>
-		<td class="tal">
+        <td>
+            <progress class="board_progress" max="100" value="<?php echo $s_rate; ?>">
+        </td>
+		<!-- <td class="tal">
 			<div class="graph">
 				<span class="bar" style="width:<?php echo $s_rate; ?>%"></span>
 			</div>
-		</td>
+		</td> -->
 		<td><?php echo number_format($value); ?></td>
 		<td><?php echo $s_rate; ?></td>
 	</tr>

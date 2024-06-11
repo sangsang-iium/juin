@@ -8,6 +8,12 @@ if(!defined('_BLUEVATION_')) exit;
 <!-- <div class="stit_txt">
 	※ 총 <?php echo number_format($cart_count); ?>개의 상품이 담겨 있습니다.
 </div> -->
+<style>
+  .btn-disabled {
+    background-color: #ccc!important;
+    cursor: not-allowed;
+  }
+</style>
 
 <div id="sod_bsk">
 	<form name="frmcartlist" id="sod_bsk_list" method="post" action="<?php echo $cart_action_url; ?>">
@@ -16,38 +22,19 @@ if(!defined('_BLUEVATION_')) exit;
       <!-- 2024-06-03 :  일반/정기 배송 탭 -->
       <div class="cart-regular-tab">
         <div class="regular-tab-item">
-          <button class="tab-btn normal" type="button">
+          <a href="/m/shop/cart.php?paytype=2" class="tab-btn <?php echo $paytype == "2" ? "regular" : "normal" ?>">
             <span><img src="/src/img/icon-tab-normal.png" alt="일반배송"></span>
             <span>일반</span>
-          </button>
+          </a>
         </div>
         <div class="regular-tab-item">
-          <button class="tab-btn regular" type="button">
+          <a href="/m/shop/cart.php?paytype=1" class="tab-btn <?php echo $paytype == "1" ? "regular" : "normal" ?>">
             <span><img src="/src/img/icon-tab-regular.png" alt="정기배송"></span>
             <span>정기</span>
-          </button>
+          </a>
         </div>
       </div>
-      <!-- 2024-06-03 : 주문 금액 프로세스 바 -->
-      <div class="cart-process-bar-wr">
-        <div class="cart-process-top">
-          <p class="company">A 공급사</p>
-          <div class="available-price">
-            <p class="text01">(주문가능 금액 50,000원)</p>
-            <p class="text02">
-              <span>16,000원</span> 추가시 주문가능
-            </p>
-          </div>
-        </div>
-        <div class="cart-process-bot">
-          <div class="cart-process-bar">
-            <span class="active-bar" style="width: 65%;"></span>
-          </div>
-          <div class="cart-process-icon">
-            <img src="/src/img/cart-process-icon.png" alt="">
-          </div>
-        </div>
-      </div>
+
     </div>
 
     <?php if($cart_count) { ?>
@@ -64,18 +51,41 @@ if(!defined('_BLUEVATION_')) exit;
 
     <div class="cart-sec container">
       <div class="cp-cart">
+
         <?php
+        $sql_group = "SELECT p.mb_id, p.index_no, p.sc_type,
+                        SUM(IF(io_type = 1, (io_price * ct_qty),((io_price + ct_price) * ct_qty))) as price,
+                        SUM(IF(io_type = 1, (0),(ct_point * ct_qty))) as point, SUM(IF(io_type = 1, (0),(ct_qty))) as qty,
+                        SUM(io_price * ct_qty) as opt_price,
+                        GROUP_CONCAT(a.gs_id) AS gs_idx
+                      from shop_cart a
+                      JOIN shop_goods p ON a.gs_id = p.index_no
+                      where a.ct_direct = '{$set_cart_id}'
+                      AND a.ct_select = '0'
+                      AND a.reg_yn = '{$paytype}'
+                      AND a.mb_id = '{$member['id']}'
+                      GROUP BY p.mb_id, p.sc_type";
+        $res_group = sql_query($sql_group);
+        $groupNumRow = sql_num_rows($res_group);
+        for ($z = 0; $rowG = sql_fetch_array($res_group); $z++) {
+          $CARTGROUP[] = $rowG;
+        }
+        // print_r2($CARTGROUP);
+        // $CARTGROUP = groupAndSortArray($CARTGROUP);
         $tot_point		= 0;
         $tot_sell_price = 0;
         $tot_opt_price	= 0;
         $tot_sell_qty	= 0;
         $tot_sell_amt	= 0;
 
+        $preVal = null;
+        $groupStarted = false;
+
         for($i=0; $row=sql_fetch_array($result); $i++) {
           $gs = get_goods($row['gs_id']);
 
           // 합계금액 계산
-          $sql = " select 
+          $sql = " select
                   SUM(IF(io_type = 1, (io_price * ct_qty),((io_price + ct_price) * ct_qty))) as price,
                   SUM(IF(io_type = 1, (0),(ct_point * ct_qty))) as point,
                   SUM(IF(io_type = 1, (0),(ct_qty))) as qty,
@@ -108,78 +118,107 @@ if(!defined('_BLUEVATION_')) exit;
           $item_sendcost[] = $info['pattern'];
 
           $href = BV_MSHOP_URL.'/view.php?gs_id='.$row['gs_id'];
-        ?>
-        <!-- <li class="sod_li">
-          <input type="hidden" name="gs_id[<?php echo $i; ?>]" value="<?php echo $row['gs_id']; ?>">
-              <div class="li_chk">
-                  <label for="ct_chk_<?php echo $i; ?>" class="sound_only">상품</label>
-                  <input type="checkbox" name="ct_chk[<?php echo $i; ?>]" value="1" id="ct_chk_<?php echo $i; ?>" checked="checked">
-              </div>
-              <div class="li_name">
-                  <a href="<?php echo $href; ?>"><?php echo stripslashes($gs['gname']); ?></a>
-                  <?php if($it_options) { ?>
-                  <div class="sod_opt"><?php echo $it_options; ?></div>
-                  <?php } ?>
-                  <span class="total_img"><?php echo get_it_image($row['gs_id'], $gs['simg1'], 80, 80); ?></span> 
-          <div class="li_mod" style="padding-left:100px;">
-            <?php if($it_options) { ?>
-            <button type="button" id="mod_opt_<?php echo $row['gs_id']; ?>" class="mod_btn mod_options">옵션변경/추가</button>
-            <?php } ?>
-          </div>				
-              </div>
-              <div class="li_prqty">
-                  <span class="prqty_price li_prqty_sp"><span>판매가</span>
-          <?php echo number_format($sell_amt); ?></span>
-                  <span class="prqty_qty li_prqty_sp"><span>수량</span>
-          <?php echo number_format($sell_qty); ?></span>
-                  <span class="prqty_sc li_prqty_sp"><span>배송비</span>
-          <?php echo number_format($info['price']); ?></span>
-              </div>
-              <div class="li_total">
-                  <span class="total_price total_span"><span>소계</span>
-          <strong><?php echo number_format($sell_price); ?></strong></span>
-                  <span class="total_point total_span"><span>적립포인트</span>
-          <strong><?php echo number_format($point); ?></strong></span>
-          </div>
-        </li> -->
-        <div class="cp-cart-item">
-          <input type="hidden" name="gs_id[<?php echo $i; ?>]" value="<?php echo $row['gs_id']; ?>">
-          <div class="cp-cart-head">
-            <div class="title">
-              <div class="frm-choice">
-                <label for="ct_chk_<?php echo $i; ?>" class="sound_only">상품</label>
-                <input type="checkbox" name="ct_chk[<?php echo $i; ?>]" value="1" id="ct_chk_<?php echo $i; ?>" checked="checked">
-                <label for="ct_chk_<?php echo $i; ?>"></label>
-              </div>
-              <p class="name"><?php echo stripslashes($gs['gname']); ?></p>
-            </div>
-            <!-- 각 삭제 버튼 개발 필요 -->
-            <button type="button" class="delete ui-btn" onclick="remove_cartItem(<?php echo $row['index_no']?>)">닫기</button>
-          </div>
-          <div class="cp-cart-body">
-            <div class="thumb round60">
-              <img src="<?php echo get_it_image_url($row['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
-              
-            </div>
-            <div class="content">
-              <div class="count">
-                <?php if($it_options) { ?>
-                <button type="button" id="mod_opt_<?php echo $row['gs_id']; ?>" class="mod_btn mod_options change ui-btn st3">옵션변경</button>
-                <?php } ?>
-              </div>
-              <div class="info">
-                <div class="set">
-                  <div><?php echo number_format($sell_qty); ?>개</div>
-                  <?php if($row['io_id']) { ?>
-                  <div><?php echo $it_options; ?></div>
-                  <?php } ?>
-                </div>
-                <p class="price"><?php echo display_price2($sell_price); ?><span class="dc-price">99,999원</span></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <?php 
+
+          $targetGs = $row['gs_id']; // 찾고자 하는 gs_id 값
+          $targetId = $row['mb_id']; // 찾고자 하는 mb_id 값
+          $filteredResults = array_filter($CARTGROUP, function ($item) use ($targetGs) {
+            $indicesArray = explode(',', $item['gs_idx']);
+            return in_array($targetGs, $indicesArray);
+          });
+          $filteredResults = array_values($filteredResults);
+
+          $curVal = $gs['mb_id'];
+          $sellerMinInfo = get_seller_cd($filteredResults[0]['mb_id']);
+          if($filteredResults[0]['mb_id'] == 'admin'){
+            $sellerMinInfo['company_name'] = "관리자";
+            $sellerMinInfo['min_delivery'] = 50000;
+          }
+
+          $preSum = 0;
+          if (($filteredResults[0]['mb_id'] == $gs['mb_id']) && ($filteredResults[0]['sc_type'] == 4)) {
+            if ($preVal !== $curVal) {
+              if ($groupStarted) {
+                // 이전 그룹 div를 닫음
+                echo "</div>";
+                $groupStarted = false;
+              }
+              if($filteredResults[0]['price'] >= $sellerMinInfo['min_delivery']){
+                $orderable_txt = '주문가능';
+                $orderable_per = 100;
+              } else {
+                $orderable_amt = $sellerMinInfo['min_delivery'] - $filteredResults[0]['price'];
+                $orderable_txt = '<span>' . number_format($orderable_amt) . '</span> 추가시 주문가능';
+                $orderable_per = ($filteredResults[0]['price'] / $sellerMinInfo['min_delivery']) * 100;
+              }
+
+              // 새로운 그룹 시작
+              echo '<div class="cart-gbox" style="border: solid 1px red;">';
+              echo '  <div class="cart-process-bar-wr"> ';
+              echo '    <div class="cart-process-top"> ';
+              echo '      <p class="company">'.$sellerMinInfo['company_name'].'</p> ';
+              echo '      <div class="available-price"> ';
+              echo '        <p class="text01 odprice" data-minprice="'.$sellerMinInfo['min_delivery'].'" data-odprice="'.$filteredResults[0]['price'].'">(주문가능 금액 '.number_format($sellerMinInfo['min_delivery']).'원)</p> ';
+              echo '        <p class="text02">'.$orderable_txt;
+              echo '        </p> ';
+              echo '      </div> ';
+              echo '    </div> ';
+              echo '    <div class="cart-process-bot"> ';
+              echo '      <div class="cart-process-bar"> ';
+              echo '        <span class="active-bar" data-orderper="'.$orderable_per.'" style="width: '.$orderable_per.'%;"></span> ';
+              echo '      </div> ';
+              echo '      <div class="cart-process-icon"> ';
+              echo '        <img src="/src/img/cart-process-icon.png" alt=""> ';
+              echo '      </div> ';
+              echo '    </div> ';
+              echo '  </div> ';
+              $groupStarted = true;
+            }
+          } else {
+            if ($groupStarted) {
+              // 이전 그룹 div를 닫음
+              echo "</div>";
+              $groupStarted = false;
+            }
+          }
+
+          // 항상 출력되는 부분
+          echo '<div class="cp-cart-item">';
+          echo '<input type="hidden" name="gs_id[' . $i . ']" value="' . $row['gs_id'] . '">';
+          echo '<div class="cp-cart-head">';
+          echo '<div class="title">';
+          echo '<div class="frm-choice">';
+          echo '<label for="ct_chk_' . $i . '" class="sound_only">상품</label>';
+          echo '<input type="checkbox" name="ct_chk[' . $i . ']" value="1" id="ct_chk_' . $i . '" checked="checked">';
+          echo '<label for="ct_chk_' . $i . '"></label>';
+          echo '</div>';
+          echo '<p class="name">' . stripslashes($gs['gname']) . '</p>';
+          echo '</div>';
+          echo '<button type="button" class="delete ui-btn" onclick="remove_cartItem(' . $row['index_no'] . ')">닫기</button>';
+          echo '</div>';
+          echo '<div class="cp-cart-body">';
+          echo '<div class="thumb round60">';
+          echo '<img src="' . get_it_image_url($row['gs_id'], $gs['simg1'], 140, 140) . '" alt="' . get_text($gs['gname']) . '" class="fitCover">';
+          echo '</div>';
+          echo '<div class="content">';
+          echo '<div class="count">';
+          if ($it_options) {
+            echo '<button type="button" id="mod_opt_' . $row['gs_id'] . '" class="mod_btn mod_options change ui-btn st3">옵션변경</button>';
+          }
+          echo '</div>';
+          echo '<div class="info">';
+          echo '<div class="set">';
+          echo '<div>' . number_format($sell_qty) . '개</div>';
+          if ($row['io_id']) {
+            echo '<div>' . $it_options . '</div>';
+          }
+          echo '</div>';
+          echo '<p class="price">' . display_price2($sell_price) . '<span class="dc-price">99,999원</span></p>';
+          echo '</div>';
+          echo '</div>';
+          echo '</div>';
+          echo '</div>';
+          $preVal = $curVal;
+
           $tot_point		+= $point;
           $tot_sell_price += $sell_price;
           $tot_opt_price	+= $sell_opt_price;
@@ -189,7 +228,14 @@ if(!defined('_BLUEVATION_')) exit;
           if(!$is_member) {
             $tot_point = 0;
           }
-        } // for 
+          // if($rowG['sc_type'] == 4 && $gs['mb_id'] == $rowG['mb_id']){
+          //   echo "</div>";
+          // }
+        } // for
+
+        if ($groupStarted) {
+          echo "</div>";
+        }
 
         // 배송비 검사
         $send_cost = 0;
@@ -291,9 +337,9 @@ if(!defined('_BLUEVATION_')) exit;
         <!-- <a href="<?php echo BV_MSHOP_URL; ?>/list.php?ca_id=<?php echo $continue_ca_id; ?>" class="btn_medium bx-black">쇼핑 계속하기</a> -->
         <button type="button" onclick="return form_check('buy');" class="btn_medium btn-buy">
           <p class="price">
-            <?php echo display_price2($tot_price); ?>
+            <?php // echo display_price2($tot_price); ?>
             <span class="txt"> 구매하기</span>
-          </p> 
+          </p>
         </button>
         <!-- <div><button type="button" onclick="return form_check('seldelete');" class="btn01">선택삭제</button>
         <button type="button" onclick="return form_check('alldelete');" class="btn01">비우기</button></div> -->
@@ -307,6 +353,57 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 
 <script>
+  function checkOrderValues() {
+    const cartGboxes = document.querySelectorAll('.cart-gbox');
+    let shouldDisableButton = false;
+
+    cartGboxes.forEach(gbox => {
+      const cartItems = gbox.querySelectorAll('.cp-cart-item');
+      let totalCheckedPrice = 0;
+      let anyChecked = false;
+
+      cartItems.forEach(cart => {
+        const checkbox = cart.querySelector('input[type="checkbox"]');
+        const priceEl = cart.querySelector('.spr');
+        if (checkbox && checkbox.checked && priceEl) {
+          const price = parseInt(priceEl.textContent.replace(/[^0-9]/g, ''), 10);
+          totalCheckedPrice += price;
+          anyChecked = true;
+        }
+      });
+
+      const odPriceEl = gbox.querySelector('.odprice');
+      const orderLimit = parseInt(odPriceEl.getAttribute('data-minprice'), 10);
+
+      if (totalCheckedPrice < orderLimit && anyChecked) {
+        shouldDisableButton = true;
+      }
+    });
+
+    const buyButton = document.querySelector('.btn-buy');
+    if (shouldDisableButton) {
+      buyButton.disabled = true;
+      buyButton.classList.add('btn-disabled');
+    } else {
+      buyButton.disabled = false;
+      buyButton.classList.remove('btn-disabled');
+    }
+  }
+
+  function setupCheckboxListeners() {
+    const checkboxes = document.querySelectorAll('.cp-cart-item input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', checkOrderValues);
+    });
+  }
+
+  // 초기 로드 시 실행
+  document.addEventListener('DOMContentLoaded', () => {
+      checkOrderValues();
+      setupCheckboxListeners();
+  });
+
+
 $(function() {
     var close_btn_idx;
 
@@ -318,7 +415,8 @@ $(function() {
 
         $.post(
             "./cartoption.php",
-            { gs_id: gs_id },
+            // { gs_id: gs_id },
+            { gs_id: gs_id, paytype: <?php echo $paytype?> },
             function(data) {
                 $("#mod_option_frm").remove();
                 $this.after("<div id=\"mod_option_frm\" class=\"layer-bg\"></div>");
@@ -394,11 +492,12 @@ function form_check(act) {
 
 // 장바구니 개별 삭제 _20240312_SY
 function remove_cartItem(e) {
+
   var form = document.createElement('form');
   form.method = 'POST';
   form.action = bv_url + '/m/shop/cartupdate.php';
 
-  
+
   var actInput = document.createElement('input');
   actInput.type = 'hidden';
   actInput.name = 'act';
@@ -411,10 +510,9 @@ function remove_cartItem(e) {
   indexNoInput.value = e;
   form.appendChild(indexNoInput);
 
-  
   document.body.appendChild(form);
-  form.submit();
 
+  form.submit();
 }
 </script>
 <!-- } 장바구니 끝 -->

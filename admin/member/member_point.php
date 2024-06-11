@@ -55,10 +55,11 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
 		<col class="w100">
@@ -68,25 +69,33 @@ EOF;
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('a.mb_id', $sfl, '아이디'); ?>
-				<?php echo option_selected('b.name', $sfl, '회원명'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('a.mb_id', $sfl, '아이디'); ?>
+                        <?php echo option_selected('b.name', $sfl, '회원명'); ?>
+                    </select>
+                </div>
+			    <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기간검색</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+<div class="board_btns tac mart20">
+    <div class="btn_wrap">
+        <input type="submit" value="검색" class="btn_acc marr10">
+        <input type="button" value="초기화" id="frmRest" class="btn_cen">
+    </div>
 </div>
 </form>
 
@@ -94,15 +103,15 @@ EOF;
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 	<strong class="ov_a">포인트 합계 : <?php echo number_format($sum_point); ?>원</strong>
 </div>
 <div class="local_frm01">
 	<?php echo $btn_frmline; ?>
 </div>
-<div class="tbl_head01">
-	<table>
+<div class="board_list">
+	<table class="list01">
 	<colgroup>
 		<col class="w50">
 		<col class="w60">
@@ -110,8 +119,8 @@ EOF;
 		<col class="w130">
 		<col class="w130">
 		<col>
-		<col class="w130">
-		<col class="w100">
+		<col class="w200">
+		<col class="w200">
 		<col class="w100">
 		<col class="w100">
 	</colgroup>
@@ -148,18 +157,18 @@ EOF;
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>" id="chk_<?php echo $i; ?>">
 		</td>
 		<td><?php echo $num--; ?></td>
-		<td class="tal"><?php echo get_sideview($row['mb_id'], $row['name']); ?></td>
-		<td class="tal"><?php echo $row['mb_id']; ?></td>
+		<td><?php echo get_sideview($row['mb_id'], $row['name']); ?></td>
+		<td><?php echo $row['mb_id']; ?></td>
 		<td><?php echo get_grade($row['grade']); ?></td>
-		<td class="tal"><?php echo $row['po_content']; ?></td>
+		<td><?php echo $row['po_content']; ?></td>
 		<td><?php echo $row['po_datetime']; ?></td>
-		<td class="tac<?php echo $expr; ?>">
+		<td class="<?php echo $expr; ?>">
 			<?php if($row['po_expired'] == 1) { ?>
 			만료<?php echo substr(str_replace('-', '', $row['po_expire_date']), 2); ?>
 			<?php } else echo $row['po_expire_date'] == '9999-12-31' ? '&nbsp;' : $row['po_expire_date']; ?>
 		</td>
-		<td class="tar"><?php echo number_format($row['po_point']); ?></td>
-		<td class="tar"><?php echo number_format($row['po_mb_point']); ?></td>
+		<td><?php echo number_format($row['po_point']); ?></td>
+		<td><?php echo number_format($row['po_mb_point']); ?></td>
 	</tr>
 	<?php
 	}
@@ -177,8 +186,14 @@ EOF;
 <?php
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
 ?>
-
-<div class="information">
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ul class="cnt_list step01">
+        <li>포인트가 음수인 내역을 삭제할 경우 포인트가 다시 복원처리됩니다.</li>
+        <li>포인트가 양수인 내역을 삭제할 경우 포인트가 다시 차감처리됩니다.</li>
+    </ul>
+</div>
+<!-- <div class="information">
 	<h4>도움말</h4>
 	<div class="content">
 		<div class="desc02">
@@ -186,7 +201,7 @@ echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAM
 			<p>ㆍ포인트가 양수인 내역을 삭제할 경우 포인트가 다시 차감처리됩니다.</p>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <script>
 function fpointlist_submit(f)

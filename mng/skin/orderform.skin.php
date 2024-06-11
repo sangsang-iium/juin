@@ -360,16 +360,16 @@ if ($gs['reg_yn'] == 1) {
               <label><input type="checkbox" name="od_wday[]" value="5" > 금</label>
               <label><input type="checkbox" name="od_wday[]" value="6" > 토</label>
             </div>
-            <div class="info-item">
-              <p class="tit">배송요일</p>
+            <div class="info-item" style="display:none;">
+              <p class="tit">배송주기</p>
               <select name="od_week" id="od_week" require>
-                <option value="1">1주</option>
+                <option value="1" selected>1주</option>
                 <option value="2">2주</option>
                 <option value="3">3주</option>
                 <option value="4">4주</option>
               </select>
             </div>
-            <div class="info-item">
+            <div class="info-item" style="display:none;">
               <p class="tit">배송횟수</p>
               <select name="od_reg_cnt" id="od_reg_cnt" require>
                 <option value="2">2회</option>
@@ -378,6 +378,7 @@ if ($gs['reg_yn'] == 1) {
                 <option value="8">8회</option>
                 <option value="10">10회</option>
                 <option value="12">12회</option>
+                <option value="52" selected>52회</option>
               </select>
             </div>
             <div class="info-item">
@@ -879,15 +880,15 @@ if ($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
                         <select id="bank_code" name="bank_code" class="frm-select w-per100">
                           <option value="">은행 선택</option>
                           <?php
-foreach ($BANKS as $bkCode => $v) {?>
+                            foreach ($BANKS as $bkCode => $v) {?>
                               <option value="<?php echo $v['code'] ?>"><?php echo $v['bank'] ?></option>
                           <?php }?>
                         </select>
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row">이메일</th>
-                      <td><input type="text" name="customerEmail" value="" class="frm-input w-per100">
+                      <th scope="row">휴대전화</th>
+                      <td><input type="text" name="customerMobilePhone" value="" class="frm-input w-per100">
                       </td>
                     </tr>
                   </tbody>
@@ -903,15 +904,24 @@ foreach ($BANKS as $bkCode => $v) {?>
                   <tbody>
                     <tr>
                       <th scope="row"><label for="refund_bank">은행명</label></th>
-                      <td><input type="text" name="refund_bank" value="" class="frm-input w-per100" id="refund_bank"></td>
+                      <?php
+                        $refund_bank_code = $member['refund_bank'];
+
+                        // 은행 코드로 해당 은행 이름 찾기
+                        $bankCodes = array_column($BANKS, 'code');
+                        $bankIndex = array_search($refund_bank_code, $bankCodes);
+
+                        $refund_bank_name = ($bankIndex !== false) ? $BANKS[array_keys($BANKS)[$bankIndex]]['bank'] : "";
+                      ?>
+                      <td><input type="text" name="refund_bank" value="<?php echo $refund_bank_name ?>" class="frm-input w-per100" id="refund_bank"></td>
                     </tr>
                     <tr>
                       <th scope="row"><label for="refund_num">계좌번호</label></th>
-                      <td><input type="text" name="refund_num" value="" class="frm-input w-per100" id="refund_num"></td>
+                      <td><input type="text" name="refund_num" value="<?php echo $member['refund_num'] ?>" class="frm-input w-per100" id="refund_num"></td>
                     </tr>
                     <tr>
                       <th scope="row"><label for="refund_name">예금주</label></th>
-                      <td><input type="text" name="refund_name" value="" class="frm-input w-per100" id="refund_name"></td>
+                      <td><input type="text" name="refund_name" value="<?php echo $member['refund_name'] ?>" class="frm-input w-per100" id="refund_name"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -940,10 +950,10 @@ foreach ($BANKS as $bkCode => $v) {?>
                           <option value="S">사업자 지출증빙용</option>
                         </select>
                         <div id="taxsave_fld_1" style="display:none;">
-                          <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호">
+                          <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호" value="<?php echo $member['cellphone'] ?>">
                         </div>
                         <div id="taxsave_fld_2" style="display:none;">
-                          <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호">
+                          <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호" value="<?php echo $member['ju_b_num'] ?>">
                         </div>
                       </td>
                     </tr>
@@ -975,11 +985,11 @@ foreach ($BANKS as $bkCode => $v) {?>
               <h2 class="anc_tit">신용카드 선택</h2>
               <div class="odf_tbl">
                 <?php
-$sqlCard   = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
-$resCard   = sql_query($sqlCard);
-$resNumRow = sql_num_rows($resCard);
-if ($resNumRow > 0) {
-  ?>
+                  $sqlCard   = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+                  $resCard   = sql_query($sqlCard);
+                  $resNumRow = sql_num_rows($resCard);
+                  if ($resNumRow > 0) {
+                    ?>
                 <select name="cardsel" id="cardsel">
                   <?php
 for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {

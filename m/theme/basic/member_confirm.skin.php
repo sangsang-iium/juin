@@ -1,7 +1,5 @@
 <?php
 if(!defined('_BLUEVATION_')) exit; // 개별 페이지 접근 불가
-
-
 ?>
 
 <!-- 회원 비밀번호 확인 시작 { -->
@@ -12,7 +10,8 @@ if(!defined('_BLUEVATION_')) exit; // 개별 페이지 접근 불가
 
     <form name="fmemberconfirm" action="<?php echo $url; ?>" onsubmit="return fmemberconfirm_submit(this);" method="post">
       <input type="hidden" name="mb_id" value="<?php echo $member['id']; ?>">
-      <input type="hidden" name="reg_type" value="<?php echo $member['ju_mem']?>">
+      <!-- <input type="hidden" name="reg_type" value="<?php //echo $member['ju_mem']?>"> -->
+      <input type="hidden" name="reg_type" value="<?php echo ($member['grade'] == 8) ? 1 : 2?>">
       <input type="hidden" name="w" value="u">
 
       <fieldset class="mbConfirm-fieldset">

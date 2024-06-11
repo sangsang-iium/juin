@@ -56,27 +56,33 @@ EOF;
 <h2>기본검색</h2>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('pp_word', $sfl, '검색어'); ?>
-				<?php echo option_selected('pp_ip', $sfl, 'IP'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('pp_word', $sfl, '검색어'); ?>
+                        <?php echo option_selected('pp_ip', $sfl, 'IP'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기간검색</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -102,10 +108,10 @@ EOF;
 	<table>
 	<colgroup>
 		<col class="w50">
-		<col class="w60">
+		<col class="w80">
 		<col>
-		<col class="w100">
-		<col class="w120">
+		<col class="w200">
+		<col class="w200">
 	</colgroup>
 	<thead>
 	<tr>
@@ -133,7 +139,7 @@ EOF;
 		<td><?php echo $num--; ?></td>
 		<td class="tal"><?php echo $word; ?></td>
 		<td><?php echo $row['pp_date']; ?></td>
-		<td class="tal"><?php echo $row['pp_ip']; ?></td>
+		<td><?php echo $row['pp_ip']; ?></td>
 	</tr>
 	<?php
 	}

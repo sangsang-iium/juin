@@ -25,49 +25,55 @@ $qstr .= "&gubun=".$gubun."&page=".$page;
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">유형(*)</th>
 		<td>
-		    <select name="gubun" required class="required w150">
-		        <option value="0"<?php echo ($row['gubun']=='0') ? ' checked' : '';?>>팝니다</option>
-		        <option value="1"<?php echo ($row['gubun']=='1') ? ' checked' : '';?>>삽니다</option>
-		    </select>
+            <div class="chk_select w200">
+                <select name="gubun" required class="required">
+                    <option value="0"<?php echo ($row['gubun']=='0') ? ' selected' : '';?>>팝니다</option>
+                    <option value="1"<?php echo ($row['gubun']=='1') ? ' selected' : '';?>>삽니다</option>
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">상태(*)</th>
 		<td>
-		    <select name="status" required class="required w150">
-		        <option value="0"<?php echo ($row['status']=='0') ? ' checked' : '';?>>판매중</option>
-		        <option value="1"<?php echo ($row['status']=='1') ? ' checked' : '';?>>판매중</option>
-		        <option value="2"<?php echo ($row['status']=='2') ? ' checked' : '';?>>판매완료</option>
-		    </select>
+            <div class="chk_select w200">
+                <select name="status" required class="required">
+                    <option value="0"<?php echo ($row['status']=='0') ? ' selected' : '';?>>판매중</option>
+                    <option value="1"<?php echo ($row['status']=='1') ? ' selected' : '';?>>예약중</option>
+                    <option value="2"<?php echo ($row['status']=='2') ? ' selected' : '';?>>판매완료</option>
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">분류(*)</th>
 		<td>
-		    <select name="category" required class="required w150">
-		        <option value="">선택하세요.</option>
-		        <?php
-		        foreach($used_categorys as $v){
-		            if($v == $row['category']){
-		                echo '<option value="'.$v.'" selected>'.$v.'</option>';
-		            } else {
-		                echo '<option value="'.$v.'">'.$v.'</option>';
-		            }
-		        }
-		        ?>
-		    </select>
+            <div class="chk_select w200">
+                <select name="category" required class="required">
+                    <option value="">선택하세요.</option>
+                    <?php
+                    foreach($used_categorys as $v){
+                        if($v == $row['category']){
+                            echo '<option value="'.$v.'" selected>'.$v.'</option>';
+                        } else {
+                            echo '<option value="'.$v.'">'.$v.'</option>';
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">가격</th>
-		<td><input type="text" name="price" value="<?php echo $row['price'] ?>" class="frm_input required w150" required placeholder="숫자만입력"></td>
+		<td><input type="text" name="price" value="<?php echo $row['price'] ?>" class="frm_input required w200" required placeholder="숫자만입력"></td>
 	</tr>
 	<tr>
 		<th scope="row">제목</th>
@@ -107,9 +113,9 @@ $qstr .= "&gubun=".$gubun."&page=".$page;
 		$sub_imgs = array_filter($sub_imgs);
 		$sub_imgs = array_values($sub_imgs);
 		for($i=0;$i < 5;$i++){
-		    echo '<div class="fl w20p"><input type="file" name="s_img[]">';
+		    echo '<div class="fl"><input type="file" name="s_img[]">';
 		    if($sub_imgs[$i]){
-		        echo '<img src="'.BV_DATA_URL.'/used/'.$sub_imgs[$i].'" class="w90p"> &nbsp; <span class="image_del curp fs18" data-img_name="'.$sub_imgs[$i].'">X</span>';
+		        echo '<div class="img_container"><img src="'.BV_DATA_URL.'/used/'.$sub_imgs[$i].'" class="w90p"> &nbsp; <span class="image_del curp fs18" data-img_name="'.$sub_imgs[$i].'">X</span></a>';
 		    }
 		    echo '</div>';
 		}
@@ -119,9 +125,9 @@ $qstr .= "&gubun=".$gubun."&page=".$page;
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<input type="submit" value="저장" id="btn_submit" class="btn_large red" accesskey="s">
-	<a href="<?php echo BV_ADMIN_URL.'/used.php?code=list'.$qstr; ?>" class="btn_large">목록</a>
+<div class="btn_wrap mart30">
+	<input type="submit" value="저장" id="btn_submit" class="btn_write" accesskey="s">
+	<a href="<?php echo BV_ADMIN_URL.'/used.php?code=list'.$qstr; ?>" class="btn_list bg_type1"><span>목록</span></a>
 </div>
 </form>
 
@@ -136,11 +142,12 @@ function fregisterform_submit(f) {
 const no = Number(<?php echo $row['no'] ?>);
 
 $(document).on("click", ".image_del", function(){
+    var idx = $(".image_del").index(this);
     var img_name = $(this).data("img_name");
     if(confirm("이미지를 삭제하시겠습니까?")){
         $.post(bv_admin_url+"/used/ajax.sub.image.del.php", {no:no, img_name:img_name}, function(obj){
             if(obj=='Y'){
-                location.reload();
+                $(".img_container").eq(idx).remove();
             }
         })
     }

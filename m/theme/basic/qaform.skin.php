@@ -34,15 +34,15 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </select>
         </div>
       </div>
-      <div class="form-row">
+      <div class="form-row"  style="display:none">
         <div class="form-head">
           <p class="title">성명<b>*</b></p>
         </div>
         <div class="form-body">
-          <input type="text" name="iq_name" value="<?php echo get_text($iq_name); ?>" id="iq_name" required class="frm-input w-per100">
+          <input type="text" name="iq_name" value="<?php echo get_text($iq_name); ?>" id="iq_name"   class="frm-input w-per100">
         </div>
       </div>
-      <div class="form-row">
+      <div class="form-row"  style="display:none">
         <div class="form-head">
           <p class="title">이메일</p>
         </div>
@@ -50,7 +50,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <input type="text" name="iq_email" value="<?php echo get_text($iq_email); ?>" id="iq_email" class="frm-input w-per100">
         </div>
       </div>
-      <div class="form-row">
+      <div class="form-row"  style="display:none">
         <div class="form-head">
           <p class="title">핸드폰</p>
         </div>

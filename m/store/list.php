@@ -22,6 +22,7 @@ include_once(BV_PATH.'/include/topMenu.php');
     <!-- 지도 연동 -->
   </div>
   <button type="button" class="current_position">현위치 재검색</button>
+  <button type="button" class="add_latlng">검색위치등록</button>
 
   <div class="container store-prod_list"></div>
 
@@ -40,16 +41,17 @@ const usedMenu = f.hrizonMenu(usedMenuTarget, usedMenuActive);
 
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services"></script>
+<?php echo BV_POSTCODE_JS ?>
 <script>
-// 중심좌표
-let user_lat = 0;
-let user_lng = 0;
+// 중심좌표(위치거부시초기값)
+let user_lat = 33.450701;
+let user_lng = 126.570667;
 let cate = 'all';
 
 //지도
 var mapContainer = document.getElementById('map'),
 mapOption = {
-	center: new kakao.maps.LatLng(33.450701, 126.570667),
+	center: new kakao.maps.LatLng(user_lat, user_lng),
 	level: 3
 };
 var map = new kakao.maps.Map(mapContainer, mapOption);
@@ -60,27 +62,9 @@ kakao.maps.event.addListener(map, 'idle', function() {
     var latlng = map.getCenter();
     user_lat = latlng.getLat();
     user_lng = latlng.getLng();
-    console.log(user_lat+'/'+user_lng)
+    //console.log(user_lat+'/'+user_lng)
 });
 
-
-
-// 마커를 표시할 위치와 title 객체 배열입니다 
-/*var positions = [
-    {
-        title: '카카오', 
-        latlng: new kakao.maps.LatLng(33.450705, 126.570677),
-        url: '/m/store/view.php',
-        img: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'
-    },
-    {
-        title: '생태연못', 
-        latlng: new kakao.maps.LatLng(33.450936, 126.569477),
-        url: '/m/store/view.php',
-        img: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'
-    },
-];*/
-var positions = [];
 var markers = [];
 function addMarker(positions){
     hideMarkers();
@@ -93,10 +77,9 @@ function addMarker(positions){
         var markerImage = new kakao.maps.MarkerImage(positions[i].img, imageSize); 
         // 마커를 생성합니다
         var marker = new kakao.maps.Marker({
-            position : positions[i].latlng,
+            position : new kakao.maps.LatLng(positions[i].lat, positions[i].lng),
             title : positions[i].title,
-            image : markerImage,
-            url : positions[i].url
+            image : markerImage
         });
         
         markers.push(marker);
@@ -117,20 +100,20 @@ function hideMarkers() {
 }
 
 
-
-
-
-function getStoreList(cate){
+//회원사 리스트 가져오기
+function getStoreList(){
     //지도중심이동
     var moveLatLon = new kakao.maps.LatLng(user_lat, user_lng);
     map.setCenter(moveLatLon);
     
     $.post("ajax.get_store_list.php", {lat:user_lat, lng:user_lng, cate:cate}, function(obj){
-        
+        var data = JSON.parse(obj);
+        $(".store-prod_list").html(data['slist']);
+        var positions = data['positions'];
+        addMarker(positions);
         reEvent();
     });
 }
-
 function reEvent(){
     $(".wish-btn").click(function(){
         var el = $(this);
@@ -149,32 +132,72 @@ function reEvent(){
     });
 }
 
+
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+// 주소로 좌표를 검색합니다
+function getPosition(address){
+    address = address.trim();
+
+    geocoder.addressSearch(address, function(result, status) {
+        // 정상적으로 검색이 완료됐으면 
+        if (status === kakao.maps.services.Status.OK) {
+            user_lat = result[0].y;
+            user_lng = result[0].x;
+            getStoreList();
+        } else {
+            alert("좌표를 확인할 수 없습니다. 주소를 확인해 주세요.");
+        }
+    });
+}
+function daumAddress(){
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+            
+            getPosition(addr);
+        }
+    }).open();
+}
+
+
+
 $(document).ready(function(){
     function successCallback(position) {
         user_lat = position.coords.latitude;
         user_lng = position.coords.longitude;
         
-        getStoreList(cate);
+        getStoreList();
     }
 
     function errorCallback(error) {
         //alert("Error: " + error.message);
-        getStoreList(cate);
+        getStoreList();
     }
 
-    //navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
     $(".swiper-slide").click(function(){
         cate = $(this).data("id");
         $(".swiper-slide").removeClass("active");
         $(this).addClass("active");
         
-        getStoreList(cate);
+        getStoreList();
     });
 
     $(".current_position").click(function(){
-        getStoreList(cate);
-    });   
+        getStoreList();
+    });
+    
+    $(".add_latlng").click(function(){
+        daumAddress();
+    });
 });
 </script>
 

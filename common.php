@@ -127,6 +127,9 @@ if(preg_match("/www\./i", $_SERVER['HTTP_HOST'])) {
 //==============================================================================
 // 공통
 //------------------------------------------------------------------------------
+if (!defined('BV_TIMEZONE')) {
+  define('BV_TIMEZONE', 'Asia/Seoul'); // 기본 시간대 설정 (필요에 따라 변경)
+}
 $dbconfig_file = BV_DATA_PATH.'/'.BV_DBCONFIG_FILE;
 if(file_exists($dbconfig_file)) {
     include_once($dbconfig_file);
@@ -293,7 +296,7 @@ if(isset($_REQUEST['url'])) {
 // 자동로그인 부분에서 첫로그인에 포인트 부여하던것을 로그인중일때로 변경하면서 코드도 대폭 수정하였습니다.
 if($_SESSION['ss_mb_id']) { // 로그인중이라면
 	$member = get_member($_SESSION['ss_mb_id']);
-  
+
   // Manager Login Check 추가 _20240527_SY
   if($_SESSION['ss_mn_id']){
     $member = get_manager($_SESSION['ss_mb_id']);

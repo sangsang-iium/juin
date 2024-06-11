@@ -1,7 +1,6 @@
 <?php // 담당자 _20240527_SY
 include_once("./_common.php");
 
-
 /* POST 값
   [token] => fcd84f7e807272cc5c9af75bed9de507
   [q1] => code=manager_register_form
@@ -9,7 +8,6 @@ include_once("./_common.php");
   [w] => 
   [manager_id] => sss
   [manager_pw] => 1234
-  [auth_idx] => 1
   [manager_name] => aaaaaa
   [kf_region1] => 1
   [kf_region2] => 성동구지회
@@ -17,9 +15,9 @@ include_once("./_common.php");
 */
  
  
-// check_demo();
+check_demo();
 
-// check_admin_token();
+check_admin_token();
 
 $db_table = "shop_manager";
 
@@ -28,31 +26,49 @@ $name     = trim($_POST['manager_name']);
 $region1  = $_POST['ju_region1'];
 $region2  = $_POST['ju_region2'];
 $region3  = $_POST['ju_region3'];
-$auth_idx = $_POST['auth_idx'];
+// $auth_idx = $_POST['auth_idx'];
 
 $now = date('Y-m-d H:i:s');
 
+
+// 지회/지부 SELECT 수정 _20240608_SY
+if(!empty($region3)) {
+  $sql_where .= " AND b.branch_code = '{$region2}' 
+                  AND a.office_code = '{$region3}' 
+                ";
+  $type = "office";
+} else {
+  $sql_where .= " AND b.branch_code = '{$region2}' ";
+  $type = "branch";
+}
+$region_res = getRegionFunc($type, $sql_where);
+
 // 권한
-$auth_sql = " SELECT * FROM authorization WHERE auth_idx = '$auth_idx' ";
+$auth_sql = "SELECT * FROM authorization WHERE auth_idx = '{$region_res[0]['auth_idx']}'";
 $auth_res = sql_fetch($auth_sql);
 
-$menuArr  = str_replace(',','',$auth_res['auth_menu']);
-$menuArr  = explode("ADMIN_MENU", $menuArr);
+$menuArr = str_replace(',', '', $auth_res['auth_menu']);
+$menuArr = explode("ADMIN_MENU", $menuArr);
 
-foreach($menuArr as $key => $val) {
-  if(!empty($val)) {
-    $ins_data["auth_{$val}"] = 1;
-  }
+$menuArr = array_map('trim', $menuArr); // 배열 요소의 앞뒤 공백 제거
+
+// 기본값 설정
+$upd_data = [];
+foreach (range(1, 10) as $i) {
+    $upd_data["auth_{$i}"] = 0;
 }
 
-// 지역 코드 
-$region_sql = " SELECT kf_code FROM kfia_region
-                WHERE (1)
-                  AND kf_region1 = '{$region1}'
-                  AND kf_region2 = '{$region2}'
-                  AND kf_region3 = '{$region3}'
-              ";
-$region_res = sql_fetch($region_sql);
+// $menuArr의 값들에 대해 업데이트
+foreach ($menuArr as $val) {
+    if (!empty($val) && is_numeric($val)) {
+        $key = "auth_{$val}";
+        if ($w == '') {
+            $ins_data[$key] = 1;
+        } else {
+            $upd_data[$key] = 1;
+        }
+    }
+}
 
 if($w == '') {
 
@@ -75,8 +91,6 @@ if($w == '') {
   $ins_data['ju_region1']     = $region1;
   $ins_data['ju_region2']     = $region2;
   $ins_data['ju_region3']     = $region3;
-  $ins_data['ju_region_code'] = $region_res['kf_code'];
-  $ins_data['auth_idx']       = $auth_idx;
  
   $INSERT = new IUD_Model;
   $INSERT->insert($db_table, $ins_data);
@@ -97,8 +111,6 @@ if($w == '') {
   $upd_data['ju_region1']     = $region1;
   $upd_data['ju_region2']     = $region2;
   $upd_data['ju_region3']     = $region3;
-  $upd_data['ju_region_code'] = $region_res['kf_code'];
-  $upd_data['auth_idx']       = $auth_idx;
   $upd_where = " WHERE index_no = '{$idx}' ";
 
   $UPDATE = new IUD_Model;

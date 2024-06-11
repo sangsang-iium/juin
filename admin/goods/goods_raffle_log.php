@@ -12,6 +12,10 @@ if($sfl && $stx) {
     $sql_search .= " and ($sfl like '%$stx%') ";
 }
 
+if($prize == 'Y') {
+	$sql_search .= " AND prize = 'Y' ";
+}
+
 if($fr_date && $to_date)
 	$sql_search .= " and (event_start_date >= '$fr_date' and event_end_date <= '$to_date') ";
 else if($fr_date && !$to_date)
@@ -59,24 +63,29 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <input type="hidden" name="raffle_index" value="<?php echo $raffle_index; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
-	<tbody>	
+	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('mb_name', $sfl, '신청자 이름'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('mb_name', $sfl, '신청자 이름'); ?>
+                    </select>
+                </div>
+			    <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -91,18 +100,21 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18 line_search">
 	<!-- 전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회 -->
-	<span>선정해야 하는 인원 : <b><?php echo number_format($raffleWinner); ?></b></span>명
-	<span>선정된 인원 : <b class="now_winner"><?php echo number_format($raffleNowWinner); ?></b></span>명
-	<span class="ov_a">
+	<p>선정해야 하는 인원 : <b class=""><?php echo number_format($raffleWinner); ?></b>명</p>
+	<p>선정된 인원 : <b class="now_winner fc_red"><?php echo number_format($raffleNowWinner); ?></b>명</p>
+	<div class="chk_select">
 		<select id="page_rows" onchange="location='<?php echo "{$_SERVER['SCRIPT_NAME']}?{$q1}&page=1"; ?>&page_rows='+this.value;">
 			<?php echo option_selected('30',  $page_rows, '30줄 정렬'); ?>
 			<?php echo option_selected('50',  $page_rows, '50줄 정렬'); ?>
 			<?php echo option_selected('100', $page_rows, '100줄 정렬'); ?>
 		</select>
-	</span>
-	<button onclick="randomPrize()" >랜덤 선정</button>
+	</div>
+    <div class="btn_wrap">
+        <a onclick="randomPrize()" class="btn_acc bg_type2 marr10"><span>랜덤 선정</span></a>
+        <a onclick="showWinners()" class="detail"><span>선정자 보기</span></a>
+    </div>
 </div>
 
 <div class="tbl_head01">
@@ -110,11 +122,11 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 	<colgroup>
 		<col class="w150">
 		<col>
-		<col class="w150">
+		<col class="w200">
 		<col class="w150">
 		<col class="w150">
 		<col>
-		<col class="w150">
+		<col class="w200">
 		<col class="w150">
 	</colgroup>
 	<thead>
@@ -148,20 +160,32 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		$prizeCheck1 = ($row1['prize'] == 'N')? false:true;
 		$prizeCheck2 = ($row2['prize'] == 'N')? false:true;
 
-		$prize1 = "<button data-index='$index_no1' onclick=\"prize('$index_no1','$row1[prize]')\">" . ($prizeCheck1 ? "선정 취소" : "선정") . "</button>";
-		$prize2 = "<button data-index='$index_no2' onclick=\"prize('$index_no2','$row2[prize]')\">" . ($prizeCheck2 ? "선정 취소" : "선정") . "</button>";
+		$prize1 = "<button data-index='$index_no1' class='btn_cen' onclick=\"prize('$index_no1','$row1[prize]')\">" . ($prizeCheck1 ? "선정 취소" : "선정") . "</button>";
+		$prize2 = "<button data-index='$index_no2' class='btn_cen' onclick=\"prize('$index_no2','$row2[prize]')\">" . ($prizeCheck2 ? "선정 취소" : "선정") . "</button>";
 
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td><?php echo $row1['mb_name']; ?></td>
 		<td><?php echo $row1['mb_id'] ?></td>
 		<td><?php echo $row1['reg_time'] ?></td>
-		<td><?php echo $prize1; ?></td>
+		<td>
+            <div class="board_btns tac">
+                <div class="btn_wrap">
+                    <?php echo $prize1; ?>
+                </div>
+            </div>
+        </td>
 		<?php if ($row2) { // 두 번째 행이 있을 때만 표시 ?>
 			<td><?php echo $row2['mb_name']; ?></td>
 			<td><?php echo $row2['mb_id'] ?></td>
 			<td><?php echo $row2['reg_time'] ?></td>
-			<td><?php echo $prize2; ?></td>
+			<td>
+                <div class="board_btns tac">
+                    <div class="btn_wrap">
+                        <?php echo $prize2; ?>
+                    </div>
+                </div>
+            </td>
 		<?php } else { // 두 번째 행이 없을 때 빈 셀 표시 ?>
 			<td colspan="4"></td>
 		<?php } ?>
@@ -241,4 +265,8 @@ function randomPrize() {
 	});
 }
 
+function showWinners() {
+  var url = '<?php echo $_SERVER['SCRIPT_NAME'].'?'.$q1.'&prize=Y' ?>';
+  window.location.href = url;
+}
 </script>

@@ -5,7 +5,7 @@ include_once(BV_PATH.'/include/topMenu.php');
 
 if(is_numeric($no)){
     $w = "u";
-    $row = sql_fetch("select * from shop_used where no = '$no'");
+    $row = sql_fetch("select * from shop_used where no = '$no' and mb_id='{$member['id']}'");
     if(!$row['no']){
         alert("상품정보가 존재하지 않습니다.");
     }
@@ -13,7 +13,7 @@ if(is_numeric($no)){
 ?>
 
 <div id="contents" class="sub-contents usedWrite">
-<form name="fqaform" id="fqaform" method="post" action="./write_update.php" onsubmit="return fqaform_submit(this);" autocomplete="off" enctype="MULTIPART/FORM-DATA">
+<form name="fqaform" id="fqaform" method="post" action="./write_used.php" onsubmit="return fqaform_submit(this);" autocomplete="off" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="w" value="<?php echo $w ?>">
 <input type="hidden" name="no" value="<?php echo $no ?>">
 
@@ -26,8 +26,8 @@ if(is_numeric($no)){
 					<div class="form-body">
 		                <select name="gubun" required class="frm-select">
 		                    <option value="">선택하세요</option>
-		                    <option value="0"<?php echo ($row['gubun']=='0') ? ' checked' : '';?>>팝니다</option>
-		                    <option value="1"<?php echo ($row['gubun']=='1') ? ' checked' : '';?>>삽니다</option>
+		                    <option value="0"<?php echo ($row['gubun']=='0') ? ' selected' : '';?>>팝니다</option>
+		                    <option value="1"<?php echo ($row['gubun']=='1') ? ' selected' : '';?>>삽니다</option>
 		                </select>
 					</div>
 				</div>
@@ -38,9 +38,9 @@ if(is_numeric($no)){
 					<div class="form-body">
 		                <select name="status" required class="frm-select">
 		                    <option value="">선택하세요</option>
-		                    <option value="0"<?php echo ($row['status']=='0') ? ' checked' : '';?>>판매중</option>
-		                    <option value="1"<?php echo ($row['status']=='1') ? ' checked' : '';?>>예약중</option>
-		                    <option value="2"<?php echo ($row['status']=='2') ? ' checked' : '';?>>판매완료</option>
+		                    <option value="0"<?php echo ($row['status']=='0') ? ' selected' : '';?>>판매중</option>
+		                    <option value="1"<?php echo ($row['status']=='1') ? ' selected' : '';?>>예약중</option>
+		                    <option value="2"<?php echo ($row['status']=='2') ? ' selected' : '';?>>판매완료</option>
 		                </select>
 					</div>
 				</div>
@@ -84,7 +84,7 @@ if(is_numeric($no)){
 						<p class="title">설명<b>*</b></p>
 					</div>
 					<div class="form-body">
-						<textarea name="content" required rows="7" class="frm-txtar w-per100" placeholder="내용을 입력해주세요."></textarea>
+						<textarea name="content" required rows="7" class="frm-txtar w-per100" placeholder="내용을 입력해주세요."><?php echo $row['content'] ?></textarea>
 					</div>
 				</div>
 				<div class="form-row">
@@ -129,9 +129,10 @@ if(is_numeric($no)){
 		                    $sub_imgs = array_filter($sub_imgs);
 		                    $sub_imgs = array_values($sub_imgs);
 		                    for($i=0;$i < 5;$i++){
-		                        echo '<div class="img-upload-item"><input type="file" name="s_img[]">';
+		                        echo '<div class="img-upload-item">X<input type="file" name="s_img[]">';
 		                        if($sub_imgs[$i]){
-		                            echo '<img src="'.BV_DATA_URL.'/used/'.$sub_imgs[$i].'"> &nbsp; <span class="image_del" data-img_name="'.$sub_imgs[$i].'">X</span>';
+		                            // css 때문에 삭제가 보이지 않아서 임시이미지로 처리함.
+		                            echo '<div class="img_container"><img src="'.BV_DATA_URL.'/used/'.$sub_imgs[$i].'">&nbsp; <img src="/m/img/ajax-loader.gif" class="image_del" data-img_name="'.$sub_imgs[$i].'"></div>';
 		                        }
 		                        echo '</div>';
 		                    }
@@ -193,6 +194,22 @@ function daumAddress(){
         }
     }).open();
 }
+
+/* 서브이미지 삭제 */
+const no = Number(<?php echo $row['no'] ?>);
+
+$(document).on("click", ".image_del", function(){
+    var idx = $(".image_del").index(this);
+    var img_name = $(this).data("img_name");
+    if(confirm("이미지를 삭제하시겠습니까?")){
+        $.post("ajax.sub.image.del.php", {no:no, img_name:img_name}, function(obj){
+            if(obj=='Y'){
+                $(".img_container").eq(idx).remove();
+            }
+        })
+    }
+});
+/* 서브이미지 삭제 */
 </script>
 
 

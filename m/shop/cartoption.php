@@ -37,10 +37,11 @@ if(!sql_num_rows($result))
 <!-- 장바구니 옵션 시작 { -->
 <div class="layer-inner">
 	<div class="layer-inner-content">
-	
+
 		<form name="foption" method="post" action="<?php echo BV_MSHOP_URL; ?>/cartupdate.php" onsubmit="return formcheck(this);">
 		<input type="hidden" name="act" value="optionmod">
 		<input type="hidden" name="gs_id[]" value="<?php echo $gs_id;?>">
+		<input type="hidden" name="paytype" value="<?php echo $paytype ?>">
 		<input type="hidden" id="it_price" value="<?php echo $row2['ct_price'];?>">
 		<div class="sp_wrap" style="border-top:0">
 			<?php

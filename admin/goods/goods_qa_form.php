@@ -16,10 +16,10 @@ if(!$iq['iq_id'])
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 <input type="hidden" name="iq_id" value="<?php echo $iq_id; ?>">
 
-<div class="tbl_frm02">
+<div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -38,15 +38,21 @@ if(!$iq['iq_id'])
 	<tr>
 		<th scope="row">옵션</th>
 		<td>
-			<select name="iq_ty">
-				<option value=""<?php echo get_selected($iq['iq_ty'], ''); ?>>문의유형(선택)</option>
-				<option value="상품"<?php echo get_selected($iq['iq_ty'], '상품'); ?>>상품</option>
-				<option value="배송"<?php echo get_selected($iq['iq_ty'], '배송'); ?>>배송</option>
-				<option value="반품/환불/취소"<?php echo get_selected($iq['iq_ty'], '반품/환불/취소'); ?>>반품/환불/취소</option>
-				<option value="교환/변경"<?php echo get_selected($iq['iq_ty'], '교환/변경'); ?>>교환/변경</option>
-				<option value="기타"<?php echo get_selected($iq['iq_ty'], '기타'); ?>>기타</option>
-			</select>
-			<input type="checkbox" name="iq_secret" value="1" id="iq_secret"<?php echo get_checked($iq['iq_secret'], '1'); ?>> <label for="iq_secret">비밀글</label>
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="iq_ty">
+                        <option value=""<?php echo get_selected($iq['iq_ty'], ''); ?>>문의유형(선택)</option>
+                        <option value="상품"<?php echo get_selected($iq['iq_ty'], '상품'); ?>>상품</option>
+                        <option value="배송"<?php echo get_selected($iq['iq_ty'], '배송'); ?>>배송</option>
+                        <option value="반품/환불/취소"<?php echo get_selected($iq['iq_ty'], '반품/환불/취소'); ?>>반품/환불/취소</option>
+                        <option value="교환/변경"<?php echo get_selected($iq['iq_ty'], '교환/변경'); ?>>교환/변경</option>
+                        <option value="기타"<?php echo get_selected($iq['iq_ty'], '기타'); ?>>기타</option>
+                    </select>
+                </div>
+                <div class="checks">
+                    <input type="checkbox" name="iq_secret" value="1" id="iq_secret"<?php echo get_checked($iq['iq_secret'], '1'); ?>> <label for="iq_secret">비밀글</label>
+                </div>
+            </div>
 		</td>
 	</tr>
 	<tr>

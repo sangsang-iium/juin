@@ -26,9 +26,9 @@ if($w == "") {
         alert("존재하지 않은 배너 입니다.");
 }
 
-$frm_submit = '<div class="btn_confirm">
-	<input type="submit" value="저장" class="btn_large" accesskey="s">
-	<a href="./design.php?code=mbanner_list'.$qstr.'&page='.$page.'" class="btn_large bx-white">목록</a>'.PHP_EOL;
+$frm_submit = '<div class="btn_wrap mart30">
+	<input type="submit" value="저장" class="btn_write" accesskey="s">
+	<a href="./design.php?code=mbanner_list'.$qstr.'&page='.$page.'" class="btn_list bg_type1">목록</a>'.PHP_EOL;
 if($w == 'u')
 	$frm_submit .= '<a href="./design.php?code=mbanner_form" class="btn_large bx-red">추가</a>'.PHP_EOL;
 $frm_submit .= '</div>';
@@ -37,34 +37,43 @@ $frm_submit .= '</div>';
 <script src="<?php echo BV_JS_URL; ?>/colorpicker.js"></script>
 
 <form name="fbanner" id="fbanner" action="./design/mbanner_form_update.php" method="post" enctype="MULTIPART/FORM-DATA">
-<input type="hidden" name="w" value="<?php echo $w; ?>">	
+<input type="hidden" name="w" value="<?php echo $w; ?>">
 <input type="hidden" name="sca"  value="<?php echo $sca; ?>">
 <input type="hidden" name="page"  value="<?php echo $page; ?>">
 <input type="hidden" name="bn_id" value="<?php echo $bn_id; ?>">
 <input type="hidden" name="token" value="">
 
-<div class="tbl_frm02">
+<div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
-		<col> 
+		<col width="220px">
+		<col width="auto">
+		<col width="220px">
+		<col width="auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">노출위치</th>
-		<td>
-			<select name="bn_code" onchange="chk_js_position(this.value);">
-			<?php 
-			for($i=0; $i<count($position); $i++)
-				echo option_selected($position[$i][0], $bn['bn_code'], $position[$i][3]); 
-			?>
-			</select>
-			<?php echo help('[고정] 같은 위치에 고정되어 노출되며 2개이상 등록시 랜덤으로 노출됩니다.<br>[연속] 2개이상 등록시 세로로 연속하여 노출됩니다.<br>[롤링] 2개이상 등록시 슬라이드형식으로 롤링되며 노출됩니다.'); ?>
+		<td colspan="3">
+            <div class="chk_select">
+                <select name="bn_code" onchange="chk_js_position(this.value);">
+                    <?php
+                    for($i=0; $i<count($position); $i++)
+                        echo option_selected($position[$i][0], $bn['bn_code'], $position[$i][3]);
+                    ?>
+                </select>
+            </div>
+            <ul class="cnt_list step02 mart10">
+                <li>[고정] 같은 위치에 고정되어 노출되며 2개이상 등록시 랜덤으로 노출됩니다.</li>
+                <li>[연속] 2개이상 등록시 세로로 연속하여 노출됩니다.</li>
+                <li>[롤링] 2개이상 등록시 슬라이드형식으로 롤링되며 노출됩니다.</li>
+            </ul>
+			<!-- <?php echo help('[고정] 같은 위치에 고정되어 노출되며 2개이상 등록시 랜덤으로 노출됩니다.<br>[연속] 2개이상 등록시 세로로 연속하여 노출됩니다.<br>[롤링] 2개이상 등록시 슬라이드형식으로 롤링되며 노출됩니다.'); ?> -->
 		</td>
-	</tr>
-	<tr>
+    </tr>
+    <tr>
 		<th scope="row">배너파일</th>
-		<td>
+		<td colspan="3">
 			<input type="file" name="bn_file" id="bn_file">
 			<?php
 			$bimg_str = "";
@@ -89,28 +98,54 @@ $frm_submit .= '</div>';
 	</tr>
 	<tr>
 		<th scope="row">링크주소</th>
-		<td>
-			<input type="text" name="bn_link" value="<?php echo $bn['bn_link']; ?>" class="frm_input" size="40">
-			<select name="bn_target">
-				<?php echo option_selected('_self', $bn['bn_target'], "현재창에서"); ?>
-				<?php echo option_selected('_blank', $bn['bn_target'], "새창으로"); ?>
-			</select>
-			<?php echo help('[외부링크] http:// 를 포함해 절대경로로 입력해주시기 바랍니다.<br><span class="fc_197">절대경로 예시) http://test.com/shop/listtype.php?type=1</span>'); ?>
-			<?php echo help('[내부링크] http:// 를 제외한 상대경로로 입력해주시기 바랍니다.<br><span class="fc_197">상대경로 예시) /shop/listtype.php?type=1</span>'); ?>
+		<td colspan="3">
+            <div class="tel_input">
+                <input type="text" name="bn_link" value="<?php echo $bn['bn_link']; ?>" class="frm_input" size="40" placeholder="url 주소">
+                <div class="chk_select">
+                    <select name="bn_target">
+                        <?php echo option_selected('_self', $bn['bn_target'], "현재창에서"); ?>
+                        <?php echo option_selected('_blank', $bn['bn_target'], "새창으로"); ?>
+                    </select>
+                </div>
+            </div>
+            <ul class="cnt_list step01 mart10">
+                <li>[외부링크] http:// 를 포함해 절대경로로 입력해주시기 바랍니다.
+                    <ul class="cnt_list step02">
+                        <li class="fc_197">절대경로 예시) http://test.com/shop/listtype.php?type=1
+                        </li>
+                    </ul>
+                </li>
+                <li>[내부링크] http:// 를 제외한 상대경로로 입력해주시기 바랍니다.
+                    <ul class="cnt_list step02">
+                        <li class="fc_197">절대경로 예시) 상대경로 예시) /shop/listtype.php?type=1
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+			<!-- <?php echo help('[외부링크] http:// 를 포함해 절대경로로 입력해주시기 바랍니다.<br><span class="fc_197">절대경로 예시) http://test.com/shop/listtype.php?type=1</span>'); ?>
+			<?php echo help('[내부링크] http:// 를 제외한 상대경로로 입력해주시기 바랍니다.<br><span class="fc_197">상대경로 예시) /shop/listtype.php?type=1</span>'); ?> -->
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">가로사이즈</th>
-		<td><input type="text" name="bn_width" value="<?php echo $bn['bn_width']; ?>" class="frm_input" size="7"> px</td>
-	</tr>
-	<tr>
+		<td>
+            <div class="tel_input">
+                <input type="text" name="bn_width" value="<?php echo $bn['bn_width']; ?>" class="frm_input w100" size="7">
+                <p> px</p>
+            </div>
+        </td>
 		<th scope="row">세로사이즈</th>
-		<td><input type="text" name="bn_height" value="<?php echo $bn['bn_height']; ?>" class="frm_input" size="7"> px</td>
+		<td>
+            <div class="tel_input">
+                <input type="text" name="bn_height" value="<?php echo $bn['bn_height']; ?>" class="frm_input w100" size="7">
+                <p> px</p>
+            </div>
+        </td>
 	</tr>
-	<tr>
+	<!-- <tr>
 		<th scope="row">백그라운드 색상</th>
 		<td>
-			<input type="text" name="bn_bg" value="<?php echo $bn['bn_bg']; ?>" id="bn_bg" class="frm_input" size="7" maxlength="6"> 
+			<input type="text" name="bn_bg" value="<?php echo $bn['bn_bg']; ?>" id="bn_bg" class="frm_input" size="7" maxlength="6">
 			<?php echo help('"#" 기호없이 색상값 6자만 입력하세요. 예) F6E3FB'); ?>
 			<script>
 			$(function() {
@@ -136,15 +171,16 @@ $frm_submit .= '</div>';
 			<input type="text" name="bn_text" value="<?php echo $bn['bn_text']; ?>" class="frm_input" size="40">
 			<?php echo help('특정 배너에만 문구가 노출되는 부분으로 모든 배너에 문구가 노출되지는 않습니다.'); ?>
 		</td>
-	</tr>
+	</tr> -->
 	<tr>
 		<th scope="row">순서</th>
 		<td>
-			<input type="text" name="bn_order" value="<?php echo $bn['bn_order']; ?>" class="frm_input" size="7"> 숫자가 작을수록 우선 순위로 노출 됩니다.
-			<?php echo help('롤링 및 연속배너에만 적용됩니다. (고정배너는 의미없음)'); ?>
+			<input type="text" name="bn_order" value="<?php echo $bn['bn_order']; ?>" class="frm_input w200" size="7">
+            <ul class="cnt_list step01 mart10">
+                <li>숫자가 작을수록 우선 순위로 노출 됩니다.</li>
+                <li>롤링 및 연속배너에만 적용됩니다. (고정배너는 의미없음)</li>
+            </ul>
 		</td>
-	</tr>
-	<tr>
 		<th scope="row">노출여부</th>
 		<td>
 			<input type="checkbox" name="bn_use" value="1" id="bn_use_yes" <?php echo get_checked($bn['bn_use'], "1"); ?>> <label for="bn_use_yes">노출함</label>
@@ -158,7 +194,7 @@ $frm_submit .= '</div>';
 </form>
 
 <script>
-function chk_js_position(val) { 
+function chk_js_position(val) {
     switch(val){
 		<?php for($i=0; $i<count($position); $i++) { ?>
 		case '<?php echo $position[$i][0]; ?>':

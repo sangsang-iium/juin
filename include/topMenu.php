@@ -2,16 +2,18 @@
   <nav class="cp-horizon-menu qk-menu">
     <div class="swiper-wrapper">
       <?php
-			for($i=0; $i<count($gw_menu); $i++) {
-				$seq = ($i+1);
-				$page_url = BV_MURL.$gw_menu[$i][1];
-        $page_param = parse_url($page_url, PHP_URL_QUERY);
-        parse_str($page_param, $menu_id);
-				if(!$default['de_pname_use_'.$seq] || !$default['de_pname_'.$seq])
-					continue;
+				foreach ($gw_menu as $menu_item) {
+					$menu_name  = $menu_item[0];
+					$page_url   = BV_MURL . $menu_item[1];
+					$page_param = parse_url($page_url, PHP_URL_QUERY);
+					$menu_id    = '';
+					if ($page_param) {
+						parse_str($page_param, $query_params);
+						$menu_id = isset($query_params['menu']) ? $query_params['menu'] : '';
+					}
 
-				echo '<a href="'.$page_url.'" data-id="'.$menu_id['menu'].'" class="swiper-slide btn">'.$default['de_pname_'.$seq].'</a>'.PHP_EOL;
-			}
+					echo '<a href="' . htmlspecialchars($page_url, ENT_QUOTES, 'UTF-8') . '" data-id="' . htmlspecialchars($menu_id, ENT_QUOTES, 'UTF-8') . '" class="swiper-slide btn">' . htmlspecialchars($menu_name, ENT_QUOTES, 'UTF-8') . '</a>' . PHP_EOL;
+				}
 			?>
     </div>
   </nav>

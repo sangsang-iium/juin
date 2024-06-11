@@ -72,6 +72,26 @@ include_once("./admin_head.sub.php");
 	</table>
 </div>
 
+<!-- 차량배송 최소 금액 설정 20240605 jjh -->
+<h2>차량배송 최소 금액 설정</h2>
+<div class="tbl_frm01">
+	<table>
+		<colgroup>
+			<col class="w140">
+			<col>
+		</colgroup>
+		<tbody>
+		<tr>
+			<th scope="row">차량배송 최소금액</th>
+			<td>
+				<input type="text" name="min_delivery" value="<?php echo $seller['min_delivery']; ?>" class="frm_input" size="30">
+				<?php echo help("초기 설정값은 50,000원 입니다."); ?>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
 <!-- 정산방식 추가 _20240508_SY -->
 <h2>정산방식</h2>
 <div class="tbl_frm01">

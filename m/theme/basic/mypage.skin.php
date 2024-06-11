@@ -3,6 +3,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 ?>
 
+<script src="https://spi.maps.daum.net/imap/map_js_init/postcode.v2.js"></script>
+
+
 <div id="smb_my">
 
 	<div class="my-sec container">
@@ -51,7 +54,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			</ul>
 			<div class="smb-my-step-list">
 				<?php
-					
+
 					$mb_id = $member['id'];
 					$aaa = "select dan,count(dan) cnt from shop_order where mb_id='{$mb_id}' group by dan";
 					// echo $aaa;
@@ -67,7 +70,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 						if($ro['dan']==2){$c2 = $ro['cnt'];}
 						if($ro['dan']==3){$c3 = $ro['cnt'];}
 						if($ro['dan']==4){$c4 = $ro['cnt'];}
-						if($ro['dan']==5){$c5 = $ro['cnt'];} 
+						if($ro['dan']==5){$c5 = $ro['cnt'];}
 					}
 				?>
 
@@ -110,7 +113,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	<div class="my-sec container">
 		<div class="smb-my-url-wrap">
 			<ul class="pdc smb-my-url-list">
-				<li class="pdt0"><a href="<?php echo BV_MSHOP_URL; ?>/wish.php">관심상품</a></li>				
+				<li class="pdt0"><a href="<?php echo BV_MSHOP_URL; ?>/wish.php">관심상품</a></li>
 				<li class="pdb0"><a href="<?php echo BV_MSHOP_URL; ?>/card.php">카드관리</a></li>
 			</ul>
 		</div>
@@ -122,6 +125,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 			<ul class="pdc smb-my-url-list">
 				<li><a href="<?php echo BV_MBBS_URL;?>/qna_list.php">1대1 문의</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/review.php">상품후기</a></li>
+				<li><a href="<?php echo BV_MSHOP_URL;?>/regOrderList.php">정기 결제 내역</a></li>
+				<li><a href="<?php echo BV_MSHOP_URL;?>/raffleList.php">레플 응모 내역</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/board_list.php?boardid=13">공지사항</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/faq.php">자주 묻는 질문</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/policy.php">개인정보처리방침</a></li>
@@ -286,20 +291,20 @@ import * as f from '/src/js/function.js';
 $(function() {
     //배송지 목록 팝업
     const delvPopId = "delv-popup";
-    $(".od-dtn__change").on("click", function() { 
+    $(".od-dtn__change").on("click", function() {
       $.ajax({
         url: './orderaddress.php',
         success: function(data) {
           $(`#${delvPopId}`).find(".pop-content-in").html(data);
           $(".popDim").show();
           f.popupOpen(delvPopId);
-		  $(".sel_address").hide(); 
+		  $(".sel_address").hide();
         }
       });
     });
 
 	 //배송지 추가 팝업
-	const delvWritePopId = "delv-write-popup"; 
+	const delvWritePopId = "delv-write-popup";
 	$(`#${delvPopId}`).on("click", ".od-dtn__add", function() {
 		$.ajax({
 			url: './orderaddress_write.php',

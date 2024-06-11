@@ -10,13 +10,13 @@ if($w == "") {
 		alert('자료가 존재하지 않습니다.');
 }
 
-$frm_submit = '<div class="btn_confirm">
-	<input type="submit" value="저장" class="btn_large" accesskey="s">
-	<a href="./goods.php?code=raffle'.$qstr.'&page='.$page.'" class="btn_large bx-white">목록</a>'.PHP_EOL;
+$frm_submit = '<div class="board_btns tac mart20"><div class="btn_wrap">
+	<input type="submit" value="저장" class="btn_write" accesskey="s">
+	<a href="./goods.php?code=raffle'.$qstr.'&page='.$page.'" class="btn_list bg_type1"><span>목록</span></a>'.PHP_EOL;
 if($w == 'u') {
 	$frm_submit .= '<a href="./goods.php?code=raffle_form" class="btn_large bx-red">추가</a>'.PHP_EOL;
 }
-$frm_submit .= '</div>';
+$frm_submit .= '</div></div>';
 
 include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 ?>
@@ -28,10 +28,10 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 <input type="hidden" name="index_no" value="<?php echo $index_no; ?>">
 
-<div class="tbl_frm02">
+<div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -43,32 +43,32 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<th scope="row">응모기간</th>
 		<td>
 			<label for="event_start_date" class="sound_only">시작일</label>
-			<input type="text" name="event_start_date" value="<?php echo ymdhisToYmd($pl['event_start_date']) ?>" id="event_start_date" class="frm_input w80" maxlength="10">
-			<input type="text" name="event_start_time" value="<?php echo ymdhisToHi($pl['event_start_date']) ?>" id="event_start_time" class="frm_input w80" maxlength="10">
-			~ 
+			<input type="text" name="event_start_date" value="<?php echo ymdhisToYmd($pl['event_start_date']) ?>" id="event_start_date" class="frm_input w120 tac" maxlength="10">
+			<input type="text" name="event_start_time" value="<?php echo ymdhisToHi($pl['event_start_date']) ?>" id="event_start_time" class="frm_input w120 tac" maxlength="10">
+			&nbsp;&nbsp; ~ &nbsp;&nbsp;
 			<label for="event_end_date" class="sound_only">종료일</label>
-			<input type="text" name="event_end_date" value="<?php echo ymdhisToYmd($pl['event_end_date']) ?>" id="event_end_date" class="frm_input w80" maxlength="10">
-			<input type="text" name="event_end_time" value="<?php echo ymdhisToHi($pl['event_end_date']) ?>" id="event_end_time" class="frm_input w80" maxlength="10">
+			<input type="text" name="event_end_date" value="<?php echo ymdhisToYmd($pl['event_end_date']) ?>" id="event_end_date" class="frm_input w120 tac" maxlength="10">
+			<input type="text" name="event_end_time" value="<?php echo ymdhisToHi($pl['event_end_date']) ?>" id="event_end_time" class="frm_input w120 tac" maxlength="10">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">당첨자 발표</th>
 		<td>
 			<label for="prize_date" class="sound_only">시작일</label>
-			<input type="text" name="prize_date" value="<?php echo ymdhisToYmd($pl['prize_date']) ?>" id="prize_date" class="frm_input w80" maxlength="10">
-			<input type="text" name="prize_time" value="<?php echo ymdhisToHi($pl['prize_date']) ?>" id="prize_time" class="frm_input w80" maxlength="10">
+			<input type="text" name="prize_date" value="<?php echo ymdhisToYmd($pl['prize_date']) ?>" id="prize_date" class="frm_input w120 tac" maxlength="10">
+			<input type="text" name="prize_time" value="<?php echo ymdhisToHi($pl['prize_date']) ?>" id="prize_time" class="frm_input w120 tac" maxlength="10">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">당첨자 구매기간</th>
 		<td>
 			<label for="prize_start_date" class="sound_only">시작일</label>
-			<input type="text" name="prize_start_date" value="<?php echo ymdhisToYmd($pl['prize_start_date']) ?>" id="prize_start_date" class="frm_input w80" maxlength="10">
-			<input type="text" name="prize_start_time" value="<?php echo ymdhisToHi($pl['prize_start_date']) ?>" id="prize_start_time" class="frm_input w80" maxlength="10">
-			~ 
+			<input type="text" name="prize_start_date" value="<?php echo ymdhisToYmd($pl['prize_start_date']) ?>" id="prize_start_date" class="frm_input w120 tac" maxlength="10">
+			<input type="text" name="prize_start_time" value="<?php echo ymdhisToHi($pl['prize_start_date']) ?>" id="prize_start_time" class="frm_input w120 tac" maxlength="10">
+			&nbsp;&nbsp; ~ &nbsp;&nbsp;
 			<label for="prize_end_date" class="sound_only">종료일</label>
-			<input type="text" name="prize_end_date" value="<?php echo ymdhisToYmd($pl['prize_end_date']) ?>" id="prize_end_date" class="frm_input w80" maxlength="10">
-			<input type="text" name="prize_end_time" value="<?php echo ymdhisToHi($pl['prize_end_date']) ?>" id="prize_end_time" class="frm_input w80" maxlength="10">
+			<input type="text" name="prize_end_date" value="<?php echo ymdhisToYmd($pl['prize_end_date']) ?>" id="prize_end_date" class="frm_input w120 tac" maxlength="10">
+			<input type="text" name="prize_end_time" value="<?php echo ymdhisToHi($pl['prize_end_date']) ?>" id="prize_end_time" class="frm_input w120 tac" maxlength="10">
 		</td>
 	</tr>
 	<tr>
@@ -91,13 +91,20 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 	</tr>
 	<tr>
 		<th scope="row">응모 제한</th>
-		<td>	
-			<input type="radio" name="entry" id="entry_1" value="0"<?php echo get_checked('0', $pl['entry']); ?> onclick="chk_entry_type(0);">
-			<label for="entry_1">예</label>
-			<input type="radio" name="entry" id="entry_2" value="1"<?php echo get_checked('1', $pl['entry']); ?> onclick="chk_entry_type(1);">
-			<label for="entry_2">아니오</label>
-
+		<td>
+            <div class="tel_input">
+                <ul class="radio_group w150">
+                    <li class="radios">
+                        <input type="radio" name="entry" id="entry_1" value="0"<?php echo get_checked('0', $pl['entry']); ?> onclick="chk_entry_type(0);">
+                        <label for="entry_1">예</label>
+                    </li>
+                    <li class="radios">
+                        <input type="radio" name="entry" id="entry_2" value="1"<?php echo get_checked('1', $pl['entry']); ?> onclick="chk_entry_type(1);">
+                        <label for="entry_2">아니오</label>
+                    </li>
+                </ul>
 			<input type="number" name="entry_number" id="entry_number" value="<?php echo $pl['entry_number']; ?>"  itemname="응모 제한 수" class="frm_input" size="50">
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -109,10 +116,16 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 	<tr>
 		<th scope="row">이미지 등록방식</th>
 		<td class="td_label">
-			<input type="radio" name="simg_type" id="simg_type_1" value="0"<?php echo get_checked('0', $pl['simg_type']); ?> onclick="chk_simg_type(0);">
-			<label for="simg_type_1">직접 업로드</label>
-			<input type="radio" name="simg_type" id="simg_type_2" value="1"<?php echo get_checked('1', $pl['simg_type']); ?> onclick="chk_simg_type(1);">
-			<label for="simg_type_2">URL 입력</label>
+            <ul class="radio_group">
+                <li class="radios">
+                <input type="radio" name="simg_type" id="simg_type_1" value="0"<?php echo get_checked('0', $pl['simg_type']); ?> onclick="chk_simg_type(0);">
+                <label for="simg_type_1">직접 업로드</label>
+                </li>
+                <li class="radios">
+                <input type="radio" name="simg_type" id="simg_type_2" value="1"<?php echo get_checked('1', $pl['simg_type']); ?> onclick="chk_simg_type(1);">
+                <label for="simg_type_2">URL 입력</label>
+                </li>
+            </ul>
 		</td>
 	</tr>
 	<?php
@@ -126,7 +139,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		}
 
 		$image_str = '';
-		if(in_array($i,array(1,2))) {
+		if(in_array($i,array(1,2,3))) {
 			$image_str = ' <strong class="fc_red">[필수]</strong>';
 		}
 	?>
@@ -187,21 +200,20 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		}
 	}
 
-	$("#event_start_date,#event_end_date,#prize_date,#prize_start_date,#prize_end_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99"});
+	$("#event_start_date,#event_end_date,#prize_date,#prize_start_date,#prize_end_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99",minDate: 0 });
 
 	chk_simg_type("<?php echo $pl['simg_type']; ?>");
 	
 	$(document).ready(function() {
-		$('#event_start_time , #event_end_time , #prize_time , #prize_start_time , #prize_end_time').on('focus', function() {
-			$(this).val('');
-		}).on('input', function() {
-			var inputValue = $(this).val().replace(/\D/g, '');
-			var formattedTime = formatTime(inputValue);
-			$(this).val(formattedTime);
-		}).on('keydown', function(event) {
-			if (event.key === 'Backspace' && $(this).val().length === 3 && $(this).val().includes(':')) {
-			$(this).val($(this).val().slice(0, 2));
-			}
+		$('#event_start_time , #event_end_time , #prize_time , #prize_start_time , #prize_end_time').timepicker({
+			timeFormat: 'HH:mm',
+			interval: 30, // 시간 단위 설정
+			minTime: '00:00',
+			maxTime: '23:30',
+			startTime: '00:00',
+			dynamic: false,
+			dropdown: true,
+			scrollbar: true
 		});
 	});
 

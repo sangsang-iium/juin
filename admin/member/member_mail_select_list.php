@@ -44,18 +44,18 @@ sql_query(" update shop_mail set ma_last_option = '{$ma_last_option}' where ma_i
 <input type="hidden" name="ma_id" value="<?php echo $ma_id; ?>">
 
 <div class="local_desc02 local_desc">
-	<p>
-		선택된 회원수 : <strong><?php echo number_format($cnt); ?></strong>명
+	<p class="fs18">
+		선택된 회원수 : <strong class="fc_90"><?php echo number_format($cnt); ?></strong>명
 	</p>
 </div>
-<div class="tbl_head01" id="sit_select_tbl">
-	<table>
+<div class="board_list">
+	<table class="list01">
 	<colgroup>
-		<col width="50px">
-		<col width="150px">
-		<col width="150px">
-		<col width="150px">
-		<col>
+        <col class="w100">
+        <col>
+        <col>
+        <col>
+        <col>
 	</colgroup>
 	<thead>
 	<tr>
@@ -82,18 +82,21 @@ sql_query(" update shop_mail set ma_last_option = '{$ma_last_option}' where ma_i
 			<?php echo ($i+1); ?>
 			<input type="hidden" name="ma_list" value="<?php echo $ma_list; ?>">
 		</td>
-		<td class="tal"><?php echo $row['id']; ?></td>
-		<td class="tal"><?php echo get_text($row['name']); ?></td>
+		<td><?php echo $row['id']; ?></td>
+		<td><?php echo get_text($row['name']); ?></td>
 		<td><?php echo get_grade($row['grade']); ?></td>
-		<td class="tal"><?php echo $row['email']; ?></td>
+		<td><?php echo $row['email']; ?></td>
 	</tr>
 	<?php } ?>
 	</tbody>
 	</table>
 </div>
 
-<div class="btn_confirm">
-	<input type="submit" value="메일전송" class="btn_large" accesskey="s">
-	<a href="javascript:history.go(-1);" class="btn_large bx-white">취소</a>
+<div class="board_btns tac mart20">
+    <div class="btn_wrap">
+        <input type="submit" value="메일전송" class="btn_acc marr10" accesskey="s">
+        <a href="javascript:history.go(-1);" class="btn_cen bg_type2"><span>취소</span></a>
+
+    </div>
 </div>
 </form>

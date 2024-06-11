@@ -304,7 +304,7 @@ class Tosspay {
    * @param  string   $email         고객 이메일
    * @return stdClass API 응답
    */
-  function autoPay($customerKey, $amount, $orderId, $orderName, $taxFreeAmount, $name, $email, $billingKey) {
+  function autoPay($customerKey, $amount, $orderId, $orderName, $taxFreeAmount, $name, $email, $billingKey, $credential) {
     $url  = 'https://api.tosspayments.com/v1/billing/' . $billingKey;
     $data = array(
       'customerKey'        => $customerKey,
@@ -317,7 +317,7 @@ class Tosspay {
       'customerEmail'      => $email,
     );
 
-    return $this->callApi($url, $data);
+    return $this->callApi($url, $data, $credential);
   }
 
   function normalPay($paymentKey, $orderId, $amount, $credential = '') {
@@ -331,7 +331,7 @@ class Tosspay {
     return $this->callApi($url, $data, $credential);
   }
 
-  function virtualAcc($amount, $orderId, $orderName, $customerName, $customerEmail, $bank) {
+  function virtualAcc($amount, $orderId, $orderName, $customerName, $customerEmail, $bank, $customerMobilePhone = "") {
     $url  = "https://api.tosspayments.com/v1/virtual-accounts";
     $data = array(
       'amount'        => $amount,
@@ -340,6 +340,7 @@ class Tosspay {
       'customerName'  => $customerName,
       'customerEmail' => $customerEmail,
       'bank'          => $bank,
+      'customerMobilePhone' => $customerMobilePhone,
     );
 
     return $this->callApi($url, $data);
@@ -427,8 +428,10 @@ function juinGroupInfo($depth, $depth2 = '') {
   // case 3 추가 _20240517_SY
   switch ($depth) {
     case '1':
-      $sql = "SELECT kf_region2 AS region, COUNT(kf_region2) FROM kfia_region
-              GROUP BY kf_region2";
+      // $sql = "SELECT kf_region2 AS region, COUNT(kf_region2) FROM kfia_region
+      //         GROUP BY kf_region2";
+      $sql = "SELECT branch_name AS region, branch_code AS code, COUNT(branch_code) FROM kfia_branch
+              GROUP BY branch_code";
       break;
     case '2':
       $sql = "SELECT kf_region3 AS region, COUNT(kf_region3) FROM kfia_region
@@ -436,11 +439,16 @@ function juinGroupInfo($depth, $depth2 = '') {
               GROUP BY kf_region3";
       break;
     case '3':
-      $sql = " SELECT kf_region2 AS region, COUNT(kf_region2)
-                FROM kfia_region
-                WHERE kf_region1 = '{$depth2}'
-                  AND kf_region3 = ''
-            GROUP BY kf_region2 ";
+      $sql = " SELECT branch_name AS region, branch_code AS code, COUNT(branch_code)
+                 FROM kfia_branch
+                WHERE area_idx = '{$depth2}'
+                GROUP BY branch_code ";
+      break;
+    case '4':
+      $sql = " SELECT office_name AS region, office_code AS code, COUNT(office_code)
+                 FROM kfia_office
+                WHERE branch_code = '{$depth2}'
+                GROUP BY office_code ";
       break;
 
   }
@@ -503,21 +511,59 @@ function log_write($str) {
 }
 
 
+// 지회/지부 Info _20240608_SY
+function getRegionFunc($type, $where) {
+  switch($type) {
+    case "branch":
+      $sel = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname ";
+      $join = " LEFT JOIN area c
+                  ON (b.area_idx = c.areacode) ";
+      $group = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname ";
+      break;
+    case "office":
+      $sel = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname, a.office_code, a.office_name, a.auth_idx ";
+      $join = " LEFT JOIN area c
+                  ON (b.area_idx = c.areacode)
+            LEFT JOIN kfia_office a
+                  ON (b.branch_code = a.branch_code) ";
+      $group = " b.branch_idx, b.branch_code, b.branch_name, c.areacode, c.areaname, a.office_code, a.office_name ";
+      break;
+  }
+
+  $region_sql = " SELECT {$sel} FROM kfia_branch b {$join} {$where} GROUP BY {$group} " ;
+  $region_res = sql_query($region_sql);
+
+  $data = [];
+  while ($region_row = sql_fetch_array($region_res)) {
+    $data[] = $region_row;
+  }
+
+  return $region_sql;
+
+}
+
 // Admin Top Menu _20240528_SY
 function getMenuFunc($menu, $link, $code) {
   global $member;
   global $pg_title;
-  
+
   $exp_name = constant($menu);
-  
-  if($member['id'] != 'admin' && isset($member['auth_idx'])) {
-    
+
+  if($member['id'] != 'admin' && isset($member['region_idx'])) {
+
     // 권한체크
-    $auth_sql = " SELECT * FROM authorization WHERE auth_idx = '{$member['auth_idx']}' ";
+    // $auth_sql = " SELECT * FROM authorization WHERE auth_idx = '{$member['auth_idx']}' ";
+    // sql 수정 _20240608_SY
+    $auth_sql = " SELECT * FROM shop_manager AS mng
+                    LEFT JOIN kfia_region AS kf
+                      ON (mng.region_idx = kf.kf_idx)
+                    JOIN authorization AS auth
+                      ON (kf.auth_idx = auth.auth_idx)
+                   WHERE mng.region_idx = '{$member['region_idx']}' ";
     $auth_row = sql_fetch($auth_sql);
     $exp_menu = explode(",", $auth_row['auth_menu']);
-    
-    
+
+
     foreach($exp_menu as $key => $val) {
       if($menu == $val) {
         $retun = "<li class='gnb_1dli " . ($pg_title == $exp_name ? "active" : "") . "'>

@@ -1,8 +1,8 @@
 <?php // 지회 관리 _20240513_SY
 if(!defined('_BLUEVATION_')) exit;
 
-
-$sql_common = " FROM kfia_region ";
+// 지회 Table 변경 _20240608_SY
+$sql_common = " FROM kfia_branch ";
 $sql_search = " WHERE (1) ";
 
 $query_string = "code=$code$qstr";
@@ -13,9 +13,9 @@ $q2 = $query_string."&page=$page";
 if($sfl && $stx) {
   $sql_search .= " and $sfl like '%$stx%' ";
 }
-$sql_group .= " GROUP BY kf_region2";
+$sql_group .= " GROUP BY branch_code";
 if (!$orderby) {
-  $filed = "kf_region1 ";
+  $filed = "branch_idx ";
   $sod   = "ASC";
 } else {
   $sod = $orderby;
@@ -24,19 +24,10 @@ $sql_order = " ORDER BY $filed $sod ";
 
 
 // total_sel 수정 _20240513_SY
-// $total_sel = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
-$total_sel = " SELECT COUNT(*) AS cnt
-                FROM (
-                    SELECT DISTINCT kf_region2 
-                    {$sql_common} a 
-                 LEFT JOIN area b 
-                        ON (a.kf_region1 = b.areacode)
-                    {$sql_search} 
-                    {$sql_group} 
-                    {$sql_order}
-                ) AS region2 ";
-$total_row = sql_fetch($total_sel);
-$total_count = $total_row['cnt'];
+$total_sel = " SELECT * {$sql_common} a LEFT JOIN area b ON (a.area_idx = b.areacode) {$sql_search} {$sql_group}";
+$total_row = sql_query($total_sel);
+// $total_count = $total_row['cnt'];
+$total_count = sql_num_rows($total_row);
 
 $rows = 10;
 $total_page = ceil($total_count / $rows);
@@ -45,9 +36,7 @@ if($page == "") {
 }
 $from_record = ($page - 1) * $rows;
 
-$sql = " SELECT * {$sql_common} a 
-      LEFT JOIN area b 
-             ON (a.kf_region1 = b.areacode)
+$sql = " SELECT * {$sql_common} a LEFT JOIN area b ON (a.area_idx = b.areacode)
         {$sql_search} {$sql_group} {$sql_order} 
           LIMIT {$from_record}, {$rows} ";
 $result = sql_query($sql);
@@ -81,9 +70,9 @@ EOF;
 		<th scope="row">검색어</th>
 		<td>
 			<select name="sfl">
-        <?php echo option_selected('kf_region2', $sfl, '지회명'); ?>
-				<?php echo option_selected('areaname', $sfl, '지역명'); ?>
-				<?php echo option_selected('kf_code',    $sfl, '지회아이디'); ?>
+        <?php echo option_selected('branch_name', $sfl, '지회명'); ?>
+				<?php echo option_selected('areaname',    $sfl, '지역명'); ?>
+				<?php echo option_selected('branch_code', $sfl, '지회코드'); ?>
 			</select>
 			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
 		</td>
@@ -93,7 +82,7 @@ EOF;
 </div>
 <div class="btn_confirm">
 	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+  <a href="<?php echo BV_ADMIN_URL."/config.php?code=".$code ?>" id="frmRest" class="btn_medium grey">초기화</a>
 </div>
 </form>
 
@@ -102,7 +91,7 @@ EOF;
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
 <div class="local_ov mart30">
-	총 지회수 : <b class="fc_red"><?php echo number_format($total_count); ?></b>명
+	총 지회 수 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 개
 </div>
 <div class="local_frm01">
 	<?php echo $btn_frmline; ?>
@@ -121,11 +110,11 @@ EOF;
 	<thead>
 	<tr>
 		<th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
-		<th scope="col"><?php echo subject_sort_link('kf_code',   $q2); ?>지회아이디</a></th>
-		<th scope="col"><?php echo subject_sort_link('kf_region1',$q2); ?>지역</a></th>
-		<th scope="col"><?php echo subject_sort_link('kf_region2',$q2); ?>지회명</a></th>
-		<th scope="col"><?php echo subject_sort_link('kf_wdate',  $q2); ?>등록일</th>
-		<th scope="col"><?php echo subject_sort_link('kf_udate',  $q2); ?>수정일</th>
+		<th scope="col"><?php echo subject_sort_link('branch_code', $q2); ?>지회코드</a></th>
+		<th scope="col"><?php echo subject_sort_link('area_idx',    $q2); ?>지역</a></th>
+		<th scope="col"><?php echo subject_sort_link('branch_name', $q2); ?>지회명</a></th>
+		<th scope="col"><?php echo subject_sort_link('branch_wdate',$q2); ?>등록일</th>
+		<th scope="col"><?php echo subject_sort_link('branch_udate',$q2); ?>수정일</th>
 		<th scope="col">관리</th>
 	</tr>
 	</thead>
@@ -138,16 +127,16 @@ EOF;
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td>			
-			<input type="hidden" name="kf_code[<?php echo $i; ?>]" value="<?php echo $row['kf_code']; ?>">
+			<input type="hidden" name="branch_idx[<?php echo $i; ?>]" value="<?php echo $row['branch_idx']; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
-    <td><?php echo $row['kf_code'] ?></td>
+    <td><?php echo $row['branch_code'] ?></td>
 		<td><?php echo $row['areaname'] ?></td>
-		<td><?php echo $row['kf_region2'] ?></td>
-		<td><?php echo $row['kf_wdate'] ?></td>
-		<td><?php echo $row['kf_udate'] ?></td>
+		<td><?php echo $row['branch_name'] ?></td>
+		<td><?php echo substr($row['branch_wdate'],0, 11) ?></td>
+		<td><?php echo substr($row['branch_udate'],0, 11) ?></td>
 		<td>
-      <a href="/admin/config.php?code=branch_register_form&amp;w=u&amp;idx=<?php echo $row['kf_idx']?>" class="btn_small blue">수정</a>
+      <a href="/admin/config.php?code=branch_register_form&amp;w=u&amp;idx=<?php echo $row['branch_idx']?>" class="btn_small blue">수정</a>
       <!-- <a href="/admin/config/branchupdate.php?w=d" class="btn_small">삭제</a> -->
     </td>
 	</tr>

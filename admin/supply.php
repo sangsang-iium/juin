@@ -89,7 +89,7 @@ if(!empty($sfl) || !empty($stx)){
 			<td><?php echo $row['seller_code']; ?></td>
 			<td class="tal"><?php echo $row['company_name']; ?></td>
 			<td><?php echo $row['company_owner']; ?></td>
-			<td><button type="button" onClick="yes('<?php echo $row['seller_code']; ?>', '<?php  echo $row['company_name'] ?>')" class="btn_small grey">선택</button></td>
+			<td><button type="button" onclick='yes(<?php echo json_encode($row); ?>)' class="btn_small grey">선택</button></td>
 		</tr>
 		<?php
 		}
@@ -107,13 +107,25 @@ if(!empty($sfl) || !empty($stx)){
 
 <script>
   // name 추가_20240415_SY
-function yes(mb_id, name=''){
-	opener.document.fregform.mb_id.value = mb_id;
+function yes(data) {
+  opener.document.fregform.mb_id.value = data.seller_code;
 
-  if(opener.document.fregform.name) {
-    opener.document.fregform.name.value = name;
+  if (opener.document.fregform.name) {
+      opener.document.fregform.name.value = data.company_name;
   }
-	self.close();
+  if (opener.document.fregform.in_type) {
+      opener.document.fregform.in_type.value = data.income_type;
+  }
+  if (opener.document.fregform.in_per_type) {
+      opener.document.fregform.in_per_type.value = data.income_per_type;
+  }
+  if (opener.document.fregform.in_price) {
+      opener.document.fregform.in_price.value = data.income_price;
+  }
+  if (opener.document.fregform.in_per) {
+      opener.document.fregform.in_per.value = data.income_per;
+  }
+  self.close();
 }
 </script>
 

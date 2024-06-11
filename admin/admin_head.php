@@ -26,5 +26,9 @@ var bv_admin_url = "<?php echo BV_ADMIN_URL; ?>";
 <script src="<?php echo BV_JS_URL; ?>/jquery-ui-1.10.3.custom.js"></script>
 <script src="<?php echo BV_JS_URL; ?>/common.js?ver=<?php echo BV_JS_VER; ?>"></script>
 <script src="<?php echo BV_JS_URL; ?>/categorylist.js?ver=<?php echo BV_JS_VER; ?>"></script>
+
+<!-- timepicker 추가 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 </head>
 <body>

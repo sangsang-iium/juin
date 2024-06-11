@@ -1,17 +1,16 @@
 <?php // 담당지 관리 _20240521_SY
 if (!defined('_BLUEVATION_')) exit;
 
-
 $sql_common = " FROM shop_manager ";
 $sql_search = " WHERE (1) AND grade > 1 AND id <> 'admin'";
-$sql_join = " LEFT JOIN authorization AS auth 
-                     ON (mn.auth_idx = auth.auth_idx) 
-              LEFT JOIN ( SELECT kf.*, area.areaname, area.areacode
-                            FROM kfia_region AS kf 
+$sql_join = " LEFT JOIN ( SELECT kfb.*, area.areaname, area.areacode
+                            FROM kfia_branch AS kfb
                        LEFT JOIN ( SELECT areacode, areaname FROM area GROUP BY areacode) AS area 
-                              ON kf.kf_region1 = area.areacode
-                         ) AS kfa 
-                     ON mn.ju_region_code = kfa.kf_code ";
+                              ON kfb.area_idx = area.areacode
+                         ) AS kf
+                     ON mn.ju_region2 = kf.branch_code
+              LEFT JOIN kfia_office AS kfo
+ 			               ON mn.ju_region3 = office_code ";
 
 $query_string = "code=$code$qstr";
 $q1 = $query_string;
@@ -20,7 +19,12 @@ $q2 = $query_string . "&page=$page";
 
 if ($sfl && $stx) {
   if($sfl == "auth_idx") {
-    $sql_search .= " and mn.$sfl like '%$stx%' ";
+    // 권한 삭제 시 sql 수정 _20240608_SY
+    $sql_join .= " LEFT JOIN authorization AS auth 
+			                    ON (kf.auth_idx = auth.auth_idx) ";
+    $sql_search .= " and kf.$sfl like '%$stx%' ";
+    $auth_row = sql_fetch(" SELECT * FROM authorization WHERE auth_idx='$stx' ");
+    $stx = $auth_row['auth_title'];
   } else {
     $sql_search .= " and $sfl like '%$stx%' ";
   }
@@ -46,7 +50,7 @@ if ($page == "") {
 }
 $from_record = ($page - 1) * $rows;
 
-$sql = " SELECT mn.*, auth.*, kfa.* {$sql_common} AS mn {$sql_join} {$sql_search} LIMIT {$from_record}, {$rows} ";
+$sql = " SELECT mn.*, kf.*, kfo.* {$sql_common} AS mn {$sql_join} {$sql_search} LIMIT {$from_record}, {$rows} ";
 $result = sql_query($sql);
 
 // <input type="submit" name="act_button" value="선택수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
@@ -71,10 +75,10 @@ EOF;
           <th scope="row">검색어</th>
           <td>
             <select name="sfl">
-              <?php echo option_selected('id', $sfl, '아이디'); ?>
-              <?php echo option_selected('areaname', $sfl, '지역'); ?>
-              <?php echo option_selected('kf_region2', $sfl, '지회'); ?>
-              <?php echo option_selected('kf_region3', $sfl, '지부'); ?>
+              <?php echo option_selected('id',          $sfl, '아이디'); ?>
+              <?php echo option_selected('areaname',    $sfl, '지역'); ?>
+              <?php echo option_selected('branch_name', $sfl, '지회'); ?>
+              <?php echo option_selected('office_name', $sfl, '지부'); ?>
             </select>
             <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
           </td>
@@ -84,7 +88,7 @@ EOF;
   </div>
   <div class="btn_confirm">
     <input type="submit" value="검색" class="btn_medium">
-    <input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+    <a href="<?php echo BV_ADMIN_URL."/config.php?code=".$code ?>" id="frmRest" class="btn_medium grey">초기화</a>
   </div>
 </form>
 
@@ -116,8 +120,8 @@ EOF;
           <th scope="col"><?php echo subject_sort_link('id',         $q2); ?>아이디</a></th>
           <th scope="col"><?php echo subject_sort_link('name',       $q2); ?>이름</a></th>
           <th scope="col"><?php echo subject_sort_link('areaname',   $q2); ?>지역</a></th>
-          <th scope="col"><?php echo subject_sort_link('kf_region2', $q2); ?>지회명</a></th>
-          <th scope="col"><?php echo subject_sort_link('kf_region3', $q2); ?>지부명</a></th>
+          <th scope="col"><?php echo subject_sort_link('branch_name',$q2); ?>지회명</a></th>
+          <th scope="col"><?php echo subject_sort_link('office_name',$q2); ?>지부명</a></th>
           <th scope="col"><?php echo subject_sort_link('reg_time',   $q2); ?>등록일</th>
           <th scope="col">관리</th>
         </tr>
@@ -137,8 +141,8 @@ EOF;
           <td><?php echo $row['id'] ?></td>
           <td><?php echo $row['name'] ?></td>
           <td><?php echo $row['areaname'] ?></td>
-          <td><?php echo $row['kf_region2'] ?></td>
-          <td><?php echo $row['kf_region3'] ?></td>
+          <td><?php echo $row['branch_name'] ?></td>
+          <td><?php echo $row['office_name'] ?></td>
           <td><?php echo substr($row['reg_time'], 0, 10) ?></td>
           <td>
             <a href="/admin/config.php?code=manager_register_form&amp;w=u&amp;idx=<?php echo $row['index_no'] ?>" class="btn_small blue">수정</a>
@@ -161,7 +165,6 @@ echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAM
 
 <script>
   sessionStorage.removeItem("id_duChk");
-
 
   function fmanagerlist_submit(f) {
     if (!is_checked("chk[]")) {

@@ -62,7 +62,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               $sql = " select * from shop_cart where od_id = '$od_id' group by gs_id order by index_no ";
               $result = sql_query($sql);
               for($i=0; $row=sql_fetch_array($result); $i++) {
-                $rw = get_order($row['od_no']);
+                $rw = get_order($row['od_no'],'*',$shop_table);
                 $gs = unserialize($rw['od_goods']);
 
                 $hash = md5($rw['gs_id'].$rw['od_no'].$rw['od_id']);
@@ -177,11 +177,20 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             <?php
             }
             // 승인번호, 휴대폰번호, 거래번호
-            if($app_no_subj) {
+            if($app_no_subj && $od['paymethod'] != "신용카드") {
             ?>
             <li>
               <span class="lt-txt"><?php echo $app_no_subj; ?></span>
               <span class="rt-txt"><?php echo $app_no; ?></span>
+            </li>
+            <?php
+            }
+            // 승인번호, 휴대폰번호, 거래번호
+            if($od['paymethod'] == "신용카드") {
+            ?>
+            <li>
+              <span class="lt-txt">승인번호</span>
+              <span class="rt-txt"><?php echo $od['lastTransactionKey']; ?></span>
             </li>
             <?php
             }
@@ -387,10 +396,16 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </div>
       </div>
     </div>
-
+    <?php
+      $previousPage = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
+      if($previousPage){
+        $parsedUrl = parse_url($previousPage, PHP_URL_PATH);
+        $prePange = basename($parsedUrl);
+      }
+    ?>
     <div class="cp-btnbar__btns">
       <div class="container <?php echo $st_cancel_price == 0 && $custom_cancel ? '':'oneBtn'; ?>">
-        <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiry.php" class="ui-btn round stWhite">목록</a>
+        <a href="<?php echo BV_MSHOP_URL; ?>/<?php echo $prePange ?>" class="ui-btn round stWhite">목록</a>
         <?php
         // 취소한 내역이 없다면
         if($st_cancel_price == 0 && $custom_cancel) {
@@ -429,6 +444,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquirycancel.php" onsubmit="return fcancel_check(this);">
             <input type="hidden" name="od_id"  value="<?php echo $od_id; ?>">
             <input type="hidden" name="token"  value="<?php echo $token; ?>">
+            <input type="hidden" name="reg_yn"  value="<?php echo $reg_yn; ?>">
             <!-- <label for="cancel_memo">취소사유</label>
             <input type="text" name="cancel_memo" id="cancel_memo" required class="frm_input required" maxlength="100">
             <input type="submit" value="확인" class="btn_small"> -->

@@ -23,8 +23,9 @@ $frm_submit .= '</div>';
 <input type="hidden" name="page"  value="<?php echo $page; ?>">
 <input type="hidden" name="ma_id" value="<?php echo $ma_id; ?>">
 
-<h2>메일 정보</h2>
-<div class="tbl_frm01">
+<h5 class="htag_title">메일 정보</h5>
+<p class="gap20"></p>
+<div class="board_table">
 	<table>
 	<colgroup>
 		<col class="w140">
