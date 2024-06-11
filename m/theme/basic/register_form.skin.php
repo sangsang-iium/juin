@@ -936,7 +936,7 @@ function getManager() {
           html += '<div class="pop-result-item">';
           html += '<p class="pop-result-title">' + data.res[i].name + '</p>';
           html += '<p class="pop-result-text">담당자코드 : ' + data.res[i].id + '</p>';
-          html += '<p class="pop-result-text">지회/지부 : ' + data.res[i].ju_region2 +'/'+ data.res[i].ju_region3 + '</p>';
+          html += '<p class="pop-result-text">지회/지부 : ' + data.res[i].branch_name +'/'+ data.res[i].office_name + '</p>';
           html += '<input type="hidden" class="pop-result-text" value="'+ data.res[i].index_no +'">';
           html += '</div>';
         }

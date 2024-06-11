@@ -1,6 +1,5 @@
 <?php
 if (!defined('_BLUEVATION_')) exit;
-print_r2($_POST);
 ?>
 
 <!-- 회원정보 입력/수정 시작 { -->

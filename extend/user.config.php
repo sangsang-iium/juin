@@ -530,7 +530,7 @@ function getRegionFunc($type, $where) {
       break;
   }
 
-  $region_sql = " SELECT {$sel} FROM kfia_branch b {$join} {$where}GROUP BY {$group} " ;
+  $region_sql = " SELECT {$sel} FROM kfia_branch b {$join} {$where} GROUP BY {$group} " ;
   $region_res = sql_query($region_sql);
 
   $data = [];
@@ -538,7 +538,7 @@ function getRegionFunc($type, $where) {
     $data[] = $region_row;
   }
 
-  return $data;
+  return $region_sql;
 
 }
 
