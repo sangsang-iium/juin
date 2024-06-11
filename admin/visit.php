@@ -8,7 +8,7 @@ $pg_num = 7;
 $snb_icon = "<i class=\"fa fa-bar-chart\"></i>";
 
 if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
-	alert("Á¢±Ù±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
+	alert("ï¿½ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 }
 
 if($code == "hour")		$pg_title2 = ADMIN_MENU7_01;
@@ -27,7 +27,7 @@ if($code == "return")	$pg_title2 = ADMIN_MENU7_13;
 if($code == "change")	$pg_title2 = ADMIN_MENU7_14;
 if($code == "refund")	$pg_title2 = ADMIN_MENU7_15;
 
-// Ãß°¡ _20240604_SY
+// ï¿½ß°ï¿½ _20240604_SY
 if($code == "regmonth")	$pg_title2 = ADMIN_MENU1_05;
 if($code == "regday")		$pg_title2 = ADMIN_MENU1_06;
 
@@ -35,7 +35,8 @@ include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>
 
 <div class="s_wrap">
-	<h1><?php echo $pg_title2; ?></h1>
+	<h4 class="htag_title"><?php echo $pg_title2; ?></h4>
+    <p class="gap50"></p>
 	<?php	
 	include_once(BV_ADMIN_PATH."/visit/visit_{$code}.php");
 	?>

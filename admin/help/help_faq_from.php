@@ -12,25 +12,27 @@ $faq = sql_fetch("select * from shop_faq where index_no='$index_no'");
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 <input type="hidden" name="index_no" value="<?php echo $index_no; ?>">
 
-<div class="tbl_frm02">
+<div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">분류</th>
 		<td>
-			<select name="faq_cate">
-				<?php
-				$sql = "select * from shop_faq_cate";
-				$result = sql_query($sql);
-				while($row = sql_fetch_array($result)){
-					echo option_selected($row['index_no'], $faq['cate'], $row['catename']);
-				}
-				?>
-			</select>
+            <div class="chk_select">
+                <select name="faq_cate">
+                    <?php
+                    $sql = "select * from shop_faq_cate";
+                    $result = sql_query($sql);
+                    while($row = sql_fetch_array($result)){
+                        echo option_selected($row['index_no'], $faq['cate'], $row['catename']);
+                    }
+                    ?>
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -49,9 +51,9 @@ $faq = sql_fetch("select * from shop_faq where index_no='$index_no'");
 	</table>
 </div>
 
-<div class="btn_confirm">
-	<input type="submit" value="저장" class="btn_large" accesskey="s">
-	<a href="./help.php?code=faq<?php echo $qstr; ?>&page=<?php echo $page; ?>" class="btn_large bx-white">목록</a>
+<div class="btn_wrap mart30">
+	<input type="submit" value="저장" class="btn_write" accesskey="s">
+	<a href="./help.php?code=faq<?php echo $qstr; ?>&page=<?php echo $page; ?>" class="btn_list bg_type1"><span>목록</span></a>
 </div>
 </form>
 

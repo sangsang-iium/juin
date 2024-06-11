@@ -13,11 +13,12 @@ $qstr .= "&gubun=".$gubun."&page=".$page;
 $gubun_status = getUsedGubunStatus($row['gubun'], $row['status']);
 ?>
 
-<h2>게시글 정보</h2>
+<h5 class="htag_title">게시글 정보</h5>
+<p class="gap20"></p> 
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -73,19 +74,23 @@ $gubun_status = getUsedGubunStatus($row['gubun'], $row['status']);
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<a href="<?php echo BV_ADMIN_URL.'/used.php?code=list'.$qstr; ?>" class="btn_large">목록</a>
+<div class="btn_wrap mart30">
+	<a href="<?php echo BV_ADMIN_URL.'/used.php?code=list'.$qstr; ?>" class="btn_list bg_type1">
+        <span>목록</span>
+    </a>
 </div>
 
-<h2 class="mart30">댓글 리스트</h2>
-<div class="tbl_head01">
-	<table>
+<p class="gap50"></p>
+<h5 class="htag_title">댓글 리스트</h5>
+<p class="gap20"></p>
+<div class="board_list">
+	<table class="list01">
 	<colgroup>
 		<col class="w50">
 		<col class="w200">
 		<col>
 		<col class="w200">
-		<col class="w100">
+		<col class="w170">
 	</colgroup>
 	<thead>
 	<tr>
@@ -112,7 +117,11 @@ $gubun_status = getUsedGubunStatus($row['gubun'], $row['status']);
 		<td><?php echo $mb['id'].'('.$mb['name'].')'; ?></td>
 		<td class="tal"><?php echo nl2br($row['content']); ?></td>
 		<td><?php echo $row['regdate']; ?></td>
-		<td><a href="#none" class="btn_ssmall red" onclick="commentDelete(<?php echo $row['no'] ?>);">삭제</a></td>
+		<td>
+            <div class="btn_wrap">
+                <a href="#none" class="btn_del bg_type2" onclick="commentDelete(<?php echo $row['no'] ?>);"><span>삭제</span></a>
+            </div>
+        </td>
 	</tr>
 	<?php
     }
@@ -123,8 +132,8 @@ $gubun_status = getUsedGubunStatus($row['gubun'], $row['status']);
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<a href="<?php echo BV_ADMIN_URL.'/used.php?code=list'.$qstr; ?>" class="btn_large">목록</a>
+<div class="btn_wrap mart30">
+	<a href="<?php echo BV_ADMIN_URL.'/used.php?code=list'.$qstr; ?>" class="btn_list bg_type1"><span>목록</span></a>
 </div>
 
 <script>

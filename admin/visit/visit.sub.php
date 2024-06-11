@@ -7,27 +7,30 @@ if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $to_da
 include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 ?>
 
-<h2>통계검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">기간검색</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date, false); ?>
+            <div class="tel_input">
+			    <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date, false); ?>
+            </div>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
+<div class="board_btns tac mart20">
+	<input type="submit" value="검색" class="btn_acc">
 </div>
 </form>
 
