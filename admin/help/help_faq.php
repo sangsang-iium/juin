@@ -37,34 +37,41 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sca">
-				<option value="">FAQ카테고리</option>
-				<?php
-				$sql = "select * from shop_faq_cate";
-				$res = sql_query($sql);
-				while($row=sql_fetch_array($res)) {
-					echo option_selected($row['index_no'], $sca, $row['catename']);
-				}
-				?>
-			</select>
-			<select name="sfl">
-				<?php echo option_selected('subject', $sfl, '제목'); ?>
-				<?php echo option_selected('memo', $sfl, '내용'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sca">
+                        <option value="">FAQ카테고리</option>
+                        <?php
+                        $sql = "select * from shop_faq_cate";
+                        $res = sql_query($sql);
+                        while($row=sql_fetch_array($res)) {
+                            echo option_selected($row['index_no'], $sca, $row['catename']);
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('subject', $sfl, '제목'); ?>
+                        <?php echo option_selected('memo', $sfl, '내용'); ?>
+                    </select>
+                </div>
+			    <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -90,11 +97,11 @@ EOF;
 	<table>
 	<colgroup>
 		<col class="w50">
-		<col class="w50">
-		<col class="w100">
-		<col>
 		<col class="w80">
-		<col class="w60">
+		<col class="w120">
+		<col>
+		<col class="w170">
+		<col class="w150">
 	</colgroup>
 	<thead>
 	<tr>
@@ -111,7 +118,7 @@ EOF;
 		$index_no = $row['index_no'];
 		$row2 = sql_fetch("select * from shop_faq_cate where index_no='$row[cate]'");
 
-		$s_upd = "<a href=\"./help.php?code=faq_from&w=u&index_no=$index_no$qstr&page=$page\" class=\"btn_small\">수정</a>";		
+		$s_upd = "<a href=\"./help.php?code=faq_from&w=u&index_no=$index_no$qstr&page=$page\" class=\"btn_fix bg_type2\"><span>수정</span></a>";		
 
 		if($i==0)
 			echo '<tbody class="list">'.PHP_EOL;
@@ -128,7 +135,11 @@ EOF;
 		<td><?php echo $row2['catename']; ?></td>
 		<td class="tal"><a href="javascript:ubDisplay.display('<?php echo $i; ?>')"><?php echo get_text($row['subject']); ?></a></td>
 		<td><?php echo substr($row['wdate'],0,10); ?></td>
-		<td><?php echo $s_upd; ?></td>
+		<td>
+            <div class="btn_wrap">
+                <?php echo $s_upd; ?>
+            </div>
+        </td>
 	</tr>
 	<tr id="view_<?php echo $i; ?>" style="display:none" bgcolor='fdfbf5'>
 		<td colspan="3"></td>

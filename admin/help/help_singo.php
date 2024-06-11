@@ -126,7 +126,7 @@ EOF;
 		<col class="w100">
 		<col class="w150">
 		<col class="w200">
-		<col class="w200">
+		<col width="250px">
 	</colgroup>
 	<thead>
 	<tr>
@@ -158,15 +158,16 @@ EOF;
 		<td><?php echo $row['category']; ?></td>
 		<td><?php echo $row['regdate']; ?></td>
 		<td>
-		<?php
-		if($row['status']){
-		    echo '삭제 완료';
-		} else {
-		    echo '<a href="#none" onclick="singoUsedDelete('.$row['pno'].',\''.$row['title'].'\','.$row['no'].')" class="btn_small red">게시글 삭제</a>';
-		    echo '&nbsp;&nbsp;&nbsp;&nbsp;';
-		    echo '<a href="/m/used/view.php?no='.$row['pno'].'" target="_blank" class="btn_small">바로가기</a>';
-		}
-		?>
+            <div class="btn_wrap">
+                <?php
+                if($row['status']){
+                    echo '삭제 완료';
+                } else {
+                    echo '<a href="#none" onclick="singoUsedDelete('.$row['pno'].',\''.$row['title'].'\','.$row['no'].')" class="btn_del bg_type2"><span>삭제</span></a>';
+                    echo '<a href="/m/used/view.php?no='.$row['pno'].'" target="_blank" class="go"><span>바로가기</span></a>';
+                }
+                ?>
+            </div>
 	    </td>
 	</tr>
 	<?php

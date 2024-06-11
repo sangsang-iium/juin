@@ -55,45 +55,52 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>코드검색</h2>
+<h5 class="htag_title">코드검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
-		<th scope="row">노출위치</th>
+		<th scope="row">검색어</th>
 		<td>
-			<select name="sca">
-				<?php
-				echo option_selected('', $sca, '전체');
-				for($i=0; $i<count($position); $i++)
-					echo option_selected($position[$i][0], $sca, $position[$i][3]);
-				?>
-			</select>
+            <div class="chk_select">
+                <select name="sca">
+                    <?php
+                    echo option_selected('', $sca, '전체');
+                    for($i=0; $i<count($position); $i++)
+                        echo option_selected($position[$i][0], $sca, $position[$i][3]);
+                    ?>
+                </select>
+            </div>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">
+<div class="board_btns tac mart20">
+    <div class="btn_wrap">
+        <input type="submit" value="검색" class="btn_acc marr10">
+        <input type="button" value="초기화" id="frmRest" class="btn_cen">
+    </div>
 </div>
 </form>
 
+<p class="gap50"></p>
 <form name="fbannerlist" id="fbannerlist" method="post" action="./design/banner_list_update.php" onsubmit="return fbannerlist_submit(this);">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<h2>PC스킨 (<?php echo $super['theme']; ?>) 배너목록</h2>
+<h5 class="htag_title">PC스킨 (<?php echo $super['theme']; ?>) 배너목록</h5>
+<p class="gap20"></p>
 <div class="local_ov">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
-	<span class="ov_a fc_red">순서는 숫자가 작을수록 우선 순위로 노출되며 롤링 및 연속배너에만 적용됩니다. 고정배너는 의미없음</span>
+	<span class="ov_a fc_red fs14">순서는 숫자가 작을수록 우선 순위로 노출되며 롤링 및 연속배너에만 적용됩니다. 고정배너는 의미없음</span>
 </div>
 <div class="local_frm01">
 	<?php echo $btn_frmline; ?>
@@ -101,23 +108,23 @@ EOF;
 <div class="tbl_head01">
 	<table class="tablef">
 	<colgroup>
+		<col class="w80">
+		<col class="w70">
 		<col class="w50">
-		<col class="w50">
-		<col class="w50">
-		<col class="w60">
+		<col class="w80">
 		<col>
 		<col>
-		<col class="w80">
-		<col class="w80">
-		<col class="w80">
-		<col class="w60">
+		<col class="w150">
+		<col class="w120">
+		<col class="w120">
+		<col class="w150">
 	</colgroup>
 	<thead>
 	<tr>
 		<th scope="col" rowspan="2"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
 		<th scope="col" rowspan="2"><?php echo subject_sort_link('bn_code',$q2); ?>코드</a></th>
 		<th scope="col" rowspan="2"><?php echo subject_sort_link('bn_use',$q2); ?>노출</a></th>
-		<th scope="col" rowspan="2"><?php echo subject_sort_link('bn_order',$q2); ?>순서</a></th>
+		<th scope="col" rowspan="2" class="bd_none"><?php echo subject_sort_link('bn_order',$q2); ?>순서</a></th>
 		<th scope="col">노출위치</th>
 		<th scope="col">링크주소</th>
 		<th scope="col">TARGET</th>
@@ -153,7 +160,7 @@ EOF;
 			$bimg_str = '<img src="'.$bimg.'" width="'.$width.'">';
 		}
 
-		$s_upd = "<a href='./design.php?code=banner_form&w=u&bn_id=$bn_id$qstr&page=$page' class=\"btn_small\">수정</a>";
+		$s_upd = "<a href='./design.php?code=banner_form&w=u&bn_id=$bn_id$qstr&page=$page' class=\"btn_fix bg_type2\"><span>수정</span></a>";
 
 		$bg = 'list'.($i%2);
 	?>
@@ -168,14 +175,20 @@ EOF;
 		<td class="tal"><?php echo $subj; ?></td>
 		<td><input type="text" name="bn_link[<?php echo $i; ?>]" value="<?php echo $row['bn_link']; ?>" placeholder="URL" class="frm_input"></td>
 		<td>
-			<select name="bn_target[<?php echo $i; ?>]">
-				<?php echo option_selected('_self', $row['bn_target'], "현재창"); ?>
-				<?php echo option_selected('_blank', $row['bn_target'], "새창"); ?>
-			</select>
+            <div class="chk_select">
+                <select name="bn_target[<?php echo $i; ?>]">
+                    <?php echo option_selected('_self', $row['bn_target'], "현재창"); ?>
+                    <?php echo option_selected('_blank', $row['bn_target'], "새창"); ?>
+                </select>
+            </div>
 		</td>
 		<td><input type="text" name="bn_width[<?php echo $i; ?>]" value="<?php echo $row['bn_width']; ?>" class="frm_input"></td>
 		<td><input type="text" name="bn_height[<?php echo $i; ?>]" value="<?php echo $row['bn_height']; ?>" class="frm_input"></td>
-		<td><?php echo $s_upd; ?></td>
+		<td>
+            <div class="btn_wrap">
+                <?php echo $s_upd; ?>
+            </div>
+        </td>
 	</tr>
 	<tr class="<?php echo $bg; ?> rows">
 		<td class="td_img_view sbn_img" colspan="6">

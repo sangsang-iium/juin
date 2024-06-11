@@ -29,7 +29,8 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>분류 등록</h2>
+<h5 class="htag_title">분류 등록</h5>
+<p class="gap20"></p>
 <form name="faqlist2" id="faqlist2" action="./help/help_faq_group_update.php" method="post">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">

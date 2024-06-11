@@ -21,21 +21,23 @@ if($w == "") {
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 <input type="hidden" name="pp_id" value="<?php echo $pp_id; ?>">
 
-<div class="tbl_frm02">
+<div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">접속기기</th>
-		<td>				
-			<select name="device">
-				<?php echo option_selected('both',   $nw['device'], "PC와 모바일"); ?>
-				<?php echo option_selected('pc',     $nw['device'], "PC"); ?>
-				<?php echo option_selected('mobile', $nw['device'], "모바일"); ?>
-			</select>
+		<td>
+            <div class="chk_select">
+                <select name="device">
+                    <?php echo option_selected('both',   $nw['device'], "PC와 모바일"); ?>
+                    <?php echo option_selected('pc',     $nw['device'], "PC"); ?>
+                    <?php echo option_selected('mobile', $nw['device'], "모바일"); ?>
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -53,15 +55,23 @@ if($w == "") {
 	<tr>
 		<th scope="row">실행기간</th>
 		<td>
-			<input type="text" name="begin_date" value="<?php echo $nw['begin_date']; ?>" id="begin_date" required itemname="실행기간" class="required frm_input w80"> ~
-			<input type="text" name="end_date" value="<?php echo $nw['end_date']; ?>" id="end_date" required itemname="실행기간" class="required frm_input w80">
+			<input type="text" name="begin_date" value="<?php echo $nw['begin_date']; ?>" id="begin_date" required itemname="실행기간" class="required frm_input w120"> ~
+			<input type="text" name="end_date" value="<?php echo $nw['end_date']; ?>" id="end_date" required itemname="실행기간" class="required frm_input w120">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">노출여부</th>
-		<td class="td_label">
-			<input type="radio" name="state" value="0" id="state_yes"<?php echo ($nw['state']==0)?" checked":""; ?>> <label for="state_yes">노출함</label>
-			<input type="radio" name="state" value="1" id="state_no"<?php echo ($nw['state']==1)?" checked":""; ?>> <label for="state_no">노출안함</label>
+		<td class="">
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="state" value="0" id="state_yes"<?php echo ($nw['state']==0)?" checked":""; ?>>
+                    <label for="state_yes">노출함</label>
+                </li>
+                <li>
+                    <input type="radio" name="state" value="1" id="state_no"<?php echo ($nw['state']==1)?" checked":""; ?>>
+                    <label for="state_no">노출안함</label>
+                </li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
@@ -78,9 +88,9 @@ if($w == "") {
 	</table>
 </div>
 
-<div class="btn_confirm">
-	<input type="submit" value="저장" class="btn_large" accesskey="s">
-	<a href="./design.php?code=popup_list<?php echo $qstr; ?>&page=<?php echo $page; ?>" class="btn_large bx-white">목록</a>
+<div class="btn_wrap mart30">
+	<input type="submit" value="저장" class="btn_write" accesskey="s">
+	<a href="./design.php?code=popup_list<?php echo $qstr; ?>&page=<?php echo $page; ?>" class="btn_list bg_type1"><span>목록</span></a>
 </div>
 </form>
 

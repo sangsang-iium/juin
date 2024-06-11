@@ -8,7 +8,7 @@ $pg_num = 9;
 $snb_icon = "<i class=\"ionicons ion-compose\"></i>";
 
 if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
-	alert("Á¢±Ù±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
+	alert("ï¿½ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 }
 
 if($code == "banner_list")		$pg_title2 = ADMIN_MENU9_01;
@@ -27,7 +27,8 @@ include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>
 
 <div class="s_wrap">
-	<h1><?php echo $pg_title2; ?></h1>
+	<h4 class="htag_title"><?php echo $pg_title2; ?></h4>
+    <p class="gap50"></p>
 	<?php
 	include_once(BV_ADMIN_PATH."/design/{$code}.php");
 	?>

@@ -108,7 +108,7 @@ EOF;
 		$ma_id = $row['ma_id'];
 		$ma_subject = get_text($row['ma_subject']);
 
-		$s_frm = "<a href=\"".BV_ADMIN_URL."/member.php?code=mail_select_form&ma_id=$ma_id$qstr&page=$page\" class=\"go\"><span>보내기</span></a>";
+		$s_frm = "<a href=\"".BV_ADMIN_URL."/member.php?code=mail_select_form&ma_id=$ma_id$qstr&page=$page\" class=\"go color_type\"><span>보내기</span></a>";
 		$s_upd = "<a href=\"".BV_ADMIN_URL."/member.php?code=mail_form&w=u&ma_id=$ma_id$qstr&page=$page\" class=\"btn_fix bg_type2\"><span>수정</span></a>";
 
 		if($i==0)
