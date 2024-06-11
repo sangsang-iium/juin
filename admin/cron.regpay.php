@@ -2,7 +2,11 @@
 include_once "./_common.php";
 
 $today = date('Y-m-d'); // 오늘 날짜
+<<<<<<< HEAD
 echo "test";
+=======
+echo "abc";
+>>>>>>> jinho
 // 요일 배열과 매핑을 설정합니다.
 $daysOfWeekMap = ['일' => 0, '월' => 1, '화' => 2, '수' => 3, '목' => 4, '금' => 5, '토' => 6];
 
