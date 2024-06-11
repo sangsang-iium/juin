@@ -103,19 +103,19 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-head">
 							<p class="title"><label for="reg_mb_name">이름</label><b>*</b></p>
 						</div>
-						<div class="form-body">
+						<div class="form-body input-button id-confirm">
 							<input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" placeholder="이름을 입력해주세요." autocapitalize="off">
 							<?php
 							$cert_str = '';
 							if($config['cf_cert_use']) {
 								if($config['cf_cert_ipin'])
-									$cert_str .= '<button type="button" id="win_ipin_cert" class="btn_small">아이핀 본인인증</button>'.PHP_EOL;
+									$cert_str .= '<button type="button" id="win_ipin_cert" class="ui-btn st3">본인인증</button>'.PHP_EOL;
 								if($config['cf_cert_hp'])
-									$cert_str .= '<button type="button" id="win_hp_cert" class="btn_small">휴대폰 본인인증</button>'.PHP_EOL;
+									$cert_str .= '<button type="button" id="win_hp_cert" class="ui-btn st3">본인인증</button>'.PHP_EOL;
 
 								$cert_str .= '<noscript>본인인증을 위해서는 자바스크립트 사용이 가능해야합니다.</noscript>'.PHP_EOL;
 							}
-							if($cert_str) echo '<div class="mart5">'.$cert_str.'</div>';
+							if($cert_str) echo '<div class="">'.$cert_str.'</div>';
 							if($config['cf_cert_use'] && $member['mb_certify']) {
 								if($member['mb_certify'] == 'ipin')
 									$mb_cert = '아이핀';
@@ -223,12 +223,12 @@ if(!defined('_BLUEVATION_')) exit;
 						<div class="form-head">
 							<p class="title">환불계좌등록<b>*</b></p>
 						</div>
-						<div class="form-body phone">	  
+						<div class="form-body bank">	  
 							<label for="reg_mb_addr2" class="sound_only">은행</label> 
 							<?php 
 								
 							?>
-							<select name="refund_bank" class="frm-input">
+							<select name="refund_bank" class="frm-select">
 									<option>은행을선택하세요</option>
 									<?php 
 									sort($BANKS, SORT_NATURAL | SORT_FLAG_CASE); 
@@ -271,7 +271,7 @@ if(!defined('_BLUEVATION_')) exit;
                   </div>
                 </div>
               </div>
-              <div class="pop-btm">
+              <div class="container pop-btm">
                 <button type="button" class="ui-btn round stBlack" id="info_ok">확인</button>
                 <button type="button" class="ui-btn round stWhite close">취소</button>
               </div>
@@ -584,7 +584,7 @@ if(!defined('_BLUEVATION_')) exit;
 
   
   <?php if($w != '') { ?>
-    <div class="joinDetail-box">
+    <div class="joinDetail-box container">
         <div class="joinDetail-body">
           <button type="button" class="ui-btn mb-leave_btn" onclick="member_leave()">회원탈퇴하기<img src="/src/img/arrow-right2.svg" alt=""></button>
         </div>

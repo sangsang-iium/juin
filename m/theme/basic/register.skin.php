@@ -76,11 +76,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                 <div class="form-head">
                   <p class="title">사업자 정보 조회<b>*</b></p>
                 </div>
-                <div class="form-body">
-                  <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="" placeholder="숫자만 입력" maxlength="10" >
-                  <div class="joinDetail-btn-box joinDetail-btn-box3">
-                    <button type="button" class="ui-btn st3 w-per100" onclick="getKFIAMember()">사업자 정보 조회</button>
-                  </div>
+                <div class="form-body input-button id-confirm">
+                  <input type="tel" name="b_no" id="b_no" class="frm-input" value="" placeholder="숫자만 입력" maxlength="10" >
+                  <button type="button" class="ui-btn st3" onclick="getKFIAMember()">조회</button>
                 </div>
               </div>
             </div>
