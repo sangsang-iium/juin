@@ -82,6 +82,39 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 <!-- } 상품 카테고리 바로가기 -->
 
+<!-- 관련 서비스 바로가기 { -->
+<?php if ($_SERVER['REMOTE_ADDR']=="106.247.231.170") { ?>
+<div class="container section main_service">
+  <div class="main-service_wrap">
+    <a href="/m/used/list.php?menu=used" class="box box1">
+      <div class="box_in">
+        <div class="icon">
+          <img src="/src/img/main-service-icon1.png" alt="">
+        </div>
+        <p class="name">중고장터</p>
+      </div>
+    </a>
+    <a href="/m/store/list.php?menu=store" class="box box2">
+      <div class="box_in">
+        <div class="icon">
+          <img src="/src/img/main-service-icon2.png" alt="">
+        </div>
+        <p class="name">회원사현황</p>
+      </div>
+    </a>
+    <a href="/m/service/list.php?menu=service" class="box box3">
+      <div class="box_in">
+        <div class="icon">
+          <img src="/src/img/main-service-icon3.png" alt="">
+        </div>
+        <p class="name">제휴서비스</p>
+      </div>
+    </a>
+  </div>
+</div>
+<?php } ?>
+<!-- } 관련 서비스 바로가기 -->
+
 <!-- 베스트 상품 { -->
 <div class="section main_best">
   <div class="container right cp-title">
