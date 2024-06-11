@@ -2,6 +2,8 @@
 include_once('./_common.php');
 include_once(BV_KCPCERT_PATH.'/kcpcert_config.php');
 
+$ENC_KEY = "가맹점 인증키값";
+
 $site_cd       = "";
 $ordr_idxx     = "";
 

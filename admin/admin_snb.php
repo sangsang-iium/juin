@@ -47,7 +47,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('m10', ADMIN_MENU1_03, BV_ADMIN_URL.'/member.php?code=register_form'); ?>
 		<?php echo printMenu2('m10', ADMIN_MENU1_04, BV_ADMIN_URL.'/member.php?code=xls'); ?>
 		<?php echo printMenu2('m10', ADMIN_MENU1_10, BV_ADMIN_URL.'/member.php?code=mail_list'); ?>
-    <?php echo printMenu2('h10', ADMIN_MENU8_02, BV_ADMIN_URL.'/member.php?code=leave'); ?>
+    <?php echo printMenu2('m10', ADMIN_MENU8_02, BV_ADMIN_URL.'/member.php?code=leave'); ?>
 		<?php echo printMenu1('m20', '포인트관리'); ?>
 		<?php echo printMenu2('m20', ADMIN_MENU1_07, BV_ADMIN_URL.'/member.php?code=point'); ?>
 		<?php //echo printMenu2('m20', ADMIN_MENU1_08, BV_ADMIN_URL.'/member.php?code=pointxls'); ?>
