@@ -159,12 +159,12 @@ $raffleEndCheck = raffleEventDateCheck($raffle['event_end_date'],$raffle['prize_
       <div class="container">
         <div class="prod-buy__btns">
           <?php if(!$rafflePrizeCheck) { ?>
-            <button class="ui-btn round stBlack">응모완료</button>
+            <button class="ui-btn round stBlack raffle-btn disabled">응모완료</button>
           <?php } else { ?>
             <?php if($raffleEndCheck > 1) { ?>
-              <button class="ui-btn round stBlack">응모 종료</button>
+              <button class="ui-btn round stBlack raffle-btn disabled">응모 종료</button>
             <?php } else { ?>
-              <button class="ui-btn round stBlack raffle-submit-btn">응모하기</button>
+              <button class="ui-btn round stBlack raffle-btn raffle-submit-btn active">응모하기</button>
             <?php } ?>
           <?php } ?>
         </div>
