@@ -5,12 +5,13 @@ if(!defined('_BLUEVATION_')) exit;
 <form name="fregform" method="post" action="./design/menu_form_update.php">
 <input type="hidden" name="token" value="">
 
-<h2>메뉴 설정</h2>
+<h5 class="htag_title">메뉴 설정</h5>
+<p class="gap20"></p>
 <div class="tbl_head01">
 	<table>
 	<colgroup>
-		<col width="80px">
-		<col width="50px">
+		<col width="100px">
+		<col width="70px">
 		<col width="200px">
 		<col width="200px">
 		<col>

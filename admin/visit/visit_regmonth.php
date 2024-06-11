@@ -43,7 +43,7 @@ if(!$min_year) $min_year = BV_TIME_YEAR; // 내역이없다면 현재 년도로
 		가맹점회원 : <b><?php echo number_format($tot_count3); ?></b>명
 	</span>
 </div>
-<div class="board_table">
+<div class="board_list">
 	<table>
 	<colgroup>
 		<col class="w150">

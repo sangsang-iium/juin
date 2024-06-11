@@ -63,9 +63,13 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<div class="btn_wrap color_type">
-  <a href="./seller.php?code=pay" class="go marr10"><span>미정산내역</span></a>
-  <a href="./seller.php?code=pay_history" class="go"><span>정산완료내역</span></a>
+<div class="btn_wrap tal">
+    <a href="./seller.php?code=pay" class="link_type1 marr10">
+        <span>미정산내역</span>
+    </a>
+    <a href="./seller.php?code=pay_history" class="link_type2">
+        <span>정산완료내역</span>
+    </a>
 </div>
 
 <p class="gap50"></p>

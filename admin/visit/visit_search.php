@@ -52,32 +52,39 @@ $result = sql_query($sql);
 include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 ?>
 
-<h2>통계검색</h2>
+<h5 class="htag_title">통계검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
-		<th scope="row"><label for="sch_sort">검색어</label></th>
+		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl" id="sch_sort">
-				<?php echo option_selected("vi_ip", $sfl, "IP"); ?>
-				<?php echo option_selected("vi_referer", $sfl, "접속경로"); ?>
-				<?php echo option_selected("mb_id", $sfl, "가맹점ID"); ?>
-			</select>
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl" id="sch_sort">
+                        <?php echo option_selected("vi_ip", $sfl, "IP"); ?>
+                        <?php echo option_selected("vi_referer", $sfl, "접속경로"); ?>
+                        <?php echo option_selected("mb_id", $sfl, "가맹점ID"); ?>
+                    </select>
+                </div>
 			<label for="sch_word" class="sound_only">검색어</label>
 			<input type="text" name="stx" value="<?php echo stripslashes($stx); ?>" id="sch_word" class="frm_input">	
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기간검색</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -96,12 +103,12 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 <div class="tbl_head01">
 	<table>
 	<colgroup>
-		<col class="w120">
+		<col class="w200">
 		<col>
-		<col class="w100">
-		<col class="w100">
-		<col class="w100">
-		<col class="w130">
+		<col class="w120">
+		<col class="w120">
+		<col class="w150">
+		<col class="w200">
 	</colgroup>
 	<thead>
 	<tr>
@@ -146,7 +153,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		$bg = 'list'.($i%2);
 	?>
 	<tr class="<?php echo $bg; ?>">
-		<td class="tal"><?php echo $ip; ?></td>
+		<td class=""><?php echo $ip; ?></td>
 		<td class="tal" style="word-break:break-all;">				
 			<?php 
 			if($row['vi_referer'])

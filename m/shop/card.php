@@ -53,10 +53,10 @@ include_once("./_head.php");
   <script>
     // ------ 클라이언트 키로 객체 초기화 ------
 
-    var clientKey = '<?php echo $default['de_toss_ckey'] ?>';
+    // var clientKey = '<?php echo $default['de_toss_ckey'] ?>';
+    var clientKey = 'test_ck_d46qopOB89Np9d6DEa953ZmM75y0';
     var tossPayments = TossPayments(clientKey);
 
-    var amount = 4900;
     function billing(method, requestJson) {
       console.log(requestJson);
       tossPayments.requestBillingAuth(method, requestJson)

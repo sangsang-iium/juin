@@ -17,16 +17,16 @@ $qa['replyer'] = $qa['replyer'] ? $qa['replyer'] : $member['name'];
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 <input type="hidden" name="index_no" value="<?php echo $index_no; ?>">
 
-<div class="tbl_frm02">
-	<table>
+<div class="board_table">
+	<table class="viewer_type">
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
-	<tr>
-		<th scope="row">작성자 </th>
-		<td><?php echo $qa['mb_id']; ?></td>
+	<tr class="viewr_title">
+		<!-- <th scope="row">작성자 </th> -->
+		<th colspan="2"><?php echo $qa['mb_id']; ?></th>
 	</tr>
 	<tr>
 		<th scope="row">제목 </th>
@@ -38,30 +38,30 @@ $qa['replyer'] = $qa['replyer'] ? $qa['replyer'] : $member['name'];
 			<?php echo nl2br($qa['memo']); ?>
 			<?php 
 			if($qa['imgUpload1']){
-			?><p>
+			?><div>
 				<img src="/data/qa/<?=$qa['imgUpload1']?>">
-				</p>
+				</div>
 			<?php	
 			}
 			if($qa['imgUpload2']){
 				?>
-					<p><img src="/data/qa/<?=$qa['imgUpload2']?>"></p>
+					<div><img src="/data/qa/<?=$qa['imgUpload2']?>"></div>
 				<?php	
 			}
 			if($qa['imgUpload3']){
 				?>
-				<p><img src="/data/qa/<?=$qa['imgUpload3']?>"></p> 
+				<div><img src="/data/qa/<?=$qa['imgUpload3']?>"></div> 
 				<?php	
 			}
 			if($qa['imgUpload4']){
-				?><p>
+				?><div>
 					<img src="/data/qa/<?=$qa['imgUpload4']?>">	
-				</p>
+				</div>
 					
 				<?php	
 			}
 			if($qa['imgUpload5']){
-				?><p><img src="/data/qa/<?=$qa['imgUpload5']?>"></p> 
+				?><div><img src="/data/qa/<?=$qa['imgUpload5']?>"></div> 
 				<?php	
 			}
 

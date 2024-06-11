@@ -32,32 +32,39 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title">기본검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w100">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('mb_id', $sfl, '작성자'); ?>
-				<?php echo option_selected('subject', $sfl, '제목'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('mb_id', $sfl, '작성자'); ?>
+                        <?php echo option_selected('subject', $sfl, '제목'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
-	<input type="button" value="초기화" id="frmRest" class="btn_medium grey">	
+<div class="board_btns tac mart20">
+    <div class="btn_wrap">
+        <input type="submit" value="검색" class="btn_acc marr10">
+        <input type="button" value="초기화" id="frmRest" class="btn_cen">
+    </div>
 </div>
 </form>
 
@@ -75,13 +82,13 @@ EOF;
 	<table>
 	<colgroup>
 		<col class="w50">
-		<col class="w50">
+		<col class="w100">
 		<col class="w100">
 		<col>
 		<col class="w100">
-		<col class="w80">
-		<col class="w60">
-		<col class="w60">
+		<col class="w170">
+		<col class="w100">
+		<col class="w150">
 	</colgroup>
 	<thead>
 	<tr>
@@ -97,7 +104,7 @@ EOF;
 	</thead>
 	<?php
 	for($i=0; $row=sql_fetch_array($result); $i++) {
-		$s_upd = "<a href=\"./help.php?code=qa_form&w=u&index_no={$row['index_no']}$qstr&page=$page\" class=\"btn_small\">수정</a>";		
+		$s_upd = "<a href=\"./help.php?code=qa_form&w=u&index_no={$row['index_no']}$qstr&page=$page\" class=\"btn_fix bg_type2\"><span>수정</span></a>";		
 
 		if($i==0)
 			echo '<tbody class="list">'.PHP_EOL;
@@ -116,7 +123,11 @@ EOF;
 		<td class="tal"><?php echo $row['mb_id']; ?></td>
 		<td><?php echo substr($row['wdate'],0,10); ?></td>
 		<td><?php echo $row['result_yes']?'yes':'no'; ?></td>
-		<td><?php echo $s_upd; ?></td>
+		<td>
+            <div class="btn_wrap">
+                <?php echo $s_upd; ?>
+            </div>
+        </td>
 	</tr>
 	<?php 
 	}

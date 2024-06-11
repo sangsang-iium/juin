@@ -51,7 +51,7 @@ $result = sql_query($sql);
 $colspan  = 12;
 
 $btn_frmline = <<<EOF
-<a href="#none" class="fr btn_lsmall" style="float:left;" onclick="chkDelete();">선택삭제</a>
+<a href="#none" class="fr btn_lsmall bx-white" style="float:left;" onclick="chkDelete();">선택삭제</a>
 <a href="./used.php?code=form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 상품등록</a>
 EOF;
 
@@ -135,7 +135,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 		<col class="w60">
 		<col class="w100">
 		<col class="w200">
-		<col class="w110">
+		<col width="250px">
 	</colgroup>
 	<thead>
 	<tr>
@@ -175,8 +175,10 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 		<td><?php echo $row['mb_id']; ?></td>
 		<td><?php echo $row['regdate']; ?></td>
 		<td>
-		    <a href="<?php echo BV_ADMIN_URL.'/used.php?code=view&no='.$row['no'].$q2; ?>" class="btn_ssmall red">상세</a> &nbsp; &nbsp;
-			<a href="<?php echo BV_ADMIN_URL.'/used.php?code=form&no='.$row['no'].$q2; ?>" class="btn_ssmall">수정</a>
+            <div class="btn_wrap">
+                <a href="<?php echo BV_ADMIN_URL.'/used.php?code=view&no='.$row['no'].$q2; ?>" class="detail color_type"><span>상세보기</span></a>
+                <a href="<?php echo BV_ADMIN_URL.'/used.php?code=form&no='.$row['no'].$q2; ?>" class="btn_del bg_type2"><span>수정</span></a>
+            </div>
 		</td>
 	</tr>
 	<?php

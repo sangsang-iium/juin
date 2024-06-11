@@ -19,27 +19,36 @@ if(!$min_year)
 	$min_year = BV_TIME_YEAR;
 ?>
 
-<h2>통계검색</h2>
+<h5 class="htag_title">통계검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
+<div class="board_table">
 	<table>
 	<colgroup>
-		<col class="w120">
-		<col>
+		<col style="width:220px;">
+		<col style="width:auto">
 	</colgroup>
 	<tbody>
 	<tr>
-		<th scope="row">기간검색</th>
+		<th scope="row">검색어</th>
 		<td>
-			<select name="year">
-				<?php
-				for($i=$min_year; $i<=BV_TIME_YEAR; $i++) {
-					echo "<option value=\"{$i}\"".get_selected($year, $i).">{$i}년</option>\n";
-				}
-				?>
-			</select>
-			<input type="submit" value="검색" class="btn_small">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="year">
+                        <?php
+                        for($i=$min_year; $i<=BV_TIME_YEAR; $i++) {
+                            echo "<option value=\"{$i}\"".get_selected($year, $i).">{$i}년</option>\n";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="board_btns">
+                    <div class="btn_wrap">
+                        <input type="submit" value="검색" class="btn_acc">
+                    </div>
+                </div>
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -47,18 +56,18 @@ if(!$min_year)
 </div>
 </form>
 
-<div class="local_ov mart20">
+<div class="local_ov mart50">
 	<strong>총 판매상품수 : <?php echo number_format($sum_count); ?>건</strong>
 	<span class="fc_red">(취소/환불/반품 내역은 제외)</span>
 </div>
 <div class="tbl_head01">
 	<table>
 	<colgroup>
-		<col class="w100">
+        <col class="w170">
 		<col>
-		<col class="w60">
-		<col class="w90">
-		<col class="w90">
+		<col class="w100">
+		<col class="w120">
+		<col class="w150">
 	</colgroup>
 	<thead>
 	<tr>
@@ -97,7 +106,10 @@ if(!$min_year)
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td><?php echo $date; ?></td>
-		<td><div class="graph"><span class="bar" style="width:<?php echo $s_rate; ?>%"></span></div></td>
+        <td>
+            <progress class="board_progress" max="100" value="<?php echo $s_rate; ?>">
+        </td>
+		<!-- <td><div class="graph"><span class="bar" style="width:<?php echo $s_rate; ?>%"></span></div></td> -->
 		<td><?php echo $s_rate; ?></td>
 		<td><?php echo number_format($sum['cnt']); ?></td>
 		<td class="tar"><?php echo number_format($sum['price']); ?></td>

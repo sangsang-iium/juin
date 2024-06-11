@@ -182,7 +182,6 @@ function getKFIAMember() {
           chkKFIA = false;
           return false;
         } else {
-          console.log(res.data);
           // alert(`조회 성공 : ${res.data.MEMBER_NAME}`)
 
           Object.entries(res.data).forEach(([key, value]) => {

@@ -267,14 +267,14 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 				<th scope="row">배송주기</th>
 				<td><?php echo $od['od_week']; ?></td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<th scope="row">배송횟수</th>
 				<td><?php echo $od['od_reg_cnt']; ?></td>
 			</tr>
 			<tr>
 				<th scope="row">총 배송횟수</th>
 				<td><?php echo $od['od_reg_total_num']; ?></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<th scope="row">첫 배송 시점</th>
 				<td><?php echo $od['od_begin_date']; ?></td>
