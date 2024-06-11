@@ -606,7 +606,7 @@
 .cp-orderItem .content {display: inline-block; vertical-align: top; width: calc(100% - 14rem); padding-left: 2.32rem;}
 .cp-orderItem .tag {display: inline-block; margin-bottom: 0.4rem; font-weight: 400; width: 9.2rem; height: 3.6rem; line-height: 3.6rem; padding: 0; text-align: center;}
 .cp-orderItem .info {margin-top: 0.5rem;}
-.cp-orderItem .name {display: block; font-size: 2.16rem; font-weight: 500; color: var(--color-black2);}
+.cp-orderItem .name {display: block; font-size: 2.16rem; font-weight: 500; color: var(--color-black2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .cp-orderItem .set {}
 .cp-orderItem .set p {position: relative; display: inline-block; vertical-align: middle; font-size: 2.16rem; font-weight: 500; color: var(--color-black3);}
 .cp-orderItem .set p:not(:last-child) {padding-right: 3.2rem;}
@@ -919,12 +919,15 @@
 
 .cart-regular-tab {display: flex; align-items: center; gap: 1.6rem;}
 .cart-regular-tab .regular-tab-item {width: calc((100% - 1.4rem) / 2);}
-.cart-regular-tab .tab-btn {width: 100%; display: flex; align-items: center; justify-content: center; border: none; border-radius: 0.4rem; font-weight: 500; font-size: 2.16rem; height: 5.2rem; gap: 0.48rem;}
-.cart-regular-tab .tab-btn img {width: 2.48rem;}
-.cart-regular-tab .tab-btn.normal {}
-.cart-regular-tab .tab-btn.regular {background-color: #FFD2D2; color: #AF1010;}
+.cart-regular-tab .tab-btn {width: 100%; display: flex; align-items: center; justify-content: center; border: none; border-radius: 0.4rem; font-weight: 500; font-size: 2.16rem; height: 5.2rem; gap: 0.48rem; border-radius: 0.4rem; border: 0.16rem solid #ddd; background-color: #fafafa; color: #666;}
+.cart-regular-tab .tab-btn span:first-child {font-size: 0;}
+.cart-regular-tab .tab-btn svg {width: 2.48rem; height: 2.48rem;}
+.cart-regular-tab .tab-btn svg path {fill: #999;}
 
-.cart-process-bar-wr {padding-top: 2.2rem;}
+.cart-regular-tab .tab-btn.active {background-color: #FA6918; border-color: #FA6918; color: #fff;}
+.cart-regular-tab .tab-btn.active svg path {fill: #fff;}
+
+.cart-process-bar-wr {}
 .cart-process-top {display: flex; align-items: flex-end; justify-content: space-between;}
 .cart-process-top .company {font-weight: 500; font-size: 2.72rem; color: var(--color-main);}
 .cart-process-top .available-price {text-align: right;}
@@ -970,3 +973,57 @@
 
 .siren-reg_bot {margin-top: 2rem;}
 .siren-reg_submit {display: block; width: 100%; height: 6.8rem; line-height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
+
+/* === 2024-06-11 추가 === */
+/* 회원사현황 */
+.member-status-btn-wr {display: flex; align-items: center; margin-top: 4rem; gap: 1rem;}
+.member-status-btn-wr .ui-btn {width: 100%;}
+
+/* 회원가입 스타일 수정 */
+.form-body.bank {font-size: 0;}
+.bank .frm-input {width: calc(100% - 12.8rem);}
+.bank .frm-select {width: 100%; margin-bottom: 0.8rem;}
+.bank .frm-input:last-child {margin-left: 0.8rem; width: 12rem; padding: 0 1.3rem;}
+
+.pop-inner .pop-btm .ui-btn {min-width: auto; width: 100%;}
+
+.form-file_box {}
+.form-file_box li {margin-bottom: 0.8rem;}
+
+.form-inline.time {gap: 1rem;}
+.form-inline.time li {width: calc((100% - 2.8rem) / 2);}
+.form-inline.time li.time_mid_txt {line-height: 5.6rem; width: 0.8rem; text-align: center;}
+
+/* 주문내역 버튼 스타일 수정 */
+.ord-btn-wr {display: flex; gap: 0.8rem; padding-top: 2.2rem; flex-wrap: wrap; font-size: 0;}
+.ord-btn-wr .ord-review__btn {margin-top: 0; width: calc((100% - 0.8rem) / 2); box-sizing: border-box;}
+
+/* 주문 폼 수정 */
+#card_section {margin-top: 3rem;}
+.odf_tbl .ui-btn {line-height: 5.6rem;}
+.odf_tbl .frm-select {width: 100%;}
+
+#refund_section {margin-top: 3rem; padding-top: 3rem; border-top: 1px solid #eee;}
+#taxsave_section {margin-top: 3rem; padding-top: 3rem; border-top: 1px solid #eee;}
+.cash-receipt-ul {display: flex; flex-flow: row wrap; gap: 10px 20px;}
+
+#taxbill_section {margin-top: 1rem;}
+#taxbill_section * ~ * {margin-top: 1rem;}
+
+/* 장바구니 */
+.cart-sec.noPadding {padding: 0;}
+.cp-cart .cp-cart-item {padding-left: 2.4rem; padding-right: 2.4rem; position: relative; padding-top: 8.56rem;}
+
+.cart-gbox {padding: 0 2.4rem; position: relative;}
+.cart-gbox .cp-cart-item {padding-left: 0; padding-right: 0; padding-top: 2.8rem;}
+.cart-gbox.v {border: 0.24rem solid var(--color-main); padding-top: 9.2rem;}
+
+.cart-gbox .cp-cart-item .cart-label {display: none;}
+.cart-label {position: absolute; top: 2.4rem; left: 0; display: flex; align-items: center;}
+.cart-label-img {width: 7.4rem; height: 4.8rem; border-radius: 0 0.4rem 0.4rem 0; background-color: var(--color-main);}
+.cart-label.v .cart-label-img {background: url('/src/img/cart-label01.png') no-repeat center right 1.6rem var(--color-main); background-size: 3.2rem;}
+.cart-label.g .cart-label-img {background: url('/src/img/cart-label02.png') no-repeat center right 1.6rem var(--color-main); background-size: 3.2rem;}
+.cart-label-text {padding-left: 1.04rem; font-weight: 500; font-size: 2.16rem;}
+
+/* 응모 래플 상세 */
+.raffle-btn {width: 100%; display: block; height: 6.8rem; font-size: 2.16rem; font-weight: 500;}

@@ -62,30 +62,31 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             <p class="price"><?php echo display_price($rw['use_price']); ?></p>
           </div>
         </div>
-        <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
-        <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
+        <div class="ord-btn-wr">
+          <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
+          <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
+          <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
+          <?php
+            // 환불 버튼 생성  20240527 박원주
+            if($dan_process=='3')
+            {
+              ?>
+                <button class="ui-btn ord-review__btn iq-wbtn return-money" data-od-id="<?php echo $rw['od_id'];?>">환불</button>
+              <?php
+            }
+          ?>
 
-        <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
-        <?php
-          // 환불 버튼 생성  20240527 박원주
-          if($dan_process=='3')
-          {
-            ?>
-              <button class="ui-btn ord-review__btn iq-wbtn return-money" data-od-id="<?php echo $rw['od_id'];?>">환불</button>
-            <?php
-          }
-        ?>
-
-<?php
-          // 환불 버튼 생성  20240527 박원주
-          if($dan_process=='5')
-          {
-            ?>
-              <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>">반품</button>
-              <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>">교환</button>
-            <?php
-          }
-        ?>
+          <?php
+            // 환불 버튼 생성  20240527 박원주
+            if($dan_process=='5')
+            {
+              ?>
+                <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>">반품</button>
+                <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>">교환</button>
+              <?php
+            }
+          ?>
+        </div>
 
       </div>
       <?php

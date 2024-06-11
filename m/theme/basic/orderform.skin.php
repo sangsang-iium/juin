@@ -1010,7 +1010,29 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             <section id="bank_section" style="display:none;">
               <h2 class="anc_tit">입금하실 계좌</h2>
               <div class="odf_tbl">
-                <table>
+                <div class="form-row">
+                  <div class="form-head">
+                    <p class="title">은행</p>
+                  </div>
+                  <div class="form-body">
+                    <select id="bank_code" name="bank_code" class="frm-select w-per100">
+                      <option value="">은행 선택</option>
+                      <?php
+                        foreach($BANKS as $bkCode => $v ) { ?>
+                          <option value="<?php echo $v['code'] ?>"><?php echo $v['bank'] ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-head">
+                    <p class="title">휴대전화</p>
+                  </div>
+                  <div class="form-body">
+                    <input type="text" name="customerMobilePhone" value="" class="frm-input w-per100">
+                  </div>
+                </div>
+                <!-- <table>
                   <tbody>
                     <!-- <tr>
                       <th scope="row">무통장계좌</th>
@@ -1022,7 +1044,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                       <th scope="row">입금자명</th>
                       <td><input type="text" name="deposit_name" value="<?php echo $member['name']; ?>" class="frm-input w-per100">
                       </td>
-                    </tr> -->
+                    </tr>
                     <tr>
                       <th scope="row">은행</th>
                       <td>
@@ -1041,7 +1063,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                       </td>
                     </tr>
                   </tbody>
-                </table>
+                </table> -->
               </div>
             </section>
 
@@ -1049,7 +1071,40 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             <section id="refund_section" style="display:none;">
               <h2 class="anc_tit">환불받으실 계좌</h2>
               <div class="odf_tbl">
-                <table>
+                <div class="form-row">
+                  <div class="form-head">
+                    <p class="title">은행명</p>
+                  </div>
+                  <div class="form-body">
+                    <?php
+                      $refund_bank_code = $member['refund_bank'];
+
+                      // 은행 코드로 해당 은행 이름 찾기
+                      $bankCodes = array_column($BANKS, 'code');
+                      $bankIndex = array_search($refund_bank_code, $bankCodes);
+
+                      $refund_bank_name = ($bankIndex !== false) ? $BANKS[array_keys($BANKS)[$bankIndex]]['bank'] : "";
+                    ?>
+                    <input type="text" name="refund_bank" value="<?php echo $refund_bank_name ?>" class="frm-input w-per100" id="refund_bank">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-head">
+                    <p class="title">계좌번호</p>
+                  </div>
+                  <div class="form-body">
+                    <input type="text" name="refund_num" value="<?php echo $member['refund_num'] ?>" class="frm-input w-per100" id="refund_num">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-head">
+                    <p class="title">예금주</p>
+                  </div>
+                  <div class="form-body">
+                    <input type="text" name="refund_name" value="<?php echo $member['refund_name'] ?>" class="frm-input w-per100" id="refund_name">
+                  </div>
+                </div>
+                <!-- <table>
                   <tbody>
                     <tr>
                       <th scope="row"><label for="refund_bank">은행명</label></th>
@@ -1073,16 +1128,80 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                       <td><input type="text" name="refund_name" value="<?php echo $member['refund_name'] ?>" class="frm-input w-per100" id="refund_name"></td>
                     </tr>
                   </tbody>
-                </table>
+                </table> -->
               </div>
             </section>
 
             <section id="taxsave_section" style="display:none;">
               <h2 class="anc_tit">증빙서류 발급</h2>
-
-
               <div class="odf_tbl">
-                <table>
+                <div class="form-row">
+                  <div class="form-head" id="cash_receipt_section">
+                    <p class="title">증빙서류 선택</p>
+                  </div>
+                  <div class="form-body">
+                    <ul class="cash-receipt-ul">
+                      <li>
+                        <div class="frm-choice">
+                          <input type="radio" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked id="cash_receipt">
+                          <label for="cash_receipt">현금영수증</label>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="frm-choice">
+                          <input type="radio" name="documentType" value="tax_bill" onclick="toggleTaxDocument(this.value);" id="tax_bill1">
+                          <label for="tax_bill1">세금계산서</label>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="frm-choice">
+                          <input type="radio" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);" id="no_bill">
+                          <label for="no_bill">미발행</label>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="form-row" id="cash_bill_section">
+                  <div class="form-head">
+                    <p class="title">현금영수증</p>
+                  </div>
+                  <div class="form-body">
+                    <select name="taxsave_yes" onchange="tax_save(this.value);" class="frm-select w-per100">
+                      <option value="N">발행안함</option>
+                      <option value="Y">개인 소득공제용</option>
+                      <option value="S">사업자 지출증빙용</option>
+                    </select>
+                    <div id="taxsave_fld_1" style="display:none;">
+                      <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호" value="<?php echo $member['cellphone'] ?>">
+                    </div>
+                    <div id="taxsave_fld_2" style="display:none;">
+                      <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호" value="<?php echo $member['ju_b_num'] ?>">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row" id="tax_bill_section" style="display:none;">
+                  <div class="form-head">
+                    <p class="title">세금계산서</p>
+                  </div>
+                  <div class="form-body">
+                    <select name="taxbill_yes" onchange="tax_bill(this.value);" class="frm-select w-per100">
+                      <option value="N">발행안함</option>
+                      <option value="Y">발행요청</option>
+                    </select>
+                    <div id="taxbill_section" style="display:none;">
+                      <input type="text" name="company_saupja_no" class="w-per100 frm-input" value="<?php echo $member['ju_b_num'] ?>" placeholder="사업자등록번호">
+                      <input type="text" name="company_name" class="w-per100 frm-input" value="<?php echo $member['ju_restaurant'];?>" placeholder="상호(법인명)">
+                      <input type="text" name="company_owner" class="w-per100 frm-input"value="<?php echo $member['ju_name'];?>" placeholder="대표자명">
+                      <input type="text" name="company_addr" class="w-per100 frm-input"value="<?php echo $member['ju_addr_full'];?>" placeholder="사업장주소">
+                      <input type="text" name="company_item" class="w-per100 frm-input"value="<?php echo $member['ju_business_type'];?>" placeholder="업태">
+                      <input type="text" name="company_service" class="w-per100 frm-input"value="<?php echo $member['ju_sectors'];?>" placeholder="업종">
+                      <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['cellphone']?>" placeholder="신청자 전화번호">
+                      <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['email']?>" placeholder="이메일">
+                    </div>
+                  </div>
+                </div>
+                <!-- <table>
                   <tbody>
                     <tr>
                       <th scope="row" id="cash_receipt_section">증빙서류 선택</th>
@@ -1128,7 +1247,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                       </td>
                     </tr>
                   </tbody>
-                </table>
+                </table> -->
               </div>
             </section>
 
@@ -1141,13 +1260,13 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                   $resNumRow = sql_num_rows($resCard);
                   if ($resNumRow > 0) {
                 ?>
-                <select name="cardsel" id="cardsel">
+                <select name="cardsel" id="cardsel" class="frm-select">
                   <?php for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) { ?>
                     <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use']=="Y"?"selected":"" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
                   <?php } ?>
                 </select>
                 <?php } else {?>
-                  <a href="/m/shop/card.php">카드 등록</a>
+                  <a href="/m/shop/card.php" class="ui-btn st3">카드 등록</a>
                 <?php }?>
               </div>
             </section>
