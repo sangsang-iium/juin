@@ -29,6 +29,7 @@ if(!defined('_BLUEVATION_')) exit;
 	<?php
 	for($i=0; $i<count($gw_menu); $i++) {
 		$seq = ($i+1);
+    if($seq != 2 && $seq != 4 && $seq != 5 && $seq != 6 ) {
 	?>
 	<tr>
 		<td class="list1">메뉴<?php echo $seq; ?></td>
@@ -37,7 +38,7 @@ if(!defined('_BLUEVATION_')) exit;
 		<td class="tal"><?php echo $gw_menu[$i][0]; ?></td>
 		<td class="tal"><?php echo $gw_menu[$i][1]; ?></td>
 	</tr>
-	<?php } ?>
+	<?php } } ?>
 	</tbody>
 	</table>
 </div>

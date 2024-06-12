@@ -58,6 +58,15 @@ if($w == "u" && $bak) {
 }
 $frm_submit .= '</div>';
 
+// 임시저장 _20240612_SY
+$frm_submit2 = '<div class="btn_confirm">
+    <input type="submit" value="임시저장" class="btn_large" accesskey="s">';
+if($w == "u" && $bak) {
+    $frm_submit2 .= PHP_EOL.'<a href="./goods.php?code='.$bak.$qstr.'&page='.$page.'" class="btn_large bx-white">목록</a>';
+	$frm_submit2 .= '<a href="./goods.php?code=form" class="btn_large bx-red">추가</a>'.PHP_EOL;
+}
+$frm_submit2 .= '</div>';
+
 $pg_anchor = <<<EOF
 <div class="tap_box mart20 marb20">
     <ul class="taps type3">
@@ -232,6 +241,87 @@ $income_per = ($supply_price / $goods_price) * 100;
 </style>
 
 
+<section id="anc_sitfrm_cate">
+    <h5 class="htag_title">카테고리</h5>
+<?php echo $pg_anchor; ?>
+<div class="local_desc02 local_desc">
+	<p>선택된 카테고리에 <span class="fc_084">최상위 카테고리는 대표 카테고리로 자동설정</span>되며, 최소 1개의 카테고리는 등록하셔야 합니다.</p>
+</div>
+<div class="tbl_frm01">
+	<table>
+	<colgroup>
+		<col style="width:220px;">
+		<col>
+	</colgroup>
+	<tbody>
+	<tr>
+		<th scope="row">카테고리 선택</th>
+		<td>
+			<div class="sub_frm01">
+				<table>
+				<tr>
+					<td class="w20p bg1">
+						<?php echo get_category_select_1('sel_ca1', '', ' size="10" class="multiple-select"'); ?>
+					</td>
+					<td class="w20p bg1">
+						<?php echo get_category_select_2('sel_ca2', '', ' size="10" class="multiple-select"'); ?>
+					</td>
+					<td class="w20p bg1">
+						<?php echo get_category_select_3('sel_ca3', '', ' size="10" class="multiple-select"'); ?>
+					</td>
+					<!-- <td class="w20p bg1">
+						<?php //echo get_category_select_4('sel_ca4', '', ' size="10" class="multiple-select"'); ?>
+					</td>
+					<td class="w20p bg1">
+						<?php //echo get_category_select_5('sel_ca5', '', ' size="10" class="multiple-select"'); ?>
+					</td> -->
+				</tr>
+				</table>
+			</div>
+			<div class="btn_confirm02">
+				<button type="button" class="btn_lsmall blue" onclick="category_add();">카테고리 추가</button>
+			</div>
+			<script>
+			$(function() {
+				$("#sel_ca1").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
+				$("#sel_ca2").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
+				$("#sel_ca3").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
+				$("#sel_ca4").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
+				$("#sel_ca5").multi_select_box("#sel_ca",5,"","=카테고리선택=");
+			});
+			</script>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">선택된 카테고리<br><span class="fc_red">(복수 카테고리 최대 3개까지만 등록)</span></th>
+		<td>
+			<select name="sel_ca_id" id="sel_ca_id" size="5" class="multiple-select">
+			<?php
+			if($w == "u") {
+				if($ca_id1 = adm_category_navi($gs['ca_id']))
+					echo '<option value="'.$gs['ca_id'].'">' .$ca_id1. '</option>'.PHP_EOL;
+				if($ca_id2 = adm_category_navi($gs['ca_id2']))
+					echo '<option value="'.$gs['ca_id2'].'">'.$ca_id2.'</option>'.PHP_EOL;
+				if($ca_id3 = adm_category_navi($gs['ca_id3']))
+					echo '<option value="'.$gs['ca_id3'].'">'.$ca_id3.'</option>'.PHP_EOL;
+			}
+			?>
+			</select>
+			<div class="btn_confirm02">
+				<!-- <button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'prev');">▲ 위로</button>
+				<button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'next');">▼ 아래로</button> -->
+				<button type="button" class="btn_lsmall frm_option_del red">카테고리 삭제</button>
+			</div>
+		</td>
+	</tr>
+	</tbody>
+	</table>
+</div>
+</section>
+
+
+<?php echo $frm_submit2; ?>
+<p class="gap70"></p>
 <section id="anc_sitfrm_ini">
     <h5 class="htag_title">기본정보</h5>
     <?php echo $pg_anchor; ?>
@@ -358,88 +448,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 </div>
 </section>
 
-<?php echo $frm_submit; ?>
-
-<p class="gap70"></p>
-<section id="anc_sitfrm_cate">
-    <h5 class="htag_title">카테고리</h5>
-<?php echo $pg_anchor; ?>
-<div class="local_desc02 local_desc">
-	<p>선택된 카테고리에 <span class="fc_084">최상위 카테고리는 대표 카테고리로 자동설정</span>되며, 최소 1개의 카테고리는 등록하셔야 합니다.</p>
-</div>
-<div class="tbl_frm01">
-	<table>
-	<colgroup>
-		<col style="width:220px;">
-		<col>
-	</colgroup>
-	<tbody>
-	<tr>
-		<th scope="row">카테고리 선택</th>
-		<td>
-			<div class="sub_frm01">
-				<table>
-				<tr>
-					<td class="w20p bg1">
-						<?php echo get_category_select_1('sel_ca1', '', ' size="10" class="multiple-select"'); ?>
-					</td>
-					<td class="w20p bg1">
-						<?php echo get_category_select_2('sel_ca2', '', ' size="10" class="multiple-select"'); ?>
-					</td>
-					<td class="w20p bg1">
-						<?php echo get_category_select_3('sel_ca3', '', ' size="10" class="multiple-select"'); ?>
-					</td>
-					<!-- <td class="w20p bg1">
-						<?php //echo get_category_select_4('sel_ca4', '', ' size="10" class="multiple-select"'); ?>
-					</td>
-					<td class="w20p bg1">
-						<?php //echo get_category_select_5('sel_ca5', '', ' size="10" class="multiple-select"'); ?>
-					</td> -->
-				</tr>
-				</table>
-			</div>
-			<div class="btn_confirm02">
-				<button type="button" class="btn_lsmall blue" onclick="category_add();">카테고리 추가</button>
-			</div>
-			<script>
-			$(function() {
-				$("#sel_ca1").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
-				$("#sel_ca2").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
-				$("#sel_ca3").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
-				$("#sel_ca4").multi_select_box("#sel_ca",5,bv_admin_url+"/ajax.category_select_json.php","=카테고리선택=");
-				$("#sel_ca5").multi_select_box("#sel_ca",5,"","=카테고리선택=");
-			});
-			</script>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">선택된 카테고리<br><span class="fc_red">(복수 카테고리 최대 3개까지만 등록)</span></th>
-		<td>
-			<select name="sel_ca_id" id="sel_ca_id" size="5" class="multiple-select">
-			<?php
-			if($w == "u") {
-				if($ca_id1 = adm_category_navi($gs['ca_id']))
-					echo '<option value="'.$gs['ca_id'].'">' .$ca_id1. '</option>'.PHP_EOL;
-				if($ca_id2 = adm_category_navi($gs['ca_id2']))
-					echo '<option value="'.$gs['ca_id2'].'">'.$ca_id2.'</option>'.PHP_EOL;
-				if($ca_id3 = adm_category_navi($gs['ca_id3']))
-					echo '<option value="'.$gs['ca_id3'].'">'.$ca_id3.'</option>'.PHP_EOL;
-			}
-			?>
-			</select>
-			<div class="btn_confirm02">
-				<!-- <button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'prev');">▲ 위로</button>
-				<button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'next');">▼ 아래로</button> -->
-				<button type="button" class="btn_lsmall frm_option_del red">카테고리 삭제</button>
-			</div>
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</div>
-</section>
-
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 
 
 <p class="gap70"></p>
@@ -856,7 +865,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 </div>
 </section>
 
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 <p class="gap70"></p>
 <section id="anc_sitfrm_cost">
     <h5 class="htag_title">가격 및 재고</h5>
@@ -928,13 +937,13 @@ $income_per = ($supply_price / $goods_price) * 100;
 		</td>
 	</tr> -->
 
-	<!-- <tr>
+	<tr>
 		<th scope="row">포인트</th>
 		<td>
-			<input type="text" name="gpoint" value="<?php //echo number_format($gs['gpoint']); ?>" class="frm_input w80" onkeyup="addComma(this);"> P
+			<input type="text" name="gpoint" value="<?php echo number_format($gs['gpoint']); ?>" class="frm_input w80" onkeyup="addComma(this);"> P
 			<input type="text" name="marper" class="frm_input w50"> %
 		</td>
-	</tr> -->
+	</tr>
 	<tr>
 		<th scope="row">가격 대체문구</th>
 		<td>
@@ -1016,6 +1025,7 @@ $income_per = ($supply_price / $goods_price) * 100;
   // let income_type2   = $('.income_type2');
 
   $(function() {
+    
 
     // 정산방식 > 업제청산
     if ($('#income_type0').is(':checked')) {
@@ -1032,17 +1042,20 @@ $income_per = ($supply_price / $goods_price) * 100;
         let in_per       = $('input[name=in_per]').val();
         let total_price  = 0;
 
-        if(in_type == 1) {
-          if(in_per_type == 1) {
-            total_price = stringNumberToInt($('#goods_price').val()) * (1 - in_per/ 100);
-            $('#supply_price').val(total_price.toFixed(0));
+        // admin이면 해당 로직 안 탐 _20240612_SY
+        if(seller_code != "admin") {
+          if(in_type == 1) {
+            if(in_per_type == 1) {
+              total_price = stringNumberToInt($('#goods_price').val()) * (1 - in_per/ 100);
+              $('#supply_price').val(total_price.toFixed(0));
+            } else {
+              total_price = stringNumberToInt($('#goods_price').val()) - in_price;
+              $('#supply_price').val(total_price);
+            }
           } else {
             total_price = stringNumberToInt($('#goods_price').val()) - in_price;
             $('#supply_price').val(total_price);
           }
-        } else {
-          total_price = stringNumberToInt($('#goods_price').val()) - in_price;
-          $('#supply_price').val(total_price);
         }
       })
     }
@@ -1150,7 +1163,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 
 </script>
 
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 
 <!-- <section id="anc_sitfrm_pay">
 <h2>가맹점수수료</h2> -->
@@ -1289,7 +1302,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 	</tbody>
 	</table>
 </div>
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 
 </section>
 <style>
@@ -1412,7 +1425,7 @@ $(function(){
 </div>
 </section>
 
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 
 <p class="gap70"></p>
 <section id="anc_sitfrm_relation" style="display:none">

@@ -52,7 +52,35 @@ $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 EOF;
 ?>
+<!-- 검색어 등록 추가 _20240612_SY -->
+<h5 class="htag_title">검색어 등록</h5>
+<p class="gap20 "></p>
+<form name="fpopularlist2" id="fpopularlist2" action="./goods/goods_popular_list_update.php" method="post">
+  <input type="hidden" name="q1" value="<?php echo $q1; ?>">
+  <input type="hidden" name="page" value="<?php echo $page; ?>">
+  <div class="tbl_frm01">
+    <table>
+    <colgroup>
+      <col width="220px">
+      <col>
+    </colgroup>
+    <tbody>
+    <tr>
+      <th scope="row">검색어</th>
+      <td>
+        <input type="text" name="pp_name" required itemname="검색어명" class="required frm_input w200">
+        <span class="fc_197">예시) 소고기</span>
+      </td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+  <div class="btn_confirm">
+    <input type="submit" value="추가" class="btn_medium red">
+  </div>
+</form>
 
+<p class="gap50"></p>
 <h2>기본검색</h2>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
