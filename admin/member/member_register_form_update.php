@@ -2,9 +2,9 @@
 include_once("./_common.php");
 include_once(BV_LIB_PATH."/register.lib.php");
 
-// check_demo();
+check_demo();
 
-// check_admin_token();
+check_admin_token();
 
 $mb_id = trim($_POST['mb_id']);
 
@@ -79,7 +79,7 @@ if($chk_b_num == 1) {
       alert($result);
   }
 
-
+  // 중앙회 매장 정보 _20240612_SY
   $value['ju_restaurant'] = $_POST['ju_restaurant'];
   $value['ju_mem']        = $_POST['ju_mem'];
   $value['ju_cate']       = $_POST['ju_cate'];
@@ -102,7 +102,7 @@ if(!$config['cert_admin_yes'])
 insert("shop_member", $value);
 $mb_no = sql_insert_id();
 
-if($mb_no) {
+if($mb_no && $chk_b_num == 1) {
   /* 매장 사진 */
   $sub_imgs = explode("|", $value['ju_simg']);
   $image_regex = "/(\.(jpg|gif|png))$/i";
