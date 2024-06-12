@@ -5,33 +5,40 @@ if(!defined('_BLUEVATION_')) exit;
 <form name="fregform" method="post" onsubmit="return fregform_submit(this);">
 <input type="hidden" name="token" value="">
 
-<h2>기본설정</h2>
+<h5 class="htag_title">기본설정</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">입점서비스 사용</th>
-		<td class="td_label">
-			<label><input type="radio" name="seller_reg_yes" value="1"<?php echo ($config['seller_reg_yes']==1)?' checked':''; ?>> 사용함</label>
-			<label><input type="radio" name="seller_reg_yes" value="0"<?php echo ($config['seller_reg_yes']==0)?' checked':''; ?>> 사용안함</label>
+		<td>
+            <div class="radio_group">
+                <label><input type="radio" name="seller_reg_yes" value="1"<?php echo ($config['seller_reg_yes']==1)?' checked':''; ?>> 사용함</label>
+                <label><input type="radio" name="seller_reg_yes" value="0"<?php echo ($config['seller_reg_yes']==0)?' checked':''; ?>> 사용안함</label>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">신규상품등록 진열</th>
-		<td class="td_label">			
-			<label><input type="radio" name="seller_reg_auto" value="1"<?php echo ($config['seller_reg_auto']==1)?' checked':''; ?>> 관리자 승인</label>
-			<label><input type="radio" name="seller_reg_auto" value="0"<?php echo ($config['seller_reg_auto']==0)?' checked':''; ?>> 등록시 바로 승인</label>
+		<td>
+            <div class="radio_group">
+                <label><input type="radio" name="seller_reg_auto" value="1"<?php echo ($config['seller_reg_auto']==1)?' checked':''; ?>> 관리자 승인</label>
+                <label><input type="radio" name="seller_reg_auto" value="0"<?php echo ($config['seller_reg_auto']==0)?' checked':''; ?>> 등록시 바로 승인</label>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기존상품수정 진열</th>
-		<td class="td_label">			
-			<label><input type="radio" name="seller_mod_auto" value="1"<?php echo ($config['seller_mod_auto']==1)?' checked':''; ?>> 관리자 승인</label>
-			<label><input type="radio" name="seller_mod_auto" value="0"<?php echo ($config['seller_mod_auto']==0)?' checked':''; ?>> 수정시 바로 승인</label>
+		<td>
+            <div class="radio_group">
+                <label><input type="radio" name="seller_mod_auto" value="1"<?php echo ($config['seller_mod_auto']==1)?' checked':''; ?>> 관리자 승인</label>
+                <label><input type="radio" name="seller_mod_auto" value="0"<?php echo ($config['seller_mod_auto']==0)?' checked':''; ?>> 수정시 바로 승인</label>
+            </div>
 		</td>
 	</tr>	
 	</tbody>

@@ -423,6 +423,13 @@ $(document).ready(function () {
       $('.regiBtn').removeClass('sm');
     }
 
+    // Chat Button
+    if(scrHeight > 100) {
+      $('.chatListBtn').addClass('sm');
+    } else {
+      $('.chatListBtn').removeClass('sm');
+    }
+
     // Top Button
     if(scrHeight > 500) {
       $('.btn-moveTop').css('display','block');

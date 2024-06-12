@@ -42,14 +42,46 @@ $sql = " select a.* $sql_common $sql_search $sql_order limit $from_record, $rows
 $result = sql_query($sql);
 ?>
 
-<h1 class="newp_tit"><?php echo $tb['title']; ?></h1>
 <div class="new_win_body">
+    <h4 class="htag_title padl0"><?php echo $tb['title']; ?></h4>
+    <p class="gap30"></p>
 	<form name="fsearch" id="fsearch" method="get">
-	<div class="guidebox tac">
+	<!-- <div class="guidebox tac">
 		<b>아이디 : </b> <input type="text" name="sfl" value="<?php echo $sfl; ?>" class="frm_input w100 marr10">
 		<b>회원명 : </b> <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input w100">
 		<input type="submit" value="검색" class="btn_small">
-	</div>
+	</div> -->
+        <div class="board_table">
+            <table>
+                <colgroup>
+                    <col style="width:80px;">
+                    <col>
+                    <col style="width:80px;">
+                    <col>
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <label for="bd_id">아이디</label>
+                        </th>
+                        <td>
+                            <input type="text" name="sfl" id="bd_id" value="<?php echo $sfl; ?>" class="frm_input">
+                        </td>
+                        <th scope="row">
+                            <label for="bd_name">회원명</label>
+                        </th>
+                        <td>
+                        <input type="text" name="stx" id="bd_name" value="<?php echo $stx; ?>" class="frm_input">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="board_btns tac mart20">
+            <div class="btn_wrap">
+                <input type="submit" value="검색" class="btn_acc">
+            </div>
+        </div>
 	</form>
 
 	<div class="local_frm01 mart20 fs18">

@@ -5,11 +5,12 @@ if(!defined('_BLUEVATION_')) exit;
 <form name="fregform" method="post" action="./config/super_update.php">
 <input type="hidden" name="token" value="">
 
-<h2>상점 관리에 사용될 비밀번호</h2>
+<h5 class="htag_title">상점 관리에 사용될 비밀번호</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -17,18 +18,24 @@ if(!defined('_BLUEVATION_')) exit;
 		<th scope="row">관리자 비밀번호</th>
 		<td>
 			<input type="text" name="passwd" class="frm_input">
-			<?php echo help("비밀번호는 되도록 영,숫자를 같이 사용하시는 것이 좋습니다.<br>비밀번호는 상점 관리에 매우 중요하므로 상점 관리자외 정보유출을 주의하시고 정기적으로 비밀번호를 변경하세요."); ?>
+            <ul class="cnt_list step01 mart10">
+                <li>비밀번호는 되도록 영,숫자를 같이 사용하시는 것이 좋습니다.</li>
+                <li>비밀번호는 상점 관리에 매우 중요하므로 상점 관리자외 정보유출을 주의하시고 정기적으로 비밀번호를 변경하세요.</li>
+            </ul>
+			<?php /* echo help("비밀번호는 되도록 영,숫자를 같이 사용하시는 것이 좋습니다.<br>비밀번호는 상점 관리에 매우 중요하므로 상점 관리자외 정보유출을 주의하시고 정기적으로 비밀번호를 변경하세요."); */ ?>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
 
-<h2>상점 관리에 사용될 필수정보</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">상점 관리에 사용될 필수정보</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -40,7 +47,10 @@ if(!defined('_BLUEVATION_')) exit;
 		<th scope="row">이메일주소</th>
 		<td>
 			<input type="text" name="email" value="<?php echo $super['email']; ?>" required email itemname="이메일" class="frm_input required" size="30">
-			<?php echo help("회원 메일발송시 사용되므로 실제 사용중인 메일주소를 입력하세요."); ?>
+            <ul class="cnt_list step01 mart10">
+                <li>회원 메일발송시 사용되므로 실제 사용중인 메일주소를 입력하세요.</li>
+            </ul>
+			<?php /* echo help("회원 메일발송시 사용되므로 실제 사용중인 메일주소를 입력하세요."); */ ?>
 		</td>
 	</tr>
 	<tr>
@@ -50,41 +60,54 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">주소</th>
 		<td>
-			<input type="text" name="zip" value="<?php echo $super['zip']; ?>" class="frm_input" size="8" maxlength="5"> <a href="javascript:win_zip('fregform', 'zip', 'addr1', 'addr2', 'addr3', 'addr_jibeon');" class="btn_small grey">주소검색</a>
-			<p class="mart5">
-				<input type="text" name="addr1" value="<?php echo $super['addr1']; ?>" class="frm_input" size="60"> 기본주소
-			</p>
-			<p class="mart5">
-				<input type="text" name="addr2" value="<?php echo $super['addr2']; ?>" class="frm_input" size="60"> 상세주소
-			</p>
-			<p class="mart5">
-				<input type="text" name="addr3" value="<?php echo $super['addr3']; ?>" class="frm_input" size="60"> 참고항목
-				<input type="hidden" name="addr_jibeon" value="<?php echo $super['addr_jibeon']; ?>">
-			</p>
+            <div class="write_address">
+                <div class="file_wrap address">
+                    <input type="text" name="zip" value="<?php echo $super['zip']; ?>" class="frm_input" size="8" maxlength="5"> 
+                    <a href="javascript:win_zip('fregform', 'zip', 'addr1', 'addr2', 'addr3', 'addr_jibeon');" class="btn_file">주소검색</a>
+                </div>
+                <div class="addressMore">
+                    <input type="text" name="addr1" value="<?php echo $super['addr1']; ?>" class="frm_input" size="60"> 
+                    <label for="" class="hide">기본주소</label>
+                    <input type="text" name="addr2" value="<?php echo $super['addr2']; ?>" class="frm_input" size="60"> 
+                    <label for="" class="hide">상세주소</label>
+                </div>
+                </div>
+                <div class="mart5">
+                    <input type="text" name="addr3" value="<?php echo $super['addr3']; ?>" class="frm_input" size="60"> 
+                    <label for="" class="hide">참고항목</label>
+                    <input type="hidden" name="addr_jibeon" value="<?php echo $super['addr_jibeon']; ?>">
+                </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">이메일 수신</th>
 		<td>
-			<select name="mailser">
-				<?php echo option_selected('Y', $super['mailser'], '수신함'); ?>
-				<?php echo option_selected('N', $super['mailser'], '수신안함'); ?>
-			</select>
+            <div class="chk_select">
+                <select name="mailser">
+                    <?php echo option_selected('Y', $super['mailser'], '수신함'); ?>
+                    <?php echo option_selected('N', $super['mailser'], '수신안함'); ?>
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">SMS 수신</th>
 		<td>
-			<select name="smsser">
-				<?php echo option_selected('Y', $super['smsser'], '수신함'); ?>
-				<?php echo option_selected('N', $super['smsser'], '수신안함'); ?>
-			</select>
+            <div class="chk_select">
+                <select name="smsser">
+                    <?php echo option_selected('Y', $super['smsser'], '수신함'); ?>
+                    <?php echo option_selected('N', $super['smsser'], '수신안함'); ?>
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">포인트</th>
 		<td>
-			<b><?php echo number_format($super['point']); ?></b> Point
+			<b>
+                <?php echo number_format($super['point']); ?>
+            </b> 
+            <span>Point</span>
 			<a href="<?php echo BV_ADMIN_URL; ?>/member/member_point_req.php?mb_id=<?php echo $super['id']; ?>" onclick="win_open(this,'pop_point_req','450','450','no');return false" class="btn_small grey marl10">강제적립</a>
 		</td>
 	</tr>

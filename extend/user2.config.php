@@ -406,3 +406,61 @@ function get_raffle_img_src($it_img) {
 
 	return $file_url;
 }
+
+function getRaffleLogIdxno($index_no) {
+  global $member;
+
+  $sql = " SELECT index_no FROM shop_goods_raffle_log WHERE raffle_index = '$index_no' AND mb_id = '{$member['id']}' ";
+  $res  = sql_fetch($sql);
+
+  return $res['index_no'];
+}
+
+function raffleOrder($raffle_index, $index_no) {
+  $sql = " UPDATE shop_goods_raffle_log SET `order` = 'Y' WHERE raffle_index = '$raffle_index' AND index_no = '$index_no' ";
+  sql_query($sql);
+}
+
+
+// 고객이 주문/배송조회를 위해 보관해 둔다.
+function raffle_save_goods_data($gs_id, $odrno, $od_id, $shop_table = "shop_order")
+{
+	if(!$gs_id || !$odrno || !$od_id)
+		return;
+
+  $gs_id = preg_replace('/000000$/', '', $gs_id);
+
+	$sql = " select * from shop_goods_raffle where index_no = '$gs_id' ";
+	$cp = sql_fetch($sql);
+
+	$data = serialize($cp);
+
+	// 상품정보를 주문서에 업데이트한다.
+	$sql = " update {$shop_table} set od_goods = '$data' where index_no = '$odrno' ";
+	sql_query($sql);
+
+	$ymd_dir = BV_DATA_PATH.'/order/'.date('ym', time());
+	$upl_dir = $ymd_dir.'/'.$od_id; // 저장될 위치
+
+	// 년도별로 따로 저장
+	if(!is_dir($ymd_dir)) {
+		@mkdir($ymd_dir, BV_DIR_PERMISSION);
+		@chmod($ymd_dir, BV_DIR_PERMISSION);
+	}
+
+	// 주문번호별로 따로 저장
+	if(!is_dir($upl_dir)) {
+		@mkdir($upl_dir, BV_DIR_PERMISSION);
+		@chmod($upl_dir, BV_DIR_PERMISSION);
+	}
+
+	if(preg_match("/^(http[s]?:\/\/)/", $cp['simg1']) == false)
+	{
+		$file = BV_DATA_URL.'/raffle/'.$cp['simg1'];
+		if(is_file($file) && $cp['simg1']) {
+			$file_url = $upl_dir.'/'.$cp['simg1'];
+			@copy($file, $file_url);
+			@chmod($file_url, BV_FILE_PERMISSION);
+		}
+	}
+}

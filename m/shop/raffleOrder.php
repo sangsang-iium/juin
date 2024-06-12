@@ -38,7 +38,7 @@ $od_no = cart_uniqid();
 $sql = " insert into shop_cart
       ( ca_id, mb_id, gs_id, ct_direct, ct_time, ct_price, ct_supply_price, ct_qty, ct_point, io_id, io_type, io_supply_price, io_price, ct_option, ct_send_cost, od_no, ct_ip, raffle, reg_yn )
     VALUES ";
-$sql .= "( '$ca_id', '{$member['id']}', '{$raffleIndexNo}', '$set_cart_id', '" . BV_TIME_YMDHIS . "', '{$raffle_price}', '{$raffle_price}', '$ct_qty', '0', '', '', '', '', '', '', '$od_no', '{$_SERVER['REMOTE_ADDR']}', '1', '1' ) ";
+$sql .= "( '$ca_id', '{$member['id']}', '{$raffleIndexNo}', '$set_cart_id', '" . BV_TIME_YMDHIS . "', '{$raffle_price}', '{$raffle_price}', '$ct_qty', '0', '', '', '', '', '', '', '$od_no', '{$_SERVER['REMOTE_ADDR']}', '1', '2' ) ";
 
 sql_query($sql);
 $ss_cart_id .= $comma . sql_insert_id();

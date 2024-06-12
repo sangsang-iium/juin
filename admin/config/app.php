@@ -14,11 +14,12 @@ $app = sql_fetch($sql);
 <form name="fregform" method="post" action="./config/app_update.php" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="token" value="">
 
-<h2>앱 관리</h2>
+<h5 class="htag_title">앱 관리</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -49,10 +50,12 @@ $app = sql_fetch($sql);
 	<tr>
 		<th scope="row"><label for="ia_puse">긴급공지사항 사용 유무</label></th>
 		<td>
-			<select name="ia_puse" id="ia_puse">
-				<option value="Y" <?php echo $app['ia_puse']=="Y"?"selected":""; ?>>노출</option>
-				<option value="N" <?php echo $app['ia_puse']=="N"?"selected":""; ?>>미노출</option>
-			</select>
+            <div class="chk_select">
+                <select name="ia_puse" id="ia_puse">
+                    <option value="Y" <?php echo $app['ia_puse']=="Y"?"selected":""; ?>>노출</option>
+                    <option value="N" <?php echo $app['ia_puse']=="N"?"selected":""; ?>>미노출</option>
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -72,10 +75,12 @@ $app = sql_fetch($sql);
 	<tr>
 		<th scope="row"><label for="ia_iuse">앱점검 사용 유무</label></th>
 		<td>
-			<select name="ia_iuse" id="ia_iuse">
-				<option value="Y" <?php echo $app['ia_iuse']=="Y"?"selected":""; ?>>노출</option>
-				<option value="N" <?php echo $app['ia_iuse']=="N"?"selected":""; ?>>미노출</option>
-			</select>
+            <div class="chk_select">
+                <select name="ia_iuse" id="ia_iuse">
+                    <option value="Y" <?php echo $app['ia_iuse']=="Y"?"selected":""; ?>>노출</option>
+                    <option value="N" <?php echo $app['ia_iuse']=="N"?"selected":""; ?>>미노출</option>
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
