@@ -1,84 +1,102 @@
 <?php
 include_once "./_common.php";
 
-$today = date('Y-m-d'); // 오늘 날짜
-echo "abc";
-// 요일 배열과 매핑을 설정합니다.
-$daysOfWeekMap = ['일' => 0, '월' => 1, '화' => 2, '수' => 3, '목' => 4, '금' => 5, '토' => 6];
+$today         = '2024-06-12'; // 예시를 위해 오늘 날짜를 고정
+$daysOfWeek    = ['일', '월', '화', '수', '목', '금', '토'];
+$daysOfWeekMap = [
+  '일' => 'Sunday', '월'    => 'Monday', '화'   => 'Tuesday',
+  '수' => 'Wednesday', '목' => 'Thursday', '금' => 'Friday', '토' => 'Saturday',
+];
 
-// DB에서 배송 관련 데이터 가져오기
-$sql = "SELECT * FROM shop_order_reg WHERE od_reg_total_num > od_reg_num";
+// 3일 후 날짜 계산
+$threeDaysLaterDate     = date('Y-m-d', strtotime('+3 days', strtotime($today)));
+$threeDaysLaterDayIndex = date('w', strtotime($threeDaysLaterDate)); // 3일 후의 요일 인덱스 (0: 일요일, 1: 월요일, ..., 6: 토요일)
+
+// 요일 인덱스를 한글 요일 이름으로 변환
+$threeDaysLaterDay = $daysOfWeek[$threeDaysLaterDayIndex];
+echo "Target Day: $threeDaysLaterDay\n";
+
+// SQL 조건 생성
+$sqlCondition = "FIND_IN_SET('$threeDaysLaterDay', od_wday)";
+
+// SQL 쿼리 작성
+$sql = "SELECT * FROM shop_order_reg
+        WHERE ({$sqlCondition})
+        AND od_reg_total_num > od_reg_num
+        AND od_begin_date <> '0000-00-00';";
+echo "SQL Query: $sql\n";
 $res = sql_query($sql);
 
 // 배송 대상 주문을 저장할 배열
 $deliveryTargets = [];
 
 while ($row = sql_fetch_array($res)) {
-  $beginDate            = $row['od_begin_date'];         // 배송 시작일
-  $deliveryCycle        = $row['od_week'];               // 배송 주기
-  $totalDeliveryCount   = $row['od_reg_total_num'];      // 총 배송 횟수
-  $currentDeliveryCount = $row['od_reg_num'];            // 현재 배송 횟수
-  $deliveryDays         = explode(',', $row['od_wday']); // 배송 요일 (월, 수 등)
-  $orderId              = $row['index_no'];              // 주문 번호
+  $beginDate           = $row['od_begin_date'];         // 배송 시작일
+  $deliveryDays        = explode(',', $row['od_wday']); // 배송 요일 (월, 수 등)
+  $weekInterval        = $row['od_week'];               // 배송 주기
+  $totalDeliveries     = $row['od_reg_total_num'];      // 총 배송 횟수
+  $completedDeliveries = $row['od_reg_num'];            // 완료된 배송 횟수
 
-  // 시작 날짜가 0000-00-00인 경우 무시
-  if ($beginDate === '0000-00-00') {
-    continue;
-  }
+  $isFirstDelivery = ($completedDeliveries == 0);
 
-  // 현재 배송 횟수와 총 배송 횟수가 같으면 주문을 중단
-  if ($currentDeliveryCount >= $totalDeliveryCount) {
-    continue;
-  }
-
-  // 다음 배송 날짜 계산
-  $nextDeliveryDate = $beginDate;
-  $cycleCount       = $currentDeliveryCount;
-
-  // 배송 요일을 반복하여 다음 배송 날짜 찾기
-  while ($cycleCount < $totalDeliveryCount) {
+  if ($isFirstDelivery) {
     foreach ($deliveryDays as $day) {
-      $day = trim($day); // 앞뒤 공백 제거
+      $day               = trim($day);
+      $englishDay        = $daysOfWeekMap[$day];
+      $firstDeliveryDate = date('Y-m-d', strtotime("next $englishDay", strtotime($beginDate)));
 
-      // 배송 시작일이 과거이면 다음 배송 요일을 계산
-      if (strtotime($nextDeliveryDate) < strtotime($today)) {
-        $nextDeliveryDate = date('Y-m-d', strtotime("next {$day}", strtotime($nextDeliveryDate)));
-      }
-
-      // 배송 주기 반영
-      if ($cycleCount > 0 && $cycleCount % count($deliveryDays) == 0) {
-        $nextDeliveryDate = date('Y-m-d', strtotime("+{$deliveryCycle} weeks", strtotime($nextDeliveryDate)));
-      }
-
-      // 배송 날짜가 오늘 이후인 경우 계산을 멈추고 조건 확인
-      if (strtotime($nextDeliveryDate) >= strtotime($today)) {
-        $cycleCount++;
-        break;
+      // 첫 배송일이 3일 후의 요일과 일치하는지 확인
+      if (date('w', strtotime($firstDeliveryDate)) == $threeDaysLaterDayIndex) {
+        $deliveryTargets[] = [
+          'orderId'          => $row['index_no'],
+          'nextDeliveryDate' => $firstDeliveryDate,
+          'checkDate'        => date('Y-m-d', strtotime('-3 days', strtotime($firstDeliveryDate))),
+        ];
       }
     }
+  } else {
+    // 첫 배송이 아닌 경우 주기를 고려하여 다음 배송 날짜 계산
+    $nextDeliveryDate = $beginDate;
+    $deliveryCount    = $completedDeliveries;
 
-    // 무한 루프 방지
-    if (strtotime($nextDeliveryDate) >= strtotime('+1 year', strtotime($today))) {
-      break;
+    while ($deliveryCount < $totalDeliveries) {
+      foreach ($deliveryDays as $day) {
+        $day              = trim($day);
+        $englishDay       = $daysOfWeekMap[$day];
+        $nextDeliveryDate = date('Y-m-d', strtotime("next $englishDay", strtotime($nextDeliveryDate)));
+
+        if ($deliveryCount > 0 && $deliveryCount % count($deliveryDays) == 0) {
+          $nextDeliveryDate = date('Y-m-d', strtotime("+{$weekInterval} weeks", strtotime($nextDeliveryDate)));
+        }
+
+        // 다음 배송일이 3일 후의 요일과 일치하는지 확인
+        if (date('w', strtotime($nextDeliveryDate)) == $threeDaysLaterDayIndex && date('Y-m-d', strtotime('-3 days', strtotime($nextDeliveryDate))) == $today) {
+          $deliveryTargets[] = [
+            'orderId'          => $row['index_no'],
+            'nextDeliveryDate' => $nextDeliveryDate,
+            'checkDate'        => date('Y-m-d', strtotime('-3 days', strtotime($nextDeliveryDate))),
+          ];
+          break 2; // 해당 주문이 조건에 맞는 경우 반복문을 종료
+        }
+
+        $deliveryCount++;
+      }
     }
-  }
-
-  // 배송 날짜의 3일 전 조건을 확인하여 결제 대상인지 확인
-  $checkDate = date('Y-m-d', strtotime('-3 days', strtotime($nextDeliveryDate)));
-  if (strtotime($checkDate) <= strtotime($today) && strtotime($nextDeliveryDate) >= strtotime($today)) {
-    // 배송 대상 주문을 배열에 저장
-    $deliveryTargets[] = [
-      'orderId'          => $orderId,
-      'nextDeliveryDate' => $nextDeliveryDate,
-      'checkDate'        => $checkDate,
-    ];
   }
 }
 
-// deliveryTargets 출력
-echo "<pre>";
-print_r($deliveryTargets);
-echo "</pre>";
+// 결과 출력
+print_r2($deliveryTargets);
+
+
+foreach ( $deliveryTargets as $target ) {
+  $sql = "SELECT * FROM shop_order_reg WHERE index_no = '{$target['orderId']}'";
+  $res = sql_query($sql);
+
+  print_r($sql);
+
+}
+
 
 exit;
 
@@ -87,7 +105,7 @@ $daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 
 // 3일 이내의 요일 계산
 $targetDays = [];
-for ($i = 0; $i <= 3; $i++) {
+for ($i = 0; $i <= 2; $i++) {
   $targetDays[] = $daysOfWeek[($today + $i) % 7];
 }
 
@@ -103,9 +121,13 @@ $threeDaysLater = date('Y-m-d', strtotime('+3 days'));
 
 $sql = "SELECT * FROM shop_order_reg
         WHERE ({$sqlCondition})
-        AND od_reg_total_num > od_reg_num";
+        AND od_reg_total_num > od_reg_num
+        AND od_begin_date >= DATE_ADD(CURDATE(), INTERVAL 2 DAY);";
 $res = sql_query($sql);
 
+
+print_r($sql);
+exit;
 while ($row = sql_fetch_array($res)) {
   if($row['od_reg_num'] == 0) {
     $AND = " AND od_reg_num = 0
