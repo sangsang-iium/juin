@@ -234,14 +234,14 @@ EOF;
 		<td class="td_img"><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 30, 30); ?></a></td>
 		<td class="td_itname"><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
 		<td><?php echo number_format($row2['sum_qty']); ?></td>
-		<td class="td_price"><?php echo $sodr['disp_price']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
 		<!-- <td class="tar"><?php echo number_format($row2['goods_price']); ?></td> -->
-		<td ><?php echo $row2['od_wday']; ?></td>
-		<td ><?php echo $row2['od_week']; ?></td>
-		<td ><?php echo $row2['od_reg_cnt']; ?></td>
-		<td ><?php echo $row2['od_reg_num']; ?> / <?php echo $row2['od_reg_total_num'] ?></td>
-		<td ><?php echo $row2['od_begin_date']; ?></td>
-		<td ><?php echo get_order_seller_id($row2['seller_id']); ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_wday']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_week']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_reg_cnt']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_reg_num']; ?> / <?php echo $row2['od_reg_total_num'] ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['od_begin_date']; ?></td>
+		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
 		<?php if($k == 0) { ?>
 		<td rowspan="<?php echo $rowspan; ?>">
 			<?php echo $sodr['disp_od_name']; ?>
@@ -249,7 +249,7 @@ EOF;
 		</td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row['b_name']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
-		<td rowspan="<?php echo $rowspan; ?>"><?php echo $gw_status[$row2['dan']]; ?></td>
+		<td><?php echo $gw_status[$row2['dan']]; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>">
             <div class="btn_wrap">
                 <a href="javascipt:void(0);" class="btn_cen bg_type2"><span>취소</span></a>

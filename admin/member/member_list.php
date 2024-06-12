@@ -160,7 +160,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
                 <li class="radios"><input type="radio" name="ssd" value="탈퇴" id="ssd1"><label for="ssd1">탈퇴</label></li>
                 <li class="radios"><input type="radio" name="ssd" value="폐업" id="ssd2"><label for="ssd2">폐업</label></li>
             </ul>
-			
+
 		</td>
 	</tr>
 	</tbody>
