@@ -171,6 +171,14 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .cp-tab-menu .tab-btn.on:after {display: block;}
 .cp-tab-menu .tab-btn.on .cnt {font-weight: 500;}
 
+.cp-tab-menu2 .inner {display: flex; flex-flow: row wrap; gap: 1rem;}
+.cp-tab-menu2 .tab-btn {position: relative; width: auto; padding: 1.2rem 2rem; border-radius: 0.5rem; font-size: 2.2rem; font-weight: 500; color: var(--color-gray3); line-height: 1; background-color: var(--color-gray5);}
+.cp-tab-menu2 .tab-btn.on {font-weight: 600; color: var(--color-white); background-color: var(--color-main);}
+.cp-tab-menu2.col2 .tab-btn {width: calc(50% - 0.5rem);}
+.cp-tab-menu2.col3 .tab-btn {width: calc(33.333% - 0.7rem);}
+.cp-tab-menu2.col4 .tab-btn {width: calc(25% - 0.8rem);}
+.cp-tab-menu2.col5 .tab-btn {width: calc(20% - 0.8rem);}
+
 .cp-quick-category {display: flex; flex-flow: row wrap; justify-content: space-between; gap: 0.96rem;}
 .cp-quick-category .ui-btn {width: calc((100% / 6) - (4.8rem / 6));}
 .cp-quick-category .icon {display: block; overflow: hidden; position: relative; width: 100%; height: 0; padding-bottom: 100%; border-radius: 50%; background-color: var(--color-gray);}
@@ -227,6 +235,8 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .cp-item.raffle .prod-thumb_area .cp-timer__text {font-size: 2.2rem; font-weight: 500;}
 .tag.users {display: flex; flex-flow: row wrap; align-items: center; justify-content: center; color: #666; background-color: #f9f9f9;}
 .tag.users .icn {width: 2rem; margin-right: 5px;}
+
+.raffleView .prod-smInfo__head .prod-tag_area.mt {margin-top: 2rem;}
 
 .cp-live {display: block; position: relative; width: 100%;}
 .cp-live .prod-thumb_area {overflow: hidden; position: relative; width: 100%; height: 0; padding-bottom: 127.273%; font-size: 0;}
@@ -391,11 +401,11 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 
 /* popup */
 .pop-imsi {position: relative; height: 80rem ; background-color: rgba(0,0,0,0.5);}
-.popup {display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); max-width: 1440px; width: 100%; max-height: calc(100% - 20rem); height: 100%; z-index: 600;}
+.popup {display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); max-width: 1440px; width: 100%; min-height: 600px; max-height: calc(100% - 20rem); height: 100%; z-index: 600;}
 .pop-inner {position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 500; background-color: #fff; width: calc(100% - 4.8rem); border-radius: 2rem; padding: 3.24rem 1.96rem 2.24rem; max-height: 100%; height: 100%;}
 .pop-inner .pop-top {display: flex; align-items: center; justify-content: center; margin-bottom: 2.8rem; min-height: 1.68rem; position: relative;}
 .pop-inner .pop-top .tit {font-weight: 600; font-size: 2.4rem; color: #0f0f0f; line-height: 1;}
-.pop-inner .pop-content {min-height: 4rem; max-height: calc(100% - 14.8rem); overflow-y: auto; text-align: left;}
+.pop-inner .pop-content {min-height: 4rem; max-height: calc(100% - 14.8rem); overflow-y: auto; overflow-x: hidden; text-align: left;}
 .pop-inner .pop-content.line {padding-top: 2.2rem; border-top: 1px solid var(--color-gray10);}
 .pop-inner .pop-content-in {font-size: 2.16rem;}
 .pop-inner .pop-content-in > * ~ * {margin-top: 2rem;}
@@ -414,7 +424,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .popup.full .pop-inner {position: relative; top: 0; left: 0; transform: none; width: 100%;}
 
 .pop-result {}
-.pop-result-item {padding: 2.4rem; border-radius: 2.4rem; background: var(--color-gray8);}
+.pop-result-item {padding: 2.4rem; border-radius: 2.4rem; background: var(--color-gray8); border: transparent;}
 .pop-result-item ~ .pop-result-item {margin-top: 1.2rem;}
 .pop-result-title {font-size: 2.16rem; font-weight: 500; color: var(--color-black2);}
 .pop-result-text {margin-top: 1.4rem; font-size: 2.16rem; font-weight: 500; color: var(--color-black3);}
@@ -809,7 +819,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 
 /* 중고장터, 회원사현황 상세(공통) */
 .flView {margin-top: 0 !important;}
-.flView .fl-detailThumb {position: relative;}
+.flView .fl-detailThumb {position: relative; background-color: var(--color-gray8);}
 .flView .fl-detailThumb .recom {position: absolute; top: 0; left: 1.2rem; z-index: 10; width: 9.6rem;}
 .flView .fl-detailThumb .swiper-control {display: block; width: 100%; height: auto; background: none; right: inherit; text-align: center;}
 .flView .fl-detailThumb .swiper-control .pagination {display: flex; justify-content: center; gap: 0.8rem;}
@@ -872,3 +882,22 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .service-info .cname {margin-right: 0.3rem;}
 .service-info .ex {margin-top: 0.5rem;}
 .service-info .period {font-size: 1.8rem; font-weight: 400; color: var(--color-gray3);}
+
+/* 메인 관련서비스 바로가기 */
+.main_service {overflow: hidden; position: relative; background-color: var(--color-gray8);}
+.main_service:before {content: ""; display: block; width: 60rem; height: 60rem; border: 1px solid #ffb68c; border-radius: 50%; background: #fef1d9; position: absolute; top: -10%; left: -20%; z-index: 1; opacity: 0.2;}
+.main_service:after {content: ""; display: block; width: 50rem; height: 50rem; border-radius: 50%; background: #FA6918; position: absolute; top: 20%; right: -50%; z-index: 1; opacity: 0.07;}
+.main-service_wrap {display: flex; flex-flow: row wrap; gap: 0 1.5rem; position: relative; z-index: 10; padding: 4rem 0;}
+.main-service_wrap .box {overflow: hidden; display: flex; flex-flow: column wrap; justify-content: center; align-items: center; width: calc(33.333% - 1rem); height: 18rem; border-radius: 2rem; text-align: center; background-color: #fff;}
+.main-service_wrap .box1 {background: url('/src/img/icon-intro-btn02-bg.png') no-repeat center / cover;}
+.main-service_wrap .box2 {background: url('/src/img/icon-intro-btn03-bg.png') no-repeat center / cover;}
+.main-service_wrap .box3 {background: url('/src/img/icon-intro-btn04-bg.png') no-repeat center / cover;}
+
+.main-service_wrap .box_in {}
+.main-service_wrap .icon {width: 6rem; margin: 0 auto;}
+.main-service_wrap .name {margin-top: 1.2rem; font-size: 1.8rem; font-weight: 600; color: var(--color-black3);}
+
+.chatListBtn {display: inline-block; position: fixed; bottom: 15.8rem; right: 2.4rem; z-index: 100; padding: 1.2rem 1.5rem; font-size: 1.8rem; font-weight: 700; background-color: var(--color-black3) !important;}
+.chatListBtn img {width: 2rem; margin-top: -2px; margin-right: 0.8333rem; vertical-align: middle;}
+.chatListBtn.sm {font-size: 0; border-radius: 50%; width: 5rem; height: 5rem;}
+.chatListBtn.sm img {margin: 2px 0 0;}

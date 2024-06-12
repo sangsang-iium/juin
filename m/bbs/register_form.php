@@ -99,11 +99,10 @@ $agree2 = preg_replace('#[^0-9]#', '', $agree2);
 $register_action_url = BV_HTTPS_MBBS_URL.'/register_form_update.php';
 
 // 중앙회 회원 / 일반회원 구분 _20240610_SY
-if($member['grade'] == 8) {
-  include_once(BV_MTHEME_PATH.'/register_form.skin.php');
+if($w == '') {
+  ($_POST['reg_type'] == 1) ? include_once(BV_MTHEME_PATH.'/register_form.skin.php') : include_once(BV_MTHEME_PATH.'/register_form.normal.skin.php');
 } else {
-  include_once(BV_MTHEME_PATH.'/register_form.normal.skin.php');
-}
-
+  ($member['grade'] == 8) ? include_once(BV_MTHEME_PATH.'/register_form.skin.php') : include_once(BV_MTHEME_PATH.'/register_form.normal.skin.php');
+} 
 include_once("./_tail.php");
 ?>

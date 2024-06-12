@@ -44,8 +44,8 @@ $regions = [
 ?>
 
 <div id="contents" class="sub-contents usedList">
-  <a href="./chat_list.php" class="ui-btn active round regiBtn" style="padding-right:120px;">
-    <img src="/src/img/used/icon-register.png" alt="">채팅리스트
+  <a href="./chat_list.php" class="ui-btn active round chatListBtn">
+    <img src="/src/img/used/icon_chat_send.png" alt="">채팅방
   </a>
   <a href="./write.php" class="ui-btn active round regiBtn">
     <img src="/src/img/used/icon-register.png" alt="">글쓰기
