@@ -1,7 +1,8 @@
 <div id="topMenu" class="container left">
   <nav class="cp-horizon-menu qk-menu">
     <div class="swiper-wrapper">
-      <?php
+      <?php // 카테고리 DB동기화 _20240612_SY
+            // 날려도 될 것 같기도 _SY
           $de_name_sql = "SELECT column_name
                            FROM information_schema.columns
                           WHERE TABLE_NAME = 'shop_default'

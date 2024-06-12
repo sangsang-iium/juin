@@ -142,19 +142,20 @@ $gw_star = array(
 );
 
 // 메뉴바
+// 메뉴바 주석 해제 함 _20240612_SY
 $gw_menu = array(
-	array($default['de_pname_1'],	"/"),
-	// array($default['de_pname_2'],	"/shop/listtype.php?type=1&menu=sales"),
-	array($default['de_pname_3'],	"/shop/listtype.php?type=2&menu=best"),
-	// array($default['de_pname_4'],		"/shop/listtype.php?type=3&menu=new"),
-	// array($default['de_pname_5'],	"/shop/listtype.php?type=4&menu=popular"),
-	// array($default['de_pname_6'],	"/shop/listtype.php?type=5&menu=recomm"),
-	array($default['de_pname_7'],		"/shop/plan.php?menu=exhibition"),
-	array($default['de_pname_8'],	"/shop/timesale.php?menu=timesale"),
-	array($default['de_pname_9'],	"/raffle/list.php?menu=raffle"),
-  array($default['de_pname_10'],	"/used/list.php?menu=used"),
-  array($default['de_pname_11'],	"/store/list.php?menu=store"),
-  array($default['de_pname_12'],	"/service/list.php?menu=service"),
+	array($default['de_pname_1'],	"/" , $default['de_pname_use_1']),
+	array($default['de_pname_2'],	"/shop/listtype.php?type=1&menu=sales", $default['de_pname_use_2']),
+	array($default['de_pname_3'],	"/shop/listtype.php?type=2&menu=best", $default['de_pname_use_3']),
+	array($default['de_pname_4'],		"/shop/listtype.php?type=3&menu=new", $default['de_pname_use_4']),
+	array($default['de_pname_5'],	"/shop/listtype.php?type=4&menu=popular", $default['de_pname_use_5']),
+	array($default['de_pname_6'],	"/shop/listtype.php?type=5&menu=recomm", $default['de_pname_use_6']),
+	array($default['de_pname_7'],		"/shop/plan.php?menu=exhibition", $default['de_pname_use_7']),
+	array($default['de_pname_8'],	"/shop/timesale.php?menu=timesale", $default['de_pname_use_8']),
+	array($default['de_pname_9'],	"/raffle/list.php?menu=raffle", $default['de_pname_use_9']),
+  array($default['de_pname_10'],	"/used/list.php?menu=used", $default['de_pname_use_10']),
+  array($default['de_pname_11'],	"/store/list.php?menu=store", $default['de_pname_use_11']),
+  array($default['de_pname_12'],	"/service/list.php?menu=service", $default['de_pname_use_12']),
 );
 
 
