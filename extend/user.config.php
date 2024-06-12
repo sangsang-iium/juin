@@ -208,10 +208,10 @@ function category_depth($depth, $upcate = "") {
     $addQueryWhere = " AND exposure = 0 ";
   }
 
-  $sql_chk = "SELECT * FROM shop_category WHERE catecode = '{$upcate}' ORDER BY caterank asc";
+  $sql_chk = "SELECT * FROM shop_category WHERE catecode = '{$upcate}' AND cateuse = 0 ORDER BY caterank asc";
   $res_chk = sql_query($sql_chk);
 
-  $sql    = "SELECT * FROM shop_category WHERE LENGTH(catecode) = {$catecodeLength} {$AND} {$addQueryWhere} ORDER BY caterank asc";
+  $sql    = "SELECT * FROM shop_category WHERE LENGTH(catecode) = {$catecodeLength} AND cateuse = 0 {$AND} {$addQueryWhere} ORDER BY caterank asc";
   $res    = sql_query($sql);
   $maxRow = sql_num_rows($res);
 
