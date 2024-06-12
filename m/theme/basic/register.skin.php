@@ -99,6 +99,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	</div>
 </div>
 
+
+<!-- 주소값 (위도/경도) 가져오기 _20240612_SY -->
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services"></script>
+<?php echo BV_POSTCODE_JS ?>
 <script>
 
 // 사업자번호 중복체크 _20240531_SY
@@ -184,6 +188,21 @@ function getKFIAMember() {
 
           Object.entries(res.data).forEach(([key, value]) => {
             form.append(`<input type="hidden" name="${key}" value="${value}">`);
+          });
+
+
+          // 위도/경도 값 _20240612_SY
+          var geocoder = new kakao.maps.services.Geocoder();
+          var address = res.data.DORO_ADDRESS;
+          address = address.trim();
+          geocoder.addressSearch(address, function(result, status) {
+            console.log(result)
+            // 정상적으로 검색이 완료됐으면 
+            if (status === kakao.maps.services.Status.OK) {
+              //var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+              form.append(`<input type="hidden" name="ju_lat" value="${result[0].y}">`);
+              form.append(`<input type="hidden" name="ju_lng" value="${result[0].x}">`);
+            } 
           });
 
           chkKFIA = true;

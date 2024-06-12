@@ -60,7 +60,9 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="reg_type" value="1">
 <input type="hidden" name="chk_cb_res" value="<?php echo ($w=='') ? $_POST['chk_cb_res'] : 0?>" id="chk_cb_res">
 <input type="hidden" name="chk_bn_res" value="<?php echo ($w=='') ? $_POST['chk_bn_res'] : 0?>" id="chk_bn_res">
-<input type="hidden" name="OFFICE_NAME" value="<?php echo ($w=='') ?$_POST['OFFICE_NAME'] : "" ?>">
+<input type="hidden" name="OFFICE_NAME" value="<?php echo ($w=='') ? $_POST['OFFICE_NAME'] : "" ?>">
+<input type="hidden" name="ju_lat" value="<?php echo ($w=='') ? $_POST['ju_lat'] : "" ?>">
+<input type="hidden" name="ju_lng" value="<?php echo ($w=='') ? $_POST['ju_lng'] : "" ?>">
 
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">

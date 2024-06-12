@@ -72,8 +72,11 @@ $manager_idx    = isset($_POST['mn_idx'])        ? trim($_POST['mn_idx']) : "";
 $ju_restaurant  = isset($_POST['ju_restaurant']) ? trim($_POST['ju_restaurant']) : "";
 $ju_sectors     = isset($_POST['ju_sectors'])    ? trim($_POST['ju_sectors']) : "";
 // 추가 _20240608_SY
-$ju_region2     = isset($_POST['ju_region2'])   ? trim($_POST['ju_region2']) : ""; 
-$ju_region3     = isset($_POST['ju_region3'])   ? trim($_POST['ju_region3']) : ""; 
+$ju_region2     = isset($_POST['ju_region2']) ? trim($_POST['ju_region2']) : ""; 
+$ju_region3     = isset($_POST['ju_region3']) ? trim($_POST['ju_region3']) : ""; 
+// 추가 20240612_SY
+$ju_lat         = isset($_POST['ju_lat']) ? trim($_POST['ju_lat']) : ""; 
+$ju_lng         = isset($_POST['ju_lng']) ? trim($_POST['ju_lng']) : ""; 
 
 if($w == '' || $w == 'u') {
 
@@ -228,6 +231,8 @@ if($w == '') {
     $value['ju_addr_full']  = $mb_addr1." ".$mb_addr2;
     $value['ju_region2']    = $ju_region2;
     $value['ju_region3']    = $ju_region3;
+    $value['ju_lat']        = $ju_lat;
+    $value['ju_lng']        = $ju_lng;
   }
     // 관리자인증을 사용하지 않는다면 인증으로 간주함.
     if(!$config['cert_admin_yes'])
