@@ -99,6 +99,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	</div>
 </div>
 
+
+<!-- 주소값 (위도/경도) 가져오기 _20240612_SY -->
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services"></script>
+<?php echo BV_POSTCODE_JS ?>
 <script>
 
 // 사업자번호 중복체크 _20240531_SY
@@ -136,6 +140,7 @@ function chkClosed(kfiaMsg, bNumMsg) {
 
   let b_stt_cd = "";
   let end_dt   = "";
+  let mgs = "";
 
   if(b_num.length > 0) {
     $.ajax({
@@ -144,15 +149,26 @@ function chkClosed(kfiaMsg, bNumMsg) {
         data: { "b_num" : b_num },
         dataType: "JSON",
         success: function(res) {
+          console.log(res);
           // API 값 호출 _20240318_SY
-          if (res.hasOwnProperty('match_cnt')) {
+          // 휴/폐업 가입불가 _20240612_SY
+          if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
             $('#chk_cb_res').val(res.data[0].b_stt_cd);
-            let msg = res.data[0].b_stt;
+            msg = res.data[0].b_stt;
             alert(kfiaMsg+"\n"+bNumMsg+"\n"+"휴/폐업 여부 : "+msg);
           } else {
-            $('#chk_cb_res').val('0');
-            let msg = res.data[0].tax_type;
+            switch (res.data[0].b_stt_cd) {
+              case "" :
+                $('#chk_cb_res').val('0');
+                msg = res.data[0].tax_type;
+                break;
+                default : 
+                $('#chk_cb_res').val(res.data[0].b_stt_cd);
+                msg = res.data[0].b_stt;
+                break;
+            } 
             alert(kfiaMsg+"\n"+bNumMsg+"\n"+"휴/폐업 여부 : "+msg);
+            return false;
           }
         }
     });
@@ -184,6 +200,20 @@ function getKFIAMember() {
 
           Object.entries(res.data).forEach(([key, value]) => {
             form.append(`<input type="hidden" name="${key}" value="${value}">`);
+          });
+
+
+          // 위도/경도 값 _20240612_SY
+          var geocoder = new kakao.maps.services.Geocoder();
+          var address = res.data.DORO_ADDRESS;
+          address = address.trim();
+          geocoder.addressSearch(address, function(result, status) {
+            // 정상적으로 검색이 완료됐으면 
+            if (status === kakao.maps.services.Status.OK) {
+              //var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+              form.append(`<input type="hidden" name="ju_lat" value="${result[0].y}">`);
+              form.append(`<input type="hidden" name="ju_lng" value="${result[0].x}">`);
+            } 
           });
 
           chkKFIA = true;
@@ -257,6 +287,16 @@ function fregisterform_submit(f)
   if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
     if(f.chk_bn_res.value == "0") {
       alert('이미 등록된 사업자등록번호입니다.');
+      f.b_no.select();
+      return false;
+    };
+  }
+
+  // 휴/폐업 검사 _20240612_SY
+  if((f.w.value == "") || (f.w.value == "u" && f.chk_cb_res.defaultValue != f.chk_cb_res.value)) {
+    if(f.chk_cb_res.value != '01') {
+      // 휴/폐업일때 어떤 작업 필요한지 확인 필요
+      alert('휴/폐업/국세청미등록 사업자는 일반회원으로 가입하여 주십시오.');
       f.b_no.select();
       return false;
     };

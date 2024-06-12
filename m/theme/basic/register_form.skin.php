@@ -1,15 +1,6 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
-  // 사업자 번호 하이픈(-)추가 _20240604_SY
-  function formatBno($no) {
-    $no = preg_replace('/[^0-9]/', '', $no);
-    if (strlen($no) !== 10) {
-        return '';
-    }
-    return substr($no, 0, 3) . '-' . substr($no, 3, 2) . '-' . substr($no, 5, 5);
-  }
-
   // 매장 주소 _20240604_SY
   $position = strpos($_POST['DORO_ADDRESS'], '(');
   if($position != false) {
@@ -60,7 +51,9 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="reg_type" value="1">
 <input type="hidden" name="chk_cb_res" value="<?php echo ($w=='') ? $_POST['chk_cb_res'] : 0?>" id="chk_cb_res">
 <input type="hidden" name="chk_bn_res" value="<?php echo ($w=='') ? $_POST['chk_bn_res'] : 0?>" id="chk_bn_res">
-<input type="hidden" name="OFFICE_NAME" value="<?php echo ($w=='') ?$_POST['OFFICE_NAME'] : "" ?>">
+<input type="hidden" name="OFFICE_NAME" value="<?php echo ($w=='') ? $_POST['OFFICE_NAME'] : "" ?>">
+<input type="hidden" name="ju_lat" value="<?php echo ($w=='') ? $_POST['ju_lat'] : "" ?>">
+<input type="hidden" name="ju_lng" value="<?php echo ($w=='') ? $_POST['ju_lng'] : "" ?>">
 
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
