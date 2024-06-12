@@ -2,74 +2,22 @@
 include_once("./_common.php");
 include_once(BV_LIB_PATH."/register.lib.php");
 
-/*
-Array
-  (
-      [token] => 68dd00aa9b74ffda6e3557ca9a134dfa
-      [mb_id] => test0611
-      [mb_password] => 1234
-      [mb_password_re] => 1234
-      [mb_name] => test0611
-      [mb_tel] => 
-      [mb_hp] => 
-      [mb_sms] => Y
-      [mb_email] => test0611@test.com
-      [mb_mailling] => Y
-      [mb_certify] => 
-      [mb_adult] => 0
-      [mb_grade] => 8
-      [mb_zip] => 17999
-      [mb_addr1] => 경기도 평택시 팽성읍 추팔2길 91
-      [mb_addr2] => 
-      [mb_addr_jibeon] => 
-      [mb_addr3] => 
-      [mb_recommend] => admin
-      [ju_b_num] => 8631801050
-      [chk_b_num] => 1
-      [chk_cb_res] => 0
-      [ju_restaurant] => 백년손님
-      [ju_member] => 대표이름
-      [ju_mem] => 1
-      [ju_cate] => 한식
-      [ju_mimg] => 백년손님외관.jpg
-      [ju_simg] => Array
-          (
-              [0] => 백년손님내관.jpg
-              [1] => 
-              [2] => 
-              [3] => 
-              [4] => 
-          )
+// check_demo();
 
-      [worktime] => Array
-          (
-              [0] => 07:00
-              [1] => 22:00
-          )
-
-      [breaktime] => Array
-          (
-              [0] => 
-              [1] => 
-          )
-
-      [off] => Array
-          (
-              [0] => 월요일
-          )
-
-      [ju_content] => 
-  )
-*/
-
-check_demo();
-
-check_admin_token();
+// check_admin_token();
 
 $mb_id = trim($_POST['mb_id']);
 
 // 중앙회 회원 여부 (0:false / 1:true) _20240611_SY
 $chk_b_num = $_POST['chk_b_num'];
+
+// 전화번호 체크 _20240612_SY
+$mb_tel = hyphen_hp_number($_POST['mb_tel']);
+if($mb_tel) {
+    $result = exist_mb_hp($mb_tel, $mb_id);
+    if($result)
+        alert($result);
+}
 
 // 휴대폰번호 체크
 $mb_hp = hyphen_hp_number($_POST['mb_hp']);
@@ -120,10 +68,31 @@ $value['mailser']		  = $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 $value['smsser']		  = $mb_sms ? $mb_sms : 'N'; //SMS를 수신
 $value['mb_certify']	= $mb_certify;
 $value['mb_adult']		= $mb_adult;
-$value['ju_b_num']    = $ju_b_num;
+$value['ju_b_num']    = formatBno($ju_b_num);
 
 if($chk_b_num == 1) {
-  
+  // 매장 대표번호 체크 _20240612_SY
+  $ju_tel = hyphen_hp_number($_POST['ju_tel']);
+  if($ju_tel) {
+    $result = exist_mb_hp($ju_tel, $mb_id);
+    if($result)
+      alert($result);
+  }
+
+
+  $value['ju_restaurant'] = $_POST['ju_restaurant'];
+  $value['ju_mem']        = $_POST['ju_mem'];
+  $value['ju_cate']       = $_POST['ju_cate'];
+  $value['ju_lat']        = $_POST['ju_lat'];
+  $value['ju_lng']        = $_POST['ju_lng'];
+  $value['ju_sectors']		= $_POST['ju_cate'];
+  $value['ju_addr_full']  = $_POST['mb_addr1_st'];
+  $value['ju_name']       = $_POST['ju_member'];
+  $value['ju_worktime']   = implode("~", $_POST['worktime']);
+  $value['ju_breaktime']  = implode("~", $_POST['breaktime']);
+  $value['ju_off']        = implode("|", $_POST['off']);
+  $value['ju_content']    = $_POST['ju_content'];
+  $value['ju_tel']        = $ju_tel;
 }
 
 // 관리자인증을 사용하지 않는다면 인증으로 간주함.
@@ -131,6 +100,55 @@ if(!$config['cert_admin_yes'])
 	$value['use_app']	= '1';
 
 insert("shop_member", $value);
+$mb_no = sql_insert_id();
+
+if($mb_no) {
+  /* 매장 사진 */
+  $sub_imgs = explode("|", $value['ju_simg']);
+  $image_regex = "/(\.(jpg|gif|png))$/i";
+  $save_dir = BV_DATA_PATH.'/member/';
+  $dir = $save_dir.$mb_id;
+
+  //폴더생성
+  if(!is_dir($dir)) {
+      @mkdir($dir, BV_DIR_PERMISSION);
+      @chmod($dir, BV_DIR_PERMISSION);
+  }
+
+  // 매장외부 대표 이미지
+  if(is_uploaded_file($_FILES['ju_mimg']['tmp_name'])){
+    if(preg_match($image_regex, $_FILES['ju_mimg']['name'])){
+        $exts = explode(".", $_FILES['ju_mimg']['name']);
+      $save_name = $mb_id.'/main_image.'.strtolower($exts[count($exts)-1]);
+      $dest_path = $save_dir.$save_name;
+      move_uploaded_file($_FILES['ju_mimg']['tmp_name'], $dest_path);
+      chmod($dest_path, BV_FILE_PERMISSION);
+      
+      sql_query(" update shop_member set ju_mimg = '$save_name' where id = '$mb_id' ");
+    }
+  }
+
+  // 매장내부 서브 이미지
+  $idx = time();
+  for($i=0;$i < count($_FILES['ju_simg']['tmp_name']);$i++){
+      if(is_uploaded_file($_FILES['ju_simg']['tmp_name'][$i])){
+        if(preg_match($image_regex, $_FILES['ju_simg']['name'][$i])){
+            $exts = explode(".", $_FILES['ju_simg']['name'][$i]);
+          $save_name = $mb_id.'/sub_image_'.$idx.'.'.strtolower($exts[count($exts)-1]);
+          $dest_path = $save_dir.$save_name;
+          move_uploaded_file($_FILES['ju_simg']['tmp_name'][$i], $dest_path);
+          chmod($dest_path, BV_FILE_PERMISSION);
+          array_push($sub_imgs, $save_name);
+          $idx++;
+        }
+      }
+  }
+  $sub_imgs = array_filter($sub_imgs);
+  $sub_imgs = array_values($sub_imgs);
+  $save_img = implode("|", $sub_imgs);
+  sql_query(" update shop_member set ju_simg = '$save_img' where id = '$mb_id' ");
+  /* 매장 사진 */
+}
 
 alert("회원가입이 완료 되었습니다.", BV_ADMIN_URL."/member.php?code=register_form");
 ?>
