@@ -133,6 +133,7 @@ function chkDuBnum(kfiaMsg) {
   }
 }
 
+
 // 휴/폐업 조회 _20240531_SY
 let b_num = '';
 function chkClosed(kfiaMsg, bNumMsg) {
@@ -178,6 +179,7 @@ function chkClosed(kfiaMsg, bNumMsg) {
   }
 }
 
+
 // 외식업중앙회원 조회하기 _20240531_SY
 var chkKFIA = false;
 function getKFIAMember() {
@@ -186,35 +188,36 @@ function getKFIAMember() {
 
   if(inputNum.length > 0) {
     $.ajax({
-      url: bv_url+"/m/bbs/ajax.KFIA_info.php",
+      url: bv_url + "/m/bbs/ajax.KFIA_info.php",
       type: "POST",
-      data: { "b_num" : inputNum },
+      data: { "b_num": inputNum },
       dataType: "JSON",
       success: function(res) {
         if(res.data == null) {
-          alert('사업자 정보 조회 실패')
+          alert('사업자 정보 조회 실패');
           chkKFIA = false;
           return false;
         } else {
-          // alert(`조회 성공 : ${res.data.MEMBER_NAME}`)
-
           Object.entries(res.data).forEach(([key, value]) => {
             form.append(`<input type="hidden" name="${key}" value="${value}">`);
           });
 
-
-          // 위도/경도 값 _20240612_SY
-          var geocoder = new kakao.maps.services.Geocoder();
-          var address = res.data.DORO_ADDRESS;
-          address = address.trim();
-          geocoder.addressSearch(address, function(result, status) {
-            // 정상적으로 검색이 완료됐으면 
-            if (status === kakao.maps.services.Status.OK) {
-              //var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-              form.append(`<input type="hidden" name="ju_lat" value="${result[0].y}">`);
-              form.append(`<input type="hidden" name="ju_lng" value="${result[0].x}">`);
-            } 
-          });
+          // 위도/경도 값 & Kakao맵 Api 로드 _20240612_SY
+          if (typeof kakao !== 'undefined' && kakao.maps && kakao.maps.services && kakao.maps.services.Geocoder) {
+            var geocoder = new kakao.maps.services.Geocoder();
+            var address = res.data.DORO_ADDRESS.trim();
+            
+            geocoder.addressSearch(address, function(result, status) {
+              if (status === kakao.maps.services.Status.OK) {
+                form.append(`<input type="hidden" name="ju_lat" value="${result[0].y}">`);
+                form.append(`<input type="hidden" name="ju_lng" value="${result[0].x}">`);
+              } else {
+                console.error('Geocoder failed due to: ' + status);
+              }
+            });
+          } else {
+            console.error('Kakao maps script not loaded properly.');
+          }
 
           chkKFIA = true;
           chkDuBnum(`조회 성공 : ${res.data.MEMBER_NAME}`);
@@ -222,7 +225,7 @@ function getKFIAMember() {
       }
     });
   } else {
-    alert("사업자 번호를 입력하여 주십시오.")
+    alert("사업자 번호를 입력하여 주십시오.");
     return false;
   }
 }
