@@ -1062,3 +1062,37 @@
 
 .affservice-list-btn-wr {padding-top: 4.4rem;}
 .affservice-list-btn-wr .ui-btn {width: 100%; display: block; height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
+
+/* 신한카드 MyShop */
+.joinDetail-title.center {text-align: center;}
+.joinDetail-text {font-weight: 400; font-size: 2rem; margin-bottom: 2rem;}
+.apply-write-wrap .check-wr {display: flex; flex-flow: row wrap; align-items: flex-start; justify-content: flex-start; gap: 1rem; flex-direction: row;}
+.apply-write-wrap .form-row .form-body .frm-choice {margin-top: 0;}
+.apply-write-wrap .joinAgree-list {border-top: none;}
+
+.time {font-size: 0;}
+.time .frm-select {display: inline-block; vertical-align: middle; width: calc((100% - 2.8rem) / 2);}
+.time .hyphen {display: inline-block; vertical-align: middle; width: 2.8rem; font-size: 2rem; font-weight: 400; color: var(--color-gray2); text-align: center;}
+
+.apply-write-wrap textarea {resize: none; width: 100%; padding: 2.6rem; height: 16rem;}
+
+.apply-write-btn-wr {padding-top: 4.4rem;}
+.apply-write-btn-wr .ui-btn {width: 100%; font-size: 2.16rem; font-weight: 500; display: block; height: 6.8rem;}
+
+.ht-view-top {font-weight: 500; font-size: 2.56rem; color: #fff; text-align: center; border-radius: 0.4rem; background-color: var(--color-main); padding: 1.7rem 2rem; margin-bottom: 5.6rem;}
+
+.service-btn-wr {padding: 1.6rem 0; margin-bottom: 4rem;}
+.service-btn-ul {font-size: 0;}
+.service-btn-ul li {display: inline-block; vertical-align: middle; text-align: center; position: relative; padding: 0 0.6rem;}
+.service-btn-ul li::after {content: ''; width: 1px; height: 2rem; background-color: #ddd; position: absolute; top: 50%; right: 0; transform: translateY(-50%);}
+.service-btn-ul li:last-child::after {display: none;}
+.service-btn-ul.i-col-3 li {width: 33.33%;}
+.service-btn-ul.i-col-4 li {width: 25%;}
+.service-btn-ul li .pop-btn {background-color: transparent; border: none; font-size: 1.6rem; font-weight: 600; color: #333; text-align: center; display: block; width: 100%;}
+
+.service-apply_area {overflow: hidden; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 20; width: var(--max-width); max-width: 100%; height: auto; border-radius: 2rem 2rem 0 0; background-color: #fff; box-shadow: 0 0 3.2rem 0 rgba(0,0,0,0.1);}
+.service-apply_area .dfBox {display: block;}
+
+.service-apply__btns {display: flex; flex-flow: row wrap; align-items: center; justify-content: center; gap: 0 0.8rem; width: 100%; height: 10rem;}
+.service-apply__btns .apply-btn {display: block; height: 6.8rem; line-height: 6.8rem; font-size: 2.16rem; font-weight: 500; text-align: center; width: calc(100% - 18.8rem);}
+.service-apply__btns .goback-btn {height: 6.8rem; line-height: 6.8rem; font-size: 2.16rem; font-weight: 500; text-align: center; width: 18rem;}
