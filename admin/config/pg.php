@@ -5,87 +5,137 @@ if(!defined('_BLUEVATION_')) exit;
 <form name="fregform" id="fregform" action="./config/pg_update.php" method="post">
 <input type="hidden" name="token" value="">
 
-<h2>전자결제 (PG) 설정</h2>
+<h5 class="htag_title">전자결제 (PG) 설정</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">결제수단</th>
-		<td class="td_label">
-			<input type="checkbox" name="de_bank_use" value="1" id="de_bank_use"<?php echo get_checked($default['de_bank_use'], "1"); ?>>
-			<label for="de_bank_use">무통장</label>
-			<input type="checkbox" name="de_card_use" value="1" id="de_card_use"<?php echo get_checked($default['de_card_use'], "1"); ?>>
-			<label for="de_card_use">신용카드</label>
-			<input type="checkbox" name="de_iche_use" value="1" id="de_iche_use"<?php echo get_checked($default['de_iche_use'], "1"); ?>>
-			<label for="de_iche_use">실시간계좌이체</label>
-			<input type="checkbox" name="de_vbank_use" value="1" id="de_vbank_use"<?php echo get_checked($default['de_vbank_use'], "1"); ?>>
-			<label for="de_vbank_use">가상계좌</label>
-			<input type="checkbox" name="de_hp_use" value="1" id="de_hp_use"<?php echo get_checked($default['de_hp_use'], "1"); ?>>
-			<label for="de_hp_use">휴대폰결제</label>
+		<td>
+            <ul class="radio_group">
+                <li class="checks">
+                    <input type="checkbox" name="de_bank_use" value="1" id="de_bank_use"<?php echo get_checked($default['de_bank_use'], "1"); ?>>
+                    <label for="de_bank_use">무통장</label>
+                </li>
+                <li class="checks">
+                    <input type="checkbox" name="de_card_use" value="1" id="de_card_use"<?php echo get_checked($default['de_card_use'], "1"); ?>>
+                    <label for="de_card_use">신용카드</label>
+                </li>
+                <li class="checks">
+                    <input type="checkbox" name="de_iche_use" value="1" id="de_iche_use"<?php echo get_checked($default['de_iche_use'], "1"); ?>>
+                    <label for="de_iche_use">실시간계좌이체</label>
+                </li>
+                <li class="checks">
+                    <input type="checkbox" name="de_vbank_use" value="1" id="de_vbank_use"<?php echo get_checked($default['de_vbank_use'], "1"); ?>>
+                    <label for="de_vbank_use">가상계좌</label>
+                </li>
+                <li class="checks">
+                    <input type="checkbox" name="de_hp_use" value="1" id="de_hp_use"<?php echo get_checked($default['de_hp_use'], "1"); ?>>
+                    <label for="de_hp_use">휴대폰결제</label>
+                </li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">결제 테스트</th>
-		<td class="td_label">
-			<input type="radio" name="de_card_test" value="0" id="de_card_test_1"
-			<?php echo get_checked($default['de_card_test'], "0"); ?>>
-			<label for="de_card_test_1">실결제</label>
-			<input type="radio" name="de_card_test" value="1" id="de_card_test_2"
-			<?php echo get_checked($default['de_card_test'], "1"); ?>>
-			<label for="de_card_test_2">테스트결제</label>
-			<?php echo help('PG사의 결제 테스트를 하실 경우에 체크하세요. 결제단위 최소 1,000원'); ?>
+		<td>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="de_card_test" value="0" id="de_card_test_1"
+                    <?php echo get_checked($default['de_card_test'], "0"); ?>>
+                    <label for="de_card_test_1">실결제</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="de_card_test" value="1" id="de_card_test_2"
+                    <?php echo get_checked($default['de_card_test'], "1"); ?>>
+                    <label for="de_card_test_2">테스트결제</label>
+                </li>
+            </ul>
+            <ul class="cnt_list step01 mart10">
+                <li>PG사의 결제 테스트를 하실 경우에 체크하세요. 결제단위 최소 1,000원</li>
+            </ul>
+			<?php /* echo help('PG사의 결제 테스트를 하실 경우에 체크하세요. 결제단위 최소 1,000원'); */ ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="de_pg_service">결제대행사</label></th>
 		<td>
-			<select name="de_pg_service" id="de_pg_service">
-				<?php echo option_selected("kcp", $default['de_pg_service'], "NHN KCP"); ?>
-				<?php echo option_selected("lg",  $default['de_pg_service'], "LG유플러스"); ?>
-				<?php echo option_selected("inicis", $default['de_pg_service'], "KG이니시스"); ?>
-				<?php echo option_selected("toss", $default['de_pg_service'], "Toss"); ?>
-			</select>
-			<?php echo help('쇼핑몰에서 사용할 결제대행사를 선택합니다.'); ?>
+            <div class="chk_select">
+                <select name="de_pg_service" id="de_pg_service">
+                    <?php echo option_selected("kcp", $default['de_pg_service'], "NHN KCP"); ?>
+                    <?php echo option_selected("lg",  $default['de_pg_service'], "LG유플러스"); ?>
+                    <?php echo option_selected("inicis", $default['de_pg_service'], "KG이니시스"); ?>
+                    <?php echo option_selected("toss", $default['de_pg_service'], "Toss"); ?>
+                </select>
+            </div>
+            <ul class="cnt_list step01 mart10">
+                <li>쇼핑몰에서 사용할 결제대행사를 선택합니다.</li>
+            </ul>
+			<?php /* echo help('쇼핑몰에서 사용할 결제대행사를 선택합니다.'); */ ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">복합과세 결제</th>
 		<td>
-			<input type="checkbox" name="de_tax_flag_use" value="1" id="de_tax_flag_use"
-			<?php echo get_checked($default['de_tax_flag_use'], "1"); ?>>
-			<label for="de_tax_flag_use">사용함</label>
-			<?php echo help("복합과세(과세, 비과세) 결제를 사용하려면 체크하십시오.<br>복합과세 결제를 사용하기 전 PG사에 별도로 결제 신청을 해주셔야 합니다. 사용시 PG사로 문의하여 주시기 바랍니다."); ?>
+            <div class="checks">
+                <input type="checkbox" name="de_tax_flag_use" value="1" id="de_tax_flag_use"
+                <?php echo get_checked($default['de_tax_flag_use'], "1"); ?>>
+                <label for="de_tax_flag_use">사용함</label>
+            </div>
+            <ul class="cnt_list step01 mart10">
+                <li>복합과세(과세, 비과세) 결제를 사용하려면 체크하십시오.</li>
+                <li>복합과세 결제를 사용하기 전 PG사에 별도로 결제 신청을 해주셔야 합니다. 사용시 PG사로 문의하여 주시기 바랍니다.</li>
+            </ul>
+			<?php /* echo help("복합과세(과세, 비과세) 결제를 사용하려면 체크하십시오.<br>복합과세 결제를 사용하기 전 PG사에 별도로 결제 신청을 해주셔야 합니다. 사용시 PG사로 문의하여 주시기 바랍니다."); */ ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">현금영수증 발급사용</th>
 		<td>
-			<input type="checkbox" name="de_taxsave_use" value="1" id="de_taxsave_use"
-			<?php echo get_checked($default['de_taxsave_use'], "1"); ?>>
-			<label for="de_taxsave_use">사용함</label>
-			<?php echo help("현금영수증 발급 취소는 PG사에서 지원하는 현금영수증 취소 기능을 사용하시기 바랍니다."); ?>
+            <div class="checks">
+                <input type="checkbox" name="de_taxsave_use" value="1" id="de_taxsave_use"
+                <?php echo get_checked($default['de_taxsave_use'], "1"); ?>>
+                <label for="de_taxsave_use">사용함</label>
+            </div>
+            <ul class="cnt_list step01 mart10">
+                <li>현금영수증 발급 취소는 PG사에서 지원하는 현금영수증 취소 기능을 사용하시기 바랍니다.</li>
+            </ul>
+			<?php /* echo help("현금영수증 발급 취소는 PG사에서 지원하는 현금영수증 취소 기능을 사용하시기 바랍니다."); */ ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">신용카드 무이자할부사용</th>
 		<td>
-			<input type="checkbox" name="de_card_noint_use" value="1" id="de_card_noint_use"
-			<?php echo get_checked($default['de_card_noint_use'], "1"); ?>>
-			<label for="de_card_noint_use">사용함</label>
-			<?php echo help("주문시 신용카드 무이자할부를 가능하게 할것인지를 설정합니다.<br>사용함으로 설정하시면 PG사 가맹점 관리자 페이지에서 설정하신 무이자할부 설정이 적용됩니다.<br>사용안함으로 설정하시면 PG사 무이자 이벤트 카드를 제외한 모든 카드의 무이자 설정이 적용되지 않습니다."); ?>
+            <div class="checks">
+                <input type="checkbox" name="de_card_noint_use" value="1" id="de_card_noint_use"
+                <?php echo get_checked($default['de_card_noint_use'], "1"); ?>>
+                <label for="de_card_noint_use">사용함</label>
+            </div>
+            <ul class="cnt_list step01 mart10">
+                <li>주문시 신용카드 무이자할부를 가능하게 할것인지를 설정합니다.</li>
+                <li>사용함으로 설정하시면 PG사 가맹점 관리자 페이지에서 설정하신 무이자할부 설정이 적용됩니다.</li>
+                <li>사용안함으로 설정하시면 PG사 무이자 이벤트 카드를 제외한 모든 카드의 무이자 설정이 적용되지 않습니다.</li>
+            </ul>
+			<?php /* echo help("주문시 신용카드 무이자할부를 가능하게 할것인지를 설정합니다.<br>사용함으로 설정하시면 PG사 가맹점 관리자 페이지에서 설정하신 무이자할부 설정이 적용됩니다.<br>사용안함으로 설정하시면 PG사 무이자 이벤트 카드를 제외한 모든 카드의 무이자 설정이 적용되지 않습니다."); */ ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">PG사 간편결제 버튼사용</th>
 		<td>
-			<input type="checkbox" name="de_easy_pay_use" value="1" id="de_easy_pay_use"
-			<?php echo get_checked($default['de_easy_pay_use'], "1"); ?>>
-			<label for="de_easy_pay_use">사용함</label>
-			<?php echo help("주문서 작성 페이지에 PG사 간편결제(PAYCO, PAYNOW, KPAY) 버튼의 별도 사용 여부를 설정합니다."); ?>
+            <div class="checks">
+                <input type="checkbox" name="de_easy_pay_use" value="1" id="de_easy_pay_use"
+                <?php echo get_checked($default['de_easy_pay_use'], "1"); ?>>
+                <label for="de_easy_pay_use">사용함</label>
+            </div>
+            <ul class="cnt_list step01 mart10">
+                <li>주문서 작성 페이지에 PG사 간편결제(PAYCO, PAYNOW, KPAY) 버튼의 별도 사용 여부를 설정합니다.</li>
+            </ul>
+			<?php /* echo help("주문서 작성 페이지에 PG사 간편결제(PAYCO, PAYNOW, KPAY) 버튼의 별도 사용 여부를 설정합니다."); */ ?>
 		</td>
 	</tr>
 	</tbody>
@@ -93,27 +143,40 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 
 <div class="pg_info_fld kcp_info_fld">
-	<h2>NHN KCP 계약정보</h2>
+    <p class="gap50"></p>
+	<h5 class="htag_title">NHN KCP 계약정보</h5>
+    <p class="gap20"></p>
 	<div class="tbl_frm01">
 		<table>
 		<colgroup>
-			<col class="w180">
+			<col width="220px">
 			<col>
 		</colgroup>
 		<tbody>
 		<tr>
 			<th scope="row"><label for="de_kcp_mid">NHN KCP SITE CODE</label></th>
 			<td>
-				<input type="text" name="de_kcp_mid" value="<?php echo $default['de_kcp_mid']; ?>" id="de_kcp_mid" class="frm_input" size="10">
-				<a href="http://www.kcp.co.kr/main.do" target="_blank" class="btn_small blue">NHN KCP서비스신청하기</a>
-				<?php echo help('NHN KCP에서 발급받으신 사이트코드를 입력해 주세요.'); ?>
+                <div class="write_address">
+                    <div class="file_wrap address">
+                        <input type="text" name="de_kcp_mid" value="<?php echo $default['de_kcp_mid']; ?>" id="de_kcp_mid" class="frm_input" size="10">
+                        <a href="http://www.kcp.co.kr/main.do" target="_blank" class="btn_file">NHN KCP서비스신청하기</a>
+                    </div>
+                </div>
+                <ul class="cnt_list step01 mart10">
+                    <li>NHN KCP에서 발급받으신 사이트코드를 입력해 주세요.</li>
+                </ul>
+				<?php /* echo help('NHN KCP에서 발급받으신 사이트코드를 입력해 주세요.'); */ ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="de_kcp_site_key">NHN KCP SITE KEY</label></th>
 			<td>
 				<input type="text" name="de_kcp_site_key" value="<?php echo $default['de_kcp_site_key']; ?>" id="de_kcp_site_key" class="frm_input" size="40">
-				<?php echo help("25자리 영대소문자와 숫자 - 그리고 _ 로 이루어 집니다. SITE KEY 발급 NHN KCP 전화: 1544-8660<br>예) 1Q9YRV83gz6TukH8PjH0xFf__"); ?>
+                <ul class="cnt_list step01 mart10">
+                    <li>25자리 영대소문자와 숫자 - 그리고 _ 로 이루어 집니다. SITE KEY 발급 NHN KCP 전화: 1544-8660</li>
+                    <li>예) 1Q9YRV83gz6TukH8PjH0xFf__</li>
+                </ul>
+				<?php /* echo help("25자리 영대소문자와 숫자 - 그리고 _ 로 이루어 집니다. SITE KEY 발급 NHN KCP 전화: 1544-8660<br>예) 1Q9YRV83gz6TukH8PjH0xFf__"); */ ?>
 			</td>
 		</tr>
 		<tr>
@@ -129,27 +192,37 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 
 <div class="pg_info_fld lg_info_fld">
-	<h2>LG유플러스 계약정보</h2>
+    <p class="gap50"></p>
+	<h5 class="htag_title">LG유플러스 계약정보</h5>
+    <p class="gap20"></p>
 	<div class="tbl_frm01">
 		<table>
 		<colgroup>
-			<col class="w180">
+			<col width="220px">
 			<col>
 		</colgroup>
 		<tbody>
 		<tr>
 			<th scope="row"><label for="de_lg_mid">LG유플러스 상점아이디</label></th>
 			<td>
-				<input type="text" name="de_lg_mid" value="<?php echo $default['de_lg_mid']; ?>" id="de_lg_mid" class="frm_input" size="10" maxlength="20">
-				<a href="http://ecredit.uplus.co.kr/" target="_blank" class="btn_small blue">LG유플러스 서비스신청하기</a>
+                <div class="write_address">
+                    <div class="file_wrap address">
+                        <input type="text" name="de_lg_mid" value="<?php echo $default['de_lg_mid']; ?>" id="de_lg_mid" class="frm_input" size="10" maxlength="20">
+                        <a href="http://ecredit.uplus.co.kr/" target="_blank" class="btn_file">LG유플러스 서비스신청하기</a>
+                    </div>
+                </div>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="de_lg_mert_key">LG유플러스 MertKey</label></th>
 			<td>
 				<input type="text" name="de_lg_mert_key" value="<?php echo $default['de_lg_mert_key']; ?>" id="de_lg_mert_key" class="frm_input" size="40" maxlength="50">
-				<em>예) 95160cce09854ef44d2edb2bfb05f9f3</em>
-				<?php echo help('상점MertKey는 LG유플러스 상점관리자 <strong>[계약정보 &gt; 상점정보관리 &gt; 시스템연동정보]</strong>에서 확인하실 수 있습니다.'); ?>
+                <ul class="cnt_list step01 mart10">
+                    <li>예) 95160cce09854ef44d2edb2bfb05f9f3</li>
+                    <li>상점MertKey는 LG유플러스 상점관리자 <strong>[계약정보 &gt; 상점정보관리 &gt; 시스템연동정보]</strong>에서 확인하실 수 있습니다.</li>
+                </ul>
+				<em></em>
+				<?php /* echo help('상점MertKey는 LG유플러스 상점관리자 <strong>[계약정보 &gt; 상점정보관리 &gt; 시스템연동정보]</strong>에서 확인하실 수 있습니다.'); */ ?>
 			</td>
 		</tr>
 		</tbody>
@@ -158,42 +231,66 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 
 <div class="pg_info_fld inicis_info_fld">
-	<h2>KG이니시스 계약정보</h2>
+    <p class="gap50"></p>
+	<h5 class="htag_title">KG이니시스 계약정보</h5>
+    <p class="gap20"></p>
 	<div class="tbl_frm01">
 		<table>
 		<colgroup>
-			<col class="w180">
+			<col width="220px">
 			<col>
 		</colgroup>
 		<tbody>
 		<tr>
 			<th scope="row"><label for="de_inicis_mid">KG이니시스 상점아이디</label></th>
 			<td>
-				<input type="text" name="de_inicis_mid" value="<?php echo $default['de_inicis_mid']; ?>" id="de_inicis_mid" class="frm_input" size="10">
-				<a href="https://www.inicis.com/" target="_blank" class="btn_small blue">KG이니시스 서비스신청하기</a>
-				<?php echo help('KG이니시스로 부터 발급 받으신 상점아이디(MID)를 입력해 주십시오.'); ?>
+                <div class="write_address">
+                    <div class="file_wrap address">
+                        <input type="text" name="de_inicis_mid" value="<?php echo $default['de_inicis_mid']; ?>" id="de_inicis_mid" class="frm_input" size="10">
+                        <a href="https://www.inicis.com/" target="_blank" class="btn_file">KG이니시스 서비스신청하기</a>
+                    </div>
+                </div>
+                <ul class="cnt_list step01 mart10">
+                    <li>KG이니시스로 부터 발급 받으신 상점아이디(MID)를 입력해 주십시오.</li>
+                </ul>
+				
+				<?php /* echo help('KG이니시스로 부터 발급 받으신 상점아이디(MID)를 입력해 주십시오.'); */ ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="de_inicis_admin_key">KG이니시스 키패스워드</label></th>
 			<td>
 				<input type="text" name="de_inicis_admin_key" value="<?php echo $default['de_inicis_admin_key']; ?>" id="de_inicis_admin_key" class="frm_input" size="5" maxlength="4">
-				<?php echo help('KG이니시스에서 발급받은 4자리 상점 키패스워드를 입력합니다.<br>KG이니시스 상점관리자 패스워드와 관련이 없습니다.<br>키패스워드 값을 확인하시려면 상점측에 발급된 키파일 안의 readme.txt 파일을 참조해 주십시오.'); ?>
+                <ul class="cnt_list step01 mart10">
+                    <li>KG이니시스에서 발급받은 4자리 상점 키패스워드를 입력합니다.</li>
+                    <li>KG이니시스 상점관리자 패스워드와 관련이 없습니다.</li>
+                    <li>키패스워드 값을 확인하시려면 상점측에 발급된 키파일 안의 readme.txt 파일을 참조해 주십시오.</li>
+                </ul>
+				<?php /* echo help('KG이니시스에서 발급받은 4자리 상점 키패스워드를 입력합니다.<br>KG이니시스 상점관리자 패스워드와 관련이 없습니다.<br>키패스워드 값을 확인하시려면 상점측에 발급된 키파일 안의 readme.txt 파일을 참조해 주십시오.'); */ ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="de_inicis_sign_key">KG이니시스 웹결제 사인키</label></th>
 			<td>
 				<input type="text" name="de_inicis_sign_key" value="<?php echo $default['de_inicis_sign_key']; ?>" id="de_inicis_sign_key" class="frm_input" size="40" maxlength="50">
-				<?php echo help('KG이니시스에서 발급받은 웹결제 사인키를 입력합니다.<br>관리자 페이지의 상점정보 > 계약정보 > 부가정보의 웹결제 signkey생성 조회 버튼 클릭, 팝업창에서 생성 버튼 클릭 후 해당 값을 입력합니다.'); ?>
+                <ul class="cnt_list step01 mart10">
+                    <li>KG이니시스에서 발급받은 웹결제 사인키를 입력합니다.</li>
+                    <li>관리자 페이지의 상점정보 > 계약정보 > 부가정보의 웹결제 signkey생성 조회 버튼 클릭, 팝업창에서 생성 버튼 클릭 후 해당 값을 입력합니다.</li>
+                </ul>
+				<?php /* echo help('KG이니시스에서 발급받은 웹결제 사인키를 입력합니다.<br>관리자 페이지의 상점정보 > 계약정보 > 부가정보의 웹결제 signkey생성 조회 버튼 클릭, 팝업창에서 생성 버튼 클릭 후 해당 값을 입력합니다.'); */ ?>
 			</td>
 		</tr>
 		<tr>
 			<th scope="row">KG이니시스 삼성페이 버튼</th>
 			<td>
-				<input type="checkbox" name="de_samsung_pay_use" value="1" id="de_samsung_pay_use"<?php echo get_checked($default['de_samsung_pay_use'], "1"); ?>>
-				<label for="de_samsung_pay_use">사용함</label>
-				<?php echo help('주문서 작성 페이지에 KG이니시스 삼성페이 버튼의 별도 사용 여부를 설정합니다.'); ?>
+                <div class="checks">
+                    <input type="checkbox" name="de_samsung_pay_use" value="1" id="de_samsung_pay_use"<?php echo get_checked($default['de_samsung_pay_use'], "1"); ?>>
+                    <label for="de_samsung_pay_use">사용함</label>
+                </div>
+                <ul class="cnt_list step01 mart10">
+                    <li>주문서 작성 페이지에 KG이니시스 삼성페이 버튼의 별도 사용 여부를 설정합니다.</li>
+                </ul>
+				<?php /* echo help('주문서 작성 페이지에 KG이니시스 삼성페이 버튼의 별도 사용 여부를 설정합니다.'); */ ?>
 			</td>
 		</tr>
 		<tr>
@@ -209,11 +306,13 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 
 <div class="pg_info_fld toss_info_fld">
-	<h2>Tosspayment 계약정보</h2>
+    <p class="gap50"></p>
+	<h5 class="htag_title">Tosspayment 계약정보</h5>
+    <p class="gap20"></p>
 	<div class="tbl_frm01">
 		<table>
 		<colgroup>
-			<col class="w180">
+			<col width="220px">
 			<col>
 		</colgroup>
 		<tbody>
@@ -228,53 +327,71 @@ if(!defined('_BLUEVATION_')) exit;
 			<th scope="row"><label for="de_toss_skey">Tosspayment 시크릿키</label></th>
 			<td>
 				<input type="text" name="de_toss_skey" value="<?php echo $default['de_toss_skey']; ?>" id="de_toss_skey" class="frm_input" size="40" maxlength="50">
-				<em>예) 95160cce09854ef44d2edb2bfb05f9f3</em>
-				<!-- <?php echo help('상점MertKey는 LG유플러스 상점관리자 <strong>[계약정보 &gt; 상점정보관리 &gt; 시스템연동정보]</strong>에서 확인하실 수 있습니다.'); ?> -->
+                <ul class="cnt_list step01 mart10">
+                    <li>예) 95160cce09854ef44d2edb2bfb05f9f3</li>
+                </ul>
+				<?php /* echo help('상점MertKey는 LG유플러스 상점관리자 <strong>[계약정보 &gt; 상점정보관리 &gt; 시스템연동정보]</strong>에서 확인하실 수 있습니다.'); */ ?> 
 			</td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="de_toss_ckey">Tosspayment 클라이언트키</label></th>
 			<td>
 				<input type="text" name="de_toss_ckey" value="<?php echo $default['de_toss_ckey']; ?>" id="de_toss_ckey" class="frm_input" size="40" maxlength="50">
-				<em>예) 95160cce09854ef44d2edb2bfb05f9f3</em>
-				<!-- <?php echo help('상점MertKey는 LG유플러스 상점관리자 <strong>[계약정보 &gt; 상점정보관리 &gt; 시스템연동정보]</strong>에서 확인하실 수 있습니다.'); ?> -->
+                <ul class="cnt_list step01 mart10">
+                    <li>예) 95160cce09854ef44d2edb2bfb05f9f3</li>
+                </ul>
+				<!-- <em>예) 95160cce09854ef44d2edb2bfb05f9f3</em> -->
+				<?php /* echo help('상점MertKey는 LG유플러스 상점관리자 <strong>[계약정보 &gt; 상점정보관리 &gt; 시스템연동정보]</strong>에서 확인하실 수 있습니다.'); */ ?>
 			</td>
 		</tr>
 		</tbody>
 		</table>
 	</div>
 </div>
-
-<h2>에스크로 설정</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">에스크로 설정</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">에스크로 사용</th>
 		<td>
-			<input type="radio" name="de_escrow_use" value="0" id="de_escrow_use_no"<?php echo get_checked($default['de_escrow_use'], "0"); ?>>
-			<label for="de_escrow_use_no">일반결제 사용</label>
-			<input type="radio" name="de_escrow_use" value="1" id="de_escrow_use_yes"<?php echo get_checked($default['de_escrow_use'], "1"); ?>>
-			<label for="de_escrow_use_yes"> 에스크로결제 사용</label>
-			<?php echo help('에스크로 결제를 사용하시려면, 반드시 결제대행사 상점 관리자 페이지에서 에스크로 서비스를 신청하신 후 사용하셔야 합니다.<br>에스크로 사용시 배송과의 연동은 되지 않으며 에스크로 결제만 지원됩니다.'); ?>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="de_escrow_use" value="0" id="de_escrow_use_no"<?php echo get_checked($default['de_escrow_use'], "0"); ?>>
+                    <label for="de_escrow_use_no">일반결제 사용</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="de_escrow_use" value="1" id="de_escrow_use_yes"<?php echo get_checked($default['de_escrow_use'], "1"); ?>>
+                    <label for="de_escrow_use_yes"> 에스크로결제 사용</label>
+                </li>
+            </ul>
+            <ul class="cnt_list step01 mart10">
+                    <li>에스크로 결제를 사용하시려면, 반드시 결제대행사 상점 관리자 페이지에서 에스크로 서비스를 신청하신 후 사용하셔야 합니다.</li>
+                    <li>에스크로 사용시 배송과의 연동은 되지 않으며 에스크로 결제만 지원됩니다.</li>
+                </ul>
+			<?php /* echo help('에스크로 결제를 사용하시려면, 반드시 결제대행사 상점 관리자 페이지에서 에스크로 서비스를 신청하신 후 사용하셔야 합니다.<br>에스크로 사용시 배송과의 연동은 되지 않으며 에스크로 결제만 지원됩니다.'); */ ?>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
 
-<h2>무통장입금계좌</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">무통장입금계좌</h5>
+<p class="gap20"></p>
 <div class="local_cmd01">
 	<p>※ 무통장입금계좌는 최대 5개까지 등록 가능합니다.</p>
 </div>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -286,9 +403,13 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">은행계좌번호 <?php echo $k; ?></th>
 		<td>
-			<input type="text" name="bank_name[]" value="<?php echo $bank[$i]['name']; ?>" class="frm_input" size="15" placeholder="은행명 <?php echo $k; ?>">
-			<input type="text" name="bank_account[]" value="<?php echo $bank[$i]['account']; ?>" class="frm_input" size="30" placeholder="계좌번호 <?php echo $k; ?>">
-			<input type="text" name="bank_holder[]" value="<?php echo $bank[$i]['holder']; ?>" class="frm_input" size="15" placeholder="예금주명 <?php echo $k; ?>">
+            <div class="write_address">
+                <div class="addressMore">
+                    <input type="text" name="bank_name[]" value="<?php echo $bank[$i]['name']; ?>" class="frm_input" size="15" placeholder="은행명 <?php echo $k; ?>">
+                    <input type="text" name="bank_account[]" value="<?php echo $bank[$i]['account']; ?>" class="frm_input" size="30" placeholder="계좌번호 <?php echo $k; ?>">
+                    <input type="text" name="bank_holder[]" value="<?php echo $bank[$i]['holder']; ?>" class="frm_input" size="15" placeholder="예금주명 <?php echo $k; ?>">
+                </div>
+            </div>
 		</td>
 	</tr>
 	<?php } ?>
@@ -301,7 +422,18 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 </form>
 
-<div class="information">
+
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ul class="cnt_list step01">
+        <li>PG사와 계약을 맺은 이후에는 메일로 받으신 실제 PG 계약정보를 입력하시면 됩니다.</li>
+        <li>PG사의 결제정보 설정후 고객님께서 카드결제 테스트를 꼭 해보시기 바랍니다.</li>
+        <li>간혹 PG사를 통해 카드승인된 값을 받지못하여 주문관리페이지에서 입금확인으로 자동변경되지 않을수 있습니다.</li>
+        <li>반드시 주문관리페이지의 주문상태와 PG사에서 제공하는 관리자화면내의 카드승인내역도 동시에 확인해 주십시요.</li>
+    </ul>
+</div>
+
+<!-- <div class="information">
 	<h4>도움말</h4>
 	<div class="content">
 		<div class="desc02">
@@ -311,7 +443,7 @@ if(!defined('_BLUEVATION_')) exit;
 			<p>ㆍ반드시 주문관리페이지의 주문상태와 PG사에서 제공하는 관리자화면내의 카드승인내역도 동시에 확인해 주십시요.</p>
 		</div>
 	 </div>
-</div>
+</div> -->
 
 <script>
 $(function() {

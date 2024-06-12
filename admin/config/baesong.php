@@ -5,11 +5,12 @@ if(!defined('_BLUEVATION_')) exit;
 <form name="fregform" method="post" action="./config/baesong_update.php" onsubmit="return fregform_submit(this);">
 <input type="hidden" name="token" value="">
 
-<h2>배송정책 설정</h2>
+<h5 class="htag_title">배송정책 설정</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -80,9 +81,9 @@ if(!defined('_BLUEVATION_')) exit;
 			<div id="sit_supply_frm" class="tbl_frm02">
 				<table>
 				<colgroup>
-					<col class="w180">
+					<col class="w200">
 					<col>
-					<col class="w70">
+					<col class="w150">
 				</colgroup>
 				<thead>
 				<tr>
@@ -199,11 +200,13 @@ if(!defined('_BLUEVATION_')) exit;
 	</table>
 </div>
 
-<h2>배송/교환/반품안내</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">배송/교환/반품안내</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -228,7 +231,17 @@ if(!defined('_BLUEVATION_')) exit;
 
 </form>
 
-<div class="information">
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <h6 class="htag_title mart5">꼭! 알아두기</h6>
+    <ul class="cnt_list step01 mart10 padl20">
+        <li>정책 안내1) 본사, 가맹점, 공급업체는 배송정책을 각각 설정할 수 있고, 주문시 판매자의 배송정책에 따라 배송비가 개별 부과됩니다.</li>
+        <li>정책 안내2) <b>배송업체</b> 등록은 본사에서만 등록 가능합니다. 가맹점과 공급업체에서 등록요청시 추가등록 해주셔야 합니다.</li>
+        <li>정책 안내3) 주문이 발생되면 판매자의 상품에 대해서만 분기하여 개별적으로 직배송 처리 됩니다.</li>
+    </ul>
+</div>
+
+<!-- <div class="information">
 	<h4>도움말</h4>
 	<div class="content">
 		<div class="hd">ㆍ꼭! 알아두기</div>
@@ -238,7 +251,7 @@ if(!defined('_BLUEVATION_')) exit;
 			<p>ㆍ정책 안내3) 주문이 발생되면 판매자의 상품에 대해서만 분기하여 개별적으로 직배송 처리 됩니다.</p>
 		</div>
 	 </div>
-</div>
+</div> -->
 
 <script>
 function fregform_submit(f) {

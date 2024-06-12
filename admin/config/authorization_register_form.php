@@ -58,11 +58,12 @@ foreach ($user_constants as $key => $value) {
     <input type="hidden" name="idx" value="<?php echo $_GET['idx'] ?>">
   <?php } ?>
 
-  <h2><?php echo $form_title ?></h2>
+  <h5 class="htag_title"><?php echo $form_title ?></h5>
+  <p class="gap20"></p>
   <div class="tbl_frm01">
     <table>
       <colgroup>
-        <col class="w140">
+        <col width="220px">
         <col>
       </colgroup>
       <tbody>
@@ -76,7 +77,9 @@ foreach ($user_constants as $key => $value) {
       </tbody>
     </table>
   </div>
-  <h2>카테고리 목록</h2>
+  <p class="gap50"></p>
+  <h5 class="htag_title">카테고리 목록</h5>
+  <p class="gap20"></p>
   <div class="tbl_head01">
     <table id="testTable">
       <colgroup>

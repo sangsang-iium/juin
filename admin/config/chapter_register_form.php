@@ -45,58 +45,70 @@ $auth_res = sql_query($auth_sql);
   <input type="hidden" name="idx" value="<?php echo $_GET['idx'] ?>">
 <?php } ?>
 
-<h2><?php echo $form_title ?></h2>
+<h5 class="htag_title"><?php echo $form_title ?></h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
   <tr>
     <th scope="row"><label for="office_code">지부코드</label><span>(*)</span></th>
     <td>
-      <input type="text" name="office_code" id="office_code" value="<?php echo ($w == '') ? '' : $result['office_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
-      <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
+        <div class="write_address">
+            <div class="file_wrap address">
+                <input type="text" name="office_code" id="office_code" value="<?php echo ($w == '') ? '' : $result['office_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
+                <a type="button" class="btn_file" onclick="duplication_chk()">중복확인</a>
+                <!-- <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button> -->
+            </div>
+        </div>
     </td>
   </tr>
   <!-- 권한 추가 _20240608_SY -->
   <tr>
     <th scope="row"><label for="auth_idx">권한</label><span>(*)</span></th>
     <td>
-      <select name="auth_idx" id="auth_idx">
-        <?php while($authArr = sql_fetch_array($auth_res)) { ?>
-          <option value="<?php echo $authArr['auth_idx']; ?>" <?php echo ($result['auth_idx'] == $authArr['auth_idx']) ? "selected" : "" ?> ><?php echo $authArr['auth_title'] ?></option>
-        <?php } ?>
-      </select>
+        <div class="chk_select">
+            <select name="auth_idx" id="auth_idx">
+              <?php while($authArr = sql_fetch_array($auth_res)) { ?>
+                <option value="<?php echo $authArr['auth_idx']; ?>" <?php echo ($result['auth_idx'] == $authArr['auth_idx']) ? "selected" : "" ?> ><?php echo $authArr['auth_title'] ?></option>
+              <?php } ?>
+            </select>
+        </div>
     </td>
   </tr>
 	<tr>
 		<th scope="row"><label for="areacode">지역</label><span>(*)</span></th>
     <td>
-      <select name="areacode" id="areacode" onchange="getBranch(this.value)">
-        <option value=''>지역선택</option>
-        <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
-          <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['areacode'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
-        <?php } ?>
-      </select>
+        <div class="chk_select">
+            <select name="areacode" id="areacode" onchange="getBranch(this.value)">
+              <option value=''>지역선택</option>
+              <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
+                <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['areacode'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
+              <?php } ?>
+            </select>
+        </div>
     </td>
   </tr>
   <tr>
     <th scope="row"><label for="branch_code">지회명</label><span>(*)</span></th>
     <td>
-      <select name="branch_code" id="branch_code">
-        <option value=''>지회선택</option>
-        <?php // 지회 목록 _20240516_SY
-          if($w != '' && !empty($result['branch_code'])) {
-            // $region2_sel = " SELECT * FROM kfia_branch WHERE area_idx = '{$result['areacode']}' ";
-            // $region2_res = sql_query($region2_sel);
-            $re2_where = " WHERE (1) AND area_idx = '{$result['areacode']}' ";
-            $re2_res   = getRegionFunc("branch", $re2_where);
-            foreach ($re2_res as $key => $val) { ?>
-              <option value="<?php echo $val['branch_code']?>" <?php echo ($w == 'u' && $val['branch_code'] == $result['branch_code']) ? "selected" : "" ?> ><?php echo $val['branch_name'] ?></option>
-        <?php } } ?>
-      </select>
+        <div class="chk_select">
+            <select name="branch_code" id="branch_code">
+                <option value=''>지회선택</option>
+                <?php // 지회 목록 _20240516_SY
+                if($w != '' && !empty($result['branch_code'])) {
+                    // $region2_sel = " SELECT * FROM kfia_branch WHERE area_idx = '{$result['areacode']}' ";
+                    // $region2_res = sql_query($region2_sel);
+                    $re2_where = " WHERE (1) AND area_idx = '{$result['areacode']}' ";
+                    $re2_res   = getRegionFunc("branch", $re2_where);
+                    foreach ($re2_res as $key => $val) { ?>
+                    <option value="<?php echo $val['branch_code']?>" <?php echo ($w == 'u' && $val['branch_code'] == $result['branch_code']) ? "selected" : "" ?> ><?php echo $val['branch_name'] ?></option>
+                <?php } } ?>
+            </select>
+        </div>
     </td>
   </tr>
   <tr>

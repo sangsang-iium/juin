@@ -90,6 +90,13 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   $sql_gs      = "SELECT * FROM shop_goods WHERE index_no = '{$gs_first_id}'";
   $row_gs      = sql_fetch($sql_gs);
 
+  if($_POST['raffle'] == 1) {
+    $gs_first_id = preg_replace('/000000$/', '', $gs_first_id);
+    $sql_gs      = "SELECT * FROM shop_goods_raffle WHERE index_no = '{$gs_first_id}'";
+    $row_gs      = sql_fetch($sql_gs);
+    $row_gs['gname'] = $row_gs['goods_name'];
+  }
+
   if ($gs_count > 1) {
     $t_turnstr = truncateString($row_gs['gname'], 8) . '외' . $gs_count . '건';
   } else {
@@ -106,7 +113,6 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   $t_email     = $_POST['customerEmail'];
 
   $customerMobilePhone = $_POST['customerMobilePhone']; // 추가배송비
-
 
   $TossVirtualAcc = new Tosspay();
   $toss_acc       = $TossVirtualAcc->virtualAcc($t_amount, $t_orderid, $t_ordername, $t_name, $t_email, $t_bank, $customerMobilePhone);
@@ -165,6 +171,10 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
 // $or_where = "WHERE od_id = {$od_id}";
   $tran_id = $accInsert->insert('toss_virtual_account', $acc_insert);
 
+  if($_POST['raffle'] == 1) {
+    raffleOrder($gs_first_id, $_POST['raffle_log_index']);
+  }
+  
 } else if ($_POST['paymethod'] == '신용카드') {
   $gs_first_id = $gs_id[0];
   $gs_count    = count($gs_id);
@@ -424,9 +434,12 @@ for ($i = 0; $i < count($gs_id); $i++) {
   sql_query($sql, true);
   $insert_id = sql_insert_id();
 
-  // 고객이 주문/배송조회를 위해 보관해 둔다.
-  save_goods_data($gs_id[$i], $insert_id, $od_id, $shop_table);
-
+  if($_POST['raffle'] == 1) {
+    raffle_save_goods_data($gs_id[$i], $insert_id, $od_id);
+  } else {
+    // 고객이 주문/배송조회를 위해 보관해 둔다.
+    save_goods_data($gs_id[$i], $insert_id, $od_id, $shop_table);
+  }
   // 쿠폰 사용함으로 변경 (무통장, 포인트결제일 경우만)
   if ($coupon_lo_id[$i] && $is_member && in_array($_POST['paymethod'], array('무통장', '포인트'))) {
     sql_query("update shop_coupon_log set mb_use='1',od_no='$od_no',cp_udate='" . BV_TIME_YMDHIS . "' where lo_id='$coupon_lo_id[$i]'");

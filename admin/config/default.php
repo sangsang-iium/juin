@@ -5,7 +5,8 @@ if(!defined('_BLUEVATION_')) exit;
 <form name="fregform" method="post" action="./config/default_update.php" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="token" value="">
 
-<h2>사업자정보</h2>
+<h5 class="htag_title">사업자정보</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
@@ -28,44 +29,56 @@ if(!defined('_BLUEVATION_')) exit;
 	<tr>
 		<th scope="row">사업자유형</th>
 		<td>
-			<?php echo radio_checked('company_type', $config['company_type'], '0', '일반과세자'); ?>
-			<?php echo radio_checked('company_type', $config['company_type'], '1', '간이과세자'); ?>
-			<?php echo radio_checked('company_type', $config['company_type'], '2', '면세사업자'); ?>
+            <div class="radio_group">
+                <?php echo radio_checked('company_type', $config['company_type'], '0', '일반과세자'); ?>
+                <?php echo radio_checked('company_type', $config['company_type'], '1', '간이과세자'); ?>
+                <?php echo radio_checked('company_type', $config['company_type'], '2', '면세사업자'); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="company_name">회사명</label></th>
 		<td>
 			<input type="text" name="company_name" value="<?php echo $config['company_name']; ?>" id="company_name" class="frm_input" size="30">
-			<em>세무서에 등록되어 있는 회사명 입력</em>
+            <ul class="cnt_list step02">
+                <li>세무서에 등록되어 있는 회사명 입력</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="company_owner">대표자명</label></th>
 		<td>
 			<input type="text" name="company_owner" value="<?php echo $config['company_owner']; ?>" id="company_owner" class="frm_input" size="30">
-			<em>예) 홍길동</em>
+            <ul class="cnt_list step02">
+                <li>예) 홍길동</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="company_saupja_no">사업자등록번호</label></th>
 		<td>
 			<input type="text" name="company_saupja_no" value="<?php echo $config['company_saupja_no']; ?>" id="company_saupja_no" class="frm_input" size="30">
-			<em>예) 000-00-00000</em>
+            <ul class="cnt_list step02">
+                <li>예) 000-00-00000</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="company_item">업태</label></th>
 		<td>
 			<input type="text" name="company_item" value="<?php echo $config['company_item']; ?>" id="company_item" class="frm_input" size="30">
-			<em>예) 소매업</em>
+            <ul class="cnt_list step02">
+                <li>예) 소매업</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="company_service">종목</label></th>
 		<td>
 			<input type="text" name="company_service" value="<?php echo $config['company_service']; ?>" id="company_service" class="frm_input" size="30">
-			<em>예) 전자상거래업</em>
+            <ul class="cnt_list step02">
+                <li>예) 전자상거래업</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
@@ -84,35 +97,45 @@ if(!defined('_BLUEVATION_')) exit;
 		<th scope="row"><label for="tongsin_no">통신판매업신고번호</label></th>
 		<td>
 			<input type="text" name="tongsin_no" value="<?php echo $config['tongsin_no']; ?>" id="tongsin_no" class="frm_input" size="30">
-			<em>예) <?php echo BV_TIME_YEAR.'-서울강남-0000호'; ?></em>
+            <ul class="cnt_list step02">
+                <li>예) <?php echo BV_TIME_YEAR.'-서울강남-0000호'; ?></li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="company_tel">대표전화번호</label></th>
 		<td>
 			<input type="text" name="company_tel" value="<?php echo $config['company_tel']; ?>" id="company_tel" class="frm_input" size="30">
-			<em>예) 1544-0000, 070-0000-0000</em>
+            <ul class="cnt_list step02">
+                <li>예) 1544-0000, 070-0000-0000</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="company_fax">팩스번호</label></th>
 		<td>
 			<input type="text" name="company_fax" value="<?php echo $config['company_fax']; ?>" id="company_fax" class="frm_input" size="30">
-			<em>예) 02-0000-0000</em>
+            <ul class="cnt_list step02">
+                <li>예) 02-0000-0000</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="info_name">정보책임자 이름</label></th>
 		<td>
 			<input type="text" name="info_name" value="<?php echo $config['info_name']; ?>" id="info_name" class="frm_input" size="30">
-			<em>예) 홍길동</em>
+            <ul class="cnt_list step02">
+                <li>예) 홍길동</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="info_email">정보책임자 e-mail</label></th>
 		<td>
 			<input type="text" name="info_email" value="<?php echo $config['info_email']; ?>" id="info_email" class="email frm_input" size="30">
-			<em>예) help@domain.com</em>
+            <ul class="cnt_list step02">
+                <li>예) help@domain.com</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
@@ -133,7 +156,10 @@ if(!defined('_BLUEVATION_')) exit;
 			<div id="vimg" class="banner_or_img dn">
 				<img src="<?php echo $seal; ?>">
 			</div>
-			<?php echo help('사업자인감 배경은 투명으로 하셔야 합니다.','fc_084'); ?>
+            <ul class="cnt_list step02 mart5">
+                <li class="fc_084">사업자인감 배경은 투명으로 하셔야 합니다.</li>
+			    <!-- <?php echo help('사업자인감 배경은 투명으로 하셔야 합니다.','fc_084'); ?> -->
+            </ul>
 		</td>
 	</tr>
 	</tbody>
@@ -156,11 +182,13 @@ $(function(){
 });
 </script>
 
-<h2>CS 운영시간</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">CS 운영시간</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -168,14 +196,18 @@ $(function(){
 		<th scope="row"><label for="company_hours">상담가능시간</label></th>
 		<td>
 			<input type="text" name="company_hours" value="<?php echo $config['company_hours']; ?>" id="company_hours" class="frm_input" size="60">
-			<em>예) 오전9시~오후6시</em>
+            <ul class="cnt_list step02">
+			    <li>예) 오전9시~오후6시</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="company_lunch">점심시간</label></th>
 		<td>
 			<input type="text" name="company_lunch" value="<?php echo $config['company_lunch']; ?>" id="company_lunch" class="frm_input" size="60">
-			<em>예) 오후12시~오후1시</em>
+            <ul class="cnt_list step02">
+			    <li>예) 오후12시~오후1시</li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
@@ -187,7 +219,12 @@ $(function(){
 	</tr>
 	<tr>
 		<th scope="row">인트로 사용여부</th>
-		<td><label><input type="checkbox" name="shop_intro_yes" value="1"<?php echo $config['shop_intro_yes']?' checked':''; ?>> 사용함</label></td>
+		<td>
+            <div class="checks">
+                <label>
+                <input type="checkbox" name="shop_intro_yes" id="" value="1"<?php echo $config['shop_intro_yes']?' checked':''; ?>> 사용함</label>
+            </div>
+        </td>
 	</tr>
 	</tbody>
 	</table>
@@ -346,7 +383,9 @@ $(function(){
 	</table>
 </div> -->
 
-<h2>포인트 설정</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">포인트 설정</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table class="tablef">
 	<colgroup>
@@ -357,22 +396,33 @@ $(function(){
 	<tr>
 		<th scope="row">주문시 포인트결제 사용</th>
 		<td>
-			<label><input type="checkbox" name="usepoint_yes" value="1"<?php echo $config['usepoint_yes']?' checked':''; ?>> 사용함</label>
-			<?php echo help('체크하지 않으면 주문시 포인트결제가 되지 않습니다.'); ?>
+            <div class="checks">
+                <label><input type="checkbox" name="usepoint_yes" value="1"<?php echo $config['usepoint_yes']?' checked':''; ?>> 사용함</label>
+            </div>
+            <ul class="cnt_list step02 mart5">
+                <li>체크하지 않으면 주문시 포인트결제가 되지 않습니다.</li>
+            </ul>
+			<?php /* echo help('체크하지 않으면 주문시 포인트결제가 되지 않습니다.'); */ ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">주문시 최소 결제포인트</th>
 		<td>
 			<input type="text" name="usepoint" value="<?php echo number_format($config['usepoint']); ?>" class="frm_input w80" onkeyup="addComma(this)"> 원
-			<?php echo help('회원의 포인트가 설정값 이상일 경우만 주문시 결제에 사용할 수 있습니다.'); ?>
+            <ul class="cnt_list step02 mart5">
+                <li>회원의 포인트가 설정값 이상일 경우만 주문시 결제에 사용할 수 있습니다.</li>
+            </ul>
+			<?php /* echo help('회원의 포인트가 설정값 이상일 경우만 주문시 결제에 사용할 수 있습니다.'); */ ?>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">포인트 유효기간</th>
 		<td>
 			<input type="text" name="cf_point_term" value="<?php echo $config['cf_point_term']; ?>" class="frm_input w50"> 일이 지난 포인트는 자동소멸
-			<?php echo help('기간을 0으로 설정시 포인트 유효기간이 적용되지 않습니다.'); ?>
+            <ul class="cnt_list step02 mart5">
+                <li>기간을 0으로 설정시 포인트 유효기간이 적용되지 않습니다</li>
+            </ul>
+			<?php /* echo help('기간을 0으로 설정시 포인트 유효기간이 적용되지 않습니다.'); */ ?>
 		</td>
 	</tr>
 	</tbody>

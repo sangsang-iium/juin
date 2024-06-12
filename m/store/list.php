@@ -21,8 +21,11 @@ include_once(BV_PATH.'/include/topMenu.php');
   <div id="map" class="store-map">
     <!-- 지도 연동 -->
   </div>
-  <button type="button" class="current_position">현위치 재검색</button>
-  <button type="button" class="add_latlng">검색위치등록</button>
+
+  <div class="container member-status-btn-wr">
+    <button type="button" class="current_position ui-btn st3">현위치 재검색</button>
+    <button type="button" class="add_latlng ui-btn st3">검색위치등록</button>
+  </div>
 
   <div class="container store-prod_list"></div>
 

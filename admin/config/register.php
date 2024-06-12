@@ -6,11 +6,12 @@ if(!defined('_BLUEVATION_')) exit;
 <form name="fregform" method="post" onsubmit="return fregform_submit(this);">
 <input type="hidden" name="token" value="">
 
-<h2>기본설정</h2>
+<h5 class="htag_title">기본설정</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -28,23 +29,43 @@ if(!defined('_BLUEVATION_')) exit;
 	</tr>
 	<tr>
 		<th scope="row">핸드폰 입력</th>
-		<td class="td_label">
-			<input id="register_use_hp" type="checkbox" name="register_use_hp" value="1"<?php echo $config['register_use_hp']?' checked':''; ?>> <label for="register_use_hp">보이기</label>
-			<input id="register_req_hp" type="checkbox" name="register_req_hp" value="1"<?php echo $config['register_req_hp']?' checked':''; ?>> <label for="register_req_hp">필수입력</label>
+		<td>
+            <ul class="radio_group">
+                <li class="checks">
+                    <input id="register_use_hp" type="checkbox" name="register_use_hp" value="1"<?php echo $config['register_use_hp']?' checked':''; ?>>
+                    <label for="register_use_hp">보이기</label>
+                </li>
+                <li class="checks">
+                    <input id="register_req_hp" type="checkbox" name="register_req_hp" value="1"<?php echo $config['register_req_hp']?' checked':''; ?>> <label for="register_req_hp">필수입력</label>
+                </li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">전화번호 입력</th>
-		<td class="td_label">
-			<input id="register_use_tel" type="checkbox" name="register_use_tel" value="1"<?php echo $config['register_use_tel']?' checked':''; ?>> <label for="register_use_tel">보이기</label>
-			<input id="register_req_tel" type="checkbox" name="register_req_tel" value="1"<?php echo $config['register_req_tel']?' checked':''; ?>> <label for="register_req_tel">필수입력</label>
+		<td>
+            <ul class="radio_group">
+                <li class="checks">
+                    <input id="register_use_tel" type="checkbox" name="register_use_tel" value="1"<?php echo $config['register_use_tel']?' checked':''; ?>> <label for="register_use_tel">보이기</label>
+                </li>
+                <li class="checks">
+                    <input id="register_req_tel" type="checkbox" name="register_req_tel" value="1"<?php echo $config['register_req_tel']?' checked':''; ?>> <label for="register_req_tel">필수입력</label>
+                </li>
+            </ul>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">주소 입력</th>
 		<td class="td_label">
-			<input id="register_use_addr" type="checkbox" name="register_use_addr" value="1"<?php echo $config['register_use_addr']?' checked':''; ?>> <label for="register_use_addr">보이기</label>
-			<input id="register_req_addr" type="checkbox" name="register_req_addr" value="1"<?php echo $config['register_req_addr']?' checked':''; ?>> <label for="register_req_addr">필수입력</label>
+            <ul class="radio_group">
+                <li class="checks">
+                    <input id="register_use_addr" type="checkbox" name="register_use_addr" value="1"<?php echo $config['register_use_addr']?' checked':''; ?>> <label for="register_use_addr">보이기</label>
+                </li>
+                <li class="checks">
+                    <input id="register_req_addr" type="checkbox" name="register_req_addr" value="1"<?php echo $config['register_req_addr']?' checked':''; ?>> <label for="register_req_addr">필수입력</label>
+                </li>
+            </ul>
+			
 		</td>
 	</tr>
 	<tr>
@@ -65,7 +86,9 @@ if(!defined('_BLUEVATION_')) exit;
 	</table>
 </div>
 
-<h2>약관 설정</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">약관 설정</h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
