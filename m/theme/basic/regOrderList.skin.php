@@ -4,7 +4,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 <div id="contents" class="sub-contents orderList">
   <div class="order-list-wr">
-    <div id="smb_order">
+    <div id="smb_order" class="reg-order-list">
       <?php
       for($i=0; $row=sql_fetch_array($result); $i++){
         echo '<div class="bottomBlank cp-orderWrap">'.PHP_EOL;
@@ -68,12 +68,24 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </div>
         <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
         <!-- <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button> -->
-
-
       </div>
+      <?php } ?>
+      <!-- 정기결제 배송 정보 { -->
+      <div class="reg-info-date-box">
+        <div class="reg-info-wr">
+          <div class="reg-info-left">
+            <p>배송요일</p>
+            <input type="text" class="frm-input" value="월/수" readonly>
+          </div>
+          <div class="reg-info-right">
+            <p>배송기간</p>
+            <input type="text" class="frm-input" value="2024.05.30 ~ 2025.05.29" readonly>
+          </div>
+        </div>
+      </div>
+      </div>
+      <!-- } 정기결제 배송 정보 -->
       <?php
-        }
-        echo '</div>'.PHP_EOL;
         echo '</div>'.PHP_EOL;
       }
 
