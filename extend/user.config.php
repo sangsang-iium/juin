@@ -587,3 +587,12 @@ function getMenuFunc($menu, $link, $code) {
   }
 
 }
+
+  // 사업자 번호 하이픈(-)추가 _20240604_SY
+function formatBno($no) {
+  $no = preg_replace('/[^0-9]/', '', $no);
+  if (strlen($no) !== 10) {
+      return '';
+  }
+  return substr($no, 0, 3) . '-' . substr($no, 3, 2) . '-' . substr($no, 5, 5);
+}
