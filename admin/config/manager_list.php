@@ -60,7 +60,8 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>담당자검색</h2>
+<h5 class="htag_title">담당자검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
   <input type="hidden" name="code" value="<?php echo $code; ?>">
   <div class="tbl_frm01">
@@ -74,22 +75,28 @@ EOF;
         <tr>
           <th scope="row">검색어</th>
           <td>
-            <select name="sfl">
-              <?php echo option_selected('id',          $sfl, '아이디'); ?>
-              <?php echo option_selected('areaname',    $sfl, '지역'); ?>
-              <?php echo option_selected('branch_name', $sfl, '지회'); ?>
-              <?php echo option_selected('office_name', $sfl, '지부'); ?>
-            </select>
-            <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('id',          $sfl, '아이디'); ?>
+                        <?php echo option_selected('areaname',    $sfl, '지역'); ?>
+                        <?php echo option_selected('branch_name', $sfl, '지회'); ?>
+                        <?php echo option_selected('office_name', $sfl, '지부'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div class="btn_confirm">
-    <input type="submit" value="검색" class="btn_medium">
-    <a href="<?php echo BV_ADMIN_URL."/config.php?code=".$code ?>" id="frmRest" class="btn_medium grey">초기화</a>
-  </div>
+    <div class="board_btns tac mart20">
+        <div class="btn_wrap">
+            <input type="submit" value="검색" class="btn_acc marr10">
+            <a href="<?php echo BV_ADMIN_URL."/config.php?code=".$code ?>" id="frmRest" class="btn_cen">초기화</a>
+        </div>
+    </div>
 </form>
 
 <form name="fmanagerlist" id="fmanagerlist" method="post" action="./config/manager_list_update.php" onsubmit="return fmanagerlist_submit(this);">
@@ -112,7 +119,7 @@ EOF;
         <col>
         <col class="w150">
         <col class="w150">
-        <col class="w100">
+        <col class="w300">
       </colgroup>
       <thead>
         <tr>
@@ -145,8 +152,10 @@ EOF;
           <td><?php echo $row['office_name'] ?></td>
           <td><?php echo substr($row['reg_time'], 0, 10) ?></td>
           <td>
-            <a href="/admin/config.php?code=manager_register_form&amp;w=u&amp;idx=<?php echo $row['index_no'] ?>" class="btn_small blue">수정</a>
-            <a href="/admin/config/managerupdate.php?w=d&amp;idx=<?php echo $row['index_no'] ?>" class="btn_small">삭제</a>
+            <div class="btn_wrap">
+                <a href="/admin/config.php?code=manager_register_form&amp;w=u&amp;idx=<?php echo $row['index_no'] ?>" class="btn_fix bg_type1"><span>수정</span></a>
+                <a href="/admin/config/managerupdate.php?w=d&amp;idx=<?php echo $row['index_no'] ?>" class="btn_del bg_type2"><span>삭제</span></a>
+            </div>
           </td>
         </tr>
       <?php

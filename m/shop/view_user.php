@@ -33,6 +33,8 @@ $from_record = ($page - 1) * $rows; // 시작 열을 구함
 $sql = " select * $sql_common $sql_search $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
+///home/juin/www/m/theme/basic/view_user.skin.php
+
 include_once(BV_MTHEME_PATH."/view_user.skin.php");
 
 // include_once(BV_MPATH."/tail.sub.php");

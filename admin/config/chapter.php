@@ -59,12 +59,14 @@ EOF;
 ?>
 
 <!-- // 버튼 & 검색 추가 _20240513_SY -->
-<div>
-  <a href="./config.php?code=branch" class="btn_small">지회관리</a>
-  <a href="./config.php?code=chapter" class="btn_small">지부관리</a>
+<div class="btn_wrap tal">
+  <a href="./config.php?code=branch" class="go"><span>지회관리</span></a>
+  <a href="./config.php?code=chapter" class="go color_type"><span>지부관리</span></a>
 </div>
 
-<h2>지부검색</h2>
+<p class="gap50"></p>
+<h5 class="htag_title">지부검색</h5>
+<p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
@@ -78,21 +80,29 @@ EOF;
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-        <?php echo option_selected('office_name', $sfl, '지부명'); ?>
-				<?php echo option_selected('branch_name', $sfl, '지회명'); ?>
-				<?php echo option_selected('office_code', $sfl, '지부코드'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('office_name', $sfl, '지부명'); ?>
+                        <?php echo option_selected('branch_name', $sfl, '지회명'); ?>
+                        <?php echo option_selected('office_code', $sfl, '지부코드'); ?>
+                    </select>
+                </div>
+			    <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
-<div class="btn_confirm">
-	<input type="submit" value="검색" class="btn_medium">
-  <a href="<?php echo BV_ADMIN_URL."/config.php?code=".$code ?>" id="frmRest" class="btn_medium grey">초기화</a>
-</div>
+
+<div class="board_btns tac mart20">
+        <div class="btn_wrap">
+            <input type="submit" value="검색" class="btn_acc marr10">
+            <a href="<?php echo BV_ADMIN_URL."/config.php?code=".$code ?>" id="frmRest" class="btn_cen">초기화</a>
+        </div>
+    </div>
+
 </form>
 
 <form name="fbranchlist" id="fbranchlist" method="post" action="./config/chapter_list_update.php" onsubmit="return fbranchlist_submit(this);">
@@ -148,8 +158,13 @@ EOF;
 		<td><?php echo substr($row['office_wdate'], 0, 11) ?></td>
 		<td><?php echo substr($row['office_udate'], 0, 11) ?></td>
 		<td>
-      <a href="/admin/config.php?code=chapter_register_form&amp;w=u&amp;idx=<?php echo $row['office_idx']?>" class="btn_small blue">수정</a>
-    </td>
+            <div class="btn_wrap">
+                <a href="/admin/config.php?code=chapter_register_form&amp;w=u&amp;idx=<?php echo $row['office_idx']?>" class="btn_fix bg_type2">
+                    <span>수정</span>
+                </a>
+            </div>
+      
+        </td>
 	</tr>
 	<?php 
 	}

@@ -43,8 +43,8 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>권한목록</h2>
-
+<h5 class="htag_title">권한목록</h5>
+<p class="gap20"></p>
 <form name="fmanagerlist" id="fmanagerlist" method="post" action="./config/authorization_list_update.php" onsubmit="return fmanagerlist_submit(this);">
   <input type="hidden" name="q1" value="<?php echo $q1; ?>">
   <input type="hidden" name="page" value="<?php echo $page; ?>">
@@ -58,7 +58,7 @@ EOF;
         <col class="w50">
         <col>
         <col>
-        <col class="w100">
+        <col class="w300">
       </colgroup>
       <thead>
         <tr>
@@ -94,8 +94,10 @@ EOF;
             } ?>
           </td>
           <td>
-            <a href="/admin/config.php?code=authorization_register_form&amp;w=u&amp;idx=<?php echo $row['auth_idx'] ?>" class="btn_small blue">수정</a>
-            <a href="/admin/config/authupdate.php?w=d&amp;idx=<?php echo $row['auth_idx']?>" class="btn_small">삭제</a>
+            <div class="btn_wrap">
+                <a href="/admin/config.php?code=authorization_register_form&amp;w=u&amp;idx=<?php echo $row['auth_idx'] ?>" class="btn_fix bg_type1"><span>수정</span></a>
+                <a href="/admin/config/authupdate.php?w=d&amp;idx=<?php echo $row['auth_idx']?>" class="btn_del bg_type2"><span>삭제</span></a>
+            </div>
           </td>
         </tr>
       <?php }
