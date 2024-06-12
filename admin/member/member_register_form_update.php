@@ -120,6 +120,11 @@ $value['mailser']		  = $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 $value['smsser']		  = $mb_sms ? $mb_sms : 'N'; //SMS를 수신
 $value['mb_certify']	= $mb_certify;
 $value['mb_adult']		= $mb_adult;
+$value['ju_b_num']    = $ju_b_num;
+
+if($chk_b_num == 1) {
+  
+}
 
 // 관리자인증을 사용하지 않는다면 인증으로 간주함.
 if(!$config['cert_admin_yes'])

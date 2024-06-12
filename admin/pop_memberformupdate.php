@@ -107,6 +107,7 @@ $mfrm['ju_off'] = implode("|", $_POST['off']);
 $mfrm['ju_content'] = $_POST['ju_content'];
 $mfrm['ju_tel'] = $_POST['ju_tel'];
 $mfrm['ju_hp'] = $_POST['ju_hp'];
+$mfrm['ju_b_num'] = $_POST['ju_b_num'];
 
 if($_POST['passwd']) {
 	$mfrm['passwd'] = $_POST['passwd']; // 패스워드

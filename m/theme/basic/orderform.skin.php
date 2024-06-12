@@ -128,8 +128,14 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
           $it_name = stripslashes($gs['goods_name']);
           $sell_qty = 1;
           $config['usepoint_yes'] = 0;
-          $tot_sell_price = $gs['raffle_price'];
-          $gs['reg_yn'] = 1;
+          $tot_sell_price = 0;
+          $gs['reg_yn'] = 2;
+          $raffleLogIndex = getRaffleLogIdxno($raffleIndexNo);
+
+          $gs['notax'] = 1;
+          $sell_price = $gs['raffle_price'];
+          $supply_price = $gs['raffle_price'];
+          $point  = 0;
         } else {
         $gs = get_goods($row['gs_id']);
 
@@ -357,6 +363,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
       <?php if (!$is_member || !$config['usepoint_yes']) { ?>
         <input type="hidden" name="use_point" value="0">
+      <?php } ?>
+
+      <?php if($raffleCheck) { ?>
+        <input type="hidden" name="raffle" value="1">
+        <input type="hidden" name="raffle_log_index" value="<?php echo $raffleLogIndex; ?>">
       <?php } ?>
 
       <?php

@@ -17,6 +17,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           $rw = get_order($ct['od_no']);
           $gs = unserialize($rw['od_goods']);
 
+          if($ct['raffle'] == 1) {
+            $gs['gname'] = $gs['goods_name'];
+          }
+          
           $href = BV_MSHOP_URL.'/view.php?gs_id='.$rw['gs_id'];
 
           $dlcomp = explode('|', trim($rw['delivery']));
@@ -47,7 +51,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       <?php } ?>
       <div class="cp-orderItem">
         <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $rw['od_id']; ?>&uid=<?php echo $uid; ?>&list=Y&#38;reg_yn=<?php echo $ct['reg_yn'] ?>" class="thumb round60">
-          <img src="<?php echo get_it_image_url($ct['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>">
+          <?php if($ct['raffle'] == 1) { ?>
+            <?php echo get_raffle_img($gs['simg1']) ?>
+          <?php } else { ?>
+            <img src="<?php echo get_it_image_url($ct['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>">
+          <?php } ?>
         </a>
         <div class="content">
           <span class="tag <?php echo $gw_status[$rw['dan']] == '배송중'?'on':'off'; ?>"><?php echo $gw_status[$rw['dan']]; ?></span>
@@ -62,6 +70,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             <p class="price"><?php echo display_price($rw['use_price']); ?></p>
           </div>
         </div>
+        
+        <?php if($ct['raffle'] != 1) { ?>
         <div class="ord-btn-wr">
           <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
           <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
@@ -87,7 +97,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             }
           ?>
         </div>
-
+        <?php } ?>
       </div>
       <?php
         }

@@ -62,8 +62,12 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               $sql = " select * from shop_cart where od_id = '$od_id' group by gs_id order by index_no ";
               $result = sql_query($sql);
               for($i=0; $row=sql_fetch_array($result); $i++) {
+                $raffleCheck = false;
+                if($row['raffle'] == 1) $raffleCheck = true;
                 $rw = get_order($row['od_no'],'*',$shop_table);
                 $gs = unserialize($rw['od_goods']);
+                
+                if($raffleCheck) $gs['gname'] = $gs['goods_name'];
 
                 $hash = md5($rw['gs_id'].$rw['od_no'].$rw['od_id']);
                 $dlcomp = explode('|', trim($rw['delivery']));
@@ -91,7 +95,13 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               ?>
               <div class="cp-orderItem">
                 <div class="thumb round60">
+                <?php if($raffleCheck) { ?>
+                  <?php echo get_raffle_img($gs['simg1']) ?>
+                <?php } else { ?>
                   <img src="<?php echo get_it_image_url($rw['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>">
+                <?php } ?>
+
+                  <!-- <img src="<?php echo get_it_image_url($rw['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>"> -->
                 </div>
                 <div class="content">
                   <span class="tag <?php echo $gw_status[$rw['dan']] == '배송중'?'on':'off'; ?>" style="display: inline-block;"><?php echo $gw_status[$rw['dan']]; ?></span>

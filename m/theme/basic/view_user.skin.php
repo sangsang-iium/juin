@@ -5,7 +5,16 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <div id="review_top">
   <div class="btn_confirm">
 		<!-- <button type="button" onclick="window.open('<?php echo BV_MSHOP_URL; ?>/orderreview.php?gs_id=<?php echo $gs_id; ?>');" class="ui-btn round stBlack writeBtn rv-write-btn">구매후기쓰기</button> -->
+    <?php 
+    $mbid=($member['id']);
+    $sq = "select count(*) cnt from shop_goods_review where mb_id='$mbid' and gs_id='$gs_id'";
+    $rs = sql_fetch($sq);
+    if($rs['cnt']==0){
+    ?>
     <button type="button" class="ui-btn round stBlack writeBtn rv-write-btn">구매후기쓰기</button>
+    <?php 
+    }
+    ?>
 	</div>
   <select name="review_select" id="review_select" class="frm-select review_select">
     <option value="1">1개월</option>

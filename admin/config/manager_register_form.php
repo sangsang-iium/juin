@@ -33,74 +33,86 @@ $region_res = sql_query($region_sel);
   <input type="hidden" name="idx" value="<?php echo $_GET['idx'] ?>">
 <?php } ?>
 
-<h2><?php echo $form_title ?></h2>
+<h5 class="htag_title"><?php echo $form_title ?></h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
   <tr>
     <th scope="row"><label for="manager_id">아이디</label><span>(*)</span></th>
     <td>
-      <input type="text" name="manager_id" id="manager_id" value="<?php echo ($w == '') ? '' : $result['id']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
-      <?php if($w == '') { ?>
-        <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
-      <?php } ?>
+        <div class="write_address">
+            <div class="file_wrap address">
+                <input type="text" name="manager_id" id="manager_id" value="<?php echo ($w == '') ? '' : $result['id']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
+                <?php if($w == '') { ?>
+                  <a class="btn_file" onclick="duplication_chk()">중복확인</a>
+                  <!-- <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button> -->
+                <?php } ?>
+            </div>
+        </div>
     </td>
   </tr>
   <tr>
     <th scope="row"><label for="manager_pw">비밀번호</label><span>(*)</span></th>
     <td>
-      <input type="password" name="manager_pw" id="manager_pw" value="" <?php echo ($w == '') ? 'required' : '' ?> class="frm_input">
+      <input type="password" name="manager_pw" id="manager_pw" value="" <?php echo ($w == '') ? 'required' : '' ?> class="frm_input w300">
     </td>
   </tr>
   <tr>
     <th scope="row"><label for="manager_name">이름</label><span>(*)</span></th>
     <td>
-      <input type="text" name="manager_name" id="manager_name" value="<?php echo ($w == '') ? '' : $result['name']; ?>" <?php echo ($w == '') ? 'required' : '' ?> class="frm_input">
+      <input type="text" name="manager_name" id="manager_name" value="<?php echo ($w == '') ? '' : $result['name']; ?>" <?php echo ($w == '') ? 'required' : '' ?> class="frm_input w300">
     </td>
   </tr>
 	<tr>
 		<th scope="row"><label for="ju_region1">지역</label><span>(*)</span></th>
     <td>
-      <select name="ju_region1" id="ju_region1" onchange="getBranch(this.value)">
-        <option value=''>지역선택</option>
-        <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
-          <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['ju_region1'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
-        <?php } ?>
-      </select>
+        <div class="chk_select w300">
+            <select name="ju_region1" id="ju_region1" onchange="getBranch(this.value)">
+              <option value=''>지역선택</option>
+              <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
+                <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['ju_region1'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
+              <?php } ?>
+            </select>
+        </div>
     </td>
   </tr>
   <tr>
     <th scope="row"><label for="ju_region2">지회명</label><span>(*)</span></th>
     <td>
-      <select name="ju_region2" id="ju_region2" onchange="getChapter(this.value)">
-        <option value=''>지회선택</option>
-        <?php
-          if($w != '' && !empty($result['ju_region2'])) {
-            $re2_where = " WHERE (1) AND areacode = '{$result['ju_region1']}' ";
-            $re2_res   = getRegionFunc("branch", $re2_where);
-            foreach ($re2_res as $key => $val) { ?>
-              <option value="<?php echo $val['branch_code'] ?>" <?php echo ($w == 'u' && $val['branch_code'] == $result['ju_region2']) ? "selected" : "" ?> ><?php echo $val['branch_name'] ?></option>
-        <?php } } ?>
-      </select>
+        <div class="chk_select w300">
+            <select name="ju_region2" id="ju_region2" onchange="getChapter(this.value)">
+              <option value=''>지회선택</option>
+              <?php
+                if($w != '' && !empty($result['ju_region2'])) {
+                  $re2_where = " WHERE (1) AND areacode = '{$result['ju_region1']}' ";
+                  $re2_res   = getRegionFunc("branch", $re2_where);
+                  foreach ($re2_res as $key => $val) { ?>
+                    <option value="<?php echo $val['branch_code'] ?>" <?php echo ($w == 'u' && $val['branch_code'] == $result['ju_region2']) ? "selected" : "" ?> ><?php echo $val['branch_name'] ?></option>
+              <?php } } ?>
+            </select>
+        </div>
     </td>
   </tr>
   <tr>
     <th scope="row"><label for="ju_region3">지부명</label><span>(*)</span></th>
     <td>
-      <select name="ju_region3" id="ju_region3">
-        <option value=''>지부선택</option>
-        <?php
-          if($w != '' && !empty($result['ju_region3'])) {
-            $re3_where = " WHERE (1) AND areacode = '{$result['ju_region1']}' AND b.branch_code = '{$result['ju_region2']}' ";
-            $re3_res   = getRegionFunc("office", $re3_where);
-            foreach ($re3_res as $key => $val) { ?>
-              <option value="<?php echo $val['office_code'] ?>" <?php echo ($w == 'u' && $val['office_code'] == $result['ju_region3']) ? "selected" : "" ?> ><?php echo $val['office_name'] ?></option>
-        <?php } } ?>
-      </select>
+        <div class="chk_select w300">
+            <select name="ju_region3" id="ju_region3">
+              <option value=''>지부선택</option>
+              <?php
+                if($w != '' && !empty($result['ju_region3'])) {
+                  $re3_where = " WHERE (1) AND areacode = '{$result['ju_region1']}' AND b.branch_code = '{$result['ju_region2']}' ";
+                  $re3_res   = getRegionFunc("office", $re3_where);
+                  foreach ($re3_res as $key => $val) { ?>
+                    <option value="<?php echo $val['office_code'] ?>" <?php echo ($w == 'u' && $val['office_code'] == $result['ju_region3']) ? "selected" : "" ?> ><?php echo $val['office_name'] ?></option>
+              <?php } } ?>
+            </select>
+        </div>
     </td>
   </tr>
   

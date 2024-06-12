@@ -43,7 +43,10 @@ if($config['cf_point_term'] > 0) {
             </tr>
             <tr>
                 <th scope="row"><label for="po_point">포인트</label></th>
-                <td><input type="text" name="po_point" id="po_point" required class="required frm_input" size="10"> P (음수 입력시 포인트차감)</td>
+                <td>
+                    <input type="text" name="po_point" id="po_point" required class="required frm_input" size="10">
+                    <p class="fc_red mart5 bold"> P (음수 입력시 포인트차감)</p>
+                </td>
             </tr>
             <?php if($config['cf_point_term'] > 0) { ?>
             <tr>

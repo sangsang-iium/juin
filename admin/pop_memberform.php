@@ -337,6 +337,22 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
           });
         }
 
+        function daumAddress(){
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+                    
+                    document.getElementById('ju_addr_full').value = addr;
+                    //getPosition();
+                }
+            }).open();
+        }
+
         /* 서브이미지 삭제 */
         const mb_id = "<?php echo $mb['id'] ?>";
         $(document).on("click", ".image_del", function() {
@@ -522,6 +538,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                   <div class="write_address">
                     <div class="file_wrap address">
                       <input type="text" name="ju_addr_full" id="ju_addr_full" value="<?php echo $mb['ju_addr_full']; ?>" class="frm_input w200" size="50">
+                      <a href="#none" onclick="daumAddress();" class="btn_file">주소검색</a>
                       <a href="#none" onclick="getPosition();" class="btn_file">좌표가져오기</a>
                     </div>
                   </div>
@@ -558,7 +575,9 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                 </td>
 
                 <th scope="row">사업자번호</th>
-                <td><?php echo $mb['ju_b_num']; ?></td>
+                <td>
+                    <input type="text" name="ju_b_num" value="<?php echo $mb['ju_b_num']; ?>" class="frm_input">
+                </td>
               </tr>
               <tr>
                 <th scope="row">업태</th>

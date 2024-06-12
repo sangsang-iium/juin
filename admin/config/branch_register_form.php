@@ -35,30 +35,38 @@ $region_res = sql_query($region_sel);
   <input type="hidden" name="idx" value="<?php echo $_GET['idx'] ?>">
 <?php } ?>
 
-<h2><?php echo $form_title ?></h2>
+<h5 class="htag_title"><?php echo $form_title ?></h5>
+<p class="gap20"></p>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
   <tr>
     <th scope="row"><label for="branch_code">지회코드</label><span>(*)</span></th>
     <td>
-      <input type="text" name="branch_code" id="branch_code" value="<?php echo ($w == '') ? '' : $result['branch_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
-      <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button>
+        <div class="write_address">
+            <div class="file_wrap address">
+                <input type="text" name="branch_code" id="branch_code" value="<?php echo ($w == '') ? '' : $result['branch_code']; ?>" required class="frm_input required" onkeyup="getId()" <?php echo ($w == 'u') ? "disabled" : "" ?> >
+                <a type="button" class="btn_file" onclick="duplication_chk()">중복확인</a>
+                <!-- <button type="button" class="btn_small" onclick="duplication_chk()">중복확인</button> -->
+            </div>
+        </div>
     </td>
   </tr>
 	<tr>
 		<th scope="row"><label for="area_idx">지역</label><span>(*)</span></th>
     <td>
-      <select name="area_idx" id="area_idx">
-        <option value=''>지역선택</option>
-        <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
-          <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['area_idx'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
-        <?php } ?>
-      </select>
+        <div class="chk_select">
+            <select name="area_idx" id="area_idx">
+                <option value=''>지역선택</option>
+                <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
+                <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['area_idx'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
+                <?php } ?>
+            </select>
+        </div>
     </td>
   </tr>
   <tr>

@@ -371,6 +371,7 @@ h6[class*="htag_title"] {
 
 h6[class*="htag_title"]:before {
     height: 20px;
+    top:1px;
     background: url("/admin/img/images/common/h6_icon.png") no-repeat center center / 10px;
 }
 
@@ -416,15 +417,15 @@ h6[class*="htag_title"]:before {
     height: 4px;
     background: #a6a6a6;
     border-radius: 100%;
-    top: 9px;
+    top: 11px;
     left: 0;
 }
 
 [class*="cnt_list"].number_type {
-    counter-reset: number_list
+    counter-reset: number_list;
 }
 
-[class*="cnt_list"].number_type > li > p {
+[class*="cnt_list"].number_type > li {
     color: var(--color_3);
     width: 100%;
     display: flex;
@@ -435,7 +436,7 @@ h6[class*="htag_title"]:before {
     gap:5px;
 }
 
-[class*="cnt_list"].number_type > li > p::before {
+[class*="cnt_list"].number_type > li::before {
     width: 15px;
     height: 15px;
     font-weight: var(--fw_500);
@@ -458,7 +459,8 @@ h6[class*="htag_title"]:before {
 }
 
 [class*="cnt_list"] .cnt_list{
-    padding-left:20px !important;
+    margin-top:10px;
+    padding-left:15px !important;
 }
 
 
@@ -1657,6 +1659,7 @@ textarea {
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
+    margin-bottom:5px;
 }
 
 [class*="write_address"] [class*="file_wrap"].address input {
@@ -1667,6 +1670,7 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap:5px;
 }
 
 [class*="write_address"] .addressMore input {
@@ -1753,10 +1757,11 @@ textarea {
     background: #e0e0e0;
     color: var(--color_0);
     font-weight: var(--fw_400);
-    width: 100px;
+    min-width: 100px;
     text-align: center;
     cursor: pointer;
     border-radius: 5px;
+    padding:0 10px;
 }
 
 [class*="file_wrap"] input[type="file"]{
