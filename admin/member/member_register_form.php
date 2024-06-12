@@ -465,7 +465,6 @@ $none = "style='display:none;'";
             var address = res.data.DORO_ADDRESS;
             address = address.trim();
             geocoder.addressSearch(address, function(result, status) {
-              console.log(result)
               // 정상적으로 검색이 완료됐으면 
               if (status === kakao.maps.services.Status.OK) {
                 //var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -524,6 +523,7 @@ $none = "style='display:none;'";
 
     let b_stt_cd = "";
     let end_dt   = "";
+    let msg = "";
 
     if(b_num.length > 0) {
       $.ajax({
@@ -533,18 +533,27 @@ $none = "style='display:none;'";
           dataType: "JSON",
           success: function(res) {
             // API 값 호출 _20240318_SY
-            if (res.hasOwnProperty('match_cnt')) {
+            // 휴/폐업 가입불가 _20240612_SY
+            if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
               $('#chk_cb_res').val(res.data[0].b_stt_cd);
               if(chkKFIA == true) {
                 $('#chk_b_num').val('1');
               }
-              let msg = res.data[0].b_stt;
+              msg = res.data[0].b_stt;
               alert(msg);
             } else {
-              $('#chk_cb_res').val('0');
+              switch (res.data[0].b_stt_cd) {
+              case "" :
+                msg = res.data[0].tax_type;
+                $('#chk_cb_res').val('0');
+                break;
+                default : 
+                $('#chk_cb_res').val(res.data[0].b_stt_cd);
+                msg = res.data[0].b_stt;
+                break;
+            }
               $('#chk_b_num').val('0');
               $('.store_info_sec').hide();
-              let msg = res.data[0].tax_type;
               alert(msg);
             }
           }
@@ -625,6 +634,14 @@ $none = "style='display:none;'";
       }
     }
 
+    // 휴/폐업 중앙회 가입 불가 _20240612_SY
+    if (f.mb_grade.value == 8) {
+      if(f.chk_b_num.value == 0) {
+        alert("레벨을 변경하여 가입해 주십시오.");
+        f.mb_grade.focus();
+        return false;
+      }
+    }
 
     document.getElementById("btn_submit").disabled = "disabled";
 
