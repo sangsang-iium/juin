@@ -36,7 +36,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <div class="container section main_category">
   <div class="cp-quick-category">
     <?php
-      $cate_sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = 3 ORDER BY caterank asc";
+      $cate_sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = 3 AND cateuse = 0 ORDER BY caterank asc";
       $cate_res = sql_query($cate_sql);
 
       while ($cate_row = sql_fetch_array($cate_res)) {
@@ -216,7 +216,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div class="container left main_live-slide">
     <div class="swiper-container swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
       <div class="swiper-wrapper" id="swiper-wrapper-5adc34597a07ad06" aria-live="polite">
-        <?php 
+        <?php
           $liveListArr = mainLiveList();
           $liveListCount = 1;
           $liveListSize = sizeof($liveListArr);

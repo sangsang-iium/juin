@@ -8,7 +8,7 @@ $none = "style='display:none;'";
 
 <script src="<?php echo BV_JS_URL; ?>/jquery.register_form.js"></script>
 
-<form name="fregisterform" id="fregisterform" action="./member/member_register_form_update.php" onsubmit="return fregisterform_submit(this);" method="post" autocomplete="off">
+<form name="fregisterform" id="fregisterform" action="./member/member_register_form_update.php" onsubmit="return fregisterform_submit(this);" method="post" autocomplete="off" enctype="MULTIPART/FORM-DATA">
   <input type="hidden" name="token" value="">
 
   <h5 class="htag_title">사이트 이용정보 입력</h5>
@@ -85,7 +85,7 @@ $none = "style='display:none;'";
                 <label for="mb_certify_ipin">아이핀</label>
               </li>
               <li class="radios">
-                <input type="radio" name="mb_certify_case" value="hp" id="mb_certify_hp">
+                <input type="radio" name="mb_certify_case" value="hp" id="mb_certify_hp" checked="checked">
                 <label for="mb_certify_hp">휴대폰</label>
               </li>
             </ul>
@@ -157,7 +157,6 @@ $none = "style='display:none;'";
       </tbody>
     </table>
   </div>
-<?php if($_SERVER['REMOTE_ADDR'] == "106.247.231.170") { ?>
   <!-- 사업자회원조회 _20240611_SY -->
   <p class="gap70 store_info" <?php echo $none?> ></p>
   <h5 class="htag_title store_info"  <?php echo $none?> >사업자 회원 조회</h5>
@@ -190,9 +189,9 @@ $none = "style='display:none;'";
           <td><input type="text" name="ju_member" id="ju_member" class="frm_input" size="20" maxlength="20"></td>
         </tr>
         <tr>
-          <th scope="row"><label for="">대표번호</label></th>
+          <th scope="row"><label for="ju_tel">대표번호</label></th>
           <td>
-            <input type="text" name="" id="" class="frm_input" size="20" maxlength="20">
+            <input type="text" name="ju_tel" id="ju_tel" class="frm_input" size="20" maxlength="20">
           </td>
         </tr>
         
@@ -336,16 +335,16 @@ $none = "style='display:none;'";
             <div class="write_address">
               <div class="file_wrap address">
                 <label for="reg_mb_zip_st" class="sound_only">우편번호</label>
-                <input type="text" name="mb_zip" id="reg_mb_zip_st" class="frm_input" size="8" maxlength="5" placeholder="우편번호">
-                <button type="button" class="btn_file" onclick="win_zip('fregisterform', 'mb_zip', 'mb_addr1', 'mb_addr2', 'mb_addr3', 'mb_addr_jibeon');">주소검색</button>
+                <input type="text" name="mb_zip_st" id="reg_mb_zip_st" class="frm_input" size="8" maxlength="5" placeholder="우편번호">
+                <button type="button" class="btn_file" onclick="win_zip('fregisterform', 'mb_zip_st', 'mb_addr1_st', 'mb_addr2_st', 'mb_addr3_st', 'mb_addr_jibeon_st');">주소검색</button>
               </div>
               <div class="">
-                <input type="text" name="mb_addr1" id="reg_mb_addr1_st" class="frm_input frm_address" size="60" placeholder="기본주소">
+                <input type="text" name="mb_addr1_st" id="reg_mb_addr1_st" class="frm_input frm_address" size="60" placeholder="기본주소">
                 <label for="reg_mb_addr1_st" class="hide">기본주소</label>
-                <input type="text" name="mb_addr2" id="reg_mb_addr2_st" class="frm_input frm_address" size="60" placeholder="상세주소">
+                <input type="text" name="mb_addr2_st" id="reg_mb_addr2_st" class="frm_input frm_address" size="60" placeholder="상세주소">
                 <label for="reg_mb_addr2_st" class="hide">상세주소</label>
-                <input type="hidden" name="mb_addr_jibeon" value="">
-                <input type="text" name="mb_addr3" id="reg_mb_addr3_st" class="frm_input frm_address" size="60" readonly="readonly" placeholder="참고항목">
+                <input type="hidden" name="mb_addr_jibeon_st" value="">
+                <input type="text" name="mb_addr3_st" id="reg_mb_addr3_st" class="frm_input frm_address" size="60" readonly="readonly" placeholder="참고항목">
                 <label for="reg_mb_addr3_st" class="hide">참고항목</label>
               </div>
             </div>
@@ -358,7 +357,6 @@ $none = "style='display:none;'";
       </tbody>
     </table>
   </div>
-<?php } ?>
   <div class="board_btns tac mart20">
     <div class="btn_wrap">
       <input type="submit" value="저장" id="btn_submit" class="btn_acc" accesskey="s">
@@ -367,7 +365,14 @@ $none = "style='display:none;'";
 
 </form>
 
+<!-- 주소값 (위도/경도) 가져오기 _20240612_SY -->
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services"></script>
+<?php echo BV_POSTCODE_JS ?>
+
 <script>
+  // form 추가 _20240612_SY
+  const form = $('#fregisterform');
+
   $('#mb_grade').click(function() {
 
     let chk_value = this.value;
@@ -454,6 +459,19 @@ $none = "style='display:none;'";
             $('#reg_mb_zip_st').val(res.data.ZIP_CODE)
             $('#reg_mb_addr1_st').val(res.data.DORO_ADDRESS)
             $('#chk_b_num').val('1');
+
+            // 위도/경도 값 _20240612_SY
+            var geocoder = new kakao.maps.services.Geocoder();
+            var address = res.data.DORO_ADDRESS;
+            address = address.trim();
+            geocoder.addressSearch(address, function(result, status) {
+              // 정상적으로 검색이 완료됐으면 
+              if (status === kakao.maps.services.Status.OK) {
+                //var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                form.append(`<input type="hidden" name="ju_lat" value="${result[0].y}">`);
+                form.append(`<input type="hidden" name="ju_lng" value="${result[0].x}">`);
+              } 
+            });
             
             chkKFIA = true;
           }
@@ -505,6 +523,7 @@ $none = "style='display:none;'";
 
     let b_stt_cd = "";
     let end_dt   = "";
+    let msg = "";
 
     if(b_num.length > 0) {
       $.ajax({
@@ -514,18 +533,27 @@ $none = "style='display:none;'";
           dataType: "JSON",
           success: function(res) {
             // API 값 호출 _20240318_SY
-            if (res.hasOwnProperty('match_cnt')) {
+            // 휴/폐업 가입불가 _20240612_SY
+            if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
               $('#chk_cb_res').val(res.data[0].b_stt_cd);
               if(chkKFIA == true) {
                 $('#chk_b_num').val('1');
               }
-              let msg = res.data[0].b_stt;
+              msg = res.data[0].b_stt;
               alert(msg);
             } else {
-              $('#chk_cb_res').val('0');
+              switch (res.data[0].b_stt_cd) {
+              case "" :
+                msg = res.data[0].tax_type;
+                $('#chk_cb_res').val('0');
+                break;
+                default : 
+                $('#chk_cb_res').val(res.data[0].b_stt_cd);
+                msg = res.data[0].b_stt;
+                break;
+            }
               $('#chk_b_num').val('0');
               $('.store_info_sec').hide();
-              let msg = res.data[0].tax_type;
               alert(msg);
             }
           }
@@ -606,6 +634,14 @@ $none = "style='display:none;'";
       }
     }
 
+    // 휴/폐업 중앙회 가입 불가 _20240612_SY
+    if (f.mb_grade.value == 8) {
+      if(f.chk_b_num.value == 0) {
+        alert("레벨을 변경하여 가입해 주십시오.");
+        f.mb_grade.focus();
+        return false;
+      }
+    }
 
     document.getElementById("btn_submit").disabled = "disabled";
 

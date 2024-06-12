@@ -424,7 +424,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .popup.full .pop-inner {position: relative; top: 0; left: 0; transform: none; width: 100%;}
 
 .pop-result {}
-.pop-result-item {padding: 2.4rem; border-radius: 2.4rem; background: var(--color-gray8);}
+.pop-result-item {padding: 2.4rem; border-radius: 2.4rem; background: var(--color-gray8); border: transparent;}
 .pop-result-item ~ .pop-result-item {margin-top: 1.2rem;}
 .pop-result-title {font-size: 2.16rem; font-weight: 500; color: var(--color-black2);}
 .pop-result-text {margin-top: 1.4rem; font-size: 2.16rem; font-weight: 500; color: var(--color-black3);}

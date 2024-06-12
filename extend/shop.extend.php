@@ -94,10 +94,13 @@ $gw_status = array(
 	"8"=>"교환",
 	"9"=>"환불",
 	"10"=>"반품완료",
-	// "11"=>"강제출고",
-	// "12"=>"강제입금",
-	// "13"=>"강제입금완료",
-	// "14"=>"강제출고완료" 
+	"11"=>"환불완료",
+	"12"=>"교환완료",
+	 "13"=>"강제입금",
+	 "14"=>"강제입금완료",
+	 "15"=>"강제출고", 
+	 "16"=>"강제출고완료", 
+	 "0"=>""
 );
 
 // 주문진행단계
@@ -139,19 +142,20 @@ $gw_star = array(
 );
 
 // 메뉴바
+// 메뉴바 주석 해제 함 _20240612_SY
 $gw_menu = array(
-	array("홈",	"/"),
-	// array("쇼핑특가",	"/shop/listtype.php?type=1&menu=sales"),
-	array("베스트",	"/shop/listtype.php?type=2&menu=best"),
-	// array("신상품",		"/shop/listtype.php?type=3&menu=new"),
-	// array("인기상품",	"/shop/listtype.php?type=4&menu=popular"),
-	// array("추천상품",	"/shop/listtype.php?type=5&menu=recomm"),
-	array("기획전",		"/shop/plan.php?menu=exhibition"),
-	array("오늘만할인",	"/shop/timesale.php?menu=timesale"),
-	array("래플응모",	"/raffle/list.php?menu=raffle"),
-  array("중고장터",	"/used/list.php?menu=used"),
-  array("회원사현황",	"/store/list.php?menu=store"),
-  array("제휴서비스",	"/service/list.php?menu=service"),
+	array($default['de_pname_1'],	"/" , $default['de_pname_use_1']),
+	array($default['de_pname_2'],	"/shop/listtype.php?type=1&menu=sales", $default['de_pname_use_2']),
+	array($default['de_pname_3'],	"/shop/listtype.php?type=2&menu=best", $default['de_pname_use_3']),
+	array($default['de_pname_4'],		"/shop/listtype.php?type=3&menu=new", $default['de_pname_use_4']),
+	array($default['de_pname_5'],	"/shop/listtype.php?type=4&menu=popular", $default['de_pname_use_5']),
+	array($default['de_pname_6'],	"/shop/listtype.php?type=5&menu=recomm", $default['de_pname_use_6']),
+	array($default['de_pname_7'],		"/shop/plan.php?menu=exhibition", $default['de_pname_use_7']),
+	array($default['de_pname_8'],	"/shop/timesale.php?menu=timesale", $default['de_pname_use_8']),
+	array($default['de_pname_9'],	"/raffle/list.php?menu=raffle", $default['de_pname_use_9']),
+  array($default['de_pname_10'],	"/used/list.php?menu=used", $default['de_pname_use_10']),
+  array($default['de_pname_11'],	"/store/list.php?menu=store", $default['de_pname_use_11']),
+  array($default['de_pname_12'],	"/service/list.php?menu=service", $default['de_pname_use_12']),
 );
 
 

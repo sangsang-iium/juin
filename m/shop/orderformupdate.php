@@ -174,7 +174,7 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   if($_POST['raffle'] == 1) {
     raffleOrder($gs_first_id, $_POST['raffle_log_index']);
   }
-  
+
 } else if ($_POST['paymethod'] == '신용카드') {
   $gs_first_id = $gs_id[0];
   $gs_count    = count($gs_id);
