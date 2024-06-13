@@ -11,11 +11,12 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         echo '<div class="container">'.PHP_EOL;
 
         $raffleEndCheck = raffleEventDateCheck($row['event_end_date'],$row['prize_date']);
+        $eventDateArr = raffleEventDate($row['raffle_index']);
       ?>
       <div class="order-info">
         <div class="order-info-box">
-          <p class="order-date">2024.01.26</p>
-          <a href="" class="view">
+          <p class="order-date"><?php echo date('Y.m.d',strtotime($row['reg_time'])) ?></p>
+          <a href="/m/raffle/view.php?index_no=<?php echo $row['raffle_index'] ?>" class="view">
             <span>상세보기</span>
             <span><img src="/src/img/order-view-right.png" alt="상세보기"></span>
           </a>
@@ -35,8 +36,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <?php } ?>
           <a href="/m/raffle/view.php?index_no=<?php echo $row['raffle_index'] ?>" class="name"><?php echo $row['goods_name']; ?></a>
           <div class="info">
-            <p class="p_cnt tRow1">20명 참여</p>
-            <p class="date tRow1">응모기간 | 2024.01.01 ~ 2024.01.31</p>
+            <p class="p_cnt tRow1"><?php echo raffleWinnerNumber($row['raffle_index']) ?>명 참여</p>
+            <p class="date tRow1">응모기간 | <?php echo $eventDateArr['event_start_date']." ~ ".$eventDateArr['event_end_date'] ?></p>
           </div>
         </div>
         <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->

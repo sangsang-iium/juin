@@ -129,8 +129,9 @@ EOF;
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
-		<col class="w90">
+		<col class="w90">		
 		<col class="w300">
+		<col class="w90">
 	</colgroup>
 	<thead>
 	<tr>
@@ -146,6 +147,7 @@ EOF;
 		<th scope="col">결제방법</th>
 		<th scope="col">입금자</th>
 		<th scope="col">입금계좌</th>
+		<th scope="col">강제</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -193,6 +195,7 @@ EOF;
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row['deposit_name']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>" class="tal"><?php echo $row['bank']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>" class="tal"><?php echo $gw_status[$row2['dan3']]; ?></td>
 		<?php } ?>
 	<?php
 		}
@@ -223,6 +226,8 @@ EOF;
 		<td>
 			<input type="submit" name="act_button" value="입금완료" class="btn_medium red" onclick="document.pressed=this.value">
 			<input type="submit" name="act_button" value="주문취소" class="btn_medium white" onclick="document.pressed=this.value"> 
+			<input type="submit" name="act_button" value="강제입금" class="btn_medium white" onclick="document.pressed=this.value"> 
+			<input type="submit" name="act_button" value="강제출고" class="btn_medium white" onclick="document.pressed=this.value"> 
 		</td>
 	</tr>
 	</tbody>

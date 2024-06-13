@@ -44,7 +44,7 @@ include_once(BV_PATH.'/include/topMenu.php');
     <!-- } loop -->
 
     <!-- loop { -->
-    <a href="./view.php" class="service-item">
+    <a href="./view03.php" class="service-item">
       <div class="cp-banner__round thumb">
         <img src="/src/img/service/t-service_thumb3.png" alt="주인장 외식업 전문 노무법인" class="fitCover">
       </div>
@@ -61,7 +61,7 @@ include_once(BV_PATH.'/include/topMenu.php');
     <!-- } loop -->
 
     <!-- loop { -->
-    <a href="./view.php" class="service-item">
+    <a href="./view04.php" class="service-item">
       <div class="cp-banner__round thumb">
         <img src="/src/img/service/t-service_thumb4.png" alt="주인장 한국외식업 장례서비스" class="fitCover">
       </div>

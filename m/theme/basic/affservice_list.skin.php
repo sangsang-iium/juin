@@ -35,7 +35,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </ul>
 
       <div class="affservice-list-btn-wr">
-        <button type="button" class="ui-btn stBlack round">제휴서비스 가입하기</button>
+        <a href="/m/service/list.php?menu=service" class="ui-btn stBlack round">제휴서비스 가입하기</a>
       </div>
 
     </div>

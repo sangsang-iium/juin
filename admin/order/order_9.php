@@ -152,6 +152,7 @@ EOF;
 		<th scope="col">총주문액</th>
 		<th scope="col">결제방법</th>
 		<th scope="col">환불상태</th>
+		<th scope="col">환불사유</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -200,6 +201,7 @@ EOF;
 		<td rowspan="<?php echo $rowspan; ?>">
 			<?php echo $row['dan2']!='0'? $gw_status[$row2['dan2']]:""; ?>
 		</td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['return_memo'] ?></td>
 		<?php } ?>
 	<?php
 		}

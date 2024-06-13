@@ -162,7 +162,78 @@ else if($_POST['act_button'] == "운송장번호수정")
 				  where od_no = '{$_POST['od_no'][$k]}' ";
 		sql_query($sql);
 	}
-} else {
+}else if($_POST['act_button'] == "강제입금")
+{
+	
+	for($i=0; $i<$count; $i++)
+	{
+		// 실제 번호를 넘김
+		$k = $_POST['chk'][$i]; 
+		 $sql = " update shop_order
+		 			set dan3='13' 
+		 		  where od_no = '{$_POST['od_no'][$k]}' ";  
+		 sql_query($sql);
+
+		 $sql = " update shop_order
+		 			set dan3='13' 
+		 		  where od_id = '{$_POST['od_id'][$k]}' "; 
+		 sql_query($sql);
+	}
+}
+else if($_POST['act_button'] == "강제출고")
+{
+	for($i=0; $i<$count; $i++)
+	{
+		// 실제 번호를 넘김
+		$k = $_POST['chk'][$i];
+
+		$sql = " update shop_order
+					set dan3='15' 
+				where od_no = '{$_POST['od_no'][$k]}' ";
+		sql_query($sql);
+
+		$sql = " update shop_order
+		 			set dan3='15' 
+		 		  where od_id = '{$_POST['od_id'][$k]}' "; 
+		 sql_query($sql);
+	}
+}
+else if($_POST['act_button'] == "강제입금완료")
+{
+	for($i=0; $i<$count; $i++)
+	{
+		// 실제 번호를 넘김
+		$k = $_POST['chk'][$i]; 
+		$sql = " update shop_order
+					set dan3='14' 
+				where od_no = '{$_POST['od_no'][$k]}' "; 
+		sql_query($sql);
+
+		$sql = " update shop_order
+		 			set dan3='14' 
+		 		  where od_id = '{$_POST['od_id'][$k]}' "; 
+		 sql_query($sql);
+	}
+}
+else if($_POST['act_button'] == "강제출고완료")
+{
+	for($i=0; $i<$count; $i++)
+	{
+		// 실제 번호를 넘김
+		$k = $_POST['chk'][$i];
+
+		$sql = " update shop_order
+					set dan3='16' 
+				where od_no = '{$_POST['od_no'][$k]}' ";
+		sql_query($sql);
+
+		$sql = " update shop_order
+		 			set dan3='16' 
+		 		  where od_id = '{$_POST['od_id'][$k]}' "; 
+		 sql_query($sql);
+	}
+}
+else {
 	alert();
 }
 

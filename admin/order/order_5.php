@@ -170,6 +170,7 @@ EOF;
 		<th scope="col">주문자</th>
 		<th scope="col">수령자</th>
 		<th scope="col">총주문액</th>
+		<th scope="col">강제</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -236,6 +237,7 @@ EOF;
 		</td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row['b_name']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>" class="tal"><?php echo $gw_status[$row2['dan3']]; ?></td>
 		<?php } ?>
 	<?php
 		$chk_cnt++;
@@ -267,6 +269,8 @@ EOF;
 		<td>
 			<input type="submit" name="act_button" value="구매확정" class="btn_medium red" onclick="document.pressed=this.value">
 			<input type="submit" name="act_button" value="구매확정취소" class="btn_medium white" onclick="document.pressed=this.value">
+			<input type="submit" name="act_button" value="강제입금완료" class="btn_medium white" onclick="document.pressed=this.value"> 
+			<input type="submit" name="act_button" value="강제출고완료" class="btn_medium white" onclick="document.pressed=this.value"> 
 		</td>
 	</tr>
 	</tbody>

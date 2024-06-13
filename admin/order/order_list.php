@@ -207,6 +207,11 @@ EOF;
 		$rowspan = sql_num_rows($res);
 		for($k=0; $row2=sql_fetch_array($res); $k++) {
 			$gs = unserialize($row2['od_goods']);
+			$raffleCheck = orderRaffleCheck($row2['od_id']);
+			if($raffleCheck === true) {
+				$gs['gname'] = $gs['goods_name'];
+			}
+			
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<?php if($k == 0) { ?>
@@ -225,8 +230,25 @@ EOF;
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>" id="chk_<?php echo $i; ?>">
 		</td>
 		<?php } ?>
-		<td class="td_img"><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 30, 30); ?></a></td>
-		<td class="td_itname"><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
+		<td class="td_img">
+			<?php if($raffleCheck === true) { 
+				echo "<a href=\"/m/raffle/view.php?index_no=".preg_replace('/000000$/', '', $row2['gs_id'])."\" target=\"_blank\">";
+				echo orderRaffleImg($gs['simg1']);
+				echo "</a>";
+			} else {
+				echo "<a href=\"".BV_SHOP_URL."/view.php?index_no=".$row2['gs_id']."\" target=\"_blank\">";
+					echo get_od_image($row['od_id'], $gs['simg1'], 30, 30);
+				echo "</a>";
+				}
+			?>
+		</td>
+		<td class="td_itname">
+			<?php if($raffleCheck === true) { ?>
+				<a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=raffle_detail&w=u&index_no=<?php echo preg_replace('/000000$/', '', $row2['gs_id']); ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a>
+			<?php } else { ?>
+				<a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a>
+			<?php } ?>
+		</td>
 		<td><?php echo number_format($row2['sum_qty']); ?></td>
 		<td class="tar"><?php echo number_format($row2['goods_price']); ?></td>
 		<td class="tar"><?php echo number_format($row2['baesong_price']); ?></td>

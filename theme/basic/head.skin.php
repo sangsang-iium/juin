@@ -12,12 +12,12 @@ if (!empty($paytype)) {
 ?>
 
 <style>
-	#gnb {border-bottom: none;}
+	/* #gnb {border-bottom: none;}
 	#gnb_inner {height: auto; width: 1400px; max-width: 100%; padding-left: 0;}
 	#gnb_inner .all_cate {position: static;}
 	#gnb_inner .all_cate .con_bx {position: static; display: block; padding:0;}
 	#gnb_inner .all_cate .con_bx .c_box {padding:0;}
-	.c_box .active a {color: red; font-weight:600}
+	.c_box .active a {color: red; font-weight:600} */
 </style>
 
 <div id="wrapper">
@@ -76,15 +76,21 @@ if (!empty($paytype)) {
 						<div class="con_bx">
 							<ul>
 							<?php
+                            // 메뉴 on 여부 변수 김민규
+							$menu_check = substr($_GET["ca_id"],0, 3);
+							$menu_on = "";
+
 							$mod = 5;
 							$res = sql_query_cgy('all');
 							for($i=0; $row=sql_fetch_array($res); $i++) {
 								$href = '/mng/?ca_id='.$row['catecode'];
-
+                                $menu_on = $menu_check == $row['catecode'] ? 'menu_on' : '';
 								// if($i && $i%$mod == 0) echo "</ul>\n<ul>\n";
 							?>
 								<li class="c_box">
-									<a href="<?php echo $href; ?>" class="cate_tit"><?php echo $row['catename']; ?></a>
+									<div class="c_boxTitle">
+                                        <a href="<?php echo $href; ?>" class="cate_tit <?php echo $menu_on ?>"><?php echo $row['catename']; ?></a>
+                                    </div>
 									<?php
 									$r = sql_query_cgy($row['catecode'], 'COUNT');
 									if($r['cnt'] > 0) {
