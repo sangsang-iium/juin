@@ -974,7 +974,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"포인트\" id=\"de_point\">\n";
-              $multi_settle .= "<label for=\"de_point\">포인트결제</label>\n";
+              // 포인트결제 주석 _20240613_SY
+              // $multi_settle .= "<label for=\"de_point\">포인트결제</label>\n";
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
             }

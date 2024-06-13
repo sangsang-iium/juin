@@ -4,27 +4,42 @@ if(!defined('_BLUEVATION_')) exit;
 ?>
 
   <div id="con_lf">
-    <h2 class="pg_tit">
-      <span><?php echo $tb['title']; ?></span>
-      <p class="pg_nav">HOME<i>&gt;</i>마이페이지<i>&gt;</i><?php echo $tb['title']; ?></p>
-    </h2>
-
-    <div class="sub_tree">
-      <span>
-        <a href="/mng/shop/orderinquiry.php" class="f_now">이전상품주문</a> / 
-        <a href="/mng/">주문가능상품</a>
-      </span>
+    <div class="lc_wrap">
+      <h4 class="htag_title"><?php echo $tb['title']; ?> </h4>
+      <div class="pg_nav">
+        <a href="/mng/" class="pg_home">HOME</a>
+        <i>&gt;</i>
+        <p>마이페이지</p>
+        <i>&gt;</i>
+        <p><?php echo $tb['title']; ?></p>
+      </div>
     </div>
 
-    <h2 class="anc_tit fl_between" >
+    <ul class="btn_wrap type02 tal">
+        <li class="marr10">
+            <a href="/mng/shop/orderinquiry.php" class="link_type1">
+                <span>
+                    이전상품주문
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/mng/" class="link_type2">
+                <span>
+                    주문가능상품
+                </span>
+            </a>
+        </li>
+    </ul>
+    <h5 class="htag_title mart50 marb20">
       <span>상세보기 버튼을 클릭하시면 주문상세내역을 조회하실 수 있습니다.</span>
-    </h2>
-    <div class="tbl_head02 tbl_wrap prod_list2">
+    </h5>
+    <div class="tbl_head01 tbl_wrap prod_list2">
       <table>
       <colgroup>
-        <col class="w90">
+        <col class="w150">
         <col>
-        <col class="w100">
+        <col class="w120">
         <col class="w140">
         <col class="w140">
       </colgroup>
@@ -64,27 +79,19 @@ if(!defined('_BLUEVATION_')) exit;
       <tr class="rows">
         <td>
           <div class="ini_wrap">
-            <table class="wfull">
-            <colgroup>
-              <col class="w70">
-              <col>
-            </colgroup>
-            <tr>
-              <td class="vat tal"><a href="<?php echo $href; ?>"><?php echo get_od_image($od['od_id'], $gs['simg1'], 60, 60); ?></a></td>
-              <td class="vat tal">
+              <a href="<?php echo $href; ?>"><?php echo get_od_image($od['od_id'], $gs['simg1'], 60, 60); ?></a>
+              <div class="img_text_box">
                 <a href="<?php echo $href; ?>"><?php echo get_text($gs['gname']); ?></a>
                 <p class="padt3 fc_999">주문번호 : <?php echo $od['od_id']; ?> / 수량 : <?php echo display_qty($od['sum_qty']); ?> / 배송비 : <?php echo display_price($od['baesong_price']); ?></p>
-                <?php if($od['dan'] == 5) { ?>
-                <p class="padt3">
-                  <?php if(is_null_time($od['user_date'])) { ?>
-                  <a href="javascript:final_confirm('<?php echo $hash; ?>');" class="btn_ssmall red">구매확정</a>
-                  <?php } ?>
-                  <a href="<?php echo BV_SHOP_URL; ?>/orderreview.php?gs_id=<?php echo $od['gs_id']; ?>&od_id=<?php echo $od['od_id']; ?>" onclick="win_open(this, 'winorderreview', '650', '530','yes');return false;" class="btn_ssmall bx-white">구매후기 작성</a>
-                </p>
+              </div>
+              <?php if($od['dan'] == 5) { ?>
+              <p class="padt3">
+                <?php if(is_null_time($od['user_date'])) { ?>
+                <a href="javascript:final_confirm('<?php echo $hash; ?>');" class="btn_ssmall red">구매확정</a>
                 <?php } ?>
-              </td>
-            </tr>
-            </table>
+                <a href="<?php echo BV_SHOP_URL; ?>/orderreview.php?gs_id=<?php echo $od['gs_id']; ?>&od_id=<?php echo $od['od_id']; ?>" onclick="win_open(this, 'winorderreview', '650', '530','yes');return false;" class="btn_ssmall bx-white">구매후기 작성</a>
+              </p>
+              <?php } ?>
           </div>
         </td>
         <td class="tar"><?php echo display_price($od['use_price']); ?></td>

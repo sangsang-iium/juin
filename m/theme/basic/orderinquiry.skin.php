@@ -74,7 +74,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         <?php if($ct['raffle'] != 1) { ?>
         <div class="ord-btn-wr">
           <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
+          
           <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
+          
           <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
           <?php
             // 환불 버튼 생성  20240527 박원주
@@ -123,7 +125,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <div id="review-popup" class="popup type02 add-popup">
   <div class="pop-inner">
     <div class="pop-top">
-      <p class="tit">리뷰 작성</p>
+      <p class="tit">리뷰 </p>
       <button type="button" class="btn close"></button>
     </div>
     <div class="pop-content line">
@@ -132,6 +134,35 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     </div>
   </div>
 </div>
+
+<div id="return-popup2" class="popup type01 add-popup">
+      <div class="pop-inner">
+        <div class="pop-top">
+          <p class="tit return-popup2-title1">환불 사유</p>
+        </div>
+        <div class="pop-content">
+          <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
+            <input type="hidden" name="odId" id="order_send"  value="<?php echo $od_id; ?>"> 
+            <input type="hidden" name="evt" id="evt"  value="<?php echo $od_id; ?>">  
+            <div class="form-row">
+              <div class="form-head">
+                <p class="title return-popup2-title2">환불 사유<b>*</b></p>
+              </div>
+              <div class="form-body input-button">
+                <input type="text" name="return_memo" id="return_memo" required class="frm-input" maxlength="100" placeholder="사유를 입력해주세요.">
+                <input type="submit" value="확인" class="ui-btn st3">
+              </div>
+            </div>
+
+          </form>
+        </div>
+        <div class="pop-btm">
+          <button type="button" class="ui-btn round stBlack close">취소</button>
+        </div>
+      </div>
+</div>
+
+ 
 
 <script type="module">
 import * as f from '/src/js/function.js';
@@ -172,63 +203,100 @@ document.querySelectorAll(".reoder-btn").forEach(btn => {
 
 //환불  20240527 박원주
 document.querySelectorAll(".return-money").forEach(btn => {
+
   btn.addEventListener("click", function(event) {
     const odId = event.currentTarget.dataset.odId;
-    console.log(odId)
-    $.ajax({
-         url: "./orderinquiry_update.php",
-        type: "POST",
-        data: { "odId": odId,"evt":"return-money" },
-        dataType: "json",
-        async: false,
-        cache: false,
-        success: function(data, textStatus) {
-          document.location.href = data.url;
-          return false;
-        }
-    });
-
+    
+    $("#order_send").prop('value',odId);
+    $("#evt").prop('value',"return-money");
+    $(".return-popup2-title1,.return-popup2-title2").text("환불사유");
+    const popId ="#return-popup2";
+    const reqPathUrl = "./orderreview.php";
+    const reqMethod = "GET";
+    const reqData = { odId: odId}; 
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
+  // btn.addEventListener("click", function(event) {
+  //   const odId = event.currentTarget.dataset.odId;
+  //   console.log(odId)
+  //   $.ajax({
+  //        url: "./orderinquiry_update.php",
+  //       type: "POST",
+  //       data: { "odId": odId,"evt":"return-money" },
+  //       dataType: "json",
+  //       async: false,
+  //       cache: false,
+  //       success: function(data, textStatus) {
+  //         document.location.href = data.url;
+  //         return false;
+  //       }
+  //   });
+
+  // });
 });
 //교환  20240527 박원주
 document.querySelectorAll(".change-product").forEach(btn => {
+  // btn.addEventListener("click", function(event) {
+  //   const odId = event.currentTarget.dataset.odId;
+  //   console.log(odId)
+  //   $.ajax({
+  //     url: "./orderinquiry_update.php",
+  //       type: "POST",
+  //       data: { "odId": odId,"evt":"change-product" },
+  //       dataType: "json",
+  //       async: false,
+  //       cache: false,
+  //       success: function(data, textStatus) {
+  //         document.location.href = data.url; 
+  //         return false;
+  //       }
+  //   });
+
+  // });
+
   btn.addEventListener("click", function(event) {
     const odId = event.currentTarget.dataset.odId;
-    console.log(odId)
-    $.ajax({
-      url: "./orderinquiry_update.php",
-        type: "POST",
-        data: { "odId": odId,"evt":"change-product" },
-        dataType: "json",
-        async: false,
-        cache: false,
-        success: function(data, textStatus) {
-          document.location.href = data.url;
-
-          return false;
-        }
-    });
-
+    
+    $("#order_send").prop('value',odId);
+    $("#evt").prop('value',"change-product");
+    $(".return-popup2-title1,.return-popup2-title2").text("교환사유");
+    const popId ="#return-popup2";
+    const reqPathUrl = "./orderreview.php";
+    const reqMethod = "GET";
+    const reqData = { odId: odId}; 
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
 });
 //반품 20240527 박원주
 document.querySelectorAll(".return-product").forEach(btn => {
+  // btn.addEventListener("click", function(event) {
+  //   const odId = event.currentTarget.dataset.odId;
+  //   console.log(odId)
+  //   $.ajax({
+  //     url: "./orderinquiry_update.php",
+  //       type: "POST",
+  //       data: { "odId": odId,"evt":"return-product" },
+  //       dataType: "json",
+  //       async: false,
+  //       cache: false,
+  //       success: function(data, textStatus) {
+  //         document.location.href = data.url;
+  //         return false;
+  //       }
+  //   });
+
+  // });
   btn.addEventListener("click", function(event) {
     const odId = event.currentTarget.dataset.odId;
-    console.log(odId)
-    $.ajax({
-      url: "./orderinquiry_update.php",
-        type: "POST",
-        data: { "odId": odId,"evt":"return-product" },
-        dataType: "json",
-        async: false,
-        cache: false,
-        success: function(data, textStatus) {
-          document.location.href = data.url;
-          return false;
-        }
-    });
-
+    
+    $("#order_send").prop('value',odId);
+    $("#evt").prop('value',"return-product");
+    $(".return-popup2-title1,.return-popup2-title2").text("반품사유");
+    const popId ="#return-popup2";
+    const reqPathUrl = "./orderreview.php";
+    const reqMethod = "GET";
+    const reqData = { odId: odId}; 
+    f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
 });
 

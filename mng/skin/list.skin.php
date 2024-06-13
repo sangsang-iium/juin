@@ -88,7 +88,7 @@ function get_item_options2($gs_id, $subject)
         $str .= '<dl>'.PHP_EOL;
         $str .= '<dt><label for="it_option_'.$seq.'" class="sound_only">'.$subj[$i].'</label></dt>'.PHP_EOL;
 
-        $select  = '<select id="it_option_'.$seq.'" class="it_option wfull"'.$disabled.'>'.PHP_EOL;
+        $select  = '<select id="it_option_'.$seq.'" class=" wfull"'.$disabled.'>'.PHP_EOL;
         $select .= '<option value="">'.$subj[$i].'</option>'.PHP_EOL;
         for($k=0; $k<$opt_count; $k++) {
           $opt_val = $opt[$k];
@@ -98,7 +98,7 @@ function get_item_options2($gs_id, $subject)
         }
         $select .= '</select>'.PHP_EOL;
 
-        $str .= '<dd class="li_select">'.$select.'</dd>'.PHP_EOL;
+        $str .= '<dd class="chk_select w100p">'.$select.'</dd>'.PHP_EOL;
         $str .= '</dl>'.PHP_EOL;
       }
     }
@@ -106,7 +106,7 @@ function get_item_options2($gs_id, $subject)
     $str .= '<dl>'.PHP_EOL;
     $str .= '<dt><label for="it_option_1" class="sound_only">'.$subj[0].'</label></dt>'.PHP_EOL;
 
-    $select  = '<select id="it_option_1" class="it_option wfull">'.PHP_EOL;
+    $select  = '<select id="it_option_1" class="wfull">'.PHP_EOL;
     $select .= '<option value="">'.$subj[0].'</option>'.PHP_EOL;
     for($i=0; $row=sql_fetch_array($result); $i++) {
       if($row['io_price'] >= 0)
@@ -123,7 +123,7 @@ function get_item_options2($gs_id, $subject)
     }
     $select .= '</select>'.PHP_EOL;
 
-    $str .= '<dd class="li_select">'.$select.'</dd>'.PHP_EOL;
+    $str .= '<dd class="chk_select w100p">'.$select.'</dd>'.PHP_EOL;
     $str .= '</dl>'.PHP_EOL;
   }
   return $str;
@@ -173,8 +173,10 @@ function get_move_pc($ca_id)
 {
 	$str = "";
 
-	$len = strlen($ca_id);
-	for($i=1;$i<=($len/3);$i++) {
+    // 카테고리 리스트 김민규
+	$len = $_GET["paytype"] ? 2 : 1;
+	//for($i=1;$i<=($len/3);$i++) {
+	for($i=1;$i<=$len;$i++) {
 		$cut_id = substr($ca_id,0,($i*3));
 		$row = sql_fetch("select * from shop_category where catecode='$cut_id' ");
 
@@ -188,42 +190,63 @@ function get_move_pc($ca_id)
 ?>
 
 <div class="prod_wrap">
-  <h2 class="pg_tit">
-    <span><?php echo $ca['catename']; ?></span>
-    <p class="pg_nav">HOME<?php echo get_move_pc($ca_id); ?></p>
-  </h2>
-  <div id="" class="sub_tree">
-    <fieldset class="sch_frm">
-      <form name="fsearch" id="fsearch" method="post" onsubmit="return fsearch_submit(this);" autocomplete="off" class="f_between">
-        <div class="msg_sch_left">
-          <span>
-            <a href="/mng/shop/orderinquiry.php">이전상품주문</a> /
-            <a href="/mng/" class="f_now">주문가능상품</a>
-          </span>
+    <div class="lc_wrap">
+        <h4 class="htag_title"><?php echo $ca['catename']; ?></h4>
+        <div class="pg_nav">
+            <a href="/mng/" class="pg_home">HOME</a>
+            <?php echo get_move_pc($ca_id); ?>
         </div>
-        <div class="msg_sch_right">
-          <span>
-            <a href="/mng/?paytype=2" class="<?php echo $paytype == "2"?"f_now":"" ?>">일반배송</a>
-            <a href="/mng/?paytype=1" class="<?php echo $paytype == "1"?"f_now":"" ?>">정기배송</a>
-          </span>
-          <span>
-          <input type="hidden" name="hash_token" value="<?php echo BV_HASH_TOKEN; ?>">
-          <input type="text" name="stx" class="" maxlength="20" placeholder="검색어를 입력해주세요">
-          <button type="submit" class="sch_submit fa fa-search" value="검색"></button>
-          </span>
-        </div>
-        </form>
-        <script>
-          function fsearch_submit(f){
-            if(!f.stx.value){
-              alert('검색어를 입력하세요.');
-              return false;
-            }
-            return true;
-          }
-        </script>
-    </fieldset>
-  </div>
+    </div>
+    <div id="" class="search_box">
+        <fieldset class="sch_frm">
+            <form name="fsearch" id="fsearch" method="post" onsubmit="return fsearch_submit(this);" autocomplete="off" class="">
+                <ul class="btn_wrap type02 tal">
+                    <li class="marr10">
+                        <a href="/mng/shop/orderinquiry.php" class="link_type1">
+                            <span>
+                                이전상품주문
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/mng/" class="link_type2">
+                            <span>
+                                주문가능상품
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="search_container mart20">
+                    <ul class="tap_menu">
+                        <li>
+                            <a href="/mng/?paytype=2" class="<?php echo $paytype == "2"?"f_now":"" ?>">
+                                <span>일반배송</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/mng/?paytype=1" class="<?php echo $paytype == "1"?"f_now":"" ?>">
+                                <span>정기배송</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="search_input_box">
+                        <input type="hidden" name="hash_token" value="<?php echo BV_HASH_TOKEN; ?>">
+                        <input type="text" name="stx" class="" maxlength="20" placeholder="검색어를 입력해주세요">
+                        <button type="submit" class="sch_submit fa fa-search fs18" value="검색"></button>
+                    </div>
+                </div>
+            </form>
+            <script>
+                function fsearch_submit(f){
+                    if(!f.stx.value){
+                    alert('검색어를 입력하세요.');
+                    return false;
+                    }
+                    return true;
+                }
+            </script>
+        </fieldset>
+    </div>
 
   <?php
   $cgy = get_category_head_image($ca_id);
@@ -240,7 +263,7 @@ function get_move_pc($ca_id)
     <li style="width:20%" class= "<?php //echo $ca_id == "006"?"active":"" ?>"><a href="https://juinjang.kr/mng/?ca_id=006">회원 전용관</a></li>
   </ul> -->
 
-  <div class="tab_sort">
+  <div class="tab_sort fs14">
     <span class="total">전체상품 <b class="fc_90" id="total"><?php echo number_format($total_count); ?></b>개</span>
     <ul>
       <?php echo $sort_str; // 탭메뉴 ?>
@@ -296,16 +319,19 @@ function get_move_pc($ca_id)
                   switch ($row['sc_type']) {
                     case '1':
                       $scType = "택배";
+                      $scClass = 'sc_tac';
                       break;
                     case '4':
                       $scType = "차량";
+                      $scClass = 'sc_car';
                       break;
 
                     default:
                       $scType ="택배";
+                      $scClass = 'sc_tac';
                       break;
                   }
-                  echo "<span style='background-color: black;color: white;position: absolute;top: 0;right: 0;'>$scType</span>";
+                  echo "<span class='sc_type $scClass'>$scType</span>";
                 ?>
               </dt>
               <dd class="pname"><?php echo $it_name; ?></dd>
