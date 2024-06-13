@@ -135,6 +135,7 @@ EOF;
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
+		<col class="w90">
 		<col>
 	</colgroup>
 	<thead>
@@ -150,6 +151,7 @@ EOF;
 		<th scope="col">총주문액</th>
 		<th scope="col">결제방법</th>
 		<th scope="col">거래증빙</th>
+		<th scope="col">강제</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -202,6 +204,7 @@ EOF;
 		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_taxbill']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>" class="tal"><?php echo $gw_status[$row2['dan3']]; ?></td>
 		<?php } ?>
 	<?php
 		$chk_cnt++;
@@ -233,7 +236,8 @@ EOF;
 		<td>
 			<input type="submit" name="act_button" value="배송준비" class="btn_medium red" onclick="document.pressed=this.value">
 
-			
+			<input type="submit" name="act_button" value="강제입금" class="btn_medium white" onclick="document.pressed=this.value"> 
+			<input type="submit" name="act_button" value="강제출고" class="btn_medium white" onclick="document.pressed=this.value"> 
 			
 			<!-- <input type="submit" name="act_button" value="전체환불" class="btn_lsmall white" onclick="document.pressed=this.value">
 			

@@ -147,7 +147,7 @@ if(!$gs['use_aff'] && $config['coupon_yes']) {
 
 	// 쿠폰발급 (적용가능쿠폰)
 	if($is_member)
-		$cp_btn = "<a href=\"".BV_SHOP_URL."/pop_coupon.php?gs_id=$index_no\" onclick=\"win_open(this,'win_coupon','670','500','yes');return false\" class=\"btn_small bx-blue\">적용가능쿠폰</a>";
+		$cp_btn = "<a href=\"".BV_SHOP_URL."/pop_coupon.php?gs_id=$index_no\" onclick=\"win_open(this,'win_coupon','670','500','yes');return false\" class=\"btn_ssmall bx-blue\">적용가능쿠폰</a>";
 	else
 		$cp_btn = "<a href=\"javascript:alert('로그인 후 이용 가능합니다.')\" class=\"btn_ssmall bx-blue\">적용가능쿠폰</a>";
 }
@@ -171,7 +171,7 @@ include_once("./_head.php");
 include_once(BV_LIB_PATH.'/goodsinfo.lib.php');
 include_once(BV_SHOP_PATH.'/settle_naverpay.inc.php');
 
-include_once(BV_PATH.'/mng/skin/view.skin.php');
+include_once(BV_PATH.'/mng/skin/view.skin_240613.php');
 
 include_once("./_tail.php");
 ?>

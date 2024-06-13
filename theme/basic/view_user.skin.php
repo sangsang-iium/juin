@@ -4,10 +4,16 @@ if(!defined('_BLUEVATION_')) exit;
 
 <a name="it_comment"></a>
 <div class="bx-danger">
-	전체 <b><?php echo $item_use_count; ?></b>건의 상품평이 있습니다. 상품평 이외에 다른 목적이나 불건전한 내용을 올리실 경우 삭제 처리될 수 있습니다.
+	전체 <b class="fc_red"><?php echo $item_use_count; ?></b>건의 상품평이 있습니다. 상품평 이외에 다른 목적이나 불건전한 내용을 올리실 경우 삭제 처리될 수 있습니다.
 </div>
 
 <table class="wfull">
+    <colgroup>
+        <col />
+        <col width="130px" />
+        <col width="120px" />
+        <col width="120px" />
+    </colgroup>
 <?php
 $sql = "select * from shop_goods_review where gs_id = '$index_no' ";
 if($default['de_review_wr_use']) {
@@ -21,9 +27,9 @@ while($row = sql_fetch_array($res)) {
 ?>
 <tr>
 	<td class="tal padl10 padt15 padb10 lh6"><?php if(is_admin() || ($member['id'] == $row['mb_id'])) { ?><a href="javascript:tdel('<?php echo BV_SHOP_URL; ?>/view_user_update.php?index_no=<?php echo $index_no; ?>&it_mid=<?php echo $row['index_no']; ?>&mode=d');"><img src="<?php echo BV_IMG_URL; ?>/icon/icon_x.gif" width="15" height="15" align="absmiddle"></a>&nbsp;&nbsp;<?php } ?><?php echo $row['memo']; ?></td>
-	<td width="130" class="tac"><?php echo $wr_id; ?></td>
-	<td width="80" class="tac"><?php echo $wr_time; ?></td>
-	<td width="80" class="tac"><?php for($i=0;$i<(int)$row['score'];$i++) { ?><img src="<?php echo BV_IMG_URL; ?>/sub/comment_start.jpg" align="absmiddle"><?php } ?></td>
+	<td class="tac"><?php echo $wr_id; ?></td>
+	<td class="tac"><?php echo $wr_time; ?></td>
+	<td class="tac"><?php for($i=0;$i<(int)$row['score'];$i++) { ?><img src="<?php echo BV_IMG_URL; ?>/sub/comment_start.jpg" align="absmiddle"><?php } ?></td>
 </tr>
 <tr><td height="1" bgcolor="#eeeeee" colspan="4"></td></tr>
 <?php } ?>

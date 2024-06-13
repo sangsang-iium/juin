@@ -67,11 +67,14 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
                 $rw = get_order($row['od_no'],'*',$shop_table);
                 $gs = unserialize($rw['od_goods']);
                 
-                if($raffleCheck) $gs['gname'] = $gs['goods_name'];
-
                 $hash = md5($rw['gs_id'].$rw['od_no'].$rw['od_id']);
                 $dlcomp = explode('|', trim($rw['delivery']));
                 $href = BV_MSHOP_URL.'/view.php?gs_id='.$rw['gs_id'];
+                
+                if($raffleCheck) {
+                  $gs['gname'] = $gs['goods_name'];
+                  $href = "/m/raffle/view.php?index_no=".preg_replace('/000000$/', '', $rw['gs_id']);
+                }
 
                 unset($it_name);
                 $it_options = mobile_print_complete_options($row['gs_id'], $row['od_id']);
