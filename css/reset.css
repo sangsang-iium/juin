@@ -47,7 +47,7 @@ form, fieldset, legend, input, textarea, button, select{margin:0;padding:0;}
 body, div, table, th, td, pre, blockquote, thead, tfoot,
 input, button, textarea, ol, li, ul, dl, dt, dd{font-family:"Noto Sans KR", sans-serif, '나눔고딕','Nanum Gothic','맑은고딕','Malgun Gothic','gulim','arial', 'Dotum', 'AppleGothic', sans-serif;font-weight:500;letter-spacing:-0.05em;}
 body, div, table, th, td, pre, blockquote, em{font-weight:normal;font-style:normal;color:#454545;}
-body, div, table, th, td, pre, blockquote{font-size:12px;}
+body, div, table, th, td, pre, blockquote{font-size:16px;}
 h1, h2, h3, h4, h5, h6{font-size:1em;font-weight:600;}
 b, strong{font-weight:600;}
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{display:block;}
@@ -58,7 +58,7 @@ input, textarea{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-siz
 button{background-color:transparent;cursor:pointer;border:0;}
 legend{position:absolute;width:0;height:0;font-size:0;line-height:0;text-indent:-9999em;overflow:hidden;}
 hr{display:none;}
-select{font-size:12px;height:23px;padding:1px;border:1px solid #ccc;background:#fff;}
+select{font-size:16px;height:23px;padding:1px;border:1px solid #ccc;background:#fff;}
 ol, li, ul, dl, dt, dd{list-style-type:none;list-style:none;text-align:left;position:static;overflow:hidden;}
 a:link, a:visited{color:#454545;text-decoration:none;}
 a:hover, a:focus, a:active{color:#454545;text-decoration:underline;}
@@ -66,4 +66,4 @@ table{border-collapse:collapse;border-spacing:0;}
 table caption{height:0;font-size:0;line-height:0;overflow:hidden;}
 table th{background-color:#f8f8f8;white-space:nowrap;text-overflow:ellipsis;line-height:1.3em;}
 table, th, thead, tfoot{outline:0;}
-thead, tfoot{font-size:12px;line-height:1em;vertical-align:baseline;}
+thead, tfoot{font-size:16px;line-height:1em;vertical-align:baseline;}

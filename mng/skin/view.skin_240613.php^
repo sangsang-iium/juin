@@ -12,59 +12,55 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="sw_direct">
 
 <p class="tit_navi marb15"><?php echo $navi; ?></p>
-<div class="itme_view_container">
-	<div class="item_slide_box">
+<div class="vi_info">
+	<div class="vi_img_bx" style="width:<?php echo $default['de_item_medium_wpx']; ?>px">
 		<?php if($is_social_ing) { include_once(BV_THEME_PATH.'/time.skin.php'); } ?>
 		<?php if($is_social_end) { ?><div class="t_social"><?php echo $is_social_txt; ?></div><?php } ?>
 
-		<!-- <div class="bimg">
+		<div class="bimg">
 			<?php echo get_it_image($index_no, $gs['simg2'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx'], "id='big'"); ?>
-		</div> -->
+		</div>
 		<div class="simg_li">
-            <?php
-            for($i=2; $i<=6; $i++) {
-                $it_image = $gs['simg'.$i];
-                if(!$it_image) continue;
+			<ul>
+				<?php
+				for($i=2; $i<=6; $i++) {
+					$it_image = $gs['simg'.$i];
+					if(!$it_image) continue;
 
-                $thumbnails = get_it_image_url($index_no, $it_image, $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
-            ?>
-            <li><img src="<?php echo $thumbnails; ?>" onmouseover="document.all['big'].src='<?php echo $thumbnails; ?>'"></li>
-            <?php } ?>
+					$thumbnails = get_it_image_url($index_no, $it_image, $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
+				?>
+				<li><img src="<?php echo $thumbnails; ?>" onmouseover="document.all['big'].src='<?php echo $thumbnails; ?>'"></li>
+				<?php } ?>
+			</ul>
 		</div>
 	</div>
-	<div class="item_info_box">
-        <div class="item_title">
-            <h3>
-                <?php echo $gs['gname']; ?>
-            </h3>
-            <div class="bntBox mart10 marb10">
-                <?php if(is_admin()) { ?><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $index_no; ?>" target="_blank" class="link_type">수정</a><?php } ?>
-                <?php if($gs['explan']) { ?>
-                <p><?php echo $gs['explan']; ?></p>
-                <?php } ?>
-            </div>
-        </div>
+	<div class="vi_txt_bx">
+		<h2 class="tit">
+			<?php echo $gs['gname']; ?>
+			<?php if(is_admin()) { ?><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $index_no; ?>" target="_blank" class="btn_small red">수정</a><?php } ?>
+			<?php if($gs['explan']) { ?>
+			<p class="stxt"><?php echo $gs['explan']; ?></p>
+			<?php } ?>
+		</h2>
 		<?php if(!$is_only) { ?>
-            <div class="vi_txt_bx">
-                <div class="price_bx">
-                    <?php if(!$is_pr_msg && !$is_buy_only && !$is_soldout && $gs['normal_price']) { ?>
-                    <dl>
-                        <dt>시중가격</dt>
-                        <dd class="f_price"><?php echo display_price2($gs['normal_price']); ?></dd>
-                    </dl>
-                    <?php } ?>
-                    <dl>
-                        <dt class="padt5">판매가격</dt>
-                        <dd class="price"><?php echo get_price($index_no); ?></dd>
-                    </dl>
-                    <?php if(is_partner($member['id']) && $config['pf_payment_yes']) { ?>
-                    <dl>
-                        <dt class="padt5">판매수익</dt>
-                        <dd class="pay"><?php echo display_price2(get_payment($index_no)); ?></dd>
-                    </dl>
-                    <?php } ?>
-                </div>
-            </div>
+		<div class="price_bx">
+			<?php if(!$is_pr_msg && !$is_buy_only && !$is_soldout && $gs['normal_price']) { ?>
+			<dl>
+				<dt>시중가격</dt>
+				<dd class="f_price"><?php echo display_price2($gs['normal_price']); ?></dd>
+			</dl>
+			<?php } ?>
+			<dl>
+				<dt class="padt5">판매가격</dt>
+				<dd class="price"><?php echo get_price($index_no); ?></dd>
+			</dl>
+			<?php if(is_partner($member['id']) && $config['pf_payment_yes']) { ?>
+			<dl>
+				<dt class="padt5">판매수익</dt>
+				<dd class="pay"><?php echo display_price2(get_payment($index_no)); ?></dd>
+			</dl>
+			<?php } ?>
+		</div>
 		<?php } ?>
 		<div class="vi_txt_li">
 			<dl>
@@ -117,7 +113,7 @@ if(!defined('_BLUEVATION_')) exit;
 			</dl>
 			<dl>
 				<dt>고객상품평</dt>
-				<dd>상품평 : <?php echo $item_use_count; ?>건,&nbsp;&nbsp;&nbsp; 평점 : <img src="<?php echo BV_IMG_URL; ?>/sub/view_score_<?php echo $star_score; ?>.gif"></dd>
+				<dd>상품평 : <?php echo $item_use_count; ?>건, 평점 : <img src="<?php echo BV_IMG_URL; ?>/sub/view_score_<?php echo $star_score; ?>.gif"></dd>
 			</dl>
 			<!-- <dl>
 				<dt>상품URL 소셜 공유</dt>
@@ -174,10 +170,10 @@ if(!defined('_BLUEVATION_')) exit;
 							<span class="sit_opt_prc"></span>
 						</dt>
 						<dd class="li_ea">
-							<div class="item_counter">
-								<button type="button" class="item_counter_m">감소</button><input type="text" name="ct_qty[<?php echo $index_no; ?>][]" value="<?php echo $odr_min; ?>" class="item_counter_n" title="수량설정" size="2"><button type="button" class="item_counter_p">증가</button>
-							</div>
-							<p class="fs14 mart5">(재고수량 : <?php echo $gs['stock_mod'] ? display_qty($gs['stock_qty']) : '무제한'; ?>)</p>
+							<span>
+								<button type="button" class="defbtn_minus">감소</button><input type="text" name="ct_qty[<?php echo $index_no; ?>][]" value="<?php echo $odr_min; ?>" class="inp_opt" title="수량설정" size="2"><button type="button" class="defbtn_plus">증가</button>
+							</span>
+							<span class="marl7">(재고수량 : <?php echo $gs['stock_mod'] ? display_qty($gs['stock_qty']) : '무제한'; ?>)</span>
 						</dd>
 					</dl>
 				</li>
@@ -206,14 +202,6 @@ if(!defined('_BLUEVATION_')) exit;
 	</div>
 </div>
 </form>
-
-<!-- 슬라이드_김민규 -->
- <script>
-    $(document).ready(function(){
-        $(".simg_li").slick()
-    });
- </script>
-<!-- 슬라이드_김민규 -->
 
 <?php
 $sql = " select b.*
@@ -294,8 +282,7 @@ if($rel_count > 0) {
 			$info_array = $item_info[$gubun]['article'];
 	?>
 	<div class="mart20 marb30">
-		<h5 class="htag_title">전자상거래 등에서의 상품정보제공고시</h5>
-        <p class="gap20"></p>
+		<h2 class="anc_tit">전자상거래 등에서의 상품정보제공고시</h2>
 		<div class="tbl_frm01 tbl_wrap">
 			<table>
 			<colgroup>

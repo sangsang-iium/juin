@@ -235,6 +235,17 @@ function ymdhisToYmdhi($date) {
   }
 }
 
+function raffleEventDate($raffle_index) {
+  $sql = " SELECT event_start_date, event_end_date FROM shop_goods_raffle WHERE index_no = '$raffle_index' ";
+  $res = sql_fetch($sql);
+
+  $eventDateArr = array();
+  $eventDateArr['event_start_date'] = date('Y.m.d',strtotime($res['event_start_date']));
+  $eventDateArr['event_end_date'] = date('Y.m.d',strtotime($res['event_end_date']));
+  
+  return $eventDateArr;
+}
+
 
 function get_raffle_ahead($it_img, $it_img_del)
 {
@@ -463,4 +474,29 @@ function raffle_save_goods_data($gs_id, $odrno, $od_id, $shop_table = "shop_orde
 			@chmod($file_url, BV_FILE_PERMISSION);
 		}
 	}
+}
+
+
+function orderRaffleCheck($od_id) {
+  $sql = " SELECT raffle FROM shop_cart WHERE od_id = '$od_id' ";
+  $res = sql_fetch($sql);
+  if($res['raffle'] == 1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function orderRaffleImg($it_img) {
+
+  if(!trim($it_img)) return;
+
+	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == true)
+		$file_url = $it_img;
+	else
+		$file_url = BV_DATA_URL."/raffle/".$it_img;
+
+	$str  = "<img src=\"".$file_url."\" width=\"30\" height=\"30\">";
+
+	return $str;
 }
