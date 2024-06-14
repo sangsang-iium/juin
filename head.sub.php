@@ -44,6 +44,7 @@ if($config['add_meta'])
 <link rel="stylesheet" href="<?php echo BV_CSS_URL; ?>/default.css?ver=<?php echo BV_CSS_VER;?>">
 <?php if(defined('BV_THEME_URL')) { ?>
 <link rel="stylesheet" href="<?php echo BV_THEME_URL; ?>/style.css?ver=<?php echo BV_CSS_VER;?>">
+<link rel="stylesheet" href="<?php echo BV_ADMIN_URL; ?>/css/style_md.css?ver=<?php echo BV_CSS_VER; ?>"> <!-- 스타일css_김민규 -->
 <?php } ?>
 <?php if($ico = display_logo_url('favicon_ico')) { // 파비콘 ?>
 <link rel="shortcut icon" href="<?php echo $ico; ?>" type="image/x-icon">
@@ -67,6 +68,7 @@ var bv_cookie_domain = "<?php echo BV_COOKIE_DOMAIN; ?>";
 <script src="<?php echo BV_JS_URL; ?>/common.js?ver=<?php echo BV_JS_VER;?>"></script>
 <script src="<?php echo BV_JS_URL; ?>/slick.js"></script>
 
+
 <?php if($config['mouseblock_yes']) { // 마우스 우클릭 방지 ?>
 <script>
 $(document).ready(function(){
@@ -76,8 +78,10 @@ $(document).ready(function(){
 });
 $(document).bind('selectstart',function() {return false;});
 $(document).bind('dragstart',function(){return false;});
+
 </script>
 <?php } ?>
+
 
 <?php
 if($config['head_script']) { // head 내부태그
