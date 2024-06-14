@@ -98,6 +98,7 @@ function get_popular($rows, $pt_id)
 function alert($msg, $move='back', $myname='')
 {
 	if(!$msg) $msg = '올바른 방법으로 이용해 주십시오.';
+	$msg_rep = str_replace('\n','<br>',$msg);
 
 	switch($move)
 	{
