@@ -182,7 +182,7 @@ $none = "style='display:none;'";
         </tr>
         <tr>
           <th scope="row"><label for="ju_restaurant">상호명</label></th>
-          <td><input type="text" name="ju_restaurant" id="ju_restaurant" required class="frm_input required" size="20"></td>
+          <td><input type="text" name="ju_restaurant" id="ju_restaurant" class="frm_input required" size="20"></td>
         </tr>
         <tr>
           <th scope="row"><label for="ju_member">대표자명</label></th>

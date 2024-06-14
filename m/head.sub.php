@@ -46,6 +46,7 @@ if($config['add_meta'])
 <link rel="stylesheet" href="<?php echo BV_MCSS_URL; ?>/default.css?ver=<?php echo BV_CSS_VER;?>">
 <?php if(defined('BV_MTHEME_URL')) { ?>
 <link rel="stylesheet" href="<?php echo BV_MTHEME_URL; ?>/style.css?ver=<?php echo BV_CSS_VER;?>">
+<link rel="stylesheet" href="<?php echo BV_ADMIN_URL; ?>/css/style_md.css?ver=<?php echo BV_CSS_VER; ?>"> <!-- 스타일css_김민규 -->
 <?php } ?>
 <?php if($ico = display_logo_url('favicon_ico')) { // 파비콘 ?>
 <link rel="shortcut icon" href="<?php echo $ico; ?>" type="image/x-icon">
@@ -82,7 +83,7 @@ var bv_cookie_domain = "<?php echo BV_COOKIE_DOMAIN; ?>";
 // };
 
 // function sendMenuCode(data) {
-  
+
 //   $.ajax({
 //     url: bv_url+"/m/bbs/ajax.app_cate.php",
 //     type: "POST",
@@ -105,10 +106,12 @@ var bv_cookie_domain = "<?php echo BV_COOKIE_DOMAIN; ?>";
 
 <script src="<?php echo BV_JS_URL; ?>/jquery-1.8.3.min.js"></script>
 <script src="<?php echo BV_JS_URL; ?>/jquery-ui-1.10.3.custom.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.min.js"></script>
 <script src="<?php echo BV_JS_URL; ?>/slick.js"></script>
 <script src="<?php echo BV_MJS_URL; ?>/common.js?ver=<?php echo BV_JS_VER;?>"></script>
 <script src="<?php echo BV_MJS_URL; ?>/iscroll.js?ver=<?php echo BV_JS_VER;?>"></script>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.css">
 <link rel="stylesheet" href="/src/plugin/swiper/swiper-bundle.min.css">
 <link rel="stylesheet" href="/src/css/fonts.css?ver=<?php echo BV_CSS_VER;?>">
 <link rel="stylesheet" href="/src/css/common.css?ver=<?php echo BV_CSS_VER;?>">
@@ -122,7 +125,22 @@ var bv_cookie_domain = "<?php echo BV_COOKIE_DOMAIN; ?>";
 <script src="/src/plugin/swiper/swiper-bundle.min.js" defer></script>
 <script src="/src/js/common.js?ver=<?php echo BV_JS_VER;?>" defer></script>
 <script src="/src/js/normal.js?ver=<?php echo BV_JS_VER;?>" type="module" defer></script>
-
+<script>
+// Alert - 현재 페이지 유지
+function iAlert_re(swText) {
+  Swal.fire({
+    html: swText,
+    icon: 'warning',  //success
+    showCancelButton: false,
+    confirmButtonText: '확인'
+  });
+};
+if(document.getElementById) {
+  window.alert = function(txt) {
+    iAlert_re(txt);
+  }
+}
+</script>
 <?php
 if($config['head_script']) { // head 내부태그
     echo $config['head_script'].PHP_EOL;
