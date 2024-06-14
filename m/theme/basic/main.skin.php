@@ -83,7 +83,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <!-- } 상품 카테고리 바로가기 -->
 
 <!-- 관련 서비스 바로가기 { -->
-<?php if ($_SERVER['REMOTE_ADDR']=="106.247.231.170") { ?>
 <div class="container section main_service">
   <div class="main-service_wrap">
     <a href="/m/used/list.php?menu=used" class="box box1">
@@ -112,7 +111,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     </a>
   </div>
 </div>
-<?php } ?>
 <!-- } 관련 서비스 바로가기 -->
 
 <!-- 베스트 상품 { -->

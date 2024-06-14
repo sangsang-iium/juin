@@ -1,11 +1,127 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 ?>
+<?php // 회원 개인정보 입력 _20240613_SY
+if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+
+<a href="/admin/member.php?code=register_form">회원등록하러 가기~!</a>
+<hr>
+<button type="button" id="toggleButton" onclick="Yap()">회원등록 Form 얍!</button>
+<hr>
+
+<form name="fregisterform" id="fregisterform" action="./member/member_register_form_update.php" onsubmit="return fregisterform_submit(this);" method="post" autocomplete="off" enctype="MULTIPART/FORM-DATA" style="display: none;">
+  <input type="hidden" name="token" value="">
+  <input type="hidden" name="mb_certify_case" value="hp" id="mb_certify_hp">
+  <input type="hidden" name="mb_certify" value="" id="mb_certify_no">
+  <input type="hidden" name="mb_adult" value="0" id="mb_adult_no">
+  <input type="hidden" name="mb_recommend" value="admin" id="reg_mb_recommend">
+  <input type="hidden" name="mb_grade" value="9" id="mb_grade">
+  <input type="hidden" name="mb_sms" value="Y">
+  <input type="hidden" name="mb_mailling" value="Y" id="reg_mb_mailling" >
+  
+  <h5 class="htag_title">회원 개인정보 입력</h5>
+  <div class="board_table mart20">
+    <table>
+      <colgroup>
+        <col class="w180">
+        <col>
+      </colgroup>
+      <tbody>
+       <tr>
+          <th scope="row"><label for="reg_mb_id">아이디</label></th>
+          <td>
+            <input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required w400" size="20" maxlength="20">
+            <span id="msg_mb_id"></span>
+            <?php echo help('영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요.'); ?>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="reg_mb_password">비밀번호</label></th>
+          <td>
+            <input type="password" name="mb_password" id="reg_mb_password" required class="frm_input required w400 marr10" size="20" maxlength="20">
+            <?php echo help('4자 이상의 영문 및 숫자'); ?>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="reg_mb_password_re">비밀번호 확인</label></th>
+          <td><input type="password" name="mb_password_re" id="reg_mb_password_re" required class="frm_input required w400" size="20" maxlength="20"></td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="reg_mb_name">이름(실명)</label></th>
+          <td><input type="text" name="mb_name" id="reg_mb_name" required class="frm_input required w400" size="20"></td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="reg_mb_tel">전화번호</label></th>
+          <td><input type="text" name="mb_tel" id="reg_mb_tel" class="frm_input w400" size="20" maxlength="20"></td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="reg_mb_hp">휴대폰번호</label></th>
+          <td>
+            <input type="text" name="mb_hp" id="reg_mb_hp" class="frm_input w400" size="20" maxlength="20">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="reg_mb_email">E-mail</label></th>
+          <td>
+            <input type="text" name="mb_email" id="reg_mb_email" required class="frm_input required w400" size="40" maxlength="100">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">주소</th>
+          <td>
+            <div class="write_address">
+              <div class="file_wrap address">
+                <label for="reg_mb_zip" class="sound_only">우편번호</label>
+                <input type="text" name="mb_zip" id="reg_mb_zip" class="frm_input" size="8" maxlength="5" placeholder="우편번호">
+                <button type="button" class="btn_file" onclick="win_zip('fregisterform', 'mb_zip', 'mb_addr1', 'mb_addr2', 'mb_addr3', 'mb_addr_jibeon');">주소검색</button>
+              </div>
+              <div class="">
+                <input type="text" name="mb_addr1" id="reg_mb_addr1" class="frm_input frm_address" size="60" placeholder="기본주소">
+                <label for="reg_mb_addr1" class="hide">기본주소</label>
+                <input type="text" name="mb_addr2" id="reg_mb_addr2" class="frm_input frm_address" size="60" placeholder="상세주소">
+                <label for="reg_mb_addr2" class="hide">상세주소</label>
+                <input type="hidden" name="mb_addr_jibeon" value="">
+                <input type="text" name="mb_addr3" id="reg_mb_addr3" class="frm_input frm_address" size="60" readonly="readonly" placeholder="참고항목">
+                <label for="reg_mb_addr3" class="hide">참고항목</label>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="board_btns tac mart20">
+    <div class="btn_wrap">
+      <input type="submit" value="회원등록" id="btn_submit" class="btn_acc" accesskey="s">
+    </div>
+  </div>
+
+</form>
+
+<script>
+  function Yap() {
+    var form = $('#fregisterform');
+    var button = $('#toggleButton');
+    var binfo = $('#Binfo');
+    
+    if (form.is(':visible')) {
+      form.hide();
+      button.text('회원등록 Form 얍!');
+      binfo.removeClass('gap70');
+    } else {
+      form.show();
+      button.text('회원등록 Form 히얍!');
+      binfo.addClass('gap70');
+    }
+  }
+</script>
+<?php } ?>
 
 <form name="fregform" method="post" onsubmit="return fregform_submit(this);">
 <input type="hidden" name="token" value="">
 
-<p class="gap30"></p>
+<p class="" id="Binfo"></p>
 <h5 class="htag_title">사업자 정보</h5>
 <p class="gap20"></p>
 <div class="tbl_frm01">
@@ -239,4 +355,4 @@ function fregform_submit(f) {
 	f.action = "./seller/seller_register_update.php";
     return true;
 }
-</script>
+</scrip>
