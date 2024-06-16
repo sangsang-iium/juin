@@ -1041,7 +1041,7 @@ $income_per = ($supply_price / $goods_price) * 100;
         let in_price     = $('input[name=in_price]').val();
         let in_per       = $('input[name=in_per]').val();
         let total_price  = 0;
-
+        console.log(in_per, in_price)
         // admin이면 해당 로직 안 탐 _20240612_SY
         if(seller_code != "admin") {
           if(in_type == 1) {
