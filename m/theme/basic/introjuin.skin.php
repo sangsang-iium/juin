@@ -42,7 +42,7 @@ include_once "./_head.php";
       </a>
     </div>
     <div class="intro-btn-list">
-      <a href="" class="intro-btn left-btn intro-btn03">
+      <a href="/m/store/list.php?menu=store" class="intro-btn left-btn intro-btn03">
         <div class="text-box">
           <p class="text01">회원사 현황</p>
           <p class="text02">주인장의 특별한 회사 안내</p>
