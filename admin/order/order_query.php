@@ -232,7 +232,11 @@ $tot_orderprice = 0; // 총주문액
 $sql            = " select od_id {$sql_common} {$sql_search} {$sql_group} {$sql_order} ";
 $res            = sql_query($sql);
 while ($row = sql_fetch_array($res)) {
-  $amount = get_order_spay2($row['od_id']);
+  if($code == "reg_list"){
+    $amount = get_order_spay2($row['od_id']);
+  } else {
+    $amount = get_order_spay($row['od_id']);
+  }
   $tot_orderprice += $amount['buyprice'];
 }
 
