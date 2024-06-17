@@ -199,7 +199,9 @@ EOF;
 		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
 		<td>
             <div class="chk_select">
-                <?php echo get_delivery_select("delivery[".$chk_cnt."]", $row2['delivery']); ?>
+							<?php
+								echo get_delivery_select("delivery[".$chk_cnt."]", $row2['delivery']);
+							?>
             </div>
 		</td>
 		<td><input type="text" name="delivery_no[<?php echo $chk_cnt; ?>]" value="<?php echo $row2['delivery_no']; ?>" class="frm_input" placeholder="개별 운송장번호"></td>
