@@ -2,8 +2,8 @@
 include_once("./_common.php");
 include_once(BV_MYPAGE_PATH."/admin_menu.php");
 
-if(is_admin() && !$boardid) {
-	alert('현재 관리자로 접속중입니다.', BV_URL);
+if(!is_seller($member['id'])) {
+	alert('공급사 회원만 접속 가능합니다.', BV_URL);
 }
 
 if(!$is_member) {
