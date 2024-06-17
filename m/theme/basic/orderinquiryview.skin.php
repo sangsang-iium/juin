@@ -59,18 +59,30 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               $st_count1 = $st_count2 = $st_cancel_price = 0;
               $custom_cancel = false;
 
+              $org_od_id  = $od_id;
+              $parts      = explode('_', $od_id);
+              $od_id = $parts[0];
+
               $sql = " select * from shop_cart where od_id = '$od_id' group by gs_id order by index_no ";
               $result = sql_query($sql);
               for($i=0; $row=sql_fetch_array($result); $i++) {
                 $raffleCheck = false;
                 if($row['raffle'] == 1) $raffleCheck = true;
-                $rw = get_order($row['od_no'],'*',$shop_table);
+                if ($row['reg_yn'] == 1) {
+                  if (strpos($od_id, '_') !== false) {
+                    $rw = get_order2($row['od_no'],'*',$shop_table);
+                  } else {
+                    $rw = get_order($row['od_no'], '*', $shop_table);
+                  }
+                } else {
+                  $rw = get_order($row['od_no'],'*',$shop_table);
+                }
                 $gs = unserialize($rw['od_goods']);
-                
+
                 $hash = md5($rw['gs_id'].$rw['od_no'].$rw['od_id']);
                 $dlcomp = explode('|', trim($rw['delivery']));
                 $href = BV_MSHOP_URL.'/view.php?gs_id='.$rw['gs_id'];
-                
+
                 if($raffleCheck) {
                   $gs['gname'] = $gs['goods_name'];
                   $href = "/m/raffle/view.php?index_no=".preg_replace('/000000$/', '', $rw['gs_id']);

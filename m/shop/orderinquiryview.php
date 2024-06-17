@@ -6,8 +6,12 @@ if(!$is_member) {
         alert("직접 링크로는 주문서 조회가 불가합니다.\\n\\n주문조회 화면을 통하여 조회하시기 바랍니다.", BV_URL);
 }
 
-if ($reg_yn == 1) {
-  $shop_table = "shop_order_reg";
+if ($reg_yn == 1 ) {
+	if(strpos($od_id, '_') !== false){
+ 	 $shop_table = "shop_order";
+	} else {
+		$shop_table = "shop_order_reg";
+	}
 } else if ($reg_yn == 2) {
   $shop_table = "shop_order";
 }
@@ -42,11 +46,30 @@ if($od['od_pg'] == 'lg') {
 }
 
 if ($reg_yn == 1) {
-	$stotal = get_order_spay2($od_id); // 총계
+	if (strpos($od_id, '_') !== false) {
+		$stotal = get_order_spay($od_id); // 총계
+		$sql = " select SUM(goods_price) as price,
+					SUM(baesong_price) as baesong,
+					SUM(goods_price + baesong_price) as buyprice,
+					SUM(supply_price) as supply,
+					SUM(cancel_price) as cancel,
+					SUM(refund_price) as refund,
+					SUM(coupon_price) as coupon,
+					SUM(use_point) as usepoint,
+					SUM(use_price) as useprice,
+					SUM(sum_qty) as qty,
+					SUM(sum_point) as point
+			   from shop_order
+			  where od_id like '%$od_id%'
+				";
+			$row = sql_fetch($sql);
+			print_r($sql);
+	} else {
+		$stotal = get_order_spay2($od_id); // 총계
+	}
 } else if ($reg_yn == 2) {
 	$stotal = get_order_spay($od_id); // 총계
 }
-
 // 결제정보처리
 $app_no_subj = '';
 $disp_bank = true;
