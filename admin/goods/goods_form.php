@@ -901,11 +901,11 @@ $income_per = ($supply_price / $goods_price) * 100;
 			<label for="incomePer_type2" class="marr10">정률지급<b class="incomePer_type2"></b> </label>
     </td>
   </tr>
-	<tr>
-		<th scope="row">판매가격</th>
+	<tr class="supply_tr">
+		<th scope="row">매입가격</th>
 		<td>
-			<input type="text" name="goods_price" id="goods_price" value="<?php echo number_format($gs['goods_price']); ?>" class="frm_input w80" onkeyup="addComma(this); zeroVal(this);"> 원
-			<span class="fc_197 marl5">실제 판매가 입력 (대표가격으로 사용)</span>
+			<input type="text" name="supply_price" id="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this); zeroVal(this);"> 원
+			<span class="fc_197 marl5">사입처에서 공급받은 가격</span>
 		</td>
 	</tr>
 	<tr class="incomePer_tr" id="incomePer_sub1" style="<?php echo ($gs['income_per_type'] == 1) ? 'display:none;' : '' ?>">
@@ -922,11 +922,11 @@ $income_per = ($supply_price / $goods_price) * 100;
 			<span class="fc_197 marl5">이익률</span>
 		</td>
 	</tr>
-  <tr class="supply_tr">
-		<th scope="row">매입가격</th>
+  <tr>
+		<th scope="row">판매가격</th>
 		<td>
-			<input type="text" name="supply_price" id="supply_price" value="<?php echo number_format($gs['supply_price']); ?>" class="frm_input w80" onkeyup="addComma(this); zeroVal(this);"> 원
-			<span class="fc_197 marl5">사입처에서 공급받은 가격</span>
+			<input type="text" name="goods_price" id="goods_price" value="<?php echo number_format($gs['goods_price']); ?>" class="frm_input w80" onkeyup="addComma(this); zeroVal(this);"> 원
+			<span class="fc_197 marl5">실제 판매가 입력 (대표가격으로 사용)</span>
 		</td>
 	</tr>
   <!-- <tr>
@@ -1024,16 +1024,47 @@ $income_per = ($supply_price / $goods_price) * 100;
   // let income_type1   = $('.income_type1');
   // let income_type2   = $('.income_type2');
 
+  let supply_price  = 0;
+  let goods_price   = 0;
+  let income_price  = 0;
+  let income_per    = 0;
+
   $(function() {
     
-
     // 정산방식 > 업제청산
     if ($('#income_type0').is(':checked')) {
       $('.incomePer_tr').hide();
       $('#incomePer_sub2').hide();
       $('#incomePer_sub1').hide();
       // 20240603_SY
-      $('#goods_price').keyup(function() {
+      // $('#goods_price').keyup(function() {
+      //   zeroVal(this);
+      //   let seller_code  = $('input[name=mb_id]').val();
+      //   let in_type      = $('input[name=in_type]').val();
+      //   let in_per_type  = $('input[name=in_per_type]').val();
+      //   let in_price     = $('input[name=in_price]').val();
+      //   let in_per       = $('input[name=in_per]').val();
+      //   let total_price  = 0;
+        
+      //   // admin이면 해당 로직 안 탐 _20240612_SY
+      //   if(seller_code != "admin") {
+      //     if(in_type == 1) {
+      //       if(in_per_type == 1) {
+      //         total_price = stringNumberToInt($('#goods_price').val()) * (1 - in_per/ 100);
+      //         $('#supply_price').val(total_price.toFixed(0));
+      //       } else {
+      //         total_price = stringNumberToInt($('#goods_price').val()) - in_price;
+      //         $('#supply_price').val(total_price);
+      //       }
+      //     } else {
+      //       total_price = stringNumberToInt($('#goods_price').val()) - in_price;
+      //       $('#supply_price').val(total_price);
+      //     }
+      //   }
+      // })
+
+      // 수정 (매입가) - (수수료) = (판매가격) _20240617_SY
+      $('#supply_price').keyup(function() {
         zeroVal(this);
         let seller_code  = $('input[name=mb_id]').val();
         let in_type      = $('input[name=in_type]').val();
@@ -1041,20 +1072,20 @@ $income_per = ($supply_price / $goods_price) * 100;
         let in_price     = $('input[name=in_price]').val();
         let in_per       = $('input[name=in_per]').val();
         let total_price  = 0;
-        console.log(in_per, in_price)
+        
         // admin이면 해당 로직 안 탐 _20240612_SY
         if(seller_code != "admin") {
           if(in_type == 1) {
             if(in_per_type == 1) {
-              total_price = stringNumberToInt($('#goods_price').val()) * (1 - in_per/ 100);
-              $('#supply_price').val(total_price.toFixed(0));
+              total_price = stringNumberToInt($('#supply_price').val()) * (1 - in_per/ 100);
+              $('#goods_price').val(total_price.toFixed(0));
             } else {
-              total_price = stringNumberToInt($('#goods_price').val()) - in_price;
-              $('#supply_price').val(total_price);
+              total_price = stringNumberToInt($('#supply_price').val()) - in_price;
+              $('#goods_price').val(total_price);
             }
           } else {
-            total_price = stringNumberToInt($('#goods_price').val()) - in_price;
-            $('#supply_price').val(total_price);
+            total_price = stringNumberToInt($('#supply_price').val()) - in_price;
+            $('#goods_price').val(total_price);
           }
         }
       })
@@ -1095,6 +1126,17 @@ $income_per = ($supply_price / $goods_price) * 100;
     $('#incomePer_type1').change(function() {
       $('#incomePer_sub1').show();
       $('#incomePer_sub2').hide();
+
+      // 추가 (매입가) - (수수료) = (판매가격) _20240617_SY
+      let supply_price = $("input[name=supply_price]");
+      goods_price = document.querySelector('#goods_price');
+      income_price = $("input[name=income_price]");
+      income_per = $("input[name=income_per]");
+      if(income_per.val() != "0" && income_price.val() != "0") {
+        goods_price.value = (stringNumberToInt(supply_price.val()) - stringNumberToInt(income_price.val()));  
+      } else {
+        goods_price.value = 0;
+      }
     })
 
     // 수수료지급방식 > 정률
@@ -1102,22 +1144,70 @@ $income_per = ($supply_price / $goods_price) * 100;
       $('#incomePer_sub1').hide();
       $('#incomePer_sub2').show();
       $('.supply_tr').show();
+
+      // 추가 (매입가) - (수수료) = (판매가격) _20240617_SY
+      let supply_price = $("input[name=supply_price]");
+      goods_price = document.querySelector('#goods_price');
+      income_price = $("input[name=income_price]");
+      income_per = $("input[name=income_per]");
+      if(income_per.val() != "0" && supply_price.val() != "0") {
+        goods_price.value = (stringNumberToInt(supply_price.val()) * (1 - parseFloat(income_per.val())/100));  
+      } else {
+        goods_price.value = 0;
+      }
     })
   });
 
+  // 수정 ( (매입가) - (수수료) = (판매가격) ) _20240617_SY
+  $("input[name=supply_price]").on("keyup", function() {
+    goods_price = document.querySelector('#goods_price');
+    income_price = $("input[name=income_price]");
+    income_per = $("input[name=income_per]");
+    if ($('#incomePer_type1').is(':checked') && this.value != "0" && income_price.val() != "0") {
+      goods_price.value = (stringNumberToInt(this.value) - stringNumberToInt(income_price.val()));  
+    } else if ($('#incomePer_type2').is(':checked') && this.value != "0" && income_per.val() != "0") {
+      goods_price.value = (stringNumberToInt(this.value) * (1 - parseFloat(income_per.val())/100));  
+    } else {
+      goods_price.value = 0;
+    }
+
+  })
+
+  $("input[name=income_price]").on('keyup', function() {
+    supply_price = document.querySelector('#supply_price').value;
+    goods_price = document.querySelector('#goods_price');
+    if(supply_price != "0" && this.value != "0") {
+      goods_price.value = (stringNumberToInt(supply_price) - stringNumberToInt(this.value));
+    } else {
+      goods_price.value = 0;
+    }
+  });
+
+  $("input[name=income_per]").on('keyup', function() {
+    supply_price = document.querySelector('#supply_price').value;
+    goods_price = document.querySelector('#goods_price');
+    if(supply_price != "0" && this.value != "0") {
+      goods_price.value = (stringNumberToInt(supply_price) * (1 - parseFloat(this.value)/100));
+    } else {
+      goods_price.value = 0;
+    }
+  });
+
+
+
   // 수정 _20240508_SY
-  let supply_price = 0;
-  $("#incomePer_sub1").on('keyup', function() {
-    $("input[name=income_per]").val(0)
-    supply_price = stringNumberToInt($("input[name=income_price]").val());
-    $("#supply_price").val(supply_price)
-  })
-  $("#incomePer_sub2").on('keyup', function() {
-    $("input[name=income_price]").val(0)
-    // (판매가) x (수수료 / 100)
-    supply_price = (stringNumberToInt($("#goods_price").val()) * ($("input[name=income_per]").val() / 100 ));
-    $("#supply_price").val(supply_price)
-  })
+  // let supply_price = 0;
+  // $("#incomePer_sub1").on('keyup', function() {
+  //   $("input[name=income_per]").val(0)
+  //   supply_price = stringNumberToInt($("input[name=income_price]").val());
+  //   $("#supply_price").val(supply_price)
+  // })
+  // $("#incomePer_sub2").on('keyup', function() {
+  //   $("input[name=income_price]").val(0)
+  //   // (판매가) x (수수료 / 100)
+  //   supply_price = (stringNumberToInt($("#goods_price").val()) * ($("input[name=income_per]").val() / 100 ));
+  //   $("#supply_price").val(supply_price)
+  // })
 
   // $('#incomePer_input').on('change', function() {
   //   let supply_price = stringNumberToInt($('#supply_price').val());

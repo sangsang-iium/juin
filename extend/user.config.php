@@ -538,7 +538,7 @@ function getRegionFunc($type, $where) {
     $data[] = $region_row;
   }
 
-  return $region_sql;
+  return $data;
 
 }
 
