@@ -209,7 +209,7 @@ if (!defined('_BLUEVATION_')) exit;
                 <p class="title">사업자등록번호</p>
               </div>
               <div class="form-body">
-                <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_b_num'] : "" ?>" placeholder="숫자만 입력" maxlength="10" <?php echo ($w != '' && !empty($member['ju_b_num'])) ? "readonly" : "" ?> readonly>
+                <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_b_num'] : "" ?>" placeholder="숫자만 입력" maxlength="10" <?php echo ($w != '' && !empty($member['ju_b_num'])) ? "readonly" : "" ?> >
                 <!-- <div class="joinDetail-btn-box joinDetail-btn-box3"> 
 								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
 								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
