@@ -1110,7 +1110,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 				<?php //echo option_selected('3', $gs['sc_type'], '유료배송'); ?>
 				<?php echo option_selected('4', $gs['sc_type'], '차량배송'); ?>
 			</select>
-			<a href="./page.php?code=seller_baesong" target="_blank" class="btn_small grey">설정</a>
+			<!-- <a href="./page.php?code=seller_baesong" target="_blank" class="btn_small grey">설정</a> -->
 			<!-- <div id="sc_method" class="mart7">
 				배송비결제
 				<select name="sc_method" class="marl10">
@@ -1143,6 +1143,12 @@ $income_per = ($supply_price / $goods_price) * 100;
 					$res_zone = sql_query($sql_zone);
 					$gs_zone_arr = explode("||", $gs['zone']);
 
+					$sql_seller = "SELECT * FROM shop_seller WHERE `state` = 1";
+					$res_seller = sql_query($sql_seller);
+					while ($row_seller = sql_fetch_array($res_seller)) {
+						$rowSeller[] = $row_seller;
+					}
+
 					for ($ii=0; $row_zone = sql_fetch_array($res_zone); $ii++) {
 						$gs_zone = explode(",", $gs_zone_arr[$ii]);
 				?>
@@ -1155,9 +1161,8 @@ $income_per = ($supply_price / $goods_price) * 100;
 							<select id="delivery_mg" name="delivery_mg[]">
 								<option value="">해당없음</option>
 							<?php
-							$delivery_mg = explode(",", $config['delivery_mg']);
-							for ($i = 0; $i < count($delivery_mg); $i++) {
-									echo option_selected($delivery_mg[$i], $gs_zone[2], $delivery_mg[$i]);
+							for ($i = 0; $i < count($rowSeller); $i++) {
+									echo option_selected($rowSeller[$i]['company_name'], $gs_zone[2], $rowSeller[$i]['company_name']);
 							}
 							?>
 							</select>
