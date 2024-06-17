@@ -3748,7 +3748,7 @@ function get_order_spay($od_id, $sql_search='')
 					SUM(sum_qty) as qty,
 					SUM(sum_point) as point
 			   from shop_order
-			  where od_id = '$od_id'
+			  where od_id like '%$od_id%'
 				{$sql_search} ";
 	$row = sql_fetch($sql);
 
@@ -3785,7 +3785,20 @@ function get_order($order_id, $fileds='*', $shop_table='shop_order')
 	else
 		$sql_where = " where od_id = '$order_id'"; // 주문번호
 
-	return sql_fetch(" select $fileds from {$shop_table} {$sql_where} ");
+	$sql = " select $fileds from {$shop_table} {$sql_where} ";
+
+	return sql_fetch($sql);
+}
+function get_order2($order_id, $fileds='*', $shop_table='shop_order')
+{
+	if(strlen($order_id) < 14)
+		$sql_where = " where od_no like '%$order_id%'"; // 주문일련번호
+	else
+		$sql_where = " where od_id like '%$order_id%'"; // 주문번호
+
+	$sql = " select $fileds from {$shop_table} {$sql_where} ";
+
+	return sql_fetch($sql);
 }
 
 // 복합과세
