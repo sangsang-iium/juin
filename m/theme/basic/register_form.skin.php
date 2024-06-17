@@ -381,7 +381,7 @@ if(!defined('_BLUEVATION_')) exit;
               <div class="form-body">
                 <input type="hidden" name="ju_region2" value="<?php echo ($w=='') ? (int)$_POST['BRANCH_CODE'] : $member['ju_region2'] ?>" class="frm-input w-per100" >
                 <input type="hidden" name="ju_region3" value="<?php echo ($w=='') ? (int)$_POST['OFFICE_CODE'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
-                <input type="text" name="ju_region_code" value="<?php echo ($w=='') ? $_POST['OFFICE_NAME'] : $jibu_name ?>" class="frm-input w-per100" readonly>
+                <input type="text" name="ju_region_code" value="<?php echo ($w=='u') ? $jibu_name : "" ?>" class="frm-input w-per100" readonly>
               </div>
             </div>
             <!-- <div class="form-row">
@@ -941,7 +941,8 @@ function getManager() {
 
           let nm     = $(this).find('.pop-result-title').text();
           let id     = $(this).find('.pop-result-text:eq(0)').text();
-          let region = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
+          let region1 = $(this).find('.pop-result-text:eq(1)').text().split('/')[1].trim();
+          let region2 = $(this).find('.pop-result-text:eq(1)').text().split('/')[2].trim();
           let idx    = $(this).find('.pop-result-text:eq(2)').val();
           
           
@@ -949,6 +950,7 @@ function getManager() {
           $('#info_ok').on('click', function() {
             $('#pop_nm').val(nm);
             $('#mn_idx').val(idx);
+            $("input[name=ju_region_code]").val(region2);
 
             $('#popMemberSch').hide();
             $('.popDim').hide();
