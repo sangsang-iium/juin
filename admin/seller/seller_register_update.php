@@ -32,6 +32,8 @@ $memIns['mailser']    = $_POST['mb_mailling'];
 $memIns['smsser']     = $_POST['mb_sms']; 
 $memIns['mb_certify'] = $_POST['mb_certify']; 
 $memIns['mb_adult']   = $_POST['mb_adult']; 
+// 추가 _20240618_SY
+$memIns['supply']     = 'Y'; 
 
 insert("shop_member", $memIns);
 
