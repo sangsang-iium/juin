@@ -77,8 +77,7 @@ class   C_CT_CLI
                                           $cert_no ,
                                           $enc_cert_data ,
                                           $opt
-                                        );
-
+                                        );;
         } else {
             $bin_exe = $home_dir . '/bin/ct_cli_exe.exe';
 
@@ -93,6 +92,7 @@ class   C_CT_CLI
         if ( $dec_data == "" ) { $dec_data = "HS03"; }
 
         parse_str( str_replace( chr( 31 ), "&", $dec_data ), $this->m_dec_data );
+        
     }
 
     // 인증데이터 get data
