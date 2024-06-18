@@ -200,7 +200,8 @@ function getKFIAMember() {
         } else {
           Object.entries(res.data).forEach(([key, value]) => {
             form.append(`<input type="hidden" name="${key}" value="${value}">`);
-          });
+          }); 
+          console.log(res.data)
 
           // 위도/경도 값 & Kakao맵 Api 로드 _20240612_SY
           if (typeof kakao !== 'undefined' && kakao.maps && kakao.maps.services && kakao.maps.services.Geocoder) {
