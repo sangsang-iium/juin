@@ -69,6 +69,10 @@ if (!$orderby) {
   $sod = $orderby;
 }
 
+if($_SESSION['ss_mn_id']) {
+  $sql_search .= " AND mn.id = '{$_SESSION['ss_mn_id']}' ";
+}
+
 $sql_order = " order by $filed $sod ";
 
 // 테이블의 전체 레코드수만 얻음

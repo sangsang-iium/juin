@@ -549,17 +549,17 @@ function getMenuFunc($menu, $link, $code) {
 
   $exp_name = constant($menu);
 
-  if($member['id'] != 'admin' && isset($member['region_idx'])) {
+  if($member['id'] != 'admin' && isset($member['id'])) {
 
     // 권한체크
     // $auth_sql = " SELECT * FROM authorization WHERE auth_idx = '{$member['auth_idx']}' ";
     // sql 수정 _20240608_SY
     $auth_sql = " SELECT * FROM shop_manager AS mng
-                    LEFT JOIN kfia_region AS kf
-                      ON (mng.region_idx = kf.kf_idx)
+                    LEFT JOIN kfia_office AS kf
+                      ON (mng.ju_region3 = kf.office_code)
                     JOIN authorization AS auth
                       ON (kf.auth_idx = auth.auth_idx)
-                   WHERE mng.region_idx = '{$member['region_idx']}' ";
+                   WHERE mng.id = '{$member['id']}' ";
     $auth_row = sql_fetch($auth_sql);
     $exp_menu = explode(",", $auth_row['auth_menu']);
 
