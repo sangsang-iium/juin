@@ -77,7 +77,7 @@ if ($_FILES['excelfile']['tmp_name']) {
     $j = 1;
 
     $mb_id        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 판매자ID
-    $gcode        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 상품코드
+    // $gcode        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 상품코드
     $sgcode       = addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 가맹점상품코드 _20240315_SY
     $ca_id        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 대표분류
     $ca_id2       = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 추가분류2
@@ -109,6 +109,7 @@ if ($_FILES['excelfile']['tmp_name']) {
     $eb_date      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 판매기간 종료일
     $buy_level    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 구매가능레벨
     // $buy_only     = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 가격공개
+    $reg_yn      = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 결제구분
     $sc_type      = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비유형
     $sc_method    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비결제
     $sc_amt       = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 기본배송비
@@ -123,6 +124,8 @@ if ($_FILES['excelfile']['tmp_name']) {
     $memo         = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 상세설명
     $admin_memo   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 관리자메모
     $zone_set   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 관리자메모
+
+    $gcode = time() . mt_rand(10000, 99999);
 
     $areanames     = [];
     $numberOfAreas = 19;
@@ -196,6 +199,7 @@ if ($_FILES['excelfile']['tmp_name']) {
     $value['eb_date']      = $eb_date;                 // 판매기간 종료일
     $value['buy_level']    = $buy_level;               // 구매가능레벨
     $value['buy_only']     = '0';                // 가격공개
+    $value['reg_yn']     = $reg_yn;                // 결제구분
     $value['sc_type']      = $sc_type;                 // 배송비유형
     $value['sc_method']    = $sc_method;               // 배송비결제
     $value['sc_amt']       = $sc_amt;                  // 기본배송비
