@@ -5,11 +5,35 @@ if (!defined("_BLUEVATION_")) {
 // 개별 페이지 접근 불가
 
 include_once "./_head.php";
+header('Access-Control-Allow-Origin: *');
+
+$myLocation = json_encode($_SERVER['HTTP_MYLOCATION']);
+set_session('myLocation', $myLocation);
+log_write($myLocation . '@@@' . get_session('myLocation'));
 ?>
 
 <style>
   #footer {display: none;}
 </style>
+<script>
+  function myLocation(lat, lon) {
+    alert('Lat: ' + lat + ', Lon: ' + lon);
+    $.ajax({
+      url: '/m/shop/ajax.location.php',
+      type: 'POST',
+      data: {
+        lat: lat,
+        lon: lon
+      },
+      success: function(response) {
+          console.log('Data sent successfully: ' + response);
+      },
+      error: function(xhr, status, error) {
+          console.error('Error sending data: ' + error);
+      }
+    });
+  }
+</script>
 
 <div class="intro">
 

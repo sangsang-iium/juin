@@ -46,6 +46,11 @@ const usedMenu = f.hrizonMenu(usedMenuTarget, usedMenuActive);
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services"></script>
 <?php echo BV_POSTCODE_JS ?>
 <script>
+
+function myLocation(lat, lon) {
+    alert('Lat: ' + lat + ', Lon: ' + lon);
+}
+
 // 중심좌표(위치거부시초기값)
 let user_lat = 33.450701;
 let user_lng = 126.570667;
@@ -72,34 +77,34 @@ var markers = [];
 function addMarker(positions){
     hideMarkers();
     markers = [];
-    
+
     for(var i = 0; i < positions.length; i ++) {
         //마커 이미지의 이미지 크기 입니다
-        var imageSize = new kakao.maps.Size(24, 35);    
-        //마커 이미지를 생성합니다    
-        var markerImage = new kakao.maps.MarkerImage(positions[i].img, imageSize); 
+        var imageSize = new kakao.maps.Size(24, 35);
+        //마커 이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(positions[i].img, imageSize);
         // 마커를 생성합니다
         var marker = new kakao.maps.Marker({
             position : new kakao.maps.LatLng(positions[i].lat, positions[i].lng),
             title : positions[i].title,
             image : markerImage
         });
-        
+
         markers.push(marker);
     }
-    
+
     showMarkers();
 }
 function setMarkers(map) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
-    }            
+    }
 }
 function showMarkers() {
     setMarkers(map);
 }
 function hideMarkers() {
-    setMarkers(null);    
+    setMarkers(null);
 }
 
 
@@ -108,7 +113,7 @@ function getStoreList(){
     //지도중심이동
     var moveLatLon = new kakao.maps.LatLng(user_lat, user_lng);
     map.setCenter(moveLatLon);
-    
+
     $.post("ajax.get_store_list.php", {lat:user_lat, lng:user_lng, cate:cate}, function(obj){
         var data = JSON.parse(obj);
         $(".store-prod_list").html(data['slist']);
@@ -144,7 +149,7 @@ function getPosition(address){
     address = address.trim();
 
     geocoder.addressSearch(address, function(result, status) {
-        // 정상적으로 검색이 완료됐으면 
+        // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
             user_lat = result[0].y;
             user_lng = result[0].x;
@@ -163,7 +168,7 @@ function daumAddress(){
             } else { // 사용자가 지번 주소를 선택했을 경우(J)
                 addr = data.jibunAddress;
             }
-            
+
             getPosition(addr);
         }
     }).open();
@@ -175,7 +180,7 @@ $(document).ready(function(){
     function successCallback(position) {
         user_lat = position.coords.latitude;
         user_lng = position.coords.longitude;
-        
+
         getStoreList();
     }
 
@@ -190,14 +195,14 @@ $(document).ready(function(){
         cate = $(this).data("id");
         $(".swiper-slide").removeClass("active");
         $(this).addClass("active");
-        
+
         getStoreList();
     });
 
     $(".current_position").click(function(){
         getStoreList();
     });
-    
+
     $(".add_latlng").click(function(){
         daumAddress();
     });
