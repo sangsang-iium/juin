@@ -10,17 +10,26 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         echo '<div class="bottomBlank cp-orderWrap">'.PHP_EOL;
         echo '<div class="container">'.PHP_EOL;
 
+        $org_od_id = $row[od_id];
+        $parts = explode('_', $row[od_id]);
+        $row[od_id] = $parts[0];
         $sql = " select * from shop_cart where od_id = '$row[od_id]' ";
         $sql.= " group by gs_id order by io_type asc, index_no asc ";
         $res = sql_query($sql);
         for($k=0; $ct=sql_fetch_array($res); $k++) {
-          $rw = get_order($ct['od_no']);
-          $gs = unserialize($rw['od_goods']);
+          if($ct['reg_yn'] == 1){
+            $rw = get_order2($ct['od_no']);
+          } else {
+            $rw = get_order($ct['od_no']);
+          }
+          $convertGoods = str_replace("'", '"', $rw['od_goods']);
+
+          $gs = unserialize($convertGoods);
 
           if($ct['raffle'] == 1) {
             $gs['gname'] = $gs['goods_name'];
           }
-          
+
           $href = BV_MSHOP_URL.'/view.php?gs_id='.$rw['gs_id'];
 
           $dlcomp = explode('|', trim($rw['delivery']));
@@ -70,13 +79,13 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             <p class="price"><?php echo display_price($rw['use_price']); ?></p>
           </div>
         </div>
-        
+
         <?php if($ct['raffle'] != 1) { ?>
         <div class="ord-btn-wr">
           <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
-          
+
           <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
-          
+
           <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
           <?php
             // 환불 버튼 생성  20240527 박원주
@@ -142,8 +151,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </div>
         <div class="pop-content">
           <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
-            <input type="hidden" name="odId" id="order_send"  value="<?php echo $od_id; ?>"> 
-            <input type="hidden" name="evt" id="evt"  value="<?php echo $od_id; ?>">  
+            <input type="hidden" name="odId" id="order_send"  value="<?php echo $od_id; ?>">
+            <input type="hidden" name="evt" id="evt"  value="<?php echo $od_id; ?>">
             <div class="form-row">
               <div class="form-head">
                 <p class="title return-popup2-title2">환불 사유<b>*</b></p>
@@ -162,7 +171,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
 </div>
 
- 
+
 
 <script type="module">
 import * as f from '/src/js/function.js';
@@ -206,14 +215,14 @@ document.querySelectorAll(".return-money").forEach(btn => {
 
   btn.addEventListener("click", function(event) {
     const odId = event.currentTarget.dataset.odId;
-    
+
     $("#order_send").prop('value',odId);
     $("#evt").prop('value',"return-money");
     $(".return-popup2-title1,.return-popup2-title2").text("환불사유");
     const popId ="#return-popup2";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
-    const reqData = { odId: odId}; 
+    const reqData = { odId: odId};
     f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
   // btn.addEventListener("click", function(event) {
@@ -247,7 +256,7 @@ document.querySelectorAll(".change-product").forEach(btn => {
   //       async: false,
   //       cache: false,
   //       success: function(data, textStatus) {
-  //         document.location.href = data.url; 
+  //         document.location.href = data.url;
   //         return false;
   //       }
   //   });
@@ -256,14 +265,14 @@ document.querySelectorAll(".change-product").forEach(btn => {
 
   btn.addEventListener("click", function(event) {
     const odId = event.currentTarget.dataset.odId;
-    
+
     $("#order_send").prop('value',odId);
     $("#evt").prop('value',"change-product");
     $(".return-popup2-title1,.return-popup2-title2").text("교환사유");
     const popId ="#return-popup2";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
-    const reqData = { odId: odId}; 
+    const reqData = { odId: odId};
     f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
 });
@@ -288,14 +297,14 @@ document.querySelectorAll(".return-product").forEach(btn => {
   // });
   btn.addEventListener("click", function(event) {
     const odId = event.currentTarget.dataset.odId;
-    
+
     $("#order_send").prop('value',odId);
     $("#evt").prop('value',"return-product");
     $(".return-popup2-title1,.return-popup2-title2").text("반품사유");
     const popId ="#return-popup2";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
-    const reqData = { odId: odId}; 
+    const reqData = { odId: odId};
     f.callData(popId, reqPathUrl, reqMethod, reqData, true);
   });
 });

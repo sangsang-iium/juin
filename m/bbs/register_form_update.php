@@ -78,6 +78,17 @@ $ju_region3     = isset($_POST['ju_region3']) ? trim($_POST['ju_region3']) : "";
 $ju_lat         = isset($_POST['ju_lat']) ? trim($_POST['ju_lat']) : ""; 
 $ju_lng         = isset($_POST['ju_lng']) ? trim($_POST['ju_lng']) : ""; 
 
+// 추가 _20240617_SY
+$ju_region1 = "";
+$ju_region_code = isset($_POST['ju_region_code']) ? trim($_POST['ju_region_code']) : "";
+if($ju_region_code) {
+  $office_where = " WHERE a.office_name = '{$ju_region_code}' ";
+  $office_data = getRegionFunc("office", $office_where);
+  $ju_region1 = $office_data[0]['areacode'];
+  $ju_region2 = $office_data[0]['branch_code'];
+  $ju_region3 = $office_data[0]['office_code'];
+}
+
 if($w == '' || $w == 'u') {
 
     if($msg = empty_mb_id($mb_id))	alert($msg);
@@ -229,6 +240,7 @@ if($w == '') {
     $value['ju_cate']       = $ju_sectors;
     $value['ju_manager']    = $manager_idx;
     $value['ju_addr_full']  = $mb_addr1." ".$mb_addr2;
+    $value['ju_region1']    = $ju_region1;
     $value['ju_region2']    = $ju_region2;
     $value['ju_region3']    = $ju_region3;
     $value['ju_lat']        = $ju_lat;

@@ -1,7 +1,8 @@
 <?php
 include_once "./_common.php";
-
-$today         = '2024-06-12'; // 예시를 위해 오늘 날짜를 고정
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+$today         = date('Y-m-d');
 $daysOfWeek    = ['일', '월', '화', '수', '목', '금', '토'];
 $daysOfWeekMap = [
   '일' => 'Sunday', '월'    => 'Monday', '화'   => 'Tuesday',
@@ -14,7 +15,6 @@ $threeDaysLaterDayIndex = date('w', strtotime($threeDaysLaterDate)); // 3일 후
 
 // 요일 인덱스를 한글 요일 이름으로 변환
 $threeDaysLaterDay = $daysOfWeek[$threeDaysLaterDayIndex];
-echo "Target Day: $threeDaysLaterDay\n";
 
 // SQL 조건 생성
 $sqlCondition = "FIND_IN_SET('$threeDaysLaterDay', od_wday)";
@@ -24,7 +24,6 @@ $sql = "SELECT * FROM shop_order_reg
         WHERE ({$sqlCondition})
         AND od_reg_total_num > od_reg_num
         AND od_begin_date <> '0000-00-00';";
-echo "SQL Query: $sql\n";
 $res = sql_query($sql);
 
 // 배송 대상 주문을 저장할 배열
@@ -48,9 +47,8 @@ while ($row = sql_fetch_array($res)) {
       // 첫 배송일이 3일 후의 요일과 일치하는지 확인
       if (date('w', strtotime($firstDeliveryDate)) == $threeDaysLaterDayIndex) {
         $deliveryTargets[] = [
-          'orderId'          => $row['index_no'],
+          'orderId'          => $row['od_id'],
           'nextDeliveryDate' => $firstDeliveryDate,
-          'checkDate'        => date('Y-m-d', strtotime('-3 days', strtotime($firstDeliveryDate))),
         ];
       }
     }
@@ -72,9 +70,8 @@ while ($row = sql_fetch_array($res)) {
         // 다음 배송일이 3일 후의 요일과 일치하는지 확인
         if (date('w', strtotime($nextDeliveryDate)) == $threeDaysLaterDayIndex && date('Y-m-d', strtotime('-3 days', strtotime($nextDeliveryDate))) == $today) {
           $deliveryTargets[] = [
-            'orderId'          => $row['index_no'],
+            'orderId'          => $row['od_id'],
             'nextDeliveryDate' => $nextDeliveryDate,
-            'checkDate'        => date('Y-m-d', strtotime('-3 days', strtotime($nextDeliveryDate))),
           ];
           break 2; // 해당 주문이 조건에 맞는 경우 반복문을 종료
         }
@@ -85,248 +82,292 @@ while ($row = sql_fetch_array($res)) {
   }
 }
 
-// 결과 출력
-print_r2($deliveryTargets);
+$orderIds   = array_unique(array_column($deliveryTargets, 'orderId'));
+$orderIdsIn = implode(", ", $orderIds);
 
+$sqlOdShop = "SELECT * FROM shop_order_reg
+            WHERE od_id IN ({$orderIdsIn})";
+$resOdShop    = sql_query($sqlOdShop);
+$orderNumRows = sql_num_rows($resOdShop);
 
-foreach ( $deliveryTargets as $target ) {
-  $sql = "SELECT * FROM shop_order_reg WHERE index_no = '{$target['orderId']}'";
-  $res = sql_query($sql);
+$sqlCartSum = "SELECT o.od_id, o.mb_id, o.email, o.name, o.paymethod, o.bank_code, o.od_reg_num,
+                  GROUP_CONCAT(DISTINCT c.gs_id ORDER BY c.gs_id SEPARATOR ',') AS gs_ids,
+                  SUM(c.ct_price) AS total_ct_price
+              FROM shop_order_reg o
+              JOIN shop_cart c ON o.od_no = c.od_no
+              WHERE o.od_id IN ({$orderIdsIn})
+              GROUP BY o.od_id";
 
-  print_r($sql);
+$resCartSum = sql_query($sqlCartSum);
 
+// 결과를 배열로 저장
+$totals = array();
+while ($rowSum = sql_fetch_array($resCartSum)) {
+  $totals[] = $rowSum;
 }
 
+$odIdCounters = [];
+if ($orderNumRows > 0) {
+  while ($row = sql_fetch_array($resOdShop)) {
+    $od_id = $row['od_id'];
 
-exit;
-
-$today      = date('w'); // 0 (일요일)부터 6 (토요일)까지
-$daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
-
-// 3일 이내의 요일 계산
-$targetDays = [];
-for ($i = 0; $i <= 2; $i++) {
-  $targetDays[] = $daysOfWeek[($today + $i) % 7];
-}
-
-// 요일 조건 생성
-$sqlConditions = [];
-foreach ($targetDays as $day) {
-  $sqlConditions[] = "FIND_IN_SET('$day', od_wday)";
-}
-$sqlCondition = implode(' OR ', $sqlConditions);
-
-$currentDate    = date('Y-m-d');
-$threeDaysLater = date('Y-m-d', strtotime('+3 days'));
-
-$sql = "SELECT * FROM shop_order_reg
-        WHERE ({$sqlCondition})
-        AND od_reg_total_num > od_reg_num
-        AND od_begin_date >= DATE_ADD(CURDATE(), INTERVAL 2 DAY);";
-$res = sql_query($sql);
-
-
-print_r($sql);
-exit;
-while ($row = sql_fetch_array($res)) {
-  if($row['od_reg_num'] == 0) {
-    $AND = " AND od_reg_num = 0
-             AND (od_begin_date BETWEEN '{$currentDate}' AND '{$threeDaysLater}')";
-  } else {
-    $AND = "AND od_begin_date > '{$threeDaysLater}'";
-  }
-  $sql_order = "SELECT * FROM shop_order_reg
-                WHERE ({$sqlCondition})
-                AND index_no = '{$row['index_no']}'
-                AND od_reg_total_num > od_reg_num
-                {$AND}
-                ";
-  $res_order = sql_query($sql_order);
-
-  while ($row_order = sql_fetch_array($res_order)) {
-    if(!empty($row_order['index_no'])){
-      $sql_cart = "SELECT * FROM shop_cart
-                    WHERE od_id = '{$row_order['od_id']}'";
-      $res_cart = sql_query($sql_cart);
-
-      $sql_card = "SELECT * FROM iu_card_reg WHERE mb_id = '{$row_order['mb_id']}' AND cr_use = 'Y'";
-      $row_card = sql_fetch($sql_card);
-
-      print_r($row_order );
-      exit;
-
-      $card_id = $row_card['idx'];
-
-      while ($row_cart = sql_fetch_array($res_cart)) {
-        $gs_id[] = $row_cart['gs_id'];
-      }
-      $gs_first_id = $gs_id[0];
-      $gs_count    = count($gs_id);
-      $sql_gs      = "SELECT * FROM shop_goods WHERE index_no = '{$gs_first_id}'";
-      $row_gs      = sql_fetch($sql_gs);
-
-      if ($gs_count > 1) {
-        $t_turnstr = truncateString($row_gs['gname'], 8) . '외' . $gs_count . '건';
-      } else {
-        $t_turnstr = truncateString($row_gs['gname'], 10);
-      }
-
-
-      // $_POST['tot_price'] order_reg에 있는 데이터 다 불러와서 포스트 변수 수정 필요 선언된 변수들 전부 채크 필요
-
-
-
-      $billingkey      = $row_card['cr_billing'];
-      $t_ckey          = $row_card['cr_customer_key'];
-      $t_amount        = str_replace(',', '', $row_order['use_price']);
-      $t_orderid       = $row_order['od_id'];
-      $t_ordername     = $t_turnstr;
-      $t_taxfreeamount = 0;
-      $t_name          = $row_order['name'];
-      $t_email         = $row_order['email'];
-      $TossRun         = new Tosspay();
-      $toss_run        = $TossRun->autoPay($t_ckey, $t_amount, $t_orderid, $t_ordername, $t_taxfreeamount, $t_name, $t_email, $billingkey);
-      if ($toss_run->code) {
-        if ($resulturl == 'pc') {
-          log_write("결제 오류 ".$toss_run->code);
-        } else {
-          log_write("결제 오류 ".$toss_run->code);
-        }
-      }
-      $orderInsert                            = new IUD_Model();
-      $or_insert['mId']                       = $toss_run->mId;
-      $or_insert['lastTransactionKey']        = $toss_run->lastTransactionKey;
-      $or_insert['paymentKey']                = $toss_run->paymentKey;
-      $or_insert['orderId']                   = $toss_run->orderId;
-      $or_insert['orderName']                 = $toss_run->orderName;
-      $or_insert['taxExemptionAmount']        = $toss_run->taxExemptionAmount;
-      $or_insert['status']                    = $toss_run->status;
-      $or_insert['requestedAt']               = $toss_run->requestedAt;
-      $or_insert['approvedAt']                = $toss_run->approvedAt;
-      $or_insert['useEscrow']                 = $toss_run->useEscrow;
-      $or_insert['cultureExpense']            = $toss_run->cultureExpense;
-      $or_insert['cardIssuerCode']            = $toss_run->card->issuerCode;
-      $or_insert['cardAcquirerCode']          = $toss_run->card->acquirerCode;
-      $or_insert['cardNumber']                = $toss_run->card->number;
-      $or_insert['cardInstallmentPlanMonths'] = $toss_run->card->installmentPlanMonths;
-      $or_insert['cardIsInterestFree']        = $toss_run->card->isInterestFree;
-      $or_insert['cardInterestPayer']         = $toss_run->card->interestPayer;
-      $or_insert['cardApproveNo']             = $toss_run->card->approveNo;
-      $or_insert['cardUseCardPoint']          = $toss_run->card->useCardPoint;
-      $or_insert['cardType']                  = $toss_run->card->cardType;
-      $or_insert['cardOwnerType']             = $toss_run->card->ownerType;
-      $or_insert['cardAcquireStatus']         = $toss_run->card->acquireStatus;
-      $or_insert['cardAmount']                = $toss_run->card->amount;
-      $or_insert['virtualAccount']            = $toss_run->virtualAccount;
-      $or_insert['transfer']                  = $toss_run->transfer;
-      $or_insert['mobilePhone']               = $toss_run->mobilePhone;
-      $or_insert['giftCertificate']           = $toss_run->giftCertificate;
-      $or_insert['cashReceipt']               = $toss_run->cashReceipt;
-      $or_insert['cashReceipts']              = $toss_run->cashReceipts;
-      $or_insert['discount']                  = $toss_run->discount;
-      $or_insert['cancels']                   = $toss_run->cancels;
-      $or_insert['secret']                    = $toss_run->secret;
-      $or_insert['type']                      = $toss_run->type;
-      $or_insert['easyPay']                   = $toss_run->easyPay;
-      $or_insert['country']                   = $toss_run->country;
-      $or_insert['failure']                   = $toss_run->failure;
-      $or_insert['isPartialCancelable']       = $toss_run->isPartialCancelable;
-      $or_insert['receiptUrl']                = $toss_run->receipt->url;
-      $or_insert['checkoutUrl']               = $toss_run->checkout->url;
-      $or_insert['currency']                  = $toss_run->currency;
-      $or_insert['totalAmount']               = $toss_run->totalAmount;
-      $or_insert['balanceAmount']             = $toss_run->balanceAmount;
-      $or_insert['suppliedAmount']            = $toss_run->suppliedAmount;
-      $or_insert['vat']                       = $toss_run->vat;
-      $or_insert['taxFreeAmount']             = $toss_run->taxFreeAmount;
-      $or_insert['method']                    = $toss_run->method;
-      $or_insert['version']                   = $toss_run->version;
-    // $or_where = "WHERE od_id = {$od_id}";
-      $tran_id = $orderInsert->insert('toss_transactions', $or_insert);
-
-      if(!empty($tran_id)){
-        if ($row_order['zip']) {
-          $order_info_query = "
-              , zip					= '{$row_order['zip']}'
-              , addr1				= '{$row_order['addr1']}'
-              , addr2				= '{$row_order['addr2']}'
-              , addr3				= '{$row_order['addr3']}'
-          ";
-        } else {
-          $order_info_query = "
-              , zip				= '{$row_order['b_zip']}'
-              , addr1				= '{$row_order['b_addr1']}'
-              , addr2				= '{$row_order['b_addr2']}'
-              , addr3				= '{$row_order['b_addr3']}'
-          ";
-        }
-        $sql = "insert into shop_order
-			   set od_id				= '{$row_order['od_id']}'
-			     , od_no				= '{$row_order['od_no']}'
-				 , mb_id				= '{$row_order['mb_id']}'
-				 , name					= '{$row_order['name']}'
-				 , cellphone			= '{$row_order['cellphone']}'
-				 , telephone			= '{$row_order['telephone']}'
-				 , email				= '{$row_order['email']}'
-
-				  $order_info_query
-
-				 , addr_jibeon			= '{$row_order['addr_jibeon']}'
-				 , b_name				= '{$row_order['b_name']}'
-				 , b_cellphone			= '{$row_order['b_cellphone']}'
-				 , b_telephone			= '{$row_order['b_telephone']}'
-
-				 , b_zip				= '{$row_order['b_zip']}'
-				 , b_addr1				= '{$row_order['b_addr1']}'
-				 , b_addr2				= '{$row_order['b_addr2']}'
-				 , b_addr3				= '{$row_order['b_addr3']}'
-
-				 , b_addr_jibeon		= '{$row_order['b_addr_jibeon']}'
-         , b_addr_req       = '{$row_order['b_addr_req']}'
-				 , gs_id				    = '{$row_order['gs_id']}'
-				 , gs_notax				  = '{$row_order['gs_notax']}'
-				 , seller_id			  = '{$row_order['seller_id']}'
-				 , goods_price			= '{$row_order['gs_price']}'
-				 , supply_price			= '{$row_order['supply_price']}'
-				 , sum_point			  = '{$row_order['sum_point']}'
-				 , sum_qty				  = '{$row_order['sum_qty']}'
-				 , coupon_price			= '{$row_order['coupon_price']}'
-				 , coupon_lo_id			= '{$row_order['coupon_lo_id']}'
-				 , coupon_cp_id			= '{$row_order['coupon_cp_id']}'
-				 , use_price			  = '{$row_order['i_use_price']}'
-				 , use_point			  = '{$row_order['i_use_point']}'
-				 , baesong_price		= '{$row_order['baesong_price']}'
-				 , baesong_price2		= '{$row_order['baesong_price2']}'
-				 , paymethod			  = '{$row_order['paymethod']}'
-				 , bank					    = '{$row_order['bank']}'
-				 , deposit_name			= '{$row_order['deposit_name']}'
-				 , dan					    = '2'
-				 , memo					    = '{$row_order['memo']}'
-				 , taxsave_yes			= '{$row_order['taxsave_yes']}'
-				 , taxbill_yes			= '{$row_order['taxbill_yes']}'
-				 , od_time				  = '" . BV_TIME_YMDHIS . "'
-				 , od_pwd				    = '{$row_order['od_pwd']}'
-				 , od_ip				    = '{$_SERVER['REMOTE_ADDR']}'
-				 , od_test				  = '{$row_order['de_card_test']}'
-				 , od_tax_flag			= '{$row_order['de_tax_flag_use']}'
-				 , od_settle_pid		= '{$row_order['pt_settle_pid']}'
-				 , pt_id				    = '{$row_order['pt_id']}'
-				 , shop_id				  = '{$row_order['shop_id']}'
-				 , od_mobile			  = '1'
-         ";
-         sql_query($sql, true);
-        $insert_id = sql_insert_id();
-        $shop_table = "shop_order";
-        save_goods_data($gs_id, $insert_id, $row_order['od_id'], $shop_table);
-        // 뒤에 더 있는데...... 업데이트도 있고.................................................
-      }
+    // od_id가 처음 등장하는 경우 카운터를 초기화
+    if (!isset($odIdCounters[$od_id])) {
+      $odIdCounters[$od_id] = 0;
     }
+
+    // 현재 카운터 값을 사용하고, 이후 카운터 값을 증가시킴
+    $i = $odIdCounters[$od_id];
+    $odIdCounters[$od_id]++;
+
+    $shopVal['od_id']             = $row['od_id']."_".$i;
+    $shopVal['od_no']             = $row['od_no']."_".$i;
+    $shopVal['mb_id']             = $row['mb_id'];
+    $shopVal['pt_id']             = $row['pt_id'];
+    $shopVal['shop_id']           = $row['shop_id'];
+    $shopVal['dan']               = 2;
+    $shopVal['dan2']              = $row['dan2'];
+    $shopVal['dan3']              = $row['dan3'];
+    $shopVal['paymethod']         = $row['paymethod'];
+    $shopVal['name']              = $row['name'];
+    $shopVal['telephone']         = $row['telephone'];
+    $shopVal['cellphone']         = $row['cellphone'];
+    $shopVal['email']             = $row['email'];
+    $shopVal['zip']               = $row['zip'];
+    $shopVal['addr1']             = $row['addr1'];
+    $shopVal['addr2']             = $row['addr2'];
+    $shopVal['addr3']             = $row['addr3'];
+    $shopVal['addr_jibeon']       = $row['addr_jibeon'];
+    $shopVal['b_name']            = $row['b_name'];
+    $shopVal['b_cellphone']       = $row['b_cellphone'];
+    $shopVal['b_telephone']       = $row['b_telephone'];
+    $shopVal['b_zip']             = $row['b_zip'];
+    $shopVal['b_addr1']           = $row['b_addr1'];
+    $shopVal['b_addr2']           = $row['b_addr2'];
+    $shopVal['b_addr3']           = $row['b_addr3'];
+    $shopVal['b_addr_jibeon']     = $row['b_addr_jibeon'];
+    $shopVal['b_addr_req']        = $row['b_addr_req'];
+    $shopVal['gs_id']             = $row['gs_id'];
+    $shopVal['gs_notax']          = $row['gs_notax'];
+    $shopVal['seller_id']         = $row['seller_id'];
+    $shopVal['sellerpay_yes']     = $row['sellerpay_yes'];
+    $shopVal['sum_point']         = $row['sum_point'];
+    $shopVal['sum_qty']           = $row['sum_qty'];
+    $shopVal['goods_price']       = $row['goods_price'];
+    $shopVal['supply_price']      = $row['supply_price'];
+    $shopVal['coupon_price']      = $row['coupon_price'];
+    $shopVal['coupon_lo_id']      = $row['coupon_lo_id'];
+    $shopVal['coupon_cp_id']      = $row['coupon_cp_id'];
+    $shopVal['use_price']         = $row['use_price'];
+    $shopVal['use_point']         = $row['use_point'];
+    $shopVal['baesong_price']     = $row['baesong_price'];
+    $shopVal['baesong_price2']    = $row['baesong_price2'];
+    $shopVal['cancel_price']      = $row['cancel_price'];
+    $shopVal['refund_price']      = $row['refund_price'];
+    $shopVal['bank']              = $row['bank'];
+    $shopVal['deposit_name']      = $row['deposit_name'];
+    $shopVal['receipt_time']      = $row['receipt_time'];
+    $shopVal['refund_bank']       = $row['refund_bank'];
+    $shopVal['refund_num']        = $row['refund_num'];
+    $shopVal['refund_name']       = $row['refund_name'];
+    $shopVal['delivery']          = $row['delivery'];
+    $shopVal['delivery_no']       = $row['delivery_no'];
+    $shopVal['delivery_date']     = $row['delivery_date'];
+    $shopVal['cancel_date']       = $row['cancel_date'];
+    $shopVal['return_date']       = $row['return_date'];
+    $shopVal['change_date']       = $row['change_date'];
+    $shopVal['invoice_date']      = $row['invoice_date'];
+    $shopVal['refund_date']       = $row['refund_date'];
+    $shopVal['memo']              = $row['memo'];
+    $shopVal['shop_memo']         = $row['shop_memo'];
+    $shopVal['user_ok']           = $row['user_ok'];
+    $shopVal['user_date']         = $row['user_date'];
+    $shopVal['taxsave_yes']       = $row['taxsave_yes'];
+    $shopVal['taxbill_yes']       = $row['taxbill_yes'];
+    $shopVal['company_saupja_no'] = $row['company_saupja_no'];
+    $shopVal['company_name']      = $row['company_name'];
+    $shopVal['company_owner']     = $row['company_owner'];
+    $shopVal['company_addr']      = $row['company_addr'];
+    $shopVal['company_item']      = $row['company_item'];
+    $shopVal['company_service']   = $row['company_service'];
+    $shopVal['company_tel']       = $row['company_tel'];
+    $shopVal['company_email']     = $row['company_email'];
+    $shopVal['tax_hp']            = $row['tax_hp'];
+    $shopVal['tax_saupja_no']     = $row['tax_saupja_no'];
+    $shopVal['od_time']           = date("Y-m-d H:i:s");
+    $shopVal['od_mobile']         = $row['od_mobile'];
+    $shopVal['od_mod_history']    = $row['od_mod_history'];
+    $shopVal['od_pwd']            = $row['od_pwd'];
+    $shopVal['od_test']           = $row['od_test'];
+    $shopVal['od_settle_pid']     = $row['od_settle_pid'];
+    $shopVal['od_pg']             = $row['od_pg'];
+    $shopVal['od_tno']            = $row['od_tno'];
+    $shopVal['od_app_no']         = $row['od_app_no'];
+    $shopVal['od_escrow']         = $row['od_escrow'];
+    $shopVal['od_casseqno']       = $row['od_casseqno'];
+    $shopVal['od_tax_flag']       = $row['od_tax_flag'];
+    $shopVal['od_tax_mny']        = $row['od_tax_mny'];
+    $shopVal['od_vat_mny']        = $row['od_vat_mny'];
+    $shopVal['od_free_mny']       = $row['od_free_mny'];
+    $shopVal['od_cash']           = $row['od_cash'];
+    $shopVal['od_cash_no']        = $row['od_cash_no'];
+    $shopVal['od_cash_info']      = $row['od_cash_info'];
+    $shopVal['od_goods']          = $row['od_goods'];
+    $shopVal['od_ip']             = $row['od_ip'];
+    $shopVal['return_memo']       = $row['return_memo'];
+
+    $OrderModel = new IUD_Model();
+    $table = "shop_order";
+    $OrderModel->insert($table, $shopVal);
+
+    $RegOrderModel = new IUD_Model();
+    $reg_table = "shop_order_reg";
+    $shopRegVal['od_reg_num'] = $row['od_reg_num']+1;
+    $upWhere =  "WHERE index_no = '{$row['index_no']}'";
+    $RegOrderModel->update($reg_table, $shopRegVal,$upWhere);
+  }
+}
+foreach ($totals as $totalData) {
+  $od_id          = $totalData['od_id'];
+  $gs_ids         = $totalData['gs_ids'];
+  $total_ct_price = $totalData['total_ct_price'];
+  $gs_count       = count(explode(',', $gs_ids));
+  $gs_id_arr      = explode(',', $gs_ids);
+
+  $sql_gs = "SELECT * FROM shop_goods WHERE index_no = '{$gs_id_arr[0]}'";
+  $row_gs = sql_fetch($sql_gs);
+
+  // 결제 관련 데이터 설정
+  $sql_card = "SELECT * FROM iu_card_reg WHERE mb_id = '{$totalData['mb_id']}' AND cr_use = 'Y'";
+  $row_card = sql_fetch($sql_card);
+
+  $sql_mem = "SELECT * FROM shop_member WHERE id = '{$totalData['mb_id']}'";
+  $row_mem = sql_fetch($sql_mem);
+
+  $t_turnstr       = $gs_count > 1 ? truncateString($row_gs['gname'], 8) . '외' . $gs_count . '건' : truncateString($row_gs['gname'], 10);
+  $billingkey      = $row_card['cr_billing'];
+  $t_ckey          = $row_card['cr_customer_key'];
+  $t_amount        = str_replace(',', '', $total_ct_price); // total_ct_price 사용
+  $t_orderid       = $od_id.'_'.$totalData['od_reg_num']+1;
+  $t_bank          = $totalData['bank_code'];
+  $t_ordername     = $t_turnstr;
+  $t_taxfreeamount = 0;
+  $credential      = "test_sk_QbgMGZzorzKD26y2w4728l5E1em4";
+  $t_name          = $totalData['name'];
+  $t_email         = $totalData['email'];
+  $customerMobilePhone = $row_mem['cellphone'];
+
+  if($totalData['paymethod'] == "무통장"){
+    $TossVirtualAcc = new Tosspay();
+    $toss_acc       = $TossVirtualAcc->virtualAcc($t_amount, $t_orderid, $t_ordername, $t_name, $t_email, $t_bank, $customerMobilePhone);
+    if ($toss_acc->code) {
+      log_write($toss_acc->code . "[가상계좌 결제 오류]");
+      continue;
+    }
+    $accInsert                            = new IUD_Model();
+    $acc_insert['mId']                    = $toss_acc->mId;
+    $acc_insert['lastTransactionKey']     = $toss_acc->lastTransactionKey;
+    $acc_insert['paymentKey']             = $toss_acc->paymentKey;
+    $acc_insert['orderId']                = $toss_acc->orderId;
+    $acc_insert['orderName']              = $toss_acc->orderName;
+    $acc_insert['taxExemptionAmount']     = $toss_acc->taxExemptionAmount;
+    $acc_insert['status']                 = $toss_acc->status;
+    $acc_insert['requestedAt']            = $toss_acc->requestedAt;
+    $acc_insert['approvedAt']             = $toss_acc->approvedAt;
+    $acc_insert['useEscrow']              = $toss_acc->useEscrow;
+    $acc_insert['cultureExpense']         = $toss_acc->cultureExpense;
+    $acc_insert['vaAccountNumber']        = $toss_acc->virtualAccount->accountNumber;
+    $acc_insert['vaAccountType']          = $toss_acc->virtualAccount->accountType;
+    $acc_insert['vaBankCode']             = $toss_acc->virtualAccount->bankCode;
+    $acc_insert['vaCustomerName']         = $toss_acc->virtualAccount->customerName;
+    $acc_insert['vaDueDate']              = $toss_acc->virtualAccount->dueDate;
+    $acc_insert['vaExpired']              = $toss_acc->virtualAccount->expired;
+    $acc_insert['vaSettlementStatus']     = $toss_acc->virtualAccount->settlementStatus;
+    $acc_insert['vaRefundStatus']         = $toss_acc->virtualAccount->refundStatus;
+    $acc_insert['vaRefundReceiveAccount'] = $toss_acc->virtualAccount->refundReceiveAccount;
+    $acc_insert['transfer']               = $toss_acc->transfer;
+    $acc_insert['mobilePhone']            = $toss_acc->mobilePhone;
+    $acc_insert['giftCertificate']        = $toss_acc->giftCertificate;
+    $acc_insert['cashReceipt']            = $toss_acc->cashReceipt;
+    $acc_insert['cashReceipts']           = $toss_acc->cashReceipts;
+    $acc_insert['discount']               = $toss_acc->discount;
+    $acc_insert['cancels']                = $toss_acc->cancels;
+    $acc_insert['secret']                 = $toss_acc->secret;
+    $acc_insert['type']                   = $toss_acc->type;
+    $acc_insert['easyPay']                = $toss_acc->easyPay;
+    $acc_insert['country']                = $toss_acc->country;
+    $acc_insert['failure']                = $toss_acc->failure;
+    $acc_insert['isPartialCancelable']    = $toss_acc->isPartialCancelable;
+    $acc_insert['receiptUrl']             = $toss_acc->receipt->url;
+    $acc_insert['checkoutUrl']            = $toss_acc->checkout->url;
+    $acc_insert['currency']               = $toss_acc->currency;
+    $acc_insert['totalAmount']            = $toss_acc->totalAmount;
+    $acc_insert['balanceAmount']          = $toss_acc->balanceAmount;
+    $acc_insert['suppliedAmount']         = $toss_acc->suppliedAmount;
+    $acc_insert['vat']                    = $toss_acc->vat;
+    $acc_insert['taxFreeAmount']          = $toss_acc->taxFreeAmount;
+    $acc_insert['method']                 = $toss_acc->method;
+    $acc_insert['version']                = $toss_acc->version;
+    $tran_id = $accInsert->insert('toss_virtual_account', $acc_insert);
+  } else {
+    $TossRun  = new Tosspay();
+    $toss_run = $TossRun->autoPay($t_ckey, $t_amount, $t_orderid, $t_ordername, $t_taxfreeamount, $t_name, $t_email, $billingkey, $credential);
+    if ($toss_run->code) {
+      log_write( $toss_run->code . "[신용 결제 오류]");
+    }
+    $orderInsert                            = new IUD_Model();
+    $or_insert['mId']                       = $toss_run->mId;
+    $or_insert['lastTransactionKey']        = $toss_run->lastTransactionKey;
+    $or_insert['paymentKey']                = $toss_run->paymentKey;
+    $or_insert['orderId']                   = $toss_run->orderId;
+    $or_insert['orderName']                 = $toss_run->orderName;
+    $or_insert['taxExemptionAmount']        = $toss_run->taxExemptionAmount;
+    $or_insert['status']                    = $toss_run->status;
+    $or_insert['requestedAt']               = $toss_run->requestedAt;
+    $or_insert['approvedAt']                = $toss_run->approvedAt;
+    $or_insert['useEscrow']                 = $toss_run->useEscrow;
+    $or_insert['cultureExpense']            = $toss_run->cultureExpense;
+    $or_insert['cardIssuerCode']            = $toss_run->card->issuerCode;
+    $or_insert['cardAcquirerCode']          = $toss_run->card->acquirerCode;
+    $or_insert['cardNumber']                = $toss_run->card->number;
+    $or_insert['cardInstallmentPlanMonths'] = $toss_run->card->installmentPlanMonths;
+    $or_insert['cardIsInterestFree']        = $toss_run->card->isInterestFree;
+    $or_insert['cardInterestPayer']         = $toss_run->card->interestPayer;
+    $or_insert['cardApproveNo']             = $toss_run->card->approveNo;
+    $or_insert['cardUseCardPoint']          = $toss_run->card->useCardPoint;
+    $or_insert['cardType']                  = $toss_run->card->cardType;
+    $or_insert['cardOwnerType']             = $toss_run->card->ownerType;
+    $or_insert['cardAcquireStatus']         = $toss_run->card->acquireStatus;
+    $or_insert['cardAmount']                = $toss_run->card->amount;
+    $or_insert['virtualAccount']            = $toss_run->virtualAccount;
+    $or_insert['transfer']                  = $toss_run->transfer;
+    $or_insert['mobilePhone']               = $toss_run->mobilePhone;
+    $or_insert['giftCertificate']           = $toss_run->giftCertificate;
+    $or_insert['cashReceipt']               = $toss_run->cashReceipt;
+    $or_insert['cashReceipts']              = $toss_run->cashReceipts;
+    $or_insert['discount']                  = $toss_run->discount;
+    $or_insert['cancels']                   = $toss_run->cancels;
+    $or_insert['secret']                    = $toss_run->secret;
+    $or_insert['type']                      = $toss_run->type;
+    $or_insert['easyPay']                   = $toss_run->easyPay;
+    $or_insert['country']                   = $toss_run->country;
+    $or_insert['failure']                   = $toss_run->failure;
+    $or_insert['isPartialCancelable']       = $toss_run->isPartialCancelable;
+    $or_insert['receiptUrl']                = $toss_run->receipt->url;
+    $or_insert['checkoutUrl']               = $toss_run->checkout->url;
+    $or_insert['currency']                  = $toss_run->currency;
+    $or_insert['totalAmount']               = $toss_run->totalAmount;
+    $or_insert['balanceAmount']             = $toss_run->balanceAmount;
+    $or_insert['suppliedAmount']            = $toss_run->suppliedAmount;
+    $or_insert['vat']                       = $toss_run->vat;
+    $or_insert['taxFreeAmount']             = $toss_run->taxFreeAmount;
+    $or_insert['method']                    = $toss_run->method;
+    $or_insert['version']                   = $toss_run->version;
+    // $or_where = "WHERE od_id = {$od_id}";
+    $tran_id = $orderInsert->insert('toss_transactions', $or_insert);
   }
 
-
 }
-
-
 
 
 function truncateString($string, $length) {
