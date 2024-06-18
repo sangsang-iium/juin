@@ -5,8 +5,13 @@ ini_set("display_errors", 1);
 $today         = date('Y-m-d');
 $daysOfWeek    = ['일', '월', '화', '수', '목', '금', '토'];
 $daysOfWeekMap = [
-  '일' => 'Sunday', '월'    => 'Monday', '화'   => 'Tuesday',
-  '수' => 'Wednesday', '목' => 'Thursday', '금' => 'Friday', '토' => 'Saturday',
+  '일' => 'Sunday',
+  '월' => 'Monday',
+  '화' => 'Tuesday',
+  '수' => 'Wednesday',
+  '목' => 'Thursday',
+  '금' => 'Friday',
+  '토' => 'Saturday',
 ];
 
 // 3일 후 날짜 계산
@@ -92,6 +97,7 @@ $orderNumRows = sql_num_rows($resOdShop);
 
 $sqlCartSum = "SELECT o.od_id, o.mb_id, o.email, o.name, o.paymethod, o.bank_code, o.od_reg_num,
                   GROUP_CONCAT(DISTINCT c.gs_id ORDER BY c.gs_id SEPARATOR ',') AS gs_ids,
+                  GROUP_CONCAT(DISTINCT c.index_no ORDER BY c.index_no SEPARATOR ',') AS index_nos,
                   SUM(c.ct_price) AS total_ct_price
               FROM shop_order_reg o
               JOIN shop_cart c ON o.od_no = c.od_no
@@ -120,8 +126,8 @@ if ($orderNumRows > 0) {
     $i = $odIdCounters[$od_id];
     $odIdCounters[$od_id]++;
 
-    $shopVal['od_id']             = $row['od_id']."_".$i;
-    $shopVal['od_no']             = $row['od_no']."_".$i;
+    $shopVal['od_id']             = $row['od_id'] . "_" . $i;
+    $shopVal['od_no']             = $row['od_no'] . "_" . $i;
     $shopVal['mb_id']             = $row['mb_id'];
     $shopVal['pt_id']             = $row['pt_id'];
     $shopVal['shop_id']           = $row['shop_id'];
@@ -217,22 +223,25 @@ if ($orderNumRows > 0) {
     $shopVal['return_memo']       = $row['return_memo'];
 
     $OrderModel = new IUD_Model();
-    $table = "shop_order";
+    $table      = "shop_order";
     $OrderModel->insert($table, $shopVal);
 
-    $RegOrderModel = new IUD_Model();
-    $reg_table = "shop_order_reg";
-    $shopRegVal['od_reg_num'] = $row['od_reg_num']+1;
-    $upWhere =  "WHERE index_no = '{$row['index_no']}'";
-    $RegOrderModel->update($reg_table, $shopRegVal,$upWhere);
+    $RegOrderModel            = new IUD_Model();
+    $reg_table                = "shop_order_reg";
+    $shopRegVal['od_reg_num'] = $row['od_reg_num'] + 1;
+    $upWhere                  = "WHERE index_no = '{$row['index_no']}'";
+    $RegOrderModel->update($reg_table, $shopRegVal, $upWhere);
   }
 }
 foreach ($totals as $totalData) {
   $od_id          = $totalData['od_id'];
   $gs_ids         = $totalData['gs_ids'];
+  $index_nos      = $totalData['index_nos'];
   $total_ct_price = $totalData['total_ct_price'];
   $gs_count       = count(explode(',', $gs_ids));
   $gs_id_arr      = explode(',', $gs_ids);
+  $cart_count     = count(explode(',', $index_nos));
+  $cart_id_arr    = explode(',', $index_nos);
 
   $sql_gs = "SELECT * FROM shop_goods WHERE index_no = '{$gs_id_arr[0]}'";
   $row_gs = sql_fetch($sql_gs);
@@ -244,20 +253,20 @@ foreach ($totals as $totalData) {
   $sql_mem = "SELECT * FROM shop_member WHERE id = '{$totalData['mb_id']}'";
   $row_mem = sql_fetch($sql_mem);
 
-  $t_turnstr       = $gs_count > 1 ? truncateString($row_gs['gname'], 8) . '외' . $gs_count . '건' : truncateString($row_gs['gname'], 10);
-  $billingkey      = $row_card['cr_billing'];
-  $t_ckey          = $row_card['cr_customer_key'];
-  $t_amount        = str_replace(',', '', $total_ct_price); // total_ct_price 사용
-  $t_orderid       = $od_id.'_'.$totalData['od_reg_num']+1;
-  $t_bank          = $totalData['bank_code'];
-  $t_ordername     = $t_turnstr;
-  $t_taxfreeamount = 0;
-  $credential      = "test_sk_QbgMGZzorzKD26y2w4728l5E1em4";
-  $t_name          = $totalData['name'];
-  $t_email         = $totalData['email'];
+  $t_turnstr           = $gs_count > 1 ? truncateString($row_gs['gname'], 8) . '외' . $gs_count . '건' : truncateString($row_gs['gname'], 10);
+  $billingkey          = $row_card['cr_billing'];
+  $t_ckey              = $row_card['cr_customer_key'];
+  $t_amount            = str_replace(',', '', $total_ct_price); // total_ct_price 사용
+  $t_orderid           = $od_id . '_' . $totalData['od_reg_num'] + 1;
+  $t_bank              = $totalData['bank_code'];
+  $t_ordername         = $t_turnstr;
+  $t_taxfreeamount     = 0;
+  $credential          = "test_sk_QbgMGZzorzKD26y2w4728l5E1em4";
+  $t_name              = $totalData['name'];
+  $t_email             = $totalData['email'];
   $customerMobilePhone = $row_mem['cellphone'];
 
-  if($totalData['paymethod'] == "무통장"){
+  if ($totalData['paymethod'] == "무통장") {
     $TossVirtualAcc = new Tosspay();
     $toss_acc       = $TossVirtualAcc->virtualAcc($t_amount, $t_orderid, $t_ordername, $t_name, $t_email, $t_bank, $customerMobilePhone);
     if ($toss_acc->code) {
@@ -308,12 +317,14 @@ foreach ($totals as $totalData) {
     $acc_insert['taxFreeAmount']          = $toss_acc->taxFreeAmount;
     $acc_insert['method']                 = $toss_acc->method;
     $acc_insert['version']                = $toss_acc->version;
-    $tran_id = $accInsert->insert('toss_virtual_account', $acc_insert);
+    $tran_id                              = $accInsert->insert('toss_virtual_account', $acc_insert);
+
   } else {
     $TossRun  = new Tosspay();
     $toss_run = $TossRun->autoPay($t_ckey, $t_amount, $t_orderid, $t_ordername, $t_taxfreeamount, $t_name, $t_email, $billingkey, $credential);
     if ($toss_run->code) {
-      log_write( $toss_run->code . "[신용 결제 오류]");
+      log_write($toss_run->code . "[신용 결제 오류]");
+      continue;
     }
     $orderInsert                            = new IUD_Model();
     $or_insert['mId']                       = $toss_run->mId;
@@ -367,8 +378,31 @@ foreach ($totals as $totalData) {
     $tran_id = $orderInsert->insert('toss_transactions', $or_insert);
   }
 
-}
+  // $cart_count  = count(explode(',', $index_nos));
+  // $cart_id_arr = explode(',', $index_nos);
+  // 재고수량 감소
+  for ($i = 0; $i < $cart_count; $i++) {
+    $ct = get_cart_id($cart_id_arr[$i]);
 
+    if ($ct['io_id']) { // 옵션 : 재고수량 감소
+      $sql = " update shop_goods_option
+                set io_stock_qty = io_stock_qty - '{$ct['ct_qty']}'
+                where io_id = '{$ct['io_id']}'
+                and gs_id = '{$ct['gs_id']}'
+                and io_type = '{$ct['io_type']}'
+                and io_stock_qty <> '999999999' ";
+      sql_query($sql, FALSE);
+    } else { // 상품 : 재고수량 감소
+      $sql = " update shop_goods
+                set stock_qty = stock_qty - '{$ct['ct_qty']}'
+                where index_no = '{$ct['gs_id']}'
+                and stock_mod = '1' ";
+      sql_query($sql, FALSE);
+    }
+  }
+
+
+}
 
 function truncateString($string, $length) {
   if (mb_strlen($string, 'UTF-8') > $length) {
