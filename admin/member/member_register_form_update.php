@@ -70,6 +70,14 @@ $value['mb_certify']	= $mb_certify;
 $value['mb_adult']		= $mb_adult;
 $value['ju_b_num']    = formatBno($ju_b_num);
 
+// 담당자 추가 _20240618_SY
+if($_SESSION['ss_mn_id']) {
+  $value['ju_manager'] = $ju_manager;
+  $value['ju_region1'] = $ju_region1;
+  $value['ju_region2'] = $ju_region2;
+  $value['ju_region3'] = $ju_region3;
+}
+
 if($chk_b_num == 1) {
   // 매장 대표번호 체크 _20240612_SY
   $ju_tel = hyphen_hp_number($_POST['ju_tel']);

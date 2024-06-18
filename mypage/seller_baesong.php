@@ -77,7 +77,7 @@ include_once("./admin_head.sub.php");
 			</script>
 		</td>
 	</tr>-->
-	<tr>
+	<!-- <tr>
 		<th scope="row">배송업체</th>
 		<td>
 			<div id="sit_supply_frm" class="tbl_frm02">
@@ -120,7 +120,7 @@ include_once("./admin_head.sub.php");
 				<?php //echo help('※ 배송업체등록은 본사에서만 가능하며 추가하실 업체는 본사로 문의주시기 바랍니다.'); ?>
 			</div>
 		</td>
-	</tr>
+	</tr> -->
 	<tr>
 		<th scope="row">기본 배송정책</th>
 		<td>

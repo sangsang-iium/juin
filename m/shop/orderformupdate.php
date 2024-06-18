@@ -168,7 +168,6 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   $acc_insert['taxFreeAmount']          = $toss_acc->taxFreeAmount;
   $acc_insert['method']                 = $toss_acc->method;
   $acc_insert['version']                = $toss_acc->version;
-// $or_where = "WHERE od_id = {$od_id}";
   $tran_id = $accInsert->insert('toss_virtual_account', $acc_insert);
 
   if($_POST['raffle'] == 1) {

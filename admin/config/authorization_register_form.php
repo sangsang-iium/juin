@@ -50,7 +50,7 @@ foreach ($user_constants as $key => $value) {
 
 ?>
 
-<form name="fmanager" id="fregisterform" action="./config/authupdate.php" onsubmit="return fregisterform_submit(this);" method="POST" autocomplete="off">
+<form name="fregisterform" id="fregisterform" action="./config/authupdate.php" onsubmit="return fregisterform_submit(this);" method="POST" autocomplete="off">
   <input type="hidden" name="q1" value="<?php echo $q1; ?>">
   <input type="hidden" name="page" value="<?php echo $page; ?>">
   <input type="hidden" name="w" value="<?php echo $w ?>">
@@ -164,3 +164,16 @@ foreach ($user_constants as $key => $value) {
     <input type="submit" value="저장" class="btn_medium red" accesskey="s">
   </div>
 </form>
+
+<script>
+  function fregisterform_submit(f) {
+    const w = document.querySelector("input[name='w']").value;
+    
+    if(w == '' && f.auth_title.value.length < 1 ) {
+      alert("명칭을 입력하여 주십시오.");
+      f.auth_title.focus();
+      return false;
+    }
+    return true;
+  }
+</script>

@@ -35,116 +35,117 @@ if(!defined('_BLUEVATION_')) exit;
     <div class="prod_list mart50">
         <div class="prod_list_wrap">
             <div class="order_list_wrap">
-                <div class="order_list">
                     <?php
                         for($i=0; $row=sql_fetch_array($result); $i++) {
                             $sql = " select * from shop_cart where od_id = '$row[od_id]' ";
                             $sql.= " group by gs_id order by io_type asc, index_no asc ";
                             $res = sql_query($sql);
                             $rowspan = sql_num_rows($res) + 1;
+                                    for($k=0; $ct=sql_fetch_array($res); $k++) {
+                                        $od = get_order($ct['od_no']);
+                                        $gs = unserialize($od['od_goods']);
 
-                            for($k=0; $ct=sql_fetch_array($res); $k++) {
-                                $od = get_order($ct['od_no']);
-                                $gs = unserialize($od['od_goods']);
-
-                                $hash = md5($od['gs_id'].$od['od_no'].$od['od_id']);
-                                $dlcomp = explode('|', trim($od['delivery']));
-                                $href = BV_MNG_SHOP_URL.'/view.php?index_no='.$od['gs_id'];
-                                if($k == 0) {
-                    ?>
-                                <div class="order_datebox">
-                                    <p class="order_date"><?php echo substr($od['od_time'],0,10);?></p>
-                                    <a href="<?php echo BV_MNG_SHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $od['od_id']; ?>" class="order_more">상세보기 →</a>
-                                </div>
-                            <?php } ?>
-                            <div class="order_item_list">
-                                <div class="order_items">
-                                    <div class="item_imgBox">
-                                        <a href="<?php echo $href; ?>" class="item_img">
-                                            <?php echo get_od_image($od['od_id'], $gs['simg1'], '100%', '100%'); ?>
-                                        </a>
+                                        $hash = md5($od['gs_id'].$od['od_no'].$od['od_id']);
+                                        $dlcomp = explode('|', trim($od['delivery']));
+                                        $href = BV_MNG_SHOP_URL.'/view.php?index_no='.$od['gs_id'];
+                                        if($k == 0) {
+                                ?>
+                            <div class="order_list">
+                                    <div class="order_datebox">
+                                        <p class="order_date"><?php echo substr($od['od_time'],0,10);?></p>
+                                        <a href="<?php echo BV_MNG_SHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $od['od_id']; ?>" class="order_more">상세보기 →</a>
                                     </div>
-                                    <div class="item_infoBox">
-                                        <a href="<?php echo $href; ?>" class="item_title"><?php echo get_text($gs['gname']); ?></a>
-                                        <ul class="item_infoList">
-                                            <li>주문번호 : <?php echo $od['od_id']; ?></li>
-                                            <li>수량 : <?php echo display_qty($od['sum_qty']); ?></li>
-                                            <li>배송비 : <?php echo display_price($od['baesong_price']); ?></li>
-                                            <?php if($od['dan'] == 5) { ?>
-                                            <li class="padt3">
-                                                <?php if(is_null_time($od['user_date'])) { ?>
-                                                <a href="javascript:final_confirm('<?php echo $hash; ?>');" class="btn_ssmall red">구매확정</a>
+                                    <div class="order_item_list">
+                                <?php } ?>
+                                        <div class="order_items">
+                                            <div class="item_imgBox">
+                                                <a href="<?php echo $href; ?>" class="item_img">
+                                                    <?php echo get_od_image($od['od_id'], $gs['simg1'], 'auto', 'auto'); ?>
+                                                </a>
+                                            </div>
+                                            <div class="item_infoBox">
+                                                <a href="<?php echo $href; ?>" class="item_title"><?php echo get_text($gs['gname']); ?></a>
+                                                <ul class="item_infoList">
+                                                    <li><span>주문번호</span><?php echo $od['od_id']; ?></li>
+                                                    <li><span>수량</span><?php echo display_qty($od['sum_qty']); ?></li>
+                                                    <li><span>배송비</span><?php echo display_price($od['baesong_price']); ?></li>
+                                                    <?php if($od['dan'] == 5) { ?>
+                                                    <li>
+                                                        <?php if(is_null_time($od['user_date'])) { ?>
+                                                        <a href="javascript:final_confirm('<?php echo $hash; ?>');" class="btn_ssmall red">구매확정</a>
+                                                        <?php } ?>
+                                                        <a href="<?php echo BV_SHOP_URL; ?>/orderreview.php?gs_id=<?php echo $od['gs_id']; ?>&od_id=<?php echo $od['od_id']; ?>" onclick="win_open(this, 'winorderreview', '650', '530','yes');return false;" class="btn_ssmall bx-white">구매후기 작성</a>
+                                                    </li>
+                                                    <?php } ?>
+                                                    <li><?php echo display_price($od['use_price']); ?></li>
+                                                    <li>
+                                                        <p><?php echo $gw_status[$od['dan']]; ?></p>
+                                                        <?php if($dlcomp[0] && $od['delivery_no']) { ?>
+                                                        <p class="padt3 fc_90"><?php echo $dlcomp[0]; ?><br><?php echo $od['delivery_no']; ?></p>
+                                                        <?php } ?>
+                                                        <?php if($dlcomp[1] && $od['delivery_no']) { ?>
+                                                        <p class="padt3"><?php echo get_delivery_inquiry($od['delivery'], $od['delivery_no'], 'btn_ssmall'); ?></p>
+                                                        <?php } ?>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div id="pr_item<?php echo $ct['gs_id'];?>" class="pr_item">
+                                                <?php // SELECT 상품 정보 _20240409_SY
+                                                    $gs_sel = "SELECT * FROM shop_goods WHERE index_no = '{$ct['gs_id']}' ";
+                                                    $gs_res = sql_fetch($gs_sel);
+                                                    $ct_sel = "SELECT * FROM shop_goods_option WHERE gs_id = '{$ct['gs_id']}' AND io_id = '{$ct['io_id']}' ";
+                                                    $ct_res = sql_fetch($ct_sel);
+
+                                                    // option _20240411_SY
+                                                    $items = explode(",", $gs_res['opt_subject']);
+                                                    $info = explode("", $ct['io_id']);
+                                                    $options = "";
+                                                    $count = count($items);
+                                                    if($count > 1) {
+                                                    for ($j = 0; $j < $count; $j++) {
+                                                        $options .= $items[$j] . " : " . $info[$j];
+                                                        if ($j < $count - 1) {
+                                                            $options .= ", ";
+                                                        }
+                                                    }
+                                                    }
+                                                    
+
+                                                    $it_name = cut_str($row['gname'], 100);
+
+                                                    if($gs_res) {
+                                                    if(!$gs_res['stock_mod']) {
+                                                        $gs_res['stock_qty'] = 999999999;
+                                                    }
+                                                    ?>
+                                                    <input type="hidden" name="pr_id" value="<?php echo $gs_res['index_no'];?>">
+                                                    <input type="hidden" class="io_stock" value="<?php echo $gs_res['stock_qty']; ?>">
+                                                    <input type="hidden" class="pname" value="<?php echo $gs_res['gname']; ?>">
+                                                    <input type="hidden" class="mpr" value="<?php echo $gs_res['goods_price']; ?>">
+                                                    <input type="hidden" class="io_id" value="<?php echo $ct['io_id']; ?>">
+                                                    <input type="hidden" class="io_price" value="<?php echo $ct_res['io_price']; ?>">
+                                                    <input type="hidden" class="it_option" value="<?php echo $options; ?>">
+
+
+                                                    <!-- <button type="button" class="qty-btn minus"></button> -->
+                                                    <input type="hidden" name="" id="" value="<?php echo $ct['ct_qty'] ?>" class="qty-input">
+                                                    <!-- <button type="button" class="qty-btn plus"></button> -->
+                                                    <button type="button" class="add-list-btn"></button>
                                                 <?php } ?>
-                                                <a href="<?php echo BV_SHOP_URL; ?>/orderreview.php?gs_id=<?php echo $od['gs_id']; ?>&od_id=<?php echo $od['od_id']; ?>" onclick="win_open(this, 'winorderreview', '650', '530','yes');return false;" class="btn_ssmall bx-white">구매후기 작성</a>
-                                            </li>
-                                            <?php } ?>
-                                            <li class=""><?php echo display_price($od['use_price']); ?></li>
-                                            <li>
-                                                <p><?php echo $gw_status[$od['dan']]; ?></p>
-                                                <?php if($dlcomp[0] && $od['delivery_no']) { ?>
-                                                <p class="padt3 fc_90"><?php echo $dlcomp[0]; ?><br><?php echo $od['delivery_no']; ?></p>
-                                                <?php } ?>
-                                                <?php if($dlcomp[1] && $od['delivery_no']) { ?>
-                                                <p class="padt3"><?php echo get_delivery_inquiry($od['delivery'], $od['delivery_no'], 'btn_ssmall'); ?></p>
-                                            </li>
-                                        </ul>
-                                        <?php } ?>
-                                    </div>
-                                    <div id="pr_item<?php echo $ct['gs_id'];?>" class="pr_item">
-                                        <?php // SELECT 상품 정보 _20240409_SY
-                                            $gs_sel = "SELECT * FROM shop_goods WHERE index_no = '{$ct['gs_id']}' ";
-                                            $gs_res = sql_fetch($gs_sel);
-                                            $ct_sel = "SELECT * FROM shop_goods_option WHERE gs_id = '{$ct['gs_id']}' AND io_id = '{$ct['io_id']}' ";
-                                            $ct_res = sql_fetch($ct_sel);
-
-                                            // option _20240411_SY
-                                            $items = explode(",", $gs_res['opt_subject']);
-                                            $info = explode("", $ct['io_id']);
-                                            $options = "";
-                                            $count = count($items);
-                                            if($count > 1) {
-                                            for ($j = 0; $j < $count; $j++) {
-                                                $options .= $items[$j] . " : " . $info[$j];
-                                                if ($j < $count - 1) {
-                                                    $options .= ", ";
-                                                }
-                                            }
-                                            }
-                                            
-
-                                            $it_name = cut_str($row['gname'], 100);
-
-                                            if($gs_res) {
-                                            if(!$gs_res['stock_mod']) {
-                                                $gs_res['stock_qty'] = 999999999;
-                                            }
-                                            ?>
-                                            <input type="hidden" name="pr_id" value="<?php echo $gs_res['index_no'];?>">
-                                            <input type="hidden" class="io_stock" value="<?php echo $gs_res['stock_qty']; ?>">
-                                            <input type="hidden" class="pname" value="<?php echo $gs_res['gname']; ?>">
-                                            <input type="hidden" class="mpr" value="<?php echo $gs_res['goods_price']; ?>">
-                                            <input type="hidden" class="io_id" value="<?php echo $ct['io_id']; ?>">
-                                            <input type="hidden" class="io_price" value="<?php echo $ct_res['io_price']; ?>">
-                                            <input type="hidden" class="it_option" value="<?php echo $options; ?>">
-
-
-                                            <!-- <button type="button" class="qty-btn minus"></button> -->
-                                            <input type="hidden" name="" id="" value="<?php echo $ct['ct_qty'] ?>" class="qty-input">
-                                            <!-- <button type="button" class="qty-btn plus"></button> -->
-                                            <button type="button" class="add-list-btn"></button>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            </div>
-                    <?php }
+                                            </div>
+                                        </div>
+                    <?php 
+                        }
+                                    echo '</div></div>'; 
                     }
                     if($i==0)
                         echo '<div><p class="empty_list">자료가 없습니다.</p></div>';
                     ?>
-                </div>
             </div>
-        <?php include_once(BV_THEME_PATH.'/sct_sub.php'); ?>
+            <p>끝</p>
         </div>
+        <?php include_once(BV_THEME_PATH.'/sct_sub.php'); ?>
+    </div>
 
     <?php
     echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?page=');
