@@ -72,7 +72,7 @@ if (!$orderby) {
   $sod = $orderby;
 }
 
-if ($_SESSION['ss_mn_id']) {
+if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
   $sql_search .= " AND mn.id = '{$_SESSION['ss_mn_id']}' ";
 }
 
