@@ -5,7 +5,7 @@ if (!defined('_BLUEVATION_')) exit;
   <input type="hidden" name="token" value="">
 
   <?php // 회원 개인정보 입력 _20240613_SY
-  if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+  // if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
     <!-- <form name="fregisterform" id="fregisterform" action="./member/member_register_form_update.php" onsubmit="return fregisterform_submit(this);" method="post" autocomplete="off" enctype="MULTIPART/FORM-DATA"> -->
     <input type="hidden" name="token" value="">
     <input type="hidden" name="mb_certify_case" value="hp" id="mb_certify_hp">
@@ -27,10 +27,14 @@ if (!defined('_BLUEVATION_')) exit;
           <tr>
             <th scope="row"><label for="reg_mb_id">아이디</label></th>
             <td>
-              <input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required w400" size="20" maxlength="20">
-              <span id="msg_mb_id"></span>
-              <button type="button" class="ui-btn st3" onclick="chk_id()">중복확인</button>
-              <?php echo help('영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요.'); ?>
+                <div class="write_address">
+                    <div class="file_wrap address">
+                        <input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required" size="20" maxlength="20">
+                        <span id="msg_mb_id"></span>
+                        <button type="button" class="btn_file ui-btn st3" onclick="chk_id()">중복확인</button>
+                    </div>
+                    <?php echo help('영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요.'); ?>
+                </div>
             </td>
           </tr>
           <tr>
@@ -90,7 +94,7 @@ if (!defined('_BLUEVATION_')) exit;
 
     <!-- </form> -->
 
-  <?php } ?>
+  <?php //} ?>
 
   <p class="gap50" id="Binfo"></p>
   <h5 class="htag_title">사업자 정보</h5>
@@ -297,7 +301,7 @@ function chk_id() {
       success: function(data) {
         sessionStorage.setItem("chkId", data.res );
         sessionStorage.setItem("ID", getId );
-        
+
         if(data.res == 'pass') {
           alert('사용가능한 아이디 입니다.');
           chkId = true;
@@ -327,11 +331,11 @@ $('#reg_mb_password_re').on('input', function() {
   // 비밀번호 입력란이 비어 있는지 확인
   if (!password) {
       messageElement.text('비밀번호를 입력하세요.');
-  } 
+  }
   // 비밀번호와 비밀번호 확인 입력란의 값이 일치하는지 확인
-  else if (password !== confirmPassword) { 
+  else if (password !== confirmPassword) {
       messageElement.text('비밀번호가 일치하지 않습니다.');
-  } 
+  }
   // 비밀번호가 일치하는 경우
   else {
       messageElement.text('');
@@ -374,7 +378,7 @@ $('#reg_mb_password_re').on('input', function() {
       $('#incomePer_sub2').show();
     })
   });
-  
+
 
   function fregform_submit(f) {
 
@@ -396,13 +400,13 @@ $('#reg_mb_password_re').on('input', function() {
         return false;
       }
     }
-    
+
     if(f.mb_password.value.length < 4) {
       alert("비밀번호를 4글자 이상 입력하십시오.");
       f.mb_password.focus();
       return false;
     }
-    
+
     if(f.mb_password.value != f.mb_password_re.value) {
       alert("비밀번호가 같지 않습니다.");
       f.mb_password_re.focus();
@@ -417,14 +421,14 @@ $('#reg_mb_password_re').on('input', function() {
       }
     }
 
-    // 이름 검사    
+    // 이름 검사
     if(f.mb_name.value.length < 1) {
       alert("이름을 입력하십시오.");
       f.mb_name.focus();
       return false;
     }
 
-        
+
     if (confirm("등록 하시겠습니까?") == false)
       return false;
 

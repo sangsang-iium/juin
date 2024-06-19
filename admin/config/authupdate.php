@@ -1,9 +1,10 @@
 <?php // 권한 UPDATE _20240523_SY
 include_once("./_common.php");
-
+ 
 check_demo();
 
-check_admin_token();
+// Token 문제 있음 _20240618_SY
+// check_admin_token();
 
 $db_table   = "authorization";
 

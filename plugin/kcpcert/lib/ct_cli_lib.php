@@ -20,7 +20,7 @@ class   C_CT_CLI
     }
 
     // hash 처리 영역
-    function make_hash_data( $home_dir , $str )
+    function make_hash_data( $home_dir , $ENC_KEY, $str )
     {
         if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
             if(PHP_INT_MAX == 2147483647) // 32-bit
@@ -41,7 +41,7 @@ class   C_CT_CLI
     }
 
     // dn_hash 체크 함수
-    function check_valid_hash ($home_dir , $hash_data , $str )
+    function check_valid_hash ($home_dir , $ENC_KEY, $hash_data , $str )
     {
         if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
             if(PHP_INT_MAX == 2147483647) // 32-bit
@@ -63,7 +63,7 @@ class   C_CT_CLI
     }
 
     // 암호화 인증데이터 복호화
-    function decrypt_enc_cert ( $home_dir, $site_cd , $cert_no , $enc_cert_data , $opt)
+    function decrypt_enc_cert ( $home_dir, $ENC_KEY, $site_cd , $cert_no , $enc_cert_data , $opt)
     {
         if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
             if(PHP_INT_MAX == 2147483647) // 32-bit
@@ -78,7 +78,6 @@ class   C_CT_CLI
                                           $enc_cert_data ,
                                           $opt
                                         );
-
         } else {
             $bin_exe = $home_dir . '/bin/ct_cli_exe.exe';
 
@@ -93,6 +92,7 @@ class   C_CT_CLI
         if ( $dec_data == "" ) { $dec_data = "HS03"; }
 
         parse_str( str_replace( chr( 31 ), "&", $dec_data ), $this->m_dec_data );
+        
     }
 
     // 인증데이터 get data

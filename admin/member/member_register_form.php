@@ -357,6 +357,54 @@ $none = "style='display:none;'";
       </tbody>
     </table>
   </div>
+  
+  <!-- 담당자 정보 추가 _20240618_SY -->
+  <?php if($_SESSION['ss_mn_id']) { 
+    $mn_sel = " SELECT * FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}'";
+    $mn_row = sql_fetch($mn_sel);
+    $office_where = " WHERE a.office_code = '{$mn_row['ju_region3']}' ";
+    $office_data = getRegionFunc("office", $office_where);
+    $ju_region1 = $office_data[0]['areacode'];
+    $ju_region2 = $office_data[0]['branch_code'];
+    $ju_region3 = $office_data[0]['office_code'];
+  ?>
+  <p class="gap70"></p>
+  <h5 class="htag_title">담당자 정보</h5>
+  <div class="board_table mart20">
+    <table>
+      <colgroup>
+      <col class="w180">
+      <col>
+    </colgroup>
+    <tbody>
+      <tr>
+        <th scope="row"><label for="reg_mn_id">아이디</label></th>
+        <td>
+          <input type="text" name="mn_id" id="reg_mn_id" value="<?php echo $mn_row['id']; ?>" class="frm_input w400" size="20" maxlength="20" readonly>
+        </td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="reg_mn_name">매니저명</label></th>
+          <td>
+            <input type="text" name="mn_name" id="reg_mn_name" value="<?php echo $mn_row['name'] ?>" class="frm_input w400" size="20" maxlength="20" readonly>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="reg_mn_name">지회/지부</label></th>
+          <td>
+            <input type="text" name="" id="" value="<?php echo $office_data[0]['branch_name']." / ".$office_data[0]['office_name'] ?>" class="frm_input w400" size="20" maxlength="20" readonly>
+          </td>
+        </tr>
+        <input type="hidden" name="ju_manager" value="<?php echo $mn_row['index_no']; ?>" class="frm_input w400" size="20" maxlength="20">
+        <input type="hidden" name="ju_region1" value="<?php echo $ju_region1; ?>" class="frm_input w400" size="20" maxlength="20">
+        <input type="hidden" name="ju_region2" value="<?php echo $ju_region2; ?>" class="frm_input w400" size="20" maxlength="20">
+        <input type="hidden" name="ju_region3" value="<?php echo $ju_region3; ?>" class="frm_input w400" size="20" maxlength="20">
+        
+      </tbody>
+    </table>
+  </div>
+  <?php } ?>
+
   <div class="board_btns tac mart20">
     <div class="btn_wrap">
       <input type="submit" value="저장" id="btn_submit" class="btn_acc" accesskey="s">

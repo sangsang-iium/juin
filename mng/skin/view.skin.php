@@ -28,7 +28,7 @@ if(!defined('_BLUEVATION_')) exit;
 
                 $thumbnails = get_it_image_url($index_no, $it_image, $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
             ?>
-            <li><img src="<?php echo $thumbnails; ?>" onmouseover="document.all['big'].src='<?php echo $thumbnails; ?>'"></li>
+            <div><img src="<?php echo $thumbnails; ?>" onmouseover="document.all['big'].src='<?php echo $thumbnails; ?>'"></div>
             <?php } ?>
 		</div>
 	</div>
