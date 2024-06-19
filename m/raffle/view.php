@@ -211,7 +211,7 @@ $sns_share_links .= "<li>".get_sns_share_link('pinterest', $sns_url, $sns_title,
       alert('로그인 이후 응모 가능합니다.');
       location.href="/m/bbs/login.php";
     <?php } else {
-      if(!$raffleLimit) { ?>
+      if($raffleLimit) { ?>
       var indexno = '<?php echo $index_no ?>'
         $.ajax({
           type: "POST",

@@ -95,7 +95,7 @@ if (!empty($paytype)) {
 									$r = sql_query_cgy($row['catecode'], 'COUNT');
 									if($r['cnt'] > 0) {
 									?>
-									<ul>
+									<ul class="sub_caterogy">
 										<?php
 										$res2 = sql_query_cgy($row['catecode']);
 										while($row2 = sql_fetch_array($res2)) {
@@ -153,6 +153,19 @@ if (!empty($paytype)) {
 			</script> -->
 		</div>
 	</div>
+
+    <!-- S.메뉴 script_김민규 -->
+    <script>
+        $(document).ready(function(){
+            $("#gnb").stop().on("mouseenter", function(){
+                $(".sub_caterogy").slideDown();
+            });
+            $("#gnb").stop().on("mouseleave", function(){
+                $(".sub_caterogy").slideUp();
+            });
+        });
+    </script>
+    <!-- E.메뉴 script_김민규 -->
 
 	<div id="container">
 		<?php
