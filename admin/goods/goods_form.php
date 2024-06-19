@@ -385,7 +385,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 		<td>
             <div class="chk_select">
                 <select name="brand_uid">
-                    <!-- <option value="">선택</option> -->
+                    <option value="">선택</option>
                     <?php
                     $sql = "select *
                               from shop_brand
@@ -1030,7 +1030,7 @@ $income_per = ($supply_price / $goods_price) * 100;
   let income_per    = 0;
 
   $(function() {
-    
+
     // 정산방식 > 업제청산
     if ($('#income_type0').is(':checked')) {
       $('.incomePer_tr').hide();
@@ -1045,7 +1045,7 @@ $income_per = ($supply_price / $goods_price) * 100;
       //   let in_price     = $('input[name=in_price]').val();
       //   let in_per       = $('input[name=in_per]').val();
       //   let total_price  = 0;
-        
+
       //   // admin이면 해당 로직 안 탐 _20240612_SY
       //   if(seller_code != "admin") {
       //     if(in_type == 1) {
@@ -1072,7 +1072,7 @@ $income_per = ($supply_price / $goods_price) * 100;
         let in_price     = $('input[name=in_price]').val();
         let in_per       = $('input[name=in_per]').val();
         let total_price  = 0;
-        
+
         // admin이면 해당 로직 안 탐 _20240612_SY
         if(seller_code != "admin") {
           if(in_type == 1) {
@@ -1133,7 +1133,7 @@ $income_per = ($supply_price / $goods_price) * 100;
       income_price = $("input[name=income_price]");
       income_per = $("input[name=income_per]");
       if(income_per.val() != "0" && income_price.val() != "0") {
-        goods_price.value = (stringNumberToInt(supply_price.val()) - stringNumberToInt(income_price.val()));  
+        goods_price.value = (stringNumberToInt(supply_price.val()) - stringNumberToInt(income_price.val()));
       } else {
         goods_price.value = 0;
       }
@@ -1151,7 +1151,7 @@ $income_per = ($supply_price / $goods_price) * 100;
       income_price = $("input[name=income_price]");
       income_per = $("input[name=income_per]");
       if(income_per.val() != "0" && supply_price.val() != "0") {
-        goods_price.value = (stringNumberToInt(supply_price.val()) * (1 - parseFloat(income_per.val())/100));  
+        goods_price.value = (stringNumberToInt(supply_price.val()) * (1 - parseFloat(income_per.val())/100));
       } else {
         goods_price.value = 0;
       }
@@ -1164,9 +1164,9 @@ $income_per = ($supply_price / $goods_price) * 100;
     income_price = $("input[name=income_price]");
     income_per = $("input[name=income_per]");
     if ($('#incomePer_type1').is(':checked') && this.value != "0" && income_price.val() != "0") {
-      goods_price.value = (stringNumberToInt(this.value) - stringNumberToInt(income_price.val()));  
+      goods_price.value = (stringNumberToInt(this.value) - stringNumberToInt(income_price.val()));
     } else if ($('#incomePer_type2').is(':checked') && this.value != "0" && income_per.val() != "0") {
-      goods_price.value = (stringNumberToInt(this.value) * (1 - parseFloat(income_per.val())/100));  
+      goods_price.value = (stringNumberToInt(this.value) * (1 - parseFloat(income_per.val())/100));
     } else {
       goods_price.value = 0;
     }
@@ -1320,13 +1320,13 @@ $income_per = ($supply_price / $goods_price) * 100;
                     <div class="chk_select">
                         <select name="sc_type" onChange="chk_sc_type(this.value);">
                         <?php //echo option_selected('0', $gs['sc_type'], '공통설정'); ?>
-                        <?php echo option_selected('1', $gs['sc_type'], '무료배송'); ?>
+                        <?php echo option_selected('1', $gs['sc_type'], '택배배송'); ?>
                         <?php //echo option_selected('2', $gs['sc_type'], '조건부무료배송'); ?>
                         <?php //echo option_selected('3', $gs['sc_type'], '유료배송'); ?>
                         <?php echo option_selected('4', $gs['sc_type'], '차량배송'); ?>
                         </select>
                     </div>
-                    <a href="./config.php?code=baesong" target="_blank" class="btn_large grey">설정</a>
+                    <!-- <a href="./config.php?code=baesong" target="_blank" class="btn_large grey">설정</a> -->
                 </div>
             </div>
 
