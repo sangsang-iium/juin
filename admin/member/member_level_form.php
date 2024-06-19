@@ -1,6 +1,11 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
+// 추가 _20240617_SY
+if($_SESSION['ss_mb_id'] != "admin") {
+  alert("최고관리자만 이용가능합니다.");
+}
+
 $sql_common = " from shop_member_grade ";
 $sql_order  = " order by gb_no desc ";
 

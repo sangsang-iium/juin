@@ -88,7 +88,7 @@ function get_item_options2($gs_id, $subject)
         $str .= '<dl>'.PHP_EOL;
         $str .= '<dt><label for="it_option_'.$seq.'" class="sound_only">'.$subj[$i].'</label></dt>'.PHP_EOL;
 
-        $select  = '<select id="it_option_'.$seq.'" class=" wfull"'.$disabled.'>'.PHP_EOL;
+        $select  = '<select id="it_option_'.$seq.'" class="it_option wfull"'.$disabled.'>'.PHP_EOL;
         $select .= '<option value="">'.$subj[$i].'</option>'.PHP_EOL;
         for($k=0; $k<$opt_count; $k++) {
           $opt_val = $opt[$k];
@@ -106,7 +106,7 @@ function get_item_options2($gs_id, $subject)
     $str .= '<dl>'.PHP_EOL;
     $str .= '<dt><label for="it_option_1" class="sound_only">'.$subj[0].'</label></dt>'.PHP_EOL;
 
-    $select  = '<select id="it_option_1" class="wfull">'.PHP_EOL;
+    $select  = '<select id="it_option_1" class="it_option wfull">'.PHP_EOL;
     $select .= '<option value="">'.$subj[0].'</option>'.PHP_EOL;
     for($i=0; $row=sql_fetch_array($result); $i++) {
       if($row['io_price'] >= 0)
@@ -762,6 +762,8 @@ function get_move_pc($ca_id)
         let id = "";
         let value, item, sel_opt = false;
         let option = sep = "";
+        console.log($tgItem.find('.it_option:last'));
+        console.log($tgItem.find('.it_option:last').val());
         let info = $tgItem.find('.it_option:last').val().split(',');
 
         $tgItem.find('.it_option').each(function(index) {

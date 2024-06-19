@@ -21,15 +21,17 @@ if(!$min_year) $min_year = BV_TIME_YEAR; // 내역이없다면 현재 년도로
 <div class="board_selecter">
 <form name="fsearch" id="fsearch" method="get">
     <input type="hidden" name="code" value="<?php echo $code; ?>">
-	<div class="boardSearch">
-        <select name="year">
-            <?php
-            for($i=$min_year; $i<=BV_TIME_YEAR; $i++) {
-                echo "<option value=\"{$i}\"".get_selected($year, $i).">{$i}년</option>\n";
-            }
-            ?>
-        </select>
-        <div class="boardSearch_input">
+	<div class="board_selecter">
+        <div class="search_container">
+            <select name="year">
+                <?php
+                for($i=$min_year; $i<=BV_TIME_YEAR; $i++) {
+                    echo "<option value=\"{$i}\"".get_selected($year, $i).">{$i}년</option>\n";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="search_container_input">
             <input type="submit" value="검색" class="btn_small">
         </div>
 	</div>

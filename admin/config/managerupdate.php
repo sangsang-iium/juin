@@ -1,19 +1,5 @@
 <?php // 담당자 _20240527_SY
 include_once("./_common.php");
-
-/* POST 값
-  [token] => fcd84f7e807272cc5c9af75bed9de507
-  [q1] => code=manager_register_form
-  [page] => 
-  [w] => 
-  [manager_id] => sss
-  [manager_pw] => 1234
-  [manager_name] => aaaaaa
-  [kf_region1] => 1
-  [kf_region2] => 성동구지회
-  [kf_region3] => 
-*/
- 
  
 check_demo();
 
@@ -33,14 +19,15 @@ $now = date('Y-m-d H:i:s');
 
 // 지회/지부 SELECT 수정 _20240608_SY
 if(!empty($region3)) {
-  $sql_where .= " AND b.branch_code = '{$region2}' 
+  $sql_where .= " WHERE b.branch_code = '{$region2}' 
                   AND a.office_code = '{$region3}' 
                 ";
   $type = "office";
 } else {
-  $sql_where .= " AND b.branch_code = '{$region2}' ";
+  $sql_where .= " WHERE b.branch_code = '{$region2}' ";
   $type = "branch";
 }
+
 $region_res = getRegionFunc($type, $sql_where);
 
 // 권한
@@ -115,6 +102,21 @@ if($w == '') {
 
   $UPDATE = new IUD_Model;
   $UPDATE->update($db_table, $upd_data, $upd_where);
+
+  // 회원 검색 _20240618_SY
+  $mm_sel = "SELECT * FROM shop_member WHERE ju_manager = '{$idx}'";
+  $mm_res = sql_query($mm_sel);
+  if($mm_res){
+    $mm_upd['ju_region1'] = $region1;
+    $mm_upd['ju_region2'] = $region2;
+    $mm_upd['ju_region3'] = $region3;
+
+    $MANAGER = new IUD_Model;
+    while($mm_row = sql_fetch_array($mm_res)) {
+      $mm_where = " WHERE index_no = '{$mm_row['index_no']}'";
+      $MANAGER->update("shop_member", $mm_upd, $mm_where);
+    }
+  }
 
   $msg  = "담당자 정보가 수정되었습니다.";
   $link = "/config.php?$q1&w=u&idx=$idx";

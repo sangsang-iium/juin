@@ -31,6 +31,12 @@ include_once(BV_PATH.'/include/topMenu.php');
 
 </div>
 
+<div id="post_wrap" >
+    <img src="/src/img/post_close.png" id="btnFoldWrap"
+      style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()"
+      alt="접기 버튼">
+  </div>
+
 <script type="module">
 import * as f from '/src/js/function.js';
 
@@ -46,9 +52,24 @@ const usedMenu = f.hrizonMenu(usedMenuTarget, usedMenuActive);
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services"></script>
 <?php echo BV_POSTCODE_JS ?>
 <script>
+
+
+<?php
+    $user_lat = 33.450701;
+    $user_lng = 126.570667;
+    $MyLocation = get_session('myLocation');
+    if(isset($MyLocation)){
+        $userLocationData = json_encode($MyLocation);
+        $userLocation = explode(",", $userLocationData);
+        $user_lat = $userLocation[0];
+        $user_lng = $userLocation[1];
+    }
+?>
 // 중심좌표(위치거부시초기값)
-let user_lat = 33.450701;
-let user_lng = 126.570667;
+// let user_lat = 33.450701;
+// let user_lng = 126.570667;
+let user_lat = <?php echo $user_lat?>;
+let user_lng = <?php echo $user_lng?>;
 let cate = 'all';
 
 //지도
@@ -72,34 +93,34 @@ var markers = [];
 function addMarker(positions){
     hideMarkers();
     markers = [];
-    
+
     for(var i = 0; i < positions.length; i ++) {
         //마커 이미지의 이미지 크기 입니다
-        var imageSize = new kakao.maps.Size(24, 35);    
-        //마커 이미지를 생성합니다    
-        var markerImage = new kakao.maps.MarkerImage(positions[i].img, imageSize); 
+        var imageSize = new kakao.maps.Size(24, 35);
+        //마커 이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(positions[i].img, imageSize);
         // 마커를 생성합니다
         var marker = new kakao.maps.Marker({
             position : new kakao.maps.LatLng(positions[i].lat, positions[i].lng),
             title : positions[i].title,
             image : markerImage
         });
-        
+
         markers.push(marker);
     }
-    
+
     showMarkers();
 }
 function setMarkers(map) {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);
-    }            
+    }
 }
 function showMarkers() {
     setMarkers(map);
 }
 function hideMarkers() {
-    setMarkers(null);    
+    setMarkers(null);
 }
 
 
@@ -108,7 +129,7 @@ function getStoreList(){
     //지도중심이동
     var moveLatLon = new kakao.maps.LatLng(user_lat, user_lng);
     map.setCenter(moveLatLon);
-    
+
     $.post("ajax.get_store_list.php", {lat:user_lat, lng:user_lng, cate:cate}, function(obj){
         var data = JSON.parse(obj);
         $(".store-prod_list").html(data['slist']);
@@ -136,6 +157,14 @@ function reEvent(){
 }
 
 
+// 지도 팝업으로 jjh 20240619
+var element_wrap0 = document.getElementById('post_wrap');
+function foldDaumPostcode() {
+  // iframe을 넣은 element를 안보이게 한다.
+  element_wrap0.style.display = 'none';
+}
+
+
 
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
@@ -144,7 +173,7 @@ function getPosition(address){
     address = address.trim();
 
     geocoder.addressSearch(address, function(result, status) {
-        // 정상적으로 검색이 완료됐으면 
+        // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
             user_lat = result[0].y;
             user_lng = result[0].x;
@@ -163,10 +192,14 @@ function daumAddress(){
             } else { // 사용자가 지번 주소를 선택했을 경우(J)
                 addr = data.jibunAddress;
             }
-            
+             element_wrap0.style.display = 'none';
+
             getPosition(addr);
-        }
-    }).open();
+        },
+        width: '100%',
+        height: '100%'
+    }).embed(element_wrap0);
+  element_wrap0.style.display = 'block';
 }
 
 
@@ -175,7 +208,7 @@ $(document).ready(function(){
     function successCallback(position) {
         user_lat = position.coords.latitude;
         user_lng = position.coords.longitude;
-        
+
         getStoreList();
     }
 
@@ -190,14 +223,14 @@ $(document).ready(function(){
         cate = $(this).data("id");
         $(".swiper-slide").removeClass("active");
         $(this).addClass("active");
-        
+
         getStoreList();
     });
 
     $(".current_position").click(function(){
         getStoreList();
     });
-    
+
     $(".add_latlng").click(function(){
         daumAddress();
     });

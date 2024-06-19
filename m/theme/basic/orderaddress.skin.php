@@ -200,3 +200,136 @@ popupOpen1 = (id) => {
 
 
 </script>
+
+
+
+<div id="sod_addr" class="new_win">
+    <div class="pop-top">
+      <p class="tit">배송메시지 추가</p>  
+    </div>
+    
+    <div id="sod_addr_write">
+        <div class="form-wrap">
+            <div class="form-row">
+                <div class="form-head">
+                    <p class="title">메시지추가<b>*</b>
+                    </p>
+                </div>
+                <div class="form-body">
+                    <input type="text" name="b_addr_req2" id="b_addr_req_save" value="" class="w-per100 frm-input">
+                    <button type="button" class="ui-btn st3 " onclick="fn_b_addr_req_save()">등록</button>
+                </div>
+            </div>  
+        </div> 
+        <div class="pop-btm">
+            
+        </div>
+    </div>
+
+        <div class="win_desc">
+            <ul class="sod_addr_li address_area">
+                <li>
+                    <div class="od-dtn-info">
+                        <p class="od-dtn__name">
+                            <span class="nm">aaa</span> 
+							<span class="tag">기본메시지</span>  
+                        </p>
+                        <p class="od-dtn__addr">초인종을 눌러 주세요</p>
+                        <p class="od-dtn__contact"></p>
+                    </div>
+                    <ul class="od-dtn-btns">
+                        <li class="mngArea"> 
+                            <button type="button" class="ui-btn st3 " >삭제</button>
+                        </li>
+                        <li class="mngArea"> 
+                            <button type="button" id="btn_sel" class="ui-btn st3 sel_address">배송메시지로선택</button>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            </div>
+</div>
+<script>
+    function fn_b_addr_req_save(){
+        var msg = $("#b_addr_req_save").prop('value');
+        $.ajax({
+              type: 'post',
+			  url: './b_addr_req_sql.php',
+		      data:{'b_addr_req':msg},
+			  success: function (data) {
+                $("#b_addr_req_save").prop('value','');
+				fn_b_addr_req_list();
+			  }
+			});
+    }
+    function fn_b_addr_req_list(){
+        console.log("aaa")
+        var msg = $("#b_addr_req_save").prop('value');
+        $.ajax({
+              type: 'post',
+			  url: './b_addr_req_list.php',
+		      data:{'b_addr_req':msg},
+			  success: function (data) { 
+                var aa = JSON.parse(data);
+                var htmls="";
+                var k=1;
+                 for(var i=0;i<aa.length;i++){
+                    console.log(aa[i]['idx'])
+                    console.log(aa[i]['msg'])
+                    if(aa[i]['msg']!=''){
+                        htmls+='<li>';
+                        htmls+='    <div class="od-dtn-info">';
+                        htmls+='        <p class="od-dtn__name">';
+                        htmls+='            <span class="nm">'+k+'</span> ';
+                        // htmls+='            <span class="tag">기본메시지</span>  ';
+                        htmls+='        </p>';
+                        htmls+='        <p class="od-dtn__addr">'+aa[i]['msg']+'</p>';
+                        htmls+='        <p class="od-dtn__contact"></p>';
+                        htmls+='    </div>';
+                        htmls+='    <ul class="od-dtn-btns">';
+                        htmls+='        <li class="mngArea"> ';
+                        htmls+='            <button type="button" class="ui-btn st3 " onclick="fn_basong_del(\''+ aa[i]['idx'] + '\')">삭제</button>';
+                        htmls+='        </li>';
+                        htmls+='        <li class="mngArea"> ';
+                        htmls+='            <button type="button" id="btn_sel" class="ui-btn st3 sel_address" onclick="fn_basong(\''+ aa[i]['msg'] + '\')">배송메시지로선택</button>';
+                        htmls+='        </li>';
+                        htmls+='    </ul>';
+                        htmls+='</li>';
+                        k+=1;
+                    }
+
+                    
+
+                 }
+            
+                 $(".address_area").html(htmls);
+			  }
+			});
+    }
+    fn_b_addr_req_list();
+
+    function fn_basong(msg){
+        $.ajax({
+              type: 'post',
+			  url: './b_addr_req_set.php',
+		      data:{'b_addr_req':msg,'cd':'set'},
+			  success: function (data) { 
+                var f = buyform;
+                f.b_addr_req.value=msg;
+                alert(msg+'로 메시지가 변경되었습니다.');
+              }
+            })
+    }
+    function fn_basong_del(idx){
+        console.log('front',idx)
+        $.ajax({
+              type: 'post',
+			  url: './b_addr_req_set.php',
+		      data:{'idx':idx,'cd':'del'},
+			  success: function (data) { 
+                 alert('메시지를 삭제 했습니다.');
+              }
+            })
+        fn_b_addr_req_list();
+    }
+</script>

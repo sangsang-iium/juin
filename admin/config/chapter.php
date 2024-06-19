@@ -34,11 +34,12 @@ if (!$orderby) {
 $sql_order = " ORDER BY $filed $sod ";
 
 
-// total_sel 수정 _20240608_SY
+// total_sel 수정 _20240618_SY
 // $total_sel = " SELECT COUNT(*) as cnt {$sql_common} {$sql_search} ";
-$total_sel = " SELECT COUNT(*) AS cnt {$sql_common} a {$slq_join} ";
-$total_row = sql_fetch($total_sel);
-$total_count = $total_row['cnt'];
+$total_sel = " SELECT * {$sql_common} a {$slq_join} {$sql_search} {$sql_group} {$sql_order}";
+$total_row = sql_query($total_sel);
+$total_count = sql_num_rows($total_row);
+// $total_count = $total_row['cnt'];
 
 
 $rows = 10;
