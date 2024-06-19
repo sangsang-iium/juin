@@ -31,6 +31,12 @@ include_once(BV_PATH.'/include/topMenu.php');
 
 </div>
 
+<div id="post_wrap" >
+    <img src="/src/img/post_close.png" id="btnFoldWrap"
+      style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()"
+      alt="접기 버튼">
+  </div>
+
 <script type="module">
 import * as f from '/src/js/function.js';
 
@@ -47,13 +53,23 @@ const usedMenu = f.hrizonMenu(usedMenuTarget, usedMenuActive);
 <?php echo BV_POSTCODE_JS ?>
 <script>
 
-function myLocation(lat, lon) {
-    alert('Lat: ' + lat + ', Lon: ' + lon);
-}
 
+<?php
+    $user_lat = 33.450701;
+    $user_lng = 126.570667;
+    $MyLocation = get_session('myLocation');
+    if(isset($MyLocation)){
+        $userLocationData = json_encode($MyLocation);
+        $userLocation = explode(",", $userLocationData);
+        $user_lat = $userLocation[0];
+        $user_lng = $userLocation[1];
+    }
+?>
 // 중심좌표(위치거부시초기값)
-let user_lat = 33.450701;
-let user_lng = 126.570667;
+// let user_lat = 33.450701;
+// let user_lng = 126.570667;
+let user_lat = <?php echo $user_lat?>;
+let user_lng = <?php echo $user_lng?>;
 let cate = 'all';
 
 //지도
@@ -141,6 +157,14 @@ function reEvent(){
 }
 
 
+// 지도 팝업으로 jjh 20240619
+var element_wrap0 = document.getElementById('post_wrap');
+function foldDaumPostcode() {
+  // iframe을 넣은 element를 안보이게 한다.
+  element_wrap0.style.display = 'none';
+}
+
+
 
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
@@ -168,10 +192,14 @@ function daumAddress(){
             } else { // 사용자가 지번 주소를 선택했을 경우(J)
                 addr = data.jibunAddress;
             }
+             element_wrap0.style.display = 'none';
 
             getPosition(addr);
-        }
-    }).open();
+        },
+        width: '100%',
+        height: '100%'
+    }).embed(element_wrap0);
+  element_wrap0.style.display = 'block';
 }
 
 
