@@ -19,6 +19,7 @@ $total_count = $row['cnt'];
 $sql = " select * $sql_common $sql_search $sql_order ";
 $result = sql_query($sql);
 
+
 include_once(BV_THEME_PATH.'/orderaddress.skin.php');
 
 include_once(BV_PATH."/tail.sub.php");

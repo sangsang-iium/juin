@@ -351,48 +351,40 @@ if ($gs['reg_yn'] == 1) {
           </div>
 
           <div class="od-ct info-list">
-            <dl class="info-item">
-              <dt class="tit">배송요일</p>
-              <dd class="checks">
-                  <label><input type="checkbox" name="od_wday[]" value="1" > 월</label>
-                  <label><input type="checkbox" name="od_wday[]" value="2" > 화</label>
-                  <label><input type="checkbox" name="od_wday[]" value="3" > 수</label>
-                  <label><input type="checkbox" name="od_wday[]" value="4" > 목</label>
-                  <label><input type="checkbox" name="od_wday[]" value="5" > 금</label>
-                  <label><input type="checkbox" name="od_wday[]" value="6" > 토</label>
-              </dd>
-            </dl>
-            <dl class="info-item" style="display:none;">
-              <pt class="tit">배송주기</pt>
-              <dd class="chk_select">
-                  <select name="od_week" id="od_week" require>
-                    <option value="1" selected>1주</option>
-                    <option value="2">2주</option>
-                    <option value="3">3주</option>
-                    <option value="4">4주</option>
-                  </select>
-              </dd>
-            </dl>
-            <dl class="info-item" style="display:none;">
-              <dt class="tit">배송횟수</dt>
-              <dd class="chk_select">
-                  <select name="od_reg_cnt" id="od_reg_cnt" require>
-                    <option value="2">2회</option>
-                    <option value="4">4회</option>
-                    <option value="6">6회</option>
-                    <option value="8">8회</option>
-                    <option value="10">10회</option>
-                    <option value="12">12회</option>
-                    <option value="52" selected>52회</option>
-                  </select>
-              </dd>
-            </dl>
-            <dl class="info-item">
-              <dt class="tit">첫 배송 시점</dt>
-              <dd>
-                  <input type="text" name="od_begin_date" value="" id="od_begin_date" class="frm_input" maxlength="10" require>
-              </dd>
-            </dl>
+            <div class="info-item">
+              <p class="tit">배송요일</p>
+              <label><input type="checkbox" name="od_wday[]" value="1" > 월</label>
+              <label><input type="checkbox" name="od_wday[]" value="2" > 화</label>
+              <label><input type="checkbox" name="od_wday[]" value="3" > 수</label>
+              <label><input type="checkbox" name="od_wday[]" value="4" > 목</label>
+              <label><input type="checkbox" name="od_wday[]" value="5" > 금</label>
+              <label><input type="checkbox" name="od_wday[]" value="6" > 토</label>
+            </div>
+            <div class="info-item" style="display:none;">
+              <p class="tit">배송주기</p>
+              <select name="od_week" id="od_week" require>
+                <option value="1" selected>1주</option>
+                <option value="2">2주</option>
+                <option value="3">3주</option>
+                <option value="4">4주</option>
+              </select>
+            </div>
+            <div class="info-item" style="display:none;">
+              <p class="tit">배송횟수</p>
+              <select name="od_reg_cnt" id="od_reg_cnt" require>
+                <option value="2">2회</option>
+                <option value="4">4회</option>
+                <option value="6">6회</option>
+                <option value="8">8회</option>
+                <option value="10">10회</option>
+                <option value="12">12회</option>
+                <option value="52" selected>52회</option>
+              </select>
+            </div>
+            <div class="info-item">
+              <p class="tit">첫 배송 시점</p>
+              <input type="text" name="od_begin_date" value="" id="od_begin_date" class="frm_input w100 " maxlength="10" require>
+            </div>
 
           </div>
         </div>
@@ -615,12 +607,10 @@ if ($res['b_base'] == '1') {
           <!-- 배송요청사항 추가 _20240507_SY -->
           <div class="od-ct">
             <div class="od-dtn-info">
-              <dl class="info-item">
-                <dt class="tit">배송요청사항</dt>
-                <dd class="w90p">
-                    <input type="text" name="b_addr_req" value="<?php echo $b_addr_req ?>" class="w-per50 frm-input">
-                </dd>
-              </dl>
+              <div class="info-item">
+                <p class="tit">배송요청사항</p>
+                <input type="text" name="b_addr_req" value="<?php echo $b_addr_req ?>" class="w-per50 frm-input">
+              </div>
             </div>
           </div>
         </div>
@@ -873,10 +863,6 @@ if ($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
               <h2 class="anc_tit">입금하실 계좌</h2>
               <div class="odf_tbl">
                 <table>
-                    <colgroup>
-                        <col width="220px">
-                        <col>
-                    </colgroup>
                   <tbody>
                     <!-- <tr>
                       <th scope="row">무통장계좌</th>
@@ -916,10 +902,6 @@ if ($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
               <h2 class="anc_tit">환불받으실 계좌</h2>
               <div class="odf_tbl">
                 <table>
-                    <colgroup>
-                        <col width="220px">
-                        <col>
-                    </colgroup>
                   <tbody>
                     <tr>
                       <th scope="row"><label for="refund_bank">은행명</label></th>
@@ -951,14 +933,10 @@ if ($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
               <h2 class="anc_tit">증빙서류 발급</h2>
               <div class="odf_tbl">
                 <table>
-                    <colgroup>
-                        <col width="220px">
-                        <col>
-                    </colgroup>
                   <tbody>
                     <tr>
                       <th scope="row" id="cash_receipt_section">증빙서류 선택</th>
-                      <td class="padt10 padb10">
+                      <td>
                         <input type="radio" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked> 현금영수증
                         <input type="radio" name="documentType" value="tax_bill" onclick="toggleTaxDocument(this.value);"> 세금계산서
                         <input type="radio" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);"> 미발행
@@ -1006,14 +984,14 @@ if ($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
 
             <section id="card_section" style="display:none;" >
               <h2 class="anc_tit">신용카드 선택</h2>
-              <div class="">
+              <div class="odf_tbl">
                 <?php
                   $sqlCard   = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
                   $resCard   = sql_query($sqlCard);
                   $resNumRow = sql_num_rows($resCard);
                   if ($resNumRow > 0) {
                     ?>
-                <select name="cardsel" id="cardsel" class="frm-select w-per100">
+                <select name="cardsel" id="cardsel">
                   <?php
 for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {
     ?>

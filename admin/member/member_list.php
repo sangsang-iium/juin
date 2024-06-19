@@ -22,16 +22,17 @@ $sql_join = " LEFT JOIN shop_manager AS mn
                      ON (mm.ju_manager = mn.index_no) ";
 
 // Search > AliasFunc 추가 _20240610_SY
-function addAliasFunc($column) {
-    if (strpos($column, '.') !== false) {
-        return $column; // 이미 별칭이 붙어 있는 경우 그대로 반환
-    }
-    if($column == 'ju_manager') {
-      $alias = "mn.name";
-    } else {
-      $alias = "mm.$column";
-    }
-    return "$alias";
+function addAliasFunc($column)
+{
+  if (strpos($column, '.') !== false) {
+    return $column; // 이미 별칭이 붙어 있는 경우 그대로 반환
+  }
+  if ($column == 'ju_manager') {
+    $alias = "mn.name";
+  } else {
+    $alias = "mm.$column";
+  }
+  return "$alias";
 }
 
 if ($sfl && $stx) {
@@ -39,7 +40,7 @@ if ($sfl && $stx) {
   $sql_search .= " AND {$sflColumn} like '%$stx%' ";
 }
 
-if($sst) {
+if ($sst) {
   $gradeColumn = addAliasFunc("grade");
   $sql_search .= " AND $gradeColumn = '$sst'";
 }
@@ -58,8 +59,10 @@ if ($fr_date && $to_date) {
 // 탈퇴 검색
 if ($ssd == '탈퇴') {
   $sql_search .= " and mm.intercept_date <> '' ";
-} else if ($ssd =='폐업') {
-  $sql_search .= " and mm.ju_closed ";
+} else if ($ssd == '폐업') {
+  $sql_search .= " and mm.ju_closed = '03'";
+} else if ($ssd == "휴업") {
+  $sql_search .= " and mm.ju_closed = '02'";
 }
 
 if (!$orderby) {
@@ -69,7 +72,7 @@ if (!$orderby) {
   $sod = $orderby;
 }
 
-if($_SESSION['ss_mn_id']) {
+if ($_SESSION['ss_mn_id']) {
   $sql_search .= " AND mn.id = '{$_SESSION['ss_mn_id']}' ";
 }
 
@@ -82,7 +85,9 @@ $total_count = $row['cnt'];
 
 $rows       = 30;
 $total_page = ceil($total_count / $rows); // 전체 페이지 계산
-if ($page == "") {$page = 1;}             // 페이지가 없으면 첫 페이지 (1 페이지)
+if ($page == "") {
+  $page = 1;
+}             // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows;       // 시작 열을 구함
 $num         = $total_count - (($page - 1) * $rows);
 
@@ -109,153 +114,155 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 <h5 class="htag_title">기본검색</h5>
 <p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
-<input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="board_table">
-	<table>
-	<colgroup>
-		<col style="width:220px;">
-		<col style="width:auto">
-	</colgroup>
-	<tbody>
-	<tr>
-		<th scope="row">검색어</th>
-		<td>
+  <input type="hidden" name="code" value="<?php echo $code; ?>">
+  <div class="board_table">
+    <table>
+      <colgroup>
+        <col style="width:220px;">
+        <col style="width:auto">
+      </colgroup>
+      <tbody>
+        <tr>
+          <th scope="row">검색어</th>
+          <td>
             <div class="tel_input">
-                <div class="chk_select w200">
-                    <select name="sfl">
-                        <?php echo option_selected('ju_restaurant', $sfl, '상호명'); ?>
-                        <?php echo option_selected('ju_b_num', $sfl, '사업자번호'); ?>
-                        <?php echo option_selected('name', $sfl, '대표자명'); ?>
-                        <?php echo option_selected('cellphone', $sfl, '연락처'); ?>
-                        <?php echo option_selected('id', $sfl, '아이디'); ?>
-                        <?php echo option_selected('ju_manager', $sfl, '담당직원'); ?>
-                    </select>
-                </div>
-                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+              <div class="chk_select w200">
+                <select name="sfl">
+                  <?php echo option_selected('ju_restaurant', $sfl, '상호명'); ?>
+                  <?php echo option_selected('ju_b_num', $sfl, '사업자번호'); ?>
+                  <?php echo option_selected('name', $sfl, '대표자명'); ?>
+                  <?php echo option_selected('cellphone', $sfl, '연락처'); ?>
+                  <?php echo option_selected('id', $sfl, '아이디'); ?>
+                  <?php echo option_selected('ju_manager', $sfl, '담당직원'); ?>
+                </select>
+              </div>
+              <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
             </div>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">기간검색</th>
-		<td>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">기간검색</th>
+          <td>
             <div class="tel_input">
-                <div class="chk_select w200">
-                    <select name="spt">
-                        <?php echo option_selected('reg_time', $spt, "가입날짜"); ?>
-                        <?php echo option_selected('today_login', $spt, "최근접속"); ?>
-                    </select>
-                </div>
-                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+              <div class="chk_select w200">
+                <select name="spt">
+                  <?php echo option_selected('reg_time', $spt, "가입날짜"); ?>
+                  <?php echo option_selected('today_login', $spt, "최근접속"); ?>
+                </select>
+              </div>
+              <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
             </div>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">레벨검색</th>
-		<td>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">레벨검색</th>
+          <td>
             <div class="radio_group">
-                <?php echo get_search_level('sst', $sst, 2, 9); ?>
+              <?php echo get_search_level('sst', $sst, 2, 9); ?>
             </div>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">탈퇴,폐업 검색</th>
-		<td>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">휴/폐업,탈퇴 검색</th>
+          <td>
             <ul class="radio_group">
-                <li class="radios"><input type="radio" name="ssd" value="탈퇴" id="ssd1"><label for="ssd1">탈퇴</label></li>
-                <li class="radios"><input type="radio" name="ssd" value="폐업" id="ssd2"><label for="ssd2">폐업</label></li>
+              <li class="radios"><input type="radio" name="ssd" value="폐업" id="ssd3"><label for="ssd3">휴업</label></li>
+              <li class="radios"><input type="radio" name="ssd" value="폐업" id="ssd2"><label for="ssd2">폐업</label></li>
+              <li class="radios"><input type="radio" name="ssd" value="탈퇴" id="ssd1"><label for="ssd1">탈퇴</label></li>
             </ul>
 
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</div>
-<div class="board_btns tac mart20">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="board_btns tac mart20">
     <div class="btn_wrap">
-        <input type="submit" value="검색" class="btn_acc marr10">
-        <input type="button" value="초기화" id="frmRest" class="btn_cen">
+      <input type="submit" value="검색" class="btn_acc marr10">
+      <input type="button" value="초기화" id="frmRest" class="btn_cen">
     </div>
-</div>
+  </div>
 </form>
 
 <div class="local_ov mart30 fs18">
-	총 회원수 : <b class="fc_red"><?php echo number_format($total_count); ?></b>명
+  총 회원수 : <b class="fc_red"><?php echo number_format($total_count); ?></b>명
 </div>
 <div class="local_frm01">
-	<?php echo $btn_frmline; ?>
+  <?php echo $btn_frmline; ?>
 </div>
 <div class="board_list">
-	<table class="list01">
-	<colgroup>
-		<col class="w100">
-		<col class="w150">
-		<col class="w200">
-		<col class="w150">
-		<col class="w200">
-		<col class="w300">
-		<col class="w300">
-		<col class="w100">
-		<col class="w100">
-		<col class="w100">
-		<?php if ($is_intro) {?>
-		<col class="w40">
-		<?php }?>
-		<col class="w90">
-	</colgroup>
-	<thead>
-	<tr>
-		<th scope="col">번호</th>
-		<th scope="col"><?php echo subject_sort_link('name', $q2); ?>회원명</a></th>
-		<th scope="col"><?php echo subject_sort_link('id', $q2); ?>아이디</a></th>
-		<th scope="col"><?php echo subject_sort_link('grade', $q2); ?>레벨</a></th>
-		<th scope="col"><?php echo subject_sort_link('pt_id', $q2); ?>추천인</a></th>
-		<th scope="col">핸드폰</th>
-		<th scope="col"><?php echo subject_sort_link('reg_time', $q2); ?>가입일시</a></th>
-		<th scope="col">구매수</th>
-		<th scope="col"><?php echo subject_sort_link('login_sum', $q2); ?>로그인</a></th>
-		<th scope="col"><?php echo subject_sort_link('intercept_date', $q2); ?>접근차단</a></th>
-		<?php if ($is_intro) {?>
-		<th scope="col"><?php echo subject_sort_link('use_app', $q2); ?>인증</a></th>
-		<?php }?>
-		<th scope="col"><?php echo subject_sort_link('point', $q2); ?>포인트</a></th>
-	</tr>
-	</thead>
-	<?php
-	for ($i = 0; $row = sql_fetch_array($result); $i++) {
-		if ($i == 0) {
-			echo '<tbody class="list">' . PHP_EOL;
-		}
+  <table class="list01">
+    <colgroup>
+      <col class="w100">
+      <col class="w150">
+      <col class="w200">
+      <col class="w150">
+      <col class="w200">
+      <col class="w300">
+      <col class="w300">
+      <col class="w100">
+      <col class="w100">
+      <col class="w100">
+      <?php if ($is_intro) { ?>
+        <col class="w40">
+      <?php } ?>
+      <col class="w90">
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="col">번호</th>
+        <th scope="col"><?php echo subject_sort_link('name', $q2); ?>회원명</a></th>
+        <th scope="col"><?php echo subject_sort_link('id', $q2); ?>아이디</a></th>
+        <th scope="col"><?php echo subject_sort_link('grade', $q2); ?>레벨</a></th>
+        <th scope="col"><?php echo subject_sort_link('pt_id', $q2); ?>추천인</a></th>
+        <th scope="col">핸드폰</th>
+        <th scope="col"><?php echo subject_sort_link('reg_time', $q2); ?>가입일시</a></th>
+        <th scope="col">구매수</th>
+        <th scope="col"><?php echo subject_sort_link('login_sum', $q2); ?>로그인</a></th>
+        <th scope="col"><?php echo subject_sort_link('intercept_date', $q2); ?>접근차단</a></th>
+        <?php if ($is_intro) { ?>
+          <th scope="col"><?php echo subject_sort_link('use_app', $q2); ?>인증</a></th>
+        <?php } ?>
+        <th scope="col"><?php echo subject_sort_link('point', $q2); ?>포인트</a></th>
+      </tr>
+    </thead>
+    <?php
+    for ($i = 0; $row = sql_fetch_array($result); $i++) {
+      if ($i == 0) {
+        echo '<tbody class="list">' . PHP_EOL;
+      }
 
-  	$bg = 'list' . ($i % 2);
-  ?>
-	<tr class="<?php echo $bg; ?>">
-		<td><?php echo $num--; ?></td>
-		<td><?php echo get_sideview($row['id'], $row['name']); ?></td>
-		<td><?php echo $row['id']; ?></td>
-		<td><?php echo get_grade($row['grade']); ?></td>
-		<td><?php echo $row['pt_id']; ?></td>
-		<td><?php echo replace_tel($row['cellphone']); ?></td>
-		<td><?php echo $row['reg_time']; ?></td>
-		<td><?php echo number_format(shop_count($row['id'])); ?></td>
-		<td><?php echo number_format($row['login_sum']); ?></td>
-		<td><?php echo substr($row['intercept_date'], 2, 6); ?></td>
-		<?php if ($is_intro) {?>
-		<td><input type="checkbox" name="use_app" value="1"<?php echo ($row['use_app']) ? ' checked' : ''; ?> onclick="chk_use_app('<?php echo $row['id']; ?>');"></td>
-		<?php }?>
-		<td class="tar"><?php echo number_format($row['point']); ?></td>
-	</tr>
-	<?php
-}
-	if ($i == 0) {
-		echo '<tbody><tr><td colspan="' . $colspan . '" class="empty_table">자료가 없습니다.</td></tr>';
-	}
+      $bg = 'list' . ($i % 2);
+    ?>
+      <tr class="<?php echo $bg; ?>">
+        <td><?php echo $num--; ?></td>
+        <td><?php echo get_sideview($row['id'], $row['name']); ?></td>
+        <td><?php echo $row['id']; ?></td>
+        <td><?php echo get_grade($row['grade']); ?></td>
+        <td><?php echo $row['pt_id']; ?></td>
+        <td><?php echo replace_tel($row['cellphone']); ?></td>
+        <td><?php echo $row['reg_time']; ?></td>
+        <td><?php echo number_format(shop_count($row['id'])); ?></td>
+        <td><?php echo number_format($row['login_sum']); ?></td>
+        <td><?php echo substr($row['intercept_date'], 2, 6); ?></td>
+        <?php if ($is_intro) { ?>
+          <td><input type="checkbox" name="use_app" value="1" <?php echo ($row['use_app']) ? ' checked' : ''; ?> onclick="chk_use_app('<?php echo $row['id']; ?>');"></td>
+        <?php } ?>
+        <td class="tar"><?php echo number_format($row['point']); ?></td>
+      </tr>
+    <?php
+    }
+    if ($i == 0) {
+      echo '<tbody><tr><td colspan="' . $colspan . '" class="empty_table">자료가 없습니다.</td></tr>';
+    }
 
-?>
-	</tbody>
-	</table>
+    ?>
+    </tbody>
+  </table>
 </div>
 <div class="local_frm02">
-	<?php //echo $btn_frmline; ?>
+  <?php //echo $btn_frmline; 
+  ?>
 </div>
 
 <?php
@@ -263,34 +270,44 @@ echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAM
 ?>
 
 <script>
-function chk_use_app(mb_id) {
-	var error = "";
-	var token = get_ajax_token();
-	if(!token) {
-		alert("토큰 정보가 올바르지 않습니다.");
-		return false;
-	}
+  function chk_use_app(mb_id) {
+    var error = "";
+    var token = get_ajax_token();
+    if (!token) {
+      alert("토큰 정보가 올바르지 않습니다.");
+      return false;
+    }
 
-	$.ajax({
-		url: bv_admin_url+"/member/member_use_app.php",
-		type: "POST",
-		data: {"mb_id": mb_id, "token": token },
-		dataType: "json",
-		async: false,
-		cache: false,
-		success: function(data, textStatus) {
-			error = data.error;
-		}
-	});
+    $.ajax({
+      url: bv_admin_url + "/member/member_use_app.php",
+      type: "POST",
+      data: {
+        "mb_id": mb_id,
+        "token": token
+      },
+      dataType: "json",
+      async: false,
+      cache: false,
+      success: function(data, textStatus) {
+        error = data.error;
+      }
+    });
 
-	if(error) {
-		alert(error);
-		return false;
-	}
-}
+    if (error) {
+      alert(error);
+      return false;
+    }
+  }
 
-$(function(){
-	// 날짜 검색 : TODAY MAX값으로 인식 (maxDate: "+0d")를 삭제하면 MAX값 해제
-	$("#fr_date, #to_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+0d" });
-});
+  $(function() {
+    // 날짜 검색 : TODAY MAX값으로 인식 (maxDate: "+0d")를 삭제하면 MAX값 해제
+    $("#fr_date, #to_date").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      dateFormat: "yy-mm-dd",
+      showButtonPanel: true,
+      yearRange: "c-99:c+99",
+      maxDate: "+0d"
+    });
+  });
 </script>

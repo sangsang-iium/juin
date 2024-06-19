@@ -1,0 +1,11 @@
+PHP Warning:  include_once(./_common.php): failed to open stream: No such file or directory in /home/juin/www/admin/cron.regpay.php on line 2
+PHP Warning:  include_once(): Failed opening './_common.php' for inclusion (include_path='.:/usr/share/php') in /home/juin/www/admin/cron.regpay.php on line 2
+PHP Fatal error:  Uncaught Error: Call to undefined function sql_query() in /home/juin/www/admin/cron.regpay.php:32
+Stack trace:
+#0 {main}
+  thrown in /home/juin/www/admin/cron.regpay.php on line 32
+
+Fatal error: Uncaught Error: Call to undefined function sql_query() in /home/juin/www/admin/cron.regpay.php:32
+Stack trace:
+#0 {main}
+  thrown in /home/juin/www/admin/cron.regpay.php on line 32
