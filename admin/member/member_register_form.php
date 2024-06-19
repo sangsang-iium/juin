@@ -359,7 +359,7 @@ $none = "style='display:none;'";
   </div>
   
   <!-- 담당자 정보 추가 _20240618_SY -->
-  <?php if($_SESSION['ss_mn_id']) { 
+  <?php if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") { 
     $mn_sel = " SELECT * FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}'";
     $mn_row = sql_fetch($mn_sel);
     $office_where = " WHERE a.office_code = '{$mn_row['ju_region3']}' ";
