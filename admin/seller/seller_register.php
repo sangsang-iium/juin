@@ -27,10 +27,14 @@ if (!defined('_BLUEVATION_')) exit;
           <tr>
             <th scope="row"><label for="reg_mb_id">아이디</label></th>
             <td>
-              <input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required w400" size="20" maxlength="20">
-              <span id="msg_mb_id"></span>
-              <button type="button" class="ui-btn st3" onclick="chk_id()">중복확인</button>
-              <?php echo help('영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요.'); ?>
+                <div class="write_address">
+                    <div class="file_wrap address">
+                        <input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required" size="20" maxlength="20">
+                        <span id="msg_mb_id"></span>
+                        <button type="button" class="btn_file ui-btn st3" onclick="chk_id()">중복확인</button>
+                    </div>
+                    <?php echo help('영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요.'); ?>
+                </div>
             </td>
           </tr>
           <tr>

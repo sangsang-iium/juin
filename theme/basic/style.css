@@ -445,7 +445,10 @@ table .spr,
     padding: 0;
     display: block;
     background-color: #eeeef3;
+    position: relative;
+    z-index: 2;
 }
+
 
 
 #gnb_inner .all_cate .con_bx .c_box .cate_tit {
@@ -458,6 +461,13 @@ table .spr,
     transition: all .3s ease-in-out;
     position: relative;
     z-index: 2;
+}
+
+#gnb_inner .all_cate .con_bx .sub_caterogy{
+    /* display: none; */
+    position: absolute;
+    top: 0;
+    left:0;
 }
 
 #gnb_inner .all_cate .con_bx .c_box .c_boxTitle .cate_tit.menu_on,
@@ -1522,21 +1532,18 @@ table .spr,
     color: #0f0f0f;
     margin: 12px 3px 0;
     font-size: 148x;
-    font-weight: 700;
+    font-weight: 500;
     text-align: left;
 }
 
 .pr_list_ul li .price {
     margin: 5px 0 10px;
-    font-size: 16px;
-    font-weight: 700;
     color: #0f0f0f;
 }
 
 .pr_list_ul li .price .mpr {
-    font-size:16px;
-    font-weight: 400;
-    color: #000;
+    font-size:22px;
+    font-weight: 700;
 }
 
 .pr_list_ul li .price .mpr span {
@@ -1660,7 +1667,8 @@ table .spr,
     margin-top: 10px;
 }
 
-.sct_add_goods .lot .it_li_add {
+.sct_add_goods .lot .it_li_add,
+.vi_txt_li dd.op_vi_txt {
     position: inherit;
     bottom: inherit;
     left: inherit;
@@ -1987,7 +1995,9 @@ table .spr,
     -o-transition: All 0.3s ease;
 }
 
-.it_li_option {}
+.it_li_option {
+    width: 100%;
+}
 
 .it_li_option dl~dl {
     margin-top: 3px;
@@ -1995,11 +2005,11 @@ table .spr,
 
 /* .it_li_option dl dt {display: none;} */
 .it_li_option .it_option {
-    width: 100%;
+    /* width: 100%;
     height: 30px;
     padding-left: 5px;
     font-size: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #ddd; */
 }
 
 .it_li_add {
@@ -2009,47 +2019,45 @@ table .spr,
     width: 100%;
 }
 
-.it_li_add .qty-btn {
+.it_li_add .qty-btn,
+#option_set_added [class^="defbtn_"] {
     position: relative;
     width: 38px;
     height: 38px;
     border-radius: 5px;
+    overflow: hidden;
     padding: 0;
     border: 1px solid #ddd;
-    font-size: 20px;
     font-weight: 700;
     color: #666;
     flex-shrink: 0;
+    font-size:0;
 }
 
-.it_li_add .qty-btn.minus:after {
+.it_li_add [class^="qty-btn"]::after,
+#option_set_added [class^="defbtn_"]::after{
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-indent: 0;
+    line-height: 1;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size:20px;
+}
+
+.it_li_add .qty-btn.minus:after,
+#option_set_added .defbtn_minus::after {
     content: "-";
-    display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-indent: 0;
-    line-height: 1;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
 }
 
-.it_li_add .qty-btn.plus:after {
+.it_li_add .qty-btn.plus:after,
+#option_set_added .defbtn_plus::after {
     content: "+";
-    display: flex;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-indent: 0;
-    line-height: 1;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
 }
 
 .qty-input {
@@ -2413,8 +2421,14 @@ table .spr,
 
 .vi_txt_li dl {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
+    gap:0 2%;
+}
+
+.vi_txt_li.sit_opt_list{
+    padding:15px;
+    background-color:#fbfbfb;
 }
 
 .vi_txt_li dt,
@@ -2426,7 +2440,7 @@ table .spr,
     width: 27%;
     font-size: 13px;
     padding-left: 0;
-    font-size: var(--fs_16);
+    font-size: 16px;
     font-weight: var(--fw_700);
     position: relative;
     display: block;
@@ -2446,19 +2460,25 @@ table .spr,
 }
 
 .vi_txt_li dt.op_vi_tit {
-    width: 57% !important;
+    width: 27% !important;
 }
 
 .vi_txt_li dd {
-    width: 73%;
+    width: 71%;
     font-size: 16px;
-    padding: 0 20px;
+    /* padding: 0 20px; */
 }
 
 .vi_txt_li dd.op_vi_txt {
-    width: 40% !important;
-    margin-left: 3%;
+    width: 71%;
     position: relative;
+    display: flex;
+    align-items: center;
+    gap:0 5px;
+}
+
+.vi_txt_li dd.op_vi_txt input[type="text"]{
+    text-align: center;
 }
 
 .vi_txt_li td {
@@ -2745,52 +2765,23 @@ table .spr,
     padding: 0;
 }
 
-#option_set_added .defbtn_plus {
-    width: 17px;
-    height: 17px;
-    line-height: 500% !important;
-    background: url('/img/plusminus.gif') no-repeat -16px 0;
-    border: 0 none;
-    overflow: hidden;
-    cursor: pointer;
+
+#option_set_added .defbtn_delete::after {
+    content: 'x';
+    background-color:#de372c;
+    color:#fff;
 }
 
-#option_set_added .defbtn_minus {
-    width: 17px;
-    height: 17px;
-    line-height: 500% !important;
-    background: url('/img/plusminus.gif') no-repeat 0 0;
-    border: 0 none;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-#option_set_added .defbtn_delete {
-    width: 13px;
-    height: 13px;
-    font-size: 0;
-    background: url('/img/delete.gif') no-repeat 50% 50%;
-    border: 0 none;
-    overflow: hidden;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    right: 0;
-    margin-top: -7px;
-}
-
-#option_set_added .inp_opt {
-    font-size: 9pt;
+/* #option_set_added .inp_opt {
+    font-size: 17px;
     font-family: tahoma;
     border: 1px solid #cfcfcf;
-    border-left: 0;
-    border-right: 0;
     height: 17px;
     padding: 0 0 1px;
     text-align: center;
     overflow: hidden;
     margin: 0;
-}
+} */
 
 .op_vi_txt .sit_opt_prc {
     font-size: 14px;
@@ -2801,6 +2792,7 @@ table .spr,
     position: absolute;
     top: 50%;
     right: 20px;
+    display: none;
 }
 
 #sit_tot_views {
@@ -3616,7 +3608,9 @@ table .spr,
 }
 
 .tab_sort {
-    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     padding: 13px 20px;
     border-width: 1px 0;
     border-style: solid;
@@ -3624,16 +3618,16 @@ table .spr,
     position: relative;
 }
 
-.tab_sort:after {
+/* .tab_sort:after {
     display: block;
     clear: both;
     content: '';
-}
+} */
 
 .tab_sort .total {
-    height: 15px;
+    /* height: 15px; */
     /* display: inline-block; */
-    float: left;
+    /* float: left; */
 }
 
 .tab_sort .total:after {
@@ -3647,9 +3641,11 @@ table .spr,
 }
 
 .tab_sort ul {
-    height: 15px;
-    line-height: 1.3em;
-    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap:0 20px;
+    margin-left:10px;
 }
 
 .tab_sort ul li {
@@ -3659,7 +3655,6 @@ table .spr,
 .tab_sort ul li a {
     display: block;
     color: #999;
-    padding: 0 10px;
     text-align: center;
 }
 
@@ -5699,7 +5694,7 @@ table .spr,
 
 .f_now {
     font-weight: 600;
-    color: #7d62c3 !important;
+    color: #fa6918;
 }
 
 
@@ -5737,7 +5732,7 @@ input.qty-input {
 }
 
 .lc_wrap .pg_nav>a:not(.pg_home) {
-    font-size: var(--fs_16);
+    font-size: 16px;
     color: var(--color_5);
 }
 
@@ -5839,19 +5834,19 @@ input.qty-input {
 [class*="tap_menu"] li a span {
     padding-bottom: 2px;
     display: inline-block;
-    font-size: var(--fs_16);
+    font-size: 16px;
 }
 
-[class*="tap_menu"] li.f_now a {
-    color: #7d62c3;
+[class*="tap_menu"] li a.f_now {
+    color: #fa6918;
 }
 
 [class*="tap_menu"] li a.f_now>span {
-    border-bottom: 2px solid #7d62c3;
+    border-bottom: 2px solid #fa6918;
 }
 
 [class*="tap_menu"] li a.f_now:before {
-    background: #7d62c3;
+    background: #fa6918;
 }
 
 /* E.탭메뉴_kmg */
@@ -5862,9 +5857,9 @@ input.qty-input {
     top: 0;
     right: 0;
     display: block;
-    font-size: var(--fs_16);
+    font-size: 16px;
     padding: 5px 15px;
-    color: var(--color_white);
+    color: #fff;
 }
 
 .sc_type.sc_tac {
@@ -5888,10 +5883,11 @@ input.qty-input {
 [class^="itme_view_container"] .item_slide_box {
     width:800px;
     position: relative;
+    height: 100%;
 }
 
 [class^="itme_view_container"] .item_slide_box .slick-arrow::before{
-    color:var(--color_5);
+    color:#555;
     font-size:50px;
 }
 
@@ -5929,8 +5925,7 @@ input.qty-input {
 
 [class^="itme_view_container"] .item_info_box {
     width: calc(100% - 800px);
-    background-color: #f9f9f9;
-    padding: 30px 35px;
+    padding: 0 35px 30px 35px;
     box-sizing: border-box;
 }
 
@@ -5993,4 +5988,13 @@ input.qty-input {
 #container .cont_inner section .bx-danger{
     font-size:14px;
     line-height: normal;
+}
+
+
+.ini_wrap{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap:20px;
+    text-align: left;
 }

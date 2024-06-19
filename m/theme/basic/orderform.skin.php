@@ -318,6 +318,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       if ($i == 0) {
         alert('장바구니가 비어 있습니다.', BV_MSHOP_URL . '/cart.php');
       }
+      //$b_addr_req
+      if($b_addr_req==''){
+        $b_addr_req = $member['b_addr_req_base'];
+      }
       ?>
     </div>
 
