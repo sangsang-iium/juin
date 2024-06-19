@@ -22,5 +22,7 @@ if($url) {
     $link = BV_URL;
 }
 
+// 관리자 로그아웃 시 매니저 로그인으로 수정 _20240619_SY
+$link = BV_MBBS_URL . "/login_mng.php?url=$url";
 goto_url($link);
 ?>

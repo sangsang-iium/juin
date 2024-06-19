@@ -71,7 +71,7 @@ $value['mb_adult']		= $mb_adult;
 $value['ju_b_num']    = formatBno($ju_b_num);
 
 // 담당자 추가 _20240618_SY
-if($_SESSION['ss_mn_id']) {
+if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
   $value['ju_manager'] = $ju_manager;
   $value['ju_region1'] = $ju_region1;
   $value['ju_region2'] = $ju_region2;
