@@ -1,12 +1,23 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
+// 담당자 정보 추가 _20240619_SY
+if($_SESSION['ss_mn_id']) {
+  $mn_sql = " SELECT index_no FROM shop_manager WHERE `id` = '{$_SESSION['ss_mn_id']}' ";
+  $mn_row = sql_fetch($mn_sql);
+  $mn_where = " AND mb_id IN ( SELECT id FROM shop_member WHERE ju_manager = '{$mn_row['index_no']}' ) ";
+} else {
+  $mn_where = "";
+}
+
+
 if(!$year) $year = BV_TIME_YEAR;
 
 $sql = " select COUNT(*) as cnt
 		   from shop_order
 		  where dan IN(1,2,3,4,5,8)
-		    and left(od_time,4) = '$year' ";
+		    and left(od_time,4) = '$year' 
+        {$mn_where}";
 $row = sql_fetch($sql);
 $sum_count = (int)$row['cnt'];
 
@@ -93,7 +104,8 @@ if(!$min_year)
 						SUM(goods_price + baesong_price) as price
 				   from shop_order
 				  where dan IN(1,2,3,4,5,8)
-					and left(od_time,7) = '$date' ";
+					and left(od_time,7) = '$date' 
+          {$mn_where}";
 		$sum = sql_fetch($sql);
 
 		$rate = ((int)$sum['cnt'] / $sum_count * 100);
