@@ -92,8 +92,6 @@ if($w == '') {
     $UPDATE = new IUD_Model;
     $UPDATE->update($db_table, $db_update, $db_where);
 
-    // auth수정 시 담당자 권한 수정 필요 _20240618_SY
-
     alert("지부 정보가 수정되었습니다.", BV_ADMIN_URL."/config.php?$q1&w=u&idx=$idx");
   }
 } 
