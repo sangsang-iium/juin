@@ -60,6 +60,9 @@ if(!defined('_BLUEVATION_')) exit;
                             $sql.= " group by gs_id order by io_type asc, index_no asc ";
                             $res = sql_query($sql);
                             $rowspan = sql_num_rows($res) + 1;
+                                    for($k=0; $ct=sql_fetch_array($res); $k++) {
+                                        $od = get_order($ct['od_no']);
+                                        $gs = unserialize($od['od_goods']);
 
                         for($k=0; $ct=sql_fetch_array($res); $k++) {
                         $od = get_order($ct['od_no']);

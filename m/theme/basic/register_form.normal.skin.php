@@ -13,8 +13,9 @@ if (!defined('_BLUEVATION_')) exit;
   <input type="hidden" name="agree" value="<?php echo $agree; ?>">
   <input type="hidden" name="agree2" value="<?php echo $agree2; ?>">
   <input type="hidden" name="mb_recommend" id="reg_mb_recommend" value="<?php echo $member['pt_id']; ?>">
-  <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
-  <input type="hidden" name="cert_no" value="">
+  <input type="hidden" name="cert_type" id="cert_type" value="<?php echo $member['mb_certify']; ?>">
+  <input type="hidden" name="cert_no" id="cert_no" value="">
+  <input type="hidden" name="veri_up_hash" id="veri_up_hash" value="">
 
   <input type="hidden" name="reg_type" value="2">
   <input type="hidden" name="chk_id_res" value="0" id="chk_id_res">
