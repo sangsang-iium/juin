@@ -50,7 +50,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	<div class="my-sec container">
 		<div class="smb-my-step-wrap">
 			<ul class="smb-my-url-list">
-				<li><a href="<?php echo BV_MSHOP_URL; ?>/orderinquiry.php">주문내역·배송조회</a></li>
+				<li><a href="<?php echo BV_MSHOP_URL; ?>/orderinquiry.php">주문조회·재주문</a></li>
 			</ul>
 			<div class="smb-my-step-list">
 				<?php

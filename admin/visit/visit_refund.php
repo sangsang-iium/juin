@@ -1,5 +1,13 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
+// 담당자 정보 추가 _20240619_SY
+if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
+  $mn_sql = " SELECT index_no FROM shop_manager WHERE `id` = '{$_SESSION['ss_mn_id']}' ";
+  $mn_row = sql_fetch($mn_sql);
+  $mn_where = " AND mb_id IN ( SELECT id FROM shop_member WHERE ju_manager = '{$mn_row['index_no']}' ) ";
+} else {
+  $mn_where = "";
+}
 
 if(!$year)  $year  = BV_TIME_YEAR;
 if(!$month)	$month = BV_TIME_MONTH;
@@ -9,7 +17,8 @@ $search_date = preg_replace("/([0-9]{4})([0-9]{2})/", "\\1-\\2", $year.$month);
 $sql = " select COUNT(*) as cnt
 		   from shop_order
 		  where dan = 9
-		    and left(refund_date,7) = '$search_date' ";
+		    and left(refund_date,7) = '$search_date' 
+        {$mn_where}";
 $row = sql_fetch($sql);
 $sum_count = (int)$row['cnt'];
 
@@ -105,7 +114,8 @@ if(!$min_year)
 						SUM(goods_price + baesong_price) as price
 				   from shop_order
 				  where dan = 9
-					and left(refund_date,10) = '$date' ";
+					and left(refund_date,10) = '$date' 
+          {$mn_where}";
 		$sum = sql_fetch($sql);
 
 		$rate = ((int)$sum['cnt'] / $sum_count * 100);

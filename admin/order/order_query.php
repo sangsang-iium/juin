@@ -201,6 +201,13 @@ if ($fr_date && $to_date) {
   $where[] = " left({$sel_field},10) between '$to_date' and '$to_date' ";
 }
 
+// 담당자 정보 추가 _20240619_SY
+if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
+  $mn_sql = " SELECT index_no FROM shop_manager WHERE `id` = '{$_SESSION['ss_mn_id']}' ";
+  $mn_row = sql_fetch($mn_sql);
+  $where[] = " mb_id IN ( SELECT id FROM shop_member WHERE ju_manager = '{$mn_row['index_no']}' ) ";
+}
+
 if ($where) {
   $sql_search = ' where ' . implode(' and ', $where);
 }

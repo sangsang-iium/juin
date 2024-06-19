@@ -158,17 +158,27 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU6) {
-		$sodrr = admin_order_status_sum("where dan > 0 "); // 총 주문내역
-		$sodr1 = admin_order_status_sum("where dan = 1 "); // 총 입금대기
-		$sodr2 = admin_order_status_sum("where dan = 2 "); // 총 입금완료
-		$sodr3 = admin_order_status_sum("where dan = 3 "); // 총 배송준비
-		$sodr4 = admin_order_status_sum("where dan = 4 "); // 총 배송중
-		$sodr5 = admin_order_status_sum("where dan = 5 "); // 총 배송완료
-		$sodr6 = admin_order_status_sum("where dan = 6 "); // 총 입금전 취소
-		$sodr7 = admin_order_status_sum("where dan = 7 "); // 총 배송후 반품
-		$sodr8 = admin_order_status_sum("where dan = 8 "); // 총 배송후 교환
-		$sodr9 = admin_order_status_sum("where dan = 9 "); // 총 배송전 환불
-		$sodr10 = admin_reg_order_status_sum("where dan > 0 "); // 총 배송전 환불
+    
+    // 담당자 정보 추가 _20240619_SY
+    if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
+      $mn_sql = " SELECT index_no FROM shop_manager WHERE `id` = '{$_SESSION['ss_mn_id']}' ";
+      $mn_row = sql_fetch($mn_sql);
+      $mn_where = " AND mb_id IN ( SELECT id FROM shop_member WHERE ju_manager = '{$mn_row['index_no']}' ) ";
+    } else {
+      $mn_where = "";
+    }
+
+		$sodrr = admin_order_status_sum("where dan > 0 {$mn_where}"); // 총 주문내역
+		$sodr1 = admin_order_status_sum("where dan = 1 {$mn_where}"); // 총 입금대기
+		$sodr2 = admin_order_status_sum("where dan = 2 {$mn_where}"); // 총 입금완료
+		$sodr3 = admin_order_status_sum("where dan = 3 {$mn_where}"); // 총 배송준비
+		$sodr4 = admin_order_status_sum("where dan = 4 {$mn_where}"); // 총 배송중
+		$sodr5 = admin_order_status_sum("where dan = 5 {$mn_where}"); // 총 배송완료
+		$sodr6 = admin_order_status_sum("where dan = 6 {$mn_where}"); // 총 입금전 취소
+		$sodr7 = admin_order_status_sum("where dan = 7 {$mn_where}"); // 총 배송후 반품
+		$sodr8 = admin_order_status_sum("where dan = 8 {$mn_where}"); // 총 배송후 교환
+		$sodr9 = admin_order_status_sum("where dan = 9 {$mn_where}"); // 총 배송전 환불
+		$sodr10 = admin_reg_order_status_sum("where dan > 0 {$mn_where}"); // 총 배송전 환불
 		$memoCnt = admin_order_memo(); // 총 관리자메모
 	?>
 	<dl>

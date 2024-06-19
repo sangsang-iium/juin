@@ -569,7 +569,12 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                   </div>
                   <div class="chk_select">
                     <select name="ju_region3" id="ju_region3">
-                      <?php echo "<option value='{$mb['ju_region3']}'>{$mb['ju_region3']}</option>"; ?>
+                      <?php
+                      $depth1 = juinGroupInfo(4, $mb['ju_region2']);
+                      for ($d = 0; $d < count($depth1); $d++) { ?>
+                        <option value="<?php echo $depth1[$d]['code'] ?>" <?php echo $mb['ju_region3'] == $depth1[$d]['code'] ? "selected" : "" ?>><?php echo $depth1[$d]['region'] ?></option>
+                      <?php  }
+                      ?>
                     </select>
                   </div>
                 </td>
