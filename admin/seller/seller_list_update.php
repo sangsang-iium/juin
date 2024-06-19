@@ -20,8 +20,9 @@ if($_POST['act_button'] == "선택승인")
 		$mb_id = trim($_POST['mb_id'][$k]);
 		$seller_code = trim($_POST['seller_code'][$k]);
 
+    // grade = 2 추가 _20240618_SY
 		sql_query("update shop_seller set state='1', seller_open='1' where mb_id='$mb_id'");
-		sql_query("update shop_member set supply='Y' where id='$mb_id'");	
+		sql_query("update shop_member set supply='Y', grade='2' where id='$mb_id'");	
 		sql_query("update shop_goods set isopen='1' where mb_id='$seller_code'");	
 	}
 } 

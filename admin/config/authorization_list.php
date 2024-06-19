@@ -1,7 +1,6 @@
 <?php // 권한 관리 _20240521_SY
 if (!defined('_BLUEVATION_')) exit;
 
-
 $sql_common = " FROM authorization ";
 $sql_search = " WHERE (1) ";
 
@@ -115,8 +114,7 @@ echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAM
 
 <script>
   sessionStorage.removeItem("id_duChk");
-
-
+  
   function fmanagerlist_submit(f) {
     if (!is_checked("chk[]")) {
       alert(document.pressed + " 하실 항목을 하나 이상 선택하세요.");
