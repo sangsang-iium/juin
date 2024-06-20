@@ -195,7 +195,9 @@ EOF;
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row['deposit_name']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>" class="tal"><?php echo $row['bank']; ?></td>
-		<td rowspan="<?php echo $rowspan; ?>" class="tal"><?php echo $gw_status[$row2['dan3']]; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>" class="tac">
+			<?php echo addTag($gw_status[$row2['dan3']]); ?>
+		</td>
 		<?php } ?>
 	<?php
 		}

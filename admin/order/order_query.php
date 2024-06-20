@@ -247,5 +247,32 @@ while ($row = sql_fetch_array($res)) {
   $tot_orderprice += $amount['buyprice'];
 }
 
+// 2024-06-20 태그 추가
+function addTag($tagName){
+  switch($tagName){
+    case '강제입금' :
+      $text = '강제입금';
+      $class = 't1';
+    break;
+
+    case '강제입금완료' :
+      $text = '강제입금완료';
+      $class = 't2';
+    break;
+
+    case '강제출고' :
+      $text = '강제출고';
+      $class = 't3';
+    break;
+
+    case '강제출고완료' :
+      $text = '강제출고완료';
+      $class = 't4';
+    break;
+  }
+  
+  echo '<span class="admin-tag '.$class.'">'.$text.'</span>';
+}
+
 include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 ?>
