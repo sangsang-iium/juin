@@ -57,206 +57,23 @@ if(!defined('_BLUEVATION_')) exit;
 
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
-		<div class="container">
 
-			<!-- 기본정보 { -->
-			<div class="joinDetail-box">
-				<div class="joinDetail-head">
-					<p class="joinDetail-title">기본정보</p>
-				</div>
-				<div class="joinDetail-body">
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title"><label for="reg_mb_id">아이디</label><b>*</b></p>
-						</div>
-						<div class="form-body input-button id-confirm">
-							<input type="text" name="mb_id" value="<?php echo $member['id'] ?>" id="reg_mb_id"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input" size="20" maxlength="20" placeholder="아이디를 입력해주세요." autocapitalize="off">
-							<span id="msg_mb_id"></span>
-							<button type="button" class="ui-btn st3" onclick="chk_id()">중복확인</button>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title"><label for="reg_mb_password">비밀번호</label><b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="password" name="mb_password" id="reg_mb_password"<?php echo $required; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" maxlength="20" placeholder="비밀번호를 입력해주세요.">
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title"><label for="reg_mb_password_re">비밀번호 확인</label><b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="password" name="mb_password_re" id="reg_mb_password_re"<?php echo $required; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" maxlength="20" placeholder="비밀번호를 한번 더 입력해주세요.">
-              <p id="password-message" class="reg-message"></p>
-						</div>
-					</div>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title"><label for="reg_mb_name">이름</label><b>*</b></p>
-						</div>
-						<div class="form-body input-button id-confirm">
-							<input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" placeholder="이름을 입력해주세요." autocapitalize="off">
-							<?php
-							$cert_str = '';
-							if($config['cf_cert_use']) {
-								if($config['cf_cert_ipin'])
-									$cert_str .= '<button type="button" id="win_ipin_cert" class="ui-btn st3">본인인증</button>'.PHP_EOL;
-								if($config['cf_cert_hp'])
-									$cert_str .= '<button type="button" id="win_hp_cert" class="ui-btn st3">본인인증</button>'.PHP_EOL;
-
-								$cert_str .= '<noscript>본인인증을 위해서는 자바스크립트 사용이 가능해야합니다.</noscript>'.PHP_EOL;
-							}
-							if($cert_str) echo '<div class="">'.$cert_str.'</div>';
-							if($config['cf_cert_use'] && $member['mb_certify']) {
-								if($member['mb_certify'] == 'ipin')
-									$mb_cert = '아이핀';
-								else
-									$mb_cert = '휴대폰';
-							?>
-							<div id="msg_certify">
-								<strong><?php echo $mb_cert; ?> 본인인증</strong><?php if($member['mb_adult']) { ?> 및 <strong>성인인증</strong><?php } ?> 완료
-							</div>
-							<?php } ?>
-							<?php if($config['cf_cert_use']) { ?>
-							<span class="frm_info">아이핀 본인인증 후에는 이름이 자동 입력되고 휴대폰 본인인증 후에는 이름과 휴대폰번호가 자동 입력되어 수동으로 입력할수 없게 됩니다.</span>
-							<?php } ?>
-						</div>
-					</div>
-					<?php if($config['register_use_tel']) {
-            // 전화번호 분리 _20240312_SY
-            $tel_phone = explode("-", $member['telephone']);
-          ?>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title"><label for="reg_mb_tel">전화번호</label><?php echo $config['register_req_tel']?'<b>*</b>':''; ?></p>
-						</div>
-						<div class="form-body phone">
-							<!-- <input type="tel" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); autoHyphen2(this)"> -->
-              <input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[0]); ?>" id="reg_reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-							  <span class="hyphen">-</span>
-							<input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[1]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-							  <span class="hyphen">-</span>
-							<input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[2]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-						</div>
-					</div>
-					<?php } ?>
-					<?php if($config['register_use_hp'] || $config['cf_cert_hp']) { 
-            // 휴대폰 번호 분리 _20240312_SY
-            $cell_phone = explode("-", $member['cellphone']);
-          ?>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title"><label for="reg_mb_hp">핸드폰번호</label><b>*</b></p>
-						</div>
-						<div class="form-body phone">
-							<input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[0]); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-							<span class="hyphen">-</span>
-							<input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[1]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-							<span class="hyphen">-</span>
-							<input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[2]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-							<div class="frm-choice">
-								<input type="checkbox" name="mb_sms" id="chk-sms" value="Y"<?php echo ($w=='' || $member['smsser'] == 'Y')?' checked':''; ?>>
-								<label for="chk-sms">핸드폰 문자메세지를 받겠습니다.</label>
-							</div>
-							<?php if($config['cf_cert_use'] && $config['cf_cert_hp']) { ?>
-							<input type="hidden" name="old_mb_hp" value="<?php echo get_text($member['cellphone']); ?>">
-							<?php } ?>
-						</div>
-					</div>
-					<?php } ?>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title"><label for="reg_mb_email">이메일</label><b>*</b></p>
-						</div>
-						<div class="form-body">
-              <div class="input-button id-confirm">
-                <input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
-                <input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
-                <button type="button" class="ui-btn st3" onclick="chk_email()">중복확인</button>
-              </div>
-							<!-- <span class="at">@</span>
-							<select name="" class="frm-select">
-								<option value="">선택하세요.</option>
-								<option value="">gmail.com</option>
-								<option value="">naver.com</option>
-								<option value="">hanmail.net</option>
-								<option value="">직접입력</option>
-							</select> -->
-							<div class="frm-choice">
-								<input type="checkbox" name="mb_mailling" value="Y" id="reg_mb_mailling"<?php echo ($w=='' || $member['mailser'] == 'Y')?' checked':''; ?>>
-								<label for="reg_mb_mailling">정보 메일을 받겠습니다.</label>
-							</div>
-						</div>
-					</div>
-					<?php if($config['register_use_addr']) { ?>
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">주소<b>*</b></p>
-						</div>
-						<div class="form-body address">
-              <label for="reg_mb_zip" class="sound_only">우편번호</label>
-							<input type="tel" name="mb_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호" >
-							<button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
-							
-							<input type="text" name="mb_addr1" value="<?php echo ($w == '') ? get_text($doro1) : get_text($member['addr1']); ?>" id="reg_mb_addr1"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_2 <?php echo $config['register_req_addr']?' required':''; ?> frm_address" size="60" placeholder="기본주소" autocapitalize="off">
-							<label for="reg_mb_addr1" class="sound_only">기본주소</label>
-							<input type="text" name="mb_addr2" value="<?php echo get_text($member['addr2']); ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
-							<label for="reg_mb_addr2" class="sound_only">상세주소</label>
-							<input type="text" name="mb_addr3" value="<?php echo ($w == '') ? get_text($doro2) : get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
-							<label for="reg_mb_addr3" class="sound_only">참고항목</label>
-
-							<input type="hidden" name="mb_addr_jibeon" value="<?php echo get_text($member['addr_jibeon']); ?>">
-						</div>
-					</div>
-					<?php } ?>
-
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">환불계좌등록<b>*</b></p>
-						</div>
-						<div class="form-body bank">	  
-							<label for="reg_mb_addr2" class="sound_only">은행</label> 
-							<?php 
-								
-							?>
-							<select name="refund_bank" class="frm-select">
-									<option>은행을선택하세요</option>
-									<?php 
-									sort($BANKS, SORT_NATURAL | SORT_FLAG_CASE); 
-									//sort($BANKS);
-										for($a=0;$a<count($BANKS);$a++){   
-											?>
-											<option value='<? echo $BANKS[$a]['code']; ?>' <?php  if(get_text($member['refund_bank'])==$BANKS[$a]['code']) echo "selected"; ?>><?php echo $BANKS[$a]['bank'];?></option>
-											<?php
-										}
-									?>
-							</select>
-							<input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
-							<input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
-						</div>
-					</div>
-
-				</div>
-			</div>
-			<!-- } 기본정보 -->
-
-			<!-- 담당자정보 _20240603 / 개인 회원가입일 경우 노출 { -->
-			<div class="joinDetail-box">
-				<div class="joinDetail-head">
-					<p class="joinDetail-title">담당자 등록</p>
-					<button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">담당자 조회하기</button>
-					<!-- 담당자 조회하기 팝업 { -->
+    <!-- 담당자정보 _20240603 / 개인 회원가입일 경우 노출 { -->
+    <div class="joinDetail-box">
+      <div class="container">
+        <div class="joinDetail-head">
+          <p class="joinDetail-title">담당자 등록</p>
+          <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">담당자 조회하기</button>
+          <!-- 담당자 조회하기 팝업 { -->
           <div class="popup type01" id="popMemberSch">
             <div class="pop-inner">
               <div class="pop-top">
                 <p class="tit">담당자 조회하기</p>
               </div>
-							<div class="pop-search input-button">
-								<input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="담당자 코드를 입력해주세요.">
-								<button type="button" class="ui-btn st3" onclick="getManager()">조회</button>
-							</div>
+              <div class="pop-search input-button">
+                <input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="담당자 코드를 입력해주세요.">
+                <button type="button" class="ui-btn st3" onclick="getManager()">조회</button>
+              </div>
               <div class="pop-content line">
                 <div class="pop-content-in" style="height: 500px;">
                   <div class="pop-result">
@@ -270,79 +87,267 @@ if(!defined('_BLUEVATION_')) exit;
               </div>
             </div>
           </div>
-					<!-- } 담당자 조회하기 팝업 -->
-				</div>
-				<div class="joinDetail-body">
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">담당자<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="<?php echo $mng_sel_row['name']; ?>" placeholder="홍길동" readonly>
+          <!-- } 담당자 조회하기 팝업 -->
+        </div>
+        <div class="joinDetail-body">
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">담당자<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="<?php echo $mng_sel_row['name']; ?>" placeholder="홍길동" readonly>
               <input type="hidden" name="mn_idx" id="mn_idx" value="<?php echo $mng_sel_row['index_no']; ?>">
-						</div>
-					</div>
-					<!-- <div class="form-row">
-						<div class="form-head">
-							<p class="title">고유번호<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="pop_u_no" id="pop_u_no" class="frm-input w-per100" readonly value="123456789">
-						</div>
-					</div> -->
-					<!-- <div class="form-row">
-						<div class="form-head">
-							<p class="title">사업자등록번호<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="text" name="pop_b_no" id="pop_b_no" class="frm-input w-per100" readonly value="123-45-67890">
-						</div>
-					</div> -->
-				</div>
-			</div>
-			<!-- } 중앙회원정보 / 개인 회원가입일 경우 노출 -->
+            </div>
+          </div>
+          <!-- <div class="form-row">
+            <div class="form-head">
+              <p class="title">고유번호<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="pop_u_no" id="pop_u_no" class="frm-input w-per100" readonly value="123456789">
+            </div>
+          </div> -->
+          <!-- <div class="form-row">
+            <div class="form-head">
+              <p class="title">사업자등록번호<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="pop_b_no" id="pop_b_no" class="frm-input w-per100" readonly value="123-45-67890">
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- } 중앙회원정보 / 개인 회원가입일 경우 노출 -->
 
-			<!-- 사업자정보 { -->
-      
-			<div class="joinDetail-box" id="b_area">
-				<div class="joinDetail-head">
-					<p class="joinDetail-title">사업자정보</p>
-					<!-- 개인 회원가입일 경우 노출 { -->
-					<!-- <button type="button" class="ui-btn st3 w-per100">사업자 정보 불러오기</button> -->
-					<!-- } 개인 회원가입일 경우 노출 -->
-				</div>
-				<div class="joinDetail-body">
-					<!-- 사업자 회원가입일 경우 노출 { -->
-					<div class="form-row">
-						<div class="form-head">
-							<p class="title">사업자등록번호<b>*</b></p>
-						</div>
-						<div class="form-body">
-							<input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w == '') ? formatBno($_POST['IRS_NO']) : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" readonly >              
-							<!-- <div class="joinDetail-btn-box joinDetail-btn-box3">
-								<button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
-								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
-								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
-							</div> -->
-						</div>
-					</div>
+    <!-- 기본정보 { -->
+    <div class="joinDetail-box">
+      <div class="container">
+        <div class="joinDetail-head">
+          <p class="joinDetail-title">기본정보</p>
+        </div>
+        <div class="joinDetail-body">
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title"><label for="reg_mb_id">아이디</label><b>*</b></p>
+            </div>
+            <div class="form-body input-button id-confirm">
+              <input type="text" name="mb_id" value="<?php echo $member['id'] ?>" id="reg_mb_id"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input" size="20" maxlength="20" placeholder="아이디를 입력해주세요." autocapitalize="off">
+              <span id="msg_mb_id"></span>
+              <button type="button" class="ui-btn st3" onclick="chk_id()">중복확인</button>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title"><label for="reg_mb_password">비밀번호</label><b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="password" name="mb_password" id="reg_mb_password"<?php echo $required; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" maxlength="20" placeholder="비밀번호를 입력해주세요.">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title"><label for="reg_mb_password_re">비밀번호 확인</label><b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="password" name="mb_password_re" id="reg_mb_password_re"<?php echo $required; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" maxlength="20" placeholder="비밀번호를 한번 더 입력해주세요.">
+              <p id="password-message" class="reg-message"></p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title"><label for="reg_mb_name">이름</label><b>*</b></p>
+            </div>
+            <div class="form-body input-button id-confirm">
+              <input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" placeholder="이름을 입력해주세요." autocapitalize="off">
+              <?php
+              $cert_str = '';
+              if($config['cf_cert_use']) {
+                if($config['cf_cert_ipin'])
+                  $cert_str .= '<button type="button" id="win_ipin_cert" class="ui-btn st3">본인인증</button>'.PHP_EOL;
+                if($config['cf_cert_hp'])
+                  $cert_str .= '<button type="button" id="win_hp_cert" class="ui-btn st3">본인인증</button>'.PHP_EOL;
 
-					<!-- } 사업자 회원가입일 경우 노출 -->
-				</div>
-			</div>
-			<!-- } 사업자정보 -->
-			<!-- 매장정보 { -->
-      <?php //if($w == 'u') { ?>
-      <div class="joinDetail-box">
-				<div class="joinDetail-head">
-					<p class="joinDetail-title">매장정보</p>
-				</div>
-				<div class="joinDetail-body">
-					<div class="form-row store_info">
-						<div class="form-head">
-							<p class="title">매장 노출 여부<b>*</b></p>
-						</div>
-						<div class="form-body">
+                $cert_str .= '<noscript>본인인증을 위해서는 자바스크립트 사용이 가능해야합니다.</noscript>'.PHP_EOL;
+              }
+              if($cert_str) echo '<div class="">'.$cert_str.'</div>';
+              if($config['cf_cert_use'] && $member['mb_certify']) {
+                if($member['mb_certify'] == 'ipin')
+                  $mb_cert = '아이핀';
+                else
+                  $mb_cert = '휴대폰';
+              ?>
+              <div id="msg_certify">
+                <strong><?php echo $mb_cert; ?> 본인인증</strong><?php if($member['mb_adult']) { ?> 및 <strong>성인인증</strong><?php } ?> 완료
+              </div>
+              <?php } ?>
+              <?php if($config['cf_cert_use']) { ?>
+              <span class="frm_info">아이핀 본인인증 후에는 이름이 자동 입력되고 휴대폰 본인인증 후에는 이름과 휴대폰번호가 자동 입력되어 수동으로 입력할수 없게 됩니다.</span>
+              <?php } ?>
+            </div>
+          </div>
+          <?php if($config['register_use_tel']) {
+            // 전화번호 분리 _20240312_SY
+            $tel_phone = explode("-", $member['telephone']);
+          ?>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title"><label for="reg_mb_tel">전화번호</label><?php echo $config['register_req_tel']?'<b>*</b>':''; ?></p>
+            </div>
+            <div class="form-body phone">
+              <!-- <input type="tel" name="mb_tel" value="<?php echo get_text($member['telephone']); ?>" id="reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input w-per100 <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="13" placeholder="전화번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'); autoHyphen2(this)"> -->
+              <input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[0]); ?>" id="reg_reg_mb_tel"<?php echo $config['register_req_tel']?' required':''; ?> class="frm-input <?php echo $config['register_req_tel']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                <span class="hyphen">-</span>
+              <input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[1]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                <span class="hyphen">-</span>
+              <input type="tel" name="mb_tel[]" value="<?php echo get_text($tel_phone[2]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+            </div>
+          </div>
+          <?php } ?>
+          <?php if($config['register_use_hp'] || $config['cf_cert_hp']) { 
+            // 휴대폰 번호 분리 _20240312_SY
+            $cell_phone = explode("-", $member['cellphone']);
+          ?>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title"><label for="reg_mb_hp">핸드폰번호</label><b>*</b></p>
+            </div>
+            <div class="form-body phone">
+              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[0]); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?>" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+              <span class="hyphen">-</span>
+              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[1]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+              <span class="hyphen">-</span>
+              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[2]); ?>" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+              <div class="frm-choice">
+                <input type="checkbox" name="mb_sms" id="chk-sms" value="Y"<?php echo ($w=='' || $member['smsser'] == 'Y')?' checked':''; ?>>
+                <label for="chk-sms">핸드폰 문자메세지를 받겠습니다.</label>
+              </div>
+              <?php if($config['cf_cert_use'] && $config['cf_cert_hp']) { ?>
+              <input type="hidden" name="old_mb_hp" value="<?php echo get_text($member['cellphone']); ?>">
+              <?php } ?>
+            </div>
+          </div>
+          <?php } ?>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title"><label for="reg_mb_email">이메일</label><b>*</b></p>
+            </div>
+            <div class="form-body">
+              <div class="input-button id-confirm">
+                <input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
+                <input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
+                <button type="button" class="ui-btn st3" onclick="chk_email()">중복확인</button>
+              </div>
+              <!-- <span class="at">@</span>
+              <select name="" class="frm-select">
+                <option value="">선택하세요.</option>
+                <option value="">gmail.com</option>
+                <option value="">naver.com</option>
+                <option value="">hanmail.net</option>
+                <option value="">직접입력</option>
+              </select> -->
+              <div class="frm-choice">
+                <input type="checkbox" name="mb_mailling" value="Y" id="reg_mb_mailling"<?php echo ($w=='' || $member['mailser'] == 'Y')?' checked':''; ?>>
+                <label for="reg_mb_mailling">정보 메일을 받겠습니다.</label>
+              </div>
+            </div>
+          </div>
+          <?php if($config['register_use_addr']) { ?>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">주소<b>*</b></p>
+            </div>
+            <div class="form-body address">
+              <label for="reg_mb_zip" class="sound_only">우편번호</label>
+              <input type="tel" name="mb_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호" >
+              <button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
+              
+              <input type="text" name="mb_addr1" value="<?php echo ($w == '') ? get_text($doro1) : get_text($member['addr1']); ?>" id="reg_mb_addr1"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_2 <?php echo $config['register_req_addr']?' required':''; ?> frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+              <label for="reg_mb_addr1" class="sound_only">기본주소</label>
+              <input type="text" name="mb_addr2" value="<?php echo get_text($member['addr2']); ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
+              <label for="reg_mb_addr2" class="sound_only">상세주소</label>
+              <input type="text" name="mb_addr3" value="<?php echo ($w == '') ? get_text($doro2) : get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
+              <label for="reg_mb_addr3" class="sound_only">참고항목</label>
+
+              <input type="hidden" name="mb_addr_jibeon" value="<?php echo get_text($member['addr_jibeon']); ?>">
+            </div>
+          </div>
+          <?php } ?>
+
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">환불계좌등록<b>*</b></p>
+            </div>
+            <div class="form-body bank">	  
+              <label for="reg_mb_addr2" class="sound_only">은행</label> 
+              <?php 
+                
+              ?>
+              <select name="refund_bank" class="frm-select">
+                  <option>은행을선택하세요</option>
+                  <?php 
+                  sort($BANKS, SORT_NATURAL | SORT_FLAG_CASE); 
+                  //sort($BANKS);
+                    for($a=0;$a<count($BANKS);$a++){   
+                      ?>
+                      <option value='<? echo $BANKS[$a]['code']; ?>' <?php  if(get_text($member['refund_bank'])==$BANKS[$a]['code']) echo "selected"; ?>><?php echo $BANKS[$a]['bank'];?></option>
+                      <?php
+                    }
+                  ?>
+              </select>
+              <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
+              <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- } 기본정보 -->
+
+    <!-- 사업자정보 { -->
+    <div class="joinDetail-box" id="b_area">
+      <div class="container">
+        <div class="joinDetail-head">
+          <p class="joinDetail-title">사업자정보</p>
+          <!-- 개인 회원가입일 경우 노출 { -->
+          <!-- <button type="button" class="ui-btn st3 w-per100">사업자 정보 불러오기</button> -->
+          <!-- } 개인 회원가입일 경우 노출 -->
+        </div>
+        <div class="joinDetail-body">
+          <!-- 사업자 회원가입일 경우 노출 { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">사업자등록번호<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w == '') ? formatBno($_POST['IRS_NO']) : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" readonly >              
+              <!-- <div class="joinDetail-btn-box joinDetail-btn-box3">
+                <button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
+                <button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
+                <button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- } 사업자 회원가입일 경우 노출 -->
+        </div>
+      </div>
+    </div>
+    <!-- } 사업자정보 -->
+    <!-- 매장정보 { -->
+    <?php //if($w == 'u') { ?>
+    <div class="joinDetail-box">
+      <div class="container">
+        <div class="joinDetail-head">
+          <p class="joinDetail-title">매장정보</p>
+        </div>
+        <div class="joinDetail-body">
+          <div class="form-row store_info">
+            <div class="form-head">
+              <p class="title">매장 노출 여부<b>*</b></p>
+            </div>
+            <div class="form-body">
               <ul class="form-inline">
                 <li>
                   <div class="frm-choice">
@@ -357,21 +362,21 @@ if(!defined('_BLUEVATION_')) exit;
                   </div>
                 </li>
               </ul>
-						</div>
-					</div>
+            </div>
+          </div>
           <div class="form-row">
-						<div class="form-head">
-							<p class="title">업종</p>
-						</div>
-						<div class="form-body">
-							<select name="ju_sectors" id="ju_sectors" class="frm-select w-per100">
+            <div class="form-head">
+              <p class="title">업종</p>
+            </div>
+            <div class="form-body">
+              <select name="ju_sectors" id="ju_sectors" class="frm-select w-per100">
                 <option value="">선택</option>
                 <?php foreach($ju_sectors as $key => $val) { ?> 
                   <option value="<?php echo $val ?>" <?php echo (($w=='u') && $val == $member['ju_sectors']) ? "selected" : "" ?> ><?php echo $val ?></option>
                 <?php } ?>
               </select>
-						</div>
-					</div>
+            </div>
+          </div>
           <!-- 지회/지부 정보 _20240608_SY -->
           <div class="joinDetail-body">
             <div class="form-row">
@@ -411,18 +416,18 @@ if(!defined('_BLUEVATION_')) exit;
             </div>
           </div>
           <div class="form-row store_info">
-						<div class="form-head">
-							<p class="title">매장 썸네일 사진</p>
-						</div>
-						<div class="form-body">
-							<input type="file" name="" id="" class="frm-file w-per100">
-						</div>
-					</div>
+            <div class="form-head">
+              <p class="title">매장 썸네일 사진</p>
+            </div>
+            <div class="form-body">
+              <input type="file" name="" id="" class="frm-file w-per100">
+            </div>
+          </div>
           <div class="form-row store_info">
-						<div class="form-head">
-							<p class="title">매장 상세 사진</p>
-						</div>
-						<div class="form-body">
+            <div class="form-head">
+              <p class="title">매장 상세 사진</p>
+            </div>
+            <div class="form-body">
               <ul class="form-file_box">
                 <li class="view">
                   <input type="file" name="" id="" class="frm-file w-per100">
@@ -444,14 +449,14 @@ if(!defined('_BLUEVATION_')) exit;
                 <span class="txt">상세 사진 추가</span>
                 <i data-feather="plus" class="icn"></i>
               </button>
-						</div>
-					</div>
+            </div>
+          </div>
           <div class="form-row store_info">
-						<div class="form-head">
-							<p class="title">운영시간</p>
-						</div>
-						<div class="form-body">
-							<ul class="form-inline time">
+            <div class="form-head">
+              <p class="title">운영시간</p>
+            </div>
+            <div class="form-body">
+              <ul class="form-inline time">
                 <li>
                   <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
                 </li>
@@ -460,13 +465,13 @@ if(!defined('_BLUEVATION_')) exit;
                   <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
                 </li>
               </ul>
-						</div>
-					</div>
+            </div>
+          </div>
           <div class="form-row store_info">
-						<div class="form-head">
-							<p class="title">휴무일</p>
-						</div>
-						<div class="form-body">
+            <div class="form-head">
+              <p class="title">휴무일</p>
+            </div>
+            <div class="form-body">
               <ul class="form-inline yoil">
                 <li>
                   <div class="frm-choice">
@@ -511,13 +516,13 @@ if(!defined('_BLUEVATION_')) exit;
                   </div>
                 </li>
               </ul>
-						</div>
-					</div>
+            </div>
+          </div>
           <div class="form-row store_info">
-						<div class="form-head">
-							<p class="title">브레이크 타임</p>
-						</div>
-						<div class="form-body">
+            <div class="form-head">
+              <p class="title">브레이크 타임</p>
+            </div>
+            <div class="form-body">
               <ul class="form-inline time">
                 <li>
                   <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
@@ -527,45 +532,41 @@ if(!defined('_BLUEVATION_')) exit;
                   <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
                 </li>
               </ul>
-						</div>
-					</div>
+            </div>
+          </div>
           <div class="form-row">
-						<div class="form-head">
-							<p class="title">매장주소</p>
-						</div>
-						<div class="form-body address">
+            <div class="form-head">
+              <p class="title">매장주소</p>
+            </div>
+            <div class="form-body address">
               <label for="store_zip" class="sound_only">우편번호</label>
-							<input type="tel" name="store_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="store_zip" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" >
-							<button type="button" class="ui-btn st3" onclick="execDaumPostcode2()">주소검색</button>
-							
-							<input type="text" name="store_addr1" value="<?php echo ($w == '') ? get_text($doro1) : $member['ju_addr_full'] ?>" id="store_addr1" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
-							<label for="store_addr1" class="sound_only">기본주소</label>
-							<input type="text" name="store_addr2" value="<?php echo ($w == '') ? get_text($doro2) : "" ?>" id="store_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
-							<label for="store_addr2" class="sound_only">상세주소</label>
-							<input type="hidden" name="store_addr3" value="" id="store_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
-							<label for="store_addr3" class="sound_only">참고항목</label>
+              <input type="tel" name="store_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="store_zip" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" >
+              <button type="button" class="ui-btn st3" onclick="execDaumPostcode2()">주소검색</button>
+              
+              <input type="text" name="store_addr1" value="<?php echo ($w == '') ? get_text($doro1) : $member['ju_addr_full'] ?>" id="store_addr1" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+              <label for="store_addr1" class="sound_only">기본주소</label>
+              <input type="text" name="store_addr2" value="<?php echo ($w == '') ? get_text($doro2) : "" ?>" id="store_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
+              <label for="store_addr2" class="sound_only">상세주소</label>
+              <input type="hidden" name="store_addr3" value="" id="store_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
+              <label for="store_addr3" class="sound_only">참고항목</label>
 
-							<input type="hidden" name="store_addr_jibeon" value="">
-						</div>
-					</div>
+              <input type="hidden" name="store_addr_jibeon" value="">
+            </div>
+          </div>
           <div class="form-row store_info">
-						<div class="form-head">
-							<p class="title">매장설명</p>
-						</div>
-						<div class="form-body">
-							<textarea name="" id="" class="frm-txtar w-per100 store-txtar"></textarea>
-						</div>
-					</div>
+            <div class="form-head">
+              <p class="title">매장설명</p>
+            </div>
+            <div class="form-body">
+              <textarea name="" id="" class="frm-txtar w-per100 store-txtar"></textarea>
+            </div>
+          </div>
         </div>
       </div>
-      <?php //} ?>
-      <br>
-      <br>
-      <br>
-      <br>
-			<!-- } 매장정보 -->
+    </div>
+    <?php //} ?>
+    <!-- } 매장정보 -->
 
-		</div>
 	</div>
 	<div class="cp-btnbar">
 		<div class="container">

@@ -51,10 +51,10 @@ input{border-radius: 0;}
 /* Typography */
 h1 {font-size: 5rem; font-weight: 800; line-height: normal;}
 h2 {font-size: 4rem; font-weight: 700; line-height: normal;}
-h3 {font-size: 3.68rem; font-weight: 700; line-height: normal;}
-h4 {font-size: 3rem; font-weight: 600; line-height: normal;}
-h5 {font-size: 2.5rem; font-weight: 500; line-height: normal;}
-h6 {font-size: 2rem; font-weight: 500; line-height: normal;}
+h3 {font-size: 3.2rem; font-weight: 700; line-height: normal;}
+h4 {font-size: 2.78rem; font-weight: 600; line-height: normal;}
+h5 {font-size: 2.24rem; font-weight: 500; line-height: normal;}
+h6 {font-size: 1.8rem; font-weight: 500; line-height: normal;}
 
 .tp-body {font-size: 1.8rem; font-weight: 500; color: var(--color-gray2);}
 
