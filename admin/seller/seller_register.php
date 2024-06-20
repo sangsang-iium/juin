@@ -254,7 +254,7 @@ if (!defined('_BLUEVATION_')) exit;
   </div>
 
   <p class="gap50"></p>
-  <h5 class="htag_title">담당자 정보</h5>
+  <h5 class="htag_title">담당직원 정보</h5>
   <p class="gap20"></p>
   <div class="tbl_frm01">
     <table class="tablef">
@@ -264,15 +264,15 @@ if (!defined('_BLUEVATION_')) exit;
       </colgroup>
       <tbody>
         <tr>
-          <th scope="row">담당자명</th>
+          <th scope="row">이름</th>
           <td><input type="text" name="info_name" class="frm_input" size="30"></td>
         </tr>
         <tr>
-          <th scope="row">담당자 핸드폰</th>
+          <th scope="row">연락처</th>
           <td><input type="text" name="info_tel" class="frm_input" size="30"></td>
         </tr>
         <tr>
-          <th scope="row">담당자 이메일</th>
+          <th scope="row">이메일</th>
           <td><input type="text" name="info_email" class="frm_input" size="30"></td>
         </tr>
       </tbody>

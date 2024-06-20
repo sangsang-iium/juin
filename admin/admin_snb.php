@@ -277,7 +277,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php //echo printMenu1('q50', '게시판관리'); ?>
 		<?php //echo printMenu2('q50', ADMIN_MENU10_16, BV_ADMIN_URL.'/config.php?code=board_group_list'); ?>
 		<?php //echo printMenu2('q50', ADMIN_MENU10_17, BV_ADMIN_URL.'/config.php?code=board_list'); ?>
-		<?php echo printMenu1('q60', '담당자관리'); ?>
+		<?php echo printMenu1('q60', '담당직원관리'); ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_18, BV_ADMIN_URL.'/config.php?code=branch'); ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_20, BV_ADMIN_URL.'/config.php?code=manager_list'); ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_21, BV_ADMIN_URL.'/config.php?code=authorization_list'); ?>

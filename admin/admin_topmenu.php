@@ -3,7 +3,7 @@ if(!defined('_BLUEVATION_')) exit;
 
 // 추가 _20240617_SY
 if($_SESSION['ss_mn_id']) {
-  $url = "?url=admin";
+  $url = "?url=/admin/";
 } else {
   $url = "";
 }

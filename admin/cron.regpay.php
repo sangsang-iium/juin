@@ -1,5 +1,5 @@
 <?php
-include_once "./_common.php";
+include_once "/home/juin/www/admin/_common.php";
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 $today         = date('Y-m-d');

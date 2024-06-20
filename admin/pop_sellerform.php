@@ -194,7 +194,7 @@ $sr = get_seller($mb_id);
 		</table>
 	</div>
     <p class="gap50"></p>
-	<h5 class="htag_title">담당자 정보</h5>
+	<h5 class="htag_title">담당직원 정보</h5>
     <p class="gap20"></p>
 	<div class="tbl_frm01">
 		<table class="tablef">
@@ -204,15 +204,15 @@ $sr = get_seller($mb_id);
 		</colgroup>
 		<tbody>
 		<tr>
-			<th scope="row">담당자명</th>
+			<th scope="row">이름</th>
 			<td><input type="text" name="info_name" value="<?php echo $sr['info_name']; ?>" class="frm_input" size="30"></td>
 		</tr>
 		<tr>
-			<th scope="row">담당자 핸드폰</th>
+			<th scope="row">연락처</th>
 			<td><input type="text" name="info_tel" value="<?php echo $sr['info_tel']; ?>" class="frm_input" size="30"></td>
 		</tr>
 		<tr>
-			<th scope="row">담당자 이메일</th>
+			<th scope="row">이메일</th>
 			<td><input type="text" name="info_email" value="<?php echo $sr['info_email']; ?>" class="frm_input" size="30"></td>
 		</tr>
 		</tbody>

@@ -3,8 +3,7 @@ include_once("./_common.php");
  
 check_demo();
 
-// Token 문제 있음 _20240618_SY
-// check_admin_token();
+check_admin_token();
 
 $db_table   = "authorization";
 
@@ -46,12 +45,13 @@ if($w == '') {
 
   $auth_idx = $_GET['idx'];
 
-  // 사용중인 담당자 여부 체크
-  $mng_chk_sql = " SELECT COUNT(*) as cnt FROM shop_manager WHERE region_idx = '{$auth_idx}' ";
+  // 사용중인 담당자 여부 체크 -> 지부로 변경_20240620_SY
+  $mng_chk_sql = " SELECT COUNT(*) as cnt FROM shop_manager WHERE ju_region3 IN ( SELECT office_code FROM kfia_office WHERE auth_idx = '{$auth_idx}') ";
   $mng_chk_row = sql_fetch($mng_chk_sql);
 
+
   if($mng_chk_row['cnt'] > 0) {
-    $msg = "해당 권한을 부여 받은 담당자가 있으면 삭제할 수 없습니다.";
+    $msg = "해당 권한을 부여 받은 담당직원이 있으면 삭제할 수 없습니다.";
   } else {
     $auth_where = " WHERE auth_idx = {$auth_idx} ";
 
