@@ -2979,3 +2979,10 @@ strong.sodr_nonpay {
     line-height: 1.4em;
     color: #197fe0;
 }
+
+/* 2024-06-20 */
+.admin-tag {display: inline-block; font-weight: 500; font-size: 13px; border-radius: 4px; color: #fff; padding: 2px 4px;}
+.admin-tag.t1 {background-color: #00908d;}
+.admin-tag.t2 {background-color: #333;}
+.admin-tag.t3 {background-color: #C20606;}
+.admin-tag.t4 {background-color: #333;}
