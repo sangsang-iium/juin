@@ -26,7 +26,7 @@ if($_POST['act_button'] == "선택삭제")
                         WHERE office_idx = '{$office_idx}' ";
     $mn_region_row = sql_fetch($mn_region_sql);
     if($mn_region_row['cnt'])
-      alert("담당자에 저장된 지부정보는 삭제할 수 없습니다.");
+      alert("담당직원에게 저장된 지부정보는 삭제할 수 없습니다.");
 
     sql_query(" DELETE FROM kfia_office WHERE office_idx = '{$office_idx}' ");
 	}

@@ -369,7 +369,7 @@ $none = "style='display:none;'";
     $ju_region3 = $office_data[0]['office_code'];
   ?>
   <p class="gap70"></p>
-  <h5 class="htag_title">담당자 정보</h5>
+  <h5 class="htag_title">담당직원 정보</h5>
   <div class="board_table mart20">
     <table>
       <colgroup>
@@ -384,7 +384,7 @@ $none = "style='display:none;'";
         </td>
         </tr>
         <tr>
-          <th scope="row"><label for="reg_mn_name">매니저명</label></th>
+          <th scope="row"><label for="reg_mn_name">이름</label></th>
           <td>
             <input type="text" name="mn_name" id="reg_mn_name" value="<?php echo $mn_row['name'] ?>" class="frm_input w400" size="20" maxlength="20" readonly>
           </td>

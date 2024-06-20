@@ -568,6 +568,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                     </select>
                   </div>
                   <div class="chk_select">
+                    <!-- 지부정보수정 _20240618_SY -->
                     <select name="ju_region3" id="ju_region3">
                       <?php
                       $depth1 = juinGroupInfo(4, $mb['ju_region2']);
