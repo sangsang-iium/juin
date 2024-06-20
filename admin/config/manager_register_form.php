@@ -1,9 +1,9 @@
 <?php // 담당자 관리 _20240521_SY
 if(!defined('_BLUEVATION_')) exit;
 
-$form_title = "담당자 등록";
+$form_title = "담당직원 등록";
 if($w == 'u') {
-  $form_title = "담당자 수정";
+  $form_title = "담당직원 수정";
 }
 
 $sql_common = " FROM shop_manager ";

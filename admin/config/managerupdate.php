@@ -83,7 +83,7 @@ if($w == '') {
   $INSERT->insert($db_table, $ins_data);
   
   $ins_idx = sql_insert_id();
-  $msg  = "신규 담당자가 등록되었습니다.";
+  $msg  = "신규 담당직원이 등록되었습니다.";
   $link = "/config.php?$q1&w=u&idx=$ins_idx";
 
 } else if ($w == 'u') {
@@ -118,7 +118,7 @@ if($w == '') {
     }
   }
 
-  $msg  = "담당자 정보가 수정되었습니다.";
+  $msg  = "담당직원 정보가 수정되었습니다.";
   $link = "/config.php?$q1&w=u&idx=$idx";
 
 } else if($w == 'd') {
@@ -130,13 +130,13 @@ if($w == '') {
   $mem_chk_row = sql_fetch($mem_chk_sql);
 
   if($mem_chk_row['cnt'] > 0) {
-    $msg = "해당 담당자가 배정된 회원이 있으면 삭제할 수 없습니다.";
+    $msg = "해당 담당직원이 배정된 회원이 있으면 삭제할 수 없습니다.";
   } else {
     $del_where = " WHERE index_no = '{$idx}' ";
     
     $DELETE = new IUD_Model;
     $DELETE->delete($db_table, $del_where);
-    $msg = "담당자 삭제 완료";
+    $msg = "담당직원 삭제 완료";
 
   }
 

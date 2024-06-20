@@ -146,7 +146,7 @@ define('ADMIN_MENU10_16',	'게시판 그룹관리');
 define('ADMIN_MENU10_17',	'게시판 관리');
 define('ADMIN_MENU10_18',	'지회/지부관리');
 define('ADMIN_MENU10_19',	'지회/지부관리');
-define('ADMIN_MENU10_20',	'담당자관리');
+define('ADMIN_MENU10_20',	'담당직원관리');
 define('ADMIN_MENU10_21',	'권한관리');
 
 // 중고장터관리

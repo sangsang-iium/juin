@@ -19,10 +19,11 @@ $q2 = $query_string . "&page=$page";
 
 if ($sfl && $stx) {
   if($sfl == "auth_idx") {
-    // 권한 삭제 시 sql 수정 _20240608_SY
-    $sql_join .= " LEFT JOIN authorization AS auth 
-			                    ON (kf.auth_idx = auth.auth_idx) ";
-    $sql_search .= " and kf.$sfl like '%$stx%' ";
+    // 권한 삭제 시 sql 수정 _20240608_SY -> 수정 _20240620_SY
+    // $sql_join .= " LEFT JOIN authorization AS auth 
+		// 	                    ON (kf.auth_idx = auth.auth_idx) ";
+    // $sql_search .= " and kf.$sfl like '%$stx%' ";
+    $sql_search .= " AND mn.ju_region3 IN ( SELECT office_code FROM kfia_office WHERE {$sfl} = '{$stx}') ";
     $auth_row = sql_fetch(" SELECT * FROM authorization WHERE auth_idx='$stx' ");
     $stx = $auth_row['auth_title'];
   } else {
@@ -56,11 +57,11 @@ $result = sql_query($sql);
 // <input type="submit" name="act_button" value="선택수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
-<a href="./config.php?code=manager_register_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 담당자추가</a>
+<a href="./config.php?code=manager_register_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 담당직원추가</a>
 EOF;
 ?>
 
-<h5 class="htag_title">담당자검색</h5>
+<h5 class="htag_title">담당직원검색</h5>
 <p class="gap20"></p>
 <form name="fsearch" id="fsearch" method="get">
   <input type="hidden" name="code" value="<?php echo $code; ?>">
@@ -104,7 +105,7 @@ EOF;
   <input type="hidden" name="page" value="<?php echo $page; ?>">
 
   <div class="local_ov mart30">
-    총 담당자수 : <b class="fc_red"><?php echo number_format($total_count); ?></b>명
+    총 담당직원수 : <b class="fc_red"><?php echo number_format($total_count); ?></b>명
   </div>
   <div class="local_frm01">
     <?php echo $btn_frmline; ?>
@@ -154,7 +155,7 @@ EOF;
           <td>
             <div class="btn_wrap">
                 <a href="/admin/config.php?code=manager_register_form&amp;w=u&amp;idx=<?php echo $row['index_no'] ?>" class="btn_fix bg_type1"><span>수정</span></a>
-                <a href="/admin/config/managerupdate.php?w=d&amp;idx=<?php echo $row['index_no'] ?>" class="btn_del bg_type2"><span>삭제</span></a>
+                <a href="/admin/config/managerupdate.php?w=d&amp;idx=<?php echo $row['index_no'] ?>" class="btn_del bg_type2" onclick="del_btn(event)"><span>삭제</span></a>
             </div>
           </td>
         </tr>
@@ -174,6 +175,18 @@ echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAM
 
 <script>
   sessionStorage.removeItem("id_duChk");
+  
+  // 개별삭제 Token추가 _20240620_SY
+  function del_btn(e) {
+    e.preventDefault();
+    
+    var token = get_ajax_token();
+    var target = e.target.closest('a');
+    var href = target.getAttribute('href');
+    var url = href + "&token=" + token;
+
+    window.location.href = url; 
+  };
 
   function fmanagerlist_submit(f) {
     if (!is_checked("chk[]")) {

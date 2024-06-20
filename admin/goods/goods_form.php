@@ -1063,7 +1063,7 @@ $income_per = ($supply_price / $goods_price) * 100;
       //   }
       // })
 
-      // 수정 (매입가) - (수수료) = (판매가격) _20240617_SY
+      // 수정 (매입가) - (수수료) = (판매가격) _20240617_SY -> 수정 (매입가) + (수수료) = (판매가격) _20240620_SY
       $('#supply_price').keyup(function() {
         zeroVal(this);
         let seller_code  = $('input[name=mb_id]').val();
@@ -1077,14 +1077,14 @@ $income_per = ($supply_price / $goods_price) * 100;
         if(seller_code != "admin") {
           if(in_type == 1) {
             if(in_per_type == 1) {
-              total_price = stringNumberToInt($('#supply_price').val()) * (1 - in_per/ 100);
+              total_price = stringNumberToInt($('#supply_price').val()) * (1 + in_per/ 100);
               $('#goods_price').val(total_price.toFixed(0));
             } else {
-              total_price = stringNumberToInt($('#supply_price').val()) - in_price;
+              total_price = stringNumberToInt($('#supply_price').val()) + in_price;
               $('#goods_price').val(total_price);
             }
           } else {
-            total_price = stringNumberToInt($('#supply_price').val()) - in_price;
+            total_price = stringNumberToInt($('#supply_price').val()) + in_price;
             $('#goods_price').val(total_price);
           }
         }
@@ -1127,13 +1127,13 @@ $income_per = ($supply_price / $goods_price) * 100;
       $('#incomePer_sub1').show();
       $('#incomePer_sub2').hide();
 
-      // 추가 (매입가) - (수수료) = (판매가격) _20240617_SY
+      // 추가 (매입가) - (수수료) = (판매가격) _20240617_SY -> 수정 (매입가) + (수수료) = (판매가격) _20240620_SY
       let supply_price = $("input[name=supply_price]");
       goods_price = document.querySelector('#goods_price');
       income_price = $("input[name=income_price]");
       income_per = $("input[name=income_per]");
       if(income_per.val() != "0" && income_price.val() != "0") {
-        goods_price.value = (stringNumberToInt(supply_price.val()) - stringNumberToInt(income_price.val()));
+        goods_price.value = (stringNumberToInt(supply_price.val()) + stringNumberToInt(income_price.val()));
       } else {
         goods_price.value = 0;
       }
@@ -1145,28 +1145,28 @@ $income_per = ($supply_price / $goods_price) * 100;
       $('#incomePer_sub2').show();
       $('.supply_tr').show();
 
-      // 추가 (매입가) - (수수료) = (판매가격) _20240617_SY
+      // 추가 (매입가) - (수수료) = (판매가격) _20240617_SY -> 수정 (매입가) + (수수료) = (판매가격) _20240620_SY
       let supply_price = $("input[name=supply_price]");
       goods_price = document.querySelector('#goods_price');
       income_price = $("input[name=income_price]");
       income_per = $("input[name=income_per]");
       if(income_per.val() != "0" && supply_price.val() != "0") {
-        goods_price.value = (stringNumberToInt(supply_price.val()) * (1 - parseFloat(income_per.val())/100));
+        goods_price.value = (stringNumberToInt(supply_price.val()) * (1 + parseFloat(income_per.val())/100));
       } else {
         goods_price.value = 0;
       }
     })
   });
 
-  // 수정 ( (매입가) - (수수료) = (판매가격) ) _20240617_SY
+  // 수정 ( (매입가) - (수수료) = (판매가격) ) _20240617_SY -> 수정 (매입가) + (수수료) = (판매가격) _20240620_SY
   $("input[name=supply_price]").on("keyup", function() {
     goods_price = document.querySelector('#goods_price');
     income_price = $("input[name=income_price]");
     income_per = $("input[name=income_per]");
     if ($('#incomePer_type1').is(':checked') && this.value != "0" && income_price.val() != "0") {
-      goods_price.value = (stringNumberToInt(this.value) - stringNumberToInt(income_price.val()));
+      goods_price.value = (stringNumberToInt(this.value) + stringNumberToInt(income_price.val()));
     } else if ($('#incomePer_type2').is(':checked') && this.value != "0" && income_per.val() != "0") {
-      goods_price.value = (stringNumberToInt(this.value) * (1 - parseFloat(income_per.val())/100));
+      goods_price.value = (stringNumberToInt(this.value) * (1 + parseFloat(income_per.val())/100));
     } else {
       goods_price.value = 0;
     }
@@ -1177,7 +1177,7 @@ $income_per = ($supply_price / $goods_price) * 100;
     supply_price = document.querySelector('#supply_price').value;
     goods_price = document.querySelector('#goods_price');
     if(supply_price != "0" && this.value != "0") {
-      goods_price.value = (stringNumberToInt(supply_price) - stringNumberToInt(this.value));
+      goods_price.value = (stringNumberToInt(supply_price) + stringNumberToInt(this.value));
     } else {
       goods_price.value = 0;
     }
@@ -1187,7 +1187,7 @@ $income_per = ($supply_price / $goods_price) * 100;
     supply_price = document.querySelector('#supply_price').value;
     goods_price = document.querySelector('#goods_price');
     if(supply_price != "0" && this.value != "0") {
-      goods_price.value = (stringNumberToInt(supply_price) * (1 - parseFloat(this.value)/100));
+      goods_price.value = (stringNumberToInt(supply_price) * (1 + parseFloat(this.value)/100));
     } else {
       goods_price.value = 0;
     }
