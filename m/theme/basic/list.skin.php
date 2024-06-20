@@ -35,7 +35,7 @@ for($i=0; $i<count($gw_msort); $i++) {
   </div>
   <!-- } 상단 롤링 배너 -->
   <?php } ?>
-  
+
   <div class="prod-dp">
     <div class="prod-dp-wrap">
       <div class="container cp-title prod-dp__title">
@@ -56,7 +56,7 @@ for($i=0; $i<count($gw_msort); $i++) {
 
       <div class="container dp-top">
         <div class="txt-board-cnt">총 <span class="cnt"><?php echo number_format($total_count); ?></span>건</div>
-        <div class="cp-sort">  
+        <div class="cp-sort">
           <span class="cp-sort__btn"><?php echo $sort_name; ?></span>
         </div>
       </div>
@@ -67,9 +67,12 @@ for($i=0; $i<count($gw_msort); $i++) {
           echo "<p class=\"empty_list\">자료가 없습니다.</p>";
         } else {
           for($i=0; $row=sql_fetch_array($result); $i++) {
+            if(!memberGoodsAble($member['addr1'], $row['zone'])){
+            		continue;
+            	}
             $it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
             $it_name = cut_str($row['gname'], 50);
-            $it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], 400, 400);
+            $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], 400, 400);
             $it_price = mobile_price($row['index_no']);
             $it_amount = get_sale_price($row['index_no']);
             $it_point = display_point($row['gpoint']);

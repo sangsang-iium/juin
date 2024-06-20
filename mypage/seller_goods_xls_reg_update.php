@@ -43,7 +43,7 @@ if ($_FILES['excelfile']['tmp_name']) {
     *
     **/
 
-  $data->read($file);
+	$data->read($file);
 
 
   /*
@@ -142,8 +142,8 @@ if ($_FILES['excelfile']['tmp_name']) {
     $sql2 = " select count(*) as cnt from shop_goods where gcode = '$gcode' ";
     $row2 = sql_fetch($sql2);
     if ($row2['cnt']) {
-      $fail_gcode[] = $gcode;
-      $dup_gcode[]  = $gcode;
+      $fail_gcode[] = $gcode.'||'.$sgcode;
+      $dup_gcode[]  = $gcode.'||'.$sgcode;
       $dup_count++;
       $fail_count++;
       continue;
@@ -162,6 +162,7 @@ if ($_FILES['excelfile']['tmp_name']) {
         $zone_all = $zone_all . "||" . $row['areaname'] . ',,' . $areanames[$z];
       }
     }
+
 
     unset($value);
     $value['use_aff']      = 0;                          // 본사상품으로 설정

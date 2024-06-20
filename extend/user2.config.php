@@ -19,7 +19,7 @@ function reviewTotalImg($gs_id) {
   // 최대 30개 이미지만 노출 처리 이미지 노출 갯수 변경 가능
   $limit = 30;
   $sql = " SELECT thumbnail FROM shop_goods_review_img WHERE gs_id = '{$gs_id}' ORDER BY index_no DESC ";
-  $sql .= " LIMIT {$limit} "; 
+  $sql .= " LIMIT {$limit} ";
   $res  = sql_query($sql);
   $reviewImgArr = array();
   while ($reviewRow = sql_fetch_array($res)) {
@@ -38,11 +38,11 @@ function reviewOptionCheck($od_no) {
 
   $optionArr = array();
   if($res['ct_option'] != get_text($gs['gname'])){
-    
+
     $optionArr = explode("/",$res['ct_option']);
 
   }
-  
+
   return $optionArr;
 }
 
@@ -153,6 +153,12 @@ function mainLiveList() {
     case '0': $nowW = 'sun'; break;
   }
 
+  // if(!memberGoodsAble($member['addr1'], $row['zone'])){
+	// 		continue;
+	// 	}
+  // 이 함수 이용해서 상품 노출 지역별 제한 필요함 jjh
+
+
   $nowTime = date('H:i:s');
 
   $sql = "SELECT *
@@ -194,7 +200,7 @@ function liveTime($liveTime) {
   $liveStartTime = "";
   $timeHour = intval(date('H', strtotime($liveTime)));
   $ampm = ($timeHour < 12) ? "오전" : "오후";
-  
+
   if ($timeHour >= 1 && $timeHour < 12) {
     $liveStartTime = date('h:i', strtotime($liveTime));
   } elseif ($timeHour >= 12) {
@@ -242,7 +248,7 @@ function raffleEventDate($raffle_index) {
   $eventDateArr = array();
   $eventDateArr['event_start_date'] = date('Y.m.d',strtotime($res['event_start_date']));
   $eventDateArr['event_end_date'] = date('Y.m.d',strtotime($res['event_end_date']));
-  
+
   return $eventDateArr;
 }
 
@@ -313,7 +319,7 @@ function raffleEndList() {
 function raffleDetail($index_no) {
   $sql = " SELECT * FROM shop_goods_raffle WHERE index_no = '$index_no' ";
   $res = sql_fetch($sql);
-  
+
   return $res;
 }
 
@@ -369,9 +375,9 @@ function rafflePrizeCheck($index_no) {
       $check = true;
     }
   } else {
-    $check = true;   
+    $check = true;
   }
-  
+
   return $check;
 }
 
