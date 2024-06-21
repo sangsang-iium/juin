@@ -133,7 +133,12 @@ if ($code == 'list' || $code == 'reg_list') // 전체주문내역
 }
 
 if ($sfl && $stx) {
-  $where[] = " $sfl like '%$stx%' ";
+  if($sfl == 'all') {
+    $allColumns = array("od_id","od_no","mb_id","name","deposit_name","bank","b_name","b_telephone","b_cellphone","delivery_no","seller_id","pt_id");
+    $where[] = allSearchSqlArr($allColumns,$stx);
+  } else {
+    $where[] = " $sfl like '%$stx%' ";
+  }
 }
 
 if ($od_settle_case) {

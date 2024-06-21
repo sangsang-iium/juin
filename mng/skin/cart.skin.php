@@ -1,7 +1,7 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 ?>
-
+<link rel="stylesheet" href="<?php echo BV_THEME_URL; ?>/style_kim.css?ver=<?php echo BV_CSS_VER;?>">
 <!-- 장바구니 시작 { -->
 <script src="<?php echo BV_JS_URL; ?>/shop.js"></script>
 

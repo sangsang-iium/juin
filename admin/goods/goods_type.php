@@ -67,17 +67,22 @@ if($sca) {
 
 // 검색어
 if($stx) {
-    switch($sfl) {
-        case "gname" :
-		case "explan" :
-		case "maker" :
-		case "origin" :
-		case "model" :
-            $sql_search .= " and a.$sfl like '%$stx%' ";
-            break;
-        default :
-            $sql_search .= " and a.$sfl like '$stx%' ";
-            break;
+	if($sfl == 'all') {
+		$allColumns = array("gname" , "gcode" , "mb_id" , "maker" , "origin" , "model" , "explan");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+		switch($sfl) {
+			case "gname" :
+			case "explan" :
+			case "maker" :
+			case "origin" :
+			case "model" :
+				$sql_search .= " and a.$sfl like '%$stx%' ";
+				break;
+			default :
+				$sql_search .= " and a.$sfl like '$stx%' ";
+				break;
+		}
     }
 }
 
@@ -124,6 +129,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('gname', $sfl, '상품명'); ?>
                         <?php echo option_selected('gcode', $sfl, '상품코드'); ?>
                         <?php echo option_selected('mb_id', $sfl, '업체코드'); ?>

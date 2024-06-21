@@ -12,7 +12,13 @@ $sql_common = " from shop_order ";
 $sql_search = " where shop_memo <> '' ";
 
 if($sfl && $stx)
-    $sql_search .= " and $sfl like '%$stx%' ";
+	if($sfl == 'all') {
+		$allColumns = array("od_id","od_no","mb_id","name","deposit_name","bank","b_name","b_telephone","b_cellphone","delivery_no","seller_id","pt_id");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+		$sql_search .= " and $sfl like '%$stx%' ";
+	}
+
 
 if(is_numeric($sca))
 	$sql_search .= " and dan = '$sca' ";
@@ -65,6 +71,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('od_id', $sfl, '주문번호'); ?>
                         <?php echo option_selected('od_no', $sfl, '일련번호'); ?>
                         <?php echo option_selected("mb_id", $sfl, '회원아이디'); ?>

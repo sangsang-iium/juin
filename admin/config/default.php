@@ -181,7 +181,7 @@ $(function(){
 	});
 });
 </script>
-
+<div style='display:none'>
 <p class="gap50"></p>
 <h5 class="htag_title">CS 운영시간</h5>
 <p class="gap20"></p>
@@ -229,6 +229,8 @@ $(function(){
 	</tbody>
 	</table>
 </div>
+</div>
+
 
 <!-- <h2>도메인 설정</h2>
 <div class="tbl_frm01">

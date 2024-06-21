@@ -13,9 +13,8 @@ if (!defined('_BLUEVATION_')) exit;
   <input type="hidden" name="agree" value="<?php echo $agree; ?>">
   <input type="hidden" name="agree2" value="<?php echo $agree2; ?>">
   <input type="hidden" name="mb_recommend" id="reg_mb_recommend" value="<?php echo $member['pt_id']; ?>">
-  <input type="hidden" name="cert_type" id="cert_type" value="<?php echo $member['mb_certify']; ?>">
-  <input type="hidden" name="cert_no" id="cert_no" value="">
-  <input type="hidden" name="veri_up_hash" id="veri_up_hash" value="">
+  <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
+  <input type="hidden" name="cert_no" value="">
 
   <input type="hidden" name="reg_type" value="2">
   <input type="hidden" name="chk_id_res" value="0" id="chk_id_res">
@@ -171,6 +170,9 @@ if (!defined('_BLUEVATION_')) exit;
                   <label for="reg_mb_addr2" class="sound_only">상세주소</label>
                   <input type="text" name="mb_addr3" value="<?php echo get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
                   <label for="reg_mb_addr3" class="sound_only">참고항목</label>
+
+                  <input type="text" name="b_addr_req_base" value="<?php echo get_text($member['b_addr_req_base']); ?>" id="b_addr_req_base" class="frm-input address-input_4 frm_address" size="60" placeholder="배송기본메시지" autocapitalize="off">
+							    <label for="b_addr_req_base" class="sound_only">배송기본메시지</label>
 
                   <input type="hidden" name="mb_addr_jibeon" value="<?php echo get_text($member['addr_jibeon']); ?>">
                 </div>
