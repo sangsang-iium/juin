@@ -9,6 +9,7 @@ header('Access-Control-Allow-Origin: *');
 
 $myLocation = json_encode($_SERVER['HTTP_MYLOCATION']);
 $myLocation2 = json_encode($_SERVER);
+set_session('myLocation', $myLocation);
 // print_r2($myLocation);
 // echo "<br>";
 // print_r2($myLocation2);

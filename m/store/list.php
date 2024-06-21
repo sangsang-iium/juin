@@ -52,17 +52,17 @@ const usedMenu = f.hrizonMenu(usedMenuTarget, usedMenuActive);
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services"></script>
 <?php echo BV_POSTCODE_JS ?>
 <?php
-    $myLocation = json_encode($_SERVER['HTTP_MYLOCATION']);
-    set_session('myLocation', $myLocation);
-    log_write($myLocation . '@@@' . get_session('myLocation').'###'.$_SERVER['HTTP_MYLOCATION']);
-    // $MyLocation       = get_session('myLocation');
-    $userLocation     = explode(",", $myLocation);
-    if ($myLocation === "null") {
+    // $myLocation = json_encode($_SERVER['HTTP_MYLOCATION']);
+
+    $MyLocation       = get_session('myLocation');
+    log_write($MyLocation . '@@@' .$_SERVER['HTTP_MYLOCATION']);
+    $userLocation     = explode(",", $MyLocation);
+    if ($MyLocation === null) {
         $user_lat = 37.514575;
         $user_lng = 127.0495556;
     } else {
-        $user_lat = number_format($userLocation[0], 5);
-        $user_lng = number_format($userLocation[1], 5);
+        $user_lat = number_format(preg_replace("/[^0-9.-]/", "", $userLocation[0]), 5);
+        $user_lng = number_format(preg_replace("/[^0-9.-]/", "", $userLocation[1]), 5);
     }
 ?>
 <script>
