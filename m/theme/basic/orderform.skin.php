@@ -378,6 +378,25 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         if ($gs['reg_yn'] == 1 && !$raffleCheck) {
       ?>
       <!-- 2024-06-03 : 정기기간 / 배송일 추가 -->
+      <style>
+         .ui-datepicker {
+            font-size: 1.25em; /* 기본 글꼴 크기를 키웁니다 */
+            width: 280px!important;
+        }
+        .ui-datepicker .ui-datepicker-header {
+            font-size: 1.25em; /* 헤더의 글꼴 크기를 키웁니다 */
+        }
+        .ui-datepicker .ui-datepicker-title {
+            font-size: 1.25em; /* 타이틀의 글꼴 크기를 키웁니다 */
+        }
+        .ui-datepicker .ui-datepicker-prev,
+        .ui-datepicker .ui-datepicker-next {
+            font-size: 1.25em; /* 이전, 다음 버튼의 크기를 키웁니다 */
+        }
+        .ui-datepicker table {
+            font-size: 1.25em; /* 달력의 글꼴 크기를 키웁니다 */
+        }
+      </style>
       <div class="bottomBlank">
         <div class="container">
           <div class="arcodianBtn od-top active">
@@ -947,8 +966,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
-              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"일반\" id=\"de_normal\">\n";
-              $multi_settle .= "<label for=\"de_normal\">일반</label>\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
+              $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
 
@@ -1675,10 +1694,24 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       }
     }
 
-    if (getSelectVal(f["paymethod"]) == '신용카드') {
+    if (getSelectVal2(f["paymethod"]) == '신용카드') {
       if (tot_price < 1000) {
         alert("신용카드는 1000원 이상 결제가 가능합니다.");
         return false;
+      }
+      let isChecked = $("input[name='od_wday[]']:checked").length > 0;
+      let dateValue = $("#od_begin_date").val();
+
+      if (!isChecked) {
+        alert("하나 이상의 요일을 선택하세요.");
+        event.preventDefault();
+        return;
+      }
+
+      if (dateValue === "") {
+        alert("첫 배송 시점을 입력하세요.");
+        event.preventDefault();
+        return;
       }
     }
 
