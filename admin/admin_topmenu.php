@@ -27,9 +27,8 @@ if($_SESSION['ss_mn_id']) {
                 <?php echo getMenuFunc("ADMIN_MENU6",  "order",    "list"); ?>
                 <?php echo getMenuFunc("ADMIN_MENU7",  "visit",    "regmonth"); ?>
                 <?php echo getMenuFunc("ADMIN_MENU8",  "help",     "qa"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU9",  "design",   "banner_list"); ?>
+                <?php echo getMenuFunc("ADMIN_MENU9",  "design",   "mbanner_list"); ?>
                 <?php echo getMenuFunc("ADMIN_MENU11", "used",     "list"); ?>
-                <!-- 시연용 : 노출 범위 임시 하드코딩 작업 _20240621_SY -->
                 <?php echo $member['id'] == "admin" ? getMenuFunc("ADMIN_MENU10", "config",   "default") : getMenuFunc("ADMIN_MENU10", "config",   "manager_list"); ?>
 
 				<!-- <li class="gnb_1dli<?php if($pg_title == ADMIN_MENU1){ ?> active<?php } ?>">
@@ -57,7 +56,7 @@ if($_SESSION['ss_mn_id']) {
 					<a href="<?php echo BV_ADMIN_URL; ?>/help.php?code=qa" class="gnb_1da"><?php echo ADMIN_MENU8; ?></a>
 				</li>
 				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU9){ ?> active<?php } ?>">
-					<a href="<?php echo BV_ADMIN_URL; ?>/design.php?code=banner_list" class="gnb_1da"><?php echo ADMIN_MENU9; ?></a>
+					<a href="<?php echo BV_ADMIN_URL; ?>/design.php?code=mbanner_list" class="gnb_1da"><?php echo ADMIN_MENU9; ?></a>
 				</li>
 				<li class="gnb_1dli<?php if($pg_title == ADMIN_MENU11){ ?> active<?php } ?>">
 					<a href="<?php echo BV_ADMIN_URL; ?>/used.php?code=list" class="gnb_1da"><?php echo ADMIN_MENU11; ?></a>
