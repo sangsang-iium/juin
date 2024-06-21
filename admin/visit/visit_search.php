@@ -12,14 +12,19 @@ $where = array();
 $sql_search = "";
 
 if($stx) {
-    switch($sfl) {
-		case "vi_ip":
-		case "mb_id":
-			$where[] = " $sfl like '$stx%' ";
-			break;
-        default : 
-            $where[] = " $sfl like '%$stx%' ";
-            break;
+	if($sfl == 'all') {
+		$allColumns = array("vi_ip", "vi_referer", "mb_id");
+		$where[] = allSearchSqlArr($allColumns,$stx);
+	} else {
+		switch($sfl) {
+			case "vi_ip":
+			case "mb_id":
+				$where[] = " $sfl like '$stx%' ";
+				break;
+			default : 
+				$where[] = " $sfl like '%$stx%' ";
+				break;
+		}
     }
 }
 
@@ -69,6 +74,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl" id="sch_sort">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected("vi_ip", $sfl, "IP"); ?>
                         <?php echo option_selected("vi_referer", $sfl, "접속경로"); ?>
                         <?php echo option_selected("mb_id", $sfl, "가맹점ID"); ?>

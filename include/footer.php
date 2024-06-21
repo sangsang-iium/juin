@@ -6,12 +6,12 @@
     <a href="/m/bbs/provision.php" class="btn">이용약관</a>
   </nav>
   <div class="container fbody">
-    <p class="cname">(사)한국외식업중앙회 외식가족공제회</p>
-    <p class="cinfo">주소 : 서울특별시 중구 동호로12길 87, 3층(신당동)
-                    <br/>대표자: 전강식
-                    <br/>사업자등록번호 : 243-82-00210
-                    <br/>통신판매업번호 : 제 2019-서울중구-0864 호
-                    <br/>대표번호 : 1544-3399</p>
+    <p class="cname"><?php echo $config['company_name']?></p>
+    <p class="cinfo">주소 : <?php echo $config['company_zip']?> <?php echo $config['company_addr']?>
+                    <br/>대표자: <?php echo $config['company_owner']?>
+                    <br/>사업자등록번호 : <?php echo $config['company_saupja_no']?>
+                    <br/>통신판매업번호 : 제 <?php echo $config['tongsin_no']?> 호
+                    <br/>대표번호 : <?php echo $config['company_tel']?></p>
     <p class="copyright">Copyright ⓒ 주인장터. All rights reserved.</p>
   </div>
 </div>

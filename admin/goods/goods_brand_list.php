@@ -9,7 +9,12 @@ $sql_common = " from shop_brand ";
 $sql_search = " where br_user_yes = '0' ";
 
 if($sfl && $stx) {
-    $sql_search .= " and $sfl like '%$stx%' ";
+	if($sfl == 'all') {
+		$allColumns = array("br_name" , "br_name_eng" , "mb_id");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+    	$sql_search .= " and $sfl like '%$stx%' ";
+	}
 }
 
 if(!$orderby) {
@@ -102,6 +107,7 @@ EOF;
             <div class="tel_input">
 				<div class="chk_select w200">
 					<select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
 						<?php echo option_selected('br_name', $sfl, '브랜드명 (KOR)'); ?>
 						<?php echo option_selected('br_name_eng', $sfl, '브랜드명 (ENG)'); ?>
 						<?php echo option_selected('mb_id', $sfl, '회원ID'); ?>

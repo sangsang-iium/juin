@@ -81,7 +81,7 @@ require_once BV_SHOP_PATH . '/settle_kakaopay.inc.php';
 }
 #hd_inner .hd_logo {
   width: 100px;
-  height: 100px;
+  height: 110px;
   line-height: 100px;
 }
 #hd_inner .hd_logo a {
@@ -210,39 +210,6 @@ for ($i = 0; $row = sql_fetch_array($result); $i++) {
         </div>
       </div>
 
-      <!-- 기존소스 {
-      <li class="sod_li">
-        <input type="hidden" name="gs_id[<?php        //echo $i; ?>]" value="<?php        //echo $row['gs_id']; ?>">
-        <input type="hidden" name="gs_notax[<?php     //echo $i; ?>]" value="<?php     //echo $gs['notax']; ?>">
-        <input type="hidden" name="gs_price[<?php     //echo $i; ?>]" value="<?php     //echo $sell_price; ?>">
-        <input type="hidden" name="seller_id[<?php    //echo $i; ?>]" value="<?php    //echo $gs['mb_id']; ?>">
-        <input type="hidden" name="supply_price[<?php //echo $i; ?>]" value="<?php //echo $supply_price; ?>">
-        <input type="hidden" name="sum_point[<?php    //echo $i; ?>]" value="<?php    //echo $point; ?>">
-        <input type="hidden" name="sum_qty[<?php      //echo $i; ?>]" value="<?php      //echo $sell_qty; ?>">
-        <input type="hidden" name="cart_id[<?php      //echo $i; ?>]" value="<?php      //echo $row['od_no']; ?>">
-
-        <div class="li_name">
-          <?php //echo $it_name; ?>
-          <div class="li_mod" style="padding-left:100px;"></div>
-          <span class="total_img"><?php //echo get_it_image($row['gs_id'], $gs['simg1'], 80, 80); ?></span>
-        </div>
-        <div class="li_prqty">
-          <span class="prqty_price li_prqty_sp"><span>판매가</span>
-            <?php //echo number_format($sell_amt); ?></span>
-          <span class="prqty_qty li_prqty_sp"><span>수량</span>
-            <?php //echo number_format($sell_qty); ?></span>
-          <span class="prqty_sc li_prqty_sp"><span>배송비</span>
-            <?php //echo number_format($info['price']); ?></span>
-        </div>
-        <div class="li_total">
-          <span class="total_price total_span"><span>소계</span>
-            <strong><?php //echo number_format($sell_price); ?></strong></span>
-          <span class="total_point total_span"><span>적립포인트</span>
-            <strong><?php //echo number_format($point); ?></strong></span>
-        </div>
-      </li>
-      } 기존소스 -->
-
       <?php
 $tot_point += (int) $point;
   $tot_sell_price += (int) $sell_price;
@@ -294,19 +261,6 @@ if ($i == 0) {
 ?>
     </div>
 
-    <!--
-    <dl id="sod_bsk_tot">
-      <dt class="sod_bsk_sell"><span>주문</span></dt>
-      <dd class="sod_bsk_sell"><strong><?php echo number_format($tot_sell_price); ?> 원</strong></dd>
-      <dt class="sod_bsk_dvr"><span>배송비</span></dt>
-      <dd class="sod_bsk_dvr"><strong><?php echo number_format($tot_send_cost); ?> 원</strong></dd>
-      <dt class="sod_bsk_cnt"><span>총계</span></dt>
-      <dd class="sod_bsk_cnt"><strong><?php echo number_format($tot_price); ?> 원</strong></dd>
-      <dt class="sod_bsk_point"><span>포인트</span></dt>
-      <dd class="sod_bsk_point"><strong><?php echo number_format($tot_point); ?> P</strong></dd>
-    </dl>
-    -->
-
     <?php
 $content = ob_get_contents();
 ob_end_clean();
@@ -344,10 +298,8 @@ if ($gs['reg_yn'] == 1) {
       <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
       <div class="bottomBlank">
         <div class="container">
-          <div class="arcodianBtn od-top active">
-            <button type="button" class="ui-btn od-toggle-btn">
-              <span class="od-tit">주문자정보</span>
-            </button>
+          <div class="mart40 marb40">
+              <h4 class="htag_title">주문자정보</h4>
           </div>
 
           <div class="od-ct info-list">
@@ -447,10 +399,8 @@ if ($gs['reg_yn'] == 1) {
       <!-- 주문자 기본 정보 추가 _20240412_SY -->
       <div class="bottomBlank">
         <div class="container">
-          <div class="arcodianBtn od-top active">
-            <button type="button" class="ui-btn od-toggle-btn">
-              <span class="od-tit">주문자정보</span>
-            </button>
+          <div class="mart40 marb40">
+              <h4 class="htag_title">주문자정보</h4>
           </div>
 
           <div class="od-ct info-list">
@@ -477,10 +427,8 @@ if ($gs['reg_yn'] == 1) {
 
       <div id="od-dtn" class="bottomBlank">
         <div class="container">
-          <div class="arcodianBtn od-top active">
-            <button type="button" class="ui-btn od-toggle-btn">
-              <span class="od-tit">배송지</span>
-            </button>
+          <div class="mart40 marb40">
+              <h4 class="htag_title">배송지</h4>
           </div>
 
           <input type="hidden" name="b_name"      class="frm_input required od-dtn__contact">
@@ -491,78 +439,6 @@ if ($gs['reg_yn'] == 1) {
           <input type="hidden" name="b_addr2"     class="frm_input frm_address od-dtn__contact">
           <input type="hidden" name="b_addr3"     class="frm_input frm_address od-dtn__contact">
           <input type="hidden" name="b_addr_jibeon" value="">
-
-          <!-- <section id="sod_frm_taker" style="display:none">
-            <h2 class="anc_tit">받으시는 분</h2>
-            <div class="odf_tbl">
-              <table>
-                <tbody>
-                  <tr>
-                    <th style="display:none">배송지선택</th>
-                    <td style="display:none">
-                      <input type="radio" name="ad_sel_addr" value="1" id="sel_addr1" class="css-checkbox lrg">
-                      <label for="sel_addr1" class="css-label padr5">주문자와 동일</label><br>
-                      <input type="radio" name="ad_sel_addr" value="2" id="sel_addr2" class="css-checkbox lrg">
-                      <label for="sel_addr2" class="css-label">신규배송지</label>
-                      <?php //if($is_member) { ?>
-                      <br><input type="radio" name="ad_sel_addr" value="3" id="sel_addr3" class="css-checkbox lrg">
-                      <label for="sel_addr3" class="css-label">배송지목록</label>
-                      <?php //} ?>
-                    </td>
-                  </tr>
-                  <tr>
-                                    <th scope="row">이름</th>
-                    <td>
-                      <input type="text" name="b_name"  class="frm_input required od-dtn__contact"  placeholder="이름">
-                      <span class="tags1">기본배송지</span>
-
-                      <span class="od-dtn-btns">
-                        <button type="button" class="ui-btn st3 od-dtn__change">변경</button>
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                             <th scope="row">핸드폰</th>
-                    <td><input type="text" name="b_cellphone"  class="frm_input required od-dtn__contact" placeholder="핸드폰"></td>
-                  </tr>
-                  <tr>
-                                    <th scope="row">전화번호</th>
-                    <td><input type="text" name="b_telephone" class="frm_input od-dtn__contact" placeholder="전화번호"></td>
-                  </tr>
-                  <tr>
-                             <th scope="row">주소</th>
-                    <td>
-                      <input type="text" name="b_zip"  class="frm_input required od-dtn__contact" size="5" maxlength="5" placeholder="우편번호">
-                      <button type="button"
-                        onclick="win_zip('buyform', 'b_zip', 'b_addr1', 'b_addr2', 'b_addr3', 'b_addr_jibeon');"
-                        class="btn_ btn_search" style="padding:0.8rem">주소검색</button><br>
-                      <input type="text" name="b_addr1"  class="frm_input frm_address required od-dtn__contact"><br>
-                      <input type="text" name="b_addr2" class="frm_input frm_address od-dtn__contact"><br>
-                      <input type="text" name="b_addr3" class="frm_input frm_address od-dtn__contact" readonly><br>
-                      <input type="hidden" name="b_addr_jibeon" value="">
-                    </td>
-                  </tr>
-                  <tr>
-                                    <th scope="row">전하실말씀</th>
-                    <td>
-                      <select name="sel_memo" class="wfull">
-                        <option value="">요청사항 선택하기</option>
-                        <option value="부재시 경비실에 맡겨주세요.">부재시 경비실에 맡겨주세요</option>
-                        <option value="빠른 배송 부탁드립니다.">빠른 배송 부탁드립니다.</option>
-                        <option value="부재시 핸드폰으로 연락바랍니다.">부재시 핸드폰으로 연락바랍니다.</option>
-                        <option value="배송 전 연락바랍니다.">배송 전 연락바랍니다.</option>
-                      </select>
-                      <div class="padt5">
-                        <textarea name="memo" id="memo" class="frm_textbox od-dtn__contact" placeholder="전하실말씀을 작성해주십시요"></textarea>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section> -->
-          <!-- } 주문자 및 수령자 기본형식 -->
-
 
           <div class="od-ct">
             <div class="od-dtn-info">
@@ -628,10 +504,8 @@ if ($res['b_base'] == '1') {
 
       <div id="od-prod" class="bottomBlank">
         <div class="container">
-          <div class="arcodianBtn od-top active">
-            <button type="button" class="ui-btn od-toggle-btn">
-              <span class="od-tit">주문상품</span>
-            </button>
+          <div class="mart40 marb40">
+              <h4 class="htag_title">주문상품</h4>
           </div>
           <div class="od-ct">
             <?php echo $content; ?>
@@ -641,10 +515,8 @@ if ($res['b_base'] == '1') {
 
       <div id="od-benf" class="bottomBlank">
         <div class="container">
-          <div class="arcodianBtn od-top active">
-            <button type="button" class="ui-btn od-toggle-btn">
-              <span class="od-tit">할인/혜택적용</span>
-            </button>
+          <div class="mart40 marb40">
+              <h4 class="htag_title">할인/혜택적용</h4>
           </div>
           <div class="od-ct">
             <div class="od-benf-fm">
@@ -701,10 +573,8 @@ if ($is_member && $config['coupon_yes']) { // 보유쿠폰
 
       <div id="od-prc" class="bottomBlank">
         <div class="container">
-          <div class="arcodianBtn od-top active">
-            <button type="button" class="ui-btn od-toggle-btn">
-              <span class="od-tit">결제금액</span>
-            </button>
+          <div class="mart40 marb40">
+              <h4 class="htag_title">결제금액</h4>
           </div>
           <div class="od-ct">
             <ul class="prc-tot">
@@ -759,10 +629,8 @@ if ($is_member && $config['coupon_yes']) { // 보유쿠폰
 
       <div id="od-pay">
         <div class="container">
-          <div class="arcodianBtn od-top active">
-            <button type="button" class="ui-btn od-toggle-btn">
-              <span class="od-tit">결제수단</span>
-            </button>
+          <div class="mart40 marb40">
+              <h4 class="htag_title">결제수단</h4>
           </div>
           <div class="od-ct">
             <?php

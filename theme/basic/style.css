@@ -364,7 +364,8 @@ table .spr,
     position: relative;
 }
 
-#gnb::before {
+#gnb::before,
+#gnb .menuBg {
     content: '';
     display: block;
     position: absolute;
@@ -431,8 +432,9 @@ table .spr,
     align-items: stretch;
     justify-content: flex-start;
     gap: 0 20px;
-    background: #eeeef3;
 }
+
+
 
 #gnb_inner .all_cate .con_bx ul,
 #gnb_inner .all_cate .con_bx li {
@@ -446,7 +448,7 @@ table .spr,
     display: block;
     background-color: #eeeef3;
     position: relative;
-    z-index: 2;
+    
 }
 
 
@@ -463,12 +465,14 @@ table .spr,
     z-index: 2;
 }
 
-#gnb_inner .all_cate .con_bx .sub_caterogy{
-    /* display: none; */
+/* #gnb_inner .all_cate .con_bx .sub_caterogy{
+    display: none;
+    width: 100%;
     position: absolute;
-    top: 0;
+    top: 52px;
     left:0;
-}
+    z-index: 2;
+} */
 
 #gnb_inner .all_cate .con_bx .c_box .c_boxTitle .cate_tit.menu_on,
 #gnb_inner .all_cate .con_bx .c_box:hover .c_boxTitle .cate_tit {
@@ -484,7 +488,7 @@ table .spr,
     box-sizing: border-box;
     width: 100%;
     text-align: left;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     transition: all .3s ease-in-out;
 }
 
@@ -494,7 +498,7 @@ table .spr,
 
 #gnb_inner .all_cate .con_bx .c_box li a {
     font-size:16px;
-    padding: 10px;
+    padding: 7px 10px;
     transition: all .3s ease-in-out;
     display: block;
 }

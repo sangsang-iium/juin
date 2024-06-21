@@ -104,6 +104,6 @@ else if($w == "d")
     $sql = " delete from shop_goods_qa where iq_id = '$iq_id' and md5(concat(iq_id,iq_time,iq_ip)) = '{$hash}' ";
     sql_query($sql);
 
-	alert("정상적으로 삭제 되었습니다", BV_MSHOP_URL."/view.php?gs_id=$gs_id");
+	alert("정상적으로 삭제 되었습니다", BV_MSHOP_URL."/view.php?gs_id=$gs_id"); 
 }
 ?>

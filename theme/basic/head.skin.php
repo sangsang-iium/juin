@@ -69,6 +69,7 @@ if (!empty($paytype)) {
 				</div> -->
 			</div>
 			<div id="gnb">
+                <div class="menuBg"></div>
 				<div id="gnb_inner">
 					<div class="all_cate">
 						<span class="allc_bt"> 전체카테고리</span>
@@ -153,19 +154,6 @@ if (!empty($paytype)) {
 			</script> -->
 		</div>
 	</div>
-
-    <!-- S.메뉴 script_김민규 -->
-    <script>
-        $(document).ready(function(){
-            $("#gnb").stop().on("mouseenter", function(){
-                $(".sub_caterogy").slideDown();
-            });
-            $("#gnb").stop().on("mouseleave", function(){
-                $(".sub_caterogy").slideUp();
-            });
-        });
-    </script>
-    <!-- E.메뉴 script_김민규 -->
 
 	<div id="container">
 		<?php

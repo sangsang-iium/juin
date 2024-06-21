@@ -26,7 +26,10 @@ if ($sfl && $stx) {
     $sql_search .= " AND mn.ju_region3 IN ( SELECT office_code FROM kfia_office WHERE {$sfl} = '{$stx}') ";
     $auth_row = sql_fetch(" SELECT * FROM authorization WHERE auth_idx='$stx' ");
     $stx = $auth_row['auth_title'];
-  } else {
+  } else if($sfl == 'all') {
+    $allColumns = array("id","areaname","branch_name","office_name");
+    $sql_search .= allSearchSql($allColumns,$stx);
+  }  else {
     $sql_search .= " and $sfl like '%$stx%' ";
   }
 }
@@ -79,6 +82,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+                        <?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('id',          $sfl, '아이디'); ?>
                         <?php echo option_selected('areaname',    $sfl, '지역'); ?>
                         <?php echo option_selected('branch_name', $sfl, '지회'); ?>

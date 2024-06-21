@@ -10,13 +10,18 @@ $sql_search = " where (1) ";
 $sql_order  = " order by index_no desc";
 
 if($sfl && $stx) {
-    $sql_search .= " and $sfl like '%$stx%' ";
+	if($sfl == 'all') {
+		$allColumns = array("subject","memo");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+		$sql_search .= " and $sfl like '%$stx%' ";
+	}
 }
 
 if($sca) {
     $sql_search .= " and cate='$sca' ";
 }
-
+echo '<xmp>'; print_r($sql_search); echo '</xmp>';
 // 테이블의 전체 레코드수만 얻음
 $sql = " select count(*) as cnt $sql_common $sql_search ";
 $row = sql_fetch($sql);
@@ -66,6 +71,7 @@ EOF;
                 </div>
                 <div class="chk_select w200">
                     <select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('subject', $sfl, '제목'); ?>
                         <?php echo option_selected('memo', $sfl, '내용'); ?>
                     </select>
