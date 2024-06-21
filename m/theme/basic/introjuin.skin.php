@@ -9,11 +9,11 @@ header('Access-Control-Allow-Origin: *');
 
 $myLocation = json_encode($_SERVER['HTTP_MYLOCATION']);
 $myLocation2 = json_encode($_SERVER);
-print_r2($myLocation);
-echo "<br>";
-print_r2($myLocation2);
-set_session('myLocation', $myLocation);
-log_write($myLocation . '@@@' . get_session('myLocation'));
+// print_r2($myLocation);
+// echo "<br>";
+// print_r2($myLocation2);
+// set_session('myLocation', $myLocation);
+
 ?>
 
 <style>

@@ -51,20 +51,24 @@ const usedMenu = f.hrizonMenu(usedMenuTarget, usedMenuActive);
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services"></script>
 <?php echo BV_POSTCODE_JS ?>
+<?php
+    $myLocation = json_encode($_SERVER['HTTP_MYLOCATION']);
+    set_session('myLocation', $myLocation);
+    log_write($myLocation . '@@@' . get_session('myLocation').'###'.$_SERVER['HTTP_MYLOCATION']);
+    // $MyLocation       = get_session('myLocation');
+    $userLocation     = explode(",", $myLocation);
+    if ($myLocation === "null") {
+        $user_lat = 37.514575;
+        $user_lng = 127.0495556;
+    } else {
+        $user_lat = number_format($userLocation[0], 5);
+        $user_lng = number_format($userLocation[1], 5);
+    }
+?>
 <script>
 
 
-<?php
-    $user_lat = 33.450701;
-    $user_lng = 126.570667;
-    $MyLocation = get_session('myLocation');
-    if(isset($MyLocation)){
-        $userLocationData = json_encode($MyLocation);
-        $userLocation = explode(",", $userLocationData);
-        $user_lat = $userLocation[0];
-        $user_lng = $userLocation[1];
-    }
-?>
+
 // 중심좌표(위치거부시초기값)
 // let user_lat = 33.450701;
 // let user_lng = 126.570667;
