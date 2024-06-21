@@ -74,9 +74,21 @@ else
 	$sql_order = " order by rank desc, index_no desc ";
 
 // 테이블의 전체 레코드수만 얻음
-$sql = " select count(*) as cnt $sql_common ";
-$row = sql_fetch($sql);
-$total_count = $row['cnt'];
+// $sql = " select count(*) as cnt $sql_common ";
+// $row = sql_fetch($sql);
+// $total_count = $row['cnt'];
+
+$sqlCnt      = " select * $sql_common";
+
+$resCnt      = sql_query($sqlCnt);
+$total_count = 0;
+print_r($member['addr1']);
+while ($rowCntData = sql_fetch_array($resCnt)) {
+  if (!memberGoodsAble($member['addr1'], $rowCntData['zone'])) {
+    continue;
+  }
+  $total_count++;
+}
 
 $mod = 4; // 가로 출력 수
 $rows = $page_rows ? (int)$page_rows : ($mod*10);

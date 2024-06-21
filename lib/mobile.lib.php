@@ -122,7 +122,7 @@ function mobile_display_goods($type, $rows, $mtxt, $li_css='')
 }
 
 function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
-  global $default, $pt_id;
+  global $default, $pt_id, $member;
 
   // echo "<h2 class=\"mtit\"><span>{$mtxt}</span></h2>\n";
   echo "<div class=\"swiper-container\">\n"; // 추가된 부분: 슬라이드 컨테이너 시작
@@ -130,6 +130,9 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 
   $result = display_itemtype($pt_id, $type, $rows);
   for ($i = 0; $row = sql_fetch_array($result); $i++) {
+		// if(!memberGoodsAble($member['addr1'], $row['zone'])){
+		// 	continue;
+		// }
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
     $it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
     $it_name     = get_text($row['gname']);
@@ -205,7 +208,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 // mobile_slide_goods("영역", "출력수", "타이틀", "클래스명")
 function mobile_slide_goods($type, $rows, $addclass='', $size='')
 {
-	global $default, $pt_id;
+	global $default, $pt_id, $member;
 
 	echo "<div class=\"{$addclass}\">\n";
 	echo "<div class=\"swiper-container\">\n";
@@ -214,6 +217,9 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 	$result = display_itemtype($pt_id, $type, $rows);
 
 	for($i=0; $row=sql_fetch_array($result); $i++) {
+		// if(!memberGoodsAble($member['addr1'], $row['zone'])){
+		// 	continue;
+		// }
 		$it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
 		$it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
 		$it_name = get_text($row['gname']);
@@ -1283,6 +1289,31 @@ function coupon_chk($it_idx){
 	);
 
 	return $data;
+}
+
+/**
+ * $memberAddr 서울 강북구 월계로 ~~~
+ * $goodsLoca  대전,,||서울,,홈푸드||~~~
+ *  */
+function memberGoodsAble($memberAddr, $goodsLoca) {
+  $sections = explode('||', $goodsLoca);
+  $res_data = array();
+
+  foreach ($sections as $section) {
+    $parts = explode(',', $section);
+    if (isset($parts[2]) && trim($parts[2]) != "") {
+      $region = trim($parts[0]);
+			$res_data[] = mb_substr($region, 0, 2);
+    }
+  }
+
+  foreach ($res_data as $value) {
+    if (strpos($memberAddr, $value) !== false) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 ?>
