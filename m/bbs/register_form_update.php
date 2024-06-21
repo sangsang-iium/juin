@@ -227,6 +227,7 @@ if($w == '') {
     $value['refund_bank']   =$refund_bank;//환불은행
     $value['refund_num']   =$refund_num;//환불계좌번호
     $value['refund_name']   =$refund_name;//환불계좌주
+    $value['b_addr_req_base']   =$b_addr_req_base;//배송기본메시지
     
     
     $value['ju_b_num']      = $b_no;
@@ -315,6 +316,7 @@ if($w == '') {
     $value['refund_bank']   =$refund_bank;//환불은행
     $value['refund_num']   =$refund_num;//환불계좌번호
     $value['refund_name']   =$refund_name;//환불계좌주
+    $value['b_addr_req_base']   =$b_addr_req_base;//배송기본메시지
     
 	update("shop_member", $value, " where id = '{$member['id']}' ");
 }

@@ -11,7 +11,6 @@ $sql = " select a.*, b.cateuse
 		    and a.ca_id = b.catecode
 			and find_in_set('$pt_id', a.use_hide) = '0'
 			and find_in_set('$pt_id', b.catehide) = '0' ";
-			print_r($sql);
 $gs = sql_fetch($sql);
 
 if(!$gs['index_no'])

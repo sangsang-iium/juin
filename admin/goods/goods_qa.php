@@ -9,7 +9,12 @@ $sql_common = " from shop_goods_qa ";
 $sql_search = " where (left(seller_id,3)='AP-' or seller_id = 'admin') ";
 
 if($sfl && $stx) {
-    $sql_search .= " and $sfl like '%$stx%' ";
+	if($sfl == 'all') {
+		$allColumns = array("iq_name" , "iq_email" , "iq_hp" , "iq_subject" , "iq_question" , "iq_answer");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+    	$sql_search .= " and $sfl like '%$stx%' ";
+	}
 }
 
 if($sst) {
@@ -70,7 +75,8 @@ EOF;
                     </select>
                 </div>
                 <div class="chk_select w200">
-                    <select name="sfl">
+                    <select name="sfl">;
+						<option value="all"<?php echo get_selected($sfl, 'all'); ?>>전체</option>
                         <option value="iq_name"<?php echo get_selected($sfl, 'iq_name'); ?>>작성자명</option>
                         <option value="iq_email"<?php echo get_selected($sfl, 'iq_email'); ?>>작성자 이메일</option>
                         <option value="iq_hp"<?php echo get_selected($sfl, 'iq_hp'); ?>>작성자 핸드폰</option>

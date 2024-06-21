@@ -15,7 +15,12 @@ $sql_common = " from shop_used ";
 $sql_search = " where del_yn = 'N' ";
 
 if ($sfl && $stx) {
-  $sql_search .= " and $sfl like '%$stx%' ";
+	if($sfl == 'all') {
+		$allColumns = array("title","content");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+  		$sql_search .= " and $sfl like '%$stx%' ";
+	}
 }
 
 // 기간검색
@@ -78,6 +83,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('title', $sfl, '제목'); ?>
                         <?php echo option_selected('content', $sfl, '내용'); ?>
                     </select>

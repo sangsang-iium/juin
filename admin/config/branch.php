@@ -11,7 +11,12 @@ $q2 = $query_string."&page=$page";
 
 // 검색 & group & order 추가 _20240513_SY
 if($sfl && $stx) {
-  $sql_search .= " and $sfl like '%$stx%' ";
+	if($sfl == 'all') {
+		$allColumns = array("branch_name","areaname","branch_code");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+  		$sql_search .= " and $sfl like '%$stx%' ";
+	}
 }
 $sql_group .= " GROUP BY branch_code";
 if (!$orderby) {
@@ -73,6 +78,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('branch_name', $sfl, '지회명'); ?>
                         <?php echo option_selected('areaname',    $sfl, '지역명'); ?>
                         <?php echo option_selected('branch_code', $sfl, '지회코드'); ?>

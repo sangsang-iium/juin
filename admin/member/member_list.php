@@ -36,8 +36,13 @@ function addAliasFunc($column)
 }
 
 if ($sfl && $stx) {
-  $sflColumn = addAliasFunc($sfl);
-  $sql_search .= " AND {$sflColumn} like '%$stx%' ";
+  if($sfl == 'all') {
+    $allColumns = array("mm.ju_restaurant" , "mm.ju_b_num" , "mm.name" , "mm.cellphone" , "mm.id" , "mn.name");
+    $sql_search .= allSearchSql($allColumns,$stx);
+  } else {
+    $sflColumn = addAliasFunc($sfl);
+    $sql_search .= " AND {$sflColumn} like '%$stx%' ";
+  }
 }
 
 if ($sst) {
@@ -128,6 +133,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
             <div class="tel_input">
               <div class="chk_select w200">
                 <select name="sfl">
+                  <?php echo option_selected('all', $sfl, '전체'); ?>
                   <?php echo option_selected('ju_restaurant', $sfl, '상호명'); ?>
                   <?php echo option_selected('ju_b_num', $sfl, '사업자번호'); ?>
                   <?php echo option_selected('name', $sfl, '대표자명'); ?>

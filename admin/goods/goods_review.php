@@ -9,7 +9,12 @@ $sql_common = " from shop_goods_review ";
 $sql_search = " where (1) ";
 
 if($sfl && $stx) {
-    $sql_search .= " and $sfl like '%$stx%' ";
+	if($sfl == 'all') {
+		$allColumns = array("mb_id" , "seller_id");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+    	$sql_search .= " and $sfl like '%$stx%' ";
+	}
 }
 
 if(!$orderby) {
@@ -57,6 +62,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('mb_id', $sfl, '작성자'); ?>
                         <?php echo option_selected('seller_id', $sfl, '판매자'); ?>
                     </select>

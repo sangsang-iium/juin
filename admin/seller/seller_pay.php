@@ -17,7 +17,12 @@ $sql_search = " where a.seller_id = b.seller_code
 				  and a.user_ok = '1' ";
 
 if($sfl && $stx) {
-    $sql_search .= " and $sfl like '%$stx%' ";
+    if($sfl == 'all') {
+		$allColumns = array("b.company_name" , "b.seller_code" , "b.mb_id");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+        $sql_search .= " and $sfl like '%$stx%' ";
+    }
 }
 
 
@@ -93,6 +98,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+                        <?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('b.company_name', $sfl, '공급사명'); ?>
                         <?php echo option_selected('b.seller_code', $sfl, '업체코드'); ?>
                         <?php echo option_selected('b.mb_id', $sfl, '아이디'); ?>

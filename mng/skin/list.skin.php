@@ -280,6 +280,9 @@ function get_move_pc($ca_id)
       <ul class="pr_list_ul">
       <?php
       for($i=0; $row=sql_fetch_array($result); $i++) {
+        if(!memberGoodsAble($member['addr1'], $row['zone'])){
+          continue;
+        }
         $it_href = BV_MNG_SHOP_URL.'/view.php?index_no='.$row['index_no'];
         $it_image = get_it_image($row['index_no'], $row['simg1'], 235, 235);
         $it_name = cut_str($row['gname'], 100);

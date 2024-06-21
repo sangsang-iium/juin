@@ -28,6 +28,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('od_id', $sfl, '주문번호'); ?>
                         <?php echo option_selected('od_no', $sfl, '일련번호'); ?>
                         <?php echo option_selected("mb_id", $sfl, '회원아이디'); ?>
