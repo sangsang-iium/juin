@@ -41,6 +41,8 @@ $num = $total_count - (($page-1)*$rows);
 
 if(!empty($sfl) || !empty($stx)){
   $sql = " select * $sql_common $sql_search $sql_order limit $from_record, $rows ";
+
+	print_r($sql);
   $result = sql_query($sql);
 	$total_count = $row['cnt'];
 }

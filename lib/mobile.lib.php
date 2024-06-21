@@ -170,9 +170,9 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 		// 2024-06-03 : 정기/일반 배송 추가
 		echo "<div class=\"cp-tag-box\">";
 		if ($row['reg_yn'] == 2) {
-			echo "<div class=\"cp-tag-item\">";
-			echo "<div class=\"cp-tag tag01\">일반</div>";
-			echo "</div>";
+			// echo "<div class=\"cp-tag-item\">";
+			// echo "<div class=\"cp-tag tag01\">일반</div>";
+			// echo "</div>";
 		} else {
 			echo "<div class=\"cp-tag-item\">";
 			echo "<div class=\"cp-tag tag02\">정기</div>";
@@ -1190,9 +1190,9 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 	// 2024-06-03 : 정기/일반 배송 추가
 	echo "<div class=\"cp-tag-box\">";
 	if ($row['reg_yn'] == 2) {
-		echo "<div class=\"cp-tag-item\">";
-		echo "<div class=\"cp-tag tag01\">일반</div>";
-		echo "</div>";
+		// echo "<div class=\"cp-tag-item\">";
+		// echo "<div class=\"cp-tag tag01\">일반</div>";
+		// echo "</div>";
 	} else {
 		echo "<div class=\"cp-tag-item\">";
 		echo "<div class=\"cp-tag tag02\">정기</div>";
