@@ -1301,6 +1301,9 @@ function memberGoodsAble($memberAddr, $goodsLoca) {
 
   foreach ($sections as $section) {
     $parts = explode(',', $section);
+		if (isset($parts[0]) && trim($parts[0]) == "전국") {
+			return true;
+		}
     if (isset($parts[2]) && trim($parts[2]) != "") {
       $region = trim($parts[0]);
 			$res_data[] = mb_substr($region, 0, 2);
