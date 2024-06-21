@@ -18,147 +18,157 @@ $sodr9 = admin_order_status_sum("where dan = 9 "); // 총 배송전 환불
 $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매미확정
 ?>
 
-<div id="main_wrap">
-	<section>
-		<h2>전체 주문통계<a href="<?php echo BV_ADMIN_URL; ?>/order.php?code=list" class="btn_small">주문내역 바로가기</a></h2>
-		<div class="order_vbx">
-			<dl class="od_bx1">
-				<dt>전체 주문현황</dt>
-				<dd>
-					<p class="ddtit">총 주문건수</p>
-					<p><?php echo number_format($sodrr['cnt']); ?></p>
-				</dd>
-				<dd class="total">
-					<p class="ddtit">총 주문액</p>
-					<p><?php echo number_format($sodrr['price']); ?></p>
-				</dd>
-			</dl>
-
-			<dl class="od_bx2">
-				<dt>주문상태 현황</dt>
-				<dd>
-					<p class="ddtit">입금대기</p>
-					<p><?php echo number_format($sodr1['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">입금완료</p>
-					<p><?php echo number_format($sodr2['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">배송준비</p>
-					<p><?php echo number_format($sodr3['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">배송중</p>
-					<p><?php echo number_format($sodr4['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">배송완료</p>
-					<p><?php echo number_format($sodr5['cnt']); ?></p>
-				</dd>
-			</dl>
-			<dl class="od_bx2">
-				<dt>구매확정/클래임 현황</dt>
-				<dd>
-					<p class="ddtit">구매미확정</p>
-					<p><?php echo number_format($final['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">취소</p>
-					<p><?php echo number_format($sodr6['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">환불</p>
-					<p><?php echo number_format($sodr9['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">반품</p>
-					<p><?php echo number_format($sodr7['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">교환</p>
-					<p><?php echo number_format($sodr8['cnt']); ?></p>
-				</dd>
-			</dl>
-		</div>
-	</section>
-
-	<section class="sidx_head01">
-		<h2>최근 주문내역<a href="<?php echo BV_ADMIN_URL; ?>/order.php?code=list" class="btn_small">주문내역 바로가기</a></h2>
-		<table>
-		<thead>
-		<tr>
-			<th scope="col">주문번호</th>
-			<th scope="col">주문자명</th>
-			<th scope="col">수령자명</th>
-			<th scope="col">전화번호</th>
-			<th scope="col">결제방법</th>
-			<th scope="col">총주문액</th>
-			<th scope="col">주문일시</th>
-		</tr>
-		</thead>
-		<tbody>
-		<?php
-		$sql = " select * from shop_order where dan > 0 group by od_id order by index_no desc limit 5 ";
-		$result = sql_query($sql);
-		for($i=0; $row=sql_fetch_array($result); $i++){
-			$amount = get_order_spay($row['od_id']);
-		?>
-		<tr class="tr_alignc">
-			<td><?php echo $row['od_id']; ?></td>
-			<td><?php echo $row['name']; ?></td>
-			<td><?php echo $row['b_name']; ?></td>
-			<td><?php echo $row['cellphone']; ?></td>
-			<td><?php echo $row['paymethod']; ?></td>
-			<td><?php echo number_format($amount['buyprice']); ?></td>
-			<td><?php echo substr($row['od_time'],0,16); ?> (<?php echo get_yoil($row['od_time']); ?>)</td>
-		</tr>
-		<?php
-		}
-		if($i==0)
-			echo '<tr><td colspan="7" class="empty_table">자료가 없습니다.</td></tr>';
-		?>
-		</tbody>
-		</table>
-	</section>
-
-	<section class="sidx_head01">
-		<h2>최근 회원가입<a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=list" class="btn_small">회원관리 바로가기</a></h2>
-		<table>
-		<thead>
-		<tr>
-			<th scope="col">이름</th>
-			<th scope="col">아이디</th>
-			<th scope="col">레벨</th>
-			<th scope="col">이메일</th>
-			<th scope="col">접속횟수</th>
-			<th scope="col">추천인</th>
-			<th scope="col">가입일시</th>
-		</tr>
-		</thead>
-		<tbody>
-		<?php
-		$sql = "select * from shop_member where id <> 'admin' order by index_no desc limit 5";
-		$result = sql_query($sql);
-		for($i=0; $row=sql_fetch_array($result); $i++){
-		?>
-		<tr class="tr_alignc">
-			<td><?php echo $row['name']; ?></td>
-			<td><?php echo $row['id']; ?></td>
-			<td><?php echo get_grade($row['grade']); ?></td>
-			<td><?php echo $row['email']; ?></td>
-			<td><?php echo $row['login_sum']; ?></td>
-			<td><?php echo $row['pt_id']; ?></td>
-			<td><?php echo substr($row['reg_time'],0,16); ?> (<?php echo get_yoil($row['reg_time']); ?>)</td>
-		</tr>
-		<?php
-		}
-		if($i==0)
-			echo '<tr><td colspan="7" class="empty_table">자료가 없습니다.</td></tr>';
-		?>
-		</tbody>
-		</table>
-	</section>
+<div id="main_dashboard">
+    <div class="dashboard_boxs">
+        <dl>
+            <dt class="box_title">전체 주문현황</dt>
+            <dd class="box_contents">
+                <p class="content_title">총 주문건수</p>
+                <p class="total_boxs">
+                    <?php echo number_format($sodrr['cnt']); ?>
+                    <span>건</span>
+                </p>
+            </dd>
+            <dd class="box_contents">
+                <p class="content_title type1">총 주문액</p>
+                <p class="total_boxs type1">
+                    <?php echo number_format($sodrr['price']); ?>
+                    <span>원</span>
+                </p>
+            </dd>
+        </dl>
+        <dl>
+            <dt class="box_title">주문상태 현황</dt>
+            <dd class="box_contents line_box1">
+                <ul>
+                    <li>
+                        <p class="content_title">입금대기</p>
+                        <p><?php echo number_format($sodr1['cnt']); ?></p>
+                    </li>
+                    <li>
+                        <p class="content_title type1">입금완료</p>
+                        <p><?php echo number_format($sodr2['cnt']); ?></p>
+                    </li>
+                    <li>
+                        <p class="content_title type2">배송준비</p>
+                        <p><?php echo number_format($sodr3['cnt']); ?></p>
+                    </li>
+                    <li>
+                        <p class="content_title type3">배송중</p>
+                        <p><?php echo number_format($sodr4['cnt']); ?></p>
+                    </li>
+                    <li>
+                        <p class="content_title type4">배송완료</p>
+                        <p><?php echo number_format($sodr5['cnt']); ?></p>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+        <dl>
+            <dt class="box_title">구매확정/클래임 현황</dt>
+            <dd class="box_contents line_box2">
+                <ul>
+                    <li>
+                        <p class="content_title">구매미확정</p>
+                        <p><?php echo number_format($final['cnt']); ?></p>
+                    </li>
+                    <li>
+                        <p class="content_title type1">취소</p>
+                        <p><?php echo number_format($sodr6['cnt']); ?></p>
+                    </li>
+                    <li>
+                        <p class="content_title type2">환불</p>
+                        <p><?php echo number_format($sodr9['cnt']); ?></p>
+                    <li>
+                        <p class="content_title type3">반품</p>
+                        <p><?php echo number_format($sodr7['cnt']); ?></p>
+                    </li>
+                    <li>
+                        <p class="content_title type4">교환</p>
+                        <p><?php echo number_format($sodr8['cnt']); ?></p>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    <div class="dashboard_table">
+        <div >
+            <h2>최근 주문내역<a href="<?php echo BV_ADMIN_URL; ?>/order.php?code=list" class="btn_small">주문내역 바로가기</a></h2>
+            <table>
+            <thead>
+            <tr>
+                <th scope="col">주문번호</th>
+                <th scope="col">주문자명</th>
+                <th scope="col">수령자명</th>
+                <th scope="col">전화번호</th>
+                <th scope="col">결제방법</th>
+                <th scope="col">총주문액</th>
+                <th scope="col">주문일시</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            $sql = " select * from shop_order where dan > 0 group by od_id order by index_no desc limit 5 ";
+            $result = sql_query($sql);
+            for($i=0; $row=sql_fetch_array($result); $i++){
+                $amount = get_order_spay($row['od_id']);
+            ?>
+            <tr class="tr_alignc">
+                <td><?php echo $row['od_id']; ?></td>
+                <td><?php echo $row['name']; ?></td>
+                <td><?php echo $row['b_name']; ?></td>
+                <td><?php echo $row['cellphone']; ?></td>
+                <td><?php echo $row['paymethod']; ?></td>
+                <td><?php echo number_format($amount['buyprice']); ?></td>
+                <td><?php echo substr($row['od_time'],0,16); ?> (<?php echo get_yoil($row['od_time']); ?>)</td>
+            </tr>
+            <?php
+            }
+            if($i==0)
+                echo '<tr><td colspan="7" class="empty_table">자료가 없습니다.</td></tr>';
+            ?>
+            </tbody>
+            </table>
+        </div>
+    
+        <div>
+            <h2>최근 회원가입<a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=list" class="btn_small">회원관리 바로가기</a></h2>
+            <table>
+            <thead>
+            <tr>
+                <th scope="col">이름</th>
+                <th scope="col">아이디</th>
+                <th scope="col">레벨</th>
+                <th scope="col">이메일</th>
+                <th scope="col">접속횟수</th>
+                <th scope="col">추천인</th>
+                <th scope="col">가입일시</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            $sql = "select * from shop_member where id <> 'admin' order by index_no desc limit 5";
+            $result = sql_query($sql);
+            for($i=0; $row=sql_fetch_array($result); $i++){
+            ?>
+            <tr class="tr_alignc">
+                <td><?php echo $row['name']; ?></td>
+                <td><?php echo $row['id']; ?></td>
+                <td><?php echo get_grade($row['grade']); ?></td>
+                <td><?php echo $row['email']; ?></td>
+                <td><?php echo $row['login_sum']; ?></td>
+                <td><?php echo $row['pt_id']; ?></td>
+                <td><?php echo substr($row['reg_time'],0,16); ?> (<?php echo get_yoil($row['reg_time']); ?>)</td>
+            </tr>
+            <?php
+            }
+            if($i==0)
+                echo '<tr><td colspan="7" class="empty_table">자료가 없습니다.</td></tr>';
+            ?>
+            </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <?php

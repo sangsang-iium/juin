@@ -10,7 +10,12 @@ $sql_search = " where 1 ";
 $sql_order  = " order by index_no desc ";
 
 if($sfl && $stx) {
-    $sql_search .= " and $sfl like '%$stx%' ";
+	if($sfl == 'all') {
+		$allColumns = array("mb_id","mb_name");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+    	$sql_search .= " and $sfl like '%$stx%' ";
+	}
 }
 
 // 테이블의 전체 레코드수만 얻음
@@ -49,6 +54,7 @@ EOF;
                         <div class="tel_input">
                             <div class="chk_select w200">
                                 <select name="sfl">
+									<?php echo option_selected('all', $sfl, '전체'); ?>
                                     <?php echo option_selected('mb_id', $sfl, '아이디'); ?>
                                     <?php echo option_selected('mb_name', $sfl, '회원명'); ?>
                                 </select>

@@ -506,3 +506,32 @@ function orderRaffleImg($it_img) {
 
 	return $str;
 }
+
+
+function allSearchSql($columns , $stx) {
+  $i = 0;
+  $sql = " AND (";
+  foreach ($columns as $columnVal) {
+    if($i != 0) $sql .= " OR ";
+    $sql .= " INSTR( LOWER($columnVal) , LOWER('$stx') ) ";
+    $i++;
+  }
+
+  $sql .= ") ";
+
+  return $sql;
+}
+
+function allSearchSqlArr($columns , $stx) {
+  $i = 0;
+  $sql = " (";
+  foreach ($columns as $columnVal) {
+    if($i != 0) $sql .= " OR ";
+    $sql .= " INSTR( LOWER($columnVal) , LOWER('$stx') ) ";
+    $i++;
+  }
+
+  $sql .= ") ";
+
+  return $sql;
+}

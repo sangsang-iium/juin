@@ -133,7 +133,12 @@ if ($code == 'list' || $code == 'reg_list') // 전체주문내역
 }
 
 if ($sfl && $stx) {
-  $where[] = " $sfl like '%$stx%' ";
+  if($sfl == 'all') {
+    $allColumns = array("od_id","od_no","mb_id","name","deposit_name","bank","b_name","b_telephone","b_cellphone","delivery_no","seller_id","pt_id");
+    $where[] = allSearchSqlArr($allColumns,$stx);
+  } else {
+    $where[] = " $sfl like '%$stx%' ";
+  }
 }
 
 if ($od_settle_case) {
@@ -245,6 +250,33 @@ while ($row = sql_fetch_array($res)) {
     $amount = get_order_spay($row['od_id']);
   }
   $tot_orderprice += $amount['buyprice'];
+}
+
+// 2024-06-20 태그 추가
+function addTag($tagName){
+  switch($tagName){
+    case '강제입금' :
+      $text = '강제입금';
+      $class = 't1';
+    break;
+
+    case '강제입금완료' :
+      $text = '강제입금완료';
+      $class = 't2';
+    break;
+
+    case '강제출고' :
+      $text = '강제출고';
+      $class = 't3';
+    break;
+
+    case '강제출고완료' :
+      $text = '강제출고완료';
+      $class = 't4';
+    break;
+  }
+  
+  echo '<span class="admin-tag '.$class.'">'.$text.'</span>';
 }
 
 include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';

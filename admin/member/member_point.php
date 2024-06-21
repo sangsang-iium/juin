@@ -12,7 +12,12 @@ $sql_common = " from shop_point a, shop_member b ";
 $sql_search = " where a.mb_id = b.id ";
 
 if($sfl && $stx) {
-    $sql_search .= " and $sfl like '%$stx%' ";
+	if($sfl == 'all') {
+		$allColumns = array("a.mb_id","b.name");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+    	$sql_search .= " and $sfl like '%$stx%' ";
+	}
 }
 
 if($fr_date && $to_date)
@@ -72,6 +77,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('a.mb_id', $sfl, '아이디'); ?>
                         <?php echo option_selected('b.name', $sfl, '회원명'); ?>
                     </select>

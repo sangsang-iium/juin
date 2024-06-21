@@ -12,7 +12,12 @@ $sql_common = " from shop_popular ";
 $sql_search = " where pt_id = 'admin' and TRIM(pp_word) <> '' ";
 
 if($sfl && $stx) {
-    $sql_search .= " and $sfl like '%$stx%' ";
+	if($sfl == 'all') {
+		$allColumns = array("pp_word" , "pp_ip");
+		$sql_search .= allSearchSql($allColumns,$stx);
+	} else {
+    	$sql_search .= " and $sfl like '%$stx%' ";
+	}
 }
 
 // 기간검색
@@ -97,6 +102,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('pp_word', $sfl, '검색어'); ?>
                         <?php echo option_selected('pp_ip', $sfl, 'IP'); ?>
                     </select>

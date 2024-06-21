@@ -86,8 +86,12 @@
     --color_green: #038A19;
     --color_green2: #00908d;
     --color_braun: #C66409;
-    --color_purple: #FA6918;
+    --color_purple: #7b0086;
 
+}
+
+ol, li, ul, dl, dt, dd{
+    overflow:initial;
 }
 
 strong {
@@ -2129,3 +2133,80 @@ input[type=file] {
 [class^="order_list_wrap"] .order_list .order_items .pr_item .add-list-btn{
     width: 100%;
 }
+
+
+/* S.메인페이지 작업_김민규 */
+#main_dashboard{
+    background-color:#ededed;
+    padding:50px 20px;
+    box-sizing: border-box;
+    line-height: 150%;
+}
+
+#main_dashboard .dashboard_boxs{
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap:20px;
+}
+
+#main_dashboard [class^="box_title"]{
+    font-size:20px;
+    font-weight: 400;
+}
+#main_dashboard [class^="dashboard_boxs"] dl dd{
+    margin-top:15px;
+    padding:20px 20px 50px;
+    box-sizing: border-box;
+}
+
+#main_dashboard [class^="box_contents"]{
+    background-color:#fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+#main_dashboard [class^="box_contents"] .content_title{
+    display: inline-block;
+    padding:5px;
+    box-sizing: border-box;
+    width:120px;
+    letter-spacing: -1px;
+    border-radius: 50px;
+    text-align: center;
+    border:2px solid var(--color_red);
+    color:var(--color_red);
+}
+
+#main_dashboard [class^="box_contents"] .content_title.type1{
+    color:var(--color_green);
+    border-color: var(--color_green);
+}
+#main_dashboard [class^="box_contents"] .content_title.type2{
+    color:var(--color_purple);
+    border-color: var(--color_purple);
+}
+#main_dashboard [class^="box_contents"] .content_title.type3{
+    color:var(--color_braun);
+    border-color: var(--color_braun);
+}
+#main_dashboard [class^="box_contents"] .content_title.type4{
+    color:var(--color_blue);
+    border-color: var(--color_blue);
+}
+
+#main_dashboard [class^="box_contents"] .total_boxs{
+    font-size:30px;
+    letter-spacing: -1px;
+    margin-top: 30px;
+    font-weight:700;
+    color:var(--color_red);
+}
+#main_dashboard [class^="box_contents"] .total_boxs.type1{
+    color:var(--color_green);
+}
+
+#main_dashboard [class^="dashboard_table"]{
+    
+}
+/* E.메인페이지 작업_김민규 */

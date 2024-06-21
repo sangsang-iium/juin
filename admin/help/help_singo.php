@@ -25,6 +25,9 @@ if ($sfl && $stx) {
     $sql_search .= " and a.mb_id like '%$stx%' ";
   } else if($sfl=='target_id'){
     $sql_search .= " and b.mb_id like '%$stx%' ";
+  } else if($sfl == 'all') {
+    $allColumns = array("b.title","a.mb_id","b.mb_id");
+    $sql_search .= allSearchSql($allColumns,$stx);
   }
 }
 
@@ -77,6 +80,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
+						<?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('title', $sfl, '제목'); ?>
                         <?php echo option_selected('singo_id', $sfl, '작성자ID'); ?>
                         <?php echo option_selected('target_id', $sfl, '대상자ID'); ?>

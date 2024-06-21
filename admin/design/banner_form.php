@@ -26,9 +26,15 @@ if($w == "") {
         alert("존재하지 않은 배너 입니다.");
 }
 
-$frm_submit = '<div class="btn_confirm">
-	<input type="submit" value="저장" class="btn_large" accesskey="s">
-	<a href="./design.php?code=banner_list'.$qstr.'&page='.$page.'" class="btn_large bx-white">목록</a>'.PHP_EOL;
+$frm_submit = '<div class="btn_confirm">';
+
+	if($w == 'u'){
+		$frm_submit .='<input type="submit" value="수정" class="btn_large" accesskey="s">';
+	}else{
+		$frm_submit .='<input type="submit" value="저장" class="btn_large" accesskey="s">';
+	}
+	
+$frm_submit .='<a href="./design.php?code=banner_list'.$qstr.'&page='.$page.'" class="btn_large bx-white">목록</a>'.PHP_EOL;
 if($w == 'u')
 	$frm_submit .= '<a href="./design.php?code=banner_form" class="btn_large bx-red">추가</a>'.PHP_EOL;
 $frm_submit .= '</div>';

@@ -358,7 +358,7 @@ function fregisterform_submit(f)
 	}
 
 
-	document.getElementById("btn_submit").disabled = "disabled";
+	//document.getElementById("btn_submit").disabled = "disabled";
 
     return true;
 }
