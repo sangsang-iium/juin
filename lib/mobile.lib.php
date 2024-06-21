@@ -170,9 +170,9 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 		// 2024-06-03 : 정기/일반 배송 추가
 		echo "<div class=\"cp-tag-box\">";
 		if ($row['reg_yn'] == 2) {
-			echo "<div class=\"cp-tag-item\">";
-			echo "<div class=\"cp-tag tag01\">일반</div>";
-			echo "</div>";
+			// echo "<div class=\"cp-tag-item\">";
+			// echo "<div class=\"cp-tag tag01\">일반</div>";
+			// echo "</div>";
 		} else {
 			echo "<div class=\"cp-tag-item\">";
 			echo "<div class=\"cp-tag tag02\">정기</div>";
@@ -557,9 +557,10 @@ function mobile_buy_button($msg, $gs_id)
 				break;
 		}
 
+    // 바로구매 주석 _20240621_SY
 		if($msg) {
 			if($sw_direct == "buy") {
-				$str .= "<button type=\"button\" onclick=\"alert('$msg');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
+				// $str .= "<button type=\"button\" onclick=\"alert('$msg');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
 			} else {
 				$str .= "<button type=\"button\" onclick=\"alert('$msg');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
 			}
@@ -567,7 +568,7 @@ function mobile_buy_button($msg, $gs_id)
 			if($sw_direct == "wish") {
 				$str .= "<button type=\"button\" onclick=\"item_wish(document.fbuyform);\" class='$ui_class[$i]' title=\"관심상품 등록하기\"></button>";
 			} else if($sw_direct == "buy") {
-				$str .= "<button type=\"button\" onclick=\"fbuyform_submit('".$sw_direct."');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
+				// $str .= "<button type=\"button\" onclick=\"fbuyform_submit('".$sw_direct."');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
 			} else {
 				$str .= "<button type=\"button\" onclick=\"fbuyform_submit('".$sw_direct."');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
 			}
@@ -1190,9 +1191,9 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 	// 2024-06-03 : 정기/일반 배송 추가
 	echo "<div class=\"cp-tag-box\">";
 	if ($row['reg_yn'] == 2) {
-		echo "<div class=\"cp-tag-item\">";
-		echo "<div class=\"cp-tag tag01\">일반</div>";
-		echo "</div>";
+		// echo "<div class=\"cp-tag-item\">";
+		// echo "<div class=\"cp-tag tag01\">일반</div>";
+		// echo "</div>";
 	} else {
 		echo "<div class=\"cp-tag-item\">";
 		echo "<div class=\"cp-tag tag02\">정기</div>";
@@ -1301,6 +1302,9 @@ function memberGoodsAble($memberAddr, $goodsLoca) {
 
   foreach ($sections as $section) {
     $parts = explode(',', $section);
+		if (isset($parts[0]) && trim($parts[0]) == "전국") {
+			return true;
+		}
     if (isset($parts[2]) && trim($parts[2]) != "") {
       $region = trim($parts[0]);
 			$res_data[] = mb_substr($region, 0, 2);
