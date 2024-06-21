@@ -73,7 +73,7 @@ if($w == '') {
   $ins_data['id']              = $id;
   $ins_data['name']            = $name;
   $ins_data['passwd']          = get_encrypt_string($pw);
-  $ins_data['grade']           = 2;
+  $ins_data['grade']           = 3;
   $ins_data['reg_time']       = $now;
   $ins_data['ju_region1']     = $region1;
   $ins_data['ju_region2']     = $region2;

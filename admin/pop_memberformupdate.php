@@ -109,6 +109,11 @@ $mfrm['ju_tel'] = $_POST['ju_tel'];
 $mfrm['ju_hp'] = $_POST['ju_hp'];
 $mfrm['ju_b_num'] = $_POST['ju_b_num'];
 
+// 담당자 정보 추가 _20240621_SY
+if($mb['grade'] == '8') {
+  $mfrm['ju_manager'] = $_POST['mn_idx'];
+}
+
 if($_POST['passwd']) {
 	$mfrm['passwd'] = $_POST['passwd']; // 패스워드
 }

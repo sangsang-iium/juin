@@ -20,6 +20,7 @@ $sql_search = " where mm.id <> 'admin' ";
 // manager join 추가 _20240531_SY
 $sql_join = " LEFT JOIN shop_manager AS mn
                      ON (mm.ju_manager = mn.index_no) ";
+                     
 
 // Search > AliasFunc 추가 _20240610_SY
 function addAliasFunc($column)
@@ -78,7 +79,28 @@ if (!$orderby) {
 }
 
 if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
-  $sql_search .= " AND mn.id = '{$_SESSION['ss_mn_id']}' ";
+  // 시연용 : 지회 마스터 임시 쿼리 _20240621_SY
+  $mn_sel = " SELECT * FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}' ";
+  $mn_row = sql_fetch($mn_sel);
+
+  if($mn_row['grade'] < 3) {
+    $b_master_sql = " SELECT index_no, id, name, grade, ju_region1, ju_region2, ju_region3
+                        FROM shop_manager
+                       WHERE ju_region2 = (SELECT ju_region2 FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}') 
+                         AND grade > (SELECT grade FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}')" ;
+    $b_master_res = sql_query($b_master_sql);
+    $addIn = "";
+    while ($b_master_row = sql_fetch_array($b_master_res)) {
+      if (!empty($addIn)) {
+          $addIn .= ", ";
+      }
+      $addIn .= "'" . $b_master_row['id'] . "'";
+    }
+    $sql_search .= " AND mn.id IN ( '{$_SESSION['ss_mn_id']}', $addIn )";
+  } else {
+    $sql_search .= " AND mn.id IN ( '{$_SESSION['ss_mn_id']}' )";
+  }
+
 }
 
 $sql_order = " order by $filed $sod ";

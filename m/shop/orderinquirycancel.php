@@ -9,7 +9,6 @@ if ($token && get_session("ss_token") == $token) {
   set_session("ss_token", "");
   alert("토큰 에러", BV_MURL);
 }
-print_r($reg_yn);
 if($reg_yn == 1 ){
   $shop_table = "shop_order_reg";
 } else if ($reg_yn == 2 ) {

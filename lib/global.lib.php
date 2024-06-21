@@ -3519,6 +3519,10 @@ function is_admin($grade='')
 		case '2' :
 			return true;
 			break;
+    // Manager level 추가 _20240621_SY
+		case '3' :
+			return true;
+			break;
 		default :
 			return false;
 	}

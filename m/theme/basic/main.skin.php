@@ -1,11 +1,14 @@
 <?php
-if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
+if (!defined("_BLUEVATION_")) {
+  exit;
+}
+// 개별 페이지 접근 불가
 ?>
 
 <!-- contents { -->
 <div id="contents" class="main-contents">
 
-<?php if($main_topbnr_slider = mobile_slider(0, $pt_id)) { ?>
+<?php if ($main_topbnr_slider = mobile_slider(0, $pt_id)) {?>
 <div class="section mtb-wrap">
   <div class="mtb-sl swiper-container">
     <div class="swiper-wrapper">
@@ -14,9 +17,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   </div>
   <button type="button" class="mtb-close-btn"><img src="/src/img/mtb-close.png" alt=""></button>
 </div>
-<?php } ?>
+<?php }?>
 
-<?php if($main_visual_slider = mobile_slider(1, $pt_id)) { ?>
+<?php if ($main_visual_slider = mobile_slider(1, $pt_id)) {?>
 <!-- 비주얼 배너 { -->
 <div class="container section main_visual">
   <div class="cp-banner__round swiper-container">
@@ -30,37 +33,38 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   </div>
 </div>
 <!-- } 비주얼 배너 -->
-<?php } ?>
+<?php }?>
 
 <!-- 상품 카테고리 바로가기 { -->
 <div class="container section main_category">
   <div class="cp-quick-category">
     <?php
-      $cate_sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = 3 AND cateuse = 0 ORDER BY caterank asc";
-      $cate_res = sql_query($cate_sql);
+$cate_sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = 3 AND cateuse = 0 ORDER BY caterank asc";
+$cate_res = sql_query($cate_sql);
 
-      while ($cate_row = sql_fetch_array($cate_res)) {
-    ?>
-    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id='.$cate_row["catecode"];?>" class="ui-btn">
+while ($cate_row = sql_fetch_array($cate_res)) {
+  ?>
+    <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=' . $cate_row["catecode"]; ?>" class="ui-btn">
       <i class="icon">
-        <img src="/data/category/<?php echo $cate_row['cateimg1']?>" alt="<?php echo $cate_row['catename'] ?>">
+        <img src="/data/category/<?php echo $cate_row['cateimg1'] ?>" alt="<?php echo $cate_row['catename'] ?>">
       </i>
       <p class="name"><?php echo $cate_row['catename'] ?></p>
     </a>
-    <?php } ?>
-    <!-- <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">
+    <?php
+}?>
+    <!-- <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=002'; ?>" class="ui-btn">
       <i class="icon">
         <img src="/src/img/category-b.png" alt="축산(육가공)">
       </i>
       <p class="name">축산<br>(육가공)</p>
     </a>
-    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">
+    <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=002'; ?>" class="ui-btn">
       <i class="icon">
         <img src="/src/img/category-c.png" alt="위생/주방용품">
       </i>
       <p class="name">위생/주방<br>용품</p>
     </a>
-    <a href="<?php echo BV_MSHOP_URL.'/list.php?ca_id=002';?>" class="ui-btn">
+    <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=002'; ?>" class="ui-btn">
       <i class="icon">
         <img src="/src/img/category-d.png" alt="종합 식자재">
       </i>
@@ -124,7 +128,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
     </div>
     <div class="right">
-      <a href="<?php echo BV_MSHOP_URL;?>/listtype.php?type=2" class="ui-btn more">전체보기</a>
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=2" class="ui-btn more">전체보기</a>
     </div>
   </div>
   <?php echo mobile_slide_goods('2', '20', 'container left main_best-slide'); ?>
@@ -142,7 +146,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
     </div>
     <div class="right">
-      <a href="<?php echo BV_MSHOP_URL;?>/listtype.php?type=5" class="ui-btn more">전체보기</a>
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=5" class="ui-btn more">전체보기</a>
     </div>
   </div>
   <?php echo mobile_slide_goods('5', '20', 'container left main_recomm-slide', 'small'); ?>
@@ -160,7 +164,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
     </div>
     <div class="right">
-      <a href="<?php echo BV_MSHOP_URL;?>/listtype.php?type=4" class="ui-btn more">전체보기</a>
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=4" class="ui-btn more">전체보기</a>
     </div>
   </div>
   <?php echo mobile_slide_goods('4', '20', 'container left main_popular-slide', 'small'); ?>
@@ -183,15 +187,15 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       <div class="swiper-wrapper">
         <?php echo mobile_display_today_goods_with_slide('2', '20', 'container left main_popular-slide') ?>
       </div>
-      <div class="swiper-control2">
+      <!-- <div class="swiper-control2">
         <button type="button" class="arrow prev"></button>
         <div class="pagination"></div>
         <button type="button" class="arrow next"></button>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="container bottom_box">
-    <a href="<?php echo BV_MSHOP_URL;?>/timesale.php?menu=timesale" class="ui-btn round moreLong">
+    <a href="<?php echo BV_MSHOP_URL; ?>/timesale.php?menu=timesale" class="ui-btn round moreLong">
       <span class="text">전체보기</span>
     </a>
   </div>
@@ -215,17 +219,17 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     <div class="swiper-container swiper-initialized swiper-horizontal swiper-free-mode swiper-backface-hidden">
       <div class="swiper-wrapper" id="swiper-wrapper-5adc34597a07ad06" aria-live="polite">
         <?php
-          $liveListArr = mainLiveList();
-          $liveListCount = 1;
-          $liveListSize = sizeof($liveListArr);
-          if($liveListSize > 0) {
+        $liveListArr   = mainLiveList();
+        $liveListCount = 1;
+        $liveListSize  = sizeof($liveListArr);
+        if ($liveListSize > 0) {
           foreach ($liveListArr as $liveListVal) {
             $liteTime = liveTime($liveListVal['liveTime']['live_start_time']);
-        ?>
+    ?>
           <a href="<?php echo $liveListVal['url'] ?>" class="swiper-slide cp-live swiper-slide-active" role="group" aria-label="<?php echo $liveListCount; ?> / 5">
             <div class="round50 prod-thumb_area">
               <div href="" class="thumb">
-                <img src="<?php echo "/data/live/".$liveListVal['thumbnail'] ?>" alt="">
+                <img src="<?php echo "/data/live/" . $liveListVal['thumbnail'] ?>" alt="">
               </div>
             </div>
             <div class="prod-info_area">
@@ -240,6 +244,22 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           $liveListCount++;
           } }
         ?>
+        <!-- 종료 추가 { -->
+        <!-- <a href="" class="swiper-slide cp-live live-off">
+          <div class="round50 prod-thumb_area">
+            <div href="" class="thumb">
+              <img src="/data/live/S7gTpPDgAX5ZHVrZdZJHU9s5vqS9xm.jpg" alt="">
+            </div>
+          </div>
+          <div class="prod-info_area">
+            <div class="round60 live-reserv">
+              <span class="round60 t1">종료</span>
+              <span class="t2">06/20 오전 00:00</span>
+            </div>
+            <div class="live-title">테스트5</div>
+          </div>
+        </a> -->
+        <!-- } 종료 추가 -->
       </div>
       <?php if($liveListSize > 3) {?>
       <div class="swiper-control2">
@@ -250,11 +270,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       <?php } ?>
     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
   </div>
-  <div class="container bottom_box">
+  <!-- <div class="container bottom_box">
     <a href="" class="ui-btn round moreLong">
       <span class="text">전체보기</span>
     </a>
-  </div>
+  </div> -->
 </div>
 <!-- } 라이브 -->
 

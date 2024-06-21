@@ -246,6 +246,7 @@ if($w == '') {
     $value['ju_region3']    = $ju_region3;
     $value['ju_lat']        = $ju_lat;
     $value['ju_lng']        = $ju_lng;
+    $value['ju_content']    = $ju_content;
   }
     // 관리자인증을 사용하지 않는다면 인증으로 간주함.
     if(!$config['cert_admin_yes'])
@@ -317,8 +318,77 @@ if($w == '') {
     $value['refund_num']   =$refund_num;//환불계좌번호
     $value['refund_name']   =$refund_name;//환불계좌주
     $value['b_addr_req_base']   =$b_addr_req_base;//배송기본메시지
+
+  // 중앙회 회원 정보 수정 _20240621_SY
+  if($member['grade'] < 9) {
+    $value['ju_name']       = $mb_name;
+    $value['ju_unique_num'] = $pop_u_no;
+    $value['ju_closed']     = $chk_cb_res;
+    $value['ju_restaurant'] = $ju_restaurant;
+    $value['ju_sectors']    = $ju_sectors;
+    $value['ju_cate']       = $ju_sectors;
+    $value['ju_manager']    = $manager_idx;
+    $value['ju_addr_full']  = $mb_addr1." ".$mb_addr2;
+    $value['ju_region1']    = $ju_region1;
+    $value['ju_region2']    = $ju_region2;
+    $value['ju_region3']    = $ju_region3;
+    $value['ju_content']    = $ju_content;
+    $value['ju_worktime']   = implode("~", $_POST['worktime']);
+    $value['ju_breaktime']  = implode("~", $_POST['breaktime']);
+    $value['ju_off']        = implode("|", $_POST['off']);
+    $value['ju_tel']        = $_POST['ju_tel'];
+    $value['ju_hp']         = $_POST['ju_hp'];
+    $value['ju_b_num']      = $_POST['ju_b_num'];
+  }
     
 	update("shop_member", $value, " where id = '{$member['id']}' ");
+
+
+  /* 매장 사진 */
+  $sub_imgs = explode("|", $member['ju_simg']);
+  $image_regex = "/(\.(jpg|gif|png))$/i";
+  $save_dir = BV_DATA_PATH.'/member/';
+  $dir = $save_dir.$mb_id;
+
+  //폴더생성
+  if(!is_dir($dir)) {
+      @mkdir($dir, BV_DIR_PERMISSION);
+      @chmod($dir, BV_DIR_PERMISSION);
+  }
+
+  // 매장외부 대표 이미지
+  if(is_uploaded_file($_FILES['ju_mimg']['tmp_name'])){
+    if(preg_match($image_regex, $_FILES['ju_mimg']['name'])){
+        $exts = explode(".", $_FILES['ju_mimg']['name']);
+      $save_name = $mb_id.'/main_image.'.strtolower($exts[count($exts)-1]);
+      $dest_path = $save_dir.$save_name;
+      move_uploaded_file($_FILES['ju_mimg']['tmp_name'], $dest_path);
+      chmod($dest_path, BV_FILE_PERMISSION);
+      
+      sql_query(" update shop_member set ju_mimg = '$save_name' where id = '$mb_id' ");
+    }
+  }
+
+  // 매장내부 서브 이미지
+  $idx = time();
+  for($i=0;$i < count($_FILES['ju_simg']['tmp_name']);$i++){
+      if(is_uploaded_file($_FILES['ju_simg']['tmp_name'][$i])){
+        if(preg_match($image_regex, $_FILES['ju_simg']['name'][$i])){
+            $exts = explode(".", $_FILES['ju_simg']['name'][$i]);
+          $save_name = $mb_id.'/sub_image_'.$idx.'.'.strtolower($exts[count($exts)-1]);
+          $dest_path = $save_dir.$save_name;
+          move_uploaded_file($_FILES['ju_simg']['tmp_name'][$i], $dest_path);
+          chmod($dest_path, BV_FILE_PERMISSION);
+          array_push($sub_imgs, $save_name);
+          $idx++;
+        }
+      }
+  }
+  $sub_imgs = array_filter($sub_imgs);
+  $sub_imgs = array_values($sub_imgs);
+  $save_img = implode("|", $sub_imgs);
+  sql_query(" update shop_member set ju_simg = '$save_img' where id = '$mb_id' ");
+  /* 매장 사진 */
 }
 
 // 신규회원가입 쿠폰발급
@@ -347,7 +417,7 @@ if($msg)
 
 if($w == '') {
     goto_url(BV_MBBS_URL.'/register_result.php');
-} else if($w == 'u') {
+  } else if($w == 'u') {
     $row = sql_fetch(" select passwd from shop_member where id = '{$member['id']}' ");
     $tmp_password = $row['passwd'];
 
@@ -358,7 +428,7 @@ if($w == '') {
 	<meta charset="utf-8">
 	<title>회원정보수정</title>
 	<body>
-	<form name="fregisterupdate" method="post" action="'.BV_MBBS_URL.'/register_form.php">
+	<form name="fregisterupdate" method="post" action="'.BV_MBBS_URL.'">
 	<input type="hidden" name="w" value="u">
 	<input type="hidden" name="mb_id" value="'.$mb_id.'">
 	<input type="hidden" name="mb_password" value="'.$tmp_password.'">

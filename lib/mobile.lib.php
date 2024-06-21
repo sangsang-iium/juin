@@ -557,9 +557,10 @@ function mobile_buy_button($msg, $gs_id)
 				break;
 		}
 
+    // 바로구매 주석 _20240621_SY
 		if($msg) {
 			if($sw_direct == "buy") {
-				$str .= "<button type=\"button\" onclick=\"alert('$msg');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
+				// $str .= "<button type=\"button\" onclick=\"alert('$msg');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
 			} else {
 				$str .= "<button type=\"button\" onclick=\"alert('$msg');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
 			}
@@ -567,7 +568,7 @@ function mobile_buy_button($msg, $gs_id)
 			if($sw_direct == "wish") {
 				$str .= "<button type=\"button\" onclick=\"item_wish(document.fbuyform);\" class='$ui_class[$i]' title=\"관심상품 등록하기\"></button>";
 			} else if($sw_direct == "buy") {
-				$str .= "<button type=\"button\" onclick=\"fbuyform_submit('".$sw_direct."');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
+				// $str .= "<button type=\"button\" onclick=\"fbuyform_submit('".$sw_direct."');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
 			} else {
 				$str .= "<button type=\"button\" onclick=\"fbuyform_submit('".$sw_direct."');\" class='$ui_class[$i]'>$ui_btn[$i]</button>";
 			}
@@ -1301,6 +1302,9 @@ function memberGoodsAble($memberAddr, $goodsLoca) {
 
   foreach ($sections as $section) {
     $parts = explode(',', $section);
+		if (isset($parts[0]) && trim($parts[0]) == "전국") {
+			return true;
+		}
     if (isset($parts[2]) && trim($parts[2]) != "") {
       $region = trim($parts[0]);
 			$res_data[] = mb_substr($region, 0, 2);

@@ -430,7 +430,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     ?>
     <div class="cp-btnbar__btns">
       <div class="container <?php echo $st_cancel_price == 0 && $custom_cancel ? '':'oneBtn'; ?>">
-        <a href="<?php echo BV_MSHOP_URL; ?>/<?php echo $prePange ?>" class="ui-btn round stWhite">목록</a>
+        <!-- <a href="<?php echo BV_MSHOP_URL; ?>/<?php echo $prePange ?>" class="ui-btn round stWhite">목록</a> -->
+        <a href="/m/shop/orderinquiry.php" class="ui-btn round stWhite">목록</a>
         <?php
         // 취소한 내역이 없다면
         if($st_cancel_price == 0 && $custom_cancel) {
