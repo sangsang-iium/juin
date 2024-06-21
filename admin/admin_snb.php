@@ -34,6 +34,9 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 
 ?>
 
+<!-- 시연용 : 노출 범위 임시 하드코딩 작업 _20240621_SY -->
+ <!-- ($member['id'] == 'admin') ? : "" -->
+
 <div id="snb">
 	<div class="snb_header ico_config">
 		<h2><?php echo $snb_icon; ?><?php echo $pg_title; ?></h2>
@@ -43,11 +46,12 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	<dl>
 		<?php echo printMenu1('m10', '회원관리'); ?>
 		<?php echo printMenu2('m10', ADMIN_MENU1_01, BV_ADMIN_URL.'/member.php?code=list'); ?>
-		<?php echo printMenu2('m10', ADMIN_MENU1_02, BV_ADMIN_URL.'/member.php?code=level_form'); ?>
+		<?php echo ($member['id'] == 'admin') ? printMenu2('m10', ADMIN_MENU1_02, BV_ADMIN_URL.'/member.php?code=level_form') : ""; ?>
 		<?php echo printMenu2('m10', ADMIN_MENU1_03, BV_ADMIN_URL.'/member.php?code=register_form'); ?>
 		<?php echo printMenu2('m10', ADMIN_MENU1_04, BV_ADMIN_URL.'/member.php?code=xls'); ?>
-		<?php echo printMenu2('m10', ADMIN_MENU1_10, BV_ADMIN_URL.'/member.php?code=mail_list'); ?>
+		<?php echo ($member['id'] == 'admin') ? printMenu2('m10', ADMIN_MENU1_10, BV_ADMIN_URL.'/member.php?code=mail_list') : ""; ?>
     <?php echo printMenu2('m10', ADMIN_MENU8_02, BV_ADMIN_URL.'/member.php?code=leave'); ?>
+    <?php if ($member['id'] == 'admin') { ?>
 		<?php echo printMenu1('m20', '포인트관리'); ?>
 		<?php echo printMenu2('m20', ADMIN_MENU1_07, BV_ADMIN_URL.'/member.php?code=point'); ?>
 		<?php //echo printMenu2('m20', ADMIN_MENU1_08, BV_ADMIN_URL.'/member.php?code=pointxls'); ?>
@@ -55,6 +59,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php //echo printMenu1('m30', '가입통계'); ?>
 		<?php //echo printMenu2('m30', ADMIN_MENU1_05, BV_ADMIN_URL.'/member.php?code=month'); ?>
 		<?php //echo printMenu2('m30', ADMIN_MENU1_06, BV_ADMIN_URL.'/member.php?code=day'); ?>
+    <?php } ?>
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU2) {
@@ -182,23 +187,29 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		$memoCnt = admin_order_memo(); // 총 관리자메모
 	?>
 	<dl>
+    <?php if ($member['id'] == 'admin') { ?>
 		<?php echo printMenu1('o11', '정기 주문관리'); ?>
 		<?php echo printMenu2('o11', ADMIN_MENU6_13, BV_ADMIN_URL.'/order.php?code=reg_list', $sodr10['cnt']); ?>
+    <?php } ?>
 		<?php echo printMenu1('o10', '주문관리'); ?>
 		<?php echo printMenu2('o10', ADMIN_MENU6_01, BV_ADMIN_URL.'/order.php?code=list', $sodrr['cnt']); ?>
+    <?php if ($member['id'] == 'admin') { ?>
 		<?php echo printMenu2('o10', ADMIN_MENU6_02, BV_ADMIN_URL.'/order.php?code=1', $sodr1['cnt']); ?>
 		<?php echo printMenu2('o10', ADMIN_MENU6_03, BV_ADMIN_URL.'/order.php?code=2', $sodr2['cnt']); ?>
 		<?php echo printMenu2('o10', ADMIN_MENU6_04, BV_ADMIN_URL.'/order.php?code=3', $sodr3['cnt']); ?>
 		<?php echo printMenu2('o10', ADMIN_MENU6_05, BV_ADMIN_URL.'/order.php?code=4', $sodr4['cnt']); ?>
 		<?php echo printMenu2('o10', ADMIN_MENU6_06, BV_ADMIN_URL.'/order.php?code=5', $sodr5['cnt']); ?>
 		<?php echo printMenu2('o10', ADMIN_MENU6_07, BV_ADMIN_URL.'/order.php?code=delivery'); ?>
+    <?php } ?>
 		<?php echo printMenu1('o20', '취소/교환/반품/환불 관리'); ?>
 		<?php echo printMenu2('o20', ADMIN_MENU6_08, BV_ADMIN_URL.'/order.php?code=6', $sodr6['cnt']); ?>
 		<?php echo printMenu2('o20', ADMIN_MENU6_09, BV_ADMIN_URL.'/order.php?code=9', $sodr9['cnt']); ?>
 		<?php echo printMenu2('o20', ADMIN_MENU6_10, BV_ADMIN_URL.'/order.php?code=7', $sodr7['cnt']); ?>
 		<?php echo printMenu2('o20', ADMIN_MENU6_11, BV_ADMIN_URL.'/order.php?code=8', $sodr8['cnt']); ?>
+    <?php if ($member['id'] == 'admin') { ?>
 		<?php echo printMenu1('o30', '기타관리'); ?>
 		<?php echo printMenu2('o30', ADMIN_MENU6_12, BV_ADMIN_URL.'/order.php?code=memo', $memoCnt); ?>
+    <?php } ?>
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU7) { ?>
@@ -206,6 +217,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
     <?php echo printMenu1('m30', '가입통계'); ?>
 		<?php echo printMenu2('m30', ADMIN_MENU1_05, BV_ADMIN_URL.'/visit.php?code=regmonth'); ?>
 		<?php echo printMenu2('m30', ADMIN_MENU1_06, BV_ADMIN_URL.'/visit.php?code=regday'); ?>
+    <?php if ($member['id'] == 'admin') { ?>
 		<?php echo printMenu1('v10', '접속자통계'); ?>
 		<?php echo printMenu2('v10', ADMIN_MENU7_01, BV_ADMIN_URL.'/visit.php?code=hour'); ?>
 		<?php echo printMenu2('v10', ADMIN_MENU7_02, BV_ADMIN_URL.'/visit.php?code=date'); ?>
@@ -216,6 +228,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('v10', ADMIN_MENU7_07, BV_ADMIN_URL.'/visit.php?code=os'); ?>
 		<?php echo printMenu2('v10', ADMIN_MENU7_08, BV_ADMIN_URL.'/visit.php?code=domain'); ?>
 		<?php echo printMenu2('v10', ADMIN_MENU7_09, BV_ADMIN_URL.'/visit.php?code=search'); ?>
+    <?php } ?>
 		<?php echo printMenu1('v20', '주문통계'); ?>
 		<?php echo printMenu2('v20', ADMIN_MENU7_10, BV_ADMIN_URL.'/visit.php?code=order1'); ?>
 		<?php echo printMenu2('v20', ADMIN_MENU7_11, BV_ADMIN_URL.'/visit.php?code=order2'); ?>
@@ -254,6 +267,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	<?php }
 	else if($pg_title == ADMIN_MENU10) { ?>
 	<dl>
+  <?php if ($member['id'] == 'admin') { ?>
 		<?php echo printMenu1('q10', '기본환경설정'); ?>
 		<?php echo printMenu2('q10', ADMIN_MENU10_01, BV_ADMIN_URL.'/config.php?code=default'); ?>
 		<?php //echo printMenu2('q10', ADMIN_MENU10_02, BV_ADMIN_URL.'/config.php?code=meta'); ?>
@@ -277,10 +291,15 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php //echo printMenu1('q50', '게시판관리'); ?>
 		<?php //echo printMenu2('q50', ADMIN_MENU10_16, BV_ADMIN_URL.'/config.php?code=board_group_list'); ?>
 		<?php //echo printMenu2('q50', ADMIN_MENU10_17, BV_ADMIN_URL.'/config.php?code=board_list'); ?>
+    <?php } ?>
 		<?php echo printMenu1('q60', '담당직원관리'); ?>
+    <?php if ($member['id'] == 'admin') { ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_18, BV_ADMIN_URL.'/config.php?code=branch'); ?>
+    <?php } ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_20, BV_ADMIN_URL.'/config.php?code=manager_list'); ?>
+    <?php if ($member['id'] == 'admin') { ?>
 		<?php echo printMenu2('q60', ADMIN_MENU10_21, BV_ADMIN_URL.'/config.php?code=authorization_list'); ?>
+    <?php } ?>
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU11) { ?>

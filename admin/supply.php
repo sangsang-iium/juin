@@ -83,6 +83,7 @@ if(!empty($sfl) || !empty($stx)){
 				echo '<tbody class="list">'.PHP_EOL;
 
 			$bg = 'list'.($i%2);
+      // 특수문자 인코딩 추가 _20240621_SY
       $data = json_encode($row, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
 		?>
 		<tr class="<?php echo $bg; ?>">
@@ -109,6 +110,7 @@ if(!empty($sfl) || !empty($stx)){
 <script>
   // name 추가_20240415_SY
 function yes(data) {
+  // 인코딩 추가 _20240621_SY
   if (typeof data === 'string') {
     data = JSON.parse(data);
   }
