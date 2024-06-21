@@ -1116,3 +1116,30 @@
 .cp-live.live-off .prod-thumb_area:after {content: '라이브가 종료 되었습니다.'; font-weight: 500; color: #fff; font-size: 1.92rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 100%; z-index: 12; text-align: center;}
 .cp-live.live-off .live-reserv .t1 {background-color: #0f0f0f;}
 .cp-live.live-off .live-title {opacity: 0.5;}
+
+/* === 2024-06-21 추가 === */
+/* sweet alert 수정 */
+.swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {padding: 2.4rem;}
+.swal2-container.swal2-center > .swal2-popup {width: 100%; padding-bottom: 3.76rem; border-radius: 2rem; overflow: hidden;}
+.swal2-container.swal2-center > .swal2-popup::before {content: ''; display: block; background: url('/src/img/alert-logo.png') no-repeat center var(--color-main); height: 8.8rem; background-size: 8.76rem;}
+.swal2-icon.swal2-warning {width: 8rem; height: 8rem; border: 2px solid #a3a3a3; margin: 4.56rem auto 2.48rem; background: url('/src/img/alert-mark.png') no-repeat center; background-size: 1.12rem;}
+.swal2-icon .swal2-icon-content {display: none;}
+.swal2-html-container {margin-top: 0; font-weight: 500; font-size: 2.16rem; color: #333; margin-bottom: 3.8rem;}
+.swal2-actions {margin-top: 0;}
+.swal2-styled.swal2-confirm {border-radius: 3.6rem; width: 21.8rem; height: 6.8rem; background-color: var(--color-main); font-weight: 500; font-size: 2.16rem; color: #fff;}
+
+/* 상품 상세 리뷰 수정 */
+.rv-head .rv-img-item:last-child {}
+.rv-head .rv-img-item:last-child .rv-img {}
+.rv-head .rv-img-item:last-child .rv-img::before {content: '더보기+'; background-color: rgba(0,0,0,0.4); position: absolute; top: 0; left: 0; right: 0; bottom: 0; font-weight: 600; font-size: 2.16rem; color: #fff; display: flex; align-items: center; justify-content: center; z-index: 1;}
+
+/* 상품 리뷰 리스트 */
+.review-wrap {}
+.review-wrap .review-list {font-size: 0;}
+.review-wrap .review-list li {display: inline-block; vertical-align: top; width: 33.33%; padding-bottom: 0.16rem;}
+.review-wrap .review-img {display: block; font-size: 0; position: relative; height: 0; padding-bottom: 100%; overflow: hidden;}
+.review-wrap .review-img img {position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 100%;}
+.rv-pop-img-box {}
+.rv-pop-img-box img {width: 100%;}
+
+#rv-popup {max-height: calc(100% - 50rem);}
