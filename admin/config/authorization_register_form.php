@@ -54,6 +54,7 @@ foreach ($user_constants as $key => $value) {
   <input type="hidden" name="q1" value="<?php echo $q1; ?>">
   <input type="hidden" name="page" value="<?php echo $page; ?>">
   <input type="hidden" name="w" value="<?php echo $w ?>">
+  <input type="hidden" name="token" value="">
   <?php if ($w != '') { ?>
     <input type="hidden" name="idx" value="<?php echo $_GET['idx'] ?>">
   <?php } ?>
@@ -161,7 +162,7 @@ foreach ($user_constants as $key => $value) {
   </table>
   </div>
   <div class="btn_confirm">
-    <input type="submit" value="저장" class="btn_medium red" accesskey="s">
+    <input type="submit" value="저장" id="btn_submit" class="btn_medium red" accesskey="s">
   </div>
 </form>
 
@@ -169,11 +170,19 @@ foreach ($user_constants as $key => $value) {
   function fregisterform_submit(f) {
     const w = document.querySelector("input[name='w']").value;
     
+    var token = get_ajax_token();
+    if(!token) {
+      alert("토큰 정보가 올바르지 않습니다.");
+      return;
+    }
+	  addHidden(f, 'token', token);
+  
     if(w == '' && f.auth_title.value.length < 1 ) {
       alert("명칭을 입력하여 주십시오.");
       f.auth_title.focus();
       return false;
     }
+
     return true;
   }
 </script>

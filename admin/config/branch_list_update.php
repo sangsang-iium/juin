@@ -2,10 +2,9 @@
 include_once("./_common.php");
 
 
-print_r2($_POST);
-// check_demo();
+check_demo();
 
-// check_admin_token();
+check_admin_token();
 
 $count = count($_POST['chk']);
 if(!$count) {
@@ -30,7 +29,7 @@ if($_POST['act_button'] == "선택삭제")
     $mn_region_row = sql_fetch($mn_region_sql);
 
     if($mn_region_row['cnt'])
-      alert("담당자 및 지부정보에 저장된 지회정보는 삭제할 수 없습니다.");
+      alert("담당직원 및 지부정보에 저장된 지회정보는 삭제할 수 없습니다.");
 
     sql_query(" DELETE FROM kfia_branch WHERE branch_idx = '{$branch_idx}' ");
 	}

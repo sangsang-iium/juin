@@ -6,7 +6,7 @@
 .empty_box {padding: 2rem; font-size: 1.8rem; font-weight: 500; color: var(--color-gray3); text-align: center; background-color: var(--color-gray);}
 
 /* Typography */
-.tp-expl {font-size: 2.16rem; font-weight: 500; color: var(--color-gray2); line-height: normal;}
+.tp-expl {font-size: 1.92rem; font-weight: 500; color: var(--color-gray2); line-height: normal;}
 
 /* Buttons */
 .ui-btn {display: block; border: 0; background: none; text-align: center;}
@@ -38,7 +38,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .ui-btn[data="stIconLeft2"] {padding-left: 1rem; padding-right: 1rem; align-items: center; justify-content: space-between;}
 .ui-btn[data="stIconRight2"] {padding-left: 1rem; padding-right: 1rem; align-items: center; justify-content: space-between;}
 
-.ui-btn.more {position: relative; padding-right: 1.52rem; font-size: 2.24rem; font-weight: 500; color: var(--color-gray3); line-height: normal;}
+.ui-btn.more {position: relative; padding-right: 1.52rem; font-size: 1.92rem; font-weight: 500; color: var(--color-gray3); line-height: normal;}
 .ui-btn.more:after {content: ""; display: block; width: 0.72rem; height: 1.28rem; margin-top: -0.64rem; position: absolute; top: 50%; right: 0; z-index: 1; background: url('../img/arrow-right2.svg') no-repeat center/contain;}
 
 .ui-btn.moreLong {display: flex; align-items: center; justify-content: center; width: 100%; height: 7.2rem; border: 0.16rem solid #ddd; background-color: #fff;}
@@ -194,13 +194,13 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .cp-item .prod-thumb_area {}
 .prod-thumb_area .thumb {display: block; position: absolute; top: 0; left: 0; z-index: 1; width: 100%; height: 100%;}
 .prod-thumb_area .thumb img {width: 100%; height: 100%; object-fit: cover; max-width: none;}
-.prod-thumb_area .wish-btn {position: absolute; bottom: 0.8rem; right: 0.8rem; z-index: 10; width: 5rem; height: 5rem; border-radius: 50%; background: url('../img/wish.png') no-repeat center/2.5rem auto, rgba(0,0,0,0.5);}
+.prod-thumb_area .wish-btn {position: absolute; bottom: 0.8rem; right: 0.8rem; z-index: 10; width: 4rem; height: 4rem; border-radius: 50%; background: url('../img/wish.png') no-repeat center/2rem auto, rgba(0,0,0,0.5);}
 .prod-thumb_area .wish-btn.on {background: url('../img/wish-fill.png') no-repeat center/2.5rem auto, var(--color-white);}
-.prod-thumb_area .num {display: none; position: absolute; top: 0; left: 0; z-index: 5; width: 3.664rem; height: 4rem; line-height: 4rem; border-radius: 1.67rem 0 1.67rem 0; font-size: 1.8rem; font-weight: 600; color: var(--color-white); background-color: var(--color-black3); text-align: center;}
+.prod-thumb_area .num {display: none; position: absolute; bottom: 0; left: 0; z-index: 5; width: 3.664rem; height: 4rem; line-height: 4rem; border-radius: 0 1.67rem 0 1.67rem; font-size: 1.8rem; font-weight: 600; color: var(--color-white); background-color: var(--color-black3); text-align: center;}
 .prod-thumb_area .cp-timer {position: absolute; bottom: 0; left: 0; z-index: 5; width: 100%; height: 4.67rem; line-height: 4.67rem; font-size: 2.15rem; font-weight: 700; color: var(--color-white); text-align: center; background-color: rgba(0,0,0,0.5);}
 .prod-info_area {display: block;}
 .cp-item .prod-info_area {margin-top: 1.28rem;}
-.prod-info_area .name {margin-bottom: 0.8rem; font-size: 2.16rem; font-weight: 500; color: var(--color-black3); line-height: 1.36; max-height: 2.72em;}
+.prod-info_area .name {margin-bottom: 0.8rem; font-size: 1.92rem; font-weight: 500; color: var(--color-black3); line-height: 1.36; max-height: 2.72em;}
 .prod-info_area .dc-price {margin-bottom: 0.8rem; font-size: 2.24rem; font-weight: 400; color: var(--color-gray3); line-height: 1; text-decoration: line-through;}
 .prod-info_area .price-box {font-size: 0;}
 .prod-info_area .dc-percent {margin-right: 0.8rem; font-size: 2.96rem; font-weight: 700; color: var(--color-main); line-height: 1;}
@@ -243,7 +243,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .cp-live .thumb {display: block; position: absolute; top: 0; left: 0; z-index: 1; width: 100%; height: 100%;}
 .cp-live .prod-thumb_area:before {content: ""; display: block; position: absolute; top: 0; left: 0; z-index: 2; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%); opacity: 0.5;}
 .cp-live .thumb img {width: 100%; height: 100%; object-fit: cover; max-width: none;}
-.cp-live .prod-info_area {display: flex; flex-direction: column; justify-content: space-between; align-content: flex-start; align-items: flex-start; position: absolute; top: 0; left: 0; z-index: 10; width: 100%; height: 100%; padding: 1.17rem 1rem 3.4rem 1rem;}
+.cp-live .prod-info_area {display: flex; flex-direction: column; justify-content: space-between; align-content: flex-start; align-items: flex-start; position: absolute; top: 0; left: 0; z-index: 10; width: 100%; height: 100%; padding: 1.17rem 1rem 3rem 1rem;}
 .cp-live .live-reserv {overflow: hidden; display: flex; flex-flow: row wrap; align-items: center; min-width: 22.8rem; max-width: 100%; height: 4rem; font-size: 0; background-color: rgba(0,0,0,0.6); text-align: center;}
 .cp-live .live-reserv .t1 {display: flex; align-items: center; justify-content: center; width: 7.36rem; height: 100%; font-size: 1.87rem; font-weight: 600; color: var(--color-white); background-color: #ff4218;}
 .cp-live .live-reserv .t2 {display: flex; align-items: center; justify-content: center; width: calc(100% - 7.36rem); height: 100%; padding: 1rem; font-size: 1.93rem; font-weight: 600; color: var(--color-white);}
@@ -285,7 +285,7 @@ a.ui-btn.sizeS {line-height: 3.5rem;}
 .cp-timer {}
 .cp-timer-wrap {font-size: 0;}
 .cp-timer__icon {display: inline-block; width: 2.56rem; height: 2.56rem; margin-top: 0.08rem; margin-right: 0.8rem; background-repeat: no-repeat; background-position: center; background-size: contain; background-image: url('../img/time.png'); vertical-align: middle; line-height: 1;}
-.cp-timer__num {display: inline-block; font-size: 2.56rem; font-weight: 700; color: var(--color-black3); vertical-align: middle; line-height: 1;}
+.cp-timer__num {display: inline-block; font-size: 2.2rem; font-weight: 700; color: var(--color-black3); vertical-align: middle; line-height: 1;}
 .cp-timer__text {display: inline-block; margin-left: 0.2rem; font-size: 2.48rem; font-weight: 600; color: var(--color-black3); vertical-align: middle; line-height: 1;}
 .cp-timer-wrap.white .cp-timer__icon {background-image: url('../img/time-white.png');}
 .cp-timer-wrap.white .cp-timer__num {color: var(--color-white);}

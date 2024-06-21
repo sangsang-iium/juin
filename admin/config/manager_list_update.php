@@ -24,7 +24,7 @@ if($_POST['act_button'] == "선택삭제")
 
 		$row = sql_fetch(" SELECT COUNT(*) AS cnt FROM shop_member WHERE ju_manager = '{$mn_idx}' ");
 		if($row['cnt'])
-			alert("배정된 회원이 있을 경우 삭제할 수 없습니다.\\n\\n 배정된 회원의 담당자를 정보를 먼저 삭제하여 주십시오.", BV_ADMIN_URL."/member.php?code=list&sfl=ju_manager&stx={$mn_info_row['name']}");
+			alert("배정된 회원이 있을 경우 삭제할 수 없습니다.\\n\\n 배정된 회원의 담당직원 정보를 먼저 삭제하여 주십시오.", BV_ADMIN_URL."/member.php?code=list&sfl=ju_manager&stx={$mn_info_row['name']}");
 
 		
 		sql_query(" DELETE FROM shop_manager WHERE index_no = '$mn_idx' ");

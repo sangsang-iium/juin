@@ -19,13 +19,13 @@ if($_POST['act_button'] == "선택삭제")
 
 		$auth_idx = trim($_POST['idx'][$k]);
 
-    // 쿼리 수정 _20240608_SY
+    // 쿼리 수정 _20240608_SY -> 쿼리 수정 _20240620_SY
 		$row = sql_fetch(" SELECT COUNT(*) as cnt FROM shop_manager AS mng
-                           LEFT JOIN kfia_region AS kf
-                                  ON (mng.region_idx = kf.kf_idx)
+                           LEFT JOIN kfia_office AS kf
+                                  ON (mng.ju_region3 = kf.office_code)
                                WHERE kf.auth_idx = {$auth_idx} ");
 		if($row['cnt'])
-			alert("이 권한을 사용하는 담당자가 있을 경우 삭제할 수 없습니다.\\n\\n이 권한을 사용중인 담당자의 권한을 먼저 삭제하여 주십시오.", BV_ADMIN_URL."/config.php?code=manager_list&sfl=auth_idx&stx=$auth_idx");
+			alert("이 권한을 사용하는 담당직원이 있을 경우 삭제할 수 없습니다.\\n\\n이 권한을 사용중인 담당직원의 권한을 먼저 삭제하여 주십시오.", BV_ADMIN_URL."/config.php?code=manager_list&sfl=auth_idx&stx=$auth_idx");
 
 		
 		sql_query(" DELETE FROM authorization WHERE auth_idx = '$auth_idx' ");

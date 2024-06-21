@@ -95,7 +95,7 @@ EOF;
           <td>
             <div class="btn_wrap">
                 <a href="/admin/config.php?code=authorization_register_form&amp;w=u&amp;idx=<?php echo $row['auth_idx'] ?>" class="btn_fix bg_type1"><span>수정</span></a>
-                <a href="/admin/config/authupdate.php?w=d&amp;idx=<?php echo $row['auth_idx']?>" class="btn_del bg_type2"><span>삭제</span></a>
+                <a href="/admin/config/authupdate.php?w=d&amp;idx=<?php echo $row['auth_idx']?>" class="btn_del bg_type2" onclick="del_btn(event)"><span>삭제</span></a>
             </div>
           </td>
         </tr>
@@ -114,6 +114,18 @@ echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAM
 
 <script>
   sessionStorage.removeItem("id_duChk");
+  
+  // 개별삭제 Token추가 _20240620_SY
+  function del_btn(e) {
+    e.preventDefault();
+    
+    var token = get_ajax_token();
+    var target = e.target.closest('a');
+    var href = target.getAttribute('href');
+    var url = href + "&token=" + token;
+
+    window.location.href = url; 
+  };
   
   function fmanagerlist_submit(f) {
     if (!is_checked("chk[]")) {

@@ -76,7 +76,7 @@ EOF;
                     <select name="sfl">
                         <?php echo option_selected('a.company_name', $sfl, '공급사명'); ?>
                         <?php echo option_selected('a.seller_code', $sfl, '업체코드'); ?>
-                        <?php echo option_selected('a.info_name', $sfl, '담당자명'); ?>
+                        <?php echo option_selected('a.info_name', $sfl, '담당직원'); ?>
                         <?php echo option_selected('a.company_owner', $sfl, '대표자명'); ?>
                         <?php echo option_selected('a.mb_id', $sfl, '아이디'); ?>
                         <?php echo option_selected('b.name', $sfl, '회원명'); ?>
