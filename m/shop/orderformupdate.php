@@ -404,7 +404,7 @@ for ($i = 0; $i < count($gs_id); $i++) {
 				 , pt_id				    = '{$_POST['pt_id']}'
 				 , shop_id				  = '{$_POST['shop_id']}'
 				 , od_mobile			  = '1'
-				 , bank_code			  = '{$_POST['bank_code']}';
+				 , bank_code			  = '{$_POST['bank_code']}'
          $reg_order_query
          ";
 
