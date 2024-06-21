@@ -40,11 +40,15 @@ $user_constants = $constants['user'];
 
 // 패턴에 맞는 상수를 저장할 배열 초기화
 $admin_menus = [];
+$admin_menus_sub = [];
 
 // 패턴에 맞는 상수를 찾고 배열에 추가
 foreach ($user_constants as $key => $value) {
   if (preg_match('/^ADMIN_MENU([1-9]|1[0-2])$/', $key)) {
     $admin_menus[$key] = $value;
+  } 
+  if (preg_match('/^ADMIN_MENU([1-9]|1[0-2])_\d{2}$/', $key)) {
+    $admin_menus_sub[$key] = $value;
   }
 }
 
