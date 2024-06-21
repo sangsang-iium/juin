@@ -274,12 +274,19 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               if(sizeof($reviewTotalImgArr) > 0) {
                 foreach ($reviewTotalImgArr as $reviewImg) {
             ?>
-              <a href="javascript:void(0);" class="rv-img-item">
-                <div class="rv-img">
-                  <img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
-                </div>
-              </a>
+            <a href="javascript:void(0);" class="rv-img-item">
+              <div class="rv-img">
+                <img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
+              </div>
+            </a>
             <?php } } ?>
+            <!-- 리뷰 더보기로 이동 추가 { -->
+            <a href="/m/review/list.php" class="rv-img-item">
+              <div class="rv-img">
+                <img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
+              </div>
+            </a>
+            <!-- } 리뷰 더보기로 이동 추가 -->
 
           </div>
         </div>

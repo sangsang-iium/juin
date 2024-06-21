@@ -186,12 +186,12 @@ EOF;
 		<th scope="col">수량</th>
 		<th scope="col">상품금액</th>
 		<th scope="col">배송비</th>
+    <th scope="col">결제방법</th>
 		<th scope="col">주문상태</th>
 		<th scope="col">판매자</th>
 		<th scope="col">주문자</th>
 		<th scope="col">수령자</th>
 		<th scope="col">총주문액</th>
-		<th scope="col">결제방법</th>
 		<th scope="col">가맹점</th>
 	</tr>
 	</thead>
@@ -253,6 +253,9 @@ EOF;
 		<td><?php echo number_format($row2['sum_qty']); ?></td>
 		<td class="tar"><?php echo number_format($row2['goods_price']); ?></td>
 		<td class="tar"><?php echo number_format($row2['baesong_price']); ?></td>
+    <?php if($k==0) { ?> 
+    <td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
+    <?php } ?>
 		<td><?php echo $gw_status[$row2['dan']]; ?></td>
 		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
 		<?php if($k == 0) { ?>
@@ -262,7 +265,6 @@ EOF;
 		</td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row['b_name']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
-		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_pt_id']; ?></td>
 		<?php } ?>
 	<?php

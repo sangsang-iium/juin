@@ -89,7 +89,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 					<div class="cp-btnbar">
 						<div class="container">
 							<div class="cp-btnbar__btns">
-								<input type="submit" value="본인인증" class="ui-btn round stBlack">
+								<input type="submit" value="약관동의" class="ui-btn round stBlack">
 							</div>
 						</div>
 					</div>

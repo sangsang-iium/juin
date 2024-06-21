@@ -83,7 +83,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <!-- } 상품 카테고리 바로가기 -->
 
 <!-- 관련 서비스 바로가기 { -->
-<div class="container section main_service">
+<!-- <div class="container section main_service">
   <div class="main-service_wrap">
     <a href="/m/used/list.php?menu=used" class="box box1">
       <div class="box_in">
@@ -110,7 +110,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
     </a>
   </div>
-</div>
+</div> -->
 <!-- } 관련 서비스 바로가기 -->
 
 <!-- 베스트 상품 { -->

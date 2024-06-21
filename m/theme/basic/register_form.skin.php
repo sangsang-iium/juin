@@ -62,16 +62,16 @@ if(!defined('_BLUEVATION_')) exit;
     <div class="joinDetail-box">
       <div class="container">
         <div class="joinDetail-head">
-          <p class="joinDetail-title">담당자 등록</p>
-          <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">담당자 조회하기</button>
+          <p class="joinDetail-title">담당직원 등록</p>
+          <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">담당직원 조회하기</button>
           <!-- 담당자 조회하기 팝업 { -->
           <div class="popup type01" id="popMemberSch">
             <div class="pop-inner">
               <div class="pop-top">
-                <p class="tit">담당자 조회하기</p>
+                <p class="tit">담당직원 조회하기</p>
               </div>
               <div class="pop-search input-button">
-                <input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="담당자 코드를 입력해주세요.">
+                <input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="담당직원 사번을 입력해주세요.">
                 <button type="button" class="ui-btn st3" onclick="getManager()">조회</button>
               </div>
               <div class="pop-content line">
@@ -92,7 +92,7 @@ if(!defined('_BLUEVATION_')) exit;
         <div class="joinDetail-body">
           <div class="form-row">
             <div class="form-head">
-              <p class="title">담당자<b>*</b></p>
+              <p class="title">담당직원<b>*</b></p>
             </div>
             <div class="form-body">
               <input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="<?php echo $mng_sel_row['name']; ?>" placeholder="홍길동" readonly>
@@ -929,7 +929,7 @@ function getManager() {
         for(let i=0; i<data.res.length; i++) {
           html += '<div class="pop-result-item">';
           html += '<p class="pop-result-title">' + data.res[i].name + '</p>';
-          html += '<p class="pop-result-text">담당자코드 : ' + data.res[i].id + '</p>';
+          html += '<p class="pop-result-text">직원사번 : ' + data.res[i].id + '</p>';
           html += '<p class="pop-result-text">지회/지부 : ' + data.res[i].branch_name +'/'+ data.res[i].office_name + '</p>';
           html += '<input type="hidden" class="pop-result-text" value="'+ data.res[i].index_no +'">';
           html += '</div>';
