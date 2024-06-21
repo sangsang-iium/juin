@@ -1143,3 +1143,9 @@
 .rv-pop-img-box img {width: 100%;}
 
 #rv-popup {max-height: calc(100% - 50rem);}
+
+/* 카테고리 메뉴추가 */
+.all-ct-wrap {}
+.all-ct-wrap .main-service_wrap {padding: 2rem 0;}
+.all-ct-wrap .main-service_wrap .name {margin-top: 0;}
+.all-ct-wrap .main-service_wrap .box {height: auto; padding: 1rem 0; border-radius: 1rem;}
