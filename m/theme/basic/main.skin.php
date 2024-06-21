@@ -183,11 +183,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       <div class="swiper-wrapper">
         <?php echo mobile_display_today_goods_with_slide('2', '20', 'container left main_popular-slide') ?>
       </div>
-      <div class="swiper-control2">
+      <!-- <div class="swiper-control2">
         <button type="button" class="arrow prev"></button>
         <div class="pagination"></div>
         <button type="button" class="arrow next"></button>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="container bottom_box">
@@ -240,21 +240,37 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           $liveListCount++;
           } }
         ?>
+        <!-- 종료 추가 { -->
+        <a href="" class="swiper-slide cp-live live-off">
+          <div class="round50 prod-thumb_area">
+            <div href="" class="thumb">
+              <img src="/data/live/S7gTpPDgAX5ZHVrZdZJHU9s5vqS9xm.jpg" alt="">
+            </div>
+          </div>
+          <div class="prod-info_area">
+            <div class="round60 live-reserv">
+              <span class="round60 t1">종료</span>
+              <span class="t2">06/20 오전 00:00</span>
+            </div>
+            <div class="live-title">테스트5</div>
+          </div>
+        </a>
+        <!-- } 종료 추가 -->
       </div>
       <?php if($liveListSize > 3) {?>
-      <div class="swiper-control2">
+      <!-- <div class="swiper-control2">
         <button type="button" class="arrow prev swiper-button-disabled" disabled="" tabindex="-1" aria-label="Previous slide" aria-controls="swiper-wrapper-5adc34597a07ad06" aria-disabled="true"></button>
         <div class="pagination swiper-pagination-custom swiper-pagination-horizontal"><span class="current">1</span><span class="bar">|</span><span class="total">3</span></div>
         <button type="button" class="arrow next" tabindex="0" aria-label="Next slide" aria-controls="swiper-wrapper-5adc34597a07ad06" aria-disabled="false"></button>
-      </div>
+      </div> -->
       <?php } ?>
     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
   </div>
-  <div class="container bottom_box">
+  <!-- <div class="container bottom_box">
     <a href="" class="ui-btn round moreLong">
       <span class="text">전체보기</span>
     </a>
-  </div>
+  </div> -->
 </div>
 <!-- } 라이브 -->
 
