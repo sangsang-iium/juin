@@ -83,11 +83,11 @@ $sqlCnt      = " select * $sql_common";
 
 $resCnt      = sql_query($sqlCnt);
 $total_count = 0;
-print_r($member['addr1']);
+
 while ($rowCntData = sql_fetch_array($resCnt)) {
-  if (!memberGoodsAble($member['addr1'], $rowCntData['zone'])) {
-    continue;
-  }
+  // if (!memberGoodsAble($member['addr1'], $rowCntData['zone'])) {
+  //   continue;
+  // }
   $total_count++;
 }
 

@@ -37,7 +37,7 @@ set_session('myLocation', $myLocation);
 		<div class="intro-btn-list">
       <a href="/" class="intro-btn left-btn intro-btn01">
         <div class="text-box">
-          <p class="text01">장보기</p>
+          <p class="text01">식자재마켓</p>
           <p class="text02">믿을 수 있는 다양한 <br>종합 식자재몰</p>
         </div>
         <!-- <div class="icon">

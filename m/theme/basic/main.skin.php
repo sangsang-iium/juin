@@ -137,7 +137,8 @@ if (!defined("_BLUEVATION_")) {
       </div>
     </div>
     <div class="right">
-      <a href="<?php echo BV_MSHOP_URL; ?>/list.php?ca_id=005" class="ui-btn more">전체보기</a>
+      <!-- <a href="<?php echo BV_MSHOP_URL; ?>/list.php?ca_id=005" class="ui-btn more">전체보기</a> -->
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=5" class="ui-btn more">전체보기</a>
     </div>
   </div>
   <?php echo mobile_slide_goods('5', '20', 'container left main_best-slide'); ?>
