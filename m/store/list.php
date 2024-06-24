@@ -49,7 +49,7 @@ const usedMenu = f.hrizonMenu(usedMenuTarget, usedMenuActive);
 
 
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?php echo $default['de_kakao_js_apikey'] ?>&libraries=services,clusterer"></script>
 <?php echo BV_POSTCODE_JS ?>
 <?php
     // $myLocation = json_encode($_SERVER['HTTP_MYLOCATION']);
@@ -84,13 +84,21 @@ mapOption = {
 };
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
+//클러스터러를 생성합니다
+var clusterer = new kakao.maps.MarkerClusterer({
+    map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+    averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+    minLevel: 5 // 클러스터 할 최소 지도 레벨
+}); 
+
 //지도중심변경
 kakao.maps.event.addListener(map, 'idle', function() {
     var level = map.getLevel();
     var latlng = map.getCenter();
     user_lat = latlng.getLat();
     user_lng = latlng.getLng();
-    //console.log(user_lat+'/'+user_lng)
+    //console.log(level+'/'+user_lat+'/'+user_lng);
+    showMarkers();
 });
 
 var markers = [];
@@ -109,19 +117,24 @@ function addMarker(positions){
             title : positions[i].title,
             image : markerImage
         });
-
         markers.push(marker);
     }
 
     showMarkers();
 }
-function setMarkers(map) {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
+function setMarkers(map, level) {
+    if(level > 4){       
+        clusterer.addMarkers(markers);
+    } else {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
     }
+    console.log(level)
 }
 function showMarkers() {
-    setMarkers(map);
+    var level = map.getLevel();
+    setMarkers(map, level);
 }
 function hideMarkers() {
     setMarkers(null);

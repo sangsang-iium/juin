@@ -222,3 +222,151 @@
 }
 
 /* E.공급사 로그인_김민규 */
+
+
+/* S. 결제 페이지_김민규 */
+[class^="order_wrap"]{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap:30px;
+    background-color:#f2f2f2;
+    padding:30px;
+    box-sizing: border-box;
+}
+[class^="order_wrap"] .order_left{
+    width:900px;
+}
+[class^="order_wrap"] .order_box{
+    background-color: #fff;
+    padding:30px;
+    margin-top:30px;
+    position: relative;
+}
+[class^="order_wrap"] .order_box:first-child{
+    margin-top:0px
+}
+[class^="order_wrap"] .order_box .order_title{
+    font-size:22px;
+    font-weight: 700;
+    margin-bottom:40px;
+}
+[class^="order_wrap"] .cp-cart .thumb{
+    border-radius: 5px;
+}
+[class^="order_wrap"] .cp-cart .name{
+    font-size:18px;
+}
+[class^="order_wrap"] .cp-cart .info{
+    margin-top:2px;
+}
+[class^="order_wrap"] .cp-cart .price{
+    margin-top:10px;
+}
+[class^="order_wrap"] .cp-cart .set > div{
+    font-size:18px;
+    color:#999;
+}
+
+[class^="order_wrap"] .info-item .tit{
+    font-size:18px;
+    flex-shrink: 0;
+}
+
+[class^="order_wrap"] .frm_input{
+    font-size:16px !important
+}
+
+[class^="order_wrap"] .info-item ~ .info-item{
+    margin-top:20px;
+}
+[class^="order_wrap"] .od-dtn__name .nm{
+    font-size:18px;
+}
+[class^="order_wrap"] .od-dtn__name .tag{
+    font-size:14px;
+    line-height:28px;
+    height: 28px;
+}
+[class^="order_wrap"] .od-dtn__contact{
+    font-size:16px;
+}
+[class^="order_wrap"] .od-dtn__addr{
+    margin-top: 10px;
+}
+[class^="order_wrap"] #od-dtn .od-dtn-btns{
+    position: absolute;
+    right:30px;
+    top:30px;
+    padding-top:0;
+    width: auto;
+}
+[class^="order_wrap"] #od-dtn .od-dtn-btns > button{
+    border-radius:5px;
+    height:auto;
+    font-size:14px;
+    padding:8px 17px;
+}
+[class^="order_wrap"] .coupon_box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+[class^="order_wrap"] .form-row .form-head .title{
+    font-size:18px;
+}
+[class^="order_wrap"] .form-itxt p{
+    font-size:15px;
+}
+[class^="order_wrap"] #dc_coupon .ui-btn{
+    font-size:16px;
+    font-weight:400;
+    letter-spacing: -0.5px;
+}
+[class^="order_wrap"] #dc_coupon .ui-btn span{
+    font-weight:700;
+    font-size:18px;
+}
+
+[class^="order_wrap"] .order_right{
+    position: sticky;
+    top:30px;
+    right:0;
+}
+[class^="order_wrap"] #od-prc .prc-tot .lt-txt,
+[class^="order_wrap"] #od-prc .prc-tot .rt-txt,
+[class^="order_wrap"] #od-prc .prc-tot > li.rst .rt-txt{
+    font-size:18px;
+}
+
+[class^="order_wrap"] #od-prc .prc-tot > li.rst input[name='tot_price']{
+    font-size:26px;
+}
+
+[class^="order_wrap"] #od-prc .prc-tot > li.rst .rt-txt{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+#buyform [class^="order_wrap"] .btn_confirm{
+    position: static;
+    border-radius: 0;
+    margin-top:20px;
+    background-color:transparent;
+    box-shadow: none;
+    padding:0;
+}
+[class^="order_wrap"] #bank_section{
+    margin-top:50px !important
+}
+[class^="order_wrap"] .tax_info_box{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap:15px;
+}
+[class^="order_wrap"] #od-pay #taxsave_section .tax_info_box div[id^=taxsave_fld]{
+    margin-top: 0;
+}
+
+/* E. 결제 페이지_김민규 */

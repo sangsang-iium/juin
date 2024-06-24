@@ -119,6 +119,14 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             group by gs_id
             order by index_no ";
       $result = sql_query($sql);
+
+        //포인트 관련 부분 수정  박원주
+
+        $sq = "select * from shop_member_grade where gb_no='{$member['grade']}'";
+        $gpointFetch=sql_fetch($sq);
+        $gpoint = $gpointFetch['gb_point'];
+          //포인트 관련 부분 수정  박원주
+
       for ($i = 0; $row = sql_fetch_array($result); $i++) {
         $raffleCheck = false;
         if($row['raffle'] == 1) {
@@ -153,8 +161,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
         $it_name = stripslashes($gs['gname']);
         $it_options = mobile_print_item_options($row['gs_id'], $set_cart_id);
-
-        $point = $sum['point'];
+          
+        // $point = $sum['point']; // 주석처리 박원주
+        //포인트 관련 부분 수정  박원주
+          $point +=$gpoint;
+        //
         $supply_price = $sum['supply_price'];
         $sell_price = $sum['price'];
         $sell_opt_price = $sum['opt_price'];

@@ -20,7 +20,7 @@ $sql_search = " where mm.id <> 'admin' ";
 // manager join 추가 _20240531_SY
 $sql_join = " LEFT JOIN shop_manager AS mn
                      ON (mm.ju_manager = mn.index_no) ";
-                     
+
 
 // Search > AliasFunc 추가 _20240610_SY
 function addAliasFunc($column)
@@ -86,7 +86,7 @@ if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
   if($mn_row['grade'] < 3) {
     $b_master_sql = " SELECT index_no, id, name, grade, ju_region1, ju_region2, ju_region3
                         FROM shop_manager
-                       WHERE ju_region2 = (SELECT ju_region2 FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}') 
+                       WHERE ju_region2 = (SELECT ju_region2 FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}')
                          AND grade > (SELECT grade FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}')" ;
     $b_master_res = sql_query($b_master_sql);
     $addIn = "";
@@ -194,7 +194,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
           <th scope="row">휴/폐업,탈퇴 검색</th>
           <td>
             <ul class="radio_group">
-              <li class="radios"><input type="radio" name="ssd" value="폐업" id="ssd3"><label for="ssd3">휴업</label></li>
+              <li class="radios"><input type="radio" name="ssd" value="휴업" id="ssd3"><label for="ssd3">휴업</label></li>
               <li class="radios"><input type="radio" name="ssd" value="폐업" id="ssd2"><label for="ssd2">폐업</label></li>
               <li class="radios"><input type="radio" name="ssd" value="탈퇴" id="ssd1"><label for="ssd1">탈퇴</label></li>
             </ul>
@@ -289,7 +289,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
   </table>
 </div>
 <div class="local_frm02">
-  <?php //echo $btn_frmline; 
+  <?php //echo $btn_frmline;
   ?>
 </div>
 

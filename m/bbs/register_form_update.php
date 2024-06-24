@@ -338,7 +338,6 @@ if($w == '') {
     $value['ju_off']        = implode("|", $_POST['off']);
     $value['ju_tel']        = $_POST['ju_tel'];
     $value['ju_hp']         = $_POST['ju_hp'];
-    $value['ju_b_num']      = $_POST['ju_b_num'];
   }
     
 	update("shop_member", $value, " where id = '{$member['id']}' ");
@@ -428,7 +427,7 @@ if($w == '') {
 	<meta charset="utf-8">
 	<title>회원정보수정</title>
 	<body>
-	<form name="fregisterupdate" method="post" action="'.BV_MBBS_URL.'">
+	<form name="fregisterupdate" method="post" action="'.BV_MSHOP_URL.'/mypage.php">
 	<input type="hidden" name="w" value="u">
 	<input type="hidden" name="mb_id" value="'.$mb_id.'">
 	<input type="hidden" name="mb_password" value="'.$tmp_password.'">

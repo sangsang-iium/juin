@@ -937,7 +937,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 		</td>
 	</tr> -->
 
-	<tr>
+	<tr style='display:none'>
 		<th scope="row">포인트</th>
 		<td>
 			<input type="text" name="gpoint" value="<?php echo number_format($gs['gpoint']); ?>" class="frm_input w80" onkeyup="addComma(this);"> P

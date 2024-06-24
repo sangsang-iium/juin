@@ -37,6 +37,13 @@ if(!defined('_BLUEVATION_')) exit;
 
 ?>
 
+<style>
+  /* 타임피커 z-index 추가 _20240621_SY */
+.ui-timepicker-container{ 
+  z-index:10 !important; 
+}
+</style>
+
 <!-- 회원정보 입력/수정 시작 { -->
 <script src="<?php echo BV_JS_URL; ?>/jquery.register_form.js"></script>
 <?php if($config['cf_cert_use'] && ($config['cf_cert_ipin'] || $config['cf_cert_hp'])) { ?>
@@ -327,7 +334,7 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="title">사업자등록번호<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w == '') ? formatBno($_POST['IRS_NO']) : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" readonly >              
+              <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w == '') ? formatBno($_POST['IRS_NO']) : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" readonly>              
               <!-- <div class="joinDetail-btn-box joinDetail-btn-box3">
                 <button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
                 <button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
@@ -423,7 +430,7 @@ if(!defined('_BLUEVATION_')) exit;
           </div>
           <div class="form-row store_info">
             <div class="form-head">
-              <p class="title">매장 썸네일 사진</p>
+              <p class="title">매장 외부 사진 (jpg, gif, png)</p>
             </div>
             <div class="form-body">
               <input type="file" name="ju_mimg" id="ju_mimg" class="frm-file w-per100">
@@ -436,25 +443,39 @@ if(!defined('_BLUEVATION_')) exit;
           </div>
           <div class="form-row store_info">
             <div class="form-head">
-              <p class="title">매장 상세 사진</p>
+              <p class="title">매장 내부 사진 (jpg, gif, png)</p>
             </div>
             <div class="form-body">
+              <!-- <ul class="form-file_box"> -->
+                <!-- <li class="view">
+                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
+                </li> -->
+          <!-- </ul> -->
               <ul class="form-file_box">
-                <li class="view">
-                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
-                </li>
-                <li>
-                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
-                </li>
-                <li>
-                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
-                </li>
-                <li>
-                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
-                </li>
-                <li>
-                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
-                </li>
+                <?php
+                  $sub_imgs = explode("|", $member['ju_simg']);
+                  $sub_imgs = array_filter($sub_imgs);
+                  $sub_imgs = array_values($sub_imgs);
+                  for ($i = 0; $i < 5; $i++) {
+                    echo '<li><input type="file" name="ju_simg[]" class="frm-file w-per100">';
+                    if ($sub_imgs[$i]) {
+                      echo '<div class="img_container"><img src="' . BV_DATA_URL . '/member/' . $sub_imgs[$i] . '" class="w90p"> &nbsp; <span class="image_del curp fs18" data-img_name="' . $sub_imgs[$i] . '">X</span></a>';
+                    }
+                    echo '</li>';
+                  }
+                ?>
               </ul>
               <button type="button" class="ui-btn st2 w-per100 frm-file-add_btn" data="stIconRight">
                 <span class="txt">상세 사진 추가</span>
@@ -631,6 +652,13 @@ $(document).ready(function(){
     }
   });
 
+  let work1 = document.querySelector('#work1').value;
+  let work2 = document.querySelector('#work2').value;
+  let break1 = document.querySelector('#break1').value;
+  let break2 = document.querySelector('#break2').value;
+  
+
+
   // 시간선택
   $('.timepicker').timepicker({
     timeFormat: 'h:mm p',
@@ -643,6 +671,12 @@ $(document).ready(function(){
     dropdown: true,
     scrollbar: true,
   });
+
+  $('#work1').val(work1);
+  $('#work2').val(work2);
+  $('#break1').val(break1);
+  $('#break2').val(break2);
+
 
   // 비밀번호 확인 일치여부
   $('#reg_mb_password_re').on('input', function() {

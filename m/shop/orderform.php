@@ -30,6 +30,7 @@ if($is_member) { // 회원일때
 add_javascript(BV_POSTCODE_JS, 0);    //다음 주소 js
 
 $order_action_url = BV_HTTPS_MSHOP_URL.'/orderformupdate.php';
+///home/juin/www/m/theme/basic/orderform.skin.php
 include_once(BV_MTHEME_PATH."/orderform.skin.php");
 
 include_once("./_tail.php");
