@@ -30,16 +30,17 @@ include_once "_common.php";
 
 
 /* 비밀번호 암호화 */
-// $mem_sel = " SELECT * FROM shop_member where index_no >= 52524 ";
+// $mem_sel = " SELECT * FROM shop_manager where index_no = 18 ";
 // $mem_res = sql_query($mem_sel);
 // while($mem_row = sql_fetch_array($mem_res)) {
 //   $pw = get_encrypt_string($mem_row['passwd']);
 
-//   $update_query = " UPDATE shop_member SET 
+//   $update_query = " UPDATE shop_manager SET 
 //                           passwd = '{$pw}'
 //                      WHERE index_no = '{$mem_row['index_no']}' ";
 //   sql_query($update_query);
 // }
+
 
 
 
@@ -64,4 +65,23 @@ include_once "_common.php";
 //     $update_query = "UPDATE shop_member SET addr1 = '{$newAddr}' WHERE index_no = '{$mem_row['index_no']}'";
     
 //     sql_query($update_query);
+// }
+
+
+
+/* grade, reg_time, auth 변경 */
+// $mem_sel = " SELECT * FROM shop_manager where index_no >= 18 ";
+// $mem_res = sql_query($mem_sel);
+// $now = date('Y-m-d H:i:s');
+// while($mem_row = sql_fetch_array($mem_res)) {
+//   $grade = 3;
+
+//   $update_query = " UPDATE shop_manager SET 
+//                           grade = '{$grade}',
+//                           reg_time = '{$now}',
+//                           auth_6 = '1',
+//                           auth_7 = '1',
+//                           auth_10 = '1'
+//                      WHERE index_no = '{$mem_row['index_no']}' ";
+//   sql_query($update_query);
 // }

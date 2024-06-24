@@ -85,9 +85,10 @@ $auth_res = sql_query($auth_sql);
         <div class="chk_select">
             <select name="areacode" id="areacode" onchange="getBranch(this.value)">
               <option value=''>지역선택</option>
-              <?php while ($regionArr = sql_fetch_array($region_res)) { ?>
+              <?php while ($regionArr = sql_fetch_array($region_res)) { 
+                if($regionArr['areacode'] !== '0') {?>
                 <option value="<?php echo $regionArr['areacode']?>" <?php echo ($w == 'u' && $result['areacode'] == $regionArr['areacode']) ? "selected" : "" ?> ><?php echo $regionArr['areaname'] ?></option>
-              <?php } ?>
+              <?php }} ?>
             </select>
         </div>
     </td>

@@ -150,10 +150,12 @@ $none = "style='display:none;'";
             </div>
           </td>
         </tr>
-        <tr>
+        <!-- 추천인 hidden _20240624_뇨 -->
+        <input type="text" name="mb_recommend" value="admin" id="reg_mb_recommend" >
+        <!-- <tr>
           <th scope="row"><label for="reg_mb_recommend">추천인</label></th>
           <td><input type="text" name="mb_recommend" value="admin" id="reg_mb_recommend" required class="frm_input required w400"></td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   </div>
