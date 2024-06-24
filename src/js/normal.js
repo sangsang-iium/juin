@@ -170,11 +170,6 @@ $(document).ready(function () {
     freeMode: true
   };
   const mainBestSlider = f.slider(mainBestTarget, mainBestOptions);
-  const mainBestAllSlides = mainBestSlider?.swiper.slides;
-
-  mainBestAllSlides?.forEach((slide, index) => {
-    slide.querySelector('.num').innerText = index + 1;
-  });
 
   //Main Recommendation Slide
   const mainRecommTarget = '.main_recomm-slide .swiper-container';

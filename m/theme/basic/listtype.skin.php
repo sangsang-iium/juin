@@ -88,13 +88,22 @@ for($i=0; $i<count($gw_msort); $i++) {
             $is_free_baesong2 = is_free_baesong2($row);
 
             // (시중가 - 할인판매가) / 시중가 X 100 = 할인률%
+            // 20240625 jjh 원래대로 돌려여ㅑ함
             $it_sprice = $sale = '';
-            if($row['normal_price'] > $it_amount && !$is_uncase) {
-              $sett = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
-              $sale = number_format($sett,0).'%';
-              $it_sprice = display_price2($row['normal_price']);
+            if($type==1){
+              if($is_member){
+                $bb        = $it_amount + 2000;
+                $sett      = ($bb - $it_amount) / $bb * 100;
+                $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
+                $it_sprice = number_format($bb);
+              }
+            } else {
+              if($row['normal_price'] > $it_amount && !$is_uncase) {
+                $sett = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
+                $sale = number_format($sett,0).'%';
+                $it_sprice = display_price2($row['normal_price']);
+              }
             }
-
             item_card($row['index_no'], $it_href, $it_imageurl, $it_name, $it_sprice, $sale, $it_price, 'small');
           }
         }

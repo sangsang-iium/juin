@@ -3156,12 +3156,42 @@ function get_od_image($od_id, $it_img, $wpx, $hpx=0)
     if(!$od_id || !$wpx)
 		return '';
 
+		$gs              = get_goods($gs_id, 'gcode');
+		$extensions      = ['jpg', 'jpeg', 'png', 'gif', 'JPG', 'PNG']; // 지원하는 확장자 목록
+		$file_found      = false;
+		$file            = '';
+		$original_it_img = $it_img;
+
 	if(preg_match("/^(http[s]?:\/\/)/", $it_img) == false)
 	{
-		$file = BV_DATA_PATH."/order/".substr($od_id,0,4)."/".$od_id."/".$it_img;
-		if(is_file($file) && $it_img)
+		if (preg_match('/\.(jpg|jpeg|png|gif|JPG|PNG)$/i', $it_img)) {
+			$file = BV_DATA_PATH . "/goods/" . $it_img;
+			if (is_file($file)) {
+				$file_found = true;
+			} else {
+				$filename = pathinfo($it_img, PATHINFO_FILENAME);
+				$dirname  = pathinfo($it_img, PATHINFO_DIRNAME);
+				if ($dirname != '.') { // 경로가 있는 경우
+					$it_img = $dirname . '/' . $filename;
+				}
+				$file = '';
+			}
+		}
+
+		if (!$file_found) {
+			foreach ($extensions as $ext) {
+				$file_with_ext = BV_DATA_PATH . "/goods/" . $it_img . "." . $ext;
+				if (is_file($file_with_ext)) {
+					$file_found = true;
+					$file       = $file_with_ext;
+					$it_img     = $it_img . "." . $ext;
+					break;
+				}
+			}
+		}
+		if ($file_found)
 		{
-            $size = @getimagesize($file);
+			$size = @getimagesize($file);
 			$img_wpx  = $size[0];
 			$img_hpx  = $size[1];
 			$filepath = dirname($file);
@@ -3307,6 +3337,24 @@ function query_itemtype($mb_id, $type, $sql_search, $sql_order)
 	}
 
 	return $result;
+}
+
+// 상품 진열,1
+function display_itemtype_no($type, $mb_id, $rows = '') {
+  $sql = " SELECT * FROM shop_goods
+			  WHERE shop_state = '0'
+				AND isopen IN ('1','2')
+				AND find_in_set('$mb_id', use_hide) = '0'
+				AND ca_id = '{$type}'
+			  order by index_no desc ";
+  if ($rows) {
+    $sql .= " limit $rows ";
+  }
+
+  $result     = sql_query($sql);
+  $type_count = sql_num_rows($result);
+
+  return $result;
 }
 
 // 불법접근을 막도록 토큰을 생성하면서 토큰값을 리턴
