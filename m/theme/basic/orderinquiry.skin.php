@@ -2,6 +2,11 @@
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 ?>
 
+<!-- style 추가 _20240624_SY -->
+<style>
+  .dlcomp { margin-left: 5px;}
+</style>
+
 <div id="contents" class="sub-contents orderList">
   <div class="order-list-wr">
     <div id="smb_order">
@@ -39,8 +44,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             $delivery_str = get_text($dlcomp[0]).' '.get_text($rw['delivery_no']);
           }
 
-          $uid = md5($rw['od_id'].$rw['od_time'].$rw['od_ip']);
-
+         $uid = md5($rw['od_id'].$rw['od_time'].$rw['od_ip']);
          $dan_process =  $row['dan'];
           if($k == 0) {
       ?>
@@ -68,6 +72,12 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </a>
         <div class="content">
           <span class="tag <?php echo $gw_status[$rw['dan']] == '배송중'?'on':'off'; ?>"><?php echo $gw_status[$rw['dan']]; ?></span>
+          <!-- 운송장 추가 _20240624_SY -->
+          <?php if(!empty($rw['delivery']) && !empty($rw['delivery_no'])) { ?>
+            <a href="<?php echo $dlcomp[1].$rw['delivery_no'] ?>" target="_blank" class="dlcomp">
+              <span class="tag off"><?php echo $dlcomp[0] ?></span>
+            </a>
+          <?php } ?>
           <a href="<?php echo $href; ?>" class="name"><?php echo get_text($gs['gname']); ?></a>
           <div class="info">
             <div class="set">
@@ -83,8 +93,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         <?php if($ct['raffle'] != 1) { ?>
         <div class="ord-btn-wr">
           <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
-
+          <!-- 상품후기 작성 버튼 조건문 추가 _20240624_SY -->
+          <?php if(in_array($dan_process, array('5','7','8','9'))) { ?> 
           <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
+          <?php } ?>
 
           <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
           <?php
