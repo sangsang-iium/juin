@@ -9,12 +9,13 @@ include_once(BV_MPATH."/_head.php"); // 상단
       <div class="service-info__head">
         <div class="service-info">
           <p class="tRow2 title">
-            <span class="cname">[신한은행]</span>
-            <span class="subj">주인장 Hi-Point 신한 제휴카드</span>
+            <span class="tag on">신용카드</span>
+            <!-- <span class="cname">[신한은행]</span> -->
+            <span class="subj">Hi-Point 신한 제휴신용카드</span>
           </p>
-          <p class="ex">
+          <!-- <p class="ex">
             <span class="period">2024.01.01~2024.12.31</span>
-          </p>
+          </p> -->
         </div>
         <button type="button" class="ui-btn share-btn"></button>
       </div>

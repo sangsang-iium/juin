@@ -59,7 +59,7 @@ if (!defined("_BLUEVATION_")) {
   <div class="container left main_today-slide">
     <div class="swiper-container">
       <div class="swiper-wrapper">
-        <?php echo mobile_display_today_goods_with_slide('2', '20', 'container left main_popular-slide') ?>
+        <?php echo mobile_display_today_goods_with_slide('1', '20', 'container left main_popular-slide') ?>
       </div>
       <!-- <div class="swiper-control2">
         <button type="button" class="arrow prev"></button>
@@ -96,7 +96,7 @@ if (!defined("_BLUEVATION_")) {
 <!-- } pb 상품 -->
 
 <!-- 띠 배너 1 { -->
-<div class="section line-banner-section line-banner01">
+<div class="section line-banner-section line-banner01" style="display: none;">
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <!-- 배너 { -->
@@ -146,7 +146,7 @@ if (!defined("_BLUEVATION_")) {
 
 
 <!-- 띠 배너 2 { -->
-<div class="section line-banner-section line-banner02">
+<div class="section line-banner-section line-banner02" style="display: none;">
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <!-- 배너 { -->
@@ -183,6 +183,10 @@ $cate_sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = 3 AND cateuse 
 $cate_res = sql_query($cate_sql);
 
 while ($cate_row = sql_fetch_array($cate_res)) {
+  // 회원특별관 예외 처리
+  if($cate_row['catecode']== '006'){
+    continue;
+  }
   ?>
     <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=' . $cate_row["catecode"]; ?>" class="ui-btn">
       <i class="icon">
@@ -281,7 +285,7 @@ while ($cate_row = sql_fetch_array($cate_res)) {
 } 인기상품 -->
 
 <!-- 띠 배너 3 { -->
-<div class="section line-banner-section line-banner03">
+<div class="section line-banner-section line-banner03" style="display: none;">
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <!-- 배너 { -->

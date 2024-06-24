@@ -121,6 +121,48 @@ $(document).ready(function () {
     }
   });
 
+  //Main line Banner01
+  const mainLineBanner01Target = '.line-banner01 .swiper-container';
+  const mainLineBanner01Options = {
+    slidesPerView: 1,
+    loop: true,
+    loopAdditionalSlides : 1,
+    autoplay: {
+      delay: 3000,
+    },
+    speed: 1000,
+    centeredSlides: true,
+  };
+  const mainLineBanner01Slider = f.slider(mainLineBanner01Target, mainLineBanner01Options);
+
+  //Main line Banner02
+  const mainLineBanner02Target = '.line-banner02 .swiper-container';
+  const mainLineBanner02Options = {
+    slidesPerView: 1,
+    loop: true,
+    loopAdditionalSlides : 1,
+    autoplay: {
+      delay: 3000,
+    },
+    speed: 1000,
+    centeredSlides: true,
+  };
+  const mainLineBanner02Slider = f.slider(mainLineBanner02Target, mainLineBanner02Options);
+
+  //Main line Banner03
+  const mainLineBanner03Target = '.line-banner03 .swiper-container';
+  const mainLineBanner03Options = {
+    slidesPerView: 1,
+    loop: true,
+    loopAdditionalSlides : 1,
+    autoplay: {
+      delay: 3000,
+    },
+    speed: 1000,
+    centeredSlides: true,
+  };
+  const mainLineBanner03Slider = f.slider(mainLineBanner03Target, mainLineBanner03Options);
+
   //Main Best Slide
   const mainBestTarget = '.main_best-slide .swiper-container';
   const mainBestOptions = {
@@ -172,6 +214,9 @@ $(document).ready(function () {
 
   //Main Time Sale
   f.timeSale('.main_today .cp-timer__num');
+
+  //Main Time Sale
+  f.timeSale('.prod-detailThumb .cp-timer__num');
 
   //Main Live Slide
   const mainLiveTarget = '.main_live-slide .swiper-container';

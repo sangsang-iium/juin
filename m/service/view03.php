@@ -9,12 +9,12 @@ include_once(BV_MPATH."/_head.php"); // 상단
       <div class="service-info__head">
         <div class="service-info">
           <p class="tRow2 title">
-            <span class="cname">[신승HR]</span>
-            <span class="subj">주인장 외식업 전문 노무법인</span>
+            <!-- <span class="cname">[신승HR]</span> -->
+            <span class="subj">외식업소 맞춤형 노무관리 서비스</span>
           </p>
-          <p class="ex">
+          <!-- <p class="ex">
             <span class="period">2023.02.15~2024.02.15</span>
-          </p>
+          </p> -->
         </div>
         <button type="button" class="ui-btn share-btn"></button>
       </div>
@@ -24,7 +24,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
             <div class="ht-view">
               <!-- top title { -->
               <div class="ht-view-top">
-                <p>주인장 외식업 전문 노무법인 신승HR</p>
+                <p>외식업 전문 노무법인 신승 HR</p>
               </div>
               <!-- } top title -->
               <div class="service-imgbox">

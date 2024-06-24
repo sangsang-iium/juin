@@ -237,7 +237,7 @@ EOF;
 	<tr>
 		<th scope="row">선택한 주문을</th>
 		<td>
-			<input type="submit" name="act_button" value="배송준비" class="btn_medium red" onclick="document.pressed=this.value">
+			<input type="submit" name="act_button" value="상품준비중" class="btn_medium red" onclick="document.pressed=this.value">
 
 			<input type="submit" name="act_button" value="강제입금" class="btn_medium white" onclick="document.pressed=this.value"> 
 			<input type="submit" name="act_button" value="강제출고" class="btn_medium white" onclick="document.pressed=this.value"> 

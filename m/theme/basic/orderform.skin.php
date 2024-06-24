@@ -537,19 +537,19 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
           <div class="od-ct info-list">
             <div class="info-item">
               <p class="tit">회원명</p>
-              <input type="text" name="ju_restaurant" value="<?php echo $member['ju_restaurant'] ?>" class="w-per50 frm-input">
+              <input type="text" name="ju_restaurant" value="<?php echo $member['ju_restaurant'] ?>" class="w-per100 frm-input">
             </div>
             <div class="info-item">
               <p class="tit">대표자명</p>
-              <input type="text" name="name" value="<?php echo $member['name'] ?>" class="w-per50 frm-input">
+              <input type="text" name="name" value="<?php echo $member['name'] ?>" class="w-per100 frm-input">
             </div>
             <div class="info-item">
               <p class="tit">사업자번호</p>
-              <input type="text" name="ju_b_num" value="<?php echo $member['ju_b_num'] ?>" class="w-per50 frm-input" <?php echo ($is_member) ? "readonly" : ""?> >
+              <input type="text" name="ju_b_num" value="<?php echo $member['ju_b_num'] ?>" class="w-per100 frm-input" <?php echo ($is_member) ? "readonly" : ""?> >
             </div>
             <div class="info-item">
               <p class="tit">연락처</p>
-              <input type="text" name="cellphone" value="<?php echo $member['cellphone'] ?>" class="w-per50 frm-input">
+              <input type="text" name="cellphone" value="<?php echo $member['cellphone'] ?>" class="w-per100 frm-input">
               <input type="hidden" name="telephone" value="<?php echo $member['cellphone'] ?>">
             </div>
           </div>

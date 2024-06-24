@@ -583,29 +583,34 @@ $none = "style='display:none;'";
           dataType: "JSON",
           success: function(res) {
             // API 값 호출 _20240318_SY
+
             // 휴/폐업 가입불가 _20240612_SY
-            if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
-              $('#chk_cb_res').val(res.data[0].b_stt_cd);
-              if(chkKFIA == true) {
-                $('#chk_b_num').val('1');
-              }
-              msg = res.data[0].b_stt;
-              alert(msg);
-            } else {
-              switch (res.data[0].b_stt_cd) {
-              case "" :
-                msg = res.data[0].tax_type;
-                $('#chk_cb_res').val('0');
-                break;
-                default : 
-                $('#chk_cb_res').val(res.data[0].b_stt_cd);
-                msg = res.data[0].b_stt;
-                break;
-            }
-              $('#chk_b_num').val('0');
-              $('.store_info_sec').hide();
-              alert(msg);
-            }
+            // if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
+            //   $('#chk_cb_res').val(res.data[0].b_stt_cd);
+            //   if(chkKFIA == true) {
+            //     $('#chk_b_num').val('1');
+            //   }
+            //   msg = res.data[0].b_stt;
+            //   alert(msg);
+            // } else {
+            //   switch (res.data[0].b_stt_cd) {
+            //   case "" :
+            //     msg = res.data[0].tax_type;
+            //     $('#chk_cb_res').val('0');
+            //     break;
+            //     default : 
+            //     $('#chk_cb_res').val(res.data[0].b_stt_cd);
+            //     msg = res.data[0].b_stt;
+            //     break;
+            // }
+            //   $('#chk_b_num').val('0');
+            //   $('.store_info_sec').hide();
+            //   alert(msg);
+            // }
+            $('#chk_b_num').val('1');
+            $('#chk_cb_res').val(res.data[0].b_stt_cd);
+            msg = res.data[0].b_stt;
+            alert(msg);
           }
       });
     } else {

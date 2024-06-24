@@ -929,13 +929,13 @@ $income_per = ($supply_price / $goods_price) * 100;
 			<span class="fc_197 marl5">실제 판매가 입력 (대표가격으로 사용)</span>
 		</td>
 	</tr>
-  <!-- <tr>
-		<th scope="row">회원혜택가격</th>
+  <tr>
+		<th scope="row">시중가격</th>
 		<td>
-			<input type="text" name="normal_price" id="normal_price" value="<?php //echo number_format($gs['normal_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
+			<input type="text" name="normal_price" id="normal_price" value="<?php echo number_format($gs['normal_price']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 원
 			<span class="fc_197 marl5">시중에 판매되는 가격 (판매가보다 크지않으면 시중가 표시안함)</span>
 		</td>
-	</tr> -->
+	</tr>
 
 	<tr style='display:none'>
 		<th scope="row">포인트</th>
