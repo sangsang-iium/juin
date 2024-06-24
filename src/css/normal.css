@@ -1197,7 +1197,7 @@
 .cp-title .cp-timer__text {margin-left: 0; margin-right: 0.2rem; font-size: 1.8rem; font-weight: 900;}
 .cp-title .cp-timer__num {font-size: 1.8rem;}
 
-.service-info .title .tag {margin-right: 0.2rem;}
+.service-info .title .tag {margin-right: 0.6rem;}
 
 .prod-info_area .sale-price .tag.off {display: inline-block; height: 3rem; line-height: 3rem; font-size: 1.5rem;}
 .prod-smInfo__head .prod-tag_area .cp-tag-item .cp-tag {height: 3.4rem;}
