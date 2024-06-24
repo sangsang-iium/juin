@@ -242,7 +242,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
         <th scope="col"><?php echo subject_sort_link('name', $q2); ?>회원명</a></th>
         <th scope="col"><?php echo subject_sort_link('id', $q2); ?>아이디</a></th>
         <th scope="col"><?php echo subject_sort_link('grade', $q2); ?>레벨</a></th>
-        <th scope="col"><?php echo subject_sort_link('pt_id', $q2); ?>추천인</a></th>
+        <th scope="col"><?php echo subject_sort_link('ju_manager', $q2); ?>담당자</a></th>
         <th scope="col">핸드폰</th>
         <th scope="col"><?php echo subject_sort_link('reg_time', $q2); ?>가입일시</a></th>
         <th scope="col">구매수</th>
@@ -267,7 +267,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
         <td><?php echo get_sideview($row['id'], $row['name']); ?></td>
         <td><?php echo $row['id']; ?></td>
         <td><?php echo get_grade($row['grade']); ?></td>
-        <td><?php echo $row['pt_id']; ?></td>
+        <td><?php echo $row['mn_name']; ?></td>
         <td><?php echo replace_tel($row['cellphone']); ?></td>
         <td><?php echo $row['reg_time']; ?></td>
         <td><?php echo number_format(shop_count($row['id'])); ?></td>

@@ -4,8 +4,13 @@ if(!defined('_BLUEVATION_')) exit;
 // 주문서 query 공통
 include_once(BV_ADMIN_PATH.'/order/order_query.php');
 
-$btn_frmline = <<<EOF
+// 삭제버튼 조건식 추가 _20240624_SY
+if ($_SESSION['ss_mb_id'] == "admin") {
+  $btn_frmline .= <<<EOF
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
+EOF;
+}
+$btn_frmline .= <<<EOF
 <a href="#" id="frmOrderPrint" class="btn_lsmall bx-white"><i class="fa fa-print"></i> 거래명세서 출력</a>
 <a href="#" id="frmOrderExcel" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 선택 엑셀저장</a>
 <a href="./order/order_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 검색결과 엑셀저장</a>
@@ -64,7 +69,7 @@ EOF;
 	<tr>
 		<th scope="row">결제방법</th>
 		<td>
-            <div class="radio_group">\
+            <div class="radio_group">
                 <?php echo radio_checked('od_settle_case', $od_settle_case,  '', '전체'); ?>
                 <?php echo radio_checked('od_settle_case', $od_settle_case, '무통장', '무통장'); ?>
                 <?php echo radio_checked('od_settle_case', $od_settle_case, '가상계좌', '가상계좌'); ?>

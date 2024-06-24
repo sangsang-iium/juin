@@ -152,6 +152,22 @@ include_once(BV_MPATH."/_head.php"); // 상단
             </div>
           </div>
           <!-- } row -->
+          <!-- row { -->
+          <?php // 담당자 정보 추가 _20240624_SY
+          if($is_member) { 
+            $mn_sel = " SELECT * FROM shop_manager WHERE index_no = '{$member['ju_manager']}' ";
+            $mn_row = sql_fetch($mn_sel);
+          ?>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">담당자</p>
+            </div>
+            <div class="form-body">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_row['id']?>" placeholder="담당자사번을 입력하여주세요.">
+            </div>
+          </div>
+          <?php } ?>
+          <!-- } row -->
         </div>
       </div>
 
