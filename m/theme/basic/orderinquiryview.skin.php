@@ -31,7 +31,13 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </ul>
         </div>
         <div class="od-cmp_btns">
-          <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiry.php" class="ui-btn stWhite detail-btn">주문내역 확인</a>
+          <!-- 일반/정기배송 구분 _20240624_SY -->
+          <?php 
+            $cart_sql = " select * from shop_cart where od_id = '$od_id' group by gs_id order by index_no ";
+            $cart_row = sql_fetch($cart_sql);
+            $end_link = ($cart_row['reg_yn'] == '1') ? BV_MSHOP_URL."/regOrderList.php" : BV_MSHOP_URL."/orderinquiry.php"; ?>
+          <!-- <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiry.php" class="ui-btn stWhite detail-btn">주문내역 확인</a> -->
+          <a href="<?php echo $end_link; ?>" class="ui-btn stWhite detail-btn">주문내역 확인</a>
           <a href="<?php echo BV_MURL; ?>" class="ui-btn stBlack shopping-btn">쇼핑 계속하기</a>
         </div>
         <p class="od-comp-t">주문하신 내역은 마이페이지 > 주문조회에서 확인하실 수 있습니다.</p>
