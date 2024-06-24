@@ -126,7 +126,7 @@ $(document).ready(function () {
   const mainLineBanner01Options = {
     slidesPerView: 1,
     loop: true,
-    loopAdditionalSlides : 1,
+    loopAdditionalSlides: 1,
     autoplay: {
       delay: 3000,
     },
@@ -140,7 +140,7 @@ $(document).ready(function () {
   const mainLineBanner02Options = {
     slidesPerView: 1,
     loop: true,
-    loopAdditionalSlides : 1,
+    loopAdditionalSlides: 1,
     autoplay: {
       delay: 3000,
     },
@@ -154,7 +154,7 @@ $(document).ready(function () {
   const mainLineBanner03Options = {
     slidesPerView: 1,
     loop: true,
-    loopAdditionalSlides : 1,
+    loopAdditionalSlides: 1,
     autoplay: {
       delay: 3000,
     },
@@ -170,11 +170,6 @@ $(document).ready(function () {
     freeMode: true
   };
   const mainBestSlider = f.slider(mainBestTarget, mainBestOptions);
-  const mainBestAllSlides = mainBestSlider?.swiper.slides;
-
-  mainBestAllSlides?.forEach((slide, index) => {
-    slide.querySelector('.num').innerText = index + 1;
-  });
 
   //Main Recommendation Slide
   const mainRecommTarget = '.main_recomm-slide .swiper-container';
