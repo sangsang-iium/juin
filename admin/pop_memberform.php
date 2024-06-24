@@ -83,8 +83,8 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
             <tr>
               <th scope="row">비밀번호</th>
               <td><input type="text" name="passwd" value="" class="frm_input"></td>
-              <th scope="row">추천인아이디</th>
-              <td><input type="text" name="pt_id" value="<?php echo $mb['pt_id']; ?>" required memberid itemname="추천인아이디" class="frm_input required"></td>
+              <!-- <th scope="row">추천인아이디</th>
+              <td><input type="text" name="pt_id" value="<?php //echo $mb['pt_id']; ?>" required memberid itemname="추천인아이디" class="frm_input required"></td> -->
             </tr>
             <tr>
               <th scope="row">생년월일(8자)</th>
