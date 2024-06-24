@@ -1,5 +1,7 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
+$sql_type = "SELECT * FROM shop_goods_type WHERE gs_id = '{$gs_id}' AND it_type1= 1";
+$row_type = sql_fetch($sql_type);
 ?>
 
 <script src="<?php echo BV_MJS_URL; ?>/shop.js"></script>
@@ -29,34 +31,16 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           if($gs['simg'.$i]) {
         ?>
         <div class="swiper-slide item">
+          <?php if($row_type['gt_no']) {?>
           <div class="cp-timer" style="padding: 12px 0;font-size: 16px;background: #656565;text-align: center;">
             <div class="cp-timer-wrap white">
               <i class="cp-timer__icon"></i>
               <span class="cp-timer__num" data-deadline="<?php echo date("Y-m-d");?> 23:59:59">02:43:47</span>
             </div>
           </div>
+          <?php } ?>
           <a href="" class="link">
             <figure class="image">
-              <div class="cp-tag-box">
-                  <?php if($gs['reg_yn']=="1"){ ?>
-                  <div class="cp-tag-item">
-                    <div class="cp-tag tag02">정기</div>
-                  </div>
-                  <?php } else if ($gs['reg_yn']=="2") { ?>
-                  <!-- <div class="cp-tag-item">
-                    <div class="cp-tag tag01">일반</div>
-                  </div> -->
-                  <?php }
-                  if($gs['sc_type'] == "1"){ ?>
-                  <div class="cp-tag-item">
-                    <div class="cp-tag tag04">택배</div>
-                  </div>
-                  <?php } else if($gs['sc_type'] == "4") { ?>
-                  <div class="cp-tag-item">
-                    <div class="cp-tag tag03">차량</div>
-                  </div>
-                  <?php } ?>
-                </div>
               <img src="<?php echo get_it_image_url($gs_id, $gs['simg'.$i], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
             </figure>
           </a>
@@ -75,6 +59,24 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div class="prod-smInfo">
     <div class="bottomBlank container prod-smInfo__head">
       <div class="prod-tag_area">
+        <?php if($gs['reg_yn']=="1"){ ?>
+        <div class="cp-tag-item">
+          <div class="cp-tag tag02">정기</div>
+        </div>
+        <?php } else if ($gs['reg_yn']=="2") { ?>
+        <!-- <div class="cp-tag-item">
+          <div class="cp-tag tag01">일반</div>
+        </div> -->
+        <?php }
+        if($gs['sc_type'] == "1"){ ?>
+        <div class="cp-tag-item">
+          <div class="cp-tag tag04">택배</div>
+        </div>
+        <?php } else if($gs['sc_type'] == "4") { ?>
+        <div class="cp-tag-item">
+          <div class="cp-tag tag03">차량</div>
+        </div>
+        <?php } ?>
         <span class="tag coupon">쿠폰</span>
         <span class="tag freeDelivery">무료배송</span>
       </div>
@@ -84,6 +86,17 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         // (시중가 - 할인판매가) / 시중가 X 100 = 할인률%
         $gs_amount = get_sale_price($gs['index_no']);
         $gs_sprice = $gs_sale = '';
+        
+        // 2000원 할인 하드코딩 _20240625_SY
+        $bb = 0;
+        $sett = 0;
+        if($is_member) {
+          $bb        = $gs_amount + 2000;
+          $sett      = ($bb - $gs_amount) / $bb * 100;
+          $gs_sale   = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
+          $it_sprice = number_format($bb) . "원";
+        } 
+
         if($gs['normal_price'] > $gs_amount && !is_uncase($gs['index_no'])) {
           $gs_sett = ($gs['normal_price'] - $gs_amount) / $gs['normal_price'] * 100;
           $gs_sale = number_format($gs_sett,0).'%';
@@ -91,8 +104,12 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         }
         ?>
         <p class="tRow2 name"><?php echo get_text($gs['gname']); ?></p>
+        <!-- $row_type['gt_no'] 추가 _20240625_SY -->
         <?php if($gs_sprice) { ?>
           <p class="dc-price"><?php echo $gs_sprice; ?></p>
+        <?php } ?>
+        <?php if($row_type['gt_no']) { ?> 
+          <p class="dc-price"><?php echo $it_sprice; ?></p>
         <?php } ?>
         <p class="price-box">
           <?php if($gs_sale) { ?>

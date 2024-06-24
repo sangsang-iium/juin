@@ -32,7 +32,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </div>
         <div class="od-cmp_btns">
           <!-- 일반/정기배송 구분 _20240624_SY -->
-          <?php 
+          <?php
             $cart_sql = " select * from shop_cart where od_id = '$od_id' group by gs_id order by index_no ";
             $cart_row = sql_fetch($cart_sql);
             $end_link = ($cart_row['reg_yn'] == '1') ? BV_MSHOP_URL."/regOrderList.php" : BV_MSHOP_URL."/orderinquiry.php"; ?>
@@ -424,7 +424,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             </li>
             <?php } ?>
             <?php // 운송장정보 추가 _20240624_SY
-            if(!empty($od['delivery']) && !empty($od['delivery_no'])) { 
+            if(!empty($od['delivery']) && !empty($od['delivery_no'])) {
               $dlcomp = explode('|', trim($od['delivery']));
             ?>
             <li>
@@ -478,10 +478,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       </div>
     </section> -->
 
-    <div class="popup type01" id="sod_fin_cancelfrm">
+    <div id="sod_fin_cancelfrm" class="popup type02 add-popup" style="background-color: transparent;">
       <div class="pop-inner">
         <div class="pop-top">
           <p class="tit">취소 사유</p>
+          <button type="button" class="btn close"></button>
         </div>
         <div class="pop-content">
           <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquirycancel.php" onsubmit="return fcancel_check(this);">
@@ -495,16 +496,19 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               <div class="form-head">
                 <p class="title">취소 사유<b>*</b></p>
               </div>
-              <div class="form-body input-button">
-                <input type="text" name="cancel_memo" id="cancel_memo" required class="frm-input" maxlength="100" placeholder="취소사유를 입력해주세요.">
-                <input type="submit" value="확인" class="ui-btn st3">
+              <div class="form-body">
+                <input type="text" name="cancel_memo" id="cancel_memo" required class="frm-input w-per100" maxlength="100" placeholder="취소사유를 입력해주세요.">
+                <!-- <input type="submit" value="확인" class="ui-btn st3"> -->
               </div>
             </div>
 
+            <div class="pop-btm">
+              <button type="submit" class="ui-btn round stBlack">확인</button>
+            </div>
           </form>
         </div>
         <div class="pop-btm">
-          <button type="button" class="ui-btn round stBlack close">취소</button>
+          <button type="submit" class="ui-btn round stBlack">확인</button>
         </div>
       </div>
     </div>

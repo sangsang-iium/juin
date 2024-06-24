@@ -96,8 +96,8 @@ if ($_FILES['excelfile']['tmp_name']) {
     $maker        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 제조사
     $isopen       = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 판매여부
     $supply_price = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 공급가격
-    // $normal_price = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 시중가격
     $goods_price  = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 판매가격
+    $normal_price = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 시중가격
     $price_msg    = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 가격대체문구
     $stock_mod    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 재고적용타입
     $stock_qty    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 재고수량
@@ -185,7 +185,7 @@ if ($_FILES['excelfile']['tmp_name']) {
     $value['maker']        = $maker;                     // 제조사
     $value['isopen']       = $isopen;                    // 판매여부
     $value['supply_price'] = $supply_price;              // 공급가격
-    $value['normal_price'] = '0';              // 시중가격
+    $value['normal_price'] = $normal_price;              // 시중가격
     $value['goods_price']  = $goods_price;               // 판매가격
     $value['price_msg']    = $price_msg;                 // 가격대체문구
     $value['stock_mod']    = $stock_mod;                 // 재고적용타입

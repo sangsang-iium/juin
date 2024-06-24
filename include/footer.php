@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<?php //if ($_SERVER['REMOTE_ADDR']=="106.247.231.170") { ?>
+<?php if ($_SERVER['REMOTE_ADDR']=="106.247.231.170") { ?>
 <ul class="container" style="display: flex; flex-flow: row wrap; gap: 10px; margin-top: 10px; font-size: 15px; font-weight: bold;">
   <li><a href="/">메인</a></li>
   <?php if($is_admin) {
@@ -42,4 +42,4 @@
   <li><a href="/m/service/list.php?menu=service">제휴서비스</a></li>
   <li><a href="/m/shop/introjuin.php">인트로</a></li>
 </ul>
-<?php //} ?>
+<?php } ?>

@@ -40,7 +40,7 @@ input{border-radius: 0;}
 
 /* layout guide */
 #document {overflow: hidden; width: var(--max-width); max-width: 100%; min-height: 100vh; margin: 0 auto; padding-bottom: 10rem; box-shadow: 0 0 5px 1px rgba(0,0,0,0.1);}
-#contents {margin-top: 2rem; padding-bottom: 7rem;}
+#contents {margin-top: 0; padding-bottom: 7rem;}
 
 .container {padding-left: 2.4rem; padding-right: 2.4rem; width: 100%;}
 .container.left {padding-right: 0;}

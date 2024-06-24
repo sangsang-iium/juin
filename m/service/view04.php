@@ -9,12 +9,12 @@ include_once(BV_MPATH."/_head.php"); // 상단
       <div class="service-info__head">
         <div class="service-info">
           <p class="tRow2 title">
-            <span class="cname">[한국외식업중앙회]</span>
-            <span class="subj">주인장 회원 장례 서비스</span>
+            <!-- <span class="cname">[한국외식업중앙회]</span> -->
+            <span class="subj">외식가족 상조회 상조상품</span>
           </p>
-          <p class="ex">
+          <!-- <p class="ex">
             <span class="period">2023.12.15~2024.02.15</span>
-          </p>
+          </p> -->
         </div>
         <button type="button" class="ui-btn share-btn"></button>
       </div>
@@ -24,7 +24,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
             <div class="ht-view">
               <!-- top title { -->
               <div class="ht-view-top">
-                <p>주인장 한국외식업중앙회 회원 장례 서비스</p>
+                <p>한국외식업중앙회 회원 장례 서비스</p>
               </div>
               <!-- } top title -->
               <div class="service-imgbox">
@@ -47,6 +47,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
       <div class="container">
         <div class="service-apply__btns">
           <a href="/m/service/apply04.php" class="ui-btn round stBlack apply-btn">신청 바로가기</a>
+          <!-- <a href="javascript:alert('준비중입니다.');" class="ui-btn round stBlack apply-btn">신청 바로가기</a> -->
           <a href="/m/service/list.php?menu=service" class="ui-btn round stWhite goback-btn">목록</a>
         </div>
       </div>

@@ -187,10 +187,8 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		$memoCnt = admin_order_memo(); // 총 관리자메모
 	?>
 	<dl>
-    <?php if ($member['id'] == 'admin') { ?>
 		<?php echo printMenu1('o11', '정기 주문관리'); ?>
 		<?php echo printMenu2('o11', ADMIN_MENU6_13, BV_ADMIN_URL.'/order.php?code=reg_list', $sodr10['cnt']); ?>
-    <?php } ?>
 		<?php echo printMenu1('o10', '주문관리'); ?>
 		<?php echo printMenu2('o10', ADMIN_MENU6_01, BV_ADMIN_URL.'/order.php?code=list', $sodrr['cnt']); ?>
     <?php if ($member['id'] == 'admin') { ?>

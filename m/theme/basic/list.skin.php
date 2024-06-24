@@ -66,6 +66,7 @@ for($i=0; $i<count($gw_msort); $i++) {
         if(!$total_count) {
           echo "<p class=\"empty_list\">자료가 없습니다.</p>";
         } else {
+
           for($i=0; $row=sql_fetch_array($result); $i++) {
             if(!memberGoodsAble($member['addr1'], $row['zone'])){
             		continue;
