@@ -126,7 +126,11 @@ $(document).ready(function () {
   const mainLineBanner01Options = {
     slidesPerView: 1,
     loop: true,
+<<<<<<< Updated upstream
     loopAdditionalSlides : 1,
+=======
+    loopAdditionalSlides: 1,
+>>>>>>> Stashed changes
     autoplay: {
       delay: 3000,
     },
@@ -140,7 +144,11 @@ $(document).ready(function () {
   const mainLineBanner02Options = {
     slidesPerView: 1,
     loop: true,
+<<<<<<< Updated upstream
     loopAdditionalSlides : 1,
+=======
+    loopAdditionalSlides: 1,
+>>>>>>> Stashed changes
     autoplay: {
       delay: 3000,
     },
@@ -154,7 +162,11 @@ $(document).ready(function () {
   const mainLineBanner03Options = {
     slidesPerView: 1,
     loop: true,
+<<<<<<< Updated upstream
     loopAdditionalSlides : 1,
+=======
+    loopAdditionalSlides: 1,
+>>>>>>> Stashed changes
     autoplay: {
       delay: 3000,
     },
