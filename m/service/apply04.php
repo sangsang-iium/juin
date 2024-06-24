@@ -7,9 +7,128 @@ include_once(BV_MPATH."/_head.php"); // 상단
   <div class="joinDetail-wrap apply-write-wrap">
     <div class="container">
 
-      <div class="joinDetail-box">
+    <div class="joinDetail-box">
         <div class="joinDetail-head">
           <p class="joinDetail-title center">상조 제휴</p>
+        </div>
+        <div class="joinDetail-body">
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">사업자등록번호<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" class="frm-input w-per100" placeholder="사업자등록번호를 입력해주세요.">
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">사업장명<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" class="frm-input w-per100" placeholder="사업장명를 입력해주세요.">
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">대표자명<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" class="frm-input w-per100" placeholder="대표자명를 입력해주세요.">
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">사업장 주소</p>
+            </div>
+            <div class="form-body address">
+              <label for="reg_mb_zip" class="sound_only">우편번호</label>
+              <input type="tel" name="mb_zip" value="" id="reg_mb_zip" required="" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호">
+              <button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
+              <input type="text" name="mb_addr1" value="" id="reg_mb_addr1" required="" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+              <label for="reg_mb_addr1" class="sound_only">기본주소</label>
+              <input type="text" name="mb_addr2" value="" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
+              <label for="reg_mb_addr2" class="sound_only">상세주소</label>
+              <input type="text" name="mb_addr3" value="" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
+              <label for="reg_mb_addr3" class="sound_only">참고항목</label>
+              <input type="hidden" name="mb_addr_jibeon" value="">
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">사업장 전화번호</p>
+            </div>
+            <div class="form-body phone">
+              <input type="text" class="frm-input">
+              <span class="hyphen">-</span>
+              <input type="text" class="frm-input">
+              <span class="hyphen">-</span>
+              <input type="text" class="frm-input">
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">대표자 휴대전화<b>*</b></p>
+            </div>
+            <div class="form-body phone">
+              <input type="text" class="frm-input">
+              <span class="hyphen">-</span>
+              <input type="text" class="frm-input">
+              <span class="hyphen">-</span>
+              <input type="text" class="frm-input">
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">상담내용</p>
+            </div>
+            <div class="form-body">
+              <textarea name="" id="" class="frm-input" placeholder="상담내용을 입력해주세요."></textarea>
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">상담(담당) 희망자</p>
+            </div>
+            <div class="form-body">
+              <input type="text" class="frm-input w-per100" placeholder="상담 희망자를 입력해주세요.">
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">비밀번호<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" class="frm-input w-per100" placeholder="비밀번호를 입력해주세요.">
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">소개자(직원) 정보<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" class="frm-input w-per100" placeholder="소개자를 입력해주세요.">
+            </div>
+          </div>
+          <!-- } row -->
         </div>
       </div>
 
