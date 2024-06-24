@@ -9,6 +9,11 @@ if(is_numeric($no)){
     if(!$row['no']){
         alert("상품정보가 존재하지 않습니다.");
     }
+} else {
+    //신규등록
+    $row['address'] = $member['ju_addr_full'];
+    $row['lat'] = $member['ju_lat'];
+    $row['lng'] = $member['ju_lng'];
 }
 ?>
 
