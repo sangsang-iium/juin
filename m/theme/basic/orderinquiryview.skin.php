@@ -507,12 +507,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             </div>
           </form>
         </div>
-<<<<<<< Updated upstream
         <div class="pop-btm">
           <button type="submit" class="ui-btn round stBlack">확인</button>
         </div>
-=======
->>>>>>> Stashed changes
       </div>
     </div>
     <?php } ?>
