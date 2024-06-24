@@ -13,4 +13,9 @@ if(isset($_REQUEST['sortodr']))  {
 } else {
     $sortodr = '';
 }
+
+// $member2 추가 _20240624_SY
+if(isset($member2['id'])) {
+  $member = get_member($member2['id']);
+}
 ?>
