@@ -143,79 +143,55 @@ function memberGradeList(){
 
 // 메인 화면 라이브존 리스트
 function mainLiveList() {
-  switch (date('w')) {
-    case '1': $nowW = 'mon'; break;
-    case '2': $nowW = 'tues'; break;
-    case '3': $nowW = 'wednes'; break;
-    case '4': $nowW = 'thurs'; break;
-    case '5': $nowW = 'fri'; break;
-    case '6': $nowW = 'satur'; break;
-    case '0': $nowW = 'sun'; break;
+  $sql = " SELECT * FROM shop_goods_live ";
+
+  $res  = sql_query($sql);
+  $liveListArr = array();
+  $i = 0;
+  while ($row = sql_fetch_array($res)) {
+    $liveListArr[$i] = $row;
+    $liveListArr[$i]['live'] = json_decode($row['live_time'],true);
+    $i ++;
   }
-
-  // if(!memberGoodsAble($member['addr1'], $row['zone'])){
-	// 		continue;
-	// 	}
-  // 이 함수 이용해서 상품 노출 지역별 제한 필요함 jjh
-
-
-  $nowTime = date('H:i:s');
-
-  $sql = "SELECT *
-  FROM shop_goods_live
-  WHERE JSON_CONTAINS(live_time, JSON_OBJECT('live_date', '{$nowW}'))
-    AND (
-      (
-        TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[0].live_start_time'))) <= '{$nowTime}'
-        AND TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[0].live_end_time'))) > '{$nowTime}'
-      )
-      OR
-      (
-        TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[1].live_start_time'))) <= '{$nowTime}'
-        AND TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[1].live_end_time'))) > '{$nowTime}'
-      )
-      OR
-      (
-        TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[2].live_start_time'))) <= '{$nowTime}'
-        AND TIME(JSON_UNQUOTE(JSON_EXTRACT(live_time, '$[2].live_end_time'))) > '{$nowTime}'
-      )
-    );";
-
-    $res  = sql_query($sql);
-    $liveListArr = array();
-    while ($row = sql_fetch_array($res)) {
-      $liveTimeArr = json_decode($row['live_time'],true);
-      $liveTime = array_filter($liveTimeArr, function($item) {
-        return $item['live_date'] === 'mon';
-      });
-      $row['liveTime'] = array_values($liveTime)[0];
-      $liveListArr[] = $row;
-    }
-
-    return $liveListArr;
+  
+  return $liveListArr;
 }
+
 
 // 메인화면 라이브존 시간 표시
-function liveTime($liveTime) {
-  $liveStartTime = "";
-  $timeHour = intval(date('H', strtotime($liveTime)));
+function liveTime($liveTime, $liveDate) {
+  $currentDate = time();
+  
+  $liveDayMap = ['sun' => 0, 'mon' => 1, 'tues' => 2, 'wednes' => 3, 'thurs' => 4, 'fri' => 5, 'satur' => 6];
+  $currentDayOfWeek = date('w', $currentDate);
+  $liveDayOfWeek = $liveDayMap[$liveDate];
+  
+  $dayDiff = $currentDayOfWeek - $liveDayOfWeek;
+  if ($dayDiff < 0) {
+      $dayDiff += 7;
+  }
+  
+  $liveDate = strtotime("-{$dayDiff} days", $currentDate);
+  
+  $timeHour = (int)substr($liveTime, 0, 2);
+  $timeMinute = substr($liveTime, 3, 2);
+  
   $ampm = ($timeHour < 12) ? "오전" : "오후";
-
+  
   if ($timeHour >= 1 && $timeHour < 12) {
-    $liveStartTime = date('h:i', strtotime($liveTime));
+      $liveStartTime = $timeHour . ':' . $timeMinute;
   } elseif ($timeHour >= 12) {
       if ($timeHour > 12) {
-          $liveStartTime = date('g:i', strtotime($liveTime));
+          $liveStartTime = ($timeHour - 12) . ':' . $timeMinute;
       } else {
-          $liveStartTime = date('h:i', strtotime($liveTime));
+          $liveStartTime = $timeHour . ':' . $timeMinute;
       }
   } else {
-      $liveStartTime = date('H:i', strtotime($liveTime));
+      $liveStartTime = $timeHour . ':' . $timeMinute;
   }
 
-  return date('m/d')." ".$ampm." ".$liveStartTime;
+  return date('m/d', $liveDate) . " " . $ampm . " " . $liveStartTime;
 }
-
 
 function ymdhisToYmd($date) {
   if(!$date) {

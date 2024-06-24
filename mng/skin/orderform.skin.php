@@ -91,15 +91,20 @@ require_once BV_SHOP_PATH . '/settle_kakaopay.inc.php';
 #hd_inner .hd_logo img {
     max-width: 100%;
 }
-
 #contents {width: 1400px; max-width: 100%; margin: 0 auto !important;}
 
+/* 
 #buyform .btn_confirm {position: inherit; bottom: inherit; left: inherit; box-shadow: none;}
+*/
 
 #sod_frm_pay .sod_frm_pay_ul {display: flex; flex-flow: row wrap; gap: 10px 20px;}
 #sod_frm .odf_tbl table tbody td,
-#sod_frm .odf_tbl table tbody th {font-size: 1.8rem; border: 1px solid #ddd}
+#sod_frm .odf_tbl table tbody th {font-size: 1.8rem; border: 1px solid #ddd} 
 </style>
+
+<!-- 김민규 stlyesheet 추가 -->
+<link rel="stylesheet" href="/admin/css/style_md.css?ver=<?php echo BV_CSS_VER;?>">
+<link rel="stylesheet" href="/src/css/kim.css?ver=<?php echo BV_CSS_VER;?>">
 
 <div id="header">
   <div id="hd">
@@ -290,694 +295,593 @@ $row_card = sql_fetch($sql_card);
       <input type="hidden" name="use_point" value="0">
       <?php }?>
       <input type="hidden" name="resulturl" value="pc">
-      <?php
-if ($gs['reg_yn'] == 1) {
-  ?>
-
-      <!-- 정기배송 주문 추가 -->
-      <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
-      <div class="bottomBlank">
-        <div class="container">
-          <div class="mart40 marb40">
-              <h4 class="htag_title">주문자정보</h4>
-          </div>
-
-          <div class="od-ct info-list">
-            <dl class="info-item">
-              <dt class="tit">배송요일</p>
-              <dd class="checks">
-                  <label><input type="checkbox" name="od_wday[]" value="1" > 월</label>
-                  <label><input type="checkbox" name="od_wday[]" value="2" > 화</label>
-                  <label><input type="checkbox" name="od_wday[]" value="3" > 수</label>
-                  <label><input type="checkbox" name="od_wday[]" value="4" > 목</label>
-                  <label><input type="checkbox" name="od_wday[]" value="5" > 금</label>
-                  <label><input type="checkbox" name="od_wday[]" value="6" > 토</label>
-              </dd>
-            </dl>
-            <dl class="info-item" style="display:none;">
-              <pt class="tit">배송주기</pt>
-              <dd class="chk_select">
-                  <select name="od_week" id="od_week" require>
-                    <option value="1" selected>1주</option>
-                    <option value="2">2주</option>
-                    <option value="3">3주</option>
-                    <option value="4">4주</option>
-                  </select>
-              </dd>
-            </dl>
-            <dl class="info-item" style="display:none;">
-              <dt class="tit">배송횟수</dt>
-              <dd class="chk_select">
-                  <select name="od_reg_cnt" id="od_reg_cnt" require>
-                    <option value="2">2회</option>
-                    <option value="4">4회</option>
-                    <option value="6">6회</option>
-                    <option value="8">8회</option>
-                    <option value="10">10회</option>
-                    <option value="12">12회</option>
-                    <option value="52" selected>52회</option>
-                  </select>
-              </dd>
-            </dl>
-            <dl class="info-item">
-              <dt class="tit">첫 배송 시점</dt>
-              <dd>
-                  <input type="text" name="od_begin_date" value="" id="od_begin_date" class="frm_input" maxlength="10" require>
-              </dd>
-            </dl>
-
-          </div>
-        </div>
-      </div>
-        <script>
-        $(function() {
-            function getSelectedWeekdays() {
-                var selectedWeekdays = [];
-                $('input[name^="od_wday"]:checked').each(function() {
-                    selectedWeekdays.push(parseInt($(this).val()));
-                });
-                return selectedWeekdays;
-            }
-
-            $('#od_begin_date').datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: "yy-mm-dd",
-                showButtonPanel: true,
-                yearRange: "-99:+99",
-                minDate: 0,
-                beforeShowDay: function(date) {
-                    var day = date.getDay(); // 0 (Sunday) to 6 (Saturday)
-                    var selectedWeekdays = getSelectedWeekdays();
-                    if (selectedWeekdays.length === 0) {
-                        return [false, "", "배송요일을 선택하세요"]; // 요일이 선택되지 않은 경우
-                    }
-                    var currentDate = new Date();
-                    var daysDifference = (date - currentDate) / (1000 * 60 * 60 * 24);
-
-                      // 3일 이내의 날짜는 선택할 수 없도록 설정
-                    var isSelectable = selectedWeekdays.includes(day) && daysDifference > 3;
-                    return [isSelectable, "", isSelectable ? "" : "3일 이후의 날짜를 선택하세요"];
-                },
-                onSelect: function(selectedDate) {
-                    var currentDate = $.datepicker.formatDate('yy-mm-dd', new Date());
-                    if (selectedDate < currentDate) {
-                        alert('미래 날짜만 선택할 수 있습니다.');
-                        $('#od_begin_date').val('');
-                    }
-                }
-            });
-
-            $('input[name="od_wday[]"]').change(function() {
-                $('#od_begin_date').datepicker('refresh'); // 요일 선택 시 Datepicker 갱신
-            });
-        });
-    </script>
-      <?php
-}?>
-
-      <!-- 주문자 기본 정보 추가 _20240412_SY -->
-      <div class="bottomBlank">
-        <div class="container">
-          <div class="mart40 marb40">
-              <h4 class="htag_title">주문자정보</h4>
-          </div>
-
-          <div class="od-ct info-list">
-            <div class="info-item">
-              <p class="tit">회원명</p>
-              <input type="text" name="ju_restaurant" value="<?php echo $member['ju_restaurant'] ?>" class="w-per50 frm-input">
-            </div>
-            <div class="info-item">
-              <p class="tit">대표자명</p>
-              <input type="text" name="name" value="<?php echo $member['name'] ?>" class="w-per50 frm-input">
-            </div>
-            <div class="info-item">
-              <p class="tit">사업자번호</p>
-              <input type="text" name="ju_b_num" value="<?php echo $member['ju_b_num'] ?>" class="w-per50 frm-input" <?php echo ($is_member) ? "readonly" : "" ?> >
-            </div>
-            <div class="info-item">
-              <p class="tit">연락처</p>
-              <input type="text" name="cellphone" value="<?php echo $member['cellphone'] ?>" class="w-per50 frm-input">
-              <input type="hidden" name="telephone" value="<?php echo $member['cellphone'] ?>">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="od-dtn" class="bottomBlank">
-        <div class="container">
-          <div class="mart40 marb40">
-              <h4 class="htag_title">배송지</h4>
-          </div>
-
-          <input type="hidden" name="b_name"      class="frm_input required od-dtn__contact">
-          <input type="hidden" name="b_cellphone" class="frm_input required od-dtn__contact">
-          <input type="hidden" name="b_telephone" class="frm_input od-dtn__contact">
-          <input type="hidden" name="b_zip"       class="frm_input required od-dtn__contact">
-          <input type="hidden" name="b_addr1"     class="frm_input frm_address required od-dtn__contact">
-          <input type="hidden" name="b_addr2"     class="frm_input frm_address od-dtn__contact">
-          <input type="hidden" name="b_addr3"     class="frm_input frm_address od-dtn__contact">
-          <input type="hidden" name="b_addr_jibeon" value="">
-
-          <div class="od-ct">
-            <div class="od-dtn-info">
-              <?php // 배송지 수정 _20240503_SY
-$mb_id     = $member['id'];
-$addr1     = '';
-$cellphone = '';
-$msg       = '';
-
-$sqlb_address = "select * from b_address where mb_id='$mb_id'  and b_base='1' ";
-$res          = sql_fetch($sqlb_address);
-if ($res['b_base'] == '1') {
-  $msg       = "<span class='tag'>기본배송지</span></p>";
-  $addr1     = print_address($res['b_addr1'], $res['b_addr2'], $res['b_addr3'], $res['b_addr_jibeon']);
-  $cellphone = $res['b_cellphone'];
-} else if ($res['b_base'] == '0') {
-  $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
-} else {
-  if (!empty($member['addr1'])) {
-    $addr1     = print_address($member['addr1'], $member['addr2'], $member['addr3'], '');
-    $cellphone = $member['cellphone'];
-  } else if (!empty($member['ju_addr_full'])) {
-    $addr1     = $member['ju_addr_full'];
-    $cellphone = $member['cellphone'];
-  } else {
-    $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
-  }
-}
-?>
-                  <p class="od-dtn__name">
-                    <span class="nm"><?php echo $member['name']; ?></span>
-                <?php echo $msg; ?>
-                <p class="od-dtn__addr"><?php echo $addr1 ?></p>
-                <p class="od-dtn__contact"><?php echo $cellphone; ?></p>
-            </div>
-
-            <input type="hidden" name="email" value="<?php echo $member['email']; ?>" >
-            <input type="hidden" name="zip"   value="<?php echo !empty($addr1) ? "" : $member['zip']; ?>" >
-            <input type="hidden" name="addr1" value="<?php echo $addr1; ?>" >
-            <input type="hidden" name="addr2" value="<?php echo !empty($addr1) ? "" : $member['addr2']; ?>" >
-            <input type="hidden" name="addr3" value="<?php echo !empty($addr1) ? "" : $member['addr3']; ?>" >
-            <input type="hidden" name="addr_jibeon" value="<?php echo !empty($addr1) ? "" : $member['addr_jibeon']; ?>">
-
-
-            <div class="od-dtn-btns">
-              <button type="button" class="ui-btn st3 od-dtn__change">변경</button>
-            </div>
-          </div>
-
-          <!-- 배송요청사항 추가 _20240507_SY -->
-          <div class="od-ct">
-            <div class="od-dtn-info">
-              <dl class="info-item">
-                <dt class="tit">배송요청사항</dt>
-                <dd class="w90p">
-                    <input type="text" name="b_addr_req" value="<?php echo $b_addr_req ?>" class="w-per50 frm-input">
-                </dd>
-              </dl>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="od-prod" class="bottomBlank">
-        <div class="container">
-          <div class="mart40 marb40">
-              <h4 class="htag_title">주문상품</h4>
-          </div>
-          <div class="od-ct">
-            <?php echo $content; ?>
-          </div>
-        </div>
-      </div>
-
-      <div id="od-benf" class="bottomBlank">
-        <div class="container">
-          <div class="mart40 marb40">
-              <h4 class="htag_title">할인/혜택적용</h4>
-          </div>
-          <div class="od-ct">
-            <div class="od-benf-fm">
-              <?php
-if ($is_member && $config['coupon_yes']) { // 보유쿠폰
-  $sp_count = get_cp_precompose($member['id']);
-  ?>
-              <div class="form-row">
-                <div class="form-head">
-                  <p class="title">쿠폰할인 <span>(보유쿠폰 : <?php echo $sp_count[3]; ?>장)</span></p>
+      
+    <div class="order_wrap">
+        <div class="order_left">
+            <div id="od-prod" class="order_box">
+                <p class="order_title">주문상품</p>
+                <div class="">
+                <?php echo $content; ?>
                 </div>
-                <div class="form-body">
-                  <span id="dc_coupon">
-
-<!--                    <a href="javascript:window.open('<?php echo BV_MSHOP_URL; ?>/ordercoupon.php');" class="ui-btn st2">사용 가능 쿠폰</a>-->
-                    <a href="javascript:(0)" class="ui-btn st2 couponopen">사용 가능 쿠폰</a>
-
-                  </span>
-                  <span id="dc_amt">0원
-                    <span id="dc_cancel" style="display:none;">
-                      <a href="javascript:coupon_cancel();" class="btn_small grey">&nbsp;삭제</a>
-                    </span>
-                  </span>
-                </div>
-              </div>
-              <?php
-}?>
-
-              <?php if ($is_member && $config['usepoint_yes']) {?>
-              <div class="form-row">
-                <div class="form-head">
-                  <p class="title">적립금 사용 <span>(보유적립금 : <?php echo display_point($member['point']); ?>)</span></p>
-                </div>
-                <div class="form-body">
-                  <input type="text" name="use_point" id="use_point" value="0" class="w-per100 frm-input" onkeyup="calculate_temp_point(this.value); this.value=number_format(this.value);">
-                  <div class="form-itxt">
-                    <p><?php echo display_point($config['usepoint']); ?> 부터 사용가능</p>
-                  </div>
-                  <div class="od-esPoint">
-                    <span class="t1">구매시 예상 적립금</span>
-                    <span class="t2"><?php echo number_format($tot_point); ?>원</span>
-                  </div>
-                  <div class="form-itxt">
-                    <p>예상 적립금은 최종 결제 금액에서 사용하신 적립금을 제외한 결제금액을 기준으로 지급됩니다.</p>
-                    <p>구매확정 이후 적립될 적립금은 해당 예상 적립금 내역과 상이할 수 있습니다.</p>
-                  </div>
-                </div>
-              </div>
-              <?php }?>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="od-prc" class="bottomBlank">
-        <div class="container">
-          <div class="mart40 marb40">
-              <h4 class="htag_title">결제금액</h4>
-          </div>
-          <div class="od-ct">
-            <ul class="prc-tot">
-              <li>
-                <span class="lt-txt">총 상품금액</span>
-                <span class="rt-txt"><?php echo number_format($tot_sell_price) ?>원</span>
-              </li>
-              <li>
-                <span class="lt-txt">배송비</span>
-                <span class="rt-txt"><?php echo number_format($tot_send_cost) ?>원</span>
-                <ul class="prc-tot2">
-                  <li>
-                    <span class="lt-txt">기본배송비</span>
-                    <span class="rt-txt"><?php echo number_format($tot_send_cost) ?>원</span>
-                  </li>
-                  <li>
-                    <span class="lt-txt">추가배송비</span>
-                    <span id="send_cost2" class="rt-txt">0원</span>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <span class="lt-txt">총 할인금액</span>
-                <span class="rt-txt totdc_amt" id="totdc_amt">0원</span>
-                <ul class="prc-tot2">
-                  <li>
-                    <span class="lt-txt">즉시할인</span>
-                    <span class="rt-txt">0원</span>
-                  </li>
-                  <li>
-                    <span class="lt-txt ">쿠폰할인</span>
-                    <span class="rt-txt cpdc_amt" id="cpdc_amt">0원</span>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <span class="lt-txt">적립금 사용</span>
-                <span class="rt-txt">
-                  <span id="rst-usePoint">0원</span>
-                </span>
-              </li>
-              <li class="rst">
-                <span class="lt-txt">최총 결제금액</span>
-                <span class="rt-txt">
-                  <input type="text" name="tot_price" value="<?php echo number_format($tot_price); ?>" readonly>원
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div id="od-pay">
-        <div class="container">
-          <div class="mart40 marb40">
-              <h4 class="htag_title">결제수단</h4>
-          </div>
-          <div class="od-ct">
             <?php
-$escrow_title = "";
-if ($default['de_escrow_use']) {
-  $escrow_title = "에스크로 ";
-}
-
-$multi_settle = '';
-if ($is_kakaopay_use) {
-  // $multi_settle .= "<option value='KAKAOPAY'>카카오페이</option>\n";
-  $multi_settle .= "<li>\n";
-  $multi_settle .= "<div class=\"frm-choice\">\n";
-  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"KAKAOPAY\" id=\"kakaopay\">\n";
-  $multi_settle .= "<label for=\"kakaopay\">카카오페이</label>\n";
-  $multi_settle .= "</div>\n";
-  $multi_settle .= "</li>\n";
-}
-if ($default['de_bank_use']) {
-  // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
-  $multi_settle .= "<li>\n";
-  $multi_settle .= "<div class=\"frm-choice\">\n";
-  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
-  $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
-  $multi_settle .= "</div>\n";
-  $multi_settle .= "</li>\n";
-}
-if ($default['de_card_use']) {
-  // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
-  $multi_settle .= "<li>\n";
-  $multi_settle .= "<div class=\"frm-choice\">\n";
-  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"신용카드\" id=\"de_card\">\n";
-  $multi_settle .= "<label for=\"de_card\">신용카드</label>\n";
-  $multi_settle .= "</div>\n";
-  $multi_settle .= "</li>\n";
-}
-if ($default['de_hp_use']) {
-  // $multi_settle .= "<option value='휴대폰'>휴대폰</option>\n";
-  $multi_settle .= "<li>\n";
-  $multi_settle .= "<div class=\"frm-choice\">\n";
-  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"휴대폰\" id=\"de_hp\">\n";
-  $multi_settle .= "<label for=\"de_hp\">휴대폰</label>\n";
-  $multi_settle .= "</div>\n";
-  $multi_settle .= "</li>\n";
-}
-if ($default['de_iche_use']) {
-  // $multi_settle .= "<option value='계좌이체'>".$escrow_title."계좌이체</option>\n";
-  $multi_settle .= "<li>\n";
-  $multi_settle .= "<div class=\"frm-choice\">\n";
-  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"계좌이체\" id=\"de_iche\">\n";
-  $multi_settle .= "<label for=\"de_iche\">계좌이체</label>\n";
-  $multi_settle .= "</div>\n";
-  $multi_settle .= "</li>\n";
-}
-if ($default['de_vbank_use']) {
-  // $multi_settle .= "<option value='가상계좌'>".$escrow_title."가상계좌</option>\n";
-  $multi_settle .= "<li>\n";
-  $multi_settle .= "<div class=\"frm-choice\">\n";
-  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"가상계좌\" id=\"de_vbank\">\n";
-  $multi_settle .= "<label for=\"de_vbank\">가상계좌</label>\n";
-  $multi_settle .= "</div>\n";
-  $multi_settle .= "</li>\n";
-}
-if ($is_member && $config['usepoint_yes'] && ($tot_price <= $member['point'])) {
-  // $multi_settle .= "<option value='포인트'>포인트결제</option>\n";
-  $multi_settle .= "<li>\n";
-  $multi_settle .= "<div class=\"frm-choice\">\n";
-  $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"포인트\" id=\"de_point\">\n";
-  // 포인트결제 주석 _20240613_SY
-  // $multi_settle .= "<label for=\"de_point\">포인트결제</label>\n";
-  $multi_settle .= "</div>\n";
-  $multi_settle .= "</li>\n";
-}
-
-// PG 간편결제
-if ($default['de_easy_pay_use']) {
-  switch ($default['de_pg_service']) {
-    case 'lg':
-      $pg_easy_pay_name = 'PAYNOW';
-      break;
-    case 'inicis':
-      $pg_easy_pay_name = 'KPAY';
-      break;
-    case 'kcp':
-      $pg_easy_pay_name = 'PAYCO';
-      break;
-  }
-  if ($pg_easy_pay_name) {
-    $multi_settle .= "<option value='간편결제'>{$pg_easy_pay_name}</option>\n";
-  }
-
-}
-
-// 이니시스를 사용중일때만 삼성페이 결제가능
-if ($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
-  $multi_settle .= "<option value='삼성페이'>삼성페이</option>\n";
-}
-
-?>
-
-            <section id="sod_frm_pay">
-              <ul class="sod_frm_pay_ul">
-                <?php echo $multi_settle; ?>
-              </ul>
-            </section>
-
-            <section id="bank_section" style="display:none;">
-              <h2 class="anc_tit">입금하실 계좌</h2>
-              <div class="odf_tbl">
-                <table>
-                    <colgroup>
-                        <col width="220px">
-                        <col>
-                    </colgroup>
-                  <tbody>
-                    <!-- <tr>
-                      <th scope="row">무통장계좌</th>
-                      <td>
-                        <?php echo mobile_bank_account("bank"); ?>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">입금자명</th>
-                      <td><input type="text" name="deposit_name" value="<?php echo $member['name']; ?>" class="frm-input w-per100">
-                      </td>
-                    </tr> -->
-                    <tr>
-                      <th scope="row">은행</th>
-                      <td>
-                        <select id="bank_code" name="bank_code" class="frm-select w-per100">
-                          <option value="">은행 선택</option>
-                          <?php
-                            foreach ($BANKS as $bkCode => $v) {?>
-                              <option value="<?php echo $v['code'] ?>"><?php echo $v['bank'] ?></option>
-                          <?php }?>
+                if ($gs['reg_yn'] == 1) {
+            ?>
+            <!-- 정기배송 주문 추가 -->
+            <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
+            <div class="order_box">
+                <p class="order_title">정기배송</p>
+                <div class=" info-list">
+                    <dl class="info-item">
+                        <dt class="tit">배송요일</p>
+                        <dd class="checks">
+                            <label><input type="checkbox" name="od_wday[]" value="1" > 월</label>
+                            <label><input type="checkbox" name="od_wday[]" value="2" > 화</label>
+                            <label><input type="checkbox" name="od_wday[]" value="3" > 수</label>
+                            <label><input type="checkbox" name="od_wday[]" value="4" > 목</label>
+                            <label><input type="checkbox" name="od_wday[]" value="5" > 금</label>
+                            <label><input type="checkbox" name="od_wday[]" value="6" > 토</label>
+                        </dd>
+                    </dl>
+                    <dl class="info-item" style="display:none;">
+                    <pt class="tit">배송주기</pt>
+                    <dd class="chk_select">
+                        <select name="od_week" id="od_week" require>
+                            <option value="1" selected>1주</option>
+                            <option value="2">2주</option>
+                            <option value="3">3주</option>
+                            <option value="4">4주</option>
                         </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">휴대전화</th>
-                      <td><input type="text" name="customerMobilePhone" value="" class="frm-input w-per100">
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            <!-- 환불계좌 정보 추가 _20240507_SY -->
-            <section id="refund_section" style="display:none;">
-              <h2 class="anc_tit">환불받으실 계좌</h2>
-              <div class="odf_tbl">
-                <table>
-                    <colgroup>
-                        <col width="220px">
-                        <col>
-                    </colgroup>
-                  <tbody>
-                    <tr>
-                      <th scope="row"><label for="refund_bank">은행명</label></th>
-                      <?php
-                        $refund_bank_code = $member['refund_bank'];
-
-                        // 은행 코드로 해당 은행 이름 찾기
-                        $bankCodes = array_column($BANKS, 'code');
-                        $bankIndex = array_search($refund_bank_code, $bankCodes);
-
-                        $refund_bank_name = ($bankIndex !== false) ? $BANKS[array_keys($BANKS)[$bankIndex]]['bank'] : "";
-                      ?>
-                      <td><input type="text" name="refund_bank" value="<?php echo $refund_bank_name ?>" class="frm-input w-per100" id="refund_bank"></td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><label for="refund_num">계좌번호</label></th>
-                      <td><input type="text" name="refund_num" value="<?php echo $member['refund_num'] ?>" class="frm-input w-per100" id="refund_num"></td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><label for="refund_name">예금주</label></th>
-                      <td><input type="text" name="refund_name" value="<?php echo $member['refund_name'] ?>" class="frm-input w-per100" id="refund_name"></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            <section id="taxsave_section" style="display:none;">
-              <h2 class="anc_tit">증빙서류 발급</h2>
-              <div class="odf_tbl">
-                <table>
-                    <colgroup>
-                        <col width="220px">
-                        <col>
-                    </colgroup>
-                  <tbody>
-                    <tr>
-                      <th scope="row" id="cash_receipt_section">증빙서류 선택</th>
-                      <td class="padt10 padb10">
-                        <input type="radio" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked> 현금영수증
-                        <input type="radio" name="documentType" value="tax_bill" onclick="toggleTaxDocument(this.value);"> 세금계산서
-                        <input type="radio" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);"> 미발행
-                      </td>
-                    </tr>
-                    <tr id="cash_bill_section">
-                      <th scope="row">현금영수증</th>
-                      <td>
-                        <select name="taxsave_yes" onchange="tax_save(this.value);" class="frm-select w-per100">
-                          <option value="N">발행안함</option>
-                          <option value="Y">개인 소득공제용</option>
-                          <option value="S">사업자 지출증빙용</option>
+                    </dd>
+                    </dl>
+                    <dl class="info-item" style="display:none;">
+                    <dt class="tit">배송횟수</dt>
+                    <dd class="chk_select">
+                        <select name="od_reg_cnt" id="od_reg_cnt" require>
+                            <option value="2">2회</option>
+                            <option value="4">4회</option>
+                            <option value="6">6회</option>
+                            <option value="8">8회</option>
+                            <option value="10">10회</option>
+                            <option value="12">12회</option>
+                            <option value="52" selected>52회</option>
                         </select>
-                        <div id="taxsave_fld_1" style="display:none;">
-                          <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호" value="<?php echo $member['cellphone'] ?>">
-                        </div>
-                        <div id="taxsave_fld_2" style="display:none;">
-                          <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호" value="<?php echo $member['ju_b_num'] ?>">
-                        </div>
-                      </td>
-                    </tr>
-                    <tr id="tax_bill_section" style="display: none;">
-                      <th scope="row">세금계산서</th>
-                      <td>
-                        <select name="taxbill_yes" onchange="tax_bill(this.value);" class="frm-select w-per100">
-                          <option value="N">발행안함</option>
-                          <option value="Y">발행요청</option>
-                        </select>
-                        <div id="taxbill_section" style="display:none;">
-                          <input type="text" name="company_saupja_no" class="w-per100 frm-input" value="<?php echo $member['ju_b_num'] ?>" placeholder="사업자등록번호"><br>
-                          <input type="text" name="company_name" class="w-per100 frm-input" value="<?php echo $member['ju_restaurant']; ?>" placeholder="상호(법인명)"><br>
-                          <input type="text" name="company_owner" class="w-per100 frm-input"value="<?php echo $member['ju_name']; ?>" placeholder="대표자명"><br>
-                          <input type="text" name="company_addr" class="w-per100 frm-input"value="<?php echo $member['ju_addr_full']; ?>" placeholder="사업장주소"><br>
-                          <input type="text" name="company_item" class="w-per100 frm-input"value="<?php echo $member['ju_business_type']; ?>" placeholder="업태"><br>
-                          <input type="text" name="company_service" class="w-per100 frm-input"value="<?php echo $member['ju_sectors']; ?>" placeholder="업종">
-                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['cellphone'] ?>" placeholder="신청자 전화번호">
-                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['email'] ?>" placeholder="이메일">
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
+                    </dd>
+                    </dl>
+                    <dl class="info-item">
+                    <dt class="tit">첫 배송 시점</dt>
+                    <dd>
+                        <input type="text" name="od_begin_date" value="" id="od_begin_date" class="frm_input" maxlength="10" require>
+                    </dd>
+                    </dl>
 
-            <section id="card_section" style="display:none;" >
-              <h2 class="anc_tit">신용카드 선택</h2>
-              <div class="">
-                <?php
-                  $sqlCard   = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
-                  $resCard   = sql_query($sqlCard);
-                  $resNumRow = sql_num_rows($resCard);
-                  if ($resNumRow > 0) {
-                    ?>
-                <select name="cardsel" id="cardsel" class="frm-select w-per100">
-                  <?php
-for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {
-    ?>
-                    <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use'] == "Y" ? "selected" : "" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
-                  <?php
-}?>
-                </select>
-                <?php
-} else {?>
-                  <a href="/m/shop/card.php">카드 등록</a>
-                <?php }?>
-
-              </div>
-            </section>
-
+                </div>
+            </div>
             <script>
-              function toggleTaxDocument(documentType) {
-                if (documentType === 'cash_receipt') {
-                  document.getElementById('cash_receipt_section').style.display = '';
-                  document.getElementById('cash_bill_section').style.display = '';
-                  document.getElementById('tax_bill_section').style.display = 'none';
-                } else if (documentType === 'tax_bill') {
-                  // document.getElementById('cash_receipt_section').style.display = 'none';
-                  document.getElementById('cash_bill_section').style.display = 'none';
-                  document.getElementById('tax_bill_section').style.display = '';
-                } else {
-                  document.getElementById('cash_bill_section').style.display = 'none';
-                  document.getElementById('tax_bill_section').style.display = 'none';
-                  $("select[name=taxsave_yes]").val('N');
-                  $("select[name=taxbill_yes]").val('N');
-                  tax_save('N')
-                  tax_bill('N')
-                }
-              }
+                $(function() {
+                    function getSelectedWeekdays() {
+                        var selectedWeekdays = [];
+                        $('input[name^="od_wday"]:checked').each(function() {
+                            selectedWeekdays.push(parseInt($(this).val()));
+                        });
+                        return selectedWeekdays;
+                    }
+
+                    $('#od_begin_date').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: "yy-mm-dd",
+                        showButtonPanel: true,
+                        yearRange: "-99:+99",
+                        minDate: 0,
+                        beforeShowDay: function(date) {
+                            var day = date.getDay(); // 0 (Sunday) to 6 (Saturday)
+                            var selectedWeekdays = getSelectedWeekdays();
+                            if (selectedWeekdays.length === 0) {
+                                return [false, "", "배송요일을 선택하세요"]; // 요일이 선택되지 않은 경우
+                            }
+                            var currentDate = new Date();
+                            var daysDifference = (date - currentDate) / (1000 * 60 * 60 * 24);
+
+                            // 3일 이내의 날짜는 선택할 수 없도록 설정
+                            var isSelectable = selectedWeekdays.includes(day) && daysDifference > 3;
+                            return [isSelectable, "", isSelectable ? "" : "3일 이후의 날짜를 선택하세요"];
+                        },
+                        onSelect: function(selectedDate) {
+                            var currentDate = $.datepicker.formatDate('yy-mm-dd', new Date());
+                            if (selectedDate < currentDate) {
+                                alert('미래 날짜만 선택할 수 있습니다.');
+                                $('#od_begin_date').val('');
+                            }
+                        }
+                    });
+
+                    $('input[name="od_wday[]"]').change(function() {
+                        $('#od_begin_date').datepicker('refresh'); // 요일 선택 시 Datepicker 갱신
+                    });
+                });
             </script>
+            <?php } ?>
+            <!-- 주문자 기본 정보 추가 _20240412_SY -->
+            <div class="order_box">
+                <p class="order_title">주문자정보</p>
+                <div class=" info-list">
+                    <div class="info-item">
+                    <p class="tit">회원명</p>
+                    <input type="text" name="ju_restaurant" value="<?php echo $member['ju_restaurant'] ?>" class="w-per50 frm-input">
+                    </div>
+                    <div class="info-item">
+                    <p class="tit">대표자명</p>
+                    <input type="text" name="name" value="<?php echo $member['name'] ?>" class="w-per50 frm-input">
+                    </div>
+                    <div class="info-item">
+                    <p class="tit">사업자번호</p>
+                    <input type="text" name="ju_b_num" value="<?php echo $member['ju_b_num'] ?>" class="w-per50 frm-input" <?php echo ($is_member) ? "readonly" : "" ?> >
+                    </div>
+                    <div class="info-item">
+                    <p class="tit">연락처</p>
+                    <input type="text" name="cellphone" value="<?php echo $member['cellphone'] ?>" class="w-per50 frm-input">
+                    <input type="hidden" name="telephone" value="<?php echo $member['cellphone'] ?>">
+                    </div>
+                </div>
+            </div>
 
-            <!-- <div class="od-userInfo">
-              결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다. 결제관련 안내사항 영역입니다.
-            </div> -->
+            <div id="od-dtn" class="order_box">
+                <p class="order_title">배송지</p>
+                <input type="hidden" name="b_name"      class="frm_input required od-dtn__contact">
+                <input type="hidden" name="b_cellphone" class="frm_input required od-dtn__contact">
+                <input type="hidden" name="b_telephone" class="frm_input od-dtn__contact">
+                <input type="hidden" name="b_zip"       class="frm_input required od-dtn__contact">
+                <input type="hidden" name="b_addr1"     class="frm_input frm_address required od-dtn__contact">
+                <input type="hidden" name="b_addr2"     class="frm_input frm_address od-dtn__contact">
+                <input type="hidden" name="b_addr3"     class="frm_input frm_address od-dtn__contact">
+                <input type="hidden" name="b_addr_jibeon" value="">
 
-            <?php if (!$is_member) {?>
-            <section id="guest_privacy">
-              <h2 class="anc_tit">비회원 구매</h2>
-              <div class="tbl_head01 tbl_wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>목적</th>
-                      <th>항목</th>
-                      <th>보유기간</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>이용자 식별 및 본인 확인</td>
-                      <td>이름, 비밀번호</td>
-                      <td>5년(전자상거래등에서의 소비자보호에 관한 법률)</td>
-                    </tr>
-                    <tr>
-                      <td>배송 및 CS대응을 위한 이용자 식별</td>
-                      <td>주소, 연락처(이메일, 휴대전화번호)</td>
-                      <td>5년(전자상거래등에서의 소비자보호에 관한 법률)</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                <div class="od-dtn-info">
+                    <?php // 배송지 수정 _20240503_SY
+                        $mb_id     = $member['id'];
+                        $addr1     = '';
+                        $cellphone = '';
+                        $msg       = '';
 
-              <div id="guest_agree" class="frm-choice">
-                <input type="checkbox" id="agree" value="1" class="css-checkbox lrg">
-                <label for="agree">개인정보 수집 및 이용 내용을 읽었으며 이에 동의합니다.</label>
-              </div>
-            </section>
-            <?php }?>
-          </div>
+                        $sqlb_address = "select * from b_address where mb_id='$mb_id'  and b_base='1' ";
+                        $res          = sql_fetch($sqlb_address);
+                        if ($res['b_base'] == '1') {
+                            $msg       = "<span class='tag'>기본배송지</span></p>";
+                            $addr1     = print_address($res['b_addr1'], $res['b_addr2'], $res['b_addr3'], $res['b_addr_jibeon']);
+                            $cellphone = $res['b_cellphone'];
+                        } else if ($res['b_base'] == '0') {
+                            $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
+                        } else {
+                            if (!empty($member['addr1'])) {
+                                $addr1     = print_address($member['addr1'], $member['addr2'], $member['addr3'], '');
+                                $cellphone = $member['cellphone'];
+                            } else if (!empty($member['ju_addr_full'])) {
+                                $addr1     = $member['ju_addr_full'];
+                                $cellphone = $member['cellphone'];
+                            } else {
+                                $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
+                            }
+                        }
+                    ?>
+                    <p class="od-dtn__name">
+                        <span class="nm"><?php echo $member['name']; ?></span>
+                        <?php echo $msg; ?>
+                        <span class="od-dtn__contact"><?php echo $cellphone; ?></span>
+                    </p>
+                    <p class="od-dtn__addr"><?php echo $addr1 ?></p>
+                </div>
+
+                <input type="hidden" name="email" value="<?php echo $member['email']; ?>" >
+                <input type="hidden" name="zip"   value="<?php echo !empty($addr1) ? "" : $member['zip']; ?>" >
+                <input type="hidden" name="addr1" value="<?php echo $addr1; ?>" >
+                <input type="hidden" name="addr2" value="<?php echo !empty($addr1) ? "" : $member['addr2']; ?>" >
+                <input type="hidden" name="addr3" value="<?php echo !empty($addr1) ? "" : $member['addr3']; ?>" >
+                <input type="hidden" name="addr_jibeon" value="<?php echo !empty($addr1) ? "" : $member['addr_jibeon']; ?>">
+
+
+                <div class="od-dtn-btns">
+                    <button type="button" class="ui-btn st3 od-dtn__change">변경</button>
+                </div>
+
+                <!-- 배송요청사항 추가 _20240507_SY -->
+                <div class="mart30">
+                    <div class="od-dtn-info">
+                    <dl class="info-item">
+                        <dt class="tit">배송요청사항</dt>
+                        <dd class="w90p">
+                            <input type="text" name="b_addr_req" value="<?php echo $b_addr_req ?>" class="w-per50 frm-input">
+                        </dd>
+                    </dl>
+                    </div>
+                </div>
+            </div>
+            <div id="od-benf" class="order_box">
+                <p class="order_title">할인/혜택적용</p>
+                <div class="">
+                    <div class="od-benf-fm">
+                        <?php
+                            if ($is_member && $config['coupon_yes']) { // 보유쿠폰
+                            $sp_count = get_cp_precompose($member['id']);
+                        ?>
+                        <div class="form-row">
+                            <div class="form-head coupon_box">
+                                <p class="title">쿠폰할인</p>
+                                <p id="dc_coupon">
+                                    <a href="javascript:(0)" class="ui-btn st2 couponopen">사용 가능 쿠폰 <span><?php echo $sp_count[3]; ?></span>장</a>
+                                </p>
+                            </div>
+                            <div class="form-body">
+                                <span id="dc_amt">0원
+                                <span id="dc_cancel" style="display:none;">
+                                    <a href="javascript:coupon_cancel();" class="btn_small grey">&nbsp;삭제</a>
+                                </span>
+                                </span>
+                            </div>
+                        </div>
+                        <?php }?>
+                        <?php if ($is_member && $config['usepoint_yes']) {?>
+                        <div class="form-row">
+                        <div class="form-head">
+                            <p class="title">적립금 사용 <span>(보유적립금 : <?php echo display_point($member['point']); ?>)</span></p>
+                        </div>
+                        <div class="form-body">
+                            <input type="text" name="use_point" id="use_point" value="0" class="w-per100 frm-input" onkeyup="calculate_temp_point(this.value); this.value=number_format(this.value);">
+                            <ul class="cnt_list step02 mart5">
+                                <li><?php echo display_point($config['usepoint']); ?> 부터 사용가능</li>
+                            </ul>
+                            <div class="od-esPoint">
+                                <span class="t1">구매시 예상 적립금</span>
+                                <span class="t2"><?php echo number_format($tot_point); ?>원</span>
+                            </div>
+                            <ul class="cnt_list step02 mart10">
+                                <li>예상 적립금은 최종 결제 금액에서 사용하신 적립금을 제외한 결제금액을 기준으로 지급됩니다.</li>
+                                <li>구매확정 이후 적립될 적립금은 해당 예상 적립금 내역과 상이할 수 있습니다.</li>
+                            </ul>
+                        </div>
+                        </div>
+                        <?php }?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order_box">
+                <div id="od-pay">
+                    <p class="order_title">결제수단</p>
+                    <div class="">
+                        <?php
+                            $escrow_title = "";
+                            if ($default['de_escrow_use']) {
+                                $escrow_title = "에스크로 ";
+                            }
+
+                            $multi_settle = '';
+                            if ($is_kakaopay_use) {
+                                // $multi_settle .= "<option value='KAKAOPAY'>카카오페이</option>\n";
+                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"KAKAOPAY\" id=\"kakaopay\">\n";
+                                $multi_settle .= "<label for=\"kakaopay\">카카오페이</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
+                            }
+                            if ($default['de_bank_use']) {
+                                // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
+                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
+                                $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
+                            }
+                            if ($default['de_card_use']) {
+                                // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
+                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"신용카드\" id=\"de_card\">\n";
+                                $multi_settle .= "<label for=\"de_card\">신용카드</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
+                            }
+                            if ($default['de_hp_use']) {
+                                // $multi_settle .= "<option value='휴대폰'>휴대폰</option>\n";
+                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"휴대폰\" id=\"de_hp\">\n";
+                                $multi_settle .= "<label for=\"de_hp\">휴대폰</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
+                            }
+                            if ($default['de_iche_use']) {
+                                // $multi_settle .= "<option value='계좌이체'>".$escrow_title."계좌이체</option>\n";
+                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"계좌이체\" id=\"de_iche\">\n";
+                                $multi_settle .= "<label for=\"de_iche\">계좌이체</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
+                            }
+                            if ($default['de_vbank_use']) {
+                                // $multi_settle .= "<option value='가상계좌'>".$escrow_title."가상계좌</option>\n";
+                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"가상계좌\" id=\"de_vbank\">\n";
+                                $multi_settle .= "<label for=\"de_vbank\">가상계좌</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
+                            }
+                            if ($is_member && $config['usepoint_yes'] && ($tot_price <= $member['point'])) {
+                                // $multi_settle .= "<option value='포인트'>포인트결제</option>\n";
+                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"포인트\" id=\"de_point\">\n";
+                                // 포인트결제 주석 _20240613_SY
+                                // $multi_settle .= "<label for=\"de_point\">포인트결제</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
+                            }
+
+                            // PG 간편결제
+                            if ($default['de_easy_pay_use']) {
+                                switch ($default['de_pg_service']) {
+                                    case 'lg':
+                                    $pg_easy_pay_name = 'PAYNOW';
+                                    break;
+                                    case 'inicis':
+                                    $pg_easy_pay_name = 'KPAY';
+                                    break;
+                                    case 'kcp':
+                                    $pg_easy_pay_name = 'PAYCO';
+                                    break;
+                                }
+                                if ($pg_easy_pay_name) {
+                                    $multi_settle .= "<option value='간편결제'>{$pg_easy_pay_name}</option>\n";
+                                }
+                            }
+                            // 이니시스를 사용중일때만 삼성페이 결제가능
+                            if ($default['de_samsung_pay_use'] && ($default['de_pg_service'] == 'inicis')) {
+                                $multi_settle .= "<option value='삼성페이'>삼성페이</option>\n";
+                            }
+
+                        ?>
+                        <div id="sod_frm_pay">
+                            <ul class="sod_frm_pay_ul">
+                                <?php echo $multi_settle; ?>
+                            </ul>
+                        </div>
+
+                        <div id="bank_section" style="display:none;" class="mart50">
+                            <p class="order_title">입금하실 계좌</p>
+                            <div class="info-list">
+                                <div class="info-item">
+                                    <p class="tit">은행</p>
+                                    <div class="chk_select w100p">
+                                        <select id="bank_code" name="bank_code" class="">
+                                            <option value="">은행 선택</option>
+                                            <?php
+                                                foreach ($BANKS as $bkCode => $v) {?>
+                                                <option value="<?php echo $v['code'] ?>"><?php echo $v['bank'] ?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="info-item">            
+                                    <p class="tit">휴대전화</p>
+                                    <input type="text" name="customerMobilePhone" value="" class="frm-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 환불계좌 정보 추가 _20240507_SY -->
+                        <div id="refund_section" style="display:none;">
+                            <p class="order_title">환불받으실 계좌</p>
+                            <div class="info-list">
+                                <div class="info-item">
+                                    <p class="tit">은행명</p>
+                                    <?php
+                                        $refund_bank_code = $member['refund_bank'];
+
+                                        // 은행 코드로 해당 은행 이름 찾기
+                                        $bankCodes = array_column($BANKS, 'code');
+                                        $bankIndex = array_search($refund_bank_code, $bankCodes);
+
+                                        $refund_bank_name = ($bankIndex !== false) ? $BANKS[array_keys($BANKS)[$bankIndex]]['bank'] : "";
+                                    ?>
+                                    <input type="text" name="refund_bank" value="<?php echo $refund_bank_name ?>" class="frm-input" id="refund_bank">
+                                </div>
+                                <div class="info-item">            
+                                    <p class="tit">계좌번호</p>
+                                    <input type="text" name="refund_num" value="<?php echo $member['refund_num'] ?>" class="frm-input" id="refund_num">
+                                </div>
+                                <div class="info-item">            
+                                    <p class="tit">예금주</p>
+                                    <input type="text" name="refund_name" value="<?php echo $member['refund_name'] ?>" class="frm-input w-per100" id="refund_name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="taxsave_section" style="display:none;">
+                            <p class="order_title">증빙서류 발급</p>
+                            <div class="info-list">
+                                <div class="info-item">
+                                    <p class="tit">증빙서류 선택</p>
+                                    <ul class="radio_group">
+                                        <li class="radios">
+                                            <input type="radio" id="tax_typ1" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked> 
+                                            <label for="tax_typ1">현금영수증</label>
+                                        </li>
+                                        <li class="radios">
+                                            <input type="radio" id="tax_typ2" name="documentType" value="tax_bill" onclick="toggleTaxDocument(this.value);">
+                                            <label for="tax_typ2">세금계산서</label>
+                                        </li>
+                                        <li class="radios">
+                                            <input type="radio" id="tax_typ3" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);"> 
+                                            <label for="tax_typ3">미발행</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="info-item">            
+                                    <p class="tit">현금영수증</p>
+                                    <div class="tax_info_box">
+                                        <div class="chk_select">
+                                            <select name="taxsave_yes" onchange="tax_save(this.value);" class="">
+                                                <option value="N">발행안함</option>
+                                                <option value="Y">개인 소득공제용</option>
+                                                <option value="S">사업자 지출증빙용</option>
+                                            </select>
+                                        </div>
+                                        <div id="taxsave_fld_1" style="display:none;">
+                                            <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호" value="<?php echo $member['cellphone'] ?>">
+                                        </div>
+                                        <div id="taxsave_fld_2" style="display:none;">
+                                            <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호" value="<?php echo $member['ju_b_num'] ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="card_section" style="display:none;" >
+                            <p class="order_title">신용카드 선택</p>
+                            <div class="chk_select w100p">
+                                <?php
+                                $sqlCard   = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+                                $resCard   = sql_query($sqlCard);
+                                $resNumRow = sql_num_rows($resCard);
+                                if ($resNumRow > 0) {
+                                    ?>
+                                <select name="cardsel" id="cardsel" class="">
+                                    <?php
+                                        for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) {
+                                    ?>
+                                    <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use'] == "Y" ? "selected" : "" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
+                                <?php } ?>
+                                </select>
+                                <?php } else {?>
+                                <a href="/m/shop/card.php">카드 등록</a>
+                                <?php }?>
+
+                            </div>
+                            <script>
+                                function toggleTaxDocument(documentType) {
+                                    if (documentType === 'cash_receipt') {
+                                    document.getElementById('cash_receipt_section').style.display = '';
+                                    document.getElementById('cash_bill_section').style.display = '';
+                                    document.getElementById('tax_bill_section').style.display = 'none';
+                                    } else if (documentType === 'tax_bill') {
+                                    // document.getElementById('cash_receipt_section').style.display = 'none';
+                                    document.getElementById('cash_bill_section').style.display = 'none';
+                                    document.getElementById('tax_bill_section').style.display = '';
+                                    } else {
+                                    document.getElementById('cash_bill_section').style.display = 'none';
+                                    document.getElementById('tax_bill_section').style.display = 'none';
+                                    $("select[name=taxsave_yes]").val('N');
+                                    $("select[name=taxbill_yes]").val('N');
+                                    tax_save('N')
+                                    tax_bill('N')
+                                    }
+                                }
+                            </script>
+                        </div>
+                        <?php if (!$is_member) {?>
+                        <div id="guest_privacy">
+                            <p class="order_title">비회원 구매</p>
+                            <div class="tbl_head01">
+                                <table>
+                                <thead>
+                                    <tr>
+                                    <th>목적</th>
+                                    <th>항목</th>
+                                    <th>보유기간</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="tal">이용자 식별 및 본인 확인</td>
+                                        <td class="tal">이름, 비밀번호</td>
+                                        <td class="tal">5년(전자상거래등에서의 소비자보호에 관한 법률)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tal">배송 및 CS대응을 위한 이용자 식별</td>
+                                        <td class="tal">주소, 연락처(이메일, 휴대전화번호)</td>
+                                        <td class="tal">5년(전자상거래등에서의 소비자보호에 관한 법률)</td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                            <div id="guest_agree" class="frm-choice">
+                                <input type="checkbox" id="agree" value="1" class="css-checkbox lrg">
+                                <label for="agree">개인정보 수집 및 이용 내용을 읽었으며 이에 동의합니다.</label>
+                            </div>
+                        </div>
+                        <?php }?>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
 
-
-
-      <div class="btn_confirm" class="btn_confirm">
-        <div class="container">
-          <input type="submit" value="주문하기" class="btn_medium btn-buy">
-          <!-- 시안대로 금액표시할 경우 사용
-          <button type="submit" class="btn_medium btn-buy">
-            <p class="price">
-              <span class="spr">92,000<span class="won">원</span></span>
-              <span class="txt"> 구매하기</span>
-            </p>
-          </button>
-          -->
+        <div class="order_right">
+            <div id="od-prc" class="order_box">
+                <p class="order_title">결제금액</p>
+                <ul class="prc-tot">
+                    <li>
+                        <span class="lt-txt">총 상품금액</span>
+                        <span class="rt-txt"><?php echo number_format($tot_sell_price) ?>원</span>
+                    </li>
+                    <li>
+                        <span class="lt-txt">배송비</span>
+                        <span class="rt-txt"><?php echo number_format($tot_send_cost) ?>원</span>
+                        <ul class="prc-tot2">
+                        <li>
+                            <span class="lt-txt">기본배송비</span>
+                            <span class="rt-txt"><?php echo number_format($tot_send_cost) ?>원</span>
+                        </li>
+                        <li>
+                            <span class="lt-txt">추가배송비</span>
+                            <span id="send_cost2" class="rt-txt">0원</span>
+                        </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="lt-txt">총 할인금액</span>
+                        <span class="rt-txt totdc_amt" id="totdc_amt">0원</span>
+                        <ul class="prc-tot2">
+                        <li>
+                            <span class="lt-txt">즉시할인</span>
+                            <span class="rt-txt">0원</span>
+                        </li>
+                        <li>
+                            <span class="lt-txt ">쿠폰할인</span>
+                            <span class="rt-txt cpdc_amt" id="cpdc_amt">0원</span>
+                        </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="lt-txt">적립금 사용</span>
+                        <span class="rt-txt">
+                        <span id="rst-usePoint">0원</span>
+                        </span>
+                    </li>
+                    <li class="rst">
+                        <span class="lt-txt">최총 결제금액</span>
+                        <p class="rt-txt">
+                            <input type="text" name="tot_price" value="<?php echo number_format($tot_price); ?>" readonly>
+                            <span>원</span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn_confirm" class="btn_confirm">
+                <input type="submit" value="주문하기" class="btn_medium btn-buy">
+            </div>
         </div>
-      </div>
+
+
+    </div>
+
     </form>
-    <!-- <div id="btn_confirm2" class="btn_confirm">
-    <button class="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
-    </div> -->
   </div>
 </div>
 

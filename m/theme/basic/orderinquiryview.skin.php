@@ -423,6 +423,17 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               <span class="rt-txt"><?php echo conv_content($od['memo'], 0); ?></span>
             </li>
             <?php } ?>
+            <?php // 운송장정보 추가 _20240624_SY
+            if(!empty($od['delivery']) && !empty($od['delivery_no'])) { 
+              $dlcomp = explode('|', trim($od['delivery']));
+            ?>
+            <li>
+              <span class="lt-txt">운송장번호</span>
+              <span class="rt-txt"><a href="<?php echo $dlcomp[1].$rw['delivery_no'] ?>" target="_blank"><?php echo $dlcomp[0] ?></a>
+                <?php echo conv_content($od['delivery_no'], 0); ?>
+              </span>
+            </li>
+            <?php } ?>
           </ul>
         </div>
       </div>

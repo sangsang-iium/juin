@@ -57,6 +57,7 @@ $regions = [
       <select name="region" id="region" class="select" onchange="changeRegion(this.value);">
       <?php
       if($region_key){
+        echo '<option value="'.$region_key.'">전체</option>';
         foreach($regions[$region_key] as $v){
             echo '<option value="'.$v.'">'.$v.'</option>';
         }

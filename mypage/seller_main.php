@@ -19,186 +19,378 @@ $final1 = admin_order_status_sum("{$sql_where} and dan = 5 and user_ok = 1 "); /
 $final2 = admin_order_status_sum("{$sql_where} and dan = 5 and user_ok = 0 "); // 총 구매미확정
 ?>
 
-<div id="main_wrap">
-	<section>
-		<h2>전체 주문통계<a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=seller_odr_list" class="btn_small">주문내역 바로가기</a></h2>
-		<div class="order_vbx">
-			<dl class="od_bx1">
-				<dt>전체 주문현황</dt>
-				<dd>
-					<p class="ddtit">총 주문건수</p>
-					<p><?php echo number_format($sodrr['cnt']); ?></p>
-				</dd>
-				<dd class="total">
-					<p class="ddtit">총 주문액</p>
-					<p><?php echo number_format($sodrr['price']); ?></p>
-				</dd>
-			</dl>
+<link rel="stylesheet" href="<?php echo BV_ADMIN_URL; ?>/css/reset_md.css?ver=<?php echo BV_CSS_VER; ?>"> <!-- 리셋css_김민규 -->
+<link rel="stylesheet" href="<?php echo BV_ADMIN_URL; ?>/css/style_md.css?ver=<?php echo BV_CSS_VER; ?>"> <!-- 스타일css_김민규 -->
 
-			<dl class="od_bx2">
-				<dt>주문상태 현황</dt>
-				<dd>
-					<p class="ddtit">입금완료</p>
-					<p><?php echo number_format($sodr2['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">배송준비</p>
-					<p><?php echo number_format($sodr3['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">배송중</p>
-					<p><?php echo number_format($sodr4['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">배송완료</p>
-					<p><?php echo number_format($sodr5['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">구매확정</p>
-					<p><?php echo number_format($final1['cnt']); ?></p>
+<div id="main_dashboard" class="bg_white">
+	<div class="dashboard_boxs">
+		<dl>
+			<dt class="box_title">전체 주문통계</dt>
+			<dd class="box_contents">
+				<div class="box_white">
+					<p class="content_title">총 주문건수</p>
+					<div class="cnt_data_box">
+						<p class="total_boxs">
+							<?php echo number_format($sodrr['cnt']); ?>
+							<span class="cnt_unit_text">건</span>
+						</p>
+						<p class="data_bot">
+							<?php echo number_format($sodrr['price']); ?>
+							<span class="cnt_unit_text">원</span>
+						</p>
+					</div>
+				</div>  
+			</dd>
+		</dl>
+		<dl>
+            <dt class="box_title">주문상태 현황</dt>
+            <dd class="box_contents box_type">
+                <div class="order_line_cnt box_white">
+                    <p class="content_title">입금완료</p>
+                    <div class="approval_box">
+                        <p class="order_line_num">
+							<?php echo number_format($sodr2['cnt']); ?>
+                            <span class="cnt_unit_text">건</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="order_line_cnt box_white">
+                    <p class="content_title color_type4">배송준비</p>
+					<div class="approval_box">
+                        <p class="order_line_num color_type4">
+							<?php echo number_format($sodr3['cnt']); ?>
+                            <span class="cnt_unit_text">건</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="order_line_cnt box_white">
+                    <p class="content_title color_type2">배송중</p>
+                    <div class="approval_box">
+                        <p class="order_line_num color_type2">
+							<?php echo number_format($sodr4['cnt']); ?>
+                            <span class="cnt_unit_text">건</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="order_line_cnt box_white">
+                    <p class="content_title color_type3">배송완료</p>
+					<div class="approval_box">
+                        <p class="order_line_num color_type3">
+							<?php echo number_format($sodr5['cnt']); ?>
+                            <span class="cnt_unit_text">건</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="order_line_cnt box_white full_size">
+                    <p class="content_title color_type1">구매확정</p>
+                    <div class="approval_box">
+                        <p class="order_line_num color_type1">
+							<?php echo number_format($final1['cnt']); ?>
+                            <span class="cnt_unit_text">건</span>
+                        </p>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+		<dl>
+            <dt class="box_title">구매확정/클래임 현황</dt>
+            <dd class="box_contents box_type">
+                <div class="order_line_cnt box_white">
+                    <p class="content_title">구매미확정</p>
+                    <div class="approval_box">
+                        <p class="order_line_num">
+							<?php echo number_format($final2['cnt']); ?>
+                            <span class="cnt_unit_text">건</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="order_line_cnt box_white">
+                    <p class="content_title color_type4">취소</p>
+					<div class="approval_box">
+                        <p class="order_line_num color_type4">
+						<?php echo number_format($sodr6['cnt']); ?>
+                            <span class="cnt_unit_text">건</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="order_line_cnt box_white">
+                    <p class="content_title color_type2">환불</p>
+                    <div class="approval_box">
+                        <p class="order_line_num color_type2">
+							<?php echo number_format($sodr9['cnt']); ?>
+                            <span class="cnt_unit_text">건</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="order_line_cnt box_white">
+                    <p class="content_title color_type3">반품</p>
+					<div class="approval_box">
+                        <p class="order_line_num color_type3">
+							<?php echo number_format($sodr7['cnt']); ?>
+                            <span class="cnt_unit_text">건</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="order_line_cnt box_white full_size">
+                    <p class="content_title color_type1">교환</p>
+                    <div class="approval_box">
+                        <p class="order_line_num color_type1">
+						<?php echo number_format($sodr8['cnt']); ?>
+                            <span class="cnt_unit_text">건</span>
+                        </p>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+		<dl>
+            <dt class="box_title link_type">
+                <a href="#">최근 등록된 상품</a>
+            </dt>
+            <dd class="box_contents rank_type new_item_list">
+                <ol class="box_white">
+                    <li>
+                        <a href="#" class="new_item_name">상품 이름</a>
+                    </li>
+                    <li>
+                        <a href="#" class="new_item_name">상품 이름</a>
+                    </li>
+                    <li>
+                        <a href="#" class="new_item_name">상품 이름</a>
+                    </li>
+                    <li>
+                        <a href="#" class="new_item_name">상품 이름</a>
+                    </li>
+                    <li>
+                        <a href="#" class="new_item_name">상품 이름</a>
+                    </li>
+                    <li>
+                        <a href="#" class="new_item_name">상품 이름</a>
+                    </li>
+                </ol>          
+            </dd>
+        </dl>
+	</div>
+	<div class="dashboard_boxs">
+		<div class="dashboard_graph">
+            <dl>
+                <dt class="box_title">매출 현황, 정산 예정금액</dt>
+                <dd class="box_contents">
+                    <div class="chart_box box_white">
+                        <div id="chart" style="width:100%;"></div>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+		<div class="dashboard_boards">
+			<dl>
+				<dt class="box_title link_type">
+					<a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=seller_odr_list">최근 주문내역</a>
+				</dt>
+				<dd class="box_contents">
+					<ul class="box_white board_list">
+					<?php
+						$sql = " select * from shop_order {$sql_where} and dan > 1 group by od_id order by index_no desc limit 5 ";
+						$res = sql_query($sql);
+						for($i=0; $row=sql_fetch_array($res); $i++){
+							$amount = get_order_spay($row['od_id'], " and seller_id = '{$seller['seller_code']}' ");
+						?>
+						<li>
+							<a href="#" class="board_title"><?php echo $row['od_id']; ?></a>
+							<span class="board_date"><?php echo substr($row['od_time'],0,10); ?></span>
+						</li>
+						<?php
+							}
+							if($i==0)
+								echo '<li><p class="board_title">자료가 없습니다.</p></li>';
+						?>
+					</ul>          
 				</dd>
 			</dl>
-			<dl class="od_bx2">
-				<dt>구매확정/클래임 현황</dt>
-				<dd>
-					<p class="ddtit">구매미확정</p>
-					<p><?php echo number_format($final2['cnt']); ?></p>
+			<dl>
+				<dt class="box_title link_type">
+					<a href="<?php echo BV_BBS_URL; ?>/list.php?boardid=21">상품 문의</a>
+				</dt>
+				<dd class="box_contents">
+					<ul class="box_white board_list">
+						<?php
+						$sql = "select * from shop_board_21 order by wdate desc limit 5 ";
+						$res = sql_query($sql);
+						for($i=0;$row=sql_fetch_array($res);$i++){
+							$bo_subject = cut_str($row['subject'],40);
+							$bo_date = date('Y-m-d', $row['wdate']);
+							$bo_href = BV_BBS_URL."/read.php?boardid=21&index_no=$row[index_no]";
+						?>
+						<li>
+							<a href="<?php echo $bo_href; ?>" class="board_title">
+							<?php echo $bo_subject; ?>
+							</a>
+							<span class="board_date"><?php echo $bo_date; ?></span>
+						</li>
+						<?php
+							}
+							if($i==0)
+								echo '<li><p class="board_title">자료가 없습니다.</p></li>';
+						?>
+					</ul>          
 				</dd>
-				<dd>
-					<p class="ddtit">취소</p>
-					<p><?php echo number_format($sodr6['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">환불</p>
-					<p><?php echo number_format($sodr9['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">반품</p>
-					<p><?php echo number_format($sodr7['cnt']); ?></p>
-				</dd>
-				<dd>
-					<p class="ddtit">교환</p>
-					<p><?php echo number_format($sodr8['cnt']); ?></p>
+			</dl>
+			<dl class="box_odd">
+				<dt class="box_title link_type">
+					<a href="<?php echo BV_BBS_URL; ?>/list.php?boardid=20">공지사항</a>
+				</dt>
+				<dd class="box_contents">
+					<ul class="box_white board_list">
+						<?php
+						$sql = "select * from shop_board_20 order by wdate desc limit 5 ";
+						$res = sql_query($sql);
+						for($i=0;$row=sql_fetch_array($res);$i++){
+							$bo_subject = cut_str($row['subject'],40);
+							$bo_date = date('Y-m-d', $row['wdate']);
+							$bo_href = BV_BBS_URL."/read.php?boardid=20&index_no=$row[index_no]";
+						?>
+						<li>
+							<a href="<?php echo $bo_href; ?>" class="board_title">
+								<?php echo $bo_subject; ?>
+							</a>
+							<span class="board_date"><?php echo $bo_date; ?></span>
+						</li>
+						<?php
+							}
+							if($i==0)
+								echo '<li><p class="board_title">게시글이 없습니다.</p></li>';
+						?>
+					</ul>          
 				</dd>
 			</dl>
 		</div>
-	</section>
-
-	<section class="sidx_head01">
-		<h2>최근 주문내역<a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=seller_odr_list" class="btn_small">주문내역 바로가기</a></h2>
-		<table>
-		<thead>
-		<tr>
-			<th scope="col">주문번호</th>
-			<th scope="col">주문자명</th>
-			<th scope="col">수령자명</th>
-			<th scope="col">전화번호</th>
-			<th scope="col">결제방법</th>
-			<th scope="col">총주문액</th>
-			<th scope="col">주문일시</th>
-		</tr>
-		</thead>
-		<tbody>
-		<?php
-		$sql = " select * from shop_order {$sql_where} and dan > 1 group by od_id order by index_no desc limit 5 ";
-		$res = sql_query($sql);
-		for($i=0; $row=sql_fetch_array($res); $i++){
-			$amount = get_order_spay($row['od_id'], " and seller_id = '{$seller['seller_code']}' ");
-		?>
-		<tr class="tr_alignc">
-			<td><?php echo $row['od_id']; ?></td>
-			<td><?php echo $row['name']; ?></td>
-			<td><?php echo $row['b_name']; ?></td>
-			<td><?php echo $row['cellphone']; ?></td>
-			<td><?php echo $row['paymethod']; ?></td>
-			<td><?php echo number_format($amount['buyprice']); ?></td>
-			<td><?php echo substr($row['od_time'],0,16); ?> (<?php echo get_yoil($row['od_time']); ?>)</td>
-		</tr>
-		<?php
-		}
-		if($i==0)
-			echo '<tr><td colspan="7" class="empty_table">자료가 없습니다.</td></tr>';
-		?>
-		</tbody>
-		</table>
-	</section>
-
-	<section>
-		<table class="wfull">
-		<tr>
-			<td width="49.5%" valign="top" class="sidx_head01">
-				<h2>공지사항<a href="<?php echo BV_BBS_URL; ?>/list.php?boardid=20" class="btn_small">바로가기</a></h2>
-				<table>
-				<colgroup>
-					<col width="20%">
-					<col width="80%">
-				</colgroup>
-				<thead>
-				<tr>
-					<th scope="col">등록일</th>
-					<th scope="col">제목</th>
-				</tr>
-				</thead>
-				<tbody>
-				<?php
-				$sql = "select * from shop_board_20 order by wdate desc limit 5 ";
-				$res = sql_query($sql);
-				for($i=0;$row=sql_fetch_array($res);$i++){
-					$bo_subject = cut_str($row['subject'],40);
-					$bo_date = date('Y-m-d', $row['wdate']);
-					$bo_href = BV_BBS_URL."/read.php?boardid=20&index_no=$row[index_no]";
-				?>
-				<tr>
-					<td class="tac"><?php echo $bo_date; ?></td>
-					<td class="tal"><a href="<?php echo $bo_href; ?>"><?php echo $bo_subject; ?></a></td>
-				</tr>
-				<?php
-				}
-				if($i == 0)
-					echo '<tr><td colspan="2" class="empty_table">자료가 없습니다.</td></tr>';
-				?>
-				</tbody>
-				</table>
-			</td>
-			<td width="1%"></td>
-			<td width="49.5%" valign="top" class="sidx_head01">
-				<h2>질문과답변<a href="<?php echo BV_BBS_URL; ?>/list.php?boardid=21" class="btn_small">바로가기</a></h2>
-				<table>
-				<colgroup>
-					<col width="20%">
-					<col width="80%">
-				</colgroup>
-				<thead>
-				<tr>
-					<th scope="col">등록일</th>
-					<th scope="col">제목</th>
-				</tr>
-				</thead>
-				<tbody>
-				<?php
-				$sql = "select * from shop_board_21 order by wdate desc limit 5 ";
-				$res = sql_query($sql);
-				for($i=0;$row=sql_fetch_array($res);$i++){
-					$bo_subject = cut_str($row['subject'],40);
-					$bo_date = date('Y-m-d', $row['wdate']);
-					$bo_href = BV_BBS_URL."/read.php?boardid=21&index_no=$row[index_no]";
-				?>
-				<tr>
-					<td class="tac"><?php echo $bo_date; ?></td>
-					<td class="tal"><a href="<?php echo $bo_href; ?>"><?php echo $bo_subject; ?></a></td>
-				</tr>
-				<?php
-				}
-				if($i == 0)
-					echo '<tr><td colspan="2" class="empty_table">자료가 없습니다.</td></tr>';
-				?>
-				</tbody>
-				</table>
-			</td>
-		</tr>
-		</table>
-	</section>
+	</div>
 </div>
+
+
+<!-- 
+    그래프 스크립트
+    https://apexcharts.com/ 스크립트 주소
+ -->
+ <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+
+    // 막대 데이터
+    const order_money = [5000000, 10000000, 22320300, 21029302, 2192109,4039320, 9092918];
+
+    // 라인 데이터
+    const sell_count = [23733124, 4221231, 3541231, 2722123, 4321232, 2221323, 1751123];
+
+    // 그래프 라벨
+    const graph_cate = ['2024-06-01', '2024-06-02', '2024-06-03', '2024-06-04', '2024-06-05', '2024-06-06', '2024-06-07'];
+
+    const options = {
+          series: [{
+          name: '공급사 매출현황',
+          type: 'column',
+          data: order_money, //['5000000', '25000000', '33000000', '40000000', '15000000', '20000000', '28000000']
+        }, {
+          name: '정산 예정금액',
+          type: 'line',
+          data: sell_count
+        }],
+            chart: {
+                // 확대 축소 버튼 툴팁
+                toolbar:false,
+                height: 350,
+                type: 'line',
+        },
+        // 색상
+        colors: ["#FA6918", "#038A19"],
+        // 그래프 카테고리
+        legend:{
+            position: 'top',
+            horizontalAlign: 'right',
+            markers: {
+                radius: 0,
+            },
+            fontSize: '16px',
+            fontFamily: "Noto Sans KR",
+            // 카테고리 여백
+            itemMargin: {
+                horizontal: 20,
+                vertical: 0
+            },
+        },
+        // 그래프 배경
+        grid: {
+            row: {
+                colors: ['#ffffff'],
+                opacity: 0.5
+            },
+            padding: {
+                left: 10,
+                right: 10,
+            }
+        },
+        // 선 그래프 굵기
+        stroke: {
+          width: [0, 2]
+        },
+        // 선 그래프 마커 크기
+        markers:{
+            size:5
+        },
+        // x 좌표 라벨
+        xaxis: {
+            categories:graph_cate,
+            labels: {
+                style: {
+                    fontSize: '14px',
+                    fontFamily: 'Noto Sans KR',
+                },
+            },
+        },
+        // y 좌표 라벨링
+        yaxis: [{
+            labels: {
+                style: {
+                    fontSize: '16px',
+                    fontFamily: 'Noto Sans KR',
+                },
+                // 출력 포맷 방식
+                formatter: function(val, index, dataPointIndex, seriesIndex) {
+                    return val.toLocaleString();
+                }
+            }
+        }, {
+            // 그래프 오른쪽 Y좌표 데이터 표시
+            opposite: true,
+            labels: {
+                style: {
+                    fontSize: '16px',
+                    fontFamily: 'Noto Sans KR',
+                },
+				// 출력 포맷 방식
+                formatter: function(val, index, dataPointIndex, seriesIndex) {
+                    return val.toLocaleString();
+                }
+            },
+        }],
+        tooltip: {
+            y: [{
+                // 막대그래프 툴팁
+                formatter: function (val) {
+                    // 숫자 쉼표 작업
+                    return  ' : &nbsp;' + val.toLocaleString();
+                }
+            }, {
+                // 라인 그래프 툴팁
+                formatter: function (val) {
+                    return ' : &nbsp;' +val.toLocaleString();
+                }
+            }]
+        }
+    };
+
+        const chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+</script>
 
 <?php
 include_once("./admin_tail.sub.php");

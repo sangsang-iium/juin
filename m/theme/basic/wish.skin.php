@@ -85,51 +85,47 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
     <!-- Tab.중고장터 { -->
     <div id="mp-wish_used" class="mp-wish_ct">
-      <div class="txt-board-cnt">총 <span class="cnt">0</span>건</div>
+      <div class="txt-board-cnt">총 <span class="cnt"><?php echo number_format($wish_count1); ?></span>건</div>
 
       <div class="ws_wrap">
-        <!-- 데이터가 없을 경우
-        <p class="empty_list">'중고장터' 보관함이 비었습니다.</p> 
-        -->
         <div class="used-prod_list">
-          <div class="used-item">
-            <a href="상세링크 연결" class="used-item_thumbBox">
-              <img src="https://juinjang.kr/data/used/4/main_image.jpg" class="fitCover" alt="예쁜 반팔셔츠 실착 1회">
-            </a>
-            <div class="used-item_txtBox">
-              <a href="상세링크 연결" class="tRow2 title">
-                <span class="cate">[여성의류]</span><span class="subj">예쁜 반팔셔츠 실착 1회</span>
-              </a>
-              <p class="writer"><span>관리자</span><span>대전 대덕구 계족로</span></p>
-              <ul class="inf">
-                <li>
-                  <p class="prc">35,000<span class="won">원</span></p>
-                </li>
-                <li><span class="status ing">판매중</span></li>
-              </ul>
-              <ul class="extra">
-                <li class="hit">
-                  <span class="icon">
-                    <img src="/src/img/used/icon_hit.png" alt="조회수">
-                  </span>
-                  <span class="text">0</span>
-                </li>
-                <li class="like">
-                  <span class="icon">
-                    <img src="/src/img/used/icon_like.png" alt="좋아요수">
-                  </span>
-                  <span class="text">0</span>
-                </li>
-                <li class="reply">
-                  <span class="icon">
-                    <img src="/src/img/used/icon_chat.png" alt="채팅수">
-                  </span>
-                  <span class="text">0</span>
-                </li>
-              </ul>
-              <button type="button" class="ui-btn wish-btn on" data-no="4" title="관심상품 등록하기"></button>
-            </div>
-          </div>
+        <?php
+        if($wish_count1 == 0){
+            echo '<p class="empty_list">\'중고장터\' 보관함이 비었습니다.</p>';
+        } else {
+            while($row=sql_fetch_array($result1)){
+                if($row['m_img']){
+                    $thumb = BV_DATA_URL.'/used/'.$row['m_img'];
+                } else {
+                    $thumb = '/src/img/used/t-item_thumb1.jpg';
+                }
+                $gubun_status = getUsedGubunStatus($row['gubun'], $row['status']);
+                
+                echo '<div class="used-item">';
+                echo '<a href="/m/used/view.php?no='.$row['no'].'" class="used-item_thumbBox"><img src="'.$thumb.'" class="fitCover" alt="'.$row['title'].'"></a>';
+                echo '<div class="used-item_txtBox">';
+                echo '<a href="/m/used/view.php?no='.$row['no'].'" class="tRow2 title"><span class="cate">['.$row['category'].']</span><span class="subj">'.$row['title'].'</span></a>';
+                echo '<p class="writer"><span>'.getMemberName($row['mb_id']).'</span><span>'.getUsedAddress($row['address']).'</span></p>';
+                echo '<ul class="inf"><li><p class="prc">'.number_format($row['price']).'<span class="won">원</span></p></li>';
+                if($row['gubun']){
+                    echo '<li><span class="status ing">'.$gubun_status[0].'</span></li></ul>';
+                } else if($row['status']=='1'){
+                    echo '<li><span class="status resv">'.$gubun_status[1].'</span></li></ul>';
+                } else if($row['status']=='2'){
+                    echo '<li><span class="status end">'.$gubun_status[1].'</span></li></ul>';
+                } else {
+                    echo '<li><span class="status ing">'.$gubun_status[1].'</span></li></ul>';
+                }
+                echo '<ul class="extra">';
+                echo '<li class="hit"><span class="icon"><img src="/src/img/used/icon_hit.png" alt="조회수"></span><span class="text">'.$row['hit'].'</span></li>';
+                echo '<li class="like"><span class="icon"><img src="/src/img/used/icon_like.png" alt="좋아요수"></span><span class="text">'.getUsedGoodCount($row['no']).'</span></li>';
+                echo '<li class="reply"><span class="icon"><img src="/src/img/used/icon_chat.png" alt="채팅수"></span><span class="text">'.getUsedChatCount($row['no']).'</span></li>';
+                echo '</ul>';
+                echo '<button type="button" class="ui-btn wish-btn on used-wish-btn" data-no="'.$row['no'].'" title="관심상품 삭제하기"></button>';
+                echo '</div></div>';
+            }
+        }
+        ?>
         </div>
       </div>
     </div>
@@ -137,70 +133,36 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
     <!-- Tab.매장 { -->
     <div id="mp-wish_store" class="mp-wish_ct">
-      <div class="txt-board-cnt">총 <span class="cnt">0</span>건</div>
+      <div class="txt-board-cnt">총 <span class="cnt"><?php echo number_format($wish_count2); ?></span>건</div>
 
       <div class="ws_wrap">
-        <!-- 데이터가 없을 경우
-        <p class="empty_list">'매장' 보관함이 비었습니다.</p>
-        -->
         <div class="store-prod_list">
-          <div class="store-item">
-            <a href="상세링크 연결" class="store-item_thumbBox">
-              <img src="/src/img/store/t-store_thumb1.jpg" class="fitCover" alt="쥔장네 돈까스">
-            </a>
-            <div class="store-item_txtBox">
-              <a href="./view.php" class="tRow2 title">
-                <i class="recom"><img src="/src/img/store/recom_label.png" alt=""></i>
-                <span class="cate">[한식]</span>
-                <span class="subj">쥔장네 돈까스</span>
-              </a>
-              <p class="address">대전 유성구 동서대로656번길</p>
-              <a href="tel:070-0000-0000" class="tel">070-0000-0000</a>
-              <ul class="extra">
-                <li class="hit">
-                  <span class="icon">
-                    <img src="/src/img/store/icon_hit.png" alt="조회수">
-                  </span>
-                  <span class="text">0</span>
-                </li>
-                <li class="like">
-                  <span class="icon">
-                    <img src="/src/img/store/icon_like.png" alt="좋아요수">
-                  </span>
-                  <span class="text">0</span>
-                </li>
-              </ul>
-              <button type="button" class="ui-btn wish-btn on" title="관심상품 등록하기"></button>
-            </div>
-          </div>
-          <div class="store-item">
-            <a href="상세링크 연결" class="store-item_thumbBox">
-              <img src="/src/img/store/t-store_thumb2.jpg" class="fitCover" alt="주인장 초밥">
-            </a>
-            <div class="store-item_txtBox">
-              <a href="./view.php" class="tRow2 title">
-                <span class="cate">[일식]</span>
-                <span class="subj">주인장 초밥</span>
-              </a>
-              <p class="address">대전 유성구 동서대로656번길</p>
-              <a href="tel:070-0000-0000" class="tel">070-0000-0000</a>
-              <ul class="extra">
-                <li class="hit">
-                  <span class="icon">
-                    <img src="/src/img/store/icon_hit.png" alt="조회수">
-                  </span>
-                  <span class="text">0</span>
-                </li>
-                <li class="like">
-                  <span class="icon">
-                    <img src="/src/img/store/icon_like.png" alt="좋아요수">
-                  </span>
-                  <span class="text">0</span>
-                </li>
-              </ul>
-              <button type="button" class="ui-btn wish-btn on" title="관심상품 등록하기"></button>
-            </div>
-          </div>
+        <?php
+        if($wish_count2 == 0){
+            echo '<p class="empty_list">\'매장\' 보관함이 비었습니다.</p>';
+        } else {
+            while($row=sql_fetch_array($result2)){
+                if($row['ju_mimg']){
+                    $thumb = BV_DATA_URL.'/member/'.$row['ju_mimg'];
+                } else {
+                    $thumb = '/src/img/store/t-store_thumb2.jpg';
+                }
+                
+                echo '<div class="store-item">';
+                echo '<a href="/m/store/view.php?no='.$row['index_no'].'" class="store-item_thumbBox"><img src="'.$thumb.'" class="fitCover" alt="'.$row['ju_restaurant'].'"></a>';
+                echo '<div class="store-item_txtBox">';
+                echo '<a href="/m/store/view.php?no='.$row['index_no'].'" class="tRow2 title"><span class="cate">['.$row['ju_cate'].']</span><span class="subj">'.$row['ju_restaurant'].'</span></a>';
+                echo '<p class="address">'.$row['ju_addr_full'].'</p>';
+                echo '<a href="tel:'.$row['ju_tel'].'" class="tel">'.$row['ju_tel'].'</a>';
+                echo '<ul class="extra">';
+                echo '<li class="hit"><span class="icon"><img src="/src/img/store/icon_hit.png" alt="조회수"></span><span class="text">'.$row['ju_hit'].'</span></li>';
+                echo '<li class="like"><span class="icon"><img src="/src/img/store/icon_like.png" alt="좋아요수"></span><span class="text">'.getStoreGoodCount($row['index_no']).'</span></li>';
+                echo '</ul>';
+                echo '<button type="button" class="ui-btn wish-btn on store-wish-btn" data-no="'.$row['index_no'].'" title="관심상품 제거하기"></button>';
+                echo '</div></div>';        
+            }
+        }
+        ?>
         </div>
       </div>
     </div>
@@ -265,5 +227,37 @@ function fwishlist_check(f, act)
 	f.action = "./cartupdate.php";
 	f.submit();
 }
+
+//중고장터 좋아요 삭제
+let wish_count1 = Number(<?php echo $wish_count1 ?>);
+$(".used-wish-btn").click(function(){
+    var el = $(this);
+    var no = el.data("no");
+    var inout = 'out';
+    $.post("/m/used/ajax.used_good.php", {no:no, inout:inout}, function(obj){
+        el.parents(".used-item").remove();
+        wish_count1--;
+        $(".cnt").eq(1).html(wish_count1);
+        if(wish_count1==0){
+            $(".used-prod_list").html('<p class="empty_list">\'중고장터\' 보관함이 비었습니다.</p>');
+        }
+    });
+});
+
+//매장 좋아요 삭제
+let wish_count2 = Number(<?php echo $wish_count2 ?>);
+$(".store-wish-btn").click(function(){
+    var el = $(this);
+    var no = el.data("no");
+    var inout = 'out';
+    $.post("/m/store/ajax.store_good.php", {no:no, inout:inout}, function(obj){
+        el.parents(".store-item").remove();
+        wish_count2--;
+        $(".cnt").eq(2).html(wish_count2);
+        if(wish_count2==0){
+            $(".store-prod_list").html('<p class="empty_list">\'매장\' 보관함이 비었습니다.</p>');
+        }
+    });
+});
 //-->
 </script>

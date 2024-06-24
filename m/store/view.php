@@ -22,13 +22,14 @@ foreach($subimgs as $v){
 }
 $imgs = array_unique($imgs);
 if(empty($imgs)){
-    $imgs = ['/src/img/store/t-store_detail1.jpg'];
+    $imgs = ['/src/img/store/t-store_detail1.jpg']; //등록된 이미지 없을경우
 }
 
 //$goodyn = getStoreGoodRegister($row['index_no'], $member['id']);
 //운영시간/브레이크타임/휴무일
 $works = str_replace("~"," ~ ",$row['ju_worktime']);
 $breaks = str_replace("~"," ~ ",$row['ju_breaktime']);
+if($breaks=='') $breaks = '없음';
 $offs = str_replace(['|','요일'],[',',''],$row['ju_off']);
 ?>
 

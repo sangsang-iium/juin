@@ -502,6 +502,21 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                       <input type="text" class="frm_input" name="breaktime[]" id="break1" value="<?php echo $breaks[0] ?>">
                       <p class="line marr10 marl10">~</p>
                       <input type="text" class="frm_input" name="breaktime[]" id="break2" value="<?php echo $breaks[1] ?>">
+                      
+                    </div>
+                    <div style="margin-top:3px;">
+                      <input type="checkbox" id="nobreak"><label for="nobreak">브레이크타임 없음</label>
+                      <script>
+                      $("#nobreak").click(function(){
+                        if($(this).is(":checked")){
+                          $("#break1").val('').prop("disabled", true);
+                          $("#break2").val('').prop("disabled", true);
+                        } else {
+                          $("#break1").prop("disabled", false);
+                          $("#break2").prop("disabled", false);
+                        }
+                      });
+                      </script>
                     </div>
                   </div>
                 </td>

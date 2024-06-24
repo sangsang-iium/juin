@@ -14,6 +14,7 @@ for($i=0; $i<count($chk); $i++)
 			   set gb_name = '{$_POST['gb_name'][$k]}',
 				   gb_sale = '{$_POST['gb_sale'][$k]}',
 				   gb_sale_unit = '{$_POST['gb_sale_unit'][$k]}',
+				   gb_point = '{$_POST['gb_point'][$k]}',
 				   gb_sale_rate = '{$_POST['gb_sale_rate'][$k]}'
 			 where gb_no = '{$_POST['gb_no'][$k]}'";
 	sql_query($sql);
