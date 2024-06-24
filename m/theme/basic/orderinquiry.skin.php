@@ -4,7 +4,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 <!-- style 추가 _20240624_SY -->
 <style>
-  .dlcomp { margin-left: 1rem;}
+  .dlcomp { margin-left: 5px;}
 </style>
 
 <div id="contents" class="sub-contents orderList">
