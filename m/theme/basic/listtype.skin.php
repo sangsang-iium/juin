@@ -45,6 +45,18 @@ for($i=0; $i<count($gw_msort); $i++) {
             <h3><?php echo $tb['title']; ?></h3>
           </div>
         </div>
+
+        <?php if($type==1){ ?>
+        <div class="right">
+          <div class="cp-timer">
+            <div class="cp-timer-wrap">
+              <i class="cp-timer__icon"></i>
+              <span class="cp-timer__num" data-deadline="<?php echo date("Y-m-d");?> 23:59:59">00:00:00</span>
+              <span class="cp-timer__text">남음</span>
+            </div>
+          </div>
+        </div>
+        <?php } ?>
       </div>
 
       <div class="container dp-top">
@@ -118,3 +130,29 @@ for($i=0; $i<count($gw_msort); $i++) {
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var timers = document.querySelectorAll('.cp-timer__num');
+  timers.forEach(function(timer) {
+    var deadline = timer.getAttribute('data-deadline');
+    var countdown = new Date(deadline).getTime();
+    var x = setInterval(function() {
+      var now = new Date().getTime();
+      var distance = countdown - now;
+      if (distance <= 0) {
+        clearInterval(x);
+        timer.innerHTML = '만료';
+      } else {
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        hours = String(hours).padStart(2, '0');
+        minutes = String(minutes).padStart(2, '0');
+        seconds = String(seconds).padStart(2, '0');
+        timer.innerHTML = hours + ':' + minutes + ':' + seconds ;
+      }
+    }, 1000);
+  });
+});
+</script>

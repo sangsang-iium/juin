@@ -596,3 +596,13 @@ function formatBno($no) {
   }
   return substr($no, 0, 3) . '-' . substr($no, 3, 2) . '-' . substr($no, 5, 5);
 }
+function mb_basename($path, $suffix = '') {
+  // 멀티바이트 문자열 지원 basename 함수
+  $path     = rtrim($path, '/\\');
+  $basename = preg_replace('/^.+[\\\\\\/]/', '', $path);
+  if ($suffix && substr($basename, -strlen($suffix)) == $suffix) {
+    $basename = substr($basename, 0, -strlen($suffix));
+  }
+
+  return $basename;
+}

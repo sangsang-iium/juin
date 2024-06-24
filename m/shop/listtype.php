@@ -2,11 +2,16 @@
 include_once("./_common.php");
 
 $type = preg_replace("/[\<\>\'\"\\\'\\\"\%\=\(\)\s]/", "", $_REQUEST['type']);
-if($type == 1)      $tb['title'] = $default['de_pname_2']; // 쇼핑특가
+// if($type == 1)      $tb['title'] = $default['de_pname_2']; // 쇼핑특가
+// else if($type == 2) $tb['title'] = $default['de_pname_3']; // 베스트
+// else if($type == 3) $tb['title'] = $default['de_pname_4']; // 신상품
+// else if($type == 4) $tb['title'] = $default['de_pname_5']; // 인기상품
+// else if($type == 5) $tb['title'] = $default['de_pname_6']; // 추천상품
+if($type == 1)      $tb['title'] = $default['de_pname_3']; // 쇼핑특가
 else if($type == 2) $tb['title'] = $default['de_pname_3']; // 베스트
-else if($type == 3) $tb['title'] = $default['de_pname_4']; // 신상품
-else if($type == 4) $tb['title'] = $default['de_pname_5']; // 인기상품
-else if($type == 5) $tb['title'] = $default['de_pname_6']; // 추천상품
+else if($type == 3) $tb['title'] = $default['de_pname_10']; // 신상품
+else if($type == 4) $tb['title'] = $default['de_pname_6']; // 인기상품
+else if($type == 5) $tb['title'] = $default['de_pname_9']; // 추천상품
 else
     alert('상품유형이 아닙니다.', BV_URL);
 

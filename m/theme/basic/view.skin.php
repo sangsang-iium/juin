@@ -29,6 +29,12 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           if($gs['simg'.$i]) {
         ?>
         <div class="swiper-slide item">
+          <div class="cp-timer" style="padding: 12px 0;font-size: 16px;background: #656565;text-align: center;">
+            <div class="cp-timer-wrap white">
+              <i class="cp-timer__icon"></i>
+              <span class="cp-timer__num" data-deadline="<?php echo date("Y-m-d");?> 23:59:59">02:43:47</span>
+            </div>
+          </div>
           <a href="" class="link">
             <figure class="image">
               <div class="cp-tag-box">
