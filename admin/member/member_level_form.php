@@ -45,6 +45,7 @@ $arr_memo[8] = '최고 관리자';
 		<col class="w300">
 		<col class="w300">
 		<col class="w300">
+		<col class="w300">
 		<col>
 	</colgroup>
 	<thead>
@@ -53,6 +54,7 @@ $arr_memo[8] = '최고 관리자';
 		<th scope="col">회원 구분</th>
 		<th scope="col">할인률</th>
 		<th scope="col">판매가 절삭</th>
+		<th scope="col">포인트</th>
 		<th scope="col">비고</th>
 	</tr>
 	</thead>
@@ -88,6 +90,7 @@ $arr_memo[8] = '최고 관리자';
                 </select>
             </div>
 		</td>
+		<td><input type="text" name="gb_point[<?php echo $i; ?>]" value="<?php echo $row['gb_point']; ?>" class="frm_input wfull"></td>
 		<td><?php echo $arr_memo[$i]; ?></td>
 	</tr>
 	<?php } ?>

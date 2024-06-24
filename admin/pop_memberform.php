@@ -187,6 +187,20 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                 <a href="<?php echo BV_ADMIN_URL; ?>/member/member_point_req.php?mb_id=<?php echo $mb_id; ?>" onclick="win_open(this,'pop_point_req','600','500','yes');return false;" class="btn_small grey marl10 fs14">강제적립</a>
               </td>
             </tr>
+            <!-- 담당자 정보 추가 _20240621_SY -->
+            <?php if($mb['grade'] == '8') { 
+              $mn_sel = " SELECT * FROM shop_manager WHERE index_no = '{$mb['ju_manager']}' ";
+              $mn_row = sql_fetch($mn_sel);
+            ?>
+            <tr>
+              <th scope="row">담당직원</th>
+              <td>
+                <input type="text" name="mn_name" id="mn_name" value="<?php echo $mn_row['name']; ?>" class="frm_input w200" readonly>
+                <input type="hidden" name="mn_idx" id="mn_idx" value="<?php echo $mn_row['index_no']; ?>">
+                <a href="<?php echo BV_ADMIN_URL; ?>/member/member_manager_list.php?mb_id=<?php echo $mb_id; ?>" onclick="win_open(this,'pop_manager_list','600','500','yes');return false;" class="btn_small grey marl10 fs14">담당직원 변경</a>
+              </td>
+            </tr>            
+            <?php } ?>
             <tr class="mb_adm_fld">
               <th scope="row">부운영자 접근허용</th>
               <td colspan="3">
@@ -488,6 +502,21 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                       <input type="text" class="frm_input" name="breaktime[]" id="break1" value="<?php echo $breaks[0] ?>">
                       <p class="line marr10 marl10">~</p>
                       <input type="text" class="frm_input" name="breaktime[]" id="break2" value="<?php echo $breaks[1] ?>">
+                      
+                    </div>
+                    <div style="margin-top:3px;">
+                      <input type="checkbox" id="nobreak"><label for="nobreak">브레이크타임 없음</label>
+                      <script>
+                      $("#nobreak").click(function(){
+                        if($(this).is(":checked")){
+                          $("#break1").val('').prop("disabled", true);
+                          $("#break2").val('').prop("disabled", true);
+                        } else {
+                          $("#break1").prop("disabled", false);
+                          $("#break2").prop("disabled", false);
+                        }
+                      });
+                      </script>
                     </div>
                   </div>
                 </td>

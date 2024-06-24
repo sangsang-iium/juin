@@ -364,7 +364,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 		</td>
         <th scope="row">가맹점 상품코드</th>
         <td>
-            <input type="text" name="sgcode" value="<?php echo $gs['sgcode']; ?>" required itemname="가맹점 상품코드" class="required frm_input"<?php //echo $readonly; ?>>
+            <input type="text" name="sgcode" value="<?php echo $gs['sgcode']; ?>" itemname="가맹점 상품코드" class="frm_input"<?php //echo $readonly; ?>>
         </td>
 	</tr>
 	<tr>
@@ -937,7 +937,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 		</td>
 	</tr> -->
 
-	<tr>
+	<tr style='display:none'>
 		<th scope="row">포인트</th>
 		<td>
 			<input type="text" name="gpoint" value="<?php echo number_format($gs['gpoint']); ?>" class="frm_input w80" onkeyup="addComma(this);"> P

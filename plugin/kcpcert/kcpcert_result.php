@@ -4,7 +4,7 @@ include_once(BV_KCPCERT_PATH.'/kcpcert_config.php');
 
 $ENC_KEY = "9eb2cc7e320e2d7d54bc4a92ec1e9dc1057f386f2435d42e9f9e051404b249f8";
 
-$site_cd       = "";
+$site_cd       = "AK6VE";
 $ordr_idxx     = "";
 
 $cert_no       = "";

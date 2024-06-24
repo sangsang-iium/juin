@@ -123,7 +123,7 @@ if ($_FILES['excelfile']['tmp_name']) {
     $simg6        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 중이미지5
     $memo         = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 상세설명
     $admin_memo   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 관리자메모
-    $zone_set   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 관리자메모
+    // $zone_set   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 관리자메모
 
     $gcode = time() . mt_rand(10000, 99999);
 
@@ -144,8 +144,8 @@ if ($_FILES['excelfile']['tmp_name']) {
     $sql2 = " select count(*) as cnt from shop_goods where gcode = '$gcode' ";
     $row2 = sql_fetch($sql2);
     if ($row2['cnt']) {
-      $fail_gcode[] = $gcode;
-      $dup_gcode[]  = $gcode;
+      $fail_gcode[] = $gcode.'||'.$sgcode;
+      $dup_gcode[]  = $gcode.'||'.$sgcode;
       $dup_count++;
       $fail_count++;
       continue;

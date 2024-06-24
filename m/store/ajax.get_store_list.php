@@ -4,7 +4,7 @@ include_once("./_common.php");
 $lat = trim($_POST['lat']);
 $lng = trim($_POST['lng']);
 $category = trim($_POST['cate']);
-$km = 5; //지름10Km
+$km = 2; //지름2Km
 
 
 if($category=='all'){
@@ -27,7 +27,7 @@ if($rows == 0){
         if($row['ju_mimg']){
             $thumb = BV_DATA_URL.'/member/'.$row['ju_mimg'];
         } else {
-            $thumb = '/src/img/store/t-store_thumb2.jpg';
+            $thumb = '/src/img/store/t-store_thumb2.jpg'; //등록된 이미지 없을경우
         }
         
         $goodyn = getStoreGoodRegister($row['index_no'], $member['id']);

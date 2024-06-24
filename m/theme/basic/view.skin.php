@@ -31,6 +31,26 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         <div class="swiper-slide item">
           <a href="" class="link">
             <figure class="image">
+              <div class="cp-tag-box">
+                  <?php if($gs['reg_yn']=="1"){ ?>
+                  <div class="cp-tag-item">
+                    <div class="cp-tag tag02">정기</div>
+                  </div>
+                  <?php } else if ($gs['reg_yn']=="2") { ?>
+                  <!-- <div class="cp-tag-item">
+                    <div class="cp-tag tag01">일반</div>
+                  </div> -->
+                  <?php }
+                  if($gs['sc_type'] == "1"){ ?>
+                  <div class="cp-tag-item">
+                    <div class="cp-tag tag04">택배</div>
+                  </div>
+                  <?php } else if($gs['sc_type'] == "4") { ?>
+                  <div class="cp-tag-item">
+                    <div class="cp-tag tag03">차량</div>
+                  </div>
+                  <?php } ?>
+                </div>
               <img src="<?php echo get_it_image_url($gs_id, $gs['simg'.$i], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
             </figure>
           </a>
@@ -254,12 +274,19 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               if(sizeof($reviewTotalImgArr) > 0) {
                 foreach ($reviewTotalImgArr as $reviewImg) {
             ?>
-              <a href="javascript:void(0);" class="rv-img-item">
-                <div class="rv-img">
-                  <img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
-                </div>
-              </a>
+            <a href="javascript:void(0);" class="rv-img-item">
+              <div class="rv-img">
+                <img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
+              </div>
+            </a>
             <?php } } ?>
+            <!-- 리뷰 더보기로 이동 추가 { -->
+            <a href="/m/review/list.php" class="rv-img-item">
+              <div class="rv-img">
+                <img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
+              </div>
+            </a>
+            <!-- } 리뷰 더보기로 이동 추가 -->
 
           </div>
         </div>

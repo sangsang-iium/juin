@@ -25,6 +25,13 @@ else if($fr_date && !$to_date)
 else if(!$fr_date && $to_date)
 	$sql_search .= " and {$spt} between '$to_date 00:00:00' and '$to_date 23:59:59' ";
 
+
+// 선택한 회원 아이디 다운로드 추가
+if(isset($selected_ids) && !empty($selected_ids)) {
+	$selected_ids = explode(',', $_GET['selected_ids']);
+	$sql_search .= " AND id IN ('" . implode("','", $selected_ids) . "') ";
+}
+
 if(!$orderby) {
     $filed = "index_no";
     $sod = "desc";

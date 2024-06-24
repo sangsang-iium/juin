@@ -115,8 +115,8 @@ EOF;
 		<col>
 		<col>
 		<col class="w150">
-		<col class="w120">
-		<col class="w120">
+		<!-- <col class="w120">
+		<col class="w120"> -->
 		<col class="w150">
 	</colgroup>
 	<thead>
@@ -128,12 +128,12 @@ EOF;
 		<th scope="col">노출위치</th>
 		<th scope="col">링크주소</th>	
 		<th scope="col">TARGET</th>	
-		<th scope="col">가로사이즈</th>	
-		<th scope="col">세로사이즈</th>
+		<!-- <th scope="col">가로사이즈</th>	
+		<th scope="col">세로사이즈</th> -->
 		<th scope="col">관리</th>
 	</tr>
 	<tr class="rows">
-		<th scope="col" colspan="6">이미지</th>
+		<th scope="col" colspan="4">이미지</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -182,8 +182,8 @@ EOF;
                 </select>
             </div>
 		</td>	
-		<td><input type="text" name="bn_width[<?php echo $i; ?>]" value="<?php echo $row['bn_width']; ?>" class="frm_input"></td>
-		<td><input type="text" name="bn_height[<?php echo $i; ?>]" value="<?php echo $row['bn_height']; ?>" class="frm_input"></td>
+		<!-- <td style='display:none'><input type="text" name="bn_width[<?php echo $i; ?>]" value="<?php echo $row['bn_width']; ?>" class="frm_input"></td>
+		<td style='display:none'><input type="text" name="bn_height[<?php echo $i; ?>]" value="<?php echo $row['bn_height']; ?>" class="frm_input"></td> -->
 		<td>
             <div class="btn_wrap">
                 <?php echo $s_upd; ?>
@@ -191,7 +191,7 @@ EOF;
         </td>
 	</tr>
 	<tr class="<?php echo $bg; ?> rows">
-		<td class="td_img_view sbn_img" colspan="6">
+		<td class="td_img_view sbn_img" colspan="4">
 			<div class="sbn_image"><?php echo $bimg_str; ?></div>
 			<button type="button" class="btn_lsmall bx-blue sbn_img_view">이미지보기</button>
 			<button type="button" class="btn_lsmall bx-yellow sbn_all_view">모두보기</button>

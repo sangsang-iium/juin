@@ -126,7 +126,7 @@ $frm_submit .= '</div>';
 			<?php echo help('[내부링크] http:// 를 제외한 상대경로로 입력해주시기 바랍니다.<br><span class="fc_197">상대경로 예시) /shop/listtype.php?type=1</span>'); ?> -->
 		</td>
 	</tr>
-	<tr>
+	<tr style='display:none'>
 		<th scope="row">가로사이즈</th>
 		<td>
             <div class="tel_input">

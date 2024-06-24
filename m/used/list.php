@@ -1,7 +1,7 @@
 <?php
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
-include_once(BV_PATH.'/include/topMenu.php');
+//include_once(BV_PATH.'/include/topMenu.php');
 
 $addrs = explode(" ", trim($member['ju_addr_full']));
 $region_key = trim($addrs[0]);
@@ -57,6 +57,7 @@ $regions = [
       <select name="region" id="region" class="select" onchange="changeRegion(this.value);">
       <?php
       if($region_key){
+        echo '<option value="'.$region_key.'">전체</option>';
         foreach($regions[$region_key] as $v){
             echo '<option value="'.$v.'">'.$v.'</option>';
         }

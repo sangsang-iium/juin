@@ -29,7 +29,20 @@ if(!defined('_BLUEVATION_')) exit;
     }
   }
 
+  //운영시간/브레이크타임/휴무일 추가 _20240621_SY
+  $works  = explode("~", $member['ju_worktime']);
+  $breaks = explode("~", $member['ju_breaktime']);
+  $offs   = explode("|", $member['ju_off']);
+  $yoils  = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'];
+
 ?>
+
+<style>
+  /* 타임피커 z-index 추가 _20240621_SY */
+.ui-timepicker-container{ 
+  z-index:10 !important; 
+}
+</style>
 
 <!-- 회원정보 입력/수정 시작 { -->
 <script src="<?php echo BV_JS_URL; ?>/jquery.register_form.js"></script>
@@ -40,7 +53,7 @@ if(!defined('_BLUEVATION_')) exit;
 <link rel="stylesheet" href="/src/plugin/timepicker/jquery.timepicker.min.css">
 <script src="/src/plugin/timepicker/jquery.timepicker.min.js"></script>
 
-<form name="fregisterform" id="fregisterform" action="<?php echo $register_action_url; ?>" onsubmit="return fregisterform_submit(this);" method="post" autocomplete="off">
+<form name="fregisterform" id="fregisterform" action="<?php echo $register_action_url; ?>" onsubmit="return fregisterform_submit(this);" method="post" autocomplete="off" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="w" value="<?php echo $w; ?>">
 <input type="hidden" name="agree" value="<?php echo $agree; ?>">
 <input type="hidden" name="agree2" value="<?php echo $agree2; ?>">
@@ -62,16 +75,16 @@ if(!defined('_BLUEVATION_')) exit;
     <div class="joinDetail-box">
       <div class="container">
         <div class="joinDetail-head">
-          <p class="joinDetail-title">담당자 등록</p>
-          <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">담당자 조회하기</button>
+          <p class="joinDetail-title">담당직원 등록</p>
+          <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">담당직원 조회하기</button>
           <!-- 담당자 조회하기 팝업 { -->
           <div class="popup type01" id="popMemberSch">
             <div class="pop-inner">
               <div class="pop-top">
-                <p class="tit">담당자 조회하기</p>
+                <p class="tit">담당직원 조회하기</p>
               </div>
               <div class="pop-search input-button">
-                <input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="담당자 코드를 입력해주세요.">
+                <input type="" name="KFIA_search" id="KFIA_search" value="" class="frm-input" size="20" maxlength="20" placeholder="담당직원 사번을 입력해주세요.">
                 <button type="button" class="ui-btn st3" onclick="getManager()">조회</button>
               </div>
               <div class="pop-content line">
@@ -92,7 +105,7 @@ if(!defined('_BLUEVATION_')) exit;
         <div class="joinDetail-body">
           <div class="form-row">
             <div class="form-head">
-              <p class="title">담당자<b>*</b></p>
+              <p class="title">담당직원<b>*</b></p>
             </div>
             <div class="form-body">
               <input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="<?php echo $mng_sel_row['name']; ?>" placeholder="홍길동" readonly>
@@ -321,7 +334,7 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="title">사업자등록번호<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w == '') ? formatBno($_POST['IRS_NO']) : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" readonly >              
+              <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w == '') ? formatBno($_POST['IRS_NO']) : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" readonly>              
               <!-- <div class="joinDetail-btn-box joinDetail-btn-box3">
                 <button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
                 <button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
@@ -417,33 +430,52 @@ if(!defined('_BLUEVATION_')) exit;
           </div>
           <div class="form-row store_info">
             <div class="form-head">
-              <p class="title">매장 썸네일 사진</p>
+              <p class="title">매장 외부 사진 (jpg, gif, png)</p>
             </div>
             <div class="form-body">
-              <input type="file" name="" id="" class="frm-file w-per100">
+              <input type="file" name="ju_mimg" id="ju_mimg" class="frm-file w-per100">
+              <?php
+                if ($member['ju_mimg']) {
+                  echo '<img src="' . BV_DATA_URL . '/member/' . $member['ju_mimg'] . '" class="w90p">';
+                }
+              ?>
             </div>
           </div>
           <div class="form-row store_info">
             <div class="form-head">
-              <p class="title">매장 상세 사진</p>
+              <p class="title">매장 내부 사진 (jpg, gif, png)</p>
             </div>
             <div class="form-body">
+              <!-- <ul class="form-file_box"> -->
+                <!-- <li class="view">
+                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
+                </li>
+                <li>
+                  <input type="file" name="ju_simg[]" id="" class="frm-file w-per100">
+                </li> -->
+          <!-- </ul> -->
               <ul class="form-file_box">
-                <li class="view">
-                  <input type="file" name="" id="" class="frm-file w-per100">
-                </li>
-                <li>
-                  <input type="file" name="" id="" class="frm-file w-per100">
-                </li>
-                <li>
-                  <input type="file" name="" id="" class="frm-file w-per100">
-                </li>
-                <li>
-                  <input type="file" name="" id="" class="frm-file w-per100">
-                </li>
-                <li>
-                  <input type="file" name="" id="" class="frm-file w-per100">
-                </li>
+                <?php
+                  $sub_imgs = explode("|", $member['ju_simg']);
+                  $sub_imgs = array_filter($sub_imgs);
+                  $sub_imgs = array_values($sub_imgs);
+                  for ($i = 0; $i < 5; $i++) {
+                    echo '<li><input type="file" name="ju_simg[]" class="frm-file w-per100">';
+                    if ($sub_imgs[$i]) {
+                      echo '<div class="img_container"><img src="' . BV_DATA_URL . '/member/' . $sub_imgs[$i] . '" class="w90p"> &nbsp; <span class="image_del curp fs18" data-img_name="' . $sub_imgs[$i] . '">X</span></a>';
+                    }
+                    echo '</li>';
+                  }
+                ?>
               </ul>
               <button type="button" class="ui-btn st2 w-per100 frm-file-add_btn" data="stIconRight">
                 <span class="txt">상세 사진 추가</span>
@@ -458,11 +490,11 @@ if(!defined('_BLUEVATION_')) exit;
             <div class="form-body">
               <ul class="form-inline time">
                 <li>
-                  <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
+                  <input type="text" name="worktime[]"  id="work1" value="<?php echo $works[0] ?>" class="timepicker frm-input w-per100" readonly>
                 </li>
                 <li class="time_mid_txt">~</li>
                 <li>
-                  <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
+                  <input type="text" name="worktime[]" id="work2" value="<?php echo $works[1] ?>" class="timepicker frm-input w-per100" readonly>
                 </li>
               </ul>
             </div>
@@ -473,48 +505,57 @@ if(!defined('_BLUEVATION_')) exit;
             </div>
             <div class="form-body">
               <ul class="form-inline yoil">
-                <li>
+                <!-- <li>
                   <div class="frm-choice">
-                    <input type="checkbox" name="" id="">
+                    <input type="checkbox" name="off[]" id=off0">
                     <label for="">월요일</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="checkbox" name="" id="">
+                    <input type="checkbox" name="off[]" id="off1">
                     <label for="">화요일</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="checkbox" name="" id="">
+                    <input type="checkbox" name="off[]" id="off2">
                     <label for="">수요일</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="checkbox" name="" id="">
+                    <input type="checkbox" name="off[]" id="off3">
                     <label for="">목요일</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="checkbox" name="" id="">
+                    <input type="checkbox" name="off[]" id="off4">
                     <label for="">금요일</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="checkbox" name="" id="">
+                    <input type="checkbox" name="off[]" id="off5">
                     <label for="">토요일</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="checkbox" name="" id="">
+                    <input type="checkbox" name="off[]" id="off6">
                     <label for="">일요일</label>
                   </div>
-                </li>
+                </li> -->
+                <?php
+                  foreach ($yoils as $k => $v) {
+                    if (in_array($v, $offs)) {
+                      echo '<li><div class="frm-choice"><input type="checkbox" name="off[]" id="off' . $k . '" value="' . $v . '" checked><label for="off' . $k . '">' . $v . '</label></div></li>';
+                    } else {
+                      echo '<li><div class="frm-choice"><input type="checkbox" name="off[]" id="off' . $k . '" value="' . $v . '"><label for="off' . $k . '">' . $v . '</label></div></li>';
+                    }
+                  }
+                  ?>
               </ul>
             </div>
           </div>
@@ -525,11 +566,11 @@ if(!defined('_BLUEVATION_')) exit;
             <div class="form-body">
               <ul class="form-inline time">
                 <li>
-                  <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
+                  <input type="text" name="breaktime[]" id="break1" value="<?php echo $breaks[0] ?>" class="timepicker frm-input w-per100" readonly>
                 </li>
                 <li class="time_mid_txt">~</li>
                 <li>
-                  <input type="text" name="" id="" class="timepicker frm-input w-per100" readonly>
+                  <input type="text" name="breaktime[]" id="break2" value="<?php echo $breaks[1] ?>" class="timepicker frm-input w-per100" readonly>
                 </li>
               </ul>
             </div>
@@ -558,7 +599,7 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="title">매장설명</p>
             </div>
             <div class="form-body">
-              <textarea name="" id="" class="frm-txtar w-per100 store-txtar"></textarea>
+              <textarea name="ju_content" id="ju_content" class="frm-txtar w-per100 store-txtar"><?php echo $member['ju_content'] ?></textarea>
             </div>
           </div>
         </div>
@@ -611,6 +652,13 @@ $(document).ready(function(){
     }
   });
 
+  let work1 = document.querySelector('#work1').value;
+  let work2 = document.querySelector('#work2').value;
+  let break1 = document.querySelector('#break1').value;
+  let break2 = document.querySelector('#break2').value;
+  
+
+
   // 시간선택
   $('.timepicker').timepicker({
     timeFormat: 'h:mm p',
@@ -623,6 +671,12 @@ $(document).ready(function(){
     dropdown: true,
     scrollbar: true,
   });
+
+  $('#work1').val(work1);
+  $('#work2').val(work2);
+  $('#break1').val(break1);
+  $('#break2').val(break2);
+
 
   // 비밀번호 확인 일치여부
   $('#reg_mb_password_re').on('input', function() {
@@ -929,7 +983,7 @@ function getManager() {
         for(let i=0; i<data.res.length; i++) {
           html += '<div class="pop-result-item">';
           html += '<p class="pop-result-title">' + data.res[i].name + '</p>';
-          html += '<p class="pop-result-text">담당자코드 : ' + data.res[i].id + '</p>';
+          html += '<p class="pop-result-text">직원사번 : ' + data.res[i].id + '</p>';
           html += '<p class="pop-result-text">지회/지부 : ' + data.res[i].branch_name +'/'+ data.res[i].office_name + '</p>';
           html += '<input type="hidden" class="pop-result-text" value="'+ data.res[i].index_no +'">';
           html += '</div>';

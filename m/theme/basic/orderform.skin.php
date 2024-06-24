@@ -119,6 +119,14 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             group by gs_id
             order by index_no ";
       $result = sql_query($sql);
+
+        //포인트 관련 부분 수정  박원주
+
+        $sq = "select * from shop_member_grade where gb_no='{$member['grade']}'";
+        $gpointFetch=sql_fetch($sq);
+        $gpoint = $gpointFetch['gb_point'];
+          //포인트 관련 부분 수정  박원주
+
       for ($i = 0; $row = sql_fetch_array($result); $i++) {
         $raffleCheck = false;
         if($row['raffle'] == 1) {
@@ -153,8 +161,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
         $it_name = stripslashes($gs['gname']);
         $it_options = mobile_print_item_options($row['gs_id'], $set_cart_id);
-
-        $point = $sum['point'];
+          
+        // $point = $sum['point']; // 주석처리 박원주
+        //포인트 관련 부분 수정  박원주
+          $point +=$gpoint;
+        //
         $supply_price = $sum['supply_price'];
         $sell_price = $sum['price'];
         $sell_opt_price = $sum['opt_price'];
@@ -378,6 +389,25 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         if ($gs['reg_yn'] == 1 && !$raffleCheck) {
       ?>
       <!-- 2024-06-03 : 정기기간 / 배송일 추가 -->
+      <style>
+         .ui-datepicker {
+            font-size: 1.25em; /* 기본 글꼴 크기를 키웁니다 */
+            width: 280px!important;
+        }
+        .ui-datepicker .ui-datepicker-header {
+            font-size: 1.25em; /* 헤더의 글꼴 크기를 키웁니다 */
+        }
+        .ui-datepicker .ui-datepicker-title {
+            font-size: 1.25em; /* 타이틀의 글꼴 크기를 키웁니다 */
+        }
+        .ui-datepicker .ui-datepicker-prev,
+        .ui-datepicker .ui-datepicker-next {
+            font-size: 1.25em; /* 이전, 다음 버튼의 크기를 키웁니다 */
+        }
+        .ui-datepicker table {
+            font-size: 1.25em; /* 달력의 글꼴 크기를 키웁니다 */
+        }
+      </style>
       <div class="bottomBlank">
         <div class="container">
           <div class="arcodianBtn od-top active">
@@ -931,6 +961,12 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"일반\" id=\"de_normal\">\n";
+              $multi_settle .= "<label for=\"de_normal\">일반</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
               $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
               $multi_settle .= "</div>\n";
@@ -938,6 +974,13 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             }
             if($default['de_card_use'] &&  $gs['reg_yn'] == 1) {
               // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
+
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
+              $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
 
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
@@ -1013,7 +1056,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </section>
 
 
-            <!-- <section id="toss_section" style="display:none;">
+            <section id="toss_section" style="display:none;">
               <div id="payment-method"></div>
               <div id="agreement"></div>
               <div class="checkable typography--p" style="padding-left: 25px">
@@ -1022,7 +1065,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                   <span class="checkable__label-text">5,000원 쿠폰 적용</span>
                 </label>
               </div>
-            </section> -->
+            </section>
 
             <section id="bank_section" style="display:none;">
               <h2 class="anc_tit">입금하실 계좌</h2>
@@ -1046,7 +1089,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                     <p class="title">휴대전화</p>
                   </div>
                   <div class="form-body">
-                    <input type="text" name="customerMobilePhone" value="" class="frm-input w-per100">
+                    <input type="text" name="customerMobilePhone" value="<?php echo $member['cellphone']?>" class="frm-input w-per100">
                   </div>
                 </div>
                 <!-- <table>
@@ -1366,9 +1409,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         </div>
       </div>
     </form>
-    <!-- <div id="btn_confirm2" class="btn_confirm">
+    <div id="btn_confirm2" class="btn_confirm" style="display:none">
       <button class="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
-    </div> -->
+    </div>
   </div>
 </div>
 
@@ -1662,10 +1705,24 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       }
     }
 
-    if (getSelectVal(f["paymethod"]) == '신용카드') {
+    if (getSelectVal2(f["paymethod"]) == '신용카드') {
       if (tot_price < 1000) {
         alert("신용카드는 1000원 이상 결제가 가능합니다.");
         return false;
+      }
+      let isChecked = $("input[name='od_wday[]']:checked").length > 0;
+      let dateValue = $("#od_begin_date").val();
+
+      if (!isChecked) {
+        alert("하나 이상의 요일을 선택하세요.");
+        event.preventDefault();
+        return;
+      }
+
+      if (dateValue === "") {
+        alert("첫 배송 시점을 입력하세요.");
+        event.preventDefault();
+        return;
       }
     }
 
@@ -1747,17 +1804,17 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
       return;
     }
-    // const orderButton = document.getElementById('order-button');
-    // const paymentButton = document.getElementById('payment-button');
+    const orderButton = document.getElementById('order-button');
+    const paymentButton = document.getElementById('payment-button');
 
-    // orderButton.disabled = true;
-    // orderButton.classList.add('btn-disabled');
-    // paymentButton.disabled = true;
-    // paymentButton.classList.add('btn-disabled');
+    orderButton.disabled = true;
+    orderButton.classList.add('btn-disabled');
+    paymentButton.disabled = true;
+    paymentButton.classList.add('btn-disabled');
 
     switch (type) {
       case '무통장':
-        // orderButton.disabled = false;
+        orderButton.disabled = false;
         $("#bank_section").show();
         $("#card_section").hide();
         $("#toss_section").hide();
@@ -1772,7 +1829,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         <?php } ?>
         break;
       case '일반':
-        // paymentButton.disabled = false;
+        paymentButton.disabled = false;
         $("#toss_section").show();
         $("#card_section").hide();
         $("#bank_section").hide();
@@ -1788,7 +1845,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
         break;
       case '신용카드':
-        // orderButton.disabled = false;
+        orderButton.disabled = false;
         $("#card_section").show();
         $("#bank_section").hide();
         $("#toss_section").hide();
@@ -1797,7 +1854,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         break;
 
       case '포인트':
-        // orderButton.disabled = false;
+        orderButton.disabled = false;
         $("#bank_section").hide();
         $("#card_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
@@ -1814,7 +1871,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         <?php } ?>
         break;
       default: // 그외 결제수단
-        // orderButton.disabled = false;
+        orderButton.disabled = false;
         $("#bank_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
@@ -2004,61 +2061,61 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
 
 
-  // const button = document.getElementById("payment-button");
-  // const coupon = document.getElementById("coupon-box");
-  // const odId = '<?php echo get_session('ss_order_id'); ?>';
+  const button = document.getElementById("payment-button");
+  const coupon = document.getElementById("coupon-box");
+  const odId = '<?php echo get_session('ss_order_id'); ?>';
 
-  // const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
-  // const customerKey = '<?php echo $member['id']?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
-  // var amount = 2000;
+  const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
+  const customerKey = '<?php echo $member['id']?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
+  var amount = 2000;
 
-  // const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
-  //   // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
-  //   // ------  결제 UI 렌더링 ------
-  //   // @docs https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
-  // paymentMethodWidget = paymentWidget.renderPaymentMethods(
-  //   "#payment-method",
-  //   { value: amount },
-  //   // 렌더링하고 싶은 결제 UI의 variantKey
-  //   // 결제 수단 및 스타일이 다른 멀티 UI를 직접 만들고 싶다면 계약이 필요해요.
-  //   // @docs https://docs.tosspayments.com/guides/payment-widget/admin#멀티-결제-ui
-  //   { variantKey: "DEFAULT" }
-  // );
-  // // ------  이용약관 UI 렌더링 ------
-  // // @docs https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자-옵션
-  // paymentWidget.renderAgreement("#agreement", { variantKey: "AGREEMENT" });
+  const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
+    // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
+    // ------  결제 UI 렌더링 ------
+    // @docs https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
+  paymentMethodWidget = paymentWidget.renderPaymentMethods(
+    "#payment-method",
+    { value: amount },
+    // 렌더링하고 싶은 결제 UI의 variantKey
+    // 결제 수단 및 스타일이 다른 멀티 UI를 직접 만들고 싶다면 계약이 필요해요.
+    // @docs https://docs.tosspayments.com/guides/payment-widget/admin#멀티-결제-ui
+    { variantKey: "DEFAULT" }
+  );
+  // ------  이용약관 UI 렌더링 ------
+  // @docs https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자-옵션
+  paymentWidget.renderAgreement("#agreement", { variantKey: "AGREEMENT" });
 
-  // //  ------  결제 UI 렌더링 완료 이벤트 ------
-  // paymentMethodWidget.on("ready", function () {
-  //   button.disabled = false;
-  //   coupon.disabled = true;
-  // });
+  //  ------  결제 UI 렌더링 완료 이벤트 ------
+  paymentMethodWidget.on("ready", function () {
+    button.disabled = false;
+    coupon.disabled = true;
+  });
 
-  // // ------  결제 금액 업데이트 ------
-  // // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
-  // coupon.addEventListener("change", function () {
-  //   if (coupon.checked) {
-  //     paymentMethodWidget.updateAmount(amount - 5000);
-  //   } else {
-  //     paymentMethodWidget.updateAmount(amount);
-  //   }
-  // });
+  // ------  결제 금액 업데이트 ------
+  // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
+  coupon.addEventListener("change", function () {
+    if (coupon.checked) {
+      paymentMethodWidget.updateAmount(amount - 5000);
+    } else {
+      paymentMethodWidget.updateAmount(amount);
+    }
+  });
 
-  // var formSubmitOrder = $("#buyform").serialize();
-  // // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-  // // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
-  // button.addEventListener("click", function () {
-  //   // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
-  //   // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
-  //   paymentWidget.requestPayment({
-  //     orderId: odId,
-  //     orderName: "토스 티셔츠 외 2건",
-  //     successUrl: window.location.origin+"/m/theme/basic/success.php",
-  //     failUrl: window.location.origin + "/m/theme/basic/fail.php",
-  //     customerEmail: "jjh@iium.kr",
-  //     customerName: "김토스",
-  //     customerMobilePhone: "01068620286",
-  //   });
-  // });
+  var formSubmitOrder = $("#buyform").serialize();
+  // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+  // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
+  button.addEventListener("click", function () {
+    // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
+    // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
+    paymentWidget.requestPayment({
+      orderId: odId,
+      orderName: "토스 티셔츠 외 2건",
+      successUrl: window.location.origin+"/m/theme/basic/success.php",
+      failUrl: window.location.origin + "/m/theme/basic/fail.php",
+      customerEmail: "jjh@iium.kr",
+      customerName: "김토스",
+      customerMobilePhone: "01068620286",
+    });
+  });
 
 </script>

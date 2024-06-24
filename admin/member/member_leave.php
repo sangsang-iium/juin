@@ -79,9 +79,11 @@ EOF;
 <div class="local_ov mart30">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
+<?php if($member['id'] == 'admin') { ?>
 <div class="local_frm01">
-	<?php echo $btn_frmline; ?>
+  <?php echo $btn_frmline; ?>
 </div>
+<?php } ?>
 <div class="tbl_head01">
 	<table>
 	<colgroup>
@@ -136,9 +138,11 @@ EOF;
 	</tbody>
 	</table>
 </div>
+<?php if($member['id'] == 'admin') { ?>
 <div class="local_frm02">
 	<?php echo $btn_frmline; ?>
 </div>
+<?php } ?>
 </form>
 
 <?php

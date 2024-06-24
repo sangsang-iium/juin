@@ -83,13 +83,15 @@ if(!empty($sfl) || !empty($stx)){
 				echo '<tbody class="list">'.PHP_EOL;
 
 			$bg = 'list'.($i%2);
+      // 특수문자 인코딩 추가 _20240621_SY
+      $data = json_encode($row, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
 		?>
 		<tr class="<?php echo $bg; ?>">
 			<td><?php echo $num--; ?></td>
 			<td><?php echo $row['seller_code']; ?></td>
 			<td class="tal"><?php echo $row['company_name']; ?></td>
 			<td><?php echo $row['company_owner']; ?></td>
-			<td><button type="button" onclick='yes(<?php echo json_encode($row); ?>)' class="btn_small grey">선택</button></td>
+			<td><button type="button" onclick='yes(<?php echo $data; ?>)' class="btn_small grey">선택</button></td>
 		</tr>
 		<?php
 		}
@@ -108,6 +110,10 @@ if(!empty($sfl) || !empty($stx)){
 <script>
   // name 추가_20240415_SY
 function yes(data) {
+  // 인코딩 추가 _20240621_SY
+  if (typeof data === 'string') {
+    data = JSON.parse(data);
+  }
   opener.document.fregform.mb_id.value = data.seller_code;
 
   if (opener.document.fregform.name) {

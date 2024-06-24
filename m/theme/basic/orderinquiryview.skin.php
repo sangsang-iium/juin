@@ -31,7 +31,13 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </ul>
         </div>
         <div class="od-cmp_btns">
-          <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiry.php" class="ui-btn stWhite detail-btn">주문내역 확인</a>
+          <!-- 일반/정기배송 구분 _20240624_SY -->
+          <?php 
+            $cart_sql = " select * from shop_cart where od_id = '$od_id' group by gs_id order by index_no ";
+            $cart_row = sql_fetch($cart_sql);
+            $end_link = ($cart_row['reg_yn'] == '1') ? BV_MSHOP_URL."/regOrderList.php" : BV_MSHOP_URL."/orderinquiry.php"; ?>
+          <!-- <a href="<?php echo BV_MSHOP_URL; ?>/orderinquiry.php" class="ui-btn stWhite detail-btn">주문내역 확인</a> -->
+          <a href="<?php echo $end_link; ?>" class="ui-btn stWhite detail-btn">주문내역 확인</a>
           <a href="<?php echo BV_MURL; ?>" class="ui-btn stBlack shopping-btn">쇼핑 계속하기</a>
         </div>
         <p class="od-comp-t">주문하신 내역은 마이페이지 > 주문조회에서 확인하실 수 있습니다.</p>
@@ -417,6 +423,17 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
               <span class="rt-txt"><?php echo conv_content($od['memo'], 0); ?></span>
             </li>
             <?php } ?>
+            <?php // 운송장정보 추가 _20240624_SY
+            if(!empty($od['delivery']) && !empty($od['delivery_no'])) { 
+              $dlcomp = explode('|', trim($od['delivery']));
+            ?>
+            <li>
+              <span class="lt-txt">운송장번호</span>
+              <span class="rt-txt"><a href="<?php echo $dlcomp[1].$rw['delivery_no'] ?>" target="_blank"><?php echo $dlcomp[0] ?></a>
+                <?php echo conv_content($od['delivery_no'], 0); ?>
+              </span>
+            </li>
+            <?php } ?>
           </ul>
         </div>
       </div>
@@ -430,7 +447,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
     ?>
     <div class="cp-btnbar__btns">
       <div class="container <?php echo $st_cancel_price == 0 && $custom_cancel ? '':'oneBtn'; ?>">
-        <a href="<?php echo BV_MSHOP_URL; ?>/<?php echo $prePange ?>" class="ui-btn round stWhite">목록</a>
+        <!-- <a href="<?php echo BV_MSHOP_URL; ?>/<?php echo $prePange ?>" class="ui-btn round stWhite">목록</a> -->
+        <a href="/m/shop/orderinquiry.php" class="ui-btn round stWhite">목록</a>
         <?php
         // 취소한 내역이 없다면
         if($st_cancel_price == 0 && $custom_cancel) {

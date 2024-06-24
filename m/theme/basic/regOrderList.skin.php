@@ -28,6 +28,63 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
           $uid = md5($rw['od_id'].$rw['od_time'].$rw['od_ip']);
 
+          // 배송기간 추가 _20240624_SY
+          $start_date        = $rw['od_begin_date'];
+          $delivery_days     = explode(",",$rw['od_wday']);
+          $interval_weeks    = $rw['od_week'];
+          $total_deliveries  = $rw['od_reg_total_num'];
+          $weekday_names     = ['일', '월', '화', '수', '목', '금', '토'];
+          
+          // 시작일을 타임스탬프로 변환
+          $current_date = strtotime($start_date);
+
+          // 초기화
+          $occurrences = 0;
+          $last_date = null;
+
+          // 총 12번의 배송을 계산
+          while ($occurrences < $total_deliveries) {
+            foreach ($delivery_days as $day) {
+                // 현재 날짜의 요일 인덱스를 구함
+                $current_weekday = date('w', $current_date);
+        
+                // 목표 요일의 인덱스를 구함
+                $target_weekday = array_search($day, $weekday_names);
+        
+                // 목표 요일까지 남은 일수를 계산
+                $days_to_add = ($target_weekday + 7 - $current_weekday) % 7;
+        
+                // 날짜를 목표 요일로 이동
+                $current_date = strtotime("+$days_to_add days", $current_date);
+        
+                // 해당 날짜를 기록
+                $last_date = $current_date;
+                $occurrences++;
+                if ($occurrences >= $total_deliveries) {
+                    break 2; // 바깥쪽 반복문도 빠져나옴
+                }
+            }
+            // interval_weeks 주를 더함
+            if($interval_weeks > 1) {
+              $range_week = $interval_weeks-1;
+            } else {
+              $range_week = $interval_weeks;
+            }
+            $current_date = strtotime("+$range_week weeks", $current_date);
+          }
+          
+          // 종료 날짜 출력
+          $end_date = date('Y-m-d', $last_date);
+
+          if($rw['od_reg_total_num'] > 0 && $rw['od_begin_date'] != '0000-00-00') {
+            $wday = str_replace(",","/", $rw['od_wday']); 
+            $delivery_date = $start_date." ~ ".$end_date;
+          } else {
+            $wday = "";
+            $delivery_date = "";
+          }
+        
+
          $dan_process =  $row['dan'];
           if($k == 0) {
       ?>
@@ -75,11 +132,11 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         <div class="reg-info-wr">
           <div class="reg-info-left">
             <p>배송요일</p>
-            <input type="text" class="frm-input" value="월/수" readonly>
+            <input type="text" class="frm-input" value="<?php echo $wday; ?>" readonly>
           </div>
           <div class="reg-info-right">
             <p>배송기간</p>
-            <input type="text" class="frm-input" value="2024.05.30 ~ 2025.05.29" readonly>
+            <input type="text" class="frm-input" value="<?php echo $delivery_date; ?>" readonly>
           </div>
         </div>
       </div>
