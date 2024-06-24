@@ -46,8 +46,8 @@ include_once(BV_MPATH."/_head.php"); // 상단
     <div class="dfBox">
       <div class="container">
         <div class="service-apply__btns">
-          <!-- <a href="/m/service/apply04.php" class="ui-btn round stBlack apply-btn">신청 바로가기</a> -->
-          <a href="javascript:alert('준비중입니다.');" class="ui-btn round stBlack apply-btn">신청 바로가기</a>
+          <a href="/m/service/apply04.php" class="ui-btn round stBlack apply-btn">신청 바로가기</a>
+          <!-- <a href="javascript:alert('준비중입니다.');" class="ui-btn round stBlack apply-btn">신청 바로가기</a> -->
           <a href="/m/service/list.php?menu=service" class="ui-btn round stWhite goback-btn">목록</a>
         </div>
       </div>
