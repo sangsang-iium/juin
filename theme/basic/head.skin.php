@@ -1,6 +1,11 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
+// $member2 추가 _20240624_SY
+if(isset($member2['id'])) {
+  $member = get_member($member2['id']);
+}
+
 if(defined('_INDEX_')) { // index에서만 실행
 	include_once(BV_LIB_PATH.'/popup.inc.php'); // 팝업레이어
 }

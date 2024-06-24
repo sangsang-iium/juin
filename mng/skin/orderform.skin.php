@@ -295,6 +295,8 @@ $row_card = sql_fetch($sql_card);
       <input type="hidden" name="use_point" value="0">
       <?php }?>
       <input type="hidden" name="resulturl" value="pc">
+      <!-- reg_yn 상단으로 뺌 _20240625_SY -->
+      <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
       
     <div class="order_wrap">
         <div class="order_left">
@@ -308,7 +310,7 @@ $row_card = sql_fetch($sql_card);
                 if ($gs['reg_yn'] == 1) {
             ?>
             <!-- 정기배송 주문 추가 -->
-            <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
+            <!-- <input type="hidden" name="reg_yn" value="<?php //echo $gs['reg_yn'] ?>"> -->
             <div class="order_box">
                 <p class="order_title">정기배송</p>
                 <div class=" info-list">

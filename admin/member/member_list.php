@@ -3,6 +3,7 @@ if (!defined('_BLUEVATION_')) {
   exit;
 }
 
+
 if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fr_date)) {
   $fr_date = '';
 }
@@ -118,7 +119,7 @@ if ($page == "") {
 $from_record = ($page - 1) * $rows;       // 시작 열을 구함
 $num         = $total_count - (($page - 1) * $rows);
 
-$sql    = " select mm.*, mn.name AS mn_name $sql_common {$sql_join} $sql_search $sql_order limit $from_record, $rows ";
+$sql    = " select mm.*, mn.name AS mn_name, mn.id AS mn_id $sql_common {$sql_join} $sql_search $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
 $is_intro = false;
@@ -183,7 +184,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
           </td>
         </tr>
         <tr>
-          <th scope="row">레벨검색</th>
+          <th scope="row">등급검색</th>
           <td>
             <div class="radio_group">
               <?php echo get_search_level('sst', $sst, 2, 9); ?>
@@ -241,12 +242,12 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
         <th scope="col">번호</th>
         <th scope="col"><?php echo subject_sort_link('name', $q2); ?>회원명</a></th>
         <th scope="col"><?php echo subject_sort_link('id', $q2); ?>아이디</a></th>
-        <th scope="col"><?php echo subject_sort_link('grade', $q2); ?>레벨</a></th>
-        <th scope="col"><?php echo subject_sort_link('ju_manager', $q2); ?>담당자</a></th>
+        <th scope="col"><?php echo subject_sort_link('grade', $q2); ?>회원등급</a></th>
+        <th scope="col"><?php echo subject_sort_link('ju_manager', $q2); ?>담당직원</a></th>
         <th scope="col">핸드폰</th>
         <th scope="col"><?php echo subject_sort_link('reg_time', $q2); ?>가입일시</a></th>
-        <th scope="col">구매수</th>
-        <th scope="col"><?php echo subject_sort_link('login_sum', $q2); ?>로그인</a></th>
+        <th scope="col">구매건 수</th>
+        <th scope="col"><?php echo subject_sort_link('login_sum', $q2); ?>누적 로그인</a></th>
         <th scope="col"><?php echo subject_sort_link('intercept_date', $q2); ?>접근차단</a></th>
         <?php if ($is_intro) { ?>
           <th scope="col"><?php echo subject_sort_link('use_app', $q2); ?>인증</a></th>
@@ -261,13 +262,17 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
       }
 
       $bg = 'list' . ($i % 2);
+      $manager_info = "";
+      if(!empty($row['ju_manager'])) {
+        $manager_info = $row['mn_name'] . " ({$row['mn_id']}) ";
+      }
     ?>
       <tr class="<?php echo $bg; ?>">
         <td><?php echo $num--; ?></td>
         <td><?php echo get_sideview($row['id'], $row['name']); ?></td>
         <td><?php echo $row['id']; ?></td>
         <td><?php echo get_grade($row['grade']); ?></td>
-        <td><?php echo $row['mn_name']; ?></td>
+        <td><?php echo $manager_info; ?></td>
         <td><?php echo replace_tel($row['cellphone']); ?></td>
         <td><?php echo $row['reg_time']; ?></td>
         <td><?php echo number_format(shop_count($row['id'])); ?></td>

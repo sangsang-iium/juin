@@ -153,36 +153,6 @@ while ($cate_row = sql_fetch_array($cate_res)) {
     </a>
     <?php
 }?>
-    <!-- <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=002'; ?>" class="ui-btn">
-      <i class="icon">
-        <img src="/src/img/category-b.png" alt="축산(육가공)">
-      </i>
-      <p class="name">축산<br>(육가공)</p>
-    </a>
-    <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=002'; ?>" class="ui-btn">
-      <i class="icon">
-        <img src="/src/img/category-c.png" alt="위생/주방용품">
-      </i>
-      <p class="name">위생/주방<br>용품</p>
-    </a>
-    <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=002'; ?>" class="ui-btn">
-      <i class="icon">
-        <img src="/src/img/category-d.png" alt="종합 식자재">
-      </i>
-      <p class="name">종합<br>식자재</p>
-    </a>
-    <a href="./sub/product-list.html" class="ui-btn">
-      <i class="icon">
-        <img src="/src/img/category-e.png" alt="수미안 전용관">
-      </i>
-      <p class="name">수미안<br>전용관</p>
-    </a>
-    <a href="./sub/product-list.html" class="ui-btn">
-      <i class="icon st1">
-        <img src="/src/img/category-f.png" alt="회원 전용관">
-      </i>
-      <p class="name">회원<br>전용관</p>
-    </a> -->
   </div>
 </div>
 <!-- } 상품 카테고리 바로가기 -->
@@ -218,26 +188,25 @@ while ($cate_row = sql_fetch_array($cate_res)) {
 </div> -->
 <!-- } 관련 서비스 바로가기 -->
 
-<!-- 베스트 상품 { -->
-<div class="section main_best">
+<!-- 신상품 상품 { -->
+<div class="section main_best bgColor2">
   <div class="container right cp-title">
     <div class="left">
       <div class="icon-box"></div>
       <div class="text-box">
-        <h3>베스트</h3>
-        <p class="tp-expl">주인장에서 제일 잘 나가요!</p>
+        <h3>신상품</h3>
+        <p class="tp-expl">이제 갓 나온 신선한 신상품이에요</p>
       </div>
     </div>
     <div class="right">
-      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=2" class="ui-btn more">전체보기</a>
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=3&menu=new" class="ui-btn more">전체보기</a>
     </div>
   </div>
-  <?php echo mobile_slide_goods('2', '20', 'container left main_best-slide'); ?>
+  <?php echo mobile_slide_goods('3', '20', 'container left main_best-slide'); ?>
 </div>
-<!-- } 베스트 상품 -->
-
+<!-- } 신상품 상품 -->
 <!-- 추천상품 { -->
-<div class="section main_recomm">
+<!-- <div class="section main_recomm">
   <div class="container right cp-title">
     <div class="left">
       <div class="icon-box"></div>
@@ -251,11 +220,11 @@ while ($cate_row = sql_fetch_array($cate_res)) {
     </div>
   </div>
   <?php echo mobile_slide_goods('5', '20', 'container left main_recomm-slide', 'small'); ?>
-</div>
+</div> -->
 <!-- } 추천상품 -->
 
 <!-- 인기상품 { -->
-<div class="section main_popular">
+<!-- <div class="section main_popular">
   <div class="container right cp-title">
     <div class="left">
       <div class="icon-box"></div>
@@ -270,7 +239,7 @@ while ($cate_row = sql_fetch_array($cate_res)) {
   </div>
   <?php echo mobile_slide_goods('4', '20', 'container left main_popular-slide', 'small'); ?>
 </div>
-<!-- } 인기상품 -->
+} 인기상품 -->
 
 <!-- 띠 배너 3 { -->
 <div class="section line-banner-section line-banner03">
@@ -400,7 +369,7 @@ while ($cate_row = sql_fetch_array($cate_res)) {
             }
         }
         ?>
-        
+
         <!-- 종료 추가 { -->
         <!-- <a href="" class="swiper-slide cp-live live-off">
           <div class="round50 prod-thumb_area">

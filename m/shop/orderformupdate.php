@@ -4,6 +4,11 @@ include_once "./_common.php";
 include_once BV_LIB_PATH . '/mailer.lib.php';
 $resulturl = $_POST['resulturl'];
 
+// $member2 추가 _20240624_SY
+if(isset($member2['id'])) {
+  $member = get_member($member2['id']);
+}
+
 // 삼성페이 요청으로 왔다면 현재 삼성페이는 이니시스 밖에 없으므로
 if ($_POST['paymethod'] == '삼성페이' && $default['de_pg_service'] != 'inicis') {
   alert("이니시스를 사용중일때만 삼성페이 결제가 가능합니다.", BV_MSHOP_URL . "/cart.php");
