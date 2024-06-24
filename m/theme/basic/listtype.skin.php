@@ -51,6 +51,7 @@ for($i=0; $i<count($gw_msort); $i++) {
           <div class="cp-timer">
             <div class="cp-timer-wrap">
               <i class="cp-timer__icon"></i>
+              <span class="cp-timer__text">D-Day</span>
               <span class="cp-timer__num" data-deadline="<?php echo date("Y-m-d");?> 23:59:59">00:00:00</span>
               <span class="cp-timer__text">남음</span>
             </div>

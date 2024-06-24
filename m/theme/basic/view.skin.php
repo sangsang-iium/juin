@@ -37,26 +37,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </div>
           <a href="" class="link">
             <figure class="image">
-              <div class="cp-tag-box">
-                  <?php if($gs['reg_yn']=="1"){ ?>
-                  <div class="cp-tag-item">
-                    <div class="cp-tag tag02">정기</div>
-                  </div>
-                  <?php } else if ($gs['reg_yn']=="2") { ?>
-                  <!-- <div class="cp-tag-item">
-                    <div class="cp-tag tag01">일반</div>
-                  </div> -->
-                  <?php }
-                  if($gs['sc_type'] == "1"){ ?>
-                  <div class="cp-tag-item">
-                    <div class="cp-tag tag04">택배</div>
-                  </div>
-                  <?php } else if($gs['sc_type'] == "4") { ?>
-                  <div class="cp-tag-item">
-                    <div class="cp-tag tag03">차량</div>
-                  </div>
-                  <?php } ?>
-                </div>
               <img src="<?php echo get_it_image_url($gs_id, $gs['simg'.$i], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']); ?>" alt="<?php echo get_text($gs['gname']); ?>" class="fitCover">
             </figure>
           </a>
@@ -75,6 +55,24 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div class="prod-smInfo">
     <div class="bottomBlank container prod-smInfo__head">
       <div class="prod-tag_area">
+        <?php if($gs['reg_yn']=="1"){ ?>
+        <div class="cp-tag-item">
+          <div class="cp-tag tag02">정기</div>
+        </div>
+        <?php } else if ($gs['reg_yn']=="2") { ?>
+        <!-- <div class="cp-tag-item">
+          <div class="cp-tag tag01">일반</div>
+        </div> -->
+        <?php }
+        if($gs['sc_type'] == "1"){ ?>
+        <div class="cp-tag-item">
+          <div class="cp-tag tag04">택배</div>
+        </div>
+        <?php } else if($gs['sc_type'] == "4") { ?>
+        <div class="cp-tag-item">
+          <div class="cp-tag tag03">차량</div>
+        </div>
+        <?php } ?>
         <span class="tag coupon">쿠폰</span>
         <span class="tag freeDelivery">무료배송</span>
       </div>

@@ -159,6 +159,8 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
     echo "<a href=\"{$it_href}\" class=\"thumb\">\n";
     echo "<img src=\"{$it_imageurl}\" alt=\"\">\n";
     echo "</a>\n";
+
+    /*
     echo "<div class=\"cp-timer\">\n";
     echo "<div class=\"cp-timer-wrap white\">\n";
     echo "<i class=\"cp-timer__icon\"></i>\n";
@@ -166,8 +168,10 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
     // echo "<span class=\"cp-timer__text\">남음</span>\n";
     echo "</div>\n";
     echo "</div>\n";
+    */
 
 		// 2024-06-03 : 정기/일반 배송 추가
+    /*
 		echo "<div class=\"cp-tag-box\">";
 		if ($row['reg_yn'] == 2) {
 			// echo "<div class=\"cp-tag-item\">";
@@ -188,6 +192,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 			echo "</div>";
 		}
 		echo "</div>";
+    */
 
     echo "</div>\n";
     echo "<a href=\"{$it_href}\" class=\"prod-info_area\">\n";
@@ -197,6 +202,28 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
     echo "{$sale}<span class=\"sale-price\">{$it_price}</span>\n";
     echo "</p>\n";
     echo "</a>\n";
+
+    echo "<div class=\"prod-tag_area\">\n";
+    if ($row['reg_yn'] == 2) {
+			// echo "<div class=\"cp-tag-item\">";
+			// echo "<div class=\"cp-tag tag01\">일반</div>";
+			// echo "</div>";
+		} else {
+			echo "<div class=\"cp-tag-item\">";
+			echo "<div class=\"cp-tag tag02\">정기</div>";
+			echo "</div>";
+		}
+		if ($row['sc_type'] == 4) {
+			echo "<div class=\"cp-tag-item\">";
+			echo "<div class=\"cp-tag tag03\">차량</div>";
+			echo "</div>";
+		} else {
+			echo "<div class=\"cp-tag-item\">";
+			echo "<div class=\"cp-tag tag04\">택배</div>";
+			echo "</div>";
+		}
+    echo "</div>\n";
+
     echo "</div>\n"; // 추가된 부분: 각 슬라이드의 끝
   }
 
@@ -522,7 +549,8 @@ function mobile_price($gs_id, $msg='<span>원</span>')
 			$str = "";
 		} else if($gs['buy_only'] == 0 && $member['grade'] > $gs['buy_level']) {
 			if(!$is_member)
-				$str = "<span class=\"memopen\">회원공개</span>";
+				// $str = "<span class=\"memopen\">회원공개</span>";
+				$str = "<span class=\"tag off\">회원공개</span>";
 			else
 				$str = "<span class=\"mpr\">".number_format($price).$msg."</span>";
 		} else {
@@ -1189,6 +1217,7 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
   }
 
 	// 2024-06-03 : 정기/일반 배송 추가
+  /*
 	echo "<div class=\"cp-tag-box\">";
 	if ($row['reg_yn'] == 2) {
 		// echo "<div class=\"cp-tag-item\">";
@@ -1209,6 +1238,7 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 		echo "</div>";
 	}
 	echo "</div>";
+  */
 
   echo "<button type=\"button\" onclick=\"javascript:itemlistwish('$it_idx')\" id='$it_idx' class='$it_idx ui-btn wish-btn ".zzimCheck($it_idx)."' title=\"관심상품 등록하기\"></button>\n";
   echo "</div>\n";
@@ -1221,10 +1251,30 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
   echo "</p>\n";
   echo "</a>\n";
   echo "<div class=\"prod-tag_area\">\n";
+  if ($row['reg_yn'] == 2) {
+		// echo "<div class=\"cp-tag-item\">";
+		// echo "<div class=\"cp-tag tag01\">일반</div>";
+		// echo "</div>";
+	} else {
+		echo "<div class=\"cp-tag-item\">";
+		echo "<div class=\"cp-tag tag02\">정기</div>";
+		echo "</div>";
+	}
+	if ($row['sc_type'] == 4) {
+		echo "<div class=\"cp-tag-item\">";
+		echo "<div class=\"cp-tag tag03\">차량</div>";
+		echo "</div>";
+	} else {
+		echo "<div class=\"cp-tag-item\">";
+		echo "<div class=\"cp-tag tag04\">택배</div>";
+		echo "</div>";
+	}
+  /*
 	if(!$coupon_chk['is_only'] && !$coupon_chk['is_pr_msg'] && !$coupon_chk['is_buy_only'] && !$coupon_chk['is_soldout'] && $coupon_chk['cp_used']){
 		echo "<span class=\"tag coupon\">쿠폰</span>\n";
 	}
   echo "<span class=\"tag freeDelivery\">무료배송</span>\n";
+  */
   echo "</div>\n";
   echo "</div>\n";
 }
