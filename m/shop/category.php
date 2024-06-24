@@ -8,6 +8,25 @@ include_once("./_head.php");
 <div id="document">
   <!-- AllMenu { -->
   <div class="all-ct-wrap">
+    <div class="container main_service">
+      <div class="main-service_wrap">
+        <a href="/m/used/list.php?menu=used" class="box box1">
+          <div class="box_in">
+            <p class="name">중고장터</p>
+          </div>
+        </a>
+        <a href="/m/store/list.php?menu=store" class="box box2">
+          <div class="box_in">
+            <p class="name">회원사현황</p>
+          </div>
+        </a>
+        <a href="/m/service/list.php?menu=service" class="box box3">
+          <div class="box_in">
+            <p class="name">제휴서비스</p>
+          </div>
+        </a>
+      </div>
+    </div>
     <div class="all-ct">
       <div class="all-ct-left">
         <ul class="all-ct-depth1-list">

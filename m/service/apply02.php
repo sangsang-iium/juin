@@ -176,7 +176,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
       </div>
 
       <div class="apply-write-btn-wr">
-        <button class="ui-btn round stBlack">신청완료</button>
+        <button class="ui-btn round stBlack" onclick="javascript:alert('신청이 완료 되었습니다.')">신청완료</button>
       </div>
 
     </div>
