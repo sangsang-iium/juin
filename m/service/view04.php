@@ -12,9 +12,9 @@ include_once(BV_MPATH."/_head.php"); // 상단
             <span class="cname">[한국외식업중앙회]</span>
             <span class="subj">주인장 회원 장례 서비스</span>
           </p>
-          <p class="ex">
+          <!-- <p class="ex">
             <span class="period">2023.12.15~2024.02.15</span>
-          </p>
+          </p> -->
         </div>
         <button type="button" class="ui-btn share-btn"></button>
       </div>
