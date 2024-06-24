@@ -2972,7 +2972,7 @@ function get_it_image($gs_id, $it_img, $wpx, $hpx = 0, $img_id = '') {
       $img_wpx  = $size[0];
       $img_hpx  = $size[1];
       $filepath = dirname($file);
-      $filename = basename($file);
+      $filename = mb_basename($file);
 
       if ($img_wpx != $wpx || $img_hpx != $hpx) {
         if ($img_wpx && !$hpx) {
@@ -3068,6 +3068,7 @@ function get_it_image($gs_id, $it_img, $wpx, $hpx = 0, $img_id = '') {
 // }
 
 function get_it_image_url($gs_id, $it_img, $wpx, $hpx = 0) {
+	setlocale(LC_ALL, 'ko_KR.UTF-8');
   if (!$gs_id || !$wpx) {
     return '';
   }
@@ -3111,7 +3112,7 @@ function get_it_image_url($gs_id, $it_img, $wpx, $hpx = 0) {
 			$img_wpx  = $size[0];
 			$img_hpx  = $size[1];
 			$filepath = dirname($file);
-			$filename = basename($file);
+			$filename = mb_basename($file);
 
 			if ($img_wpx != $wpx || $img_hpx != $hpx) {
 				if ($img_wpx && !$hpx) {
@@ -3164,7 +3165,7 @@ function get_od_image($od_id, $it_img, $wpx, $hpx=0)
 			$img_wpx  = $size[0];
 			$img_hpx  = $size[1];
 			$filepath = dirname($file);
-			$filename = basename($file);
+			$filename = mb_basename($file);
 
 			if($img_wpx != $wpx && $img_hpx != $hpx) {
 				if($img_wpx && !$hpx)

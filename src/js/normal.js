@@ -173,6 +173,9 @@ $(document).ready(function () {
   //Main Time Sale
   f.timeSale('.main_today .cp-timer__num');
 
+  //Main Time Sale
+  f.timeSale('.prod-detailThumb .cp-timer__num');
+
   //Main Live Slide
   const mainLiveTarget = '.main_live-slide .swiper-container';
   const mainLiveOptions = {

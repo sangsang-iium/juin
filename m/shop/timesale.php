@@ -1,7 +1,7 @@
 <?php
 include_once("./_common.php");
 
-$tb['title'] = $default['de_pname_8'];
+$tb['title'] = $default['de_pname_3'];
 include_once("./_head.php");
 
 $sql_search = " and sb_date <= '".BV_TIME_YMD."' and eb_date >= '".BV_TIME_YMD."' ";

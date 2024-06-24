@@ -78,7 +78,7 @@ function mobile_display_goods($type, $rows, $mtxt, $li_css='')
 	$result = display_itemtype($pt_id, $type, $rows);
 	for($i=0; $row=sql_fetch_array($result); $i++) {
 		$it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
-		$it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
+		$it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
 		$it_name = get_text($row['gname']);
 		$it_price = mobile_price($row['index_no']);
 		$it_amount = get_sale_price($row['index_no']);
@@ -134,7 +134,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 		// 	continue;
 		// }
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
-    $it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
+    $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
     $it_name     = get_text($row['gname']);
     $it_price    = mobile_price($row['index_no']);
     $it_amount   = get_sale_price($row['index_no']);
@@ -221,7 +221,7 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 		// 	continue;
 		// }
 		$it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
-		$it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
+		$it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
 		$it_name = get_text($row['gname']);
 		$it_price = mobile_price($row['index_no']);
 		$it_amount = get_sale_price($row['index_no']);
@@ -1040,7 +1040,7 @@ function mobile_listtype_cate($list_best)
 			if($succ_count >= 3) break;
 
 			$it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
-			$it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
+			$it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
 			$it_name = get_text($row['gname']);
 			$it_price = mobile_price($row['index_no']);
 			$it_amount = get_sale_price($row['index_no']);
