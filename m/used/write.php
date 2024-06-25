@@ -137,7 +137,7 @@ if(is_numeric($no)){
 		                        echo '<div class="img-upload-item">X<input type="file" name="s_img[]">';
 		                        if($sub_imgs[$i]){
 		                            // css 때문에 삭제가 보이지 않아서 임시이미지로 처리함.
-		                            echo '<div class="img_container"><img src="'.BV_DATA_URL.'/used/'.$sub_imgs[$i].'">&nbsp; <img src="/m/img/ajax-loader.gif" class="image_del" data-img_name="'.$sub_imgs[$i].'"></div>';
+		                            echo '<div class="img_container addStyle"><img src="'.BV_DATA_URL.'/used/'.$sub_imgs[$i].'">&nbsp; <button type="button" class="ui-btn image_del" data-img_name="'.$sub_imgs[$i].'"><img src="/src/img/mtb-close-black.png"></button></div>';
 		                        }
 		                        echo '</div>';
 		                    }
