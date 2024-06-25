@@ -88,35 +88,43 @@ if (!defined("_BLUEVATION_")) {
       </div>
     </div>
     <div class="right">
-      <a href="<?php echo BV_MSHOP_URL; ?>/list.php?ca_id=005" class="ui-btn more">전체보기</a>
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=2&menu=best" class="ui-btn more">전체보기</a>
     </div>
   </div>
-  <?php echo mobile_slide_goods_no('005', '20', 'container left main_best-slide'); ?>
+  <?php echo mobile_slide_goods('2', '20', 'container left main_best-slide'); ?>
 </div>
 <!-- } pb 상품 -->
 
 <!-- 띠 배너 1 { -->
-<div class="section line-banner-section line-banner01" style="display: none;">
+<div class="line-banner-section line-banner01">
+  <div class="container right cp-title">
+    <div class="left">
+      <div class="icon-box"></div>
+      <div class="text-box">
+        <h3>브랜드관</h3>
+      </div>
+    </div>
+  </div>
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <!-- 배너 { -->
-      <a href="" class="swiper-slide banner-item">
+      <a href="/m/shop/list.php?ca_id=006" class="swiper-slide banner-item">
         <div class="banner-img">
-          <img src="/src/img/banner-imsi01.png" alt="">
+          <img src="/src/img/mainbanner1_samsung.jpg" alt="">
         </div>
       </a>
       <!-- } 배너 -->
       <!-- 배너 { -->
-      <a href="" class="swiper-slide banner-item">
+      <a href="/m/shop/list.php?ca_id=006" class="swiper-slide banner-item">
         <div class="banner-img">
-          <img src="/src/img/banner-imsi01.png" alt="">
+          <img src="/src/img/mainbanner1_lg.jpg" alt="">
         </div>
       </a>
       <!-- } 배너 -->
       <!-- 배너 { -->
-      <a href="" class="swiper-slide banner-item">
+      <a href="/m/shop/list.php?ca_id=006" class="swiper-slide banner-item">
         <div class="banner-img">
-          <img src="/src/img/banner-imsi01.png" alt="">
+          <img src="/src/img/mainbanner1_cuckoo.jpg" alt="">
         </div>
       </a>
       <!-- } 배너 -->
@@ -127,7 +135,7 @@ if (!defined("_BLUEVATION_")) {
 
 
 <!-- 추천 상품 { -->
-<div class="section main_best bgColor1">
+<div class="section main_best bgColor1" style="margin-top: 0;">
   <div class="container right cp-title">
     <div class="left">
       <div class="icon-box"></div>
@@ -137,7 +145,6 @@ if (!defined("_BLUEVATION_")) {
       </div>
     </div>
     <div class="right">
-      <!-- <a href="<?php echo BV_MSHOP_URL; ?>/list.php?ca_id=005" class="ui-btn more">전체보기</a> -->
       <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=5" class="ui-btn more">전체보기</a>
     </div>
   </div>
@@ -147,27 +154,13 @@ if (!defined("_BLUEVATION_")) {
 
 
 <!-- 띠 배너 2 { -->
-<div class="section line-banner-section line-banner02" style="display: none;">
+<div class="line-banner-section line-banner02">
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <!-- 배너 { -->
-      <a href="" class="swiper-slide banner-item">
+      <a href="/m/service/list.php?menu=service" class="swiper-slide banner-item">
         <div class="banner-img">
-          <img src="/src/img/banner-imsi01.png" alt="">
-        </div>
-      </a>
-      <!-- } 배너 -->
-      <!-- 배너 { -->
-      <a href="" class="swiper-slide banner-item">
-        <div class="banner-img">
-          <img src="/src/img/banner-imsi01.png" alt="">
-        </div>
-      </a>
-      <!-- } 배너 -->
-      <!-- 배너 { -->
-      <a href="" class="swiper-slide banner-item">
-        <div class="banner-img">
-          <img src="/src/img/banner-imsi01.png" alt="">
+          <img src="/src/img/mainbanner2_signup.jpg" alt="">
         </div>
       </a>
       <!-- } 배너 -->
@@ -286,27 +279,13 @@ while ($cate_row = sql_fetch_array($cate_res)) {
 } 인기상품 -->
 
 <!-- 띠 배너 3 { -->
-<div class="section line-banner-section line-banner03" style="display: none;">
+<div class="line-banner-section line-banner03">
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <!-- 배너 { -->
-      <a href="" class="swiper-slide banner-item">
+      <a href="/m/bbs/board_read.php?index_no=9&boardid=13&page=1" class="swiper-slide banner-item">
         <div class="banner-img">
-          <img src="/src/img/banner-imsi01.png" alt="">
-        </div>
-      </a>
-      <!-- } 배너 -->
-      <!-- 배너 { -->
-      <a href="" class="swiper-slide banner-item">
-        <div class="banner-img">
-          <img src="/src/img/banner-imsi01.png" alt="">
-        </div>
-      </a>
-      <!-- } 배너 -->
-      <!-- 배너 { -->
-      <a href="" class="swiper-slide banner-item">
-        <div class="banner-img">
-          <img src="/src/img/banner-imsi01.png" alt="">
+          <img src="/src/img/mainbanner3_service.jpg" alt="">
         </div>
       </a>
       <!-- } 배너 -->

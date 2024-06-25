@@ -1184,7 +1184,7 @@
 
 .main_today-slide .cp-item .prod-thumb_area {padding-bottom: 100%;}
 
-.main_best {margin-top: 4.4rem;}
+.main_best, .main_live {margin-top: 4.4rem;}
 .main_category {overflow-x: auto;}
 .cp-quick-category {display: block; white-space: nowrap; padding-bottom: 0.625rem;}
 .cp-quick-category .ui-btn {display: inline-block; vertical-align: top; margin-right: 2rem; width: 20%;}
@@ -1225,6 +1225,11 @@
 .line-banner-section .banner-item {}
 .line-banner-section .banner-img {position: relative; height: 0; padding-bottom: 27.78%; overflow: hidden;}
 .line-banner-section .banner-img img {position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 100%;}
+.line-banner-section.line-banner01 {margin-top: 4rem;}
 
 .bgColor1 {padding: 3rem 0; background-color: #f3f3f3;}
 .bgColor2 {padding: 3rem 0; background-color: #fff5e5;}
+
+.img_container.addStyle {position: relative;}
+.img_container.addStyle .image_del {position: absolute; top: 0.5rem; right: 0.5rem; z-index: 20; background-color: #fafafa; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;}
+.img_container.addStyle .image_del img {width: 1.6rem;}
