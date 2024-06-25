@@ -145,10 +145,10 @@ include_once(BV_MPATH."/_head.php"); // 상단
           <!-- row { -->
           <div class="form-row">
             <div class="form-head">
-              <p class="title">추천인번호</p>
+              <p class="title">담당직원</p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="추천인번호를 입력해주세요.">
+              <input type="text" class="frm-input w-per100" placeholder="담당직원을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->

@@ -101,7 +101,7 @@ if (!defined("_BLUEVATION_")) {
     <div class="left">
       <div class="icon-box"></div>
       <div class="text-box">
-        <h3>브랜드관</h3>
+        <h3>회원특별관</h3>
       </div>
     </div>
   </div>
