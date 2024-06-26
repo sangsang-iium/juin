@@ -35,6 +35,140 @@ if (!defined("_BLUEVATION_")) {
 <!-- } 비주얼 배너 -->
 <?php }?>
 
+<!-- 오늘만 특가상품 { -->
+<div class="section main_today">
+  <div class="container right cp-title">
+    <div class="left">
+      <div class="icon-box"></div>
+      <div class="text-box">
+        <h3>타임세일!<!-- <span class="highlight">특가</span> --></h3>
+        <p class="tp-expl">지금 놓치면 끝! 오늘만 특가할인!</p>
+      </div>
+    </div>
+    <div class="right">
+      <div class="cp-timer">
+        <div class="cp-timer-wrap">
+          <i class="cp-timer__icon"></i>
+          <span class="cp-timer__text">D-Day</span>
+          <span class="cp-timer__num" data-deadline="<?php echo date("Y-m-d"); ?> 23:59:59">02:37:50</span>
+        </div>
+      </div>
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=1" class="ui-btn more">전체보기</a>
+    </div>
+  </div>
+  <div class="container left main_today-slide">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <?php echo mobile_display_today_goods_with_slide('1', '20', 'container left main_popular-slide') ?>
+      </div>
+      <!-- <div class="swiper-control2">
+        <button type="button" class="arrow prev"></button>
+        <div class="pagination"></div>
+        <button type="button" class="arrow next"></button>
+      </div> -->
+    </div>
+  </div>
+  <!-- <div class="container bottom_box">
+    <a href="<?php echo BV_MSHOP_URL; ?>/timesale.php?menu=timesale" class="ui-btn round moreLong">
+      <span class="text">전체보기</span>
+    </a>
+  </div> -->
+</div>
+<!-- } 오늘만 특가상품 -->
+
+
+<!-- pb 상품 { -->
+<div class="section main_best bgColor1">
+  <div class="container right cp-title">
+    <div class="left">
+      <div class="icon-box"></div>
+      <div class="text-box">
+        <h3>회원 PB상품</h3>
+        <p class="tp-expl">회원만을 위해 준비된 상품이에요</p>
+      </div>
+    </div>
+    <div class="right">
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=2&menu=best" class="ui-btn more">전체보기</a>
+    </div>
+  </div>
+  <?php echo mobile_slide_goods('2', '20', 'container left main_best-slide'); ?>
+</div>
+<!-- } pb 상품 -->
+
+<!-- 띠 배너 1 { -->
+<div class="line-banner-section line-banner01">
+  <div class="container right cp-title">
+    <div class="left">
+      <div class="icon-box"></div>
+      <div class="text-box">
+        <h3>회원특별관</h3>
+      </div>
+    </div>
+  </div>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <!-- 배너 { -->
+      <a href="/m/shop/list.php?ca_id=006" class="swiper-slide banner-item">
+        <div class="banner-img">
+          <img src="/src/img/mainbanner1_samsung.jpg" alt="">
+        </div>
+      </a>
+      <!-- } 배너 -->
+      <!-- 배너 { -->
+      <a href="/m/shop/list.php?ca_id=006" class="swiper-slide banner-item">
+        <div class="banner-img">
+          <img src="/src/img/mainbanner1_lg.jpg" alt="">
+        </div>
+      </a>
+      <!-- } 배너 -->
+      <!-- 배너 { -->
+      <a href="/m/shop/list.php?ca_id=006" class="swiper-slide banner-item">
+        <div class="banner-img">
+          <img src="/src/img/mainbanner1_cuckoo.jpg" alt="">
+        </div>
+      </a>
+      <!-- } 배너 -->
+    </div>
+  </div>
+</div>
+<!-- } 띠 배너 1 -->
+
+
+<!-- 추천 상품 { -->
+<div class="section main_best bgColor1" style="margin-top: 0;">
+  <div class="container right cp-title">
+    <div class="left">
+      <div class="icon-box"></div>
+      <div class="text-box">
+        <h3>추천상품</h3>
+        <p class="tp-expl">주인장에서 제일 잘 나가요!</p>
+      </div>
+    </div>
+    <div class="right">
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=5" class="ui-btn more">전체보기</a>
+    </div>
+  </div>
+  <?php echo mobile_slide_goods('5', '20', 'container left main_best-slide'); ?>
+</div>
+<!-- } 추천 상품 -->
+
+
+<!-- 띠 배너 2 { -->
+<div class="line-banner-section line-banner02">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <!-- 배너 { -->
+      <a href="/m/service/list.php?menu=service" class="swiper-slide banner-item">
+        <div class="banner-img">
+          <img src="/src/img/mainbanner2_signup.jpg" alt="">
+        </div>
+      </a>
+      <!-- } 배너 -->
+    </div>
+  </div>
+</div>
+<!-- } 띠 배너 2 -->
+
 <!-- 상품 카테고리 바로가기 { -->
 <div class="container section main_category">
   <div class="cp-quick-category">
@@ -43,6 +177,10 @@ $cate_sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = 3 AND cateuse 
 $cate_res = sql_query($cate_sql);
 
 while ($cate_row = sql_fetch_array($cate_res)) {
+  // 회원특별관 예외 처리
+  if($cate_row['catecode']== '006'){
+    continue;
+  }
   ?>
     <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=' . $cate_row["catecode"]; ?>" class="ui-btn">
       <i class="icon">
@@ -52,36 +190,6 @@ while ($cate_row = sql_fetch_array($cate_res)) {
     </a>
     <?php
 }?>
-    <!-- <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=002'; ?>" class="ui-btn">
-      <i class="icon">
-        <img src="/src/img/category-b.png" alt="축산(육가공)">
-      </i>
-      <p class="name">축산<br>(육가공)</p>
-    </a>
-    <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=002'; ?>" class="ui-btn">
-      <i class="icon">
-        <img src="/src/img/category-c.png" alt="위생/주방용품">
-      </i>
-      <p class="name">위생/주방<br>용품</p>
-    </a>
-    <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=002'; ?>" class="ui-btn">
-      <i class="icon">
-        <img src="/src/img/category-d.png" alt="종합 식자재">
-      </i>
-      <p class="name">종합<br>식자재</p>
-    </a>
-    <a href="./sub/product-list.html" class="ui-btn">
-      <i class="icon">
-        <img src="/src/img/category-e.png" alt="수미안 전용관">
-      </i>
-      <p class="name">수미안<br>전용관</p>
-    </a>
-    <a href="./sub/product-list.html" class="ui-btn">
-      <i class="icon st1">
-        <img src="/src/img/category-f.png" alt="회원 전용관">
-      </i>
-      <p class="name">회원<br>전용관</p>
-    </a> -->
   </div>
 </div>
 <!-- } 상품 카테고리 바로가기 -->
@@ -117,26 +225,25 @@ while ($cate_row = sql_fetch_array($cate_res)) {
 </div> -->
 <!-- } 관련 서비스 바로가기 -->
 
-<!-- 베스트 상품 { -->
-<div class="section main_best">
+<!-- 신상품 상품 { -->
+<div class="section main_best bgColor2">
   <div class="container right cp-title">
     <div class="left">
       <div class="icon-box"></div>
       <div class="text-box">
-        <h3>베스트</h3>
-        <p class="tp-expl">주인장에서 제일 잘 나가요!</p>
+        <h3>신상품</h3>
+        <p class="tp-expl">이제 갓 나온 신선한 신상품이에요</p>
       </div>
     </div>
     <div class="right">
-      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=2" class="ui-btn more">전체보기</a>
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=3&menu=new" class="ui-btn more">전체보기</a>
     </div>
   </div>
-  <?php echo mobile_slide_goods('2', '20', 'container left main_best-slide'); ?>
+  <?php echo mobile_slide_goods('3', '20', 'container left main_best-slide'); ?>
 </div>
-<!-- } 베스트 상품 -->
-
+<!-- } 신상품 상품 -->
 <!-- 추천상품 { -->
-<div class="section main_recomm">
+<!-- <div class="section main_recomm">
   <div class="container right cp-title">
     <div class="left">
       <div class="icon-box"></div>
@@ -150,11 +257,11 @@ while ($cate_row = sql_fetch_array($cate_res)) {
     </div>
   </div>
   <?php echo mobile_slide_goods('5', '20', 'container left main_recomm-slide', 'small'); ?>
-</div>
+</div> -->
 <!-- } 추천상품 -->
 
 <!-- 인기상품 { -->
-<div class="section main_popular">
+<!-- <div class="section main_popular">
   <div class="container right cp-title">
     <div class="left">
       <div class="icon-box"></div>
@@ -169,38 +276,23 @@ while ($cate_row = sql_fetch_array($cate_res)) {
   </div>
   <?php echo mobile_slide_goods('4', '20', 'container left main_popular-slide', 'small'); ?>
 </div>
-<!-- } 인기상품 -->
+} 인기상품 -->
 
-<!-- 오늘만 특가상품 { -->
-<div class="section main_today">
-  <div class="container right cp-title">
-    <div class="left">
-      <div class="icon-box"></div>
-      <div class="text-box">
-        <h3>오늘만 <span class="highlight">특가할인!</span></h3>
-        <p class="tp-expl">지금 놓치면 끝! 오늘만 특가할인!</p>
-      </div>
+<!-- 띠 배너 3 { -->
+<div class="line-banner-section line-banner03">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <!-- 배너 { -->
+      <a href="/m/bbs/board_read.php?index_no=9&boardid=13&page=1" class="swiper-slide banner-item">
+        <div class="banner-img">
+          <img src="/src/img/mainbanner3_service.jpg" alt="">
+        </div>
+      </a>
+      <!-- } 배너 -->
     </div>
-  </div>
-  <div class="container left main_today-slide">
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <?php echo mobile_display_today_goods_with_slide('2', '20', 'container left main_popular-slide') ?>
-      </div>
-      <!-- <div class="swiper-control2">
-        <button type="button" class="arrow prev"></button>
-        <div class="pagination"></div>
-        <button type="button" class="arrow next"></button>
-      </div> -->
-    </div>
-  </div>
-  <div class="container bottom_box">
-    <a href="<?php echo BV_MSHOP_URL; ?>/timesale.php?menu=timesale" class="ui-btn round moreLong">
-      <span class="text">전체보기</span>
-    </a>
   </div>
 </div>
-<!-- } 오늘만 특가상품 -->
+<!-- } 띠 배너 3 -->
 
 <!-- 라이브 { -->
 <div class="section main_live">
@@ -300,7 +392,7 @@ while ($cate_row = sql_fetch_array($cate_res)) {
             }
         }
         ?>
-        
+
         <!-- 종료 추가 { -->
         <!-- <a href="" class="swiper-slide cp-live live-off">
           <div class="round50 prod-thumb_area">

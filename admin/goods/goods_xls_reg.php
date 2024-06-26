@@ -15,7 +15,7 @@ if(!defined('_BLUEVATION_')) exit;
 		<th scope="row">샘플파일 다운</th>
 		<td>
             <div class="btn_wrap tal">
-							<a href="<?php echo BV_LIB_URL; ?>/Excel/itemexcelv4.xls" class="fbtn xls"><span>상품등록 샘플 다운로드</span></a>
+							<a href="<?php echo BV_LIB_URL; ?>/Excel/itemexcelv5.xls" class="fbtn xls"><span>상품등록 샘플 다운로드</span></a>
 							<!-- <a href="<?php echo BV_LIB_URL; ?>/Excel/areaitems.xls" class="fbtn xls"><span>지역정보 다운로드</span></a> -->
 							<a href="<?php echo BV_ADMIN_URL; ?>/category/category_excel.php" class="fbtn xls"><span>카테고리 다운로드</span></a>
             </div>

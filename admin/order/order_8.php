@@ -219,6 +219,8 @@ EOF;
 </div>
 
 
+<!-- admin만 노출 _2040624_SY -->
+<?php if($_SESSION['ss_mb_id'] == 'admin') { ?>
 <p class="gap50"></p>
 <h5 class="htag_title">주문 일괄처리</h5>
 <p class="gap20"></p>
@@ -243,6 +245,7 @@ EOF;
 	</tbody>
 	</table>
 </div>
+<?php } ?>
 
 </form>
 

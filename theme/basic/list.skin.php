@@ -287,7 +287,7 @@ function tree_category_pc($catecode)
     $(targetList).each(function(){
       let priceText = $(this).find(target).text();
       let price = reNumber(priceText);
-      
+
       total += price;
     });
 
@@ -387,13 +387,13 @@ function tree_category_pc($catecode)
 
       if(!opt){ // 옵션이 없다면
         currentQty = parseInt($(`#sct_add_goods${itid} .qty-input`).val());
-        let newQty = currentQty + qty; 
+        let newQty = currentQty + qty;
         selectedItemPrice = price * newQty;
 
         $(`#sct_add_goods${itid} .qty-input`).val(newQty);
         $(`#sct_add_goods${itid} .goods_price`).text(addCommas(selectedItemPrice));
       }else{ // 옵션이 있다면
-        
+
         let optValue = opt.io_value;
 
         // 이미 그려진 상품들 중에서 동일한 옵션값을 가진 상품이 있는지 확인
@@ -457,7 +457,7 @@ function tree_category_pc($catecode)
       let $sctItem = $(this).closest(".sct_add_goods");
 
       // 옵션이 있는 경우 옵션 선택헸는지 체크
-      if($tgItem.find('.it_li_option').length > 0) { 
+      if($tgItem.find('.it_li_option').length > 0) {
         let optionSelected = true;
 
         $tgItem.find(".it_option").each(function(){
@@ -499,7 +499,7 @@ function tree_category_pc($catecode)
         let itemSubTotal = itemPrice * itemQty;
 
         $itemPriceEl.text(addCommas(itemSubTotal));
-        
+
         let totalPrice = totalCalc('.sct_add_goods', '.goods_price');
         let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
 
@@ -624,7 +624,7 @@ function tree_category_pc($catecode)
       }
 
       // 선택 상품
-      let stockConfm = stockCheck(itemId, stock);  
+      let stockConfm = stockCheck(itemId, stock);
       if(!stockConfm) {
         alert("재고수량은 "+stock+"개 입니다.");
 
@@ -672,7 +672,7 @@ function tree_category_pc($catecode)
       } else if((idx - 1) == 0) {
         opt_id = val;
       }
-      
+
       $.post(
         "/mng/shop/list_option.php",
         { gs_id: gs_id, opt_id: opt_id, idx: (idx - 1), sel_count: sel_count },

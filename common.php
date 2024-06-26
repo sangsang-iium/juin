@@ -296,6 +296,7 @@ if(isset($_REQUEST['url'])) {
 // 자동로그인 부분에서 첫로그인에 포인트 부여하던것을 로그인중일때로 변경하면서 코드도 대폭 수정하였습니다.
 if($_SESSION['ss_mb_id']) { // 로그인중이라면
 	$member = get_member($_SESSION['ss_mb_id']);
+	$member2 = get_member($_SESSION['ss_mb_id']);
 
   // Manager Login Check 추가 _20240527_SY
   if($_SESSION['ss_mn_id']){
@@ -368,12 +369,20 @@ $set_cart_id = get_cookie('ck_guest_cart_id');
 
 // 회원, 비회원 구분
 $is_admin = $mb_no = '';
-if($member['id']) {
-	$is_member = 1;
-    $is_admin = get_admin($member['id']);
-	$partner = get_partner($member['id']);
-	$seller = get_seller($member['id']);
-	$mb_no = $member['index_no'];
+if($member['id'] || $member2['id']) {
+    if($member['id']){
+        $is_member = 1;
+        $is_admin = get_admin($member['id']);
+        $partner = get_partner($member['id']);
+        $seller = get_seller($member['id']);
+    	$mb_no = $member['index_no'];
+    } else {
+        $is_member = 1;
+        $is_admin = get_admin($member2['id']);
+        $partner = get_partner($member2['id']);
+        $seller = get_seller($member2['id']);
+        $mb_no = $member2['index_no'];
+    }
 } else {
 	$is_member = 0;
     $member['id'] = '';

@@ -73,7 +73,7 @@ if(!defined('_BLUEVATION_')) exit;
                         <tr>
                             <td class="tac" rowspan="<?php echo $rowspan; ?>">
                             <p><?php echo substr($od['od_time'],0,10);?></p>
-                            <p class="padt5"><a href="<?php echo BV_MNG_SHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $od['od_id']; ?>" class="btn_small grey">상세보기</a></p>
+                            <p class="padt5"><a href="<?php echo BV_MNG_SHOP_URL; ?>/orderinquiryview.php?od_id=<?php echo $od['od_id']; ?>&amp;reg_yn=<?php echo $ct['reg_yn'] ?>" class="btn_small grey">상세보기</a></p>
                             </td>
                         </tr>
                     <?php } ?>
@@ -125,7 +125,7 @@ if(!defined('_BLUEVATION_')) exit;
                                     }
                                 }
                                 }
-                                
+
 
                                 $it_name = cut_str($row['gname'], 100);
 
@@ -724,7 +724,7 @@ $(document).ready(function(){
   const chValue = (r='',idx='') => {
     let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
     let emptyEl = $(".sct_cart_empty");
-    
+
     let form = $("#sod_bsk_list").serialize();
     if(r=='remove'){
       // let hiddenField = `<input type="hidden" name="remove" value="${r}">`;

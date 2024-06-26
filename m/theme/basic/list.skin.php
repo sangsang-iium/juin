@@ -66,10 +66,11 @@ for($i=0; $i<count($gw_msort); $i++) {
         if(!$total_count) {
           echo "<p class=\"empty_list\">자료가 없습니다.</p>";
         } else {
+
           for($i=0; $row=sql_fetch_array($result); $i++) {
-            if(!memberGoodsAble($member['addr1'], $row['zone'])){
-            		continue;
-            	}
+            // if(!memberGoodsAble($member['addr1'], $row['zone'])){
+            // 		continue;
+            // 	}
             $it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
             $it_name = cut_str($row['gname'], 50);
             $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], 400, 400);

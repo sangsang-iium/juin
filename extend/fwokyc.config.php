@@ -24,7 +24,7 @@ function getUsedGubunStatus($gubun, $status) {
         $rtn = ['삽니다', '-', 'ing'];
     } else if($status=='1'){
         $rtn = ['팝니다', '예약중', 'resv'];
-    } else if($status=='1'){
+    } else if($status=='2'){
         $rtn = ['팝니다', '판매완료', 'end'];
     }
     
