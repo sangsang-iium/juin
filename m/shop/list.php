@@ -14,7 +14,7 @@ $tb['title'] = $ca['catename'];
 include_once("./_head.php");
 
 $sql_search = " and (ca_id like '$ca_id%' or ca_id2 like '$ca_id%' or ca_id3 like '$ca_id%') ";
-$sql_search .= "AND reg_yn = '2'";
+// $sql_search .= "AND reg_yn = '2'";
 $sql_common = sql_goods_list($sql_search);
 
 // 상품 정렬
@@ -32,9 +32,9 @@ $sqlCnt = " select * $sql_common $sql_order";
 $resCnt = sql_query($sqlCnt);
 $total_count = 0;
 while($rowCntData = sql_fetch_array($resCnt)){
-	if(!memberGoodsAble($member['addr1'], $rowCntData['zone'])){
-		continue;
-	}
+	// if(!memberGoodsAble($member['addr1'], $rowCntData['zone'])){
+	// 	continue;
+	// }
 	$total_count++;
 }
 

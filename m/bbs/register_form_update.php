@@ -81,6 +81,8 @@ $ju_lng         = isset($_POST['ju_lng']) ? trim($_POST['ju_lng']) : "";
 // 추가 _20240617_SY
 $ju_region1 = "";
 $ju_region_code = isset($_POST['ju_region_code']) ? trim($_POST['ju_region_code']) : "";
+$ju_region_code = trim(explode("/", $ju_region_code)[1]);
+
 if($ju_region_code) {
   $office_where = " WHERE a.office_name = '{$ju_region_code}' ";
   $office_data = getRegionFunc("office", $office_where);

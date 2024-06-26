@@ -157,7 +157,8 @@ $gw_menu = array(
 	array($default['de_pname_9'],	"/shop/listtype.php?type=5", $default['de_pname_use_9']),
   array($default['de_pname_10'],	"/shop/listtype.php?type=3&menu=new", $default['de_pname_use_10']),
   array($default['de_pname_11'],	"/store/list.php?menu=store", $default['de_pname_use_11']),
-  array($default['de_pname_12'],	"/service/list.php?menu=service", $default['de_pname_use_12']),
+  // 래플추가 _20240625_SY
+  array($default['de_pname_12'],	"/raffle/list.php?menu=raffle", $default['de_pname_use_12']),
 	// array($default['de_pname_1'],	"/" , $default['de_pname_use_1']),
 	// array($default['de_pname_2'],	"/shop/listtype.php?type=1&menu=sales", $default['de_pname_use_2']),
 	// array($default['de_pname_3'],	"/shop/listtype.php?type=2&menu=best", $default['de_pname_use_3']),

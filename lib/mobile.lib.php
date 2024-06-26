@@ -122,7 +122,8 @@ function mobile_display_goods($type, $rows, $mtxt, $li_css='')
 }
 
 function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
-  global $default, $pt_id, $member;
+  // global $is_member 추가 _20240625_SY
+  global $default, $pt_id, $member, $is_member;
 
   // echo "<h2 class=\"mtit\"><span>{$mtxt}</span></h2>\n";
   echo "<div class=\"swiper-container\">\n"; // 추가된 부분: 슬라이드 컨테이너 시작

@@ -25,7 +25,8 @@ if(!defined('_BLUEVATION_')) exit;
       $jibu_name = $jibu_row[0]['branch_name'];
     } else {
       $jibu_row = getRegionFunc("office", " WHERE b.branch_code = '{$member['ju_region2']}' AND a.office_code = '{$member['ju_region3']}'");
-      $jibu_name = $jibu_row[0]['office_name'];
+      // 지회/지부 노출로 수정 _20240625_SY
+      $jibu_name = $jibu_row[0]['branch_name']. " / " .$jibu_row[0]['office_name'];
     }
   }
 
@@ -996,16 +997,22 @@ function getManager() {
 
           let nm     = $(this).find('.pop-result-title').text();
           let id     = $(this).find('.pop-result-text:eq(0)').text();
-          let region1 = $(this).find('.pop-result-text:eq(1)').text().split('/')[1].trim();
-          let region2 = $(this).find('.pop-result-text:eq(1)').text().split('/')[2].trim();
+          // 지회/지부 노출로 수정 _202040625_SY
+          let regionArr = $(this).find('.pop-result-text:eq(1)').text().split(' ');
+          // let region1 = $(this).find('.pop-result-text:eq(1)').text().split('/')[1].trim();
+          // let region2 = $(this).find('.pop-result-text:eq(1)').text().split('/')[2].trim();
+          let region1 = regionArr[2].split('/')[0].trim();
+          let region2 = regionArr[2].split('/')[1].trim();
           let idx    = $(this).find('.pop-result-text:eq(2)').val();
-          
+          let full_region = region1 + " / " + region2
+          console.log(full_region)
           
           // 팝업 닫기
           $('#info_ok').on('click', function() {
             $('#pop_nm').val(nm);
             $('#mn_idx').val(idx);
-            $("input[name=ju_region_code]").val(region2);
+            // $("input[name=ju_region_code]").val(region2);
+            $("input[name=ju_region_code]").val(full_region);
 
             $('#popMemberSch').hide();
             $('.popDim').hide();

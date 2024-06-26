@@ -303,13 +303,13 @@ $row_type = sql_fetch($sql_type);
               </div>
             </a>
             <?php } } ?>
-            <!-- 리뷰 더보기로 이동 추가 { -->
+            <!-- 리뷰 더보기로 이동 추가 {
             <a href="/m/review/list.php" class="rv-img-item">
               <div class="rv-img">
                 <img src="/data/review/<?php echo $reviewImg['thumbnail'] ?>" alt="">
               </div>
             </a>
-            <!-- } 리뷰 더보기로 이동 추가 -->
+            } 리뷰 더보기로 이동 추가 -->
 
           </div>
         </div>
