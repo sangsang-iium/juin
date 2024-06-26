@@ -179,7 +179,7 @@ EOF;
 		<th scope="row">진열영역</th>
 		<td>
             <div class="checks">
-                <?php echo check_checked('q_type2', $q_type2, '1', '베스트'); ?>
+                <?php echo check_checked('q_type2', $q_type2, '1', '회원PB상품'); ?>
                 <?php echo check_checked('q_type5', $q_type5, '1', '추천상품'); ?>
                 <?php echo check_checked('q_type4', $q_type4, '1', '인기상품'); ?>
                 <?php echo check_checked('q_type1', $q_type1, '1', '오늘만특가'); ?>
@@ -237,7 +237,7 @@ EOF;
 		<th scope="col" rowspan="2">이미지</th>
 		<th scope="col" rowspan="2">상품코드</th>
 		<th scope="col" rowspan="2" class="bd_none">상품명</th>
-		<th scope="col" class="th_bg">베스트</th>
+		<th scope="col" class="th_bg">회원PB상품</th>
 		<th scope="col" class="th_bg">추천상품</th>
 		<th scope="col" class="th_bg">인기상품</th>
 		<th scope="col" class="th_bg">오늘만특가</th>

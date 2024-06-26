@@ -122,7 +122,8 @@ function mobile_display_goods($type, $rows, $mtxt, $li_css='')
 }
 
 function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
-  global $default, $pt_id, $member;
+  // global $is_member 추가 _20240625_SY
+  global $default, $pt_id, $member, $is_member;
 
   // echo "<h2 class=\"mtit\"><span>{$mtxt}</span></h2>\n";
   echo "<div class=\"swiper-container\">\n"; // 추가된 부분: 슬라이드 컨테이너 시작
@@ -146,11 +147,17 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 
     $it_sprice = $sale = '';
 
-    if ($row['normal_price'] > $it_amount) {
-      $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
+    // if ($row['normal_price'] > $it_amount) {
+    //   $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
+    //   $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
+    //   $it_sprice = display_price2($row['normal_price']);
+    // }
+		if($is_member){
+		  $bb = $it_amount+2000;
+      $sett      = ($bb - $it_amount) / $bb * 100;
       $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
-      $it_sprice = display_price2($row['normal_price']);
-    }
+			$it_sprice = number_format($bb);
+		}
 
 		$it_today = date("Y-m-d 23:59:59");
 
@@ -269,6 +276,44 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 	echo "</div>\n";
 	echo "</div>\n";
 }
+
+// mobile_slide_goods("영역", "출력수", "타이틀", "클래스명")
+function mobile_slide_goods_no($type, $rows, $addclass = '', $size = '') {
+  global $default, $pt_id, $member;
+
+  echo "<div class=\"{$addclass}\">\n";
+  echo "<div class=\"swiper-container\">\n";
+  echo "<div class=\"swiper-wrapper\">\n";
+
+  $result = display_itemtype_no($type, $pt_id, $rows);
+
+  for ($i = 0; $row = sql_fetch_array($result); $i++) {
+    // if(!memberGoodsAble($member['addr1'], $row['zone'])){
+    // 	continue;
+    // }
+    $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
+    $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
+    $it_name     = get_text($row['gname']);
+    $it_price    = mobile_price($row['index_no']);
+    $it_amount   = get_sale_price($row['index_no']);
+    $it_point    = display_point($row['gpoint']);
+
+    // (시중가 - 할인판매가) / 시중가 X 100 = 할인률%
+    $it_sprice = $sale = '';
+    if ($row['normal_price'] > $it_amount && !is_uncase($row['index_no'])) {
+      $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
+      $sale      = number_format($sett, 0) . '%';
+      $it_sprice = display_price2($row['normal_price']);
+    }
+
+    item_card($row['index_no'], $it_href, $it_imageurl, $it_name, $it_sprice, $sale, $it_price, $size);
+  }
+
+  echo "</div>\n";
+  echo "</div>\n";
+  echo "</div>\n";
+}
+
 
 // 메인 고객상품평 배열을 리턴
 function mobile_review_rows($name, $rows)
@@ -1199,7 +1244,7 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 
   echo "<div class=\"swiper-slide cp-item\">\n";
   echo "<div class=\"round50 prod-thumb_area\">\n";
-  echo "<span class=\"num\"></span>\n";
+  // echo "<span class=\"num\"></span>\n";
   echo "<a href=\"{$it_href}\" class=\"thumb\">\n";
   echo "<img src=\"{$it_imageurl}\" alt=\"\">\n";
   echo "</a>\n";
@@ -1344,7 +1389,7 @@ function coupon_chk($it_idx){
 
 /**
  * $memberAddr 서울 강북구 월계로 ~~~
- * $goodsLoca  대전,,||서울,,홈푸드||~~~
+ * $goodsLoca  전국,,홈푸드||대전,,||서울,,홈푸드||~~~
  *  */
 function memberGoodsAble($memberAddr, $goodsLoca) {
   $sections = explode('||', $goodsLoca);
@@ -1352,7 +1397,7 @@ function memberGoodsAble($memberAddr, $goodsLoca) {
 
   foreach ($sections as $section) {
     $parts = explode(',', $section);
-		if (isset($parts[0]) && trim($parts[0]) == "전국") {
+		if (isset($parts[0]) && trim($parts[0]) == "전국" && !empty($parts[2])) {
 			return true;
 		}
     if (isset($parts[2]) && trim($parts[2]) != "") {

@@ -1184,7 +1184,7 @@
 
 .main_today-slide .cp-item .prod-thumb_area {padding-bottom: 100%;}
 
-.main_best {margin-top: 4.4rem;}
+.main_best, .main_live {margin-top: 4.4rem;}
 .main_category {overflow-x: auto;}
 .cp-quick-category {display: block; white-space: nowrap; padding-bottom: 0.625rem;}
 .cp-quick-category .ui-btn {display: inline-block; vertical-align: top; margin-right: 2rem; width: 20%;}
@@ -1225,6 +1225,29 @@
 .line-banner-section .banner-item {}
 .line-banner-section .banner-img {position: relative; height: 0; padding-bottom: 27.78%; overflow: hidden;}
 .line-banner-section .banner-img img {position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 100%;}
+.line-banner-section.line-banner01 {margin-top: 4rem;}
 
 .bgColor1 {padding: 3rem 0; background-color: #f3f3f3;}
 .bgColor2 {padding: 3rem 0; background-color: #fff5e5;}
+
+.img_container.addStyle {position: relative;}
+.img_container.addStyle .image_del {position: absolute; top: 0.5rem; right: 0.5rem; z-index: 20; background-color: #fafafa; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;}
+.img_container.addStyle .image_del img {width: 1.6rem;}
+
+/* === 2024-06-24 추가 인트로 페이지 수정 === */
+.intro-btn-list {}
+
+.intro-btn {padding: 3.28rem 1.6rem; justify-content: space-between; align-items: flex-start; height: 26.6rem; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+.intro-btn .text-box .text01 {font-weight: 800; font-size: 2rem; color: #fff; position: relative;}
+.intro-btn .text-box .text01::after {content: ''; width: 2.48rem; height: 2.4rem; border-radius: 0.8rem; background: url('/src/img/intro-arr01.png') no-repeat center rgba(255,255,255,0.2); position: absolute; top: 50%; transform: translateY(-50%); right: -3.5rem; background-size: 0.56rem;}
+.intro-btn .icon {height: auto; display: flex; justify-content: flex-end; width: 100%;}
+
+.intro-btn01 {background: #FA6918;}
+.intro-btn02 {background: #FF8F0C;}
+.intro-btn03 {background: #FFBB0C;}
+.intro-btn04 {background: #EF5F4B;}
+
+.intro-btn01 .icon img {width: 15.4rem;}
+.intro-btn02 .icon img {width: 12.56rem;}
+.intro-btn03 .icon img {width: 13.56rem;}
+.intro-btn04 .icon img {width: 12.96rem;}

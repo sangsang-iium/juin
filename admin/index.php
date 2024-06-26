@@ -45,7 +45,7 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                             <span class="cnt_unit_text">건</span>
                         </p>
                         <p class="data_bot">
-                            0
+                            5,201,800
                             <span class="cnt_unit_text">원</span>
                         </p>
                     </div>
@@ -53,17 +53,29 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
             </dd>
         </dl>
         <dl>
-            <dt class="box_title">구매확정/클래임 현황</dt>
+            <dt class="box_title select_type">
+                매출현황(당월)
+                <div class="chk_select">
+                    <select name="" id="order_month">
+                        <option value="0">1월</option>
+                        <option value="1">2월</option>
+                        <option value="2">3월</option>
+                        <option value="3">4월</option>
+                        <option value="4">5월</option>
+                        <option value="5" selected>6월</option>
+                    </select>
+                </div>
+            </dt>
             <dd class="box_contents line_box">
                 <div class="order_line_cnt box_white">
                     <p class="content_title">결제완료</p>
                     <div class="approval_box">
                         <p class="order_line_num">
-                            2,222
+                            <span id="order_data_check1">3,580</span>
                             <span class="cnt_unit_text">건</span>
                         </p>
                         <p class="order_line_money">
-                            111,111,111
+                            <span id="order_data_money1">121,712,000</span>
                             <span class="cnt_unit_text">원</span>
                         </p>
                     </div>
@@ -75,11 +87,11 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                             <p class="normal_order">일반</p>
                             <div class="approval_box">
                                 <p class="order_line_num color_type3">
-                                    2,222
+                                    <span id="order_data_check2">34</span>
                                     <span class="cnt_unit_text">건</span>
                                 </p>
                                 <p class="order_line_money">
-                                    111,111,111
+                                    <span id="order_data_money2">575,000</span>
                                     <span class="cnt_unit_text">원</span>
                                 </p>
                             </div>
@@ -88,11 +100,11 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                             <p class="regular_order">정기</p>
                             <div class="approval_box">
                                 <p class="order_line_num color_type3">
-                                    2,222
+                                <span id="order_data_check3">45</span>
                                     <span class="cnt_unit_text">건</span>
                                 </p>
                                 <p class="order_line_money">
-                                    111,111,111
+                                    <span id="order_data_money3">845,000</span>
                                     <span class="cnt_unit_text">원</span>
                                 </p>
                             </div>
@@ -103,18 +115,18 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                     <p class="content_title color_type2">합계</p>
                     <div class="approval_box">
                         <p class="order_line_num color_type2">
-                            2,222
+                            <span id="order_data_check4">3,659</span>
                             <span>건</span>
                         </p>
                         <p class="order_line_money">
-                            111,111,111
-                            <span>원</span>
+                            <span id="order_data_money4">123,132,000</span>
+                            <span class="cnt_unit_text">원</span>
                         </p>
                     </div>
                 </div>
             </dd>
         </dl>
-        <dl>
+        <dl class="flex_fixed">
             <dt class="box_title link_type">
                 <a href="#">매출순위(당월)</a>
             </dt>
@@ -123,24 +135,31 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                     <p class="content_title color_type2 none_bd">직할지회</p>
                     <ol>
                         <li>
-                            <p class="rank_name">지회</p>
-                            <p class="rank_money color_type2">1,000,000</p>
+                            <p class="rank_name">은평구지회</p>
+                            <p class="rank_money color_type2">
+                                1,25,000
+                                <span class="cnt_unit_text">원</span>
+                            </p>
                         </li>
                         <li>
-                            <p class="rank_name">지회</p>
-                            <p class="rank_money color_type2">1,000,000</p>
+                            <p class="rank_name">강동구지회</p>
+                            <p class="rank_money color_type2">602,100
+                                <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
-                            <p class="rank_name">지회</p>
-                            <p class="rank_money color_type2">1,000,000</p>
+                            <p class="rank_name">강서구지회</p>
+                            <p class="rank_money color_type2">1,305,000
+                                <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
-                            <p class="rank_name">지회</p>
-                            <p class="rank_money color_type2">1,000,000</p>
+                            <p class="rank_name">성북구지회</p>
+                            <p class="rank_money color_type2">2,562,000
+                                <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
-                            <p class="rank_name">지회</p>
-                            <p class="rank_money color_type2">1,000,000</p>
+                            <p class="rank_name">강남구지회</p>
+                            <p class="rank_money color_type2">12,050,000
+                                <span class="cnt_unit_text">원</span></p>
                         </li>
                     </ol>
                 </div>       
@@ -148,24 +167,29 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                     <p class="content_title color_type3 none_bd">시도지회</p>
                     <ol>
                         <li>
-                            <p class="rank_name">지회</p>
-                            <p class="rank_money color_type3">1,000,000</p>
+                            <p class="rank_name">경기북부지회</p>
+                            <p class="rank_money color_type3">2,040,100
+                                <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
-                            <p class="rank_name">지회</p>
-                            <p class="rank_money color_type3">1,000,000</p>
+                            <p class="rank_name">경기남부지회</p>
+                            <p class="rank_money color_type3">3,430,200
+                                <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
-                            <p class="rank_name">지회</p>
-                            <p class="rank_money color_type3">1,000,000</p>
+                            <p class="rank_name">경상북도지회</p>
+                            <p class="rank_money color_type3">6,065,000
+                                <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
-                            <p class="rank_name">지회</p>
-                            <p class="rank_money color_type3">1,000,000</p>
+                            <p class="rank_name">경상남도지회</p>
+                            <p class="rank_money color_type3">12,054,000
+                                <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
-                            <p class="rank_name">지회</p>
-                            <p class="rank_money color_type3">1,000,000</p>
+                            <p class="rank_name">강원도지회</p>
+                            <p class="rank_money color_type3">30,505,000
+                                <span class="cnt_unit_text">원</span></p>
                         </li>
                     </ol>
                 </div>       
@@ -178,22 +202,22 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
             <dd class="box_contents rank_type new_item_list">
                 <ol class="box_white">
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">수미안 들기름(1.8L/3병)_택배_허브</a>
                     </li>
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">수미안 볶음참깨(1kg*6개 제주)_허브</a>
                     </li>
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">새댁표고추맛기름(남양유지/3.4L)EA</a>
                     </li>
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">(매운_중식용)수미안 중국산 고춧가루(1kg*5개 중국산)_제주</a>
                     </li>
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">수미안 중국산 건고추(1kg*3개)_제주</a>
                     </li>
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">포기김치(강동)10KG</a>
                     </li>
                 </ol>          
             </dd>
@@ -220,20 +244,20 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                 <dd class="box_contents">
                     <ul class="box_white board_list">
                         <li>
-                            <a href="#" class="board_title">공지사항 내용공지사항 내용공지사항 내용공지사항 내용공지사항 내용공지사항 내용공지사항 내용공지사항 내용공지사항 내용공지사항 내용공지사항 내용공지사항 내용공지사항 내용공지사항 내용</a>
+                            <a href="#" class="board_title">(매운_중식용)수미안 중국산 고춧가루(1kg*5개 중국산)_제주 판매종료</a>
+                            <span class="board_date">2024-06-12</span>
+                        </li>
+                        <li>
+                            <a href="#" class="board_title">신규 회원가입 이벤트</a>
+                            <span class="board_date">2024-06-05</span>
+                        </li>
+                        <li>
+                            <a href="#" class="board_title">6월 연휴 주문 및 배송 안내</a>
                             <span class="board_date">2024-06-01</span>
                         </li>
                         <li>
-                            <a href="#" class="board_title">공지사항 내용</a>
-                            <span class="board_date">2024-06-01</span>
-                        </li>
-                        <li>
-                            <a href="#" class="board_title">공지사항 내용</a>
-                            <span class="board_date">2024-06-01</span>
-                        </li>
-                        <li>
-                            <a href="#" class="board_title">공지사항 내용</a>
-                            <span class="board_date">2024-06-01</span>
+                            <a href="#" class="board_title">환불 규정 안내</a>
+                            <span class="board_date">2024-05-15</span>
                         </li>
                     </ul>
                 </dd>
@@ -247,20 +271,20 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                 <dd class="box_contents">
                     <ul class="box_white board_list">
                         <li>
-                            <a href="#" class="board_title">1대1 문의 내용</a>
-                            <span class="board_date">2024-06-01</span>
+                            <a href="#" class="board_title">환불 신청합니다.</a>
+                            <span class="board_date">2024-06-22</span>
                         </li>
                         <li>
-                            <a href="#" class="board_title">1대1 문의 내용</a>
-                            <span class="board_date">2024-06-01</span>
+                            <a href="#" class="board_title">배송 언제 오는지 알수 있을까요?</a>
+                            <span class="board_date">2024-06-22</span>
                         </li>
                         <li>
-                            <a href="#" class="board_title">1대1 문의 내용</a>
-                            <span class="board_date">2024-06-01</span>
+                            <a href="#" class="board_title">언제 다시 상품이 입고 되나요?</a>
+                            <span class="board_date">2024-06-21</span>
                         </li>
                         <li>
-                            <a href="#" class="board_title">1대1 문의 내용</a>
-                            <span class="board_date">2024-06-01</span>
+                            <a href="#" class="board_title">배송 기간이 궁금합니다.</a>
+                            <span class="board_date">2024-06-21</span>
                         </li>
                     </ul>
                 </dd>
@@ -299,20 +323,20 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                 <dd class="box_contents">
                     <ul class="box_white board_list">
                         <li>
-                            <a href="#" class="board_title">상품 문의 내용</a>
-                            <span class="board_date">2024-06-01</span>
+                            <a href="#" class="board_title">제품 정보가 궁급합니다.</a>
+                            <span class="board_date">2024-06-23</span>
                         </li>
                         <li>
-                            <a href="#" class="board_title">상품 문의 내용</a>
-                            <span class="board_date">2024-06-01</span>
+                            <a href="#" class="board_title">대량 주문도 가능한가요?</a>
+                            <span class="board_date">2024-06-22</span>
                         </li>
                         <li>
-                            <a href="#" class="board_title">상품 문의 내용</a>
-                            <span class="board_date">2024-06-01</span>
+                            <a href="#" class="board_title">배송이 언제 될까요?</a>
+                            <span class="board_date">2024-06-22</span>
                         </li>
                         <li>
-                            <a href="#" class="board_title">상품 문의 내용</a>
-                            <span class="board_date">2024-06-01</span>
+                            <a href="#" class="board_title">제품 교환 요청</a>
+                            <span class="board_date">2024-06-21</span>
                         </li>
                     </ul>
                 </dd>
@@ -320,7 +344,6 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
         </div>
     </div>
 </div>
-
 
 <!-- 
     그래프 스크립트
@@ -330,11 +353,38 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
 
 <script>
 
+
+    // 임시 데이터
+    // 건수
+    const month_check = [[2478,24,35],[1528,58,18],[3438,21,25],[2468,34,38],[2428,20,31],[3580,24,45]]
+    const month_money = [[113562000,656000,560900],[123542100,606000,526000],[112262000,656000,612500],[115272000,752000,628000],[113422000,20,31],[121712000,575000,845000]]
+
+    const order_sel = document.querySelector('#order_month');
+    const order_month1 = document.querySelector('#order_data_check1');
+    const order_month2 = document.querySelector('#order_data_check2');
+    const order_month3 = document.querySelector('#order_data_check3');
+    const order_month4 = document.querySelector('#order_data_check4');
+    const order_money1 = document.querySelector('#order_data_money1');
+    const order_money2 = document.querySelector('#order_data_money2');
+    const order_money3 = document.querySelector('#order_data_money3');
+    const order_money4 = document.querySelector('#order_data_money4');
+
+    console.log(order_month1)
+    order_sel.addEventListener('change', function(){
+        let change_value = order_sel.value;
+        console.log(parseInt(month_check[change_value][0]), parseInt(month_check[change_value][1]), parseInt(month_check[change_value][2]));
+        order_month1.innerText = month_check[change_value][0].toLocaleString()
+        order_month2.innerText = month_check[change_value][1].toLocaleString()
+        order_month3.innerText = month_check[change_value][2].toLocaleString()
+        order_month4.innerText = (month_check[change_value][0] + month_check[change_value][1] + month_check[change_value][2]).toLocaleString()
+    });
+
+
     // 막대 데이터
-    const order_money = [5000000, 10000000, 22320300, 21029302, 2192109,4039320, 9092918];
+    const order_money = [15025000, 32502000, 22320300, 11029302, 25921090,4039320, 9092910];
 
     // 라인 데이터
-    const sell_count = [237, 422, 354, 2722, 432, 222, 175];
+    const sell_count = [237, 422, 354, 272, 432, 222, 175];
 
     // 그래프 라벨
     const graph_cate = ['2024-06-01', '2024-06-02', '2024-06-03', '2024-06-04', '2024-06-05', '2024-06-06', '2024-06-07'];
