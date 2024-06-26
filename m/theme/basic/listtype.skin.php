@@ -78,7 +78,7 @@ for($i=0; $i<count($gw_msort); $i++) {
             // }
             $it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
             $it_name = cut_str($row['gname'], 50);
-            $it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], 400, 400);
+            $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], 400, 400);
             $it_price = mobile_price($row['index_no']);
             $it_amount = get_sale_price($row['index_no']);
             $it_point = display_point($row['gpoint']);

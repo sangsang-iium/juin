@@ -57,6 +57,12 @@ const usedMenu = f.hrizonMenu(usedMenuTarget, usedMenuActive);
     $MyLocation       = get_session('myLocation');
     log_write($MyLocation . '@@@' .$_SERVER['HTTP_MYLOCATION']);
     $userLocation     = explode(",", $MyLocation);
+
+    if($userLocation[0] == "" || $userLocation[0] == null || $userLocation[0] == "null"){
+        $MyLocation = $_SERVER['HTTP_MYLOCATION'];
+        $userLocation     = explode(",", $MyLocation);
+    }
+
     if ($MyLocation === null) {
         $user_lat = 37.514575;
         $user_lng = 127.0495556;
@@ -89,7 +95,7 @@ var clusterer = new kakao.maps.MarkerClusterer({
     map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
     averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
     minLevel: 5 // 클러스터 할 최소 지도 레벨
-}); 
+});
 
 //지도중심변경
 kakao.maps.event.addListener(map, 'idle', function() {
@@ -123,7 +129,7 @@ function addMarker(positions){
     showMarkers();
 }
 function setMarkers(map, level) {
-    if(level > 4){       
+    if(level > 4){
         clusterer.addMarkers(markers);
     } else {
         for (var i = 0; i < markers.length; i++) {

@@ -2152,7 +2152,8 @@ input[type=file] {
     justify-content: space-between;
     gap:20px;
 }
-#main_dashboard .dashboard_boxs > dl:last-child{
+#main_dashboard .dashboard_boxs > dl{min-width:250px;}
+#main_dashboard .dashboard_boxs > dl.flex_fixed{
     flex-grow: 1;
 }
 
@@ -2164,6 +2165,13 @@ input[type=file] {
     letter-spacing: -2px;
     width: 100%;
 }
+
+#main_dashboard [class^="box_title"].select_type{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 #main_dashboard [class^="box_title"].link_type > a{
     width: 100%;
     display: block;
@@ -2198,7 +2206,7 @@ input[type=file] {
 }
 
 #main_dashboard [class^="box_contents"] .box_white {
-    min-width:250px;
+    min-width:200px;
     padding:20px 25px;
     box-sizing: border-box;
     text-align: center;
@@ -2255,6 +2263,11 @@ input[type=file] {
     font-weight: var(--fw_500);
 }
 
+#main_dashboard [class^="box_contents"] .rank_money .cnt_unit_text{
+    font-size:15px;
+    font-weight: 400;
+}
+
 #main_dashboard [class^="box_contents"] .data_bot{
     border-top:1px solid var(--color_9);
     color:var(--color_3);
@@ -2265,7 +2278,7 @@ input[type=file] {
 
 #main_dashboard [class^="box_contents"].line_box{
     flex-direction: column;
-    min-width:500px;
+    min-width:450px;
     gap:15px;
 }
 #main_dashboard [class^="box_contents"].line_box [class^="order_line_cnt"],
@@ -2354,7 +2367,7 @@ input[type=file] {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap:10px;
+    gap:5px;
     font-size: var(--fs_17);
 }
 
@@ -2366,6 +2379,7 @@ input[type=file] {
     counter-increment: order_rank;
     content: counter(order_rank) "위";
     flex-shrink: 0;
+    font-size:var(--fs_14);
 }
 
 #main_dashboard [class^="box_contents"].rank_type ol > li .rank_name {
@@ -2374,6 +2388,7 @@ input[type=file] {
 #main_dashboard [class^="box_contents"].rank_type ol > li .rank_money {
     text-align: right;
     width: 100%;
+    letter-spacing: -1px;
 }
 
 #main_dashboard [class^="box_contents"].new_item_list ol{

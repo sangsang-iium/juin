@@ -8,7 +8,7 @@ $type = preg_replace("/[\<\>\'\"\\\'\\\"\%\=\(\)\s]/", "", $_REQUEST['type']);
 // else if($type == 4) $tb['title'] = $default['de_pname_5']; // 인기상품
 // else if($type == 5) $tb['title'] = $default['de_pname_6']; // 추천상품
 if($type == 1)      $tb['title'] = $default['de_pname_3']; // 쇼핑특가
-else if($type == 2) $tb['title'] = $default['de_pname_3']; // 베스트
+else if($type == 2) $tb['title'] = $default['de_pname_7']; // 베스트
 else if($type == 3) $tb['title'] = $default['de_pname_10']; // 신상품
 else if($type == 4) $tb['title'] = $default['de_pname_6']; // 인기상품
 else if($type == 5) $tb['title'] = $default['de_pname_9']; // 추천상품

@@ -79,3 +79,30 @@ Fatal error: Uncaught Error: Call to undefined function sql_query() in /home/jui
 Stack trace:
 #0 {main}
   thrown in /home/juin/www/admin/cron.regpay.php on line 32
+PHP Notice:  Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 135
+PHP Notice:  Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 136
+PHP Notice:  Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 223
+PHP Notice:  Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 135
+PHP Notice:  Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 136
+PHP Notice:  Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 223
+PHP Notice:  A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 260
+PHP Notice:  A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 260
+PHP Notice:  Undefined property: stdClass::$code in /home/juin/www/admin/cron.regpay.php on line 325
+
+Notice: Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 135
+
+Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 136
+
+Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 223
+
+Notice: Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 135
+
+Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 136
+
+Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 223
+
+Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 260
+
+Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 260
+
+Notice: Undefined property: stdClass::$code in /home/juin/www/admin/cron.regpay.php on line 325
