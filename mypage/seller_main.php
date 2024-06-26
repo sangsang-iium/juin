@@ -142,29 +142,29 @@ $final2 = admin_order_status_sum("{$sql_where} and dan = 5 and user_ok = 0 "); /
                 </div>
             </dd>
         </dl>
-		<dl>
+		<dl class="flex_fixed">
             <dt class="box_title link_type">
                 <a href="#">최근 등록된 상품</a>
             </dt>
             <dd class="box_contents rank_type new_item_list">
                 <ol class="box_white">
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">수미안 들기름(1.8L/3병)_택배_허브</a>
                     </li>
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">수미안 볶음참깨(1kg*6개 제주)_허브</a>
                     </li>
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">새댁표고추맛기름(남양유지/3.4L)EA</a>
                     </li>
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">(매운_중식용)수미안 중국산 고춧가루(1kg*5개 중국산)_제주</a>
                     </li>
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">수미안 중국산 건고추(1kg*3개)_제주</a>
                     </li>
                     <li>
-                        <a href="#" class="new_item_name">상품 이름</a>
+                        <a href="#" class="new_item_name">포기김치(강동)10KG</a>
                     </li>
                 </ol>          
             </dd>
