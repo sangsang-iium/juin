@@ -123,7 +123,7 @@ function chkDuBnum(kfiaMsg) {
           } else {
             // alert("가입 가능한 사업자등록번호입니다");
             $('#chk_bn_res').val('1');
-            chkClosed(kfiaMsg, "가입여부 : 가입 가능한 사업자등록번호입니다");
+            chkClosed(kfiaMsg, "<br>가입여부 : 가입 가능한 사업자등록번호입니다");
           }
         }
     });
@@ -156,7 +156,7 @@ function chkClosed(kfiaMsg, bNumMsg) {
           if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
             $('#chk_cb_res').val(res.data[0].b_stt_cd);
             msg = res.data[0].b_stt;
-            alert(kfiaMsg+"\n"+bNumMsg+"\n"+"휴/폐업 여부 : "+msg);
+            alert(kfiaMsg+"\n"+bNumMsg+"\n"+"<br>휴/폐업 여부 : "+msg);
           } else {
             switch (res.data[0].b_stt_cd) {
               case "" :
@@ -168,7 +168,7 @@ function chkClosed(kfiaMsg, bNumMsg) {
                 msg = res.data[0].b_stt;
                 break;
             } 
-            alert(kfiaMsg+"\n"+bNumMsg+"\n"+"휴/폐업 여부 : "+msg);
+            alert(kfiaMsg+"\n"+bNumMsg+"\n"+"<br>휴/폐업 여부 : "+msg);
             return false;
           }
         }

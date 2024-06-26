@@ -2,6 +2,7 @@
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
 //include_once(BV_PATH.'/include/topMenu.php');
+include_once(BV_PATH.'/include/introBtn.php');
 
 $addrs = explode(" ", trim($member['ju_addr_full']));
 $region_key = trim($addrs[0]);

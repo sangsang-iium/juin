@@ -2,6 +2,7 @@
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
 //include_once(BV_PATH.'/include/topMenu.php');
+include_once(BV_PATH.'/include/introBtn.php');
 ?>
 
 <div id="contents" class="sub-contents storeList">
