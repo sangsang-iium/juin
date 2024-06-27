@@ -1,6 +1,24 @@
 <?php
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
+
+// 담당자 정보 및 기본정보 추가 _20240627_SY
+$mn_id = "";
+$mn_name = "";
+$mn_num = "";
+if($is_member) { 
+  $mn_sel = " SELECT mm.*, mn.id AS mn_id FROM shop_member mm
+           LEFT JOIN shop_manager mn
+                  ON (mm.ju_manager = mn.index_no)
+               WHERE mm.id = '{$member['id']}'; ";
+  $mn_row = sql_fetch($mn_sel);
+  $mn_id   = $mn_row['mn_id'];
+  $mn_name = $mn_row['name'];
+  $mn_num  = $mn_row['ju_b_num'];
+  $mn_restaurant  = $mn_row['ju_restaurant'];
+  $mn_ju_name  = $mn_row['ju_name'];
+  $cell_phone = explode("-", $mn_row['cellphone']);
+}
 ?>
 
 <div id="contents" class="sub-contents">
@@ -18,7 +36,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">사업자등록번호<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="사업자등록번호를 입력해주세요.">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_num ?>" placeholder="사업자등록번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -28,7 +46,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">사업장명<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="사업장명를 입력해주세요.">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_restaurant?>" placeholder="사업장명를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -38,7 +56,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">대표자명<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="대표자명를 입력해주세요.">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_ju_name ?>" placeholder="대표자명를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
