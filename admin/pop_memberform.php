@@ -119,16 +119,16 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
               </td>
             </tr>
             <tr>
-              <th scope="row">본인확인방법</th>
+              <th scope="row">본인확인</th>
               <td>
                 <ul class="radio_group">
                   <li class="radios">
-                    <input type="radio" name="mb_certify_case" value="ipin" id="mb_certify_ipin" <?php if ($mb['mb_certify'] == 'ipin') echo 'checked="checked"'; ?>>
-                    <label for="mb_certify_ipin">아이핀</label>
+                    <input type="radio" name="mb_certify" value="1" id="mb_certify_yes" <?php echo $mb_certify_yes; ?>>
+                    <label for="mb_certify_yes">예</label>
                   </li>
                   <li class="radios">
-                    <input type="radio" name="mb_certify_case" value="hp" id="mb_certify_hp" <?php if ($mb['mb_certify'] == 'hp') echo 'checked="checked"'; ?>>
-                    <label for="mb_certify_hp">휴대폰</label>
+                    <input type="radio" name="mb_certify" value="" id="mb_certify_no" <?php echo $mb_certify_no; ?>>
+                    <label for="mb_certify_no">아니오</label>
                   </li>
                 </ul>
               </td>
@@ -146,17 +146,18 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                 </ul>
               </td>
             </tr>
-            <tr>
-              <th scope="row">본인확인</th>
+            <!-- 본인확인방법 / 성인인증 없앰 _20240627_SY -->
+            <!-- <tr>
+              <th scope="row">본인확인방법</th>
               <td>
                 <ul class="radio_group">
                   <li class="radios">
-                    <input type="radio" name="mb_certify" value="1" id="mb_certify_yes" <?php echo $mb_certify_yes; ?>>
-                    <label for="mb_certify_yes">예</label>
+                    <input type="radio" name="mb_certify_case" value="ipin" id="mb_certify_ipin" <?php if ($mb['mb_certify'] == 'ipin') echo 'checked="checked"'; ?>>
+                    <label for="mb_certify_ipin">아이핀</label>
                   </li>
                   <li class="radios">
-                    <input type="radio" name="mb_certify" value="" id="mb_certify_no" <?php echo $mb_certify_no; ?>>
-                    <label for="mb_certify_no">아니오</label>
+                    <input type="radio" name="mb_certify_case" value="hp" id="mb_certify_hp" <?php if ($mb['mb_certify'] == 'hp') echo 'checked="checked"'; ?>>
+                    <label for="mb_certify_hp">휴대폰</label>
                   </li>
                 </ul>
               </td>
@@ -173,7 +174,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                   </li>
                 </ul>
               </td>
-            </tr>
+            </tr> -->
             <tr>
               <th scope="row">레벨</th>
               <td>
