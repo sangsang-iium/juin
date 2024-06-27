@@ -1176,7 +1176,6 @@
 #topMenu .qk-menu .btn {padding: 0;}
 .cp-horizon-menu .btn {font-size: 2.2rem;}
 
-.prod-thumb_area .thumb {top: 50%; left: 50%; transform: translate(-50%,-50%); width: 90%; height: 90%;}
 .cp-live.live-off .thumb {width: 100%; height: 100%;}
 
 .cp-title .icon-box {display: none;}
@@ -1251,3 +1250,10 @@
 .intro-btn02 .icon img {width: 12.56rem;}
 .intro-btn03 .icon img {width: 13.56rem;}
 .intro-btn04 .icon img {width: 12.96rem;}
+
+/* === 2024-06-26 추가 === */
+.line-banner04 {margin-top: 4rem;}
+
+.intro-float-btn {position: fixed; bottom: 11.6rem; left: 2.4rem; z-index: 100;}
+.intro-float-btn a {display: flex; align-items: center; justify-content: center; border-radius: 50%; width: 6rem; height: 6rem; background-color: var(--color-main); box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+.intro-float-btn a img {width: 4.2rem;}
