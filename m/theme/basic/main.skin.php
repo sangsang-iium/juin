@@ -301,7 +301,8 @@ while ($cate_row = sql_fetch_array($cate_res)) {
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <!-- 배너 { -->
-      <a href="/m/shop/list.php?ca_id=006" class="swiper-slide banner-item">
+       <!-- 선풍기 기획전으로 링크 변경 _20240627_SY -->
+      <a href="/m/shop/list.php?ca_id=006011" class="swiper-slide banner-item">
         <div class="banner-img">
           <img src="/src/img/mainbanner4_fan.jpg" alt="">
         </div>
