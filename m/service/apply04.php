@@ -1,6 +1,29 @@
 <?php
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
+
+$mn_id = "";
+$mn_name = "";
+$mn_num = "";
+if($is_member) { 
+  $mn_sel = " SELECT mm.*, mn.id AS mn_id FROM shop_member mm
+           LEFT JOIN shop_manager mn
+                  ON (mm.ju_manager = mn.index_no)
+               WHERE mm.id = '{$member['id']}'; ";
+  $mn_row = sql_fetch($mn_sel);
+  $mn_id    = $mn_row['mn_id'];
+  $mn_name  = $mn_row['name'];
+  $mn_num   = $mn_row['ju_b_num'];
+  $mn_store = $mn_row['ju_restaurant'];
+  $mn_ju_name = $mn_row['ju_name'];
+  $mn_zip = $mn_row['zip'];
+  $mn_addr1 = $mn_row['addr1'];
+  $mn_addr2 = $mn_row['addr2'];
+  $mn_addr3 = $mn_row['addr3'];
+  $mn_jibeon = $mn_row['addr_jibeon'];
+  $cell_phone = explode("-", $mn_row['cellphone']);
+  $tele_phone = explode("-", $mn_row['telephone']);
+}
 ?>
 
 <div id="contents" class="sub-contents">
@@ -18,7 +41,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">사업자등록번호<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="사업자등록번호를 입력해주세요.">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_num ?>" placeholder="사업자등록번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -28,7 +51,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">사업장명<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="사업장명를 입력해주세요.">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_store ?>" placeholder="사업장명를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -38,7 +61,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">대표자명<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="대표자명를 입력해주세요.">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_ju_name ?>" placeholder="대표자명를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -49,15 +72,15 @@ include_once(BV_MPATH."/_head.php"); // 상단
             </div>
             <div class="form-body address">
               <label for="reg_mb_zip" class="sound_only">우편번호</label>
-              <input type="tel" name="mb_zip" value="" id="reg_mb_zip" required="" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호">
+              <input type="tel" name="mb_zip" value="<?php echo $mn_zip ?>" id="reg_mb_zip" required="" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호">
               <button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
-              <input type="text" name="mb_addr1" value="" id="reg_mb_addr1" required="" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+              <input type="text" name="mb_addr1" value="<?php echo $mn_addr1 ?>" id="reg_mb_addr1" required="" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
               <label for="reg_mb_addr1" class="sound_only">기본주소</label>
-              <input type="text" name="mb_addr2" value="" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
+              <input type="text" name="mb_addr2" value="<?php echo $mn_addr2 ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
               <label for="reg_mb_addr2" class="sound_only">상세주소</label>
-              <input type="text" name="mb_addr3" value="" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
+              <input type="text" name="mb_addr3" value="<?php echo $mn_addr3 ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
               <label for="reg_mb_addr3" class="sound_only">참고항목</label>
-              <input type="hidden" name="mb_addr_jibeon" value="">
+              <input type="hidden" name="mb_addr_jibeon" value="<?php echo $mn_jibeon ?>">
             </div>
           </div>
           <!-- } row -->
@@ -67,11 +90,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">사업장 전화번호</p>
             </div>
             <div class="form-body phone">
-              <input type="text" class="frm-input">
+              <input type="text" class="frm-input" value="<?php echo $tele_phone[0] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input">
+              <input type="text" class="frm-input" value="<?php echo $tele_phone[1] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input">
+              <input type="text" class="frm-input" value="<?php echo $tele_phone[2] ?>">
             </div>
           </div>
           <!-- } row -->
@@ -81,11 +104,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">대표자 휴대전화<b>*</b></p>
             </div>
             <div class="form-body phone">
-              <input type="text" class="frm-input">
+              <input type="text" class="frm-input" value="<?php echo $cell_phone[0] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input">
+              <input type="text" class="frm-input" value="<?php echo $cell_phone[1] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input">
+              <input type="text" class="frm-input" value="<?php echo $cell_phone[2] ?>">
             </div>
           </div>
           <!-- } row -->
@@ -125,7 +148,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">소개자(직원) 정보<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="소개자를 입력해주세요.">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_id ?>" placeholder="소개자를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
