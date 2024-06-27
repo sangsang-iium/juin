@@ -76,7 +76,11 @@ $none = "style='display:none;'";
             </div>
           </td>
         </tr>
-        <tr>
+        <!-- 본인인증 & 본인확인 & 성인인증 Hidden _20240627_SY -->
+        <input type="hidden" name="mb_certify_case" value="hp" id="mb_certify_hp">
+        <input type="hidden" name="mb_certify" value="" id="mb_certify_no">
+        <input type="hidden" name="mb_adult" value="0" id="mb_adult_no">
+        <!-- <tr>
           <th scope="row">본인확인방법</th>
           <td>
             <ul class="radio_group">
@@ -120,7 +124,7 @@ $none = "style='display:none;'";
               </li>
             </ul>
           </td>
-        </tr>
+        </tr> -->
         <tr>
           <th scope="row">레벨</th>
           <td>
@@ -151,7 +155,7 @@ $none = "style='display:none;'";
           </td>
         </tr>
         <!-- 추천인 hidden _20240624_뇨 -->
-        <input type="text" name="mb_recommend" value="admin" id="reg_mb_recommend" >
+        <input type="hidden" name="mb_recommend" value="admin" id="reg_mb_recommend" >
         <!-- <tr>
           <th scope="row"><label for="reg_mb_recommend">추천인</label></th>
           <td><input type="text" name="mb_recommend" value="admin" id="reg_mb_recommend" required class="frm_input required w400"></td>

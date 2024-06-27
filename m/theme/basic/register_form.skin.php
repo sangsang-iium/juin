@@ -978,7 +978,7 @@ function getManager() {
       data: { "mcode" : search_words },
       dataType: "JSON",
       success: function(data) {
-        console.log(data)
+        // console.log(data)
         let html = '';
 
         for(let i=0; i<data.res.length; i++) {
@@ -1072,16 +1072,16 @@ function chkDuBnum() {
         success: function(data) {
           if(data.res > 0 ) {
             $('#chk_bn_res').val('0');
-            alert("이미 등록된 사업자등록번호입니다");
+            alert("이미 등록된 사업자입니다");
             return false;
           } else {
-            alert("가입 가능한 사업자등록번호입니다");
+            alert("가입 가능한 사업자입니다");
             $('#chk_bn_res').val('1');
           }
         }
     });
   } else {
-    alert("사업자등록번호가 존재하지 않습니다.")
+    alert("사업자번호가 존재하지 않습니다.")
     return false;
   }
 }
@@ -1115,7 +1115,7 @@ function chkClosed() {
         }
     });
   } else {
-    alert("사업자등록번호가 존재하지 않습니다.")
+    alert("사업자번호가 존재하지 않습니다.")
     return false;
   }
 }
