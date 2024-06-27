@@ -149,11 +149,29 @@ if($is_member) {
               <select name="" id="" class="frm-select">
                 <option value="">선택</option>
                 <option value="">9시</option>
+                <option value="">10시</option>
+                <option value="">11시</option>
+                <option value="">12시</option>
+                <option value="">13시</option>
+                <option value="">14시</option>
+                <option value="">15시</option>
+                <option value="">16시</option>
+                <option value="">17시</option>
+                <option value="">18시</option>
               </select>
               <span class="hyphen">~</span>
               <select name="" id="" class="frm-select">
                 <option value="">선택</option>
                 <option value="">9시</option>
+                <option value="">10시</option>
+                <option value="">11시</option>
+                <option value="">12시</option>
+                <option value="">13시</option>
+                <option value="">14시</option>
+                <option value="">15시</option>
+                <option value="">16시</option>
+                <option value="">17시</option>
+                <option value="">18시</option>
               </select>
             </div>
           </div>
