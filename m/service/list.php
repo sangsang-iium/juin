@@ -79,6 +79,22 @@ include_once(BV_PATH.'/include/introBtn.php');
       </div>
     </a>
     <!-- } loop -->
+
+    <!-- loop { -->
+    <a href="javascript:alert('준비중입니다.');" class="service-item">
+      <div class="cp-banner__round thumb">
+        <img src="/src/img/service/t-service_thumb5.png" alt="KB손해보험(CI) 한국외식업중앙회 소상공인 풍수해보험" class="fitCover">
+      </div>
+      <div class="service-info">
+        <p class="tRow2 title">
+          <span class="subj">KB손해보험(CI) 한국외식업중앙회 소상공인 풍수해보험</span>
+        </p>
+        <p class="ex">
+          <!-- <span class="period">2024.01.01~2024.12.31</span> -->
+        </p>
+      </div>
+    </a>
+    <!-- } loop -->
       
   </div>
 </div>

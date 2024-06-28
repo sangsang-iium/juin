@@ -43,6 +43,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
         <!-- <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button> -->
       </div>
+      <!-- 2024-06-27 응모 취소 버튼 추가 { -->
+      <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn rf-order-btn">응모취소</button>
+      <!-- } 2024-06-27 응모 취소 버튼 추가 -->
       <?php if ($raffleEndCheck == 3) { ?>
         <?php if($row['prize'] == 'Y') { 
           if($row['order'] == 'N') {?>
