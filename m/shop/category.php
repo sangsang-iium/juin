@@ -34,10 +34,7 @@ include_once("./_head.php");
           // category_depth 1~4까지 있음
             $cateHtml = category_depth('1');
             for ($i = 0; $i < count($cateHtml['html']); $i++) {
-              // 회원특별관 숨김 _20240624_SY
-              if($cateHtml['cateArr'][$i] != "006") {
-                echo $cateHtml['html'][$i];
-              };
+              echo $cateHtml['html'][$i];
             }
           ?>
         </ul>
