@@ -24,7 +24,8 @@ include_once(BV_PATH.'/include/introBtn.php');
   </div>
 
   <div class="container member-status-btn-wr">
-    <button type="button" class="current_position ui-btn st3">현위치 재검색</button>
+    <button type="button" class="current_position ui-btn st3" onclick="javascript:location.reload()">현위치 재검색</button>
+    <!-- <button type="button" class="current_position ui-btn st3">현위치 재검색</button> -->
     <button type="button" class="add_latlng ui-btn st3">검색위치등록</button>
   </div>
 
