@@ -2,6 +2,7 @@
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
 //include_once(BV_PATH.'/include/topMenu.php');
+include_once(BV_PATH.'/include/introBtn.php');
 ?>
 
 <div id="contents" class="sub-contents serviceList">
@@ -71,6 +72,22 @@ include_once(BV_MPATH."/_head.php"); // 상단
         <p class="tRow2 title">
           <!-- <span class="cname">[신승HR]</span> -->
           <span class="subj">외식가족 상조회 상조상품</span>
+        </p>
+        <p class="ex">
+          <!-- <span class="period">2024.01.01~2024.12.31</span> -->
+        </p>
+      </div>
+    </a>
+    <!-- } loop -->
+
+    <!-- loop { -->
+    <a href="javascript:alert('준비중입니다.');" class="service-item">
+      <div class="cp-banner__round thumb">
+        <img src="/src/img/service/t-service_thumb5.png" alt="KB손해보험(CI) 한국외식업중앙회 소상공인 풍수해보험" class="fitCover">
+      </div>
+      <div class="service-info">
+        <p class="tRow2 title">
+          <span class="subj">KB손해보험(CI) 한국외식업중앙회 소상공인 풍수해보험</span>
         </p>
         <p class="ex">
           <!-- <span class="period">2024.01.01~2024.12.31</span> -->

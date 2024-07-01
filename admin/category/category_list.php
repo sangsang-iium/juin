@@ -38,9 +38,10 @@ $sql_order = " order by caterank, catecode ";
                 <li class="chk_select">
                     <?php echo get_category_select_3('sel_ca3', $sel_ca3); ?>
                 </li>
-                <li class="chk_select">
-                    <?php echo get_category_select_4('sel_ca4', $sel_ca4); ?>
-                </li>
+                <!-- 카테고리 4뎁스 사용안함으로 인해 주석처리 _20240627_SY -->
+                <!-- <li class="chk_select">
+                    <?php //echo get_category_select_4('sel_ca4', $sel_ca4); ?>
+                </li> -->
             </ul>
 
 			<script>

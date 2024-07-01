@@ -1,6 +1,22 @@
 <?php
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
+
+// 담당자 정보 추가 _20240626_SY & 기본정보 추가 _20240627_SY
+$mn_id = "";
+$mn_name = "";
+$mn_num = "";
+if($is_member) { 
+  $mn_sel = " SELECT mm.*, mn.id AS mn_id FROM shop_member mm
+           LEFT JOIN shop_manager mn
+                  ON (mm.ju_manager = mn.index_no)
+               WHERE mm.id = '{$member['id']}'; ";
+  $mn_row = sql_fetch($mn_sel);
+  $mn_id   = $mn_row['mn_id'];
+  $mn_name = $mn_row['name'];
+  $mn_num  = $mn_row['ju_b_num'];
+  $cell_phone = explode("-", $mn_row['cellphone']);
+}
 ?>
 
 <div id="contents" class="sub-contents">
@@ -86,7 +102,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">성명</p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="성명을 입력해주세요.">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_name ?>" placeholder="성명을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -106,7 +122,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">사업자등록번호</p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="사업자등록번호를 입력해주세요.">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_num ?>" placeholder="사업자등록번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -116,11 +132,11 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">휴대폰<b>*</b></p>
             </div>
             <div class="form-body phone">
-              <input type="text" class="frm-input">
+              <input type="text" class="frm-input" value="<?php echo $cell_phone[0] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input">
+              <input type="text" class="frm-input" value="<?php echo $cell_phone[1] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input">
+              <input type="text" class="frm-input" value="<?php echo $cell_phone[2]?>">
             </div>
           </div>
           <!-- } row -->
@@ -133,11 +149,29 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <select name="" id="" class="frm-select">
                 <option value="">선택</option>
                 <option value="">9시</option>
+                <option value="">10시</option>
+                <option value="">11시</option>
+                <option value="">12시</option>
+                <option value="">13시</option>
+                <option value="">14시</option>
+                <option value="">15시</option>
+                <option value="">16시</option>
+                <option value="">17시</option>
+                <option value="">18시</option>
               </select>
               <span class="hyphen">~</span>
               <select name="" id="" class="frm-select">
                 <option value="">선택</option>
                 <option value="">9시</option>
+                <option value="">10시</option>
+                <option value="">11시</option>
+                <option value="">12시</option>
+                <option value="">13시</option>
+                <option value="">14시</option>
+                <option value="">15시</option>
+                <option value="">16시</option>
+                <option value="">17시</option>
+                <option value="">18시</option>
               </select>
             </div>
           </div>
@@ -148,25 +182,9 @@ include_once(BV_MPATH."/_head.php"); // 상단
               <p class="title">담당직원</p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="담당직원을 입력해주세요.">
+              <input type="text" class="frm-input w-per100" value="<?php echo $mn_id ?>" placeholder="담당직원의 사번을 입력하여주세요.">
             </div>
           </div>
-          <!-- } row -->
-          <!-- row { -->
-          <?php // 담당자 정보 추가 _20240624_SY
-          if($is_member) { 
-            $mn_sel = " SELECT * FROM shop_manager WHERE index_no = '{$member['ju_manager']}' ";
-            $mn_row = sql_fetch($mn_sel);
-          ?>
-          <div class="form-row">
-            <div class="form-head">
-              <p class="title">담당자</p>
-            </div>
-            <div class="form-body">
-              <input type="text" class="frm-input w-per100" value="<?php echo $mn_row['id']?>" placeholder="담당자사번을 입력하여주세요.">
-            </div>
-          </div>
-          <?php } ?>
           <!-- } row -->
         </div>
       </div>
