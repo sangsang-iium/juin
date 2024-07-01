@@ -61,7 +61,8 @@ if ((int) $_POST['tot_price'] == 0) { // 총 결제금액이 0 이면
   $dan = 2;                             // 입금확인 단계로 적용
 
   // 포인트로 전액 결제시는 포인트결제로 값을 바꾼다.
-  if ($_POST['paymethod'] != '포인트' && (int) $_POST['org_price'] == (int) $_POST['use_point']) {
+  // reg_yn != 3 | 렌탈 추가 _20240701_SY
+  if ($_POST['paymethod'] != '포인트' && (int) $_POST['org_price'] == (int) $_POST['use_point'] && $_POST['reg_yn'] != '3') {
     $_POST['paymethod'] = '포인트';
   }
 }
@@ -350,7 +351,7 @@ for ($i = 0; $i < count($gs_id); $i++) {
       , od_reg_total_num = '{$od_reg_total_num}'
       , od_begin_date = '{$od_begin_date}'
     ";
-  } else if ($reg_yn == 2 ) {
+  } else {
     $shop_table      = "shop_order";
     $reg_order_query = "";
   }
@@ -598,7 +599,8 @@ function truncateString($string, $length) {
   return $string;
 }
 
-if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
+// 렌탈 추가 _20240701_SY
+if (in_array($_POST['paymethod'], array('무통장', '포인트', '렌탈'))) {
   if ($resulturl == 'pc') {
     goto_url(BV_URL . '/mng/shop/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid. '&tran_id=' . $tran_id.'&reg_yn='.$reg_yn );
   } else {

@@ -810,7 +810,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         </div>
       </div>
 
-      <div id="od-benf" class="bottomBlank">
+      <!-- reg_yn == 3 | 렌탈 추가 _20240701_SY -->
+      <div id="od-benf" class="bottomBlank" <?php echo $gs['reg_yn'] == '3' ? "style='display:none;'" : "" ?>>
         <div class="container">
           <div class="arcodianBtn od-top active">
             <button type="button" class="ui-btn od-toggle-btn">
@@ -989,6 +990,17 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
             }
+
+             // reg_yn == 3 | 렌탈 추가 _20240701_SY
+             if($gs['reg_yn'] == 3) {
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"렌탈\" id=\"de_bank\" checked>\n";
+              $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+            }
+
             if($default['de_hp_use']) {
               // $multi_settle .= "<option value='휴대폰'>휴대폰</option>\n";
               $multi_settle .= "<li>\n";
@@ -1394,10 +1406,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       </div>
 
 
-
+      <!-- reg_yn == 3 | 렌탈 추가 _20240701_SY -->
       <div id="btn_confirm" class="btn_confirm">
         <div class="container">
-          <input type="submit" id="order-button" value="주문하기" class="btn_medium btn-buy">
+          <input type="submit" id="order-button" value="<?php echo $gs['reg_yn'] == '3' ? "신청하기" : "주문하기" ?>" class="btn_medium btn-buy">
           <!-- 시안대로 금액표시할 경우 사용
           <button type="submit" class="btn_medium btn-buy">
             <p class="price">
@@ -1658,7 +1670,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     //   return false;
     // }
 
-    if (selectedPaymentMethod == '무통장') {
+    // reg_yn == 3 | 렌탈 추가 _20240701_SY
+    if (selectedPaymentMethod == '무통장' && f.reg_yn.value != 3) {
       if (f.bank_code.value == "") {
         alert("가상계좌 은행 선택하세요.");
         f.bank_code.focus();

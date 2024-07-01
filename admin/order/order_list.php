@@ -80,6 +80,7 @@ EOF;
                 <?php echo radio_checked('od_settle_case', $od_settle_case, '신용카드', '신용카드'); ?>
                 <?php echo radio_checked('od_settle_case', $od_settle_case, '간편결제', 'PG간편결제'); ?>
                 <?php echo radio_checked('od_settle_case', $od_settle_case, 'KAKAOPAY', 'KAKAOPAY'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '렌탈', '렌탈'); ?>
             </div>
 		</td>
 	</tr>
