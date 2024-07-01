@@ -428,11 +428,14 @@ $income_per = ($supply_price / $goods_price) * 100;
 	</tr>
 
 	<tr>
-		<th scope="row">일반/정기배송 구분</th>
+		<!-- <th scope="row">일반/정기배송 구분</th> -->
+		<th scope="row">유형</th>
 		<td class="td_label" colspan="3">
             <div class="radio_group">
                 <?php echo radio_checked('reg_yn', $gs['reg_yn'], '2', '일반배송'); ?>
                 <?php echo radio_checked('reg_yn', $gs['reg_yn'], '1', '정기배송'); ?>
+                <!-- reg_yn == 3 | 렌탈 추가 _20240701_SY -->
+                <?php echo radio_checked('reg_yn', $gs['reg_yn'], '3', '렌탈'); ?>
             </div>
 		</td>
 	</tr>
@@ -1887,6 +1890,28 @@ const subZone = (target, areaname) => {
         }
     });
 }
+
+
+// 렌탈 추가 _20240701_SY
+$('input[name=reg_yn]').on('click', function() {
+  if(this.value == '3')  {
+    $('input[name=price_msg]').val("상담신청");
+    $('input[name=supply_price]').val(0);
+    $('input[name=goods_price]').val(0);
+    $('input[name=normal_price]').val(0);
+    
+    $('input[name=price_msg]').prop('readonly', true);
+    $('input[name=supply_price]').prop('readonly', true);
+    $('input[name=goods_price]').prop('readonly', true);
+    $('input[name=normal_price]').prop('readonly', true);
+  } else {
+    $('input[name=price_msg]').val("");
+    $('input[name=price_msg]').prop('readonly', false);
+    $('input[name=supply_price]').prop('readonly', false);
+    $('input[name=goods_price]').prop('readonly', false);
+    $('input[name=normal_price]').prop('readonly', false);
+  }
+})
 </script>
 
 <script>

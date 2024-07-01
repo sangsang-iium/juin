@@ -12,7 +12,7 @@ if ($reg_yn == 1 ) {
 	} else {
 		$shop_table = "shop_order_reg";
 	}
-} else if ($reg_yn == 2) {
+} else {
   $shop_table = "shop_order";
 }
 // 가상계좌 불러오기위함 jjh 20240521
