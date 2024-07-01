@@ -62,16 +62,16 @@ if($is_member) {
             <div class="form-body">
               <div class="check-wr">
                 <div class="frm-choice">
-                  <input type="checkbox" name="" id="chk4" value="">
-                  <label for="chk4">URS</label>
+                  <input type="checkbox" name="" id="chk4" value="" checked>
+                  <label for="chk4">MASTER</label>
                 </div>
                 <div class="frm-choice">
                   <input type="checkbox" name="" id="chk5" value="">
-                  <label for="chk5">VISA</label>
+                  <label for="chk5">URS</label>
                 </div>
                 <div class="frm-choice">
                   <input type="checkbox" name="" id="chk6" value="">
-                  <label for="chk6">MASTER</label>
+                  <label for="chk6">VISA</label>
                 </div>
               </div>
             </div>
