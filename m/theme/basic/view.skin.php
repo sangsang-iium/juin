@@ -67,7 +67,14 @@ $row_type = sql_fetch($sql_type);
         <!-- <div class="cp-tag-item">
           <div class="cp-tag tag01">일반</div>
         </div> -->
-        <?php }
+
+        <!-- reg_yn == 3 | 렌탈 추가 _20240701_SY -->
+        <?php } else if ($gs['reg_yn'] == "3") { ?>
+        <div class="cp-tag-item">
+          <div class="cp-tag tag03">렌탈</div>
+        </div>  
+        <?php } 
+        
         if($gs['sc_type'] == "1"){ ?>
         <div class="cp-tag-item">
           <div class="cp-tag tag04">택배</div>
@@ -90,14 +97,16 @@ $row_type = sql_fetch($sql_type);
         // 2000원 할인 하드코딩 _20240625_SY
         $bb = 0;
         $sett = 0;
-        if($is_member) {
+
+         // price_msg 추가 _20240701_SY
+        if($is_member && empty($gs['price_msg'])) {
           $bb        = $gs_amount + 2000;
           $sett      = ($bb - $gs_amount) / $bb * 100;
           $gs_sale   = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
           $it_sprice = number_format($bb) . "원";
         } 
 
-        if($gs['normal_price'] > $gs_amount && !is_uncase($gs['index_no'])) {
+        if(empty($gs['price_msg']) && $gs['normal_price'] > $gs_amount && !is_uncase($gs['index_no'])) {
           $gs_sett = ($gs['normal_price'] - $gs_amount) / $gs['normal_price'] * 100;
           $gs_sale = number_format($gs_sett,0).'%';
           $gs_sprice = display_price2($gs['normal_price']);
@@ -123,7 +132,8 @@ $row_type = sql_fetch($sql_type);
         <span class="rv-rating"><?php echo $star_score; ?></span>
         <button type="button" class="ui-btn rv-move-btn" onclick="chk_tab('#prod-detailTab__review');"><?php echo number_format($item_use_count); ?>개 리뷰</button>
       </div>
-      <?php if(!$is_only && !$is_pr_msg && !$is_buy_only && !$is_soldout && $cp_used) { ?>
+      <!-- reg_yn == 3 | 렌탈 추가 _20240701_SY -->
+      <?php if(!$is_only && !$is_pr_msg && !$is_buy_only && !$is_soldout && $cp_used && $gs['reg_yn'] != "3") { ?>
       <div class="prod-cupon_area">
         <!--팝업작업: 기본 소스 참고
         <?php // echo $cp_btn; ?>
@@ -568,7 +578,7 @@ $row_type = sql_fetch($sql_type);
       <div class="container">
         <div class="prod-buy__btns">
           <button type="button" class="<?php echo $gs_id;?> ui-btn wish-btn <?php echo zzimCheck($gs_id);?>" title="관심상품 등록하기" onclick="itemlistwish('<?php echo $gs_id;?>')"></button>
-          <button type="button" class="ui-btn round stBlack buy-btn dp">구매하기</button>
+          <button type="button" class="ui-btn round stBlack buy-btn dp"><?php echo $gs['reg_yn'] == '3' ? "신청하기" : "구매하기" ?></button>
         </div>
       </div>
     </div>

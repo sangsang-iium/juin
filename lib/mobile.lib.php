@@ -215,7 +215,12 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 			// echo "<div class=\"cp-tag-item\">";
 			// echo "<div class=\"cp-tag tag01\">일반</div>";
 			// echo "</div>";
-		} else {
+		} else if ($row['reg_yn'] == 3) { 
+      // reg_yn == 3 | 렌탈 추가 _20240701_SY
+      echo "<div class=\"cp-tag-item\">";
+			echo "<div class=\"cp-tag tag03\">렌탈</div>";
+			echo "</div>";
+    } else {
 			echo "<div class=\"cp-tag-item\">";
 			echo "<div class=\"cp-tag tag02\">정기</div>";
 			echo "</div>";
@@ -1300,7 +1305,12 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 		// echo "<div class=\"cp-tag-item\">";
 		// echo "<div class=\"cp-tag tag01\">일반</div>";
 		// echo "</div>";
-	} else {
+	} else if($row['reg_yn'] == 3) { 
+    // reg_yn == 3 | 렌탈 추가 _20240701_SY
+    echo "<div class=\"cp-tag-item\">";
+		echo "<div class=\"cp-tag tag03\">렌탈</div>";
+		echo "</div>";
+  } else {
 		echo "<div class=\"cp-tag-item\">";
 		echo "<div class=\"cp-tag tag02\">정기</div>";
 		echo "</div>";

@@ -96,7 +96,8 @@ $is_soldout = is_soldout($gs_id);
 if($is_soldout) {
 	$script_msg = "현재상품은 품절 상품입니다.";
 } else {
-	if($gs['price_msg']) {
+  // reg_yn == 3 | 렌탈 추가 _20240701_SY
+	if($gs['price_msg']  && $gs['reg_yn'] != "3") {
 		$is_pr_msg = true;
 		$script_msg = "현재상품은 구매신청 하실 수 없습니다.";
 	} else if($gs['buy_only'] == 1 && $member['grade'] > $gs['buy_level']) {
