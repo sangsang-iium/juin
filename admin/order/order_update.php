@@ -10,7 +10,7 @@ if(!$count) {
 	alert($_POST['act_button']." 하실 항목을 하나 이상 체크하세요.");
 }
 
-if($_POST['act_button'] == "입금완료")
+if($_POST['act_button'] == "입금완료" || $_POST['act_button'] == "결제완료" )
 {
 	for($i=0; $i<$count; $i++)
 	{
@@ -164,19 +164,19 @@ else if($_POST['act_button'] == "운송장번호수정")
 	}
 }else if($_POST['act_button'] == "강제입금")
 {
-	
+
 	for($i=0; $i<$count; $i++)
 	{
 		// 실제 번호를 넘김
-		$k = $_POST['chk'][$i]; 
+		$k = $_POST['chk'][$i];
 		 $sql = " update shop_order
-		 			set dan3='13' 
-		 		  where od_no = '{$_POST['od_no'][$k]}' ";  
+		 			set dan3='13'
+		 		  where od_no = '{$_POST['od_no'][$k]}' ";
 		 sql_query($sql);
 
 		 $sql = " update shop_order
-		 			set dan3='13' 
-		 		  where od_id = '{$_POST['od_id'][$k]}' "; 
+		 			set dan3='13'
+		 		  where od_id = '{$_POST['od_id'][$k]}' ";
 		 sql_query($sql);
 	}
 }
@@ -188,13 +188,13 @@ else if($_POST['act_button'] == "강제출고")
 		$k = $_POST['chk'][$i];
 
 		$sql = " update shop_order
-					set dan3='15' 
+					set dan3='15'
 				where od_no = '{$_POST['od_no'][$k]}' ";
 		sql_query($sql);
 
 		$sql = " update shop_order
-		 			set dan3='15' 
-		 		  where od_id = '{$_POST['od_id'][$k]}' "; 
+		 			set dan3='15'
+		 		  where od_id = '{$_POST['od_id'][$k]}' ";
 		 sql_query($sql);
 	}
 }
@@ -203,15 +203,15 @@ else if($_POST['act_button'] == "강제입금완료")
 	for($i=0; $i<$count; $i++)
 	{
 		// 실제 번호를 넘김
-		$k = $_POST['chk'][$i]; 
+		$k = $_POST['chk'][$i];
 		$sql = " update shop_order
-					set dan3='14' 
-				where od_no = '{$_POST['od_no'][$k]}' "; 
+					set dan3='14'
+				where od_no = '{$_POST['od_no'][$k]}' ";
 		sql_query($sql);
 
 		$sql = " update shop_order
-		 			set dan3='14' 
-		 		  where od_id = '{$_POST['od_id'][$k]}' "; 
+		 			set dan3='14'
+		 		  where od_id = '{$_POST['od_id'][$k]}' ";
 		 sql_query($sql);
 	}
 }
@@ -223,18 +223,18 @@ else if($_POST['act_button'] == "강제출고완료")
 		$k = $_POST['chk'][$i];
 
 		$sql = " update shop_order
-					set dan3='16' 
+					set dan3='16'
 				where od_no = '{$_POST['od_no'][$k]}' ";
 		sql_query($sql);
 
 		$sql = " update shop_order
-		 			set dan3='16' 
-		 		  where od_id = '{$_POST['od_id'][$k]}' "; 
+		 			set dan3='16'
+		 		  where od_id = '{$_POST['od_id'][$k]}' ";
 		 sql_query($sql);
 	}
 }
 else {
-	alert();
+	alert($_POST['act_button']." : act_button val");
 }
 
 goto_url(BV_ADMIN_URL."/order.php?$q1&page=$page");
