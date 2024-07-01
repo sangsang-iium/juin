@@ -62,6 +62,9 @@ $result = sql_query($sql);
           </li>
         </ul>
       </div>
+      <!-- 2024-06-27 차단 버튼 추가 { -->
+      <button class="used-block-btn tag on" onclick="javascript:alert('차단이 완료되었습니다.<br>차단된 회원은 \'마이페이지 > 차단회원관리\'를<br> 통해 확인 가능합니다.');">회원차단</button>
+      <!-- } 2024-06-27 차단 버튼 추가 -->
     </div>
   </div>
 
