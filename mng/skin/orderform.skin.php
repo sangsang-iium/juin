@@ -702,27 +702,27 @@ $row_card = sql_fetch($sql_card);
                             </div>
                         </div>
 
-                        <div id="taxsave_section" style="display:none;">
+                        <!-- <div id="taxsave_section" style="display:none;">
                             <p class="order_title">증빙서류 발급</p>
                             <div class="info-list">
-                                <div class="info-item">
+                                <div class="info-item" id="cash_receipt_section">
                                     <p class="tit">증빙서류 선택</p>
                                     <ul class="radio_group">
                                         <li class="radios">
-                                            <input type="radio" id="tax_typ1" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked> 
-                                            <label for="tax_typ1">현금영수증</label>
+                                          <input type="radio" id="cash_receipt" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked> 
+                                          <label for="cash_receipt">현금영수증</label>
                                         </li>
                                         <li class="radios">
-                                            <input type="radio" id="tax_typ2" name="documentType" value="tax_bill" onclick="toggleTaxDocument(this.value);">
-                                            <label for="tax_typ2">세금계산서</label>
+                                          <input type="radio" id="tax_bill1" name="documentType" value="tax_bill" onclick="toggleTaxDocument(this.value);">
+                                          <label for="tax_bill1">세금계산서</label>
                                         </li>
                                         <li class="radios">
-                                            <input type="radio" id="tax_typ3" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);"> 
-                                            <label for="tax_typ3">미발행</label>
+                                          <input type="radio" id="no_bill" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);"> 
+                                          <label for="no_bill">미발행</label>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="info-item">            
+                                <div class="info-item" id="cash_bill_section">            
                                     <p class="tit">현금영수증</p>
                                     <div class="tax_info_box">
                                         <div class="chk_select">
@@ -740,9 +740,101 @@ $row_card = sql_fetch($sql_card);
                                         </div>
                                     </div>
                                 </div>
+                                <div class="info-item" id="tax_bill_section" style="display:none;">
+                                    <p class="tit">세금계산서</p>
+                                    <div class="tax_info_box">
+                                        <div class="chk_select">
+                                            <select name="taxbill_yes" onchange="tax_bill(this.value);" class="">
+                                                <option value="N">발행안함</option>
+                                                <option value="Y">발행요청</option>
+                                            </select>
+                                        </div>
+                                        <div id="taxbill_section" style="display:none;">
+                                          <input type="text" name="company_saupja_no" class="w-per100 frm-input" value="<?php echo $member['ju_b_num'] ?>" placeholder="사업자등록번호">
+                                          <input type="text" name="company_name" class="w-per100 frm-input" value="<?php echo $member['ju_restaurant'];?>" placeholder="상호(법인명)">
+                                          <input type="text" name="company_owner" class="w-per100 frm-input"value="<?php echo $member['ju_name'];?>" placeholder="대표자명">
+                                          <input type="text" name="company_addr" class="w-per100 frm-input"value="<?php echo $member['ju_addr_full'];?>" placeholder="사업장주소">
+                                          <input type="text" name="company_item" class="w-per100 frm-input"value="<?php echo $member['ju_business_type'];?>" placeholder="업태">
+                                          <input type="text" name="company_service" class="w-per100 frm-input"value="<?php echo $member['ju_sectors'];?>" placeholder="업종">
+                                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['cellphone']?>" placeholder="신청자 전화번호">
+                                          <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['email']?>" placeholder="이메일">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                        </div>
+                        </div> -->
+                        <section id="taxsave_section" style="display:none;">
+                          <h2 class="anc_tit">증빙서류 발급</h2>
+                          <div class="odf_tbl">
+                            <div class="form-row">
+                              <div class="form-head" id="cash_receipt_section">
+                                <p class="title">증빙서류 선택</p>
+                              </div>
+                              <div class="form-body">
+                                <ul class="cash-receipt-ul">
+                                  <li>
+                                    <div class="frm-choice">
+                                      <input type="radio" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked id="cash_receipt">
+                                      <label for="cash_receipt">현금영수증</label>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <div class="frm-choice">
+                                      <input type="radio" name="documentType" value="tax_bill" onclick="toggleTaxDocument(this.value);" id="tax_bill1">
+                                      <label for="tax_bill1">세금계산서</label>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <div class="frm-choice">
+                                      <input type="radio" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);" id="no_bill">
+                                      <label for="no_bill">미발행</label>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="form-row" id="cash_bill_section">
+                              <div class="form-head">
+                                <p class="title">현금영수증</p>
+                              </div>
+                              <div class="form-body">
+                                <select name="taxsave_yes" onchange="tax_save(this.value);" class="frm-select w-per100">
+                                  <option value="N">발행안함</option>
+                                  <option value="Y">개인 소득공제용</option>
+                                  <option value="S">사업자 지출증빙용</option>
+                                </select>
+                                <div id="taxsave_fld_1" style="display:none;">
+                                  <input type="text" name="tax_hp" class="w-per100 frm-input" placeholder="핸드폰번호" value="<?php echo $member['cellphone'] ?>">
+                                </div>
+                                <div id="taxsave_fld_2" style="display:none;">
+                                  <input type="text" name="tax_saupja_no" class="w-per100 frm-input" placeholder="사업자등록번호" value="<?php echo $member['ju_b_num'] ?>">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-row" id="tax_bill_section" style="display:none;">
+                              <div class="form-head">
+                                <p class="title">세금계산서</p>
+                              </div>
+                              <div class="form-body">
+                                <select name="taxbill_yes" onchange="tax_bill(this.value);" class="frm-select w-per100">
+                                  <option value="N">발행안함</option>
+                                  <option value="Y">발행요청</option>
+                                </select>
+                                <div id="taxbill_section" style="display:none;">
+                                  <input type="text" name="company_saupja_no" class="w-per100 frm-input" value="<?php echo $member['ju_b_num'] ?>" placeholder="사업자등록번호">
+                                  <input type="text" name="company_name" class="w-per100 frm-input" value="<?php echo $member['ju_restaurant'];?>" placeholder="상호(법인명)">
+                                  <input type="text" name="company_owner" class="w-per100 frm-input"value="<?php echo $member['ju_name'];?>" placeholder="대표자명">
+                                  <input type="text" name="company_addr" class="w-per100 frm-input"value="<?php echo $member['ju_addr_full'];?>" placeholder="사업장주소">
+                                  <input type="text" name="company_item" class="w-per100 frm-input"value="<?php echo $member['ju_business_type'];?>" placeholder="업태">
+                                  <input type="text" name="company_service" class="w-per100 frm-input"value="<?php echo $member['ju_sectors'];?>" placeholder="업종">
+                                  <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['cellphone']?>" placeholder="신청자 전화번호">
+                                  <input type="text" name="" class="w-per100 frm-input"value="<?php echo $member['email']?>" placeholder="이메일">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
 
                         <div id="card_section" style="display:none;" >
                             <p class="order_title">신용카드 선택</p>

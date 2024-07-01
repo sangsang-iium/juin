@@ -137,28 +137,28 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                         <li>
                             <p class="rank_name">은평구지회</p>
                             <p class="rank_money color_type2">
-                                10,250,000
+                                1,25,000
                                 <span class="cnt_unit_text">원</span>
                             </p>
                         </li>
                         <li>
                             <p class="rank_name">강동구지회</p>
-                            <p class="rank_money color_type2">9,002,100
+                            <p class="rank_money color_type2">602,100
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
                             <p class="rank_name">강서구지회</p>
-                            <p class="rank_money color_type2">8,305,000
+                            <p class="rank_money color_type2">1,305,000
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
                             <p class="rank_name">성북구지회</p>
-                            <p class="rank_money color_type2">7,562,000
+                            <p class="rank_money color_type2">2,562,000
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
                             <p class="rank_name">강남구지회</p>
-                            <p class="rank_money color_type2">6,050,000
+                            <p class="rank_money color_type2">12,050,000
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
                     </ol>
@@ -168,27 +168,27 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                     <ol>
                         <li>
                             <p class="rank_name">경기북부지회</p>
-                            <p class="rank_money color_type3">20,040,100
+                            <p class="rank_money color_type3">2,040,100
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
                             <p class="rank_name">경기남부지회</p>
-                            <p class="rank_money color_type3">19,430,200
+                            <p class="rank_money color_type3">3,430,200
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
                             <p class="rank_name">경상북도지회</p>
-                            <p class="rank_money color_type3">17,065,000
+                            <p class="rank_money color_type3">6,065,000
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
                             <p class="rank_name">경상남도지회</p>
-                            <p class="rank_money color_type3">16,054,000
+                            <p class="rank_money color_type3">12,054,000
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
                         <li>
                             <p class="rank_name">강원도지회</p>
-                            <p class="rank_money color_type3">15,505,000
+                            <p class="rank_money color_type3">30,505,000
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
                     </ol>

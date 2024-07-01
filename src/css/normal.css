@@ -1126,6 +1126,10 @@
 .swal2-container.swal2-center > .swal2-popup {width: 100%; padding-bottom: 3.76rem; border-radius: 2rem; overflow: hidden;}
 .swal2-container.swal2-center > .swal2-popup::before {content: ''; display: block; background: url('/src/img/alert-logo.png') no-repeat center var(--color-main); height: 8.8rem; background-size: 8.76rem;}
 .swal2-icon.swal2-warning {width: 8rem; height: 8rem; border: 2px solid #a3a3a3; margin: 4.56rem auto 2.48rem; background: url('/src/img/alert-mark.png') no-repeat center; background-size: 1.12rem;}
+.swal2-icon.swal2-success {height: 8rem; margin: 4.56rem auto 2.48rem; border: none; color: var(--color-main); position: relative;}
+.swal2-icon.swal2-success::before {content: '환영합니다!'; font-weight: 700; font-size: 4rem; color: var(--color-main); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);}
+.swal2-icon.swal2-success  * {display: none!important;}
+
 .swal2-icon .swal2-icon-content {display: none;}
 .swal2-html-container {margin-top: 0; font-weight: 500; font-size: 2.16rem; color: #333; margin-bottom: 3.8rem;}
 .swal2-actions {margin-top: 0;}
@@ -1176,7 +1180,6 @@
 #topMenu .qk-menu .btn {padding: 0;}
 .cp-horizon-menu .btn {font-size: 2.2rem;}
 
-.prod-thumb_area .thumb {top: 50%; left: 50%; transform: translate(-50%,-50%); width: 90%; height: 90%;}
 .cp-live.live-off .thumb {width: 100%; height: 100%;}
 
 .cp-title .icon-box {display: none;}
@@ -1251,3 +1254,28 @@
 .intro-btn02 .icon img {width: 12.56rem;}
 .intro-btn03 .icon img {width: 13.56rem;}
 .intro-btn04 .icon img {width: 12.96rem;}
+
+/* === 2024-06-26 추가 === */
+.line-banner04 {margin-top: 4rem;}
+
+.intro-float-btn {position: fixed; bottom: 11.6rem; left: 2.4rem; z-index: 100;}
+.intro-float-btn a {display: flex; align-items: center; justify-content: center; border-radius: 50%; width: 6rem; height: 6rem; background-color: var(--color-main); box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+.intro-float-btn a img {width: 4.2rem;}
+
+/* === 2024-06-27 추가 === */
+.chat-itemBox .used-item {position: relative;}
+.chat-itemBox .used-item_txtBox .title {padding-right: 7rem;}
+.chat-itemBox .used-item .used-block-btn {border: none; font-size: 1.4rem; position: absolute; top: 2.2rem; right: 0;}
+
+.used-my-btn-wr {padding-top: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0 1rem;}
+.used-my-btn-wr .ui-btn {width: calc((100% - 1rem) / 2); border-radius: 0.4rem;}
+
+.blocked-user_list {}
+.blockedUser-item {padding: 1.67rem 0; border-bottom: 1px solid #e9e9e9; display: flex; flex-flow: row wrap; justify-content: space-between; align-items: center;}
+.blockedUser-left {}
+.blockedUser-left .user-id {font-weight: 700; font-size: 2rem; color: var(--color-main);}
+.blockedUser-right {display: flex; align-items: center;}
+.blockedUser-right .blocked-date {text-align: center; font-weight: 500; font-size: 1.6rem; color: var(--color-black); line-height: 1.3; margin-right: 1.8rem;}
+.blockedUser-right .blocked-date span {display: block;}
+
+.blockedUser-right .ui-btn {color: #fff; text-align: center; border-radius: 0.4rem; background-color: var(--color-main); padding: 1rem 1.2rem;}

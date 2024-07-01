@@ -3282,6 +3282,7 @@ function get_search_level($field, $value, $start_id=2, $end_id=9)
 // 상품 진열,1
 function display_itemtype($mb_id, $type, $rows='')
 {
+  // b.it_type2_order 추가 _20240628_SY
 	$sql = " select a.*
 			   from shop_goods a left join shop_goods_type b on (a.index_no=b.gs_id)
 			  where b.mb_id = '$mb_id'
@@ -3289,7 +3290,7 @@ function display_itemtype($mb_id, $type, $rows='')
 				and a.isopen IN ('1','2')
 				and find_in_set('$mb_id', a.use_hide) = '0'
 				and b.it_type{$type} = '1'
-			  order by a.index_no desc ";
+			  order by b.it_type2_order, a.index_no desc ";
 	if($rows) $sql .= " limit $rows ";
 	$result = sql_query($sql);
 	$type_count = sql_num_rows($result);
@@ -3301,7 +3302,7 @@ function display_itemtype($mb_id, $type, $rows='')
 					and a.isopen IN ('1','2')
 					and find_in_set('$mb_id', a.use_hide) = '0'
 					and b.it_type{$type} = '1'
-				  order by a.index_no desc ";
+				  order by b.it_type2_order, a.index_no desc ";
 		if($rows) $sql .= " limit $rows ";
 		$result = sql_query($sql);
 	}

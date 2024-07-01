@@ -163,6 +163,20 @@ $(document).ready(function () {
   };
   const mainLineBanner03Slider = f.slider(mainLineBanner03Target, mainLineBanner03Options);
 
+  //Main line Banner04
+  const mainLineBanner04Target = '.line-banner04 .swiper-container';
+  const mainLineBanner04Options = {
+    slidesPerView: 1,
+    loop: true,
+    loopAdditionalSlides: 1,
+    autoplay: {
+      delay: 3000,
+    },
+    speed: 1000,
+    centeredSlides: true,
+  };
+  const mainLineBanner04Slider = f.slider(mainLineBanner04Target, mainLineBanner03Options);
+
   //Main Best Slide
   const mainBestTarget = '.main_best-slide .swiper-container';
   const mainBestOptions = {
