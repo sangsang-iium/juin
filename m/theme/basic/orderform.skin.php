@@ -1422,14 +1422,16 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         </div>
       </div>
     </form>
-    <?php
-      if($_SERVER['REMOTE_ADDR'] == '106.247.231.170'){
-    ?>
-    <div id="btn_confirm2" class="btn_confirm" style="">
-      <button class="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
-    </div>
+
+      <?php
+      if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
+        ?>
+          <div id="btn_confirm2" class="btn_confirm" style="">
+            <button type="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
+          </div>
+        <?php
+      }?>
   </div>
-  <?php } ?>
 </div>
 
 <!--쿠폰 팝업 { -->
