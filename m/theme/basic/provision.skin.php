@@ -8,7 +8,7 @@ $message = [
     'body' => 'This is a test notification.'
 ];
 
-echo $response = sendFCMMessage($message);
+$response = sendFCMMessage($message);
 
 ?>
 
