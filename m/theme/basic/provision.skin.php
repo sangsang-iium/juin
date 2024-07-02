@@ -1,7 +1,6 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
-$serviceAccountPath = $_SERVER["DOCUMENT_ROOT"] . '/google_server_key.json';
 $projectID = "juinjang-d0b59";
 
 // 메시지 전송 예제
@@ -12,9 +11,6 @@ $message = [
 ];
 
 $response = sendFCMMessage($projectID, $token, $message);
-echo $response;
-
-
 
 ?>
 
