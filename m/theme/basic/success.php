@@ -72,3 +72,11 @@ $or_insert['version']                   = $toss_run->version;
 // $or_where = "WHERE od_id = {$od_id}";
 $tran_id = $orderInsert->insert('toss_transactions', $or_insert);
 
+$orderModel     = new IUD_Model();
+$up_table       = "shop_order";
+$up_data['dan'] = 2;
+$up_where       = "WHERE od_id = '{$orderId}'";
+
+$orderModel->update($up_table, $up_data, $up_where);
+
+goto_url(BV_URL . '/m/shop/orderinquiryview.php?od_id=' . $orderId . '&reg_yn=2&tran_id=' . $tran_id);

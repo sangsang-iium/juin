@@ -160,8 +160,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $sum = sql_fetch($sql);
 
         $it_name = stripslashes($gs['gname']);
+        $it_name_arr[] = $it_name;
         $it_options = mobile_print_item_options($row['gs_id'], $set_cart_id);
-          
+
         // $point = $sum['point']; // 주석처리 박원주
         //포인트 관련 부분 수정  박원주
           $point +=$gpoint;
@@ -1421,10 +1422,14 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         </div>
       </div>
     </form>
-    <div id="btn_confirm2" class="btn_confirm" style="display:none">
+    <?php
+      if($_SERVER['REMOTE_ADDR'] == '106.247.231.170'){
+    ?>
+    <div id="btn_confirm2" class="btn_confirm" style="">
       <button class="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
     </div>
   </div>
+  <?php } ?>
 </div>
 
 <!--쿠폰 팝업 { -->
@@ -2070,6 +2075,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         eleLayer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
     }
 </script>
+<script src="https://js.tosspayments.com/v1/payment-widget"></script>
 <script>
 
 
@@ -2077,10 +2083,12 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   const button = document.getElementById("payment-button");
   const coupon = document.getElementById("coupon-box");
   const odId = '<?php echo get_session('ss_order_id'); ?>';
+  var totalPirceStr = $("input[name=tot_price]").val();
+  var totalPirce = totalPirceStr.replace(/,/g, '');
 
   const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
   const customerKey = '<?php echo $member['id']?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
-  var amount = 2000;
+  var amount = totalPirce;
 
   const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
     // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
@@ -2113,21 +2121,36 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       paymentMethodWidget.updateAmount(amount);
     }
   });
-
-  var formSubmitOrder = $("#buyform").serialize();
+  <?php
+  $itArrCount = count($it_name_arr);
+  if ($itArrCount > 1) {
+    $itName = $it_name_arr[0] . ' 외 ' . ($itArrCount - 1) . "건";
+  } else {
+    $itName = $it_name_arr[0];
+  }
+  ?>
   // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
   // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
   button.addEventListener("click", function () {
+    var formSubmitOrder = $("#buyform").serialize();
+    $.ajax({
+      type: 'post',
+      url: '/m/shop/normalPayment.php',
+      data: formSubmitOrder,
+      success: function(data) {
+        console.log(data)
+      }
+    });
     // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
     // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
     paymentWidget.requestPayment({
       orderId: odId,
-      orderName: "토스 티셔츠 외 2건",
+      orderName: "<?php echo $itName?>",
       successUrl: window.location.origin+"/m/theme/basic/success.php",
       failUrl: window.location.origin + "/m/theme/basic/fail.php",
-      customerEmail: "jjh@iium.kr",
-      customerName: "김토스",
-      customerMobilePhone: "01068620286",
+      customerEmail: "<?php echo $member['email']?>",
+      customerName: "<?php echo $member['name'] ?>",
+      customerMobilePhone: "<?php echo preg_replace('/\D/', '', $member['cellphone']);?>",
     });
   });
 
