@@ -146,7 +146,7 @@ EOF;
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td>			
-			<input type="hidden" name="cp_id[<?php echo $i; ?>]" value="<?php echo $cp_id; ?>">
+			<input type="hidden" name="index_no[<?php echo $i; ?>]" value="<?php echo $index_no; ?>">
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
 		</td>
 		<td><?php echo $num--; ?></td>

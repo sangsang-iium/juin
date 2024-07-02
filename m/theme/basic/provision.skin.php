@@ -1,5 +1,17 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
+
+$projectID = "juinjang-d0b59";
+
+// 메시지 전송 예제
+$message = [
+    'token' => $member['fcm_token'], // 수신자의 디바이스 토큰
+    'title' => 'Hello',
+    'body' => 'This is a test notification.'
+];
+
+$response = sendFCMMessage($projectID, $token, $message);
+
 ?>
 
 <!-- <h2 class="pop_title">
