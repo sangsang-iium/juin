@@ -10,15 +10,14 @@ $credential = "live_sk_vZnjEJeQVxKlJ066Ep6Y3PmOoBN0";
 $paymentKey = $_GET['paymentKey'];
 $orderId    = $_GET['orderId'];
 $amount     = $_GET['amount'];
-$TossRun  = new Tosspay();
-$toss_run = $TossRun->normalPay($paymentKey, $orderId, $amount, $credential);
-
+$TossRun    = new Tosspay();
+$toss_run   = $TossRun->normalPay($paymentKey, $orderId, $amount, $credential);
 
 if ($toss_acc->code) {
   if ($resulturl == 'pc') {
-    alert("가상계좌 결제 오류 ".$t_amount. $t_orderid .$t_ordername .$t_name. $t_email .$t_bank .$customerMobilePhone, '/mng/shop/cart.php');
+    alert("가상계좌 결제 오류 " . $t_amount . $t_orderid . $t_ordername . $t_name . $t_email . $t_bank . $customerMobilePhone, '/mng/shop/cart.php');
   } else {
-    alert("가상계좌 결제 오류 ".$t_amount .$t_orderid .$t_ordername .$t_name .$t_email .$t_bank.$customerMobilePhone, BV_MSHOP_URL . '/cart.php');
+    alert("가상계좌 결제 오류 " . $t_amount . $t_orderid . $t_ordername . $t_name . $t_email . $t_bank . $customerMobilePhone, BV_MSHOP_URL . '/cart.php');
   }
 }
 
@@ -73,3 +72,11 @@ $or_insert['version']                   = $toss_run->version;
 // $or_where = "WHERE od_id = {$od_id}";
 $tran_id = $orderInsert->insert('toss_transactions', $or_insert);
 
+$orderModel     = new IUD_Model();
+$up_table       = "shop_order";
+$up_data['dan'] = 2;
+$up_where       = "WHERE od_id = '{$orderId}'";
+
+$orderModel->update($up_table, $up_data, $up_where);
+
+goto_url(BV_URL . '/mng/shop/orderinquiryview.php?od_id=' . $orderId . '&reg_yn=2&tran_id=' . $tran_id);
