@@ -90,7 +90,7 @@ if(!defined('_BLUEVATION_')) exit;
     <div class="joinDetail-box">
       <div class="container">
         <div class="joinDetail-head">
-          <p class="joinDetail-title">중앙회원 등록</p>
+          <p class="joinDetail-title">중앙회원 정보</p>
           <!-- 담당자 조회하기 팝업 { -->
           <div class="popup type01" id="popMemberSch">
             <div class="pop-inner">
@@ -140,13 +140,12 @@ if(!defined('_BLUEVATION_')) exit;
           <!-- 지회/지부 정보 _20240608_SY -->
           <div class="form-row">
             <div class="form-head">
-              <!-- <p class="title">지회/지부</p> -->
               <p class="title">담당 조직</p>
             </div>
             <div class="form-body">
               <input type="hidden" name="ju_region2" value="<?php echo ($w=='') ? (int)$_POST['BRANCH_CODE'] : $member['ju_region2'] ?>" class="frm-input w-per100" >
               <input type="hidden" name="ju_region3" value="<?php echo ($w=='') ? (int)$_POST['OFFICE_CODE'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
-              <input type="text" name="ju_region_code" value="<?php echo ($w=='u') ? $jibu_name : "" ?>" class="frm-input w-per100" readonly>
+              <input type="text" name="ju_region_code" value="<?php echo ($w=='u') ? $jibu_name : $_POST['OFFICE_NAME'] ?>" class="frm-input w-per100" readonly>
             </div>
           </div>
           <div class="form-row">
@@ -154,6 +153,7 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="title">담당직원<b>*</b></p>
             </div>
             <div class="form-body">
+              <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch" style="margin-bottom:0.8rem">담당직원 조회하기</button>
               <input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="<?php echo $mng_sel_row['name']; ?>" placeholder="" readonly>
               <input type="hidden" name="mn_idx" id="mn_idx" value="<?php echo $mng_sel_row['index_no']; ?>">
             </div>
@@ -1022,10 +1022,9 @@ $('.pop-result').on('click', '.pop-result-item', function() {
 function getManager() {
   let search_input = document.querySelector('#KFIA_search');
   let search_words = search_input.value;
-  let reset_words = "<?php echo $_POST['OFFICE_NAME']?>"
 
   // reset_words 추가 _2240702_SY
-  let reset_words = ""
+  let reset_words = String
   if(w == '') {
     reset_words = "<?php echo $_POST['OFFICE_NAME']?>"
   }
@@ -1063,11 +1062,7 @@ function getManager() {
       type: "POST",
       data: { 
         "type" : "reset",
-<<<<<<< Updated upstream
         "mcode" : reset_words 
-=======
-        "mcode" : search_words 
->>>>>>> Stashed changes
       },
       dataType: "JSON",
       success: function(data) {
@@ -1083,38 +1078,6 @@ function getManager() {
           html += '</div>';
         }
         search_resIn.innerHTML = html;
-<<<<<<< Updated upstream
-=======
-        
-        $('.pop-result').on('click', '.pop-result-item', function() {  
-          $('.pop-result-item').css("border", "");
-          $(this).css("border", "solid");
-
-          let nm     = $(this).find('.pop-result-title').text();
-          let id     = $(this).find('.pop-result-text:eq(0)').text();
-          // 지회/지부 노출로 수정 _202040625_SY
-          let regionArr = $(this).find('.pop-result-text:eq(1)').text().split(' ');
-          // let region1 = $(this).find('.pop-result-text:eq(1)').text().split('/')[1].trim();
-          // let region2 = $(this).find('.pop-result-text:eq(1)').text().split('/')[2].trim();
-          let region1 = regionArr[2].split('/')[0].trim();
-          let region2 = regionArr[2].split('/')[1].trim();
-          let idx    = $(this).find('.pop-result-text:eq(2)').val();
-          let full_region = region1 + " / " + region2
-          console.log(full_region)
-          
-          // 팝업 닫기
-          $('#info_ok').on('click', function() {
-            $('#pop_nm').val(nm);
-            $('#mn_idx').val(idx);
-            // $("input[name=ju_region_code]").val(region2);
-            $("input[name=ju_region_code]").val(full_region);
-
-            $('#popMemberSch').hide();
-            $('.popDim').hide();
-            $('#pop_nm').focus();
-          })
-        });
->>>>>>> Stashed changes
       }
     });
     return false;
