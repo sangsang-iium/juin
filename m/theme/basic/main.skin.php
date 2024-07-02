@@ -300,20 +300,17 @@ while ($cate_row = sql_fetch_array($cate_res)) {
 <!-- } 띠 배너 3 -->
 
 <!-- 띠 배너 4 { -->
-<div class="line-banner-section line-banner04">
+<!-- <div class="line-banner-section line-banner04">
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <!-- 배너 { -->
-       <!-- 선풍기 기획전으로 링크 변경 _20240627_SY -->
       <a href="/m/shop/list.php?ca_id=006011" class="swiper-slide banner-item">
         <div class="banner-img">
           <img src="/src/img/mainbanner4_fan.jpg" alt="">
         </div>
       </a>
-      <!-- } 배너 -->
     </div>
   </div>
-</div>
+</div> -->
 <!-- } 띠 배너 4 -->
 
 <!-- 라이브 { -->
