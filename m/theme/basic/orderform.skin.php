@@ -1419,18 +1419,18 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </p>
           </button>
           -->
+          <?php if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+          <button type="button" class="btn_medium btn-buy" id="payment-button" style="display:none;">결제하기</button>
+          <?php } ?>
         </div>
       </div>
     </form>
 
-      <?php
-      if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
-        ?>
-          <div id="btn_confirm2" class="btn_confirm" style="">
-            <button type="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
-          </div>
-        <?php
-      }?>
+      <?php if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+      <!-- <div id="btn_confirm2" class="btn_confirm" style="">
+        <button type="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
+      </div> -->
+      <?php } ?>
   </div>
 </div>
 
@@ -1844,6 +1844,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
         $("#refund_section").show();
 
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
+
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").show();
         <?php } ?>
@@ -1863,6 +1867,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
         $("#refund_section").hide();
 
+        // 버튼처리
+        $('#order-button').hide();
+        $('#payment-button').show();
+
         break;
       case '신용카드':
         orderButton.disabled = false;
@@ -1871,6 +1879,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $("#toss_section").hide();
         $("#refund_section").hide();
         $("#taxsave_section").hide();
+
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
         break;
 
       case '포인트':
@@ -1882,6 +1894,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         calculate_order_price();
 
         $("#refund_section").hide();
+
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
 
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").hide();
@@ -1900,6 +1916,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         calculate_order_price();
 
         $("#refund_section").hide();
+
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
 
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").hide();
