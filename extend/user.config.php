@@ -588,7 +588,7 @@ function getMenuFunc($menu, $link, $code) {
 
 }
 
-  // 사업자 번호 하이픈(-)추가 _20240604_SY
+// 사업자 번호 하이픈(-)추가 _20240604_SY
 function formatBno($no) {
   $no = preg_replace('/[^0-9]/', '', $no);
   if (strlen($no) !== 10) {
