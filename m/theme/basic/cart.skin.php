@@ -42,8 +42,19 @@ if(!defined('_BLUEVATION_')) exit;
             <span>정기</span>
           </a>
         </div>
+        <!-- paytype == 3 | 렌탈 추가 _20240701_SY -->
+        <div class="regular-tab-item">
+          <a href="/m/shop/cart.php?paytype=3" class="tab-btn <?php echo $paytype == "3" ? "active" : "" ?>">
+            <span>
+              <svg width="63" height="62" viewBox="0 0 63 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M57.8342 16.7087L38.4592 6.05242C38.1731 5.89503 37.8518 5.8125 37.5253 5.8125C37.1987 5.8125 36.8775 5.89503 36.5914 6.05242L17.2164 16.7087C16.9126 16.8759 16.6593 17.1216 16.4829 17.4202C16.3064 17.7187 16.2134 18.0591 16.2134 18.4059C16.2134 18.7527 16.3064 19.0931 16.4829 19.3917C16.6593 19.6902 16.9126 19.9359 17.2164 20.1032L35.5878 30.2072V50.9753L29.7055 47.7397L27.8378 51.1322L36.5914 55.9469C36.8775 56.1043 37.1987 56.1868 37.5253 56.1868C37.8518 56.1868 38.1731 56.1043 38.4592 55.9469L57.8342 45.2907C58.138 45.1235 58.3915 44.8778 58.568 44.5793C58.7446 44.2807 58.8377 43.9403 58.8378 43.5934V18.4059C58.8377 18.0591 58.7446 17.7186 58.568 17.4201C58.3915 17.1215 58.138 16.8758 57.8342 16.7087ZM37.5253 9.96229L52.88 18.4059L37.5253 26.8495L22.1706 18.4059L37.5253 9.96229ZM54.9628 42.4484L39.4628 50.9734V30.2053L54.9628 21.6803V42.4484Z" fill="#999999"/>
+                <path d="M20.0879 31H4.58789V27.125H20.0879V31ZM23.9629 46.5H8.46289V42.625H23.9629V46.5ZM27.8379 38.75H12.3379V34.875H27.8379V38.75Z" fill="#999999"/>
+              </svg>
+            </span>
+            <span>렌탈</span>
+          </a>
+        </div>
       </div>
-
     </div>
 
     <?php if($cart_count) { ?>
@@ -194,11 +205,13 @@ if(!defined('_BLUEVATION_')) exit;
             }
           }
 
+          
           // 항상 출력되는 부분
+          // paytype == 3 | 렌탈 추가 _20240701_SY
           echo '<div class="cp-cart-item">';
           echo '<div class="cart-label g">';
           echo '<div class="cart-label-img"></div>';
-          echo '<p class="cart-label-text">일반배송</p>';
+          echo $paytype == "3" ? '<p class="cart-label-text">렌탈</p>' : '<p class="cart-label-text">일반배송</p>';
           echo '</div>';
           echo '<input type="hidden" name="gs_id[' . $i . ']" value="' . $row['gs_id'] . '">';
           echo '<div class="cp-cart-head">';
@@ -355,7 +368,7 @@ if(!defined('_BLUEVATION_')) exit;
         <button type="button" onclick="return form_check('buy');" class="btn_medium btn-buy">
           <p class="price">
             <?php // echo display_price2($tot_price); ?>
-            <span class="txt"> 구매하기</span>
+            <span class="txt"> <?php echo $paytype == '3' ? "신청하기" : "구매하기" ?></span>
           </p>
         </button>
         <!-- <div><button type="button" onclick="return form_check('seldelete');" class="btn01">선택삭제</button>

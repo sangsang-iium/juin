@@ -93,13 +93,13 @@ require_once BV_SHOP_PATH . '/settle_kakaopay.inc.php';
 }
 #contents {width: 1400px; max-width: 100%; margin: 0 auto !important;}
 
-/* 
+/*
 #buyform .btn_confirm {position: inherit; bottom: inherit; left: inherit; box-shadow: none;}
 */
 
 #sod_frm_pay .sod_frm_pay_ul {display: flex; flex-flow: row wrap; gap: 10px 20px;}
 #sod_frm .odf_tbl table tbody td,
-#sod_frm .odf_tbl table tbody th {font-size: 1.8rem; border: 1px solid #ddd} 
+#sod_frm .odf_tbl table tbody th {font-size: 1.8rem; border: 1px solid #ddd}
 </style>
 
 <!-- 김민규 stlyesheet 추가 -->
@@ -155,6 +155,7 @@ for ($i = 0; $row = sql_fetch_array($result); $i++) {
   $sum = sql_fetch($sql);
 
   $it_name    = stripslashes($gs['gname']);
+  $it_name_arr[] = $it_name;
   $it_options = mobile_print_item_options($row['gs_id'], $set_cart_id);
 
   $point          = $sum['point'];
@@ -297,7 +298,7 @@ $row_card = sql_fetch($sql_card);
       <input type="hidden" name="resulturl" value="pc">
       <!-- reg_yn 상단으로 뺌 _20240625_SY -->
       <input type="hidden" name="reg_yn" value="<?php echo $gs['reg_yn'] ?>">
-      
+
     <div class="order_wrap">
         <div class="order_left">
             <div id="od-prod" class="order_box">
@@ -567,8 +568,14 @@ $row_card = sql_fetch($sql_card);
                                 $multi_settle .= "</div>\n";
                                 $multi_settle .= "</li>\n";
                             }
-                            if ($default['de_bank_use']) {
+                            if ($default['de_bank_use'] && $gs['reg_yn'] == 2 ) {
                                 // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
+                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"일반\" id=\"de_normal\">\n";
+                                $multi_settle .= "<label for=\"de_normal\">일반</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
                                 $multi_settle .= "<li>\n";
                                 $multi_settle .= "<div class=\"frm-choice\">\n";
                                 $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
@@ -576,8 +583,14 @@ $row_card = sql_fetch($sql_card);
                                 $multi_settle .= "</div>\n";
                                 $multi_settle .= "</li>\n";
                             }
-                            if ($default['de_card_use']) {
+                            if ($default['de_card_use'] &&  $gs['reg_yn'] == 1 ) {
                                 // $multi_settle .= "<option value='신용카드'>신용카드</option>\n";
+                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
+                                $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
                                 $multi_settle .= "<li>\n";
                                 $multi_settle .= "<div class=\"frm-choice\">\n";
                                 $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"신용카드\" id=\"de_card\">\n";
@@ -652,6 +665,17 @@ $row_card = sql_fetch($sql_card);
                             </ul>
                         </div>
 
+                        <section id="toss_section" style="display:none;">
+                          <div id="payment-method"></div>
+                          <div id="agreement"></div>
+                          <div class="checkable typography--p" style="padding-left: 25px">
+                            <label for="coupon-box" class="checkable__label typography--regular" style="display:none">
+                              <input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true" disabled />
+                              <span class="checkable__label-text">5,000원 쿠폰 적용</span>
+                            </label>
+                          </div>
+                        </section>
+
                         <div id="bank_section" style="display:none;" class="mart50">
                             <p class="order_title">입금하실 계좌</p>
                             <div class="info-list">
@@ -667,7 +691,7 @@ $row_card = sql_fetch($sql_card);
                                         </select>
                                     </div>
                                 </div>
-                                <div class="info-item">            
+                                <div class="info-item">
                                     <p class="tit">휴대전화</p>
                                     <input type="text" name="customerMobilePhone" value="" class="frm-input">
                                 </div>
@@ -691,11 +715,11 @@ $row_card = sql_fetch($sql_card);
                                     ?>
                                     <input type="text" name="refund_bank" value="<?php echo $refund_bank_name ?>" class="frm-input" id="refund_bank">
                                 </div>
-                                <div class="info-item">            
+                                <div class="info-item">
                                     <p class="tit">계좌번호</p>
                                     <input type="text" name="refund_num" value="<?php echo $member['refund_num'] ?>" class="frm-input" id="refund_num">
                                 </div>
-                                <div class="info-item">            
+                                <div class="info-item">
                                     <p class="tit">예금주</p>
                                     <input type="text" name="refund_name" value="<?php echo $member['refund_name'] ?>" class="frm-input w-per100" id="refund_name">
                                 </div>
@@ -709,7 +733,7 @@ $row_card = sql_fetch($sql_card);
                                     <p class="tit">증빙서류 선택</p>
                                     <ul class="radio_group">
                                         <li class="radios">
-                                          <input type="radio" id="cash_receipt" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked> 
+                                          <input type="radio" id="cash_receipt" name="documentType" value="cash_receipt" onclick="toggleTaxDocument(this.value);" checked>
                                           <label for="cash_receipt">현금영수증</label>
                                         </li>
                                         <li class="radios">
@@ -717,12 +741,12 @@ $row_card = sql_fetch($sql_card);
                                           <label for="tax_bill1">세금계산서</label>
                                         </li>
                                         <li class="radios">
-                                          <input type="radio" id="no_bill" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);"> 
+                                          <input type="radio" id="no_bill" name="documentType" value="no_bill" onclick="toggleTaxDocument(this.value);">
                                           <label for="no_bill">미발행</label>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="info-item" id="cash_bill_section">            
+                                <div class="info-item" id="cash_bill_section">
                                     <p class="tit">현금영수증</p>
                                     <div class="tax_info_box">
                                         <div class="chk_select">
@@ -968,7 +992,7 @@ $row_card = sql_fetch($sql_card);
                 </ul>
             </div>
             <div class="btn_confirm" class="btn_confirm">
-                <input type="submit" value="주문하기" class="btn_medium btn-buy">
+                <input type="submit" id="order-button" value="주문하기" class="btn_medium btn-buy">
             </div>
         </div>
 
@@ -976,6 +1000,9 @@ $row_card = sql_fetch($sql_card);
     </div>
 
     </form>
+     <div id="btn_confirm2" class="btn_confirm" style="">
+      <button class="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
+    </div>
   </div>
 </div>
 
@@ -1019,66 +1046,7 @@ $row_card = sql_fetch($sql_card);
   </div>
 </div>
 <!-- } 배송지 추가 팝업 -->
-<!-- <script>
 
-  const button = document.getElementById("payment-button");
-  const coupon = document.getElementById("coupon-box");
-  const odId = '<?php echo get_session('ss_order_id'); ?>';
-
-  const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
-  const customerKey = '<?php echo $member['id'] ?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
-  var amount = 2000;
-
-  const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
-    // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
-    // ------  결제 UI 렌더링 ------
-    // @docs https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
-  paymentMethodWidget = paymentWidget.renderPaymentMethods(
-    "#payment-method",
-    { value: amount },
-    // 렌더링하고 싶은 결제 UI의 variantKey
-    // 결제 수단 및 스타일이 다른 멀티 UI를 직접 만들고 싶다면 계약이 필요해요.
-    // @docs https://docs.tosspayments.com/guides/payment-widget/admin#멀티-결제-ui
-    { variantKey: "DEFAULT" }
-  );
-  // ------  이용약관 UI 렌더링 ------
-  // @docs https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자-옵션
-  paymentWidget.renderAgreement("#agreement", { variantKey: "AGREEMENT" });
-
-  //  ------  결제 UI 렌더링 완료 이벤트 ------
-  paymentMethodWidget.on("ready", function () {
-    button.disabled = false;
-    coupon.disabled = false;
-  });
-
-  // ------  결제 금액 업데이트 ------
-  // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
-  coupon.addEventListener("change", function () {
-    if (coupon.checked) {
-      paymentMethodWidget.updateAmount(amount - 5000);
-    } else {
-      paymentMethodWidget.updateAmount(amount);
-    }
-  });
-
-  var formSubmitOrder = $("#buyform").serialize();
-  // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-  // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
-  button.addEventListener("click", function () {
-    // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
-    // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
-    paymentWidget.requestPayment({
-      orderId: odId,
-      orderName: "토스 티셔츠 외 2건",
-      successUrl: window.location.origin+"/m/theme/basic/success.php",
-      failUrl: window.location.origin + "/fail.php",
-      customerEmail: "jjh@iium.kr",
-      customerName: "김토스",
-      customerMobilePhone: "01068620286",
-    });
-  });
-
-</script> -->
 <script type="module">
   import * as f from '/src/js/function.js';
 
@@ -1195,7 +1163,7 @@ $row_card = sql_fetch($sql_card);
     var tot_price = sell_price + send_cost2 - (mb_coupon + mb_point);
 
     $("input[name=tot_price]").val(number_format(String(tot_price)));
-    console.log($("input[name=tot_price]").val());
+    // console.log($("input[name=tot_price]").val());
   }
 
   function fbuyform_submit(f) {
@@ -1421,8 +1389,18 @@ $row_card = sql_fetch($sql_card);
 
       return;
     }
+
+    const orderButton = document.getElementById('order-button');
+    const paymentButton = document.getElementById('payment-button');
+
+    orderButton.disabled = true;
+    orderButton.classList.add('btn-disabled');
+    paymentButton.disabled = true;
+    paymentButton.classList.add('btn-disabled');
+
     switch (type) {
       case '무통장':
+        orderButton.disabled = false;
         $("#bank_section").show();
         $("#card_section").hide();
         $("#toss_section").hide();
@@ -1437,6 +1415,7 @@ $row_card = sql_fetch($sql_card);
         <?php }?>
         break;
       case '일반':
+        paymentButton.disabled = false;
         $("#toss_section").show();
         $("#card_section").hide();
         $("#bank_section").hide();
@@ -1452,6 +1431,7 @@ $row_card = sql_fetch($sql_card);
 
         break;
       case '신용카드':
+        orderButton.disabled = false;
         $("#card_section").show();
         $("#bank_section").hide();
         $("#toss_section").hide();
@@ -1459,6 +1439,7 @@ $row_card = sql_fetch($sql_card);
         $("#taxsave_section").hide();
         break;
       case '포인트':
+        orderButton.disabled = false;
         $("#bank_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
         $("input[name=use_point]").attr("readonly", true);
@@ -1474,6 +1455,7 @@ $row_card = sql_fetch($sql_card);
         <?php }?>
         break;
       default: // 그외 결제수단
+        orderButton.disabled = false;
         $("#bank_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
@@ -1593,3 +1575,86 @@ textarea.od-dtn__contact,	.wfull,input.od-dtn__contact{font-size:2.16rem !import
     color: var(--color-gray2);
     background-color: var(--color-gray);}
 </style>
+
+<script src="https://js.tosspayments.com/v1/payment-widget"></script>
+<script>
+
+  const button = document.getElementById("payment-button");
+  const coupon = document.getElementById("coupon-box");
+  const odId = '<?php echo get_session('ss_order_id'); ?>';
+  var totalPirceStr = $("input[name=tot_price]").val();
+  var totalPirce = totalPirceStr.replace(/,/g, '');
+
+  console.log(totalPirce);
+
+  const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
+  const customerKey = '<?php echo $member['id'] ?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
+  var amount = totalPirce;
+
+  const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
+    // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
+    // ------  결제 UI 렌더링 ------
+    // @docs https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
+  paymentMethodWidget = paymentWidget.renderPaymentMethods(
+    "#payment-method",
+    { value: amount },
+    // 렌더링하고 싶은 결제 UI의 variantKey
+    // 결제 수단 및 스타일이 다른 멀티 UI를 직접 만들고 싶다면 계약이 필요해요.
+    // @docs https://docs.tosspayments.com/guides/payment-widget/admin#멀티-결제-ui
+    { variantKey: "DEFAULT" }
+  );
+  // ------  이용약관 UI 렌더링 ------
+  // @docs https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자-옵션
+  paymentWidget.renderAgreement("#agreement", { variantKey: "AGREEMENT" });
+
+  //  ------  결제 UI 렌더링 완료 이벤트 ------
+  paymentMethodWidget.on("ready", function () {
+    button.disabled = false;
+    coupon.disabled = true;
+  });
+
+  // ------  결제 금액 업데이트 ------
+  // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
+  <?php
+    $itArrCount = count($it_name_arr);
+    if ($itArrCount > 1) {
+      $itName = $it_name_arr[0] . ' 외 ' . ($itArrCount - 1) . "건";
+    } else {
+      $itName = $it_name_arr[0];
+    }
+  ?>
+  coupon.addEventListener("change", function () {
+    if (coupon.checked) {
+      paymentMethodWidget.updateAmount(amount - 5000);
+    } else {
+      paymentMethodWidget.updateAmount(amount);
+    }
+  });
+
+
+  // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+  // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
+  button.addEventListener("click", function () {
+    var formSubmitOrder = $("#buyform").serialize();
+    $.ajax({
+      type: 'post',
+      url: '/m/shop/normalPayment.php',
+      data: formSubmitOrder,
+      success: function(data) {
+        console.log(data)
+      }
+    });
+    // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
+    // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
+    paymentWidget.requestPayment({
+      orderId: odId,
+      orderName: "<?php echo $itName?>",
+      successUrl: window.location.origin+"/m/theme/basic/success_mng.php",
+      failUrl: window.location.origin + "/m/theme/basic/fail_mng.php",
+      customerEmail: "<?php echo $member['email'] ?>",
+      customerName: "<?php echo $member['name'] ?>",
+      customerMobilePhone: "<?php echo preg_replace('/\D/', '', $member['cellphone']); ?>",
+    });
+  });
+
+</script>

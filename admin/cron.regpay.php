@@ -89,7 +89,9 @@ while ($row = sql_fetch_array($res)) {
 
 $orderIds   = array_unique(array_column($deliveryTargets, 'orderId'));
 $orderIdsIn = implode(", ", $orderIds);
-
+if(count($orderIds) <= 0) {
+  die;
+}
 $sqlOdShop = "SELECT * FROM shop_order_reg
             WHERE od_id IN ({$orderIdsIn})";
 $resOdShop    = sql_query($sqlOdShop);

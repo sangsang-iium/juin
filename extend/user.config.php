@@ -606,3 +606,101 @@ function mb_basename($path, $suffix = '') {
 
   return $basename;
 }
+
+
+//fcm _20240701_SY
+
+$serviceAccountPath = $_SERVER["DOCUMENT_ROOT"] . '/google_server_key.json';
+
+// JWT 생성 및 OAuth2 토큰 획득
+$scope = 'https://www.googleapis.com/auth/firebase.messaging';
+$jwt = createJWT($serviceAccountPath, $scope);
+$token = getOAuth2Token($jwt);
+
+function createJWT($serviceAccountPath, $scope) {
+  $now = time();
+  $key = json_decode(file_get_contents($serviceAccountPath), true);
+
+  $header = [
+      'alg' => 'RS256',
+      'typ' => 'JWT'
+  ];
+  $payload = [
+      'iss' => $key['client_email'],
+      'scope' => $scope,
+      'aud' => 'https://oauth2.googleapis.com/token',
+      'iat' => $now,
+      'exp' => $now + 3600
+  ];
+
+  $base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(json_encode($header)));
+  $base64UrlPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(json_encode($payload)));
+
+  $signature = '';
+  $privateKey = $key['private_key'];
+  openssl_sign($base64UrlHeader . "." . $base64UrlPayload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
+  $base64UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
+
+  $jwt = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
+  return $jwt;
+}
+
+// OAuth2 토큰 요청 함수
+function getOAuth2Token($jwt) {
+  $url = 'https://oauth2.googleapis.com/token';
+  $headers = [
+      'Content-Type: application/x-www-form-urlencoded'
+  ];
+  $data = [
+      'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      'assertion' => $jwt
+  ];
+
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+
+  $response = curl_exec($ch);
+  if ($response === FALSE) {
+      die('Curl failed: ' . curl_error($ch));
+  }
+
+  curl_close($ch);
+  $jsonResponse = json_decode($response, true);
+  return $jsonResponse['access_token'];
+}
+
+
+// FCM 메시지 전송 함수
+function sendFCMMessage($projectId, $token, $message) {
+  $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
+  $headers = [
+      "Authorization: Bearer {$token}",
+      'Content-Type: application/json'
+  ];
+  $data = [
+      'message' => [
+          'token' => $message['token'],
+          'notification' => [
+              'title' => $message['title'],
+              'body' => $message['body']
+          ]
+      ]
+  ];
+
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+  $response = curl_exec($ch);
+  if ($response === FALSE) {
+      die('Curl failed: ' . curl_error($ch));
+  }
+
+  curl_close($ch);
+  return $response;
+}
