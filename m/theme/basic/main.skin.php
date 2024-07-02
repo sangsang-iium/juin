@@ -5,6 +5,9 @@ if (!defined("_BLUEVATION_")) {
 // 개별 페이지 접근 불가
 
 include_once(BV_PATH.'/include/introBtn.php');
+
+// echo sendPushNotification($member['fcm_token'], "로그인", "로그인성공");
+
 ?>
 
 <!-- contents { -->
