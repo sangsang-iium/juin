@@ -1292,10 +1292,10 @@
 .intro-btn {position: relative; height: 20rem;}
 .intro-btn-top-wrap {}
 .intro-btn-top-wrap .intro-btn {width: 100%; height: 20rem;}
-.intro-btn01 {background-color: #E15A00;}
-.intro-btn02 {background-color: #EC7300;}
-.intro-btn03 {background-color: #E15A00;}
-.intro-btn04 {background-color: #EC7300;}
+.intro-btn01 {background-color: #CD0603;}
+.intro-btn02 {background-color: #A13DBA;}
+.intro-btn03 {background-color: #E25B28;}
+.intro-btn04 {background-color: #81102C;}
 
 .intro-btn-top-wrap .intro-btn .icon {position: absolute; bottom: 0; right: 0;}
 .intro-btn01 .icon img {width: 20rem;}
@@ -1303,7 +1303,7 @@
 .intro-btn03 .icon img {width: 7rem;}
 .intro-btn04 .icon img {width: 7rem;}
 
-.intro-btn-color-box {border-radius: 2rem; background-color: #F5EAD7; padding: 1.6rem;}
+.intro-btn-color-box {border-radius: 2rem; background-color: #F5EAD7; padding: 1.6rem; text-align: center;}
 .intro-btn-title {text-align: center; font-weight: 400; font-size: 2rem; color: #1B1A17; line-height: 1.68; margin-bottom: 1.6rem;}
 .intro-btn-title .img {display: inline-block; vertical-align: super; width: 8.76rem; font-size: 0;}
 .intro-btn-list {gap: 1rem;}
@@ -1312,3 +1312,8 @@
 .intro-bottom-wrap {padding-top: 2.4rem;}
 .intro-bottom-text {padding-top: 0;}
 .intro-btn .text-box .text01::after {display: none;}
+
+.intro-btn .text-box {text-align: left;}
+
+.intro-btn-title {display: inline-block; position: relative;}
+.intro-btn-title::before {content: ''; width: 2.64rem; height: 2.32rem; background: url('/src/img/intro-bot-icon.png') no-repeat center; position: absolute; top: 50%; left: -3rem; transform: translateY(-50%); background-size: 100%;}
