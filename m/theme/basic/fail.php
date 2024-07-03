@@ -8,7 +8,7 @@ $code    = $_GET['code'];
 
 $previousUrl = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'https://juinjang.kr/m/shop/orderform.php';
 
-alert($message.':'.$code, $previousUrl);
+alert($message.'::'.$code, "https://juinjang.kr/m/shop/orderform.php");
 ?>
 
 <!DOCTYPE html>

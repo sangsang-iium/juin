@@ -2,14 +2,15 @@
     /* ============================================================================== */
     /* =   인증창 호출 및 수신 페이지                                               = */
     /* = -------------------------------------------------------------------------- = */
-    /* =   해당 페이지는 반드시 가맹점 서버에 업로드 되어야 하며                    = */ 
+    /* =   해당 페이지는 반드시 가맹점 서버에 업로드 되어야 하며                    = */
     /* =   가급적 수정없이 사용하시기 바랍니다.                                     = */
     /* ============================================================================== */
 
     /* ============================================================================== */
     /* =   라이브러리 파일 Include                                                  = */
     /* = -------------------------------------------------------------------------- = */
-    
+    $ENC_KEY = "9eb2cc7e320e2d7d54bc4a92ec1e9dc1057f386f2435d42e9f9e051404b249f8";
+
     include "../cfg/cert_conf.php";
     require "../lib/ct_cli_lib.php";
 
@@ -28,7 +29,6 @@
         return  $val;
     }
 
-    //!!중요 해당 함수는 year, month, day 변수가 null 일 경우 00 으로 치환합니다
     function f_get_parm_int( $val )
     {
         $ret_val = "";
@@ -43,6 +43,7 @@
     /* ============================================================================== */
 ?>
 <?
+
     $req_tx        = "";
 
     $site_cd       = "";
@@ -54,11 +55,11 @@
     $user_name     = "";
     $sex_code      = "";
     $local_code    = "";
-
+    
     $cert_able_yn  = "";
     $web_siteid    = "";
     $web_siteid_hashYN    = "";
-    
+
     $up_hash       = "";
 	/*------------------------------------------------------------------------*/
     /*  :: 전체 파라미터 남기기                                               */
@@ -67,8 +68,8 @@
     $ct_cert = new C_CT_CLI;
     $ct_cert->mf_clear();
 
-    // request 로 넘어온 데이터 처리
-    foreach($_POST as $nmParam => $valParam)
+    // request 로 넘어온 값 처리
+   foreach($_POST as $nmParam => $valParam)
     {
          if ( $nmParam == "site_cd" )
         {
@@ -133,8 +134,7 @@
         // 인증창으로 넘기는 form 데이터 생성 필드
         $sbParam .= "<input type='hidden' name='" . $nmParam . "' value='" . f_get_parm_str( $valParam ) . "'/>";
     }
-
-
+    
     if ( $req_tx == "cert" )
     {
 
@@ -174,7 +174,7 @@
                          $local_code; 
         }
 
-        $up_hash = $ct_cert->make_hash_data( $g_conf_home_dir, $g_conf_ENC_KEY ,$hash_data );
+        $up_hash = $ct_cert->make_hash_data( $g_conf_home_dir, $ENC_KEY ,$hash_data );
 
         // 인증창으로 넘기는 form 데이터 생성 필드 ( up_hash )
         $sbParam .= "<input type='hidden' name='up_hash' value='" . $up_hash . "'/>";
@@ -190,33 +190,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+        <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
         <title>*** KCP Online Payment System [PHP Version] ***</title>
         <script type="text/javascript">
             window.onload=function()
             {
+                cert_page();
+            }
+
+			// 인증 요청 시 호출 함수
+            function cert_page()
+            {
                 var frm = document.form_auth;
 
-                // 인증 요청 시 호출 함수
-                if ( frm.req_tx.value == "cert" )
+				if ( ( frm.req_tx.value == "auth" || frm.req_tx.value == "otp_auth" ) )
                 {
-                    opener.document.form_auth.veri_up_hash.value = frm.up_hash.value; // up_hash 데이터 검증을 위한 필드
-                                
+                    frm.action="./smartcert_proc_res.php";
+                    
+                   // MOBILE
+                    if( ( navigator.userAgent.indexOf("Android") > - 1 || navigator.userAgent.indexOf("iPhone") > - 1 ) )
+                    {
+                        self.name="kcp_cert";
+                    }
+                    // PC
+					else
+					{
+					    frm.target="kcp_cert";
+					}
+                    
+                    frm.submit();
+                    
+                    window.close();
+                }
+				
+				else if ( frm.req_tx.value == "cert" )
+                {
+
+                    if( ( navigator.userAgent.indexOf("Android") > - 1 || navigator.userAgent.indexOf("iPhone") > - 1 ) ) // 스마트폰인 경우
+                    {
+                        parent.document.form_auth.veri_up_hash.value = frm.up_hash.value; // up_hash 데이터 검증을 위한 필드
+						self.name="auth_popup";
+                    }
+					else // 스마트폰 아닐때
+					{
+	                    opener.document.form_auth.veri_up_hash.value = frm.up_hash.value; // up_hash 데이터 검증을 위한 필드
+					}
                     frm.action="<?= $g_conf_gw_url ?>";
                     frm.submit();
                 }
-
-                // 인증 결과 데이터 리턴 페이지 호출 함수
-                else if ( ( frm.req_tx.value == "auth" || frm.req_tx.value == "otp_auth" ) )
-                {
-                    frm.action="./kcpcert_proc_res.php";
-                    frm.submit();
-                }
-                else
-                {
-                    //alert ("req_tx 값을 확인해 주세요");
-                }
-            }
+			}
         </script>
     </head>
     <body oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">

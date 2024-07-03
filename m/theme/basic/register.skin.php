@@ -118,17 +118,17 @@ function chkDuBnum(kfiaMsg) {
         success: function(data) {
           if(data.res > 0 ) {
             $('#chk_bn_res').val('0');
-            alert(kfiaMsg+"\n이미 등록된 사업자등록번호입니다");
+            alert(kfiaMsg+"\n이미 등록된 사업자입니다");
             return false;
           } else {
             // alert("가입 가능한 사업자등록번호입니다");
             $('#chk_bn_res').val('1');
-            chkClosed(kfiaMsg, "<br>가입여부 : 가입 가능한 사업자등록번호입니다");
+            chkClosed(kfiaMsg, "<br>가입여부 : 가입 가능한 사업자입니다");
           }
         }
     });
   } else {
-    alert("사업자등록번호가 존재하지 않습니다.")
+    alert("사업자가 존재하지 않습니다.")
     return false;
   }
 }
@@ -188,7 +188,7 @@ function chkClosed(kfiaMsg, bNumMsg) {
         }
     });
   } else {
-    alert("사업자등록번호가 존재하지 않습니다.")
+    alert("사업자가 존재하지 않습니다.")
     return false;
   }
 }
@@ -304,7 +304,7 @@ function fregisterform_submit(f)
   // 사업자번호 중복체크 _20240318_SY
   if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
     if(f.chk_bn_res.value == "0") {
-      alert('이미 등록된 사업자등록번호입니다.');
+      alert('이미 등록된 사업자입니다.');
       f.b_no.select();
       return false;
     };

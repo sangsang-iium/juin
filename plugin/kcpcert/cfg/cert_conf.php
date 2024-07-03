@@ -50,7 +50,7 @@
     /* =    bin ���丮 �������� ��θ� �Է�                                       = */
     /* = -------------------------------------------------------------------------- = */
 
-    $g_conf_home_dir     = "[/plugin/kcpcert/]";
+    $g_conf_home_dir     = "/home/juin/www/plugin/kcpcert";
 
     $g_conf_site_cd      = "AK6VE";
     
@@ -58,7 +58,7 @@
 
     $g_conf_ENC_KEY      = "9eb2cc7e320e2d7d54bc4a92ec1e9dc1057f386f2435d42e9f9e051404b249f8";
     
-    $g_conf_Ret_URL      = "[www.juinjang.kr]";
+    $g_conf_Ret_URL      = "https://juinjang.kr/plugin/kcpcert/WEB_ENC/kcpcert_proc_res.php";
 /*
 
     $g_conf_home_dir     = "[/plugin/kcphp/]";
