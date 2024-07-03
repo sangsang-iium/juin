@@ -9,7 +9,8 @@
     /* =   환경 설정 파일 Include                                                   = */
     /* = -------------------------------------------------------------------------- = */
     include "../cfg/cert_conf.php";       // 환경설정 파일 include
-
+    setlocale(LC_CTYPE, 'ko_KR.euc-kr');
+    
     /* = -------------------------------------------------------------------------- = */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
