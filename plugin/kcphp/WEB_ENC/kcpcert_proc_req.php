@@ -45,7 +45,7 @@
 <?
     $req_tx        = "";
 
-    $site_cd       = "AK6VE";
+    $site_cd       = "";
     $ordr_idxx     = "";
 
     $year          = "";

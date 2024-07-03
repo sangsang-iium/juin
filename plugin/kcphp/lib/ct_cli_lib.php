@@ -1,25 +1,25 @@
 <?php
 /* ====================================================================== */
-/* =   PAGE : ÀÎÁõ PHP ¶óÀÌºê·¯¸® 1.0.1                                 = */
+/* =   PAGE : ï¿½ï¿½ï¿½ï¿½ PHP ï¿½ï¿½ï¿½Ìºê·¯ï¿½ï¿½ 1.0.1                                 = */
 /* = ------------------------------------------------------------------ = */
 /* =   Copyright (c)  2012   KCP Inc.   All Rights Reserverd.           = */
 /* ====================================================================== */
 
 /* ====================================================================== */
-/* =   ÀÎÁõ ¿¬µ¿ CLASS                                                  = */
+/* =   ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ CLASS                                                  = */
 /* ====================================================================== */
-class   C_CT_CLI
+class  C_CT_CLI
 {
-    // º¯¼ö ¼±¾ð ºÎºÐ
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½
     var    $m_dec_data;
 
-    // º¯¼ö ÃÊ±âÈ­ ¿µ¿ª
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½ï¿½
     function mf_clear()
     {
         $this->m_dec_data="";        
     }
 
-    // hash Ã³¸® ¿µ¿ª
+    // hash Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     function make_hash_data( $home_dir , $key , $str )
     {
         $hash_data = $this -> mf_exec( $home_dir . "/bin/ct_cli" ,
@@ -33,7 +33,7 @@ class   C_CT_CLI
         return $hash_data;
     }
 
-    // dn_hash Ã¼Å© ÇÔ¼ö
+    // dn_hash Ã¼Å© ï¿½Ô¼ï¿½
     function check_valid_hash ($home_dir , $key , $hash_data , $str )
     {
         $ret_val = $this -> mf_exec( $home_dir . "/bin/ct_cli" ,
@@ -48,7 +48,7 @@ class   C_CT_CLI
         return $ret_val;
     }
 
-    // ¾ÏÈ£È­ ÀÎÁõµ¥ÀÌÅÍ º¹È£È­
+    // ï¿½ï¿½È£È­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£È­
     function decrypt_enc_cert ( $home_dir, $key , $site_cd , $cert_no , $enc_cert_data , $opt)
     {
         $dec_data = $this -> mf_exec( $home_dir . "/bin/ct_cli" ,
@@ -78,7 +78,7 @@ class   C_CT_CLI
         return $ver_data;
     }
 
-    // ÀÎÁõµ¥ÀÌÅÍ get data
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ get data
     function mf_get_key_value( $name )
     {
         return  $this->m_dec_data[ $name ];
