@@ -213,10 +213,15 @@ $sns_share_links .= "<li>".get_sns_share_link('pinterest', $sns_url, $sns_title,
     <?php } else {
       if($raffleLimit) { ?>
       var indexno = '<?php echo $index_no ?>'
+      // 상품 이름 추가 _20240703_SY
+      let gs_name = '<?php echo $raffle['goods_name'] ?>';
         $.ajax({
           type: "POST",
           url: "/m/raffle/raffle.ajax.php",
-          data : {index_no:indexno},
+          data : {
+            index_no:indexno,
+            gs_name :gs_name
+          },
           dataType: "json",
           success: function(data) {
             if(data.res == 'Y') {

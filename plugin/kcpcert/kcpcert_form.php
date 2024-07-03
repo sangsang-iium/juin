@@ -5,7 +5,6 @@ include_once('./_common.php');
 certify_count_check($member['id'], 'hp');
 
 $ENC_KEY = "9eb2cc7e320e2d7d54bc4a92ec1e9dc1057f386f2435d42e9f9e051404b249f8";
-
 setlocale(LC_CTYPE, 'ko_KR.euc-kr');
 
 // kcp 휴대폰인증파일
@@ -29,16 +28,17 @@ $local_code    = "";
 // year , month , day 가 비어 있는 경우 "00" , "00" , "00" 으로 설정이 됩니다
 // 그외의 값은 없을 경우 ""(null) 로 세팅하시면 됩니다.
 // up_hash 데이터 생성시 site_cd 와 ordr_idxx 는 필수 값입니다.
-$hash_data = $site_cd   .
-             $ordr_idxx .
-             $user_name .
-             $year      .
-             $month     .
-             $day       .
-             $sex_code  .
-             $local_code;
+$hash_data =  $site_cd                  .
+              $ordr_idxx                .
+              $web_siteid               .
+              $user_name                .
+              f_get_parm_int ( $year  ) .
+              f_get_parm_int ( $month ) .
+              f_get_parm_int ( $day   ) .
+              $sex_code                 .
+              $local_code; 
 
-// $up_hash = $ct_cert->make_hash_data( $home_dir, $ENC_KEY, $hash_data );
+$up_hash = $ct_cert->make_hash_data( $home_dir, $ENC_KEY, $hash_data );
 
 $ct_cert->mf_clear();
 ?>
@@ -77,7 +77,8 @@ $ct_cert->mf_clear();
 -->
 <input type="hidden" name="cert_otp_use" value="Y"/>
 <!-- cert_enc_use 필수 (고정값 : 메뉴얼 참고) -->
-<input type="hidden" name="cert_enc_use" value="Y"/>
+<!-- <input type="hidden" name="cert_enc_use" value="Y"/> -->
+<input type="hidden" name="cert_enc_use_ext" value="Y"/>
 
 <?php if(is_mobile()) { ?>
 <!-- cert_able_yn input 비활성화 설정 -->

@@ -1,44 +1,59 @@
 <?php
 /* ====================================================================== */
-/* =   PAGE : ���� PHP ���̺귯�� 1.0.1                                 = */
+/* =   PAGE : 인증 PHP 라이브러리 1.0.1                                 = */
 /* = ------------------------------------------------------------------ = */
 /* =   Copyright (c)  2012   KCP Inc.   All Rights Reserverd.           = */
 /* ====================================================================== */
 
 /* ====================================================================== */
-/* =   ���� ���� CLASS                                                  = */
+/* =   인증 연동 CLASS                                                  = */
 /* ====================================================================== */
-class  C_CT_CLI
+
+class C_CT_CLI
 {
-    // ���� ���� �κ�
+    // 변수 선언 부분
     var    $m_dec_data;
 
-    // ���� �ʱ�ȭ ����
+    // 변수 초기화 영역
     function mf_clear()
     {
-        $this->m_dec_data="";        
+        $this->m_dec_data="";
     }
 
-    // hash ó�� ����
-    function make_hash_data( $home_dir , $key , $str )
+    // hash 처리 영역
+    function make_hash_data( $home_dir , $ENC_KEY, $str )
     {
-        $hash_data = $this -> mf_exec( $home_dir . "/bin/ct_cli" ,
+        
+        if(PHP_INT_MAX == 2147483647) // 32-bit
+            $bin_exe = $home_dir . '/bin/ct_cli';
+        else
+            $bin_exe = $home_dir . '/bin/64bit/ct_cli';
+        $hash_data = $this -> mf_exec( $bin_exe ,
                                        "lf_CT_CLI__make_hash_data",
-		                                   $key,
+                                       $ENC_KEY,
                                        $str
                                      );
 
         if ( $hash_data == "" ) { $hash_data = "HS01"; }
-        
+
         return $hash_data;
     }
 
-    // dn_hash üũ �Լ�
-    function check_valid_hash ($home_dir , $key , $hash_data , $str )
+    // dn_hash 체크 함수
+    function check_valid_hash ($home_dir , $ENC_KEY, $hash_data , $str )
     {
-        $ret_val = $this -> mf_exec( $home_dir . "/bin/ct_cli" ,
+        if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+            if(PHP_INT_MAX == 2147483647) // 32-bit
+                $bin_exe = $home_dir . '/bin/ct_cli';
+            else
+                // $bin_exe = $home_dir . '/bin/64bit/ct_cli';
+                $bin_exe = $home_dir . '/bin/64bit/ct_cli';
+        } else {
+            $bin_exe = $home_dir . '/bin/ct_cli_exe.exe';
+        }
+        $ret_val = $this -> mf_exec( $bin_exe ,
                                      "lf_CT_CLI__check_valid_hash" ,
-		                                 $key,
+                                     $ENC_KEY,
                                      $hash_data ,
                                      $str
                                     );
@@ -48,37 +63,43 @@ class  C_CT_CLI
         return $ret_val;
     }
 
-    // ��ȣȭ ���������� ��ȣȭ
-    function decrypt_enc_cert ( $home_dir, $key , $site_cd , $cert_no , $enc_cert_data , $opt)
+    // 암호화 인증데이터 복호화
+    function decrypt_enc_cert ( $home_dir, $ENC_KEY, $site_cd , $cert_no , $enc_cert_data , $opt)
     {
-        $dec_data = $this -> mf_exec( $home_dir . "/bin/ct_cli" ,
-                                     "lf_CT_CLI__decrypt_enc_cert" ,
-		                                 $key,		
-                                     $site_cd ,
-                                     $cert_no ,
-                                     $enc_cert_data ,
-                                     $opt
-                                    );
+        if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+            if(PHP_INT_MAX == 2147483647) // 32-bit
+                $bin_exe = $home_dir . '/bin/ct_cli';
+            else
+                // $bin_exe = $home_dir . '/bin/ct_cli_x64';
+                $bin_exe = $home_dir . '/bin/64bit/ct_cli';
+
+            $dec_data = $this -> mf_exec( $bin_exe ,
+                                         "lf_CT_CLI__decrypt_enc_cert" ,
+                                          $ENC_KEY,
+                                          $site_cd ,
+                                          $cert_no ,
+                                          $enc_cert_data ,
+                                          $opt
+                                        );
+        } else {
+            $bin_exe = $home_dir . '/bin/ct_cli_exe.exe';
+
+            $dec_data = $this -> mf_exec( $bin_exe ,
+                                         "lf_CT_CLI__decrypt_enc_cert" ,
+                                          $ENC_KEY,
+                                          $site_cd ,
+                                          $cert_no ,
+                                          $enc_cert_data
+                                        );
+        }
+
         if ( $dec_data == "" ) { $dec_data = "HS03"; }
 
-
         parse_str( str_replace( chr( 31 ), "&", $dec_data ), $this->m_dec_data );
-		
-		return $dec_data;
-    }
-
-    function get_kcp_lib_ver( $home_dir )
-    {
-        $ver_data = $this -> mf_exec( $home_dir . "/bin/ct_cli" , 
-                                       "lf_CT_CLI__get_kcp_lib_ver"
-                                     );
-
-        if ( $ver_data == "" ) { $ver_data = "HS04"; }
         
-        return $ver_data;
     }
 
-    // ���������� get data
+    // 인증데이터 get data
     function mf_get_key_value( $name )
     {
         return  $this->m_dec_data[ $name ];
@@ -92,14 +113,14 @@ class  C_CT_CLI
 
       $exec_cmd = array_shift( $arg );
 
-      while ( list(,$i) = each($arg) )
-      {
-        $exec_cmd .= " " . escapeshellarg( $i );
-      }
-
+        foreach($arg as $k => $i) {
+            // 일부서버의 경우 빈값일때 '' 결과가 넘어오지 않는 버그가 있다. kagla 150820
+            // $exec_cmd .= " " . escapeshellarg( $i );
+            $exec_cmd .= " " . ( escapeshellarg($i) ? escapeshellarg($i) : "''" );
+        }
+        
       $rt = exec( $exec_cmd );
-
+      
       return  $rt;
     }
 }
-?>

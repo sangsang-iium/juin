@@ -2,18 +2,16 @@
 include_once('./_common.php');
 include_once(BV_KCPCERT_PATH.'/kcpcert_config.php');
 
-$ENC_KEY = "9eb2cc7e320e2d7d54bc4a92ec1e9dc1057f386f2435d42e9f9e051404b249f8";
-
 $site_cd       = "";
 $ordr_idxx     = "";
 
 $cert_no       = "";
-$cert_enc_use  = "";
+// $cert_enc_use  = "";
 $enc_info      = "";
 $enc_data      = "";
 $req_tx        = "";
 
-$enc_cert_data = "";
+$enc_cert_data2 = "";
 $cert_info     = "";
 
 $tran_cd       = "";
@@ -27,53 +25,45 @@ $dn_hash       = "";
 /*------------------------------------------------------------------------*/
 
 // request 로 넘어온 값 처리
-$key = array_keys($_POST);
 $sbParam ="";
 
-for($i=0; $i<count($key); $i++)
+foreach($_POST as $nmParam => $valParam)
 {
-    $nmParam = $key[$i];
-    $valParam = $_POST[$nmParam];
 
-    if( $nmParam == "site_cd" )
+    if ( $nmParam == "site_cd" )
     {
         $site_cd = f_get_parm_str ( $valParam );
     }
 
-    if( $nmParam == "ordr_idxx" )
+    if ( $nmParam == "ordr_idxx" )
     {
         $ordr_idxx = f_get_parm_str ( $valParam );
     }
 
-    if( $nmParam == "res_cd" )
+    if ( $nmParam == "res_cd" )
     {
         $res_cd = f_get_parm_str ( $valParam );
     }
 
-    if( $nmParam == "cert_enc_use" )
-    {
-        $cert_enc_use = f_get_parm_str ( $valParam );
-    }
-
-    if( $nmParam == "req_tx" )
+    if ( $nmParam == "req_tx" )
     {
         $req_tx = f_get_parm_str ( $valParam );
     }
 
-    if( $nmParam == "cert_no" )
+    if ( $nmParam == "cert_no" )
     {
         $cert_no = f_get_parm_str ( $valParam );
     }
 
-    if( $nmParam == "enc_cert_data" )
+    if ( $nmParam == "enc_cert_data2" )
     {
-        $enc_cert_data = f_get_parm_str ( $valParam );
+        $enc_cert_data2 = f_get_parm_str ( $valParam );
     }
 
-    if( $nmParam == "dn_hash" )
+    if ( $nmParam == "dn_hash" )
     {
         $dn_hash = f_get_parm_str ( $valParam );
-   }
+    }
 
     // 부모창으로 넘기는 form 데이터 생성 필드
     $sbParam .= "<input type='hidden' name='" . $nmParam . "' value='" . f_get_parm_str( $valParam ) . "'/>";
@@ -82,14 +72,13 @@ for($i=0; $i<count($key); $i++)
 $ct_cert = new C_CT_CLI;
 $ct_cert->mf_clear();
 
-exit;
 $tb['title'] = '휴대폰인증 결과';
 include_once(BV_PATH.'/head.sub.php');
 
 // 결과 처리
 
-if( $cert_enc_use == "Y" )
-{
+    $ENC_KEY = "9eb2cc7e320e2d7d54bc4a92ec1e9dc1057f386f2435d42e9f9e051404b249f8";
+
     // 인증내역기록
     @insert_cert_history($member['id'], 'kcp', 'hp');
 
@@ -102,25 +91,16 @@ if( $cert_enc_use == "Y" )
 
         if( $ct_cert->check_valid_hash ( $home_dir , $ENC_KEY, $dn_hash , $veri_str ) != "1" )
         {
-            // 검증 실패시 처리 영역
-            if(PHP_INT_MAX == 2147483647) // 32-bit
-                $bin_exe = '/bin/ct_cli';
-            else
-                $bin_exe = '/bin/ct_cli_x64';
-
-            echo "dn_hash 변조 위험있음 (".BV_KCPCERT_PATH.$bin_exe." 파일에 실행권한이 있는지 확인하세요.)";
-            exit;
-            // 오류 처리 ( dn_hash 변조 위험있음)
+            echo "dn_hash 변조 위험있음";
         }
 
-        // 가맹점 DB 처리 페이지 영역
-
         // 인증데이터 복호화 함수
-        // 해당 함수는 암호화된 enc_cert_data 를
+        // 해당 함수는 암호화된 enc_cert_data2 를
         // site_cd 와 cert_no 를 가지고 복화화 하는 함수 입니다.
         // 정상적으로 복호화 된경우에만 인증데이터를 가져올수 있습니다.
-        $opt = "1" ; // 복호화 인코딩 옵션 ( UTF - 8 사용시 "1" )
-        $ct_cert->decrypt_enc_cert( $home_dir , $ENC_KEY, $site_cd , $cert_no , $enc_cert_data , $opt );
+        $opt = "1" ; // 복호화 인코딩 옵션 ( UTF - 8 사용시 "1" ) 
+        $ct_cert->decrypt_enc_cert( $home_dir , $ENC_KEY , $site_cd , $cert_no , $enc_cert_data2 , $opt );
+
 
         $comm_id        = $ct_cert->mf_get_key_value("comm_id"    );                // 이동통신사 코드
         $phone_no       = $ct_cert->mf_get_key_value("phone_no"   );                // 전화번호
@@ -135,7 +115,6 @@ if( $cert_enc_use == "Y" )
         $dec_res_cd     = $ct_cert->mf_get_key_value("res_cd"     );                // 암호화된 결과코드
         $dec_mes_msg    = $ct_cert->mf_get_key_value("res_msg"    );                // 암호화된 결과메시지
 
-        // 정상인증인지 체크
         if(!$phone_no)
             alert_close("정상적인 인증이 아닙니다. 올바른 방법으로 이용해 주세요.");
 
@@ -163,7 +142,10 @@ if( $cert_enc_use == "Y" )
         set_session("ss_cert_adult",   $adult);
         set_session("ss_cert_birth",   $birth_day);
         set_session("ss_cert_sex",     ($sex_code=="01"?"M":"F"));
-        set_session('ss_cert_dupinfo', $mb_dupinfo);
+        set_session('ss_cert_dupinfo', $mb_dupinfo);     
+
+        
+        $phone_num = explode("-",$phone_no);
     }
     else if( $res_cd != "0000" )
     {
@@ -171,20 +153,6 @@ if( $cert_enc_use == "Y" )
         alert_close('코드 : '.$_POST['res_cd'].'  '.urldecode($_POST['res_msg']));
         exit;
     }
-}
-else if( $cert_enc_use != "Y" )
-{
-    // 암호화 인증 안함
-    if( BV_IS_MOBILE ){
-        echo '<script>'.PHP_EOL;
-        echo 'window.parent.$("#cert_info").css("display", "");'.PHP_EOL;
-        echo 'window.parent.$("#kcp_cert" ).css("display", "none");'.PHP_EOL;
-        echo '</script>'.PHP_EOL;
-    } else {
-        alert_close("휴대폰 본인확인을 취소 하셨습니다.");
-    }
-    exit;
-}
 
 $ct_cert->mf_clear();
 ?>
@@ -213,7 +181,10 @@ $(function() {
     // 인증정보
     $opener.$("input[name=cert_type]").val("<?php echo $cert_type; ?>");
     $opener.$("input[name=mb_name]").val("<?php echo $user_name; ?>").attr("readonly", true);
-    $opener.$("input[name=mb_hp]").val("<?php echo $phone_no; ?>").attr("readonly", true);
+    // $opener.$("input[name=mb_hp]").val("<?php echo $phone_no; ?>").attr("readonly", true);
+    $opener.$(".phone_no1").val("<?php echo $phone_num[0]; ?>").attr("readonly", true);
+    $opener.$(".phone_no2").val("<?php echo $phone_num[1]; ?>").attr("readonly", true);
+    $opener.$(".phone_no3").val("<?php echo $phone_num[2]; ?>").attr("readonly", true);
     $opener.$("input[name=cert_no]").val("<?php echo $md5_cert_no; ?>");
 
     if(is_mobile) {
