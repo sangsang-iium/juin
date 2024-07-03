@@ -9,7 +9,8 @@
     /* ============================================================================== */
     /* =   라이브러리 파일 Include                                                  = */
     /* = -------------------------------------------------------------------------- = */
-    
+    $ENC_KEY = "9eb2cc7e320e2d7d54bc4a92ec1e9dc1057f386f2435d42e9f9e051404b249f8";
+
     include "../cfg/cert_conf.php";
     require "../lib/ct_cli_lib.php";
 
@@ -43,6 +44,7 @@
     /* ============================================================================== */
 ?>
 <?
+
     $req_tx        = "";
 
     $site_cd       = "";
@@ -174,7 +176,7 @@
                          $local_code; 
         }
 
-        $up_hash = $ct_cert->make_hash_data( $g_conf_home_dir, $g_conf_ENC_KEY ,$hash_data );
+        $up_hash = $ct_cert->make_hash_data( $g_conf_home_dir, $ENC_KEY ,$hash_data );
 
         // 인증창으로 넘기는 form 데이터 생성 필드 ( up_hash )
         $sbParam .= "<input type='hidden' name='up_hash' value='" . $up_hash . "'/>";

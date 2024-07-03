@@ -74,12 +74,12 @@ if (!empty($paytype)) {
 				</div> -->
 			</div>
 			<div id="gnb">
-                <div class="menuBg"></div>
 				<div id="gnb_inner">
 					<div class="all_cate">
 						<span class="allc_bt"> 전체카테고리</span>
 						<!-- <i class="fa fa-bars"></i> -->
 						<div class="con_bx">
+                            <div class="menubg_box"></div>
 							<ul>
 							<?php
                             // 메뉴 on 여부 변수 김민규
@@ -88,6 +88,8 @@ if (!empty($paytype)) {
 
 							$mod = 5;
 							$res = sql_query_cgy('all');
+
+                            $mleng = 0;
 							for($i=0; $row=sql_fetch_array($res); $i++) {
 								$href = '/mng/?ca_id='.$row['catecode'];
                                 $menu_on = $menu_check == $row['catecode'] ? 'menu_on' : '';
@@ -100,6 +102,9 @@ if (!empty($paytype)) {
 									<?php
 									$r = sql_query_cgy($row['catecode'], 'COUNT');
 									if($r['cnt'] > 0) {
+                                        if($r['cnt'] === 0 || $mleng < $r['cnt']) {
+                                            $mleng = $r['cnt'];
+                                        }
 									?>
 									<ul class="sub_caterogy">
 										<?php
@@ -123,6 +128,20 @@ if (!empty($paytype)) {
 							?>
 							</ul>
 						</div>
+
+                        <script>
+                            $(document).ready(function(){
+                                $('.menubg_box').css('height', <? echo $mleng?> * 45)
+                                $('#gnb').on("mouseenter",function(){
+                                    $('.sub_caterogy, .menubg_box').slideDown(100);
+                                });
+                                $('#gnb').on("mouseleave",function(){
+                                    $('.sub_caterogy, .menubg_box').slideUp(100);
+                                });
+                                // $('.c_box').css("height",$(this).children("ul").children('li').length * 43)
+                                // console.log($('.c_box').find($(this)));
+                            });
+                        </script>
 						<!-- <script>
 						$(function(){
 							$('.all_cate .allc_bt').click(function(){

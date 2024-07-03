@@ -362,10 +362,10 @@ table .spr,
     background-color: #eeeef3;
     margin-top: 20px;
     position: relative;
+    z-index: 5;
 }
 
-#gnb::before,
-#gnb .menuBg {
+#gnb::before{
     content: '';
     display: block;
     position: absolute;
@@ -431,7 +431,6 @@ table .spr,
     display: flex;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 0 20px;
 }
 
 
@@ -441,6 +440,28 @@ table .spr,
     overflow: initial;
 }
 
+#gnb_inner .all_cate .con_bx .sub_caterogy{
+    width:100%;
+    position: absolute;
+    top:52px;
+    left:0;
+    z-index: 2;
+    display: none;
+}
+
+#gnb_inner .all_cate .menubg_box{
+    display: none;
+    position: absolute;
+    top:52px;
+    left:50%;
+    transform: translate(-50%,0);
+    width:1920px;
+    height: 100%;
+    background-color:#eeeef3;
+    z-index: 1;
+
+}
+
 
 #gnb_inner .all_cate .con_bx .c_box {
     width: 16.666%;
@@ -448,7 +469,12 @@ table .spr,
     display: block;
     background-color: #eeeef3;
     position: relative;
+    margin-right:20px;
     
+}
+
+#gnb_inner .all_cate .con_bx .c_box:last-child{
+    margin-right:0;
 }
 
 
@@ -490,6 +516,8 @@ table .spr,
     text-align: left;
     margin-bottom: 5px;
     transition: all .3s ease-in-out;
+    position: relative;
+    z-index: 5;
 }
 
 #gnb_inner .all_cate .con_bx .c_box li:hover {
@@ -1451,6 +1479,7 @@ table .spr,
     justify-content: space-between;
     gap:20px;
     margin-top:20px;
+    z-index: 1;
 }
 
 .prod_list_wrap {

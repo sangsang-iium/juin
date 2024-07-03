@@ -30,6 +30,8 @@ if(is_partner($member['id'])) {
 <meta charset="utf-8">
 <title>마이페이지</title>
 <link rel="stylesheet" href="<?php echo BV_MYPAGE_URL; ?>/css/mypage.css?ver=<?php echo BV_CSS_VER; ?>">
+<link rel="stylesheet" href="<?php echo BV_ADMIN_URL; ?>/css/style_md.css?ver=<?php echo BV_CSS_VER; ?>"> <!-- 스타일공통css_김민규 -->
+<link rel="stylesheet" href="<?php echo BV_MYPAGE_URL; ?>/css/style_mg.css?ver=<?php echo BV_CSS_VER; ?>"><!-- 공급사css_김민규 -->
 <?php if($ico = display_logo_url('favicon_ico')) { // 파비콘 ?>
 <link rel="shortcut icon" href="<?php echo $ico; ?>" type="image/x-icon">
 <?php } ?>

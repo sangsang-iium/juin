@@ -536,7 +536,7 @@ input:-webkit-autofill {-webkit-box-shadow: 0 0 0 1000px white inset;}
 #partner_list tfoot td{font-weight:600;background:#f1f1f1 !important;}
 
 /*주문내역*/
-#sodr_list thead th{padding:6px 10px !important;}
+#sodr_list thead th{padding:15px 10px !important;}
 #sodr_list td{height:22px;padding:5px 8px;line-height:1.4em !important;}
 #sodr_list td a{font-weight:normal !important;}
 #sodr_list .td_chk {padding:5px 0 !important;}

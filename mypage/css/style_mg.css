@@ -1,0 +1,79 @@
+@charset "utf-8";
+
+#snb dt{
+    font-size:18px;
+}
+label.hide{font-size:0; position: absolute;}
+
+select{-webkit-appearance: none; -moz-appearance: none; appearance: none;}
+select::-ms-expand {display: none;}
+
+#snb dd em.snb_air{
+    color:#fff;
+}
+
+/*사이드뷰*/
+.sv_wrap {
+    position: relative;
+    font-weight: normal;
+}
+
+.sv_wrap .sv {
+    z-index: 1000;
+    display: none;
+    margin: 5px 0 0;
+    font-size: 1em;
+    background: #333;
+    text-align: left;
+    -webkit-box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.2);
+}
+
+.sv_wrap .sv:before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 15px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 6px 6px 6px;
+    border-color: transparent transparent #333 transparent;
+}
+
+.sv_wrap .sv a {
+    display: inline-block;
+    margin: 0;
+    padding: 0 10px;
+    line-height: 30px;
+    width: 100px;
+    font-weight: normal;
+    color: #bbb;
+}
+
+.sv_wrap .sv a:hover {
+    background: #000;
+    color: #fff;
+}
+
+.sv_member {
+    color: #333;
+}
+
+.sv_on {
+    display: block !important;
+    position: absolute;
+    top: 23px;
+    left: 0px;
+    width: auto;
+    height: auto;
+}
+
+.sv_nojs .sv {
+    display: block;
+}
+
+#sodr_list td{
+    padding:12px 10px;
+}

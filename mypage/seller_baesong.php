@@ -8,11 +8,11 @@ include_once("./admin_head.sub.php");
 <form name="fregform" method="post" action="./seller_baesong_update.php" onsubmit="return fregform_submit(this);">
 <input type="hidden" name="token" value="">
 
-<h2>배송정책 설정</h2>
+<h5 class="htag_title marb20">배송정책 설정</h5>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -124,27 +124,21 @@ include_once("./admin_head.sub.php");
 	<tr>
 		<th scope="row">기본 배송정책</th>
 		<td>
-			<div class="tbl_frm02">
-				<table>
-				<colgroup>
-					<col class="w180">
-					<col>
-				</colgroup>
-				<tbody>
-				<tr>
-					<th scope="row">
-						<input type="radio" name="delivery_method" value="1" id="delivery_method1"<?php echo get_checked($seller['delivery_method'], "1"); ?>>
-						<label for="delivery_method1">무료배송</label>
-					</th>
-					<td>배송비가 부과되지 않습니다</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						<input type="radio" name="delivery_method" value="4" id="delivery_method4"<?php echo get_checked($seller['delivery_method'], "4"); ?>>
-						<label for="delivery_method4">차량배송</label>
-					</th>
-					<td>공급사 배송 최소금액에 영향을 받습니다.</td>
-				</tr>
+			<ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="delivery_method" value="1" id="delivery_method1"<?php echo get_checked($seller['delivery_method'], "1"); ?>>
+                    <label for="delivery_method1">
+                        무료배송<br/>
+                        <span class="fs13">(배송비가 부과되지 않습니다)</span>
+                    </label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="delivery_method" value="4" id="delivery_method4"<?php echo get_checked($seller['delivery_method'], "4"); ?>>
+                    <label for="delivery_method4">
+                        차량배송<br/>
+                        <span class="fs13">(공급사 배송 최소금액에 영향을 받습니다.)</span>
+                    </label>
+                </li>
 				<!-- <tr>
 					<th scope="row">
 						<input type="radio" name="delivery_method" value="2" id="delivery_method2"<?php echo get_checked($seller['delivery_method'], "2"); ?>>
@@ -169,20 +163,18 @@ include_once("./admin_head.sub.php");
 						<input type="text" name="delivery_minimum" value="<?php echo number_format($seller["delivery_minimum"]); ?>" class="frm_input" size="10" onkeyup="addComma(this);"> 원 이상이면 무료배송 처리됩니다
 					</td>
 				</tr> -->
-				</tbody>
-				</table>
-			</div>
+			</ul>
 		</td>
 	</tr>
 	</tbody>
 	</table>
 </div>
 
-<h2>배송/교환/반품안내</h2>
+<h5 class="htag_title marb20 mart50">배송/교환/반품안내</h5>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>

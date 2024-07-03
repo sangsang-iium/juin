@@ -47,36 +47,42 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title marb20">기본검색</h5>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w100">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sst">
-				<option value="">구분</option>
-				<option value="상품"<?php echo get_selected($sst, '상품'); ?>>상품</option>
-				<option value="배송"<?php echo get_selected($sst, '배송'); ?>>배송</option>
-				<option value="반품/환불/취소"<?php echo get_selected($sst, '반품/환불/취소'); ?>>반품/환불/취소</option>
-				<option value="교환/변경"<?php echo get_selected($sst, '교환/변경'); ?>>교환/변경</option>
-				<option value="기타"<?php echo get_selected($sst, '기타'); ?>>기타</option>
-			</select>
-			<select name="sfl">
-				<option value="iq_name"<?php echo get_selected($sfl, 'iq_name'); ?>>작성자명</option>
-				<option value="iq_email"<?php echo get_selected($sfl, 'iq_email'); ?>>작성자 이메일</option>
-				<option value="iq_hp"<?php echo get_selected($sfl, 'iq_hp'); ?>>작성자 핸드폰</option>
-				<option value="iq_subject"<?php echo get_selected($sfl, 'iq_subject'); ?>>제목</option>
-				<option value="iq_question"<?php echo get_selected($sfl, 'iq_question'); ?>>질문내용</option>
-				<option value="iq_answer"<?php echo get_selected($sfl, 'iq_answer'); ?>>답변내용</option>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sst">
+                        <option value="">구분</option>
+                        <option value="상품"<?php echo get_selected($sst, '상품'); ?>>상품</option>
+                        <option value="배송"<?php echo get_selected($sst, '배송'); ?>>배송</option>
+                        <option value="반품/환불/취소"<?php echo get_selected($sst, '반품/환불/취소'); ?>>반품/환불/취소</option>
+                        <option value="교환/변경"<?php echo get_selected($sst, '교환/변경'); ?>>교환/변경</option>
+                        <option value="기타"<?php echo get_selected($sst, '기타'); ?>>기타</option>
+                    </select>
+                </div>
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <option value="iq_name"<?php echo get_selected($sfl, 'iq_name'); ?>>작성자명</option>
+                        <option value="iq_email"<?php echo get_selected($sfl, 'iq_email'); ?>>작성자 이메일</option>
+                        <option value="iq_hp"<?php echo get_selected($sfl, 'iq_hp'); ?>>작성자 핸드폰</option>
+                        <option value="iq_subject"<?php echo get_selected($sfl, 'iq_subject'); ?>>제목</option>
+                        <option value="iq_question"<?php echo get_selected($sfl, 'iq_question'); ?>>질문내용</option>
+                        <option value="iq_answer"<?php echo get_selected($sfl, 'iq_answer'); ?>>답변내용</option>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -92,7 +98,7 @@ EOF;
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
 <div class="local_frm01">
