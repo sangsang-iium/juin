@@ -90,8 +90,7 @@ if(!defined('_BLUEVATION_')) exit;
     <div class="joinDetail-box">
       <div class="container">
         <div class="joinDetail-head">
-          <p class="joinDetail-title">담당직원 등록</p>
-          <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">담당직원 조회하기</button>
+          <p class="joinDetail-title">중앙회원 정보</p>
           <!-- 담당자 조회하기 팝업 { -->
           <div class="popup type01" id="popMemberSch">
             <div class="pop-inner">
@@ -129,11 +128,32 @@ if(!defined('_BLUEVATION_')) exit;
           <!-- } 담당자 조회하기 팝업 -->
         </div>
         <div class="joinDetail-body">
+          <!-- 매장명 추가 _20240604_SY -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">회원업소명</p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="ju_restaurant" class="frm-input w-per100" value="<?php echo ($w == '') ? $_POST['MEMBER_NAME'] : $member['ju_restaurant'] ?>" readonly >
+            </div>
+          </div>
+          <!-- 지회/지부 정보 _20240608_SY -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">담당 조직</p>
+            </div>
+            <div class="form-body">
+              <input type="hidden" name="ju_region2" value="<?php echo ($w=='') ? (int)$_POST['BRANCH_CODE'] : $member['ju_region2'] ?>" class="frm-input w-per100" >
+              <input type="hidden" name="ju_region3" value="<?php echo ($w=='') ? (int)$_POST['OFFICE_CODE'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
+              <input type="text" name="ju_region_code" value="<?php echo ($w=='u') ? $jibu_name : $_POST['OFFICE_NAME'] ?>" class="frm-input w-per100" readonly>
+            </div>
+          </div>
           <div class="form-row">
             <div class="form-head">
               <p class="title">담당직원<b>*</b></p>
             </div>
             <div class="form-body">
+              <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch" style="margin-bottom:0.8rem">담당직원 조회하기</button>
               <input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="<?php echo $mng_sel_row['name']; ?>" placeholder="" readonly>
               <input type="hidden" name="mn_idx" id="mn_idx" value="<?php echo $mng_sel_row['index_no']; ?>">
             </div>
@@ -416,44 +436,22 @@ if(!defined('_BLUEVATION_')) exit;
               </select>
             </div>
           </div>
-          <!-- 지회/지부 정보 _20240608_SY -->
-          <div class="joinDetail-body">
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title">지회/지부</p>
-              </div>
-              <div class="form-body">
-                <input type="hidden" name="ju_region2" value="<?php echo ($w=='') ? (int)$_POST['BRANCH_CODE'] : $member['ju_region2'] ?>" class="frm-input w-per100" >
-                <input type="hidden" name="ju_region3" value="<?php echo ($w=='') ? (int)$_POST['OFFICE_CODE'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
-                <input type="text" name="ju_region_code" value="<?php echo ($w=='u') ? $jibu_name : "" ?>" class="frm-input w-per100" readonly>
-              </div>
-            </div>
-            <!-- <div class="form-row">
-              <div class="form-head">
-                <p class="title">업태</p>
-              </div>
-              <div class="form-body">
-                <input type="text" name="ju_business_type" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_business_type'] : ""?>" >
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title">업종</p>
-              </div>
-              <div class="form-body">
-                <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
-              </div>
-            </div> -->
-          </div>
-          <!-- 매장명 추가 _20240604_SY -->
-          <div class="form-row">
+          <!-- <div class="form-row">
             <div class="form-head">
-              <p class="title">매장명</p>
+              <p class="title">업태</p>
             </div>
             <div class="form-body">
-              <input type="text" name="ju_restaurant" class="frm-input w-per100" value="<?php echo ($w == '') ? $_POST['MEMBER_NAME'] : $member['ju_restaurant'] ?>" readonly >
+              <input type="text" name="ju_business_type" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_business_type'] : ""?>" >
             </div>
           </div>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">업종</p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
+            </div>
+          </div> -->
           <div class="form-row store_info">
             <div class="form-head">
               <p class="title">매장 외부 사진 (jpg, gif, png)</p>
@@ -1026,7 +1024,7 @@ function getManager() {
   let search_words = search_input.value;
 
   // reset_words 추가 _2240702_SY
-  let reset_words = ""
+  let reset_words = String
   if(w == '') {
     reset_words = "<?php echo $_POST['OFFICE_NAME']?>"
   }
