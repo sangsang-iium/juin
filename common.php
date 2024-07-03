@@ -298,7 +298,7 @@ $getAppData = get_session('myLocation');
 $getAppData = trim($getAppData, '\"');
 $appDataArr = explode(",",$getAppData);
 $appToken = trim(end($appDataArr));
-if(!empty($appToken) || $appToken == null) {
+if(empty($appToken) || $appToken == 'null' || $appToken == '') {
   $appToken = '';
 }
 
@@ -319,6 +319,13 @@ if($_SESSION['ss_mb_id']) { // 로그인중이라면
 			$member = array();
 		}
     } else {
+        // fcm_token 추가 _20240701_SY
+        if(!empty($appToken)) {
+          $chk_token_sel = " SELECT id AS fcm_id FROM shop_member WHERE fcm_token = '{$appToken}' ";
+          $chk_token_row = sql_fetch($chk_token_sel);
+          $token_reset = sql_query(" UPDATE shop_member SET fcm_token = '' WHERE id = '{$chk_token_row['fcm_id']}' ");
+        }
+
         // 오늘 처음 로그인 이라면
         if(substr($member['today_login'], 0, 10) != BV_TIME_YMD) {
             // 첫 로그인 포인트 지급
@@ -327,23 +334,12 @@ if($_SESSION['ss_mb_id']) { // 로그인중이라면
             // 오늘의 로그인이 될 수도 있으며 마지막 로그인일 수도 있음
             // 해당 회원의 접근일시와 IP 를 저장
 
-            // fcm_token 추가 _20240701_SY
-            if(!empty($appToken) || $appToken == null) {
-              $chk_token_sel = " SELECT id AS fcm_id FROM shop_member WHERE fcm_token = '{$appToken}' ";
-              $chk_token_row = sql_fetch($chk_token_sel);
-              $token_reset = sql_query(" UPDATE shop_member SET fcm_token = '' WHERE id = '{$chk_token_row['fcm_id']}' ");
-            }
-
             $sql = " update shop_member set login_sum = login_sum + 1, today_login = '".BV_TIME_YMDHIS."', login_ip = '{$_SERVER['REMOTE_ADDR']}', fcm_token = '{$appToken}' where id = '{$member['id']}' ";
             sql_query($sql);
         } else {
 
           // fcm_token 추가 _20240701_SY
-          if(!empty($appToken) || $appToken != null) {
-            $chk_token_sel = " SELECT id AS fcm_id FROM shop_member WHERE fcm_token = '{$appToken}' ";
-            $chk_token_row = sql_fetch($chk_token_sel);
-            $token_reset = sql_query(" UPDATE shop_member SET fcm_token = '' WHERE id = '{$chk_token_row['fcm_id']}' ");
-
+          if(!empty($appToken)) {
             $sql = " update shop_member set login_ip = '{$_SERVER['REMOTE_ADDR']}', fcm_token = '{$appToken}' where id = '{$member['id']}' ";
             sql_query($sql);
           }
