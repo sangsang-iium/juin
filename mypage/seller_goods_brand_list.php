@@ -44,7 +44,7 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>브랜드 등록</h2>
+<h5 class="htag_title marb20">브랜드 등록</h5>
 <form name="fbrandlist2" id="fbrandlist2" action="./seller_goods_brand_form_update.php" method="post" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
@@ -97,12 +97,16 @@ EOF;
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('br_name', $sfl, '브랜드명 (KOR)'); ?>
-				<?php echo option_selected('br_name_eng', $sfl, '브랜드명 (ENG)'); ?>
-				<?php echo option_selected('mb_id', $sfl, '회원ID'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('br_name', $sfl, '브랜드명 (KOR)'); ?>
+                        <?php echo option_selected('br_name_eng', $sfl, '브랜드명 (ENG)'); ?>
+                        <?php echo option_selected('mb_id', $sfl, '회원ID'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -118,7 +122,7 @@ EOF;
 <input type="hidden" name="q1" value="<?php echo $q1; ?>">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 	<span class="ov_a">본사에서 등록 된 브랜드는 삭제 및 수정이 불가합니다.</span>
 </div>
@@ -134,7 +138,7 @@ EOF;
 		<col>
 		<col class="w130">
 		<col class="w80">
-		<col class="w110">
+		<col class="w200">
 		<col class="w60">
 	</colgroup>
 	<thead>
@@ -182,7 +186,11 @@ EOF;
 		<td><input type="text" name="br_name_eng[<?php echo $i; ?>]" value="<?php echo$row['br_name_eng']; ?>"class="frm_input"<?php echo $readonly; ?>></td>
 		<td><?php echo $row['mb_id'] == 'admin' ? "본사":$row['mb_id']; ?></td>
 		<td><?php echo number_format($row2['cnt']); ?></td>
-		<td><a href="/shop/brandlist.php?br_id=<?php echo $br_id; ?>" target="_blank" class="btn_small grey">브랜드 바로가기</a></td>
+		<td>
+            <div class="btn_wrap">
+                <a href="/shop/brandlist.php?br_id=<?php echo $br_id; ?>" target="_blank" class="go"><span>브랜드 바로가기</span></a>
+            </div>
+        </td>
 		<td><?php echo $s_upd; ?></td>
 	</tr>
 	<?php 

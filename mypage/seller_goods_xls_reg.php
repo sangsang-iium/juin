@@ -17,8 +17,10 @@ include_once("./admin_head.sub.php");
 	<tr>
 		<th scope="row">샘플파일 다운</th>
 		<td>
-			<a href="<?php echo BV_LIB_URL; ?>/Excel/itemexcelsellerv3.xls" class="btn_small bx-blue"><i class="fa fa-download"></i> 샘플파일 다운로드</a>
-			<a href="<?php echo BV_ADMIN_URL; ?>/category/category_excel.php" class="btn_small bx-blue"><i class="fa fa-download"></i> 카테고리 다운로드</a>
+            <div class="btn_wrap tal">
+                <a href="<?php echo BV_LIB_URL; ?>/Excel/itemexcelsellerv3.xls" class="fbtn xls"><span>샘플파일 다운로드</span></a>
+                <a href="<?php echo BV_ADMIN_URL; ?>/category/category_excel.php" class="fbtn xls"><span>카테고리 다운로드</span></a>
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -34,7 +36,17 @@ include_once("./admin_head.sub.php");
 </div>
 </form>
 
-<div class="information">
+
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ul class="cnt_list step01">
+        <li>엑셀자료는 1회 업로드당 최대 1,000건까지 이므로 1,000건씩 나누어 업로드 하시기 바랍니다.</li>
+        <li>엑셀파일을 저장하실 때는 <strong>Excel 97 - 2003 통합문서 (*.xls)</strong>로 저장하셔야 합니다.</li>
+        <li>엑셀데이터는 4번째 라인부터 저장되므로 샘플파일 설명글과 타이틀은 지우시면 안됩니다.</li>
+    </ul>
+</div>
+
+<!-- <div class="information">
 	<h4>도움말</h4>
 	<div class="content">
 		<div class="desc02">
@@ -43,7 +55,7 @@ include_once("./admin_head.sub.php");
 			<p>ㆍ엑셀데이터는 4번째 라인부터 저장되므로 샘플파일 설명글과 타이틀은 지우시면 안됩니다.</p>
 		</div>
 	 </div>
-</div>
+</div> -->
 
 <script>
 function fitemexcel_submit(f)

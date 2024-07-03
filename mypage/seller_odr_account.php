@@ -43,7 +43,7 @@ $result = sql_query($sql);
 include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title marb20 ">기본검색</h5>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
@@ -56,18 +56,24 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('od_id', $sfl, '주문번호'); ?>
-				<?php echo option_selected('od_no', $sfl, '일련번호'); ?>
-				<?php echo option_selected('name', $sfl, '주문자명'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('od_id', $sfl, '주문번호'); ?>
+                        <?php echo option_selected('od_no', $sfl, '일련번호'); ?>
+                        <?php echo option_selected('name', $sfl, '주문자명'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">주문일</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+			    <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -79,7 +85,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 </div>
 </form>
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
 <div class="tbl_head01">
