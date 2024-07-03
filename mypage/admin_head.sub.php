@@ -9,4 +9,5 @@ if(!defined('_BLUEVATION_')) exit;
 </div>
 
 <div class="s_wrap">
-	<h1><?php echo $pg_title; ?></h1>
+	<h4 class="htag_title"><?php echo $pg_title; ?></h4>
+    <p class="gap50"></p>

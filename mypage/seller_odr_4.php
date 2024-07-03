@@ -15,7 +15,7 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title marb20 ">기본검색</h5>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
@@ -28,52 +28,64 @@ EOF;
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('od_id', $sfl, '주문번호'); ?>
-				<?php echo option_selected('od_no', $sfl, '일련번호'); ?>
-				<?php echo option_selected("mb_id", $sfl, '회원아이디'); ?>
-				<?php echo option_selected('name', $sfl, '주문자명'); ?>
-				<?php echo option_selected('deposit_name', $sfl, '입금자명'); ?>
-				<?php echo option_selected('bank', $sfl, '입금계좌'); ?>
-				<?php echo option_selected('b_name', $sfl, '수령자명'); ?>
-				<?php echo option_selected('b_telephone', $sfl, '수령자집전화'); ?>
-				<?php echo option_selected('b_cellphone', $sfl, '수령자핸드폰'); ?>
-				<?php echo option_selected('delivery_no', $sfl, '운송장번호'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('od_id', $sfl, '주문번호'); ?>
+                        <?php echo option_selected('od_no', $sfl, '일련번호'); ?>
+                        <?php echo option_selected("mb_id", $sfl, '회원아이디'); ?>
+                        <?php echo option_selected('name', $sfl, '주문자명'); ?>
+                        <?php echo option_selected('deposit_name', $sfl, '입금자명'); ?>
+                        <?php echo option_selected('bank', $sfl, '입금계좌'); ?>
+                        <?php echo option_selected('b_name', $sfl, '수령자명'); ?>
+                        <?php echo option_selected('b_telephone', $sfl, '수령자집전화'); ?>
+                        <?php echo option_selected('b_cellphone', $sfl, '수령자핸드폰'); ?>
+                        <?php echo option_selected('delivery_no', $sfl, '운송장번호'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기간검색</th>
 		<td>
-			<select name="sel_field">
-				<?php echo option_selected('od_time', $sel_field, "주문일"); ?>
-				<?php echo option_selected('receipt_time', $sel_field, "입금완료일"); ?>
-				<?php echo option_selected('delivery_date', $sel_field, "배송일"); ?>
-			</select>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sel_field">
+                        <?php echo option_selected('od_time', $sel_field, "주문일"); ?>
+                        <?php echo option_selected('receipt_time', $sel_field, "입금완료일"); ?>
+                        <?php echo option_selected('delivery_date', $sel_field, "배송일"); ?>
+                    </select>
+                </div>
+                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">결제방법</th>
 		<td>
-			<?php echo radio_checked('od_settle_case', $od_settle_case,  '', '전체'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '무통장', '무통장'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '가상계좌', '가상계좌'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '계좌이체', '계좌이체'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '휴대폰', '휴대폰'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '신용카드', '신용카드'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '간편결제', 'PG간편결제'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, 'KAKAOPAY', 'KAKAOPAY'); ?>
+            <div class="radio_group">
+                <?php echo radio_checked('od_settle_case', $od_settle_case,  '', '전체'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '무통장', '무통장'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '가상계좌', '가상계좌'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '계좌이체', '계좌이체'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '휴대폰', '휴대폰'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '신용카드', '신용카드'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '간편결제', 'PG간편결제'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, 'KAKAOPAY', 'KAKAOPAY'); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기타선택</th>
 		<td>
-			<?php echo check_checked('od_memo', $od_memo, 'Y', '배송메세지'); ?>
-			<?php echo check_checked('od_receipt_point', $od_receipt_point, 'Y', '포인트주문'); ?>
-			<?php echo check_checked('od_coupon', $od_coupon, 'Y', '쿠폰할인'); ?>
-			<?php echo check_checked('od_escrow', $od_escrow, 'Y', '에스크로'); ?>
+            <div class="checks"> 
+                <?php echo check_checked('od_memo', $od_memo, 'Y', '배송메세지'); ?>
+                <?php echo check_checked('od_receipt_point', $od_receipt_point, 'Y', '포인트주문'); ?>
+                <?php echo check_checked('od_coupon', $od_coupon, 'Y', '쿠폰할인'); ?>
+                <?php echo check_checked('od_escrow', $od_escrow, 'Y', '에스크로'); ?>
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -176,7 +188,9 @@ EOF;
 		<td class="td_imgline"><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 30, 30); ?></a></td>
 		<td class="td_itname"><a href="<?php echo BV_MYPAGE_URL; ?>/page.php?code=seller_goods_form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
 		<td>
-			<?php echo get_delivery_select("delivery[".$chk_cnt."]", $row2['delivery']); ?>
+            <div class="chk_select">
+                <?php echo get_delivery_select("delivery[".$chk_cnt."]", $row2['delivery']); ?>
+            </div>
 		</td>
 		<td><input type="text" name="delivery_no[<?php echo $chk_cnt; ?>]" value="<?php echo $row2['delivery_no']; ?>" class="frm_input" placeholder="개별 운송장번호"></td>
 		<td><?php echo get_delivery_inquiry($row2['delivery'], $row2['delivery_no'], 'btn_ssmall'); ?></td>
@@ -214,8 +228,12 @@ EOF;
 	<tr>
 		<th scope="row" rowspan="2">선택한 주문을</th>
 		<td>
-			<?php echo get_delivery_select("delivery2"); ?>
-			<input type="text" name="delivery_no2" class="frm_input" placeholder="일괄 운송장번호">
+            <div class="tel_input">
+                <div class="chk_select w200">
+			        <?php echo get_delivery_select("delivery2"); ?>
+                </div>
+                <input type="text" name="delivery_no2" class="frm_input" placeholder="일괄 운송장번호">
+            </div>
 			<?php echo help('선택한 주문을 일괄처리시에 입력하세요. 주문목록에서 개별 입력도 가능합니다.'); ?>
 		</td>
 	</tr>
@@ -233,20 +251,23 @@ EOF;
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
 ?>
 
-<div class="information">
-	<h4>도움말</h4>
-	<div class="content">
-		<div class="hd">ㆍ주문상태 변경에 제한이 있나요?</div>
-		<div class="desc01 accent">
-			<p>ㆍ주문리스트 내 선택된 주문의 상태를 <em>"배송준비 &gt; 배송중 &gt; 배송완료"</em> 순으로 변경됩니다.</p>
-			<p>ㆍ배송중 상태의 주문은 "배송완료" 상태로만 변경할 수 있으며, 주문의 일부 상품만 부분적으로 "배송완료" 상태로 변경 가능합니다.</p>
-		</div>
-		<div class="hd">ㆍ출고중 취소할 수 있나요?</div>
-		<div class="desc01 accent">
-			<p>ㆍ배송중 상태의 주문을 취소/환불 처리가 불가능합니다.</p>
-		</div>
-	 </div>
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ul class="cnt_list step01">
+        <li>주문상태 변경에 제한이 있나요?
+            <ul class="cnt_list step02">
+                <li>주문리스트 내 선택된 주문의 상태를 <em>"배송준비 &gt; 배송중 &gt; 배송완료"</em> 순으로 변경됩니다.</li>
+                <li>배송중 상태의 주문은 "배송완료" 상태로만 변경할 수 있으며, 주문의 일부 상품만 부분적으로 "배송완료" 상태로 변경 가능합니다.</li>
+            </ul>
+        </li>
+        <li>출고중 취소할 수 있나요?
+            <ul class="cnt_list step02">
+                <li>배송중 상태의 주문을 취소/환불 처리가 불가능합니다.</li>
+            </ul>
+        </li>
+    </ul>
 </div>
+
 
 <script>
 $(function(){

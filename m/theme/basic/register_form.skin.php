@@ -1204,7 +1204,6 @@ $(function() {
 				$cert_type = 'kcb-hp';
 				break;
 			case 'kcp':
-				// $cert_url = BV_KCPCERT_URL.'/kcpcert_form.php';
 				$cert_url = BV_KCPCERT_URL.'/WEB_ENC/kcpcert_start.php';
 				$cert_type = 'kcp-hp';
 				break;

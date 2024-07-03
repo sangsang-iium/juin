@@ -59,16 +59,18 @@ if($w == "u" && $bak) {
 $frm_submit .= '</div>';
 
 $pg_anchor = <<<EOF
-<ul class="anchor">
-	<li><a href="#anc_sitfrm_cate">카테고리</a></li>
-	<li><a href="#anc_sitfrm_ini">기본정보</a></li>
-	<li><a href="#anc_sitfrm_option">옵션정보</a></li>
-	<li><a href="#anc_sitfrm_cost">가격 및 재고</a></li>
-	<li><a href="#anc_sitfrm_sendcost">배송비</a></li>
-	<li><a href="#anc_sitfrm_compact">요약정보</a></li>
-	<li><a href="#anc_sitfrm_relation">관련상품</a></li>
-	<li><a href="#anc_sitfrm_img">상품이미지</a></li>
-</ul>
+<div class="tap_box mart20 marb20">
+    <ul class="taps type3">
+        <li><a href="#anc_sitfrm_cate">카테고리</a></li>
+        <li><a href="#anc_sitfrm_ini">기본정보</a></li>
+        <li><a href="#anc_sitfrm_option">옵션정보</a></li>
+        <li><a href="#anc_sitfrm_cost">가격 및 재고</a></li>
+        <li><a href="#anc_sitfrm_sendcost">배송비</a></li>
+        <li><a href="#anc_sitfrm_compact">요약정보</a></li>
+        <li><a href="#anc_sitfrm_relation">관련상품</a></li>
+        <li><a href="#anc_sitfrm_img">상품이미지</a></li>
+    </ul>
+</div>
 EOF;
 
 
@@ -226,7 +228,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 </style>
 
 <section id="anc_sitfrm_cate">
-<h2>카테고리</h2>
+<h5 class="htag_title marb20">카테고리</h5>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p>선택된 카테고리에 <span class="fc_084">최상위 카테고리는 대표 카테고리로 자동설정</span>되며, 최소 1개의 카테고리는 등록하셔야 합니다.</p>
@@ -234,7 +236,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 <div class="tbl_frm02">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -306,7 +308,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 <?php echo $frm_submit; ?>
 
 <section id="anc_sitfrm_ini">
-<h2>기본정보</h2>
+<h5 class="htag_title marb20 mart65">기본정보</h5>
 <?php echo $pg_anchor; ?>
 <?php if($w == 'u') { ?>
 <div class="local_desc02 local_desc">
@@ -316,7 +318,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 <div class="tbl_frm02">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -357,16 +359,18 @@ $income_per = ($supply_price / $goods_price) * 100;
 	<tr>
 		<th scope="row">브랜드</th>
 		<td>
-			<select name="brand_uid">
-				<option value="">선택</option>
-				<?php
-				$sql = "select * from shop_brand where br_user_yes = 0 order by br_name asc ";
-				$result = sql_query($sql);
-				while($row = sql_fetch_array($result)){
-					echo option_selected($row['br_id'], $gs['brand_uid'], $row['br_name']);
-				}
-				?>
-			</select>
+            <div class="chk_select">
+                <select name="brand_uid">
+                    <option value="">선택</option>
+                    <?php
+                    $sql = "select * from shop_brand where br_user_yes = 0 order by br_name asc ";
+                    $result = sql_query($sql);
+                    while($row = sql_fetch_array($result)){
+                        echo option_selected($row['br_id'], $gs['brand_uid'], $row['br_name']);
+                    }
+                    ?>
+                </select>
+            </div>
 		</td>
 	</tr>
 	<tr>
@@ -384,17 +388,21 @@ $income_per = ($supply_price / $goods_price) * 100;
 	<tr>
 		<th scope="row">과세설정</th>
 		<td class="td_label">
-			<?php echo radio_checked('notax', $gs['notax'], '1', '과세'); ?>
-			<?php echo radio_checked('notax', $gs['notax'], '0', '면세'); ?>
+            <div class="radio_group">
+                <?php echo radio_checked('notax', $gs['notax'], '1', '과세'); ?>
+                <?php echo radio_checked('notax', $gs['notax'], '0', '면세'); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">판매여부</th>
 		<td class="td_label">
-			<?php echo radio_checked('isopen', $gs['isopen'], '1', '진열'); ?>
-			<?php echo radio_checked('isopen', $gs['isopen'], '2', '품절'); ?>
-			<?php echo radio_checked('isopen', $gs['isopen'], '3', '단종'); ?>
-			<?php echo radio_checked('isopen', $gs['isopen'], '4', '중지'); ?>
+            <div class="radio_group">
+                <?php echo radio_checked('isopen', $gs['isopen'], '1', '진열'); ?>
+                <?php echo radio_checked('isopen', $gs['isopen'], '2', '품절'); ?>
+                <?php echo radio_checked('isopen', $gs['isopen'], '3', '단종'); ?>
+                <?php echo radio_checked('isopen', $gs['isopen'], '4', '중지'); ?>
+            </div>
 		</td>
 	</tr>
 		<tr>
@@ -414,12 +422,12 @@ $income_per = ($supply_price / $goods_price) * 100;
 <?php echo $frm_submit; ?>
 
 <section id="anc_sitfrm_option">
-<h2>옵션정보</h2>
+<h5 class="htag_title marb20 mart65">옵션정보</h5>
 <?php echo $pg_anchor; ?>
 <div class="tbl_frm02">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -432,9 +440,9 @@ $income_per = ($supply_price / $goods_price) * 100;
 			<p class="mart5">옵션항목은 콤마 ( , ) 로 구분하여 여러개를 입력할 수 있습니다. 예시) 빨강, 노랑, 파랑</p>
 			<table class="mart7">
 			<colgroup>
-				<col width="60px">
-				<col width="150px">
-				<col width="85px">
+				<col width="220px">
+				<col>
+				<col width="220px">
 				<col>
 			</colgroup>
 			<tbody>
@@ -605,14 +613,14 @@ $income_per = ($supply_price / $goods_price) * 100;
 		<td>
 			<p>
 				<span class="mart7 fl">옵션항목은 콤마 ( , ) 로 구분하여 여러개를 입력할 수 있습니다. 예시) 빨강, 노랑, 파랑</span>
-				<button type="button" id="add_supply_row" class="btn_small blue marb5 fr">옵션추가</button>
+				<button type="button" id="add_supply_row" class="btn_large blue marb5 fr">옵션추가</button>
 			</p>
 			<div id="sit_supply_frm">
 				<table>
 				<colgroup>
-					<col width="60px">
-					<col width="150px">
-					<col width="85px">
+					<col width="220px">
+					<col>
+					<col width="220px">
 					<col>
 					<col width="65px">
 				</colgroup>
@@ -829,24 +837,32 @@ $income_per = ($supply_price / $goods_price) * 100;
 <?php echo $frm_submit; ?>
 
 <section id="anc_sitfrm_cost">
-<h2>가격 및 재고</h2>
+<h5 class="htag_title marb20 mart65">가격 및 재고</h5>
 <?php echo $pg_anchor; ?>
 <div class="tbl_frm02">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
   <tr>
 		<th scope="row">정산방식</th>
 		<td>
-      <input type="radio" name="supply_type" value="2" id="income_type0"<?php echo ($w == '') ? "checked" : get_checked('2', $gs['supply_type']); ?> >
-			<label for="income_type0" class="marr10">업체 정산 설정에 따름</label>
-      <input type="radio" name="supply_type" value="0" id="income_type1"<?php echo get_checked('0', $gs['supply_type']); ?> >
-			<label for="income_type1" class="marr10">매입가 정산 지급</label>
-			<input type="radio" name="supply_type" value="1" id="income_type2"<?php echo get_checked('1', $gs['supply_type']); ?> >
-			<label for="income_type2" class="marr10">수수료 정산 지급</label>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="supply_type" value="2" id="income_type0"<?php echo ($w == '') ? "checked" : get_checked('2', $gs['supply_type']); ?> >
+                    <label for="income_type0" class="marr10">업체 정산 설정에 따름</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="supply_type" value="0" id="income_type1"<?php echo get_checked('0', $gs['supply_type']); ?> >
+                    <label for="income_type1" class="marr10">매입가 정산 지급</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="supply_type" value="1" id="income_type2"<?php echo get_checked('1', $gs['supply_type']); ?> >
+                    <label for="income_type2" class="marr10">수수료 정산 지급</label>
+                </li>
+            </ul>
 		</td>
 	</tr>
   <?php
@@ -856,10 +872,16 @@ $income_per = ($supply_price / $goods_price) * 100;
   <tr id="incomePer_type" style="<?php echo $display ?>">
     <th scope="row">지급방식</th>
     <td>
-      <input type="radio" name="incomePer_type" value="0" id="incomePer_type1" <?php echo ($w == '') ? "checked" : get_checked('0', $gs['income_per_type']); ?>>
-			<label for="incomePer_type1" class="marr10">정액지급<b class="incomePer_type1"></b> </label>
-      <input type="radio" name="incomePer_type" value="1" id="incomePer_type2" <?php echo ($w == '') ? "" : get_checked('1', $gs['income_per_type']); ?>>
-			<label for="incomePer_type2" class="marr10">정률지급<b class="incomePer_type2"></b> </label>
+        <ul class="radio_group">
+            <li class="radios">
+                <input type="radio" name="incomePer_type" value="0" id="incomePer_type1" <?php echo ($w == '') ? "checked" : get_checked('0', $gs['income_per_type']); ?>>
+                <label for="incomePer_type1" class="marr10">정액지급<b class="incomePer_type1"></b> </label>
+            </li>
+            <li class="radios">
+                <input type="radio" name="incomePer_type" value="1" id="incomePer_type2" <?php echo ($w == '') ? "" : get_checked('1', $gs['income_per_type']); ?>>
+			    <label for="incomePer_type2" class="marr10">정률지급<b class="incomePer_type2"></b> </label>
+            </li>
+        </ul>
     </td>
   </tr>
 	<tr>
@@ -907,10 +929,16 @@ $income_per = ($supply_price / $goods_price) * 100;
 	<tr>
 		<th scope="row">수량</th>
 		<td>
-			<input type="radio" name="stock_mod" value="0" id="ids_stock_mode1"<?php echo get_checked('0', $gs['stock_mod']); ?> onclick="chk_stock(0);">
-			<label for="ids_stock_mode1" class="marr10">무제한</label>
-			<input type="radio" name="stock_mod" value="1" id="ids_stock_mode2"<?php echo get_checked('1', $gs['stock_mod']); ?> onclick="chk_stock(1);">
-			<label for="ids_stock_mode2">한정</label>
+            <ul class="radio_group marb10">
+                <li class="radios">
+                    <input type="radio" name="stock_mod" value="0" id="ids_stock_mode1"<?php echo get_checked('0', $gs['stock_mod']); ?> onclick="chk_stock(0);">
+                    <label for="ids_stock_mode1" class="marr10">무제한</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="stock_mod" value="1" id="ids_stock_mode2"<?php echo get_checked('1', $gs['stock_mod']); ?> onclick="chk_stock(1);">
+                    <label for="ids_stock_mode2">한정</label>
+                </li>
+            </ul>
 			<input type="text" name="stock_qty" value="<?php echo number_format($gs['stock_qty']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 개,
 			<b class="marl10">재고 통보수량</b> <input type="text" name="noti_qty" value="<?php echo number_format($gs['noti_qty']); ?>" class="frm_input w80" onkeyup="addComma(this);"> 개
 			<p class="fc_197 mart7">상품의 재고가 통보수량보다 작을 때 상품 재고관리에 표시됩니다.<br>옵션이 있는 상품은 개별 옵션의 통보수량이 적용됩니다. 설정이 무제한이면 재고관리에 표시되지 않습니다.</p>
@@ -931,7 +959,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 			<input type="text" name="sb_date" value="<?php echo $gs['sb_date']; ?>" id="sb_date" class="frm_input w80" maxlength="10"> ~
 			<label for="eb_date" class="sound_only">종료일</label>
 			<input type="text" name="eb_date" value="<?php echo $gs['eb_date']; ?>" id="eb_date" class="frm_input w80" maxlength="10">
-			<a href="javascript:void(0);" class="btn_small is_reset">기간초기화</a>
+			<a href="javascript:void(0);" class="btn_large is_reset marl10">기간초기화</a>
 			<div class="fc_197 mart7">
 				설정된 기간 동안만 판매 가능하며, 설정된 종료일 이후에는 판매되지 않습니다.<br>
 				일시 판매중지 처리하실 경우, 종료일을 현재날짜 이전의 과거 날짜를 넣어주시면 됩니다.
@@ -952,8 +980,16 @@ $income_per = ($supply_price / $goods_price) * 100;
 	<tr>
 		<th scope="row">구매가능 레벨</th>
 		<td>
-			<?php echo get_goods_level_select('buy_level', $gs['buy_level']); ?>
-			<label class="marl5"><input type="checkbox" name="buy_only" value="1"<?php echo get_checked('1', $gs['buy_only']); ?>> 현재 레벨이상 가격공개</label>
+            <div class="write_address">
+                <div class="file_wrap address">
+                    <div class="chk_select">
+                        <?php echo get_goods_level_select('buy_level', $gs['buy_level']); ?>
+                    </div>
+                    <div class="checks">
+                        <label class="marl5"><input type="checkbox" name="buy_only" value="1"<?php echo get_checked('1', $gs['buy_only']); ?>> 현재 레벨이상 가격공개</label>
+                    </div>
+                </div>
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -1086,7 +1122,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 <?php echo $frm_submit; ?>
 
 <section id="anc_sitfrm_sendcost">
-<h2>배송비</h2>
+<h5 class="htag_title marb20 mart65">배송비</h5>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p>※ <span>참고사항) : 고객이 동일 판매자의 상품을 복수 구매시 배송비는 단 한번만 부과 됩니다. 단! 배송비는 가장 큰값을 산출하여 적용 됩니다.</span></p>
@@ -1096,20 +1132,22 @@ $income_per = ($supply_price / $goods_price) * 100;
 <div class="tbl_frm02">
 	<table id="add_row">
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">배송정보</th>
 		<td>
-			<select name="sc_type" onChange="chk_sc_type(this.value);">
-				<?php //echo option_selected('0', $gs['sc_type'], '공통설정'); ?>
-				<?php echo option_selected('1', $gs['sc_type'], '무료배송'); ?>
-				<?php //echo option_selected('2', $gs['sc_type'], '조건부무료배송'); ?>
-				<?php //echo option_selected('3', $gs['sc_type'], '유료배송'); ?>
-				<?php echo option_selected('4', $gs['sc_type'], '차량배송'); ?>
-			</select>
+            <div class="chk_select">
+                <select name="sc_type" onChange="chk_sc_type(this.value);">
+                    <?php //echo option_selected('0', $gs['sc_type'], '공통설정'); ?>
+                    <?php echo option_selected('1', $gs['sc_type'], '무료배송'); ?>
+                    <?php //echo option_selected('2', $gs['sc_type'], '조건부무료배송'); ?>
+                    <?php //echo option_selected('3', $gs['sc_type'], '유료배송'); ?>
+                    <?php echo option_selected('4', $gs['sc_type'], '차량배송'); ?>
+                </select>
+            </div>
 			<!-- <a href="./page.php?code=seller_baesong" target="_blank" class="btn_small grey">설정</a> -->
 			<!-- <div id="sc_method" class="mart7">
 				배송비결제
@@ -1157,7 +1195,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 							<?php echo $row_zone['areaname'] ?>
 							<input type="hidden" name="zone[]" id="zone" value="<?php echo $row_zone['areaname'] ?> ">
 						</div>
-						<div>
+						<div class="chk_select">
 							<select id="delivery_mg" name="delivery_mg[]">
 								<option value="">해당없음</option>
 							<?php
@@ -1183,22 +1221,28 @@ $income_per = ($supply_price / $goods_price) * 100;
 <style>
 	.area_zone ul {
 		display: flex;
-    flex-wrap: wrap;
+        flex-wrap: wrap;
+        gap:10px 1%;
 	}
 	.area_zone li {
 		width: 20%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        text-align: center
 	}
-	.area_zone li div {
+	/* .area_zone li div {
 		display: inline-block;
-	}
+	} */
 	.area_zone li div:first-child{
-		width: 50px;
+		width: 70px;
+        flex-shrink: 0;
 	}
 
 </style>
 
 <section id="anc_sitfrm_compact">
-<h2>요약정보</h2>
+<h5 class="htag_title marb20 mart65">요약정보</h5>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p><strong>전자상거래 등에서의 상품 등의 정보제공에 관한 고시</strong>에 따라 총 35개 상품군에 대해 상품 특성 등을 양식에 따라 입력할 수 있습니다.</p>
@@ -1206,24 +1250,26 @@ $income_per = ($supply_price / $goods_price) * 100;
 <div class="tbl_frm02">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">상품군 선택</th>
 		<td>
-			<select name="info_gubun" id="info_gubun">
-				<option value="">상품군 카테고리 선택</option>
-				<?php
-				if(!$gs['info_gubun']) $gs['info_gubun'] = 'wear';
-				foreach($item_info as $key=>$value) {
-					$opt_value = $key;
-					$opt_text  = $value['title'];
-					echo '<option value="'.$opt_value.'" '.get_selected($opt_value, $gs['info_gubun']).'>'.$opt_text.'</option>'.PHP_EOL;
-				}
-				?>
-			</select>
+            <div class="chk_select">
+                <select name="info_gubun" id="info_gubun">
+                    <option value="">상품군 카테고리 선택</option>
+                    <?php
+                    if(!$gs['info_gubun']) $gs['info_gubun'] = 'wear';
+                    foreach($item_info as $key=>$value) {
+                        $opt_value = $key;
+                        $opt_text  = $value['title'];
+                        echo '<option value="'.$opt_value.'" '.get_selected($opt_value, $gs['info_gubun']).'>'.$opt_text.'</option>'.PHP_EOL;
+                    }
+                    ?>
+                </select>
+            </div>
 		</td>
 	</tr>
 	</tbody>
@@ -1287,7 +1333,7 @@ $(function(){
 <?php echo $frm_submit; ?>
 
 <section id="anc_sitfrm_relation" style="display:none">
-<h2>관련상품</h2>
+<h5 class="htag_title marb20 mart65">관련상품</h5>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p>
@@ -1416,22 +1462,28 @@ $(function(){
 <?php //echo $frm_submit; ?>
 
 <section id="anc_sitfrm_img">
-<h2>상품이미지 및 상세정보</h2>
+<h5 class="htag_title marb20 mart65">상품이미지 및 상세정보</h5>
 <?php echo $pg_anchor; ?>
 <div class="tbl_frm02">
 	<table>
 	<colgroup>
-		<col class="w180">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
 	<tr>
 		<th scope="row">이미지 등록방식</th>
-		<td class="td_label">
-			<input type="radio" name="simg_type" id="simg_type_1" value="0"<?php echo get_checked('0', $gs['simg_type']); ?> onclick="chk_simg_type(0);">
-			<label for="simg_type_1">직접 업로드</label>
-			<input type="radio" name="simg_type" id="simg_type_2" value="1"<?php echo get_checked('1', $gs['simg_type']); ?> onclick="chk_simg_type(1);">
-			<label for="simg_type_2">URL 입력</label>
+		<td>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="simg_type" id="simg_type_1" value="0"<?php echo get_checked('0', $gs['simg_type']); ?> onclick="chk_simg_type(0);">
+                    <label for="simg_type_1">직접 업로드</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="simg_type" id="simg_type_2" value="1"<?php echo get_checked('1', $gs['simg_type']); ?> onclick="chk_simg_type(1);">
+                    <label for="simg_type_2">URL 입력</label>
+                </li>
+            </ul>
 		</td>
 	</tr>
 	<?php

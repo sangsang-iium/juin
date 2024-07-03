@@ -8,62 +8,68 @@ include_once("./admin_head.sub.php");
 <form name="fregform" method="post" action="./seller_info_update.php">
 <input type="hidden" name="token" value="">
 
-<h2>사업자 정보</h2>
+<h5 class="htag_title marb20">사업자 정보</h5>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
+		<col>
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tr>
 		<th scope="row">업체코드</th>
 		<td><?php echo $seller['seller_code']; ?></td>
-	</tr>
-	<tr>
 		<th scope="row">제공상품</th>
 		<td><input type="text" name="seller_item" value="<?php echo $seller['seller_item']; ?>" required itemname="제공상품" class="required frm_input" size="30"></td>
 	</tr>
 	<tr>
 		<th scope="row">업체(법인)명</th>
 		<td><input type="text" name="company_name" value="<?php echo $seller['company_name']; ?>" required itemname="업체(법인)명" class="required frm_input" size="30"></td>
-	</tr>
-	<tr>
 		<th scope="row">대표자명</th>
 		<td><input type="text" name="company_owner" value="<?php echo $seller['company_owner']; ?>" required itemname="대표자명" class="required frm_input" size="30"></td>
 	</tr>
 	<tr>
 		<th scope="row">사업자등록번호</th>
-		<td><input type="text" name="company_saupja_no" value="<?php echo $seller['company_saupja_no']; ?>" required itemname="사업자등록번호" class="required frm_input" size="30"></td>
+		<td colspan="3"><input type="text" name="company_saupja_no" value="<?php echo $seller['company_saupja_no']; ?>" required itemname="사업자등록번호" class="required frm_input" size="30"></td>
 	</tr>
 	<tr>
-		<th scope="row">업태</th>
+        <th scope="row">업태</th>
 		<td><input type="text" name="company_item" value="<?php echo $seller['company_item']; ?>" required itemname="업태" class="required frm_input" size="30"></td>
-	</tr>
-	<tr>
 		<th scope="row">종목</th>
 		<td><input type="text" name="company_service" value="<?php echo $seller['company_service']; ?>" required itemname="종목" class="required frm_input" size="30"></td>
 	</tr>
 	<tr>
 		<th scope="row">전화번호</th>
 		<td><input type="text" name="company_tel" value="<?php echo $seller['company_tel']; ?>" required itemname="전화번호" class="required frm_input" size="30"></td>
-	</tr>
-	<tr>
 		<th scope="row">팩스번호</th>
 		<td><input type="text" name="company_fax" value="<?php echo $seller['company_fax']; ?>" class="frm_input" size="30"></td>
 	</tr>
 	<tr>
 		<th scope="row">사업장주소</th>
-		<td>
-			<p><input type="text" name="company_zip" value="<?php echo $seller['company_zip']; ?>" class="frm_input" size="8" maxlength="5"> <a href="javascript:win_zip('fregform', 'company_zip', 'company_addr1', 'company_addr2', 'company_addr3', 'company_addr_jibeon');" class="btn_small grey">주소검색</a></p>
-			<p class="mart3"><input type="text" name="company_addr1" value="<?php echo $seller['company_addr1']; ?>" class="frm_input" size="60"> 기본주소</p>
-			<p class="mart3"><input type="text" name="company_addr2" value="<?php echo $seller['company_addr2']; ?>" class="frm_input" size="60"> 상세주소</p>
-			<p class="mart3"><input type="text" name="company_addr3" value="<?php echo $seller['company_addr3']; ?>" class="frm_input" size="60"> 참고항목
-			<input type="hidden" name="company_addr_jibeon" value="<?php echo $seller['company_addr_jibeon']; ?>"></p>
+		<td colspan="3">
+            <div class="write_address">
+                <div class="file_wrap address">
+                    <input type="text" name="company_zip" value="<?php echo $seller['company_zip']; ?>" class="frm_input filename" size="8" maxlength="5" readonly>
+                    <a href="javascript:win_zip('fregform', 'company_zip', 'company_addr1', 'company_addr2', 'company_addr3', 'company_addr_jibeon');" class="btn_file">주소검색</a>
+                </div>
+                <div class="addressMore">
+                    <input type="text" name="company_addr1" value="<?php echo $seller['company_addr1']; ?>" class="frm_input" size="60"> 
+                    <label for="" class="hide">기본주소</label>
+                    <input type="text" name="company_addr2" value="<?php echo $seller['company_addr2']; ?>" class="frm_input" size="60">
+                    <label for="" class="hide">상세주소</label>
+                </div>
+                <div class="mart5">
+                    <input type="text" name="company_addr3" value="<?php echo $seller['company_addr3']; ?>" class="frm_input" size="60">
+                    <label for="" class="hide">참고항목</label>
+                    <input type="hidden" name="company_addr_jibeon" value="<?php echo $seller['company_addr_jibeon']; ?>">
+                </div>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">홈페이지</th>
-		<td>
+		<td colspan="3">
 			<input type="text" name="company_hompage" value="<?php echo $seller['company_hompage']; ?>" class="frm_input" size="30">
 			<?php echo help('http://를 포함하여 입력하세요'); ?>
 		</td>
@@ -73,7 +79,7 @@ include_once("./admin_head.sub.php");
 </div>
 
 <!-- 차량배송 최소 금액 설정 20240605 jjh -->
-<h2>차량배송 최소 금액 설정</h2>
+<h5 class="htag_title marb20 mart50">차량배송 최소 금액 설정</h5>
 <div class="tbl_frm01">
 	<table>
 		<colgroup>
@@ -93,21 +99,27 @@ include_once("./admin_head.sub.php");
 </div>
 
 <!-- 정산방식 추가 _20240508_SY -->
-<h2>정산방식</h2>
+<h5 class="htag_title marb20 mart50">정산방식</h5>
 <div class="tbl_frm01">
   <table>
     <colgroup>
-      <col class="w180">
+      <col width="220px">
       <col>
     </colgroup>
     <tbody>
       <tr>
         <th scope="row">정산방식</th>
         <td>
-          <input type="radio" name="income_type" value="0" id="income_type1" <?php echo get_checked('0', $seller['income_type']); ?>>
-          <label for="income_type1" class="marr10">매입가 정산 지급</label>
-          <input type="radio" name="income_type" value="1" id="income_type2"<?php echo get_checked('1', $seller['income_type']); ?> >
-          <label for="income_type2" class="marr10">수수료 정산 지급</label>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="income_type" value="0" id="income_type1" <?php echo get_checked('0', $seller['income_type']); ?>>
+                    <label for="income_type1" class="marr10">매입가 정산 지급</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="income_type" value="1" id="income_type2"<?php echo get_checked('1', $seller['income_type']); ?> >
+                    <label for="income_type2" class="marr10">수수료 정산 지급</label>
+                </li>
+            </ul>
         </td>
       </tr>
       <?php
@@ -118,10 +130,16 @@ include_once("./admin_head.sub.php");
       <tr class="incomePer_tr" style="<?php echo $display ?>">
         <th scope="row">지급방식</th>
         <td>
-          <input type="radio" name="incomePer_type" value="0" id="incomePer_type1" <?php echo get_checked('0', $seller['income_per_type']); ?>>
-          <label for="incomePer_type1" class="marr10">정액지급<b class="incomePer_type1"></b> </label>
-          <input type="radio" name="incomePer_type" value="1" id="incomePer_type2" <?php echo get_checked('1', $seller['income_per_type']); ?>>
-          <label for="incomePer_type2" class="marr10">정률지급<b class="incomePer_type2"></b> </label>
+        <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="incomePer_type" value="0" id="incomePer_type1" <?php echo get_checked('0', $seller['income_per_type']); ?>>
+                    <label for="incomePer_type1" class="marr10">정액지급<b class="incomePer_type1"></b> </label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="incomePer_type" value="1" id="incomePer_type2" <?php echo get_checked('1', $seller['income_per_type']); ?>>
+                    <label for="incomePer_type2" class="marr10">정률지급<b class="incomePer_type2"></b> </label>
+                </li>
+            </ul>
         </td>
       </tr>
       <tr class="incomePer_tr" id="incomePer_sub1" style="<?php echo ($seller['income_per_type'] == 1) ? 'display:none;' : '' ?>">
@@ -140,11 +158,11 @@ include_once("./admin_head.sub.php");
   </table>
 </div>
 
-<h2>정산계좌 정보</h2>
+<h5 class="htag_title marb20 mart50">정산계좌 정보</h5>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
@@ -169,11 +187,11 @@ include_once("./admin_head.sub.php");
 	</table>
 </div>
 
-<h2>담당자 정보</h2>
+<h5 class="htag_title marb20 mart50">담당자 정보</h5>
 <div class="tbl_frm01">
 	<table>
 	<colgroup>
-		<col class="w140">
+		<col width="220px">
 		<col>
 	</colgroup>
 	<tbody>
