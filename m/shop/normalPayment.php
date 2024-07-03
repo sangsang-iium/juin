@@ -501,13 +501,13 @@ $sql = " update {$shop_table}
 		  where od_id = '$od_id'";
 sql_query($sql, false);
 
-if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드'))) {
-  $cart_select = " , ct_select = '1' ";
-}
+// if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드','일반'))) {
+//   $cart_select = " , ct_select = '1' ";
+// }
 
-// 장바구니 주문완료 처리 (무통장, 포인트결제)
-$sql = "update shop_cart set od_id = '$od_id' {$cart_select} where index_no IN ({$_POST['ss_cart_id']}) ";
-sql_query($sql);
+// // 장바구니 주문완료 처리 (무통장, 포인트결제)
+// $sql = "update shop_cart set od_id = '$od_id' {$cart_select} where index_no IN ({$_POST['ss_cart_id']}) ";
+// sql_query($sql);
 
 // 재고수량 감소
 for ($i = 0; $i < count($ss_cart_id); $i++) {
@@ -583,11 +583,7 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   }
 }
 
-// 주문번호제거
-set_session('ss_order_id', '');
 
-// 장바구니 session 삭제
-set_session('ss_cart_id', '');
 
 // orderinquiryview 에서 사용하기 위해 session에 넣고
 $uid = md5($od_id . BV_TIME_YMDHIS . $_SERVER['REMOTE_ADDR']);

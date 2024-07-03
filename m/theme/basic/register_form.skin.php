@@ -15,6 +15,20 @@ if(!defined('_BLUEVATION_')) exit;
   // 업종 SELECT _20240604_SY
   $ju_sectors = explode('|', $config['cf_food']);
 
+  // 담당직원 조회 (기본값) 추가 _20240702_SY
+  $getManager_cnt = 0;
+  if($w == '') {
+    $getManager_sel = " SELECT *, kb.branch_code AS b_code, kb.branch_name AS b_name 
+                          FROM shop_manager AS mn
+                     LEFT JOIN kfia_office AS ko
+                            ON (mn.ju_region3 = ko.office_code)
+                     LEFT JOIN kfia_branch AS kb
+                            ON (ko.branch_code = kb.branch_code)
+                         WHERE ko.office_code IN ( SELECT office_code FROM kfia_office WHERE office_name = '{$_POST['OFFICE_NAME']}' ) ";
+    $getManager_res = sql_query($getManager_sel);
+    $getManager_cnt = sql_num_rows($getManager_res);
+  }
+
   if($w=='u') {
     $mng_sel_sql = " SELECT * FROM shop_manager WHERE index_no = '{$member['ju_manager']}' ";
     $mng_sel_row = sql_fetch($mng_sel_sql);
@@ -76,8 +90,7 @@ if(!defined('_BLUEVATION_')) exit;
     <div class="joinDetail-box">
       <div class="container">
         <div class="joinDetail-head">
-          <p class="joinDetail-title">담당직원 등록</p>
-          <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch">담당직원 조회하기</button>
+          <p class="joinDetail-title">중앙회원 정보</p>
           <!-- 담당자 조회하기 팝업 { -->
           <div class="popup type01" id="popMemberSch">
             <div class="pop-inner">
@@ -92,6 +105,17 @@ if(!defined('_BLUEVATION_')) exit;
                 <div class="pop-content-in" style="height: 500px;">
                   <div class="pop-result">
                     <!-- 검색 결과 나올 곳 _20240603_SY -->
+                    <!-- 지회/지부에 따른 담당자 데이터 가져오기 _20240702_SY -->
+                     <?php if($w == '') { 
+                        if($getManager_cnt > 0) {
+                        while($getManager_row = sql_fetch_array($getManager_res)) { ?>
+                      <div class="pop-result-item">
+                        <p class="pop-result-title"><?php echo $getManager_row['name'] ?></p>
+                        <p class="pop-result-text"><?php echo "직원사번 : " . $getManager_row['id'] ?></p>
+                        <p class="pop-result-text"><?php echo "지회/지부 : " . $getManager_row['b_name'] . "/" . $getManager_row['office_name']?></p>
+                        <input type="hidden" class="pop-result-text" value="<?php echo $getManager_row['index_no'] ?>">
+                      </div>
+                     <?php }}} ?>
                   </div>
                 </div>
               </div>
@@ -104,12 +128,33 @@ if(!defined('_BLUEVATION_')) exit;
           <!-- } 담당자 조회하기 팝업 -->
         </div>
         <div class="joinDetail-body">
+          <!-- 매장명 추가 _20240604_SY -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">회원업소명</p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="ju_restaurant" class="frm-input w-per100" value="<?php echo ($w == '') ? $_POST['MEMBER_NAME'] : $member['ju_restaurant'] ?>" readonly >
+            </div>
+          </div>
+          <!-- 지회/지부 정보 _20240608_SY -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">담당 조직</p>
+            </div>
+            <div class="form-body">
+              <input type="hidden" name="ju_region2" value="<?php echo ($w=='') ? (int)$_POST['BRANCH_CODE'] : $member['ju_region2'] ?>" class="frm-input w-per100" >
+              <input type="hidden" name="ju_region3" value="<?php echo ($w=='') ? (int)$_POST['OFFICE_CODE'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
+              <input type="text" name="ju_region_code" value="<?php echo ($w=='u') ? $jibu_name : $_POST['OFFICE_NAME'] ?>" class="frm-input w-per100" readonly>
+            </div>
+          </div>
           <div class="form-row">
             <div class="form-head">
               <p class="title">담당직원<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="<?php echo $mng_sel_row['name']; ?>" placeholder="홍길동" readonly>
+              <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch" style="margin-bottom:0.8rem">담당직원 조회하기</button>
+              <input type="text" name="pop_nm" id="pop_nm" class="frm-input w-per100" value="<?php echo $mng_sel_row['name']; ?>" placeholder="" readonly>
               <input type="hidden" name="mn_idx" id="mn_idx" value="<?php echo $mng_sel_row['index_no']; ?>">
             </div>
           </div>
@@ -391,44 +436,22 @@ if(!defined('_BLUEVATION_')) exit;
               </select>
             </div>
           </div>
-          <!-- 지회/지부 정보 _20240608_SY -->
-          <div class="joinDetail-body">
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title">지회/지부</p>
-              </div>
-              <div class="form-body">
-                <input type="hidden" name="ju_region2" value="<?php echo ($w=='') ? (int)$_POST['BRANCH_CODE'] : $member['ju_region2'] ?>" class="frm-input w-per100" >
-                <input type="hidden" name="ju_region3" value="<?php echo ($w=='') ? (int)$_POST['OFFICE_CODE'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
-                <input type="text" name="ju_region_code" value="<?php echo ($w=='u') ? $jibu_name : "" ?>" class="frm-input w-per100" readonly>
-              </div>
-            </div>
-            <!-- <div class="form-row">
-              <div class="form-head">
-                <p class="title">업태</p>
-              </div>
-              <div class="form-body">
-                <input type="text" name="ju_business_type" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_business_type'] : ""?>" >
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title">업종</p>
-              </div>
-              <div class="form-body">
-                <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
-              </div>
-            </div> -->
-          </div>
-          <!-- 매장명 추가 _20240604_SY -->
-          <div class="form-row">
+          <!-- <div class="form-row">
             <div class="form-head">
-              <p class="title">매장명</p>
+              <p class="title">업태</p>
             </div>
             <div class="form-body">
-              <input type="text" name="ju_restaurant" class="frm-input w-per100" value="<?php echo ($w == '') ? $_POST['MEMBER_NAME'] : $member['ju_restaurant'] ?>" readonly >
+              <input type="text" name="ju_business_type" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_business_type'] : ""?>" >
             </div>
           </div>
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">업종</p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
+            </div>
+          </div> -->
           <div class="form-row store_info">
             <div class="form-head">
               <p class="title">매장 외부 사진 (jpg, gif, png)</p>
@@ -964,10 +987,47 @@ function phoneNumber(value) {
   return result.filter((val) => val).join("-");
 }
 
+
+// 담당자 선택 _20240702_SY
+$('.pop-result').on('click', '.pop-result-item', function() {  
+  $('.pop-result-item').css("border", "");
+  $(this).css("border", "solid");
+
+  let nm     = $(this).find('.pop-result-title').text();
+  let id     = $(this).find('.pop-result-text:eq(0)').text();
+  // 지회/지부 노출로 수정 _202040625_SY
+  let regionArr = $(this).find('.pop-result-text:eq(1)').text().split(' ');
+  // let region1 = $(this).find('.pop-result-text:eq(1)').text().split('/')[1].trim();
+  // let region2 = $(this).find('.pop-result-text:eq(1)').text().split('/')[2].trim();
+  let region1 = regionArr[2].split('/')[0].trim();
+  let region2 = regionArr[2].split('/')[1].trim();
+  let idx    = $(this).find('.pop-result-text:eq(2)').val();
+  let full_region = region1 + " / " + region2
+  console.log(full_region)
+  
+  // 팝업 닫기
+  $('#info_ok').on('click', function() {
+    $('#pop_nm').val(nm);
+    $('#mn_idx').val(idx);
+    // $("input[name=ju_region_code]").val(region2);
+    $("input[name=ju_region_code]").val(full_region);
+
+    $('#popMemberSch').hide();
+    $('.popDim').hide();
+    $('#pop_nm').focus();
+  })
+});
+
 // 담당자 조회하기 _20240603_SY
 function getManager() {
   let search_input = document.querySelector('#KFIA_search');
   let search_words = search_input.value;
+
+  // reset_words 추가 _2240702_SY
+  let reset_words = String
+  if(w == '') {
+    reset_words = "<?php echo $_POST['OFFICE_NAME']?>"
+  }
 
   let search_resIn = document.querySelector('.pop-result');
   
@@ -975,7 +1035,10 @@ function getManager() {
     $.ajax({
       url: bv_url+"/m/bbs/ajax.getManager.php",
       type: "POST",
-      data: { "mcode" : search_words },
+      data: { 
+        "type" : "search",
+        "mcode" : search_words 
+      },
       dataType: "JSON",
       success: function(data) {
         // console.log(data)
@@ -990,39 +1053,33 @@ function getManager() {
           html += '</div>';
         }
         search_resIn.innerHTML = html;
-        
-        $('.pop-result').on('click', '.pop-result-item', function() {  
-          $('.pop-result-item').css("border", "");
-          $(this).css("border", "solid");
-
-          let nm     = $(this).find('.pop-result-title').text();
-          let id     = $(this).find('.pop-result-text:eq(0)').text();
-          // 지회/지부 노출로 수정 _202040625_SY
-          let regionArr = $(this).find('.pop-result-text:eq(1)').text().split(' ');
-          // let region1 = $(this).find('.pop-result-text:eq(1)').text().split('/')[1].trim();
-          // let region2 = $(this).find('.pop-result-text:eq(1)').text().split('/')[2].trim();
-          let region1 = regionArr[2].split('/')[0].trim();
-          let region2 = regionArr[2].split('/')[1].trim();
-          let idx    = $(this).find('.pop-result-text:eq(2)').val();
-          let full_region = region1 + " / " + region2
-          console.log(full_region)
-          
-          // 팝업 닫기
-          $('#info_ok').on('click', function() {
-            $('#pop_nm').val(nm);
-            $('#mn_idx').val(idx);
-            // $("input[name=ju_region_code]").val(region2);
-            $("input[name=ju_region_code]").val(full_region);
-
-            $('#popMemberSch').hide();
-            $('.popDim').hide();
-            $('#pop_nm').focus();
-          })
-        });
       }
     });
 
   } else {
+    $.ajax({
+      url: bv_url+"/m/bbs/ajax.getManager.php",
+      type: "POST",
+      data: { 
+        "type" : "reset",
+        "mcode" : reset_words 
+      },
+      dataType: "JSON",
+      success: function(data) {
+        // console.log(data)
+        let html = '';
+
+        for(let i=0; i<data.res.length; i++) {
+          html += '<div class="pop-result-item">';
+          html += '<p class="pop-result-title">' + data.res[i].name + '</p>';
+          html += '<p class="pop-result-text">직원사번 : ' + data.res[i].id + '</p>';
+          html += '<p class="pop-result-text">지회/지부 : ' + data.res[i].branch_name +'/'+ data.res[i].office_name + '</p>';
+          html += '<input type="hidden" class="pop-result-text" value="'+ data.res[i].index_no +'">';
+          html += '</div>';
+        }
+        search_resIn.innerHTML = html;
+      }
+    });
     return false;
   }
 }

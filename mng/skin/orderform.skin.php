@@ -1585,8 +1585,6 @@ textarea.od-dtn__contact,	.wfull,input.od-dtn__contact{font-size:2.16rem !import
   var totalPirceStr = $("input[name=tot_price]").val();
   var totalPirce = totalPirceStr.replace(/,/g, '');
 
-  console.log(totalPirce);
-
   const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
   const customerKey = '<?php echo $member['id'] ?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
   var amount = totalPirce;

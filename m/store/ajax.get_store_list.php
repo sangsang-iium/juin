@@ -27,7 +27,7 @@ if($rows == 0){
         if($row['ju_mimg']){
             $thumb = BV_DATA_URL.'/member/'.$row['ju_mimg'];
         } else {
-            $thumb = '/src/img/store/t-store_thumb2.jpg'; //등록된 이미지 없을경우
+            $thumb = '/src/img/store/t-store_nothumb.jpg'; //등록된 이미지 없을경우
         }
         
         $goodyn = getStoreGoodRegister($row['index_no'], $member['id']);

@@ -160,8 +160,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         $sum = sql_fetch($sql);
 
         $it_name = stripslashes($gs['gname']);
+        $it_name_arr[] = $it_name;
         $it_options = mobile_print_item_options($row['gs_id'], $set_cart_id);
-          
+
         // $point = $sum['point']; // 주석처리 박원주
         //포인트 관련 부분 수정  박원주
           $point +=$gpoint;
@@ -968,6 +969,12 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "</li>\n";
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"브렌드페이\" id=\"de_brand\">\n";
+              $multi_settle .= "<label for=\"de_brand\">브렌드페이</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
               $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
               $multi_settle .= "</div>\n";
@@ -1077,6 +1084,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                   <span class="checkable__label-text">5,000원 쿠폰 적용</span>
                 </label>
               </div>
+            </section>
+
+            <section id="brand_section" style="display:none;">
+             <div id="payment-methods-widget"></div>
             </section>
 
             <section id="bank_section" style="display:none;">
@@ -1418,12 +1429,20 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </p>
           </button>
           -->
+          <?php if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+          <button type="button" class="btn_medium btn-buy" id="payment-button" style="display:none;">결제하기</button>
+          <button type="button" id="br_submit" type="primary" class="button">결제하기</button>
+          <?php } ?>
         </div>
       </div>
     </form>
-    <div id="btn_confirm2" class="btn_confirm" style="display:none">
-      <button class="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
-    </div>
+
+
+      <?php if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+      <!-- <div id="btn_confirm2" class="btn_confirm" style="">
+        <button type="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
+      </div> -->
+      <?php } ?>
   </div>
 </div>
 
@@ -1829,6 +1848,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       case '무통장':
         orderButton.disabled = false;
         $("#bank_section").show();
+        $("#brand_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
         // $("input[name=use_point]").val(0);
@@ -1837,12 +1857,17 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
         $("#refund_section").show();
 
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
+
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").show();
         <?php } ?>
         break;
       case '일반':
         paymentButton.disabled = false;
+        $("#brand_section").hide();
         $("#toss_section").show();
         $("#card_section").hide();
         $("#bank_section").hide();
@@ -1856,18 +1881,41 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
         $("#refund_section").hide();
 
+        // 버튼처리
+        $('#order-button').hide();
+        $('#payment-button').show();
+
         break;
       case '신용카드':
         orderButton.disabled = false;
+        $("#brand_section").hide();
         $("#card_section").show();
         $("#bank_section").hide();
         $("#toss_section").hide();
         $("#refund_section").hide();
         $("#taxsave_section").hide();
+
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
+        break;
+      case '브렌드페이':
+        orderButton.disabled = false;
+        $("#brand_section").show();
+        $("#card_section").hide();
+        $("#bank_section").hide();
+        $("#toss_section").hide();
+        $("#refund_section").hide();
+        $("#taxsave_section").hide();
+
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
         break;
 
       case '포인트':
         orderButton.disabled = false;
+        $("#brand_section").hide();
         $("#bank_section").hide();
         $("#card_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
@@ -1875,6 +1923,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         calculate_order_price();
 
         $("#refund_section").hide();
+
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
 
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").hide();
@@ -1893,6 +1945,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         calculate_order_price();
 
         $("#refund_section").hide();
+
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
 
         <?php if (!$config['company_type']) { ?>
           $("#taxsave_section").hide();
@@ -2070,6 +2126,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         eleLayer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
     }
 </script>
+<script src="https://js.tosspayments.com/v1/payment-widget"></script>
+<script type="text/javascript" src="https://js.tosspayments.com/v1/brandpay"></script>
 <script>
 
 
@@ -2077,10 +2135,12 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   const button = document.getElementById("payment-button");
   const coupon = document.getElementById("coupon-box");
   const odId = '<?php echo get_session('ss_order_id'); ?>';
+  var totalPirceStr = $("input[name=tot_price]").val();
+  var totalPirce = totalPirceStr.replace(/,/g, '');
 
   const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
   const customerKey = '<?php echo $member['id']?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
-  var amount = 2000;
+  var amount = totalPirce;
 
   const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
     // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
@@ -2113,22 +2173,119 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       paymentMethodWidget.updateAmount(amount);
     }
   });
-
-  var formSubmitOrder = $("#buyform").serialize();
+  <?php
+  $itArrCount = count($it_name_arr);
+  if ($itArrCount > 1) {
+    $itName = $it_name_arr[0] . ' 외 ' . ($itArrCount - 1) . "건";
+  } else {
+    $itName = $it_name_arr[0];
+  }
+  ?>
   // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
   // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
   button.addEventListener("click", function () {
+    var formSubmitOrder = $("#buyform").serialize();
+    $.ajax({
+      type: 'post',
+      url: '/m/shop/normalPayment.php',
+      data: formSubmitOrder,
+      success: function(data) {
+        console.log(data)
+      }
+    });
     // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
     // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
     paymentWidget.requestPayment({
       orderId: odId,
-      orderName: "토스 티셔츠 외 2건",
+      orderName: "<?php echo $itName?>",
       successUrl: window.location.origin+"/m/theme/basic/success.php",
       failUrl: window.location.origin + "/m/theme/basic/fail.php",
-      customerEmail: "jjh@iium.kr",
-      customerName: "김토스",
-      customerMobilePhone: "01068620286",
+      customerEmail: "<?php echo $member['email']?>",
+      customerName: "<?php echo $member['name'] ?>",
+      customerMobilePhone: "<?php echo preg_replace('/\D/', '', $member['cellphone']);?>",
     });
   });
+
+
+  // 브렌드 페이
+  // 문서: https://docs.tosspayments.com/guides/brandpay/integration#api-키-설정-및-sdk-준비
+  const br_clientKey = 'test_ck_LkKEypNArWLnNb4bORWa8lmeaxYG';
+  const br_customerKey = '<?php echo $member['id']?>'; //[TODO] 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID로 변경하세요.
+
+  // brandpay 초기화
+  const brandpay = BrandPay(br_clientKey, br_customerKey, {
+    redirectUrl: '/',
+  });
+
+  // 결제 위젯 객체
+  let paymentMethodsWidget = null;
+
+  initialize();
+
+  async function initialize() {
+    // 결제 수단 위젯 객체 초기화
+    paymentMethodsWidget = brandpay.createPaymentMethodsWidget({
+      amount: 50000
+    });
+
+    // 결제 수단 위젯 렌더
+    paymentMethodsWidget.render('#payment-methods-widget', {
+      ui: {
+        promotionSection: {
+          summary: {
+            visible: true,
+          },
+          description: {
+            visible: true,
+            defaultOpen: true,
+          },
+        },
+      },
+    });
+  }
+
+  document
+    .querySelector('#buyform')
+    .addEventListener('#br_submit', handleSubmit);
+
+  // document.querySelector('#button').addEventListener('click', updateAmount);
+
+  // 결제 금액 업데이트
+  async function updateAmount(e) {
+    e.preventDefault();
+    paymentMethodsWidget.updateAmount(45000);
+  }
+
+  // 결제 하기
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    // 위젯 결제 정보
+    const widgetPaymentParams = paymentMethodsWidget.getPaymentParams();
+
+    await brandpay.requestPayment({
+        orderId: 'ORDER_ID', // 주문에 대한 고유한 ID 값
+        orderName: '생수 외 1건', // 결제에 대한 주문명
+
+        ...widgetPaymentParams,
+      }).then((res) => {
+        // 결제 승인 요청
+        res.customerKey = customerKey
+        return axios.post('./confirm_payment.php', res)
+      })
+      .then((res) => {
+        alert("결제 요청 성공 - 결과는 consoloe.log 확인");
+        console.log(res);
+      })
+      .catch((err) => {
+        alert("결제 요청 실패 - 결과는 consoloe.log 확인");
+        if (err.code == 'USER_CANCEL') {
+          console.log('사용자 취소')
+        } else {
+          console.log('기타 에러 상황', err.code, err.message)
+        }
+      });
+  }
+
 
 </script>
