@@ -22,41 +22,36 @@ $min_year = substr($row['min_year'],0,4); // 가장작은 년도
 if(!$min_year) $min_year = BV_TIME_YEAR; // 내역이없다면 현재 년도로
 ?>
 
-<h2>통계검색</h2>
+<h5 class="htag_title marb20">통계검색</h5>
+<div class="board_selecter">
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
-<div class="tbl_frm01">
-	<table>
-	<colgroup>
-		<col class="w120">
-		<col>
-	</colgroup>
-	<tbody>
-	<tr>
-		<th scope="row">기간검색</th>
-		<td>
-			<select name="year">
-				<?php
-				for($i=$min_year; $i<=BV_TIME_YEAR; $i++) {
-					echo "<option value=\"{$i}\"".get_selected($year, $i).">{$i}년</option>\n";
-				}
-				?>
-			</select>
-			<select name="month">
-				<?php
-				for($i=1;$i<=12;$i++) {
-					$k = sprintf('%02d',$i);
-					echo "<option value=\"{$k}\"".get_selected($month, $k).">{$k}월</option>\n";
-				}
-				?>
-			</select>
-			<input type="submit" value="검색" class="btn_small">
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</div>
+    <div class="board_selecter">
+        <div class="search_container">
+            <select name="year">
+                <?php
+                for($i=$min_year; $i<=BV_TIME_YEAR; $i++) {
+                    echo "<option value=\"{$i}\"".get_selected($year, $i).">{$i}년</option>\n";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="search_container">
+            <select name="month">
+                <?php
+                for($i=1;$i<=12;$i++) {
+                    $k = sprintf('%02d',$i);
+                    echo "<option value=\"{$k}\"".get_selected($month, $k).">{$k}월</option>\n";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="search_container_input">
+            <input type="submit" value="검색" class="btn_small">
+        </div>
+    </div>
 </form>
+</div>
 
 <div class="local_ov mart20">
 	<strong>총 판매상품수 : <?php echo number_format($sum_count); ?>건</strong>
@@ -65,7 +60,7 @@ if(!$min_year) $min_year = BV_TIME_YEAR; // 내역이없다면 현재 년도로
 <div class="tbl_head01">
 	<table>
 	<colgroup>
-		<col class="w100">
+		<col class="w150">
 		<col>
 		<col class="w60">
 		<col class="w90">
@@ -124,7 +119,8 @@ if(!$min_year) $min_year = BV_TIME_YEAR; // 내역이없다면 현재 년도로
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<td><?php echo $date; ?></td>
-		<td><div class="graph"><span class="bar" style="width:<?php echo $s_rate; ?>%"></span></div></td>
+        <td><progress class="board_progress" max="100" value="<?php echo $s_rate; ?>"></td>
+		<!-- <td><div class="graph"><span class="bar" style="width:<?php echo $s_rate; ?>%"></span></div></td> -->
 		<td><?php echo $s_rate; ?></td>
 		<td><?php echo number_format($sum['cnt']); ?></td>
 		<td class="tar"><?php echo number_format($sum['price']); ?></td>

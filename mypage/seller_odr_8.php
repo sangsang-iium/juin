@@ -14,7 +14,7 @@ $btn_frmline = <<<EOF
 EOF;
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title marb20">기본검색</h5>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
@@ -27,51 +27,63 @@ EOF;
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('od_id', $sfl, '주문번호'); ?>
-				<?php echo option_selected('od_no', $sfl, '일련번호'); ?>
-				<?php echo option_selected("mb_id", $sfl, '회원아이디'); ?>
-				<?php echo option_selected('name', $sfl, '주문자명'); ?>
-				<?php echo option_selected('deposit_name', $sfl, '입금자명'); ?>
-				<?php echo option_selected('bank', $sfl, '입금계좌'); ?>
-				<?php echo option_selected('b_name', $sfl, '수령자명'); ?>
-				<?php echo option_selected('b_telephone', $sfl, '수령자집전화'); ?>
-				<?php echo option_selected('b_cellphone', $sfl, '수령자핸드폰'); ?>
-				<?php echo option_selected('delivery_no', $sfl, '운송장번호'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('od_id', $sfl, '주문번호'); ?>
+                        <?php echo option_selected('od_no', $sfl, '일련번호'); ?>
+                        <?php echo option_selected("mb_id", $sfl, '회원아이디'); ?>
+                        <?php echo option_selected('name', $sfl, '주문자명'); ?>
+                        <?php echo option_selected('deposit_name', $sfl, '입금자명'); ?>
+                        <?php echo option_selected('bank', $sfl, '입금계좌'); ?>
+                        <?php echo option_selected('b_name', $sfl, '수령자명'); ?>
+                        <?php echo option_selected('b_telephone', $sfl, '수령자집전화'); ?>
+                        <?php echo option_selected('b_cellphone', $sfl, '수령자핸드폰'); ?>
+                        <?php echo option_selected('delivery_no', $sfl, '운송장번호'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기간검색</th>
 		<td>
-			<select name="sel_field">
-				<?php echo option_selected('od_time', $sel_field, "주문일"); ?>
-				<?php echo option_selected('change_date', $sel_field, "교환완료일"); ?>
-			</select>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sel_field">
+                        <?php echo option_selected('od_time', $sel_field, "주문일"); ?>
+                        <?php echo option_selected('change_date', $sel_field, "교환완료일"); ?>
+                    </select>
+                </div>
+                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">결제방법</th>
 		<td>
-			<?php echo radio_checked('od_settle_case', $od_settle_case,  '', '전체'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '무통장', '무통장'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '가상계좌', '가상계좌'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '계좌이체', '계좌이체'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '휴대폰', '휴대폰'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '신용카드', '신용카드'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, '간편결제', 'PG간편결제'); ?>
-			<?php echo radio_checked('od_settle_case', $od_settle_case, 'KAKAOPAY', 'KAKAOPAY'); ?>
+			<div class="radio_group">
+			    <?php echo radio_checked('od_settle_case', $od_settle_case,  '', '전체'); ?>
+    			<?php echo radio_checked('od_settle_case', $od_settle_case, '무통장', '무통장'); ?>
+    			<?php echo radio_checked('od_settle_case', $od_settle_case, '가상계좌', '가상계좌'); ?>
+    			<?php echo radio_checked('od_settle_case', $od_settle_case, '계좌이체', '계좌이체'); ?>
+    			<?php echo radio_checked('od_settle_case', $od_settle_case, '휴대폰', '휴대폰'); ?>
+    			<?php echo radio_checked('od_settle_case', $od_settle_case, '신용카드', '신용카드'); ?>
+    			<?php echo radio_checked('od_settle_case', $od_settle_case, '간편결제', 'PG간편결제'); ?>
+    			<?php echo radio_checked('od_settle_case', $od_settle_case, 'KAKAOPAY', 'KAKAOPAY'); ?>
+			</div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">기타선택</th>
 		<td>
-			<?php echo check_checked('od_memo', $od_memo, 'Y', '배송메세지'); ?>
-			<?php echo check_checked('od_receipt_point', $od_receipt_point, 'Y', '포인트주문'); ?>
-			<?php echo check_checked('od_coupon', $od_coupon, 'Y', '쿠폰할인'); ?>
-			<?php echo check_checked('od_escrow', $od_escrow, 'Y', '에스크로'); ?>
+			<div class="checks">
+			    <?php echo check_checked('od_memo', $od_memo, 'Y', '배송메세지'); ?>
+    			<?php echo check_checked('od_receipt_point', $od_receipt_point, 'Y', '포인트주문'); ?>
+    			<?php echo check_checked('od_coupon', $od_coupon, 'Y', '쿠폰할인'); ?>
+    			<?php echo check_checked('od_escrow', $od_escrow, 'Y', '에스크로'); ?>
+			</div>
 		</td>
 	</tr>
 	</tbody>
@@ -105,8 +117,8 @@ EOF;
 	<table id="sodr_list">
 	<colgroup>
 		<col class="w50">
-		<col class="w100">
-		<col class="w100">
+		<col class="w150">
+		<col class="w150">
 		<col class="w150">
 		<col class="w40">
 		<col class="w40">
@@ -189,14 +201,15 @@ EOF;
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
 ?>
 
-<div class="information">
-	<h4>도움말</h4>
-	<div class="content">
-		<div class="hd">ㆍ주문상태를 변경할 수 있나요?</div>
-		<div class="desc01 accent">
-			<p>ㆍ교환 리스트 내 주문은 상태변경 및 원복이 불가능하며, 삭제도 하실 수 없습니다.</p>
-		</div>
-	 </div>
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ul class="cnt_list step01">
+        <li>주문상태를 변경할 수 있나요?
+            <ul class="cnt_list step02">
+                <li>교환 리스트 내 주문은 상태변경 및 원복이 불가능하며, 삭제도 하실 수 없습니다.</li>
+            </ul>
+        </li>
+    </ul>
 </div>
 
 <script>

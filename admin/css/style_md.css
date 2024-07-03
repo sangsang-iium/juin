@@ -791,6 +791,7 @@ h6[class*="htag_title"]:before {
     padding: 9px 17px;
     font-size: var(--fs_14);
     font-weight: 300;
+
 }
 
 [class^="btn_wrap"] .fbtn:hover {
@@ -801,6 +802,9 @@ h6[class*="htag_title"]:before {
     display: block;
     padding-left: 30px;
     padding-right: 0;
+    background-position: center left;
+    background-repeat: no-repeat;
+    background-size: 23px;
 }
 
 [class^="btn_wrap"] .fbtn.sbtn {
@@ -816,35 +820,35 @@ h6[class*="htag_title"]:before {
 
 
 [class^="btn_wrap"] .fbtn.hwp span {
-    background: url("/admin/img/images/common/bt-icon-hwp.png") no-repeat left;
+    background-image: url("/admin/img/images/common/bt-icon-hwp.png");
 }
 
 [class^="btn_wrap"] .fbtn.ppt span {
-    background: url("/admin/img/images/common/bt-icon-ppt.png") no-repeat left;
+    background-image: url("/admin/img/images/common/bt-icon-ppt.png");
 }
 
 [class^="btn_wrap"] .fbtn.xls span {
-    background: url("/admin/img/images/common/bt-icon-xls.png") no-repeat left;
+    background-image: url("/admin/img/images/common/bt-icon-xls.png");
 }
 
 [class^="btn_wrap"] .fbtn.jpg span {
-    background: url("/admin/img/images/common/bt-icon-jpg.png") no-repeat left;
+    background-image: url("/admin/img/images/common/bt-icon-jpg.png");
 }
 
 [class^="btn_wrap"] .fbtn.gif span {
-    background: url("/admin/img/images/common/bt-icon-gif.png") no-repeat left;
+    background-image: url("/admin/img/images/common/bt-icon-gif.png");
 }
 
 [class^="btn_wrap"] .fbtn.png span {
-    background: url("/admin/img/images/common/bt-icon-png.png") no-repeat left;
+    background-image: url("/admin/img/images/common/bt-icon-png.png");
 }
 
 [class^="btn_wrap"] .fbtn.zip span {
-    background: url("/admin/img/images/common/bt-icon-zip.png") no-repeat left;
+    background-image: url("/admin/img/images/common/bt-icon-zip.png");
 }
 
 [class^="btn_wrap"] .fbtn.pdf span {
-    background: url("/admin/img/images/common/bt-icon-pdf.png") no-repeat left;
+    background-image: url("/admin/img/images/common/bt-icon-pdf.png");
 }
 
 

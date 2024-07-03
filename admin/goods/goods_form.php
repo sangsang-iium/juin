@@ -883,12 +883,20 @@ $income_per = ($supply_price / $goods_price) * 100;
   <tr>
 		<th scope="row">정산방식</th>
 		<td>
-      <input type="radio" name="supply_type" value="2" id="income_type0"<?php echo ($w == '') ? "checked" : get_checked('2', $gs['supply_type']); ?> >
-			<label for="income_type0" class="marr10">업체 정산 설정에 따름</label>
-      <input type="radio" name="supply_type" value="0" id="income_type1"<?php echo get_checked('0', $gs['supply_type']); ?> >
-			<label for="income_type1" class="marr10">매입가 정산 지급</label>
-			<input type="radio" name="supply_type" value="1" id="income_type2"<?php echo get_checked('1', $gs['supply_type']); ?> >
-			<label for="income_type2" class="marr10">수수료 정산 지급</label>
+            <ul class="radio_group">
+                <li class="radios">
+                    <input type="radio" name="supply_type" value="2" id="income_type0"<?php echo ($w == '') ? "checked" : get_checked('2', $gs['supply_type']); ?> >
+                    <label for="income_type0" class="marr10">업체 정산 설정에 따름</label>
+                </li>
+                <li class="radios">
+                    <input type="radio" name="supply_type" value="0" id="income_type1"<?php echo get_checked('0', $gs['supply_type']); ?> >
+                    <label for="income_type1" class="marr10">매입가 정산 지급</label>
+                </li>
+                <li class="rdaios">
+                    <input type="radio" name="supply_type" value="1" id="income_type2"<?php echo get_checked('1', $gs['supply_type']); ?> >
+                    <label for="income_type2" class="marr10">수수료 정산 지급</label>
+                </li>
+            </ul>
 		</td>
 	</tr>
   <?php
@@ -898,10 +906,16 @@ $income_per = ($supply_price / $goods_price) * 100;
   <tr id="incomePer_type" style="<?php echo $display ?>">
     <th scope="row">지급방식</th>
     <td>
-      <input type="radio" name="incomePer_type" value="0" id="incomePer_type1" <?php echo ($w == '') ? "checked" : get_checked('0', $gs['income_per_type']); ?>>
-			<label for="incomePer_type1" class="marr10">정액지급<b class="incomePer_type1"></b> </label>
-      <input type="radio" name="incomePer_type" value="1" id="incomePer_type2" <?php echo ($w == '') ? "" : get_checked('1', $gs['income_per_type']); ?>>
-			<label for="incomePer_type2" class="marr10">정률지급<b class="incomePer_type2"></b> </label>
+        <ul class="radio_group">
+            <li class="radios">
+                <input type="radio" name="incomePer_type" value="0" id="incomePer_type1" <?php echo ($w == '') ? "checked" : get_checked('0', $gs['income_per_type']); ?>>
+                <label for="incomePer_type1" class="marr10">정액지급<b class="incomePer_type1"></b> </label>
+            </li>
+            <li class="radios">
+                <input type="radio" name="incomePer_type" value="1" id="incomePer_type2" <?php echo ($w == '') ? "" : get_checked('1', $gs['income_per_type']); ?>>
+                <label for="incomePer_type2" class="marr10">정률지급<b class="incomePer_type2"></b> </label>
+            </li>
+        </ul>
     </td>
   </tr>
 	<tr class="supply_tr">

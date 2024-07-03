@@ -49,7 +49,7 @@ $result = sql_query($sql);
 include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 ?>
 
-<h2>기본검색</h2>
+<h5 class="htag_title marb20 ">기본검색</h5>
 <form name="fsearch" id="fsearch" method="get">
 <input type="hidden" name="code" value="<?php echo $code; ?>">
 <div class="tbl_frm01">
@@ -62,29 +62,37 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 	<tr>
 		<th scope="row">검색어</th>
 		<td>
-			<select name="sfl">
-				<?php echo option_selected('od_id', $sfl, '주문번호'); ?>
-				<?php echo option_selected('od_no', $sfl, '일련번호'); ?>
-				<?php echo option_selected('name', $sfl, '주문자명'); ?>
-			</select>
-			<input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            <div class="tel_input">
+                <div class="chk_select w200">
+                    <select name="sfl">
+                        <?php echo option_selected('od_id', $sfl, '주문번호'); ?>
+                        <?php echo option_selected('od_no', $sfl, '일련번호'); ?>
+                        <?php echo option_selected('name', $sfl, '주문자명'); ?>
+                    </select>
+                </div>
+                <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
+            </div>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">주문일</th>
 		<td>
-			<?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            <div class="tel_input">
+                <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
+            </div>
 		</td>
 	</tr>
   <tr>
     <th scope="row">주문상태</th>
     <td>
-      <?php echo radio_checked('od_status', $od_status,  '', '전체'); ?>
-      <?php echo radio_checked('od_status', $od_status, '1', $gw_status[1]); ?>
-      <?php echo radio_checked('od_status', $od_status, '2', $gw_status[2]); ?>
-      <?php echo radio_checked('od_status', $od_status, '3', $gw_status[3]); ?>
-      <?php echo radio_checked('od_status', $od_status, '4', $gw_status[4]); ?>
-      <?php echo radio_checked('od_status', $od_status, '5', $gw_status[5]); ?>
+      <div class="radio_group">
+          <?php echo radio_checked('od_status', $od_status,  '', '전체'); ?>
+          <?php echo radio_checked('od_status', $od_status, '1', $gw_status[1]); ?>
+          <?php echo radio_checked('od_status', $od_status, '2', $gw_status[2]); ?>
+          <?php echo radio_checked('od_status', $od_status, '3', $gw_status[3]); ?>
+          <?php echo radio_checked('od_status', $od_status, '4', $gw_status[4]); ?>
+          <?php echo radio_checked('od_status', $od_status, '5', $gw_status[5]); ?>
+      </div>
     </td>
   </tr>
 	</tbody>
@@ -96,14 +104,14 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 </div>
 </form>
 
-<div class="local_ov mart30">
+<div class="local_ov mart30 fs18">
 	전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회
 </div>
 <div class="tbl_head01">
 	<table id="sodr_list">
 	<colgroup>
 		<col class="w50">
-		<col class="w100">
+		<col class="w150">
 		<col class="w150">
 		<col class="w90">
 		<col class="w40">
@@ -172,14 +180,16 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
 ?>
 
-<div class="information">
-	<h4>도움말</h4>
-	<div class="content">
-		<div class="hd">ㆍ정산대기목록에서 주문건은 언제 노출되나요?</div>
-		<div class="desc01 accent">
-			<p>ㆍ배송완료 후 "구매확정"이 되어야만 정산대기목록에 노출됩니다. 정산처리가 완료되면 "정산완료목록"에서 확인하실 수 있습니다.</p>
-		</div>
-	 </div>
+
+<div class="text_box btn_type mart50">
+    <h5 class="tit">도움말</h5>
+    <ul class="cnt_list step01">
+        <li>정산대기목록에서 주문건은 언제 노출되나요?
+            <ul class="cnt_list step02">
+                <li>배송완료 후 "구매확정"이 되어야만 정산대기목록에 노출됩니다. 정산처리가 완료되면 "정산완료목록"에서 확인하실 수 있습니다.</li>
+            </ul>
+        </li>
+    </ul>
 </div>
 
 <script>
