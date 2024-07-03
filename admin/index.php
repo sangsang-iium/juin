@@ -1,21 +1,50 @@
-<?php
+<?php // 대시보드 작업 _20240703_SY
 define('NO_CONTAINER', true);
 include_once("./_common.php");
 include_once(BV_ADMIN_PATH."/admin_access.php");
 include_once(BV_ADMIN_PATH."/admin_head.php");
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 
-$sodrr = admin_order_status_sum("where dan > 0 "); // 총 주문내역
-$sodr1 = admin_order_status_sum("where dan = 1 "); // 총 입금대기
-$sodr2 = admin_order_status_sum("where dan = 2 "); // 총 입금완료
-$sodr3 = admin_order_status_sum("where dan = 3 "); // 총 배송준비
-$sodr4 = admin_order_status_sum("where dan = 4 "); // 총 배송중
-$sodr5 = admin_order_status_sum("where dan = 5 "); // 총 배송완료
-$sodr6 = admin_order_status_sum("where dan = 6 "); // 총 입금전 취소
-$sodr7 = admin_order_status_sum("where dan = 7 "); // 총 배송후 반품
-$sodr8 = admin_order_status_sum("where dan = 8 "); // 총 배송후 교환
-$sodr9 = admin_order_status_sum("where dan = 9 "); // 총 배송전 환불
-$final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매미확정
+
+// Month _20240703_SY
+$currentYear = date("Y");
+$currentMonth = date("n");
+for ($month = 1; $month <= $currentMonth; $month++) {
+    $monthData[] = sprintf("%d-%02d", $currentYear, $month);
+    $monthText[] = $currentYear . '-' . $month;
+}
+
+// 당월 OrderDate 조회 _20240703_SY
+$od_and_month = " AND od_time BETWEEN DATE_FORMAT(NOW() ,'%Y-%m-01') AND LAST_DAY(NOW()) ";
+// 금일 OrderDate 조회 _20240703_SY
+$od_and_day   = " AND od_time LIKE DATE_FORMAT(NOW() ,'%Y-%m-%d') ";
+// 일반 배송 _20240703_SY
+$od_basic     = " AND od_id REGEXP '^[0-9]+$'";
+// 정규 배송 _20240703_SY
+$od_monthly   = " AND od_id REGEXP '^[0-9]+(_0)'";
+// 일반+정규 
+$od_all       = " AND od_id REGEXP '^[0-9]+(_0)?$'";
+
+
+$sodrr    = admin_order_status_sum("WHERE dan > 0 {$od_and_month} {$od_all} "); // 총 주문내역
+$sodrr_1  = admin_order_status_sum("WHERE dan > 0 {$od_and_day} {$od_all} ");   // 금일 총 주문내역
+$sodr1    = admin_order_status_sum("WHERE dan = 1 {$od_and_month} "); // 총 입금대기
+$sodr1_1  = admin_order_status_sum("WHERE dan = 1 {$od_and_month} {$od_basic} ");   // 당월 일반 입금대기
+$sodr1_2  = admin_order_status_sum("WHERE dan = 1 {$od_and_month} {$od_monthly} "); // 당월 정기 입금대기
+$sodr2    = admin_order_status_sum("WHERE dan = 2 {$od_and_month} {$od_all} "); // 총 입금완료
+$sodr3    = admin_order_status_sum("WHERE dan = 3 {$od_and_month} "); // 총 배송준비
+$sodr4    = admin_order_status_sum("WHERE dan = 4 {$od_and_month} "); // 총 배송중
+$sodr5    = admin_order_status_sum("WHERE dan = 5 {$od_and_month} "); // 총 배송완료
+$sodr6    = admin_order_status_sum("WHERE dan = 6 {$od_and_month} "); // 총 입금전 취소
+$sodr6_1  = admin_order_status_sum("WHERE dan = 6 {$od_and_day} ");   // 금일 입금전 취소
+$sodr7    = admin_order_status_sum("WHERE dan = 7 {$od_and_month} "); // 총 배송후 반품
+$sodr8    = admin_order_status_sum("WHERE dan = 8 {$od_and_month} "); // 총 배송후 교환
+$sodr9    = admin_order_status_sum("WHERE dan = 9 {$od_and_month} "); // 총 배송전 환불
+$final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month} "); // 총 구매미확정
+
+
+if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { 
+}
 ?>
 
 
@@ -28,11 +57,11 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                     <p class="content_title">주문</p>
                     <div class="cnt_data_box">
                         <p class="total_boxs">
-                            <?php echo number_format($sodrr['cnt']); ?>
+                            <?php echo number_format($sodrr_1['cnt']); ?>
                             <span class="cnt_unit_text">건</span>
                         </p>
                         <p class="data_bot">
-                            <?php echo number_format($sodrr['price']); ?>
+                            <?php echo number_format($sodrr_1['price']); ?>
                             <span class="cnt_unit_text">원</span>
                         </p>
                     </div>
@@ -41,11 +70,11 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                     <p class="content_title color_type1">취소</p>
                     <div class="cnt_data_box">
                         <p class="total_boxs color_type1">
-                            <?php echo number_format($sodr6['cnt']); ?>
+                            <?php echo number_format($sodr6_1['cnt']); ?>
                             <span class="cnt_unit_text">건</span>
                         </p>
                         <p class="data_bot">
-                            5,201,800
+                            <?php echo number_format($sodr6_1['price']); ?>
                             <span class="cnt_unit_text">원</span>
                         </p>
                     </div>
@@ -57,12 +86,9 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                 매출현황(당월)
                 <div class="chk_select">
                     <select name="" id="order_month">
-                        <option value="0">1월</option>
-                        <option value="1">2월</option>
-                        <option value="2">3월</option>
-                        <option value="3">4월</option>
-                        <option value="4">5월</option>
-                        <option value="5" selected>6월</option>
+                      <?php foreach($monthText as $key => $val) { 
+                        echo "<option value='{$key}'".($currentMonth == substr($val, 5) ? 'selected' : '') ." >".substr($val, 5)."월</option>";
+                      } ?>
                     </select>
                 </div>
             </dt>
@@ -71,11 +97,11 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                     <p class="content_title">결제완료</p>
                     <div class="approval_box">
                         <p class="order_line_num">
-                            <span id="order_data_check1">3,580</span>
+                            <span id="order_data_check1"><?php echo number_format($sodr2['cnt']); ?></span>
                             <span class="cnt_unit_text">건</span>
                         </p>
                         <p class="order_line_money">
-                            <span id="order_data_money1">121,712,000</span>
+                            <span id="order_data_money1"><?php echo number_format($sodr2['price']); ?></span>
                             <span class="cnt_unit_text">원</span>
                         </p>
                     </div>
@@ -87,11 +113,11 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                             <p class="normal_order">일반</p>
                             <div class="approval_box">
                                 <p class="order_line_num color_type3">
-                                    <span id="order_data_check2">34</span>
+                                    <span id="order_data_check2"><?php echo number_format($sodr1_1['cnt']); ?></span>
                                     <span class="cnt_unit_text">건</span>
                                 </p>
                                 <p class="order_line_money">
-                                    <span id="order_data_money2">575,000</span>
+                                    <span id="order_data_money2"><?php echo number_format($sodr1_1['price']); ?></span>
                                     <span class="cnt_unit_text">원</span>
                                 </p>
                             </div>
@@ -100,11 +126,11 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                             <p class="regular_order">정기</p>
                             <div class="approval_box">
                                 <p class="order_line_num color_type3">
-                                <span id="order_data_check3">45</span>
+                                <span id="order_data_check3"><?php echo number_format($sodr1_2['cnt']); ?></span>
                                     <span class="cnt_unit_text">건</span>
                                 </p>
                                 <p class="order_line_money">
-                                    <span id="order_data_money3">845,000</span>
+                                    <span id="order_data_money3"><?php echo number_format($sodr1_2['price']); ?></span>
                                     <span class="cnt_unit_text">원</span>
                                 </p>
                             </div>
@@ -115,11 +141,11 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
                     <p class="content_title color_type2">합계</p>
                     <div class="approval_box">
                         <p class="order_line_num color_type2">
-                            <span id="order_data_check4">3,659</span>
+                            <span id="order_data_check4"><?php echo number_format($sodr2['cnt']); ?></span>
                             <span>건</span>
                         </p>
                         <p class="order_line_money">
-                            <span id="order_data_money4">123,132,000</span>
+                            <span id="order_data_money4"><?php echo number_format($sodr2['price']); ?></span>
                             <span class="cnt_unit_text">원</span>
                         </p>
                     </div>
@@ -356,8 +382,8 @@ $final = admin_order_status_sum("where dan = 5 and user_ok = 0 "); // 총 구매
 
     // 임시 데이터
     // 건수
-    const month_check = [[2478,24,35],[1528,58,18],[3438,21,25],[2468,34,38],[2428,20,31],[3580,24,45]]
-    const month_money = [[113562000,656000,560900],[123542100,606000,526000],[112262000,656000,612500],[115272000,752000,628000],[113422000,20,31],[121712000,575000,845000]]
+    const month_check = [[2478,24,35],[1528,58,18],[3438,21,25],[2468,34,38],[2428,20,31],[3580,24,45], [3580,24,45]]
+    const month_money = [[113562000,656000,560900],[123542100,606000,526000],[112262000,656000,612500],[115272000,752000,628000],[113422000,20,31],[121712000,575000,845000], [121712000,575000,845000]]
 
     const order_sel = document.querySelector('#order_month');
     const order_month1 = document.querySelector('#order_data_check1');
