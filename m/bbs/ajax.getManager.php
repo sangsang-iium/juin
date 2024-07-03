@@ -15,6 +15,7 @@ if($type == 'search') {
                 WHERE sm.id LIKE '%{$mn_id}%' GROUP BY index_no ";
   $mn_res = sql_query($mn_sel);
   $mn_cnt = sql_num_rows($mn_res);
+  
 } else if($type == 'reset') {
   $mn_sel = " SELECT *, kb.branch_code AS b_code, kb.branch_name AS b_name 
                 FROM shop_manager AS mn

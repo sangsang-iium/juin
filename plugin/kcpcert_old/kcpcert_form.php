@@ -6,7 +6,7 @@ certify_count_check($member['id'], 'hp');
 
 $ENC_KEY = "9eb2cc7e320e2d7d54bc4a92ec1e9dc1057f386f2435d42e9f9e051404b249f8";
 
-// setlocale(LC_CTYPE, 'ko_KR.euc-kr');
+setlocale(LC_CTYPE, 'ko_KR.euc-kr');
 
 // kcp 휴대폰인증파일
 include_once(BV_KCPCERT_PATH.'/kcpcert_config.php');
@@ -15,32 +15,32 @@ $ordr_idxx = get_session('ss_uniqid');
 if(!$ordr_idxx)
     $ordr_idxx = get_uniqid();
 
-// $ct_cert = new C_CT_CLI;
-// $ct_cert->mf_clear();
+$ct_cert = new C_CT_CLI;
+$ct_cert->mf_clear();
 
-// $year          = "00";
-// $month         = "00";
-// $day           = "00";
-// $user_name     = "";
-// $sex_code      = "";
-// $local_code    = "";
+$year          = "00";
+$month         = "00";
+$day           = "00";
+$user_name     = "";
+$sex_code      = "";
+$local_code    = "";
 
-// // !!up_hash 데이터 생성시 주의 사항
-// // year , month , day 가 비어 있는 경우 "00" , "00" , "00" 으로 설정이 됩니다
-// // 그외의 값은 없을 경우 ""(null) 로 세팅하시면 됩니다.
-// // up_hash 데이터 생성시 site_cd 와 ordr_idxx 는 필수 값입니다.
-// $hash_data = $site_cd   .
-//              $ordr_idxx .
-//              $user_name .
-//              $year      .
-//              $month     .
-//              $day       .
-//              $sex_code  .
-//              $local_code;
+// !!up_hash 데이터 생성시 주의 사항
+// year , month , day 가 비어 있는 경우 "00" , "00" , "00" 으로 설정이 됩니다
+// 그외의 값은 없을 경우 ""(null) 로 세팅하시면 됩니다.
+// up_hash 데이터 생성시 site_cd 와 ordr_idxx 는 필수 값입니다.
+$hash_data = $site_cd   .
+             $ordr_idxx .
+             $user_name .
+             $year      .
+             $month     .
+             $day       .
+             $sex_code  .
+             $local_code;
 
-// $up_hash = $ct_cert->make_hash_data( $home_dir, $hash_data );
+// $up_hash = $ct_cert->make_hash_data( $home_dir, $ENC_KEY, $hash_data );
 
-// $ct_cert->mf_clear();
+$ct_cert->mf_clear();
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -77,10 +77,7 @@ if(!$ordr_idxx)
 -->
 <input type="hidden" name="cert_otp_use" value="Y"/>
 <!-- cert_enc_use 필수 (고정값 : 메뉴얼 참고) -->
-<!-- <input type="hidden" name="cert_enc_use" value="Y"/> -->
-
-<!-- 고도화 _20240618_SY -->
-<input type="hidden" name="cert_enc_use_ext" value="Y"/>
+<input type="hidden" name="cert_enc_use" value="Y"/>
 
 <?php if(is_mobile()) { ?>
 <!-- cert_able_yn input 비활성화 설정 -->
@@ -109,50 +106,10 @@ window.onload = function() {
 
 // 인증 요청 시 호출 함수
 function cert_page()
-// {
-//     var frm = document.form_auth;
-
-//     if ( ( frm.req_tx.value == "auth" || frm.req_tx.value == "otp_auth" ) )
-//     {
-//         frm.action="./kcpcert_result.php";
-
-//        // MOBILE
-//         if( ( navigator.userAgent.indexOf("Android") > - 1 || navigator.userAgent.indexOf("iPhone") > - 1 ) )
-//         {
-//             self.name="kcp_cert";
-//         }
-//         // PC
-//         else
-//         {
-//             frm.target="kcp_cert";
-//         }
-
-//         frm.submit();
-
-//         window.close();
-//     }
-
-//     else if ( frm.req_tx.value == "cert" )
-//     {
-//         if( ( navigator.userAgent.indexOf("Android") > - 1 || navigator.userAgent.indexOf("iPhone") > - 1 ) ) // 스마트폰인 경우
-//         {
-//             window.parent.$("input[name=veri_up_hash]").val(frm.up_hash.value); // up_hash 데이터 검증을 위한 필드
-//             self.name="auth_popup";
-//         }
-//         else // 스마트폰 아닐때
-//         {
-//             window.opener.$("input[name=veri_up_hash]").val(frm.up_hash.value); // up_hash 데이터 검증을 위한 필드
-//             frm.target = "auth_popup";
-//         }
-
-//         frm.action="<?php //echo $cert_url; ?>";
-//         frm.submit();
-//     }
-// }
 {
     var frm = document.form_auth;
 
-    if ( ( frm.req_tx.value == "auth" || frm.req_tx.value == "otp_auth" ) )
+    if( ( frm.req_tx.value == "auth" || frm.req_tx.value == "otp_auth" ) )
     {
         frm.action="./kcpcert_result.php";
 
@@ -172,12 +129,11 @@ function cert_page()
         window.close();
     }
 
-    else if ( frm.req_tx.value == "cert" )
+    else if( frm.req_tx.value == "cert" )
     {
         if( ( navigator.userAgent.indexOf("Android") > - 1 || navigator.userAgent.indexOf("iPhone") > - 1 ) ) // 스마트폰인 경우
         {
-            //window.parent.$("input[name=veri_up_hash]").val(frm.up_hash.value); // up_hash 데이터 검증을 위한 필드
-            opener.document.getElementById("veri_up_hash").value=frm.up_hash.value; 
+            window.parent.$("input[name=veri_up_hash]").val(frm.up_hash.value); // up_hash 데이터 검증을 위한 필드
             self.name="auth_popup";
         }
         else // 스마트폰 아닐때
