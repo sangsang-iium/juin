@@ -115,7 +115,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             {
               ?>
                 <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>">반품신청</button>
-                <!-- <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>">교환</button> -->
+                <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>">교환신청</button>
               <?php
             }
           ?>
@@ -222,7 +222,7 @@ document.querySelectorAll(".reoder-btn").forEach(btn => {
   });
 });
 
-//환불  20240527 박원주
+//환불  20240527 박원주  취소로 명칭 변경
 document.querySelectorAll(".return-money").forEach(btn => {
 
   btn.addEventListener("click", function(event) {
@@ -230,7 +230,7 @@ document.querySelectorAll(".return-money").forEach(btn => {
 
     $("#order_send").prop('value',odId);
     $("#evt").prop('value',"return-money");
-    $(".return-popup2-title1,.return-popup2-title2").text("환불사유");
+    $(".return-popup2-title1,.return-popup2-title2").text("취소사유");
     const popId ="#return-popup2";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
@@ -280,7 +280,7 @@ document.querySelectorAll(".change-product").forEach(btn => {
 
     $("#order_send").prop('value',odId);
     $("#evt").prop('value',"change-product");
-    $(".return-popup2-title1,.return-popup2-title2").text("교환사유");
+    $(".return-popup2-title1,.return-popup2-title2").text("교환신청사유");
     const popId ="#return-popup2";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";

@@ -83,7 +83,7 @@ define('ADMIN_MENU6_05',	'배송중');
 define('ADMIN_MENU6_06',	'배송완료');
 define('ADMIN_MENU6_07',	'엑셀 배송일괄처리');
 define('ADMIN_MENU6_08',	'미결제 취소');
-define('ADMIN_MENU6_09',	'배송전 환불');
+define('ADMIN_MENU6_09',	'배송전 취소');
 define('ADMIN_MENU6_10',	'배송후 반품');
 define('ADMIN_MENU6_11',	'배송후 교환');
 define('ADMIN_MENU6_12',	'관리자메모');

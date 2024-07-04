@@ -1390,7 +1390,7 @@ function get_change_select($name, $selected='', $event='')
 	global $gw_status, $gw_array_status;
 
 	// 취소,반품,교환,환불 건은 텍스트형식으로만 노출
-	if(!in_array($selected, array(2,3,4,5,7))) {
+	if(!in_array($selected, array(2,3,4,5,7,9,18))) {
 		return $gw_status[$selected];
 	}
 

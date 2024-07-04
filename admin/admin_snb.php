@@ -182,7 +182,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		$sodr6 = admin_order_status_sum("where dan = 6 {$mn_where}"); // 총 입금전 취소
 		$sodr7 = admin_order_status_sum("where dan = 7 {$mn_where}"); // 총 배송후 반품
 		$sodr8 = admin_order_status_sum("where dan = 8 {$mn_where}"); // 총 배송후 교환
-		$sodr9 = admin_order_status_sum("where dan = 9 {$mn_where}"); // 총 배송전 환불
+		$sodr9 = admin_order_status_sum("where dan = 9 {$mn_where}"); // 총 배송전 취소
 		$sodr10 = admin_reg_order_status_sum("where dan > 0 {$mn_where}"); // 총 배송전 환불
 		$memoCnt = admin_order_memo(); // 총 관리자메모
 	?>

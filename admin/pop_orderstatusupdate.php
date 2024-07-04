@@ -48,12 +48,16 @@ for ($i = 0; $i < $chk_count; $i++) {
     $change_status = 9;
   }
 
+  if ($_POST['act_button'] == '취소완료') {
+    $change_status = 17;
+  }
+ 
+
   switch ($change_status) {
     case '1': // 입금대기
       if ($current_status != 2) {
         continue;
-      }
-
+      } 
       change_order_status_1($od_no);
       break;
     case '2': // 입금완료
@@ -119,14 +123,22 @@ for ($i = 0; $i < $chk_count; $i++) {
     case '9': // 환불
       if (!in_array($current_status, array(2, 3))) {
         continue;
-      }
-
+      } 
       change_order_status_9($od_no);
       $od_sms_cancel_check++;
       $od_cancel_change++;
       break;
+
+    case '17': // 환불 
+        change_order_status_17($od_no);
+        $od_sms_cancel_check++;
+        $od_cancel_change++;
+        echo "case 17";
+        break;
   }
 }
+
+//exit();
 //------------------------------------------------------------------------------
 
 //==============================================================================

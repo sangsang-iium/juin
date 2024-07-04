@@ -99,6 +99,8 @@ $pg_anchor = '<div class="tap_box">
 			$chk_count2 = 0; // 입금완료 수
 			$chk_count5 = 0; // 배송완료 수
 			$chk_count7 = 0; // 반품 수
+			$chk_count9 = 0; // 취소신청
+			$chk_count18 = 0; // 취소완료
 			$chk_cancel = 0; // 클래임 수
 			$sum_point  = 0; // 포인트적립
 
@@ -147,7 +149,9 @@ $pg_anchor = '<div class="tap_box">
 						<?php } ?>
 					</td>
 					<td>
-						
+						<?php
+							 
+						?>
 						<?php echo get_change_select("change_status[".$i."]", $row['dan']); ?>
 						<?php if(in_array($row['dan'], array(7,9)) && $row['refund_price'] == 0 && in_array($row['paymethod'], array('신용카드', '계좌이체', 'KAKAOPAY'))) { ?>
 						<p class="padt3"><a href="<?php echo BV_ADMIN_URL; ?>/pop_orderpartcancel.php?od_id=<?php echo $row['od_id']; ?>&od_no=<?php echo $row['od_no']; ?>" class="btn_ssmall orderpartcancel red">PG부분취소</a></p>
@@ -168,9 +172,11 @@ $pg_anchor = '<div class="tap_box">
 				if($row['dan'] == 2) $chk_count2++;
 				if($row['dan'] == 5) $chk_count5++;
 				if($row['dan'] == 7) $chk_count7++; 
+				if($row['dan'] == 9) $chk_count9++; 
+				if($row['dan'] == 17) $chk_count17++; 
 
 				// 취소.반품.교환.환불 수
-				if(in_array($row['dan'], array(6,7,8,9,10))) {
+				if(in_array($row['dan'], array(6,7,8,9,10,17))) {
 					$chk_cancel++;
 				}
 			}
@@ -211,6 +217,14 @@ $pg_anchor = '<div class="tap_box">
                 <div class="btn_list">
                     <strong class="marr5">선택한 상품을</strong>
                     <input type="submit" name="act_button" value="주문상태저장" class="btn_lsmall red" onclick="document.pressed=this.value">
+                </div>
+		<?php } ?>	
+
+		<?php  
+			if( $chk_count9!=0||$chk_count17!=0) { // 반품일 경우에만 ?>
+                <div class="btn_list">
+                    <strong class="marr5">선택한 상품을</strong>
+                    <input type="submit" name="act_button" value="취소완료" class="btn_lsmall red" onclick="document.pressed=this.value">
                 </div>
 		<?php } ?>	
 
