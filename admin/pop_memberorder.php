@@ -159,7 +159,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
                             <?php echo option_selected('cancel_date', $sel_field, "주문취소일"); ?>
                             <?php echo option_selected('change_date', $sel_field, "교환완료일"); ?>
                             <?php echo option_selected('return_date', $sel_field, "반품완료일"); ?>
-                            <?php echo option_selected('refund_date', $sel_field, "환불완료일"); ?>
+                            <?php echo option_selected('refund_date', $sel_field, "배송전취소완료일"); ?>
                         </select>
                     </div>
 				    <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>

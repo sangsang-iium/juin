@@ -80,15 +80,15 @@ function get_paging($write_pages, $cur_page, $total_page, $url, $add="")
 		$str .= '<span class="pg_prev">이전</span>'.PHP_EOL;
 	}
 
-    if($total_page > 1) {
-        for($k=$start_page;$k<=$end_page;$k++) {
-            if($cur_page != $k) {
-                $str .= '<a href="'.$url.$k.$add.'" class="pg_page">'.$k.'<span class="sound_only">페이지</span></a>'.PHP_EOL;
-            } else {
-                $str .= '<span class="sound_only">열린</span><strong class="pg_current">'.$k.'</strong><span class="sound_only">페이지</span>'.PHP_EOL;
+	if($total_page > 1) {
+		for($k=$start_page;$k<=$end_page;$k++) {
+			if($cur_page != $k) {
+					$str .= '<a href="'.$url.$k.$add.'" class="pg_page">'.$k.'<span class="sound_only">페이지</span></a>'.PHP_EOL;
+			} else {
+					$str .= '<span class="sound_only">열린</span><strong class="pg_current">'.$k.'</strong><span class="sound_only">페이지</span>'.PHP_EOL;
 			}
-        }
-    }
+		}
+	}
 
 	// if($total_page > $end_page) {
 	// 	$str .= '<a href="'.$url.($end_page+1).$add.'" class="pg_page pg_next">다음</a>'.PHP_EOL;
@@ -4180,6 +4180,7 @@ function change_order_status_9($od_no)
 
 	$sql = " update shop_order
 				set dan = '9'
+					,dan2 = '9'
 				  , refund_date = '".BV_TIME_YMDHIS."'
 			  where od_no = '$od_no' ";
 	sql_query($sql);
@@ -4195,9 +4196,37 @@ function change_order_status_9($od_no)
 
 	// 사용한 회원의 포인트를 반환
 	if($od['mb_id'] && $od['use_point']) {
-		insert_point($od['mb_id'], $od['use_point'], "주문번호 {$od['od_id']} ({$od_no}) 환불");
+		insert_point($od['mb_id'], $od['use_point'], "주문번호 {$od['od_id']} ({$od_no}) 취소처리");
 	}
 }
+
+// '배송전 환불' 상태로 변경
+function change_order_status_17($od_no)
+{
+	$od = get_order($od_no);
+
+	$sql = " update shop_order
+				set dan = '17'
+					,dan2 = '17'
+				  , refund_date = '".BV_TIME_YMDHIS."'
+			  where od_no = '$od_no' ";
+	sql_query($sql);
+
+	// 신규가입 쿠폰일경우 다시 사용할 수 있도록 돌려준다.
+	subtract_coupon_log($od_no);
+
+	// 상품옵션별재고 또는 상품재고에 더하기
+	add_io_stock($od_no, $od['od_id']);
+
+	// 상품 판매수량 반영
+	add_sum_qty($od['gs_id']);
+
+	// 사용한 회원의 포인트를 반환
+	if($od['mb_id'] && $od['use_point']) {
+		insert_point($od['mb_id'], $od['use_point'], "주문번호 {$od['od_id']} ({$od_no}) 취소처리");
+	}
+}
+
 // '반품후 반품완료' 상태로 변경
 function change_order_status_10($od_no)
 {

@@ -468,3 +468,15 @@ Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron
 Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 260
 
 Notice: Undefined property: stdClass::$code in /home/juin/www/admin/cron.regpay.php on line 325
+PHP Notice:  Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+PHP Notice:  Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+PHP Notice:  Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+PHP Notice:  A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+
+Notice: Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+
+Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+
+Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+
+Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262

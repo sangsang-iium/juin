@@ -1429,10 +1429,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </p>
           </button>
           -->
-          <?php if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+          <?php //if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
           <button type="button" class="btn_medium btn-buy" id="payment-button" style="display:none;">결제하기</button>
-          <button type="button" id="br_submit" type="primary" class="button">결제하기</button>
-          <?php } ?>
+          <!-- <button type="button" id="br_submit" type="primary" class="button">결제하기</button> -->
+          <?php //} ?>
         </div>
       </div>
     </form>
@@ -2199,7 +2199,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       orderId: odId,
       orderName: "<?php echo $itName?>",
       successUrl: window.location.origin+"/m/theme/basic/success.php",
-      failUrl: window.location.origin + "/m/theme/basic/fail.php",
+      failUrl: window.location.origin + `/m/theme/basic/fail.php?odId=${odId}&ss_cart_id=<?php echo $ss_cart_id ?>`,
       customerEmail: "<?php echo $member['email']?>",
       customerName: "<?php echo $member['name'] ?>",
       customerMobilePhone: "<?php echo preg_replace('/\D/', '', $member['cellphone']);?>",
@@ -2210,7 +2210,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   // 브렌드 페이
   // 문서: https://docs.tosspayments.com/guides/brandpay/integration#api-키-설정-및-sdk-준비
   const br_clientKey = 'test_ck_LkKEypNArWLnNb4bORWa8lmeaxYG';
-  const br_customerKey = '<?php echo $member['id']?>'; //[TODO] 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID로 변경하세요.
+  const br_customerKey = 'br_<?php echo $member['id']?>'; //[TODO] 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID로 변경하세요.
 
   // brandpay 초기화
   const brandpay = BrandPay(br_clientKey, br_customerKey, {

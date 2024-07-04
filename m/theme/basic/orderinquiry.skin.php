@@ -94,7 +94,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         <div class="ord-btn-wr">
           <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
           <!-- 상품후기 작성 버튼 조건문 추가 _20240624_SY -->
-          <?php if(in_array($dan_process, array('5','7','8','9'))) { ?> 
+          <?php if(in_array($dan_process, array('5','7','8','9'))) { ?>
           <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
           <?php } ?>
 
@@ -104,7 +104,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             if($dan_process=='3')
             {
               ?>
-                <button class="ui-btn ord-review__btn iq-wbtn return-money" data-od-id="<?php echo $rw['od_id'];?>">환불</button>
+                <button class="ui-btn ord-review__btn iq-wbtn return-money" data-od-id="<?php echo $rw['od_id'];?>">취소신청</button>
               <?php
             }
           ?>
@@ -114,8 +114,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             if($dan_process=='5')
             {
               ?>
-                <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>">반품</button>
-                <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>">교환</button>
+                <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>">반품신청</button>
+                <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>">교환신청</button>
               <?php
             }
           ?>
@@ -159,7 +159,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <div id="return-popup2" class="popup type01 add-popup">
       <div class="pop-inner">
         <div class="pop-top">
-          <p class="tit return-popup2-title1">환불 사유</p>
+          <p class="tit return-popup2-title1">취소 사유</p>
         </div>
         <div class="pop-content">
           <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
@@ -167,7 +167,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             <input type="hidden" name="evt" id="evt"  value="<?php echo $od_id; ?>">
             <div class="form-row">
               <div class="form-head">
-                <p class="title return-popup2-title2">환불 사유<b>*</b></p>
+                <p class="title return-popup2-title2">취소 사유<b>*</b></p>
               </div>
               <div class="form-body input-button">
                 <input type="text" name="return_memo" id="return_memo" required class="frm-input" maxlength="100" placeholder="사유를 입력해주세요.">
@@ -222,7 +222,7 @@ document.querySelectorAll(".reoder-btn").forEach(btn => {
   });
 });
 
-//환불  20240527 박원주
+//환불  20240527 박원주  취소로 명칭 변경
 document.querySelectorAll(".return-money").forEach(btn => {
 
   btn.addEventListener("click", function(event) {
@@ -230,7 +230,7 @@ document.querySelectorAll(".return-money").forEach(btn => {
 
     $("#order_send").prop('value',odId);
     $("#evt").prop('value',"return-money");
-    $(".return-popup2-title1,.return-popup2-title2").text("환불사유");
+    $(".return-popup2-title1,.return-popup2-title2").text("취소사유");
     const popId ="#return-popup2";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
@@ -280,7 +280,7 @@ document.querySelectorAll(".change-product").forEach(btn => {
 
     $("#order_send").prop('value',odId);
     $("#evt").prop('value',"change-product");
-    $(".return-popup2-title1,.return-popup2-title2").text("교환사유");
+    $(".return-popup2-title1,.return-popup2-title2").text("교환신청사유");
     const popId ="#return-popup2";
     const reqPathUrl = "./orderreview.php";
     const reqMethod = "GET";
