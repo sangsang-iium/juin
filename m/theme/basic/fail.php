@@ -1,14 +1,20 @@
 <?php
-
-
 include_once "../../../common.php";
 
 $message = $_GET['message'];
 $code    = $_GET['code'];
+$odId    = $_GET['odId'];
 
-$previousUrl = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'https://juinjang.kr/m/shop/orderform.php';
+// $previousUrl = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'https://juinjang.kr/m/shop/orderform.php';
+$sql = "SELECT * FROM shop_order WHERE od_id = '{$odId}'";
+$row = sql_fetch($sql);
 
-alert($message.'::'.$code, "https://juinjang.kr/m/shop/orderform.php");
+if($row['index_no']){
+  $orderModel = new IUD_Model();
+  $orderModel->delete("shop_order", "WHERE od_id = '$odId'");
+}
+
+alert($message.'::', "https://juinjang.kr/m/shop/orderform.php");
 ?>
 
 <!DOCTYPE html>

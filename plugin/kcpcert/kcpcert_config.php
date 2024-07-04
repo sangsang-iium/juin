@@ -5,7 +5,8 @@ if(!defined('_BLUEVATION_')) exit; // 개별 페이지 접근 불가
 certify_count_check($member['id'], 'hp');
 
 // 서버상 bin 폴더 이전까지 경로
-$home_dir = BV_KCPCERT_PATH; // ct_cli 절대경로 ( bin 전까지 )
+// $home_dir = BV_KCPCERT_PATH; // ct_cli 절대경로 ( bin 전까지 )
+$home_dir = "/home/juin/www/plugin/kcpcert_new";
 
 // DI 를 위한 중복확인 식별 아이디
 //web_siteid 값이 없으면 KCP 에서 지정한 값으로 설정됨
