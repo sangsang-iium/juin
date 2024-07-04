@@ -610,15 +610,13 @@ function mb_basename($path, $suffix = '') {
 
 // //fcm _20240701_SY
 function sendFCMMessage($message) {
-  global $default;
-
-  $serviceAccountPath = $_SERVER["DOCUMENT_ROOT"] . '/google_server_key.json';
-  $projectId = $default['de_fcm_projectID'];
+  $serviceAccountPath = '/home/juin/www/google_server_key.json';
 
   // 현재 시간
   $now = time();
   // 서비스 계정 키 읽기
   $key = json_decode(file_get_contents($serviceAccountPath), true);
+  $projectId = $key['project_id'];
 
   // JWT 헤더와 페이로드 생성
   $header = [
