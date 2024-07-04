@@ -27,7 +27,6 @@
         return  $val;
     }
     /* ============================================================================== */
-    $ENC_KEY = "9eb2cc7e320e2d7d54bc4a92ec1e9dc1057f386f2435d42e9f9e051404b249f8";
 
     $site_cd       = "";
     $ordr_idxx     = "";
@@ -104,7 +103,7 @@
             // 해당 데이터의 위변조를 방지합니다
              $veri_str = $site_cd.$ordr_idxx.$cert_no; // 사이트 코드 + 요청번호 + 인증거래번호
 
-            if ( $ct_cert->check_valid_hash ( $g_conf_home_dir , $ENC_KEY , $dn_hash , $veri_str ) != "1" )
+            if ( $ct_cert->check_valid_hash ( $g_conf_home_dir , $g_conf_ENC_KEY , $dn_hash , $veri_str ) != "1" )
             {
                 // 검증 실패시 처리 영역
 
@@ -124,7 +123,7 @@
             // site_cd 와 cert_no 를 가지고 복화화 하는 함수 입니다.
             // 정상적으로 복호화 된경우에만 인증데이터를 가져올수 있습니다.
             $opt = "0" ; // 복호화 인코딩 옵션 ( UTF - 8 사용시 "1" ) 
-            $ct_cert->decrypt_enc_cert( $g_conf_home_dir , $ENC_KEY , $site_cd , $cert_no , $enc_cert_data2 , $opt );
+            $ct_cert->decrypt_enc_cert( $g_conf_home_dir , $g_conf_ENC_KEY , $site_cd , $cert_no , $enc_cert_data2 , $opt );
             
             echo "========================= 복호화 데이터 ====================="       ."<br>";
             echo "복호화 이동통신사 코드 :" . $ct_cert->mf_get_key_value("comm_id"    )."<br>"; // 이동통신사 코드   

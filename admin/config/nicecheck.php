@@ -253,8 +253,8 @@ if($config['cf_cert_use']) {
         if(PHP_INT_MAX == 2147483647) // 32-bit
             $exe = BV_KCPCERT_PATH . '/bin/ct_cli';
         else
-            // $exe = BV_KCPCERT_PATH . '/bin/ct_cli_x64';
-            $exe = BV_KCPCERT_PATH . '/bin/64bit/ct_cli';
+            $exe = BV_KCPCERT_PATH . '/bin/ct_cli_x64';
+            // $exe = BV_KCPCERT_PATH . '/bin/64bit/ct_cli';
 
         echo module_exec_check($exe, 'ct_cli');
     }

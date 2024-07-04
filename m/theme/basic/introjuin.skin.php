@@ -41,7 +41,7 @@ set_session('myLocation', $myLocation);
     <div class="intro-btn-list">
       <a href="/" class="intro-btn left-btn intro-btn01">
         <div class="text-box">
-          <p class="text01">식자재 마켓</p>
+          <p class="text01">식자재 <br>마트</p>
         </div>
         <div class="icon">
           <img src="/src/img/intro-icon01.png" alt="">
@@ -54,28 +54,28 @@ set_session('myLocation', $myLocation);
     <div class="intro-btn-color-box">
       <p class="intro-btn-title">한국외식업중앙회 <span class="img"><img src="/src/img/intro-bot-title.png" alt=""></span></p>
       <div class="intro-btn-list">
-        <a href="/m/used/list.php?menu=used" class="intro-btn right-btn intro-btn02">
+        <a href="/m/store/list.php?menu=store" class="intro-btn left-btn intro-btn03">
           <div class="text-box">
-            <p class="text01">중고장터</p>
-            <!-- <p class="text02">아나바다를 실천하는 <br>알뜰한 사장님</p> -->
+            <p class="text01">회원사 <br>현황</p>
+            <!-- <p class="text02">사장님 근처에서 찾는 <br>회원사 매장</p> -->
           </div>
           <div class="icon">
             <img src="/src/img/intro-icon02.png" alt="">
           </div>
         </a>
-        <a href="/m/store/list.php?menu=store" class="intro-btn left-btn intro-btn03">
+        <a href="/m/service/list.php?menu=service" class="intro-btn right-btn intro-btn04">
           <div class="text-box">
-            <p class="text01">회원사 현황</p>
-            <!-- <p class="text02">사장님 근처에서 찾는 <br>회원사 매장</p> -->
+            <p class="text01">제휴<br>서비스</p>
+            <!-- <p class="text02">회원사만을 위한 <br>다양한 혜택서비스</p> -->
           </div>
           <div class="icon">
             <img src="/src/img/intro-icon03.png" alt="">
           </div>
         </a>
-        <a href="/m/service/list.php?menu=service" class="intro-btn right-btn intro-btn04">
+        <a href="/m/used/list.php?menu=used" class="intro-btn right-btn intro-btn02">
           <div class="text-box">
-            <p class="text01">제휴서비스</p>
-            <!-- <p class="text02">회원사만을 위한 <br>다양한 혜택서비스</p> -->
+            <p class="text01">중고장터</p>
+            <!-- <p class="text02">아나바다를 실천하는 <br>알뜰한 사장님</p> -->
           </div>
           <div class="icon">
             <img src="/src/img/intro-icon04.png" alt="">
