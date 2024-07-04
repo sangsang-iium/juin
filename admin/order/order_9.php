@@ -233,7 +233,7 @@ EOF;
 	<tr>
 		<th scope="row">선택한 주문을</th>
 		<td>
-			<input type="button"  id="return_money"  name="act_button" value="환불완료 처리" class="btn_medium red">
+			<input type="button"  id="return_money"  name="act_button" value="취소완료 처리" class="btn_medium red">
 			<!-- <input type="submit" name="act_button" value="전체환불" class="btn_lsmall white" onclick="document.pressed=this.value">
 			
 			<input type="submit" name="act_button" value="전체반품" class="btn_lsmall white" onclick="document.pressed=this.value"> -->
