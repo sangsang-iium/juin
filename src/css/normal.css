@@ -293,7 +293,6 @@
 .login-btn {margin-top: 3.8rem;}
 .login-btn .ui-btn {width: 100%; height: 7.2rem; font-size: 2.16rem; font-weight: 500;}
 .login-btn .ui-btn ~ .ui-btn {margin-top: 0.8rem;}
-.login-btn .search-btn {display: inline-block; margin-top: 3.6rem; font-size: 2.16rem; font-weight: 400; color: var(--color-gray2);}
 
 .sns-wrap {margin-top: 12.8rem;}
 .sns-head {position: relative; display: block; font-size: 0;}

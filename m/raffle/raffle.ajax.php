@@ -24,7 +24,20 @@ if($member['id']) {
     ];
     $response = sendFCMMessage($message);
   } else {
+    $sql = " DELETE FROM shop_goods_raffle_log 
+            WHERE raffle_index = '$index_no'
+            AND mb_id = '{$member['id']}' ";
+            sql_query($sql);
+
     $returnArr = array('res' => 'N');
+
+    $message = [
+      'token' => $member['fcm_token'], // 수신자의 디바이스 토큰
+      'title' => '래플 취소 완료',
+      'body' => "{$gs_name} 상품 래플 취소가 완료되었습니다."
+    ];
+    $response = sendFCMMessage($message);
+
   }
 }
 die(json_encode($returnArr));
