@@ -5,7 +5,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
 $mn_id = "";
 $mn_name = "";
 $mn_num = "";
-if($is_member) { 
+if($is_member) {
   $mn_sel = " SELECT mm.*, mn.id AS mn_id FROM shop_member mm
            LEFT JOIN shop_manager mn
                   ON (mm.ju_manager = mn.index_no)
@@ -29,7 +29,8 @@ if($is_member) {
 <div id="contents" class="sub-contents">
   <div class="joinDetail-wrap apply-write-wrap">
     <div class="container">
-
+    <form action="./apply_update.php" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="b_type" value="4">
     <div class="joinDetail-box">
         <div class="joinDetail-head">
           <p class="joinDetail-title center">상조 제휴</p>
@@ -41,7 +42,7 @@ if($is_member) {
               <p class="title">사업자등록번호<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" value="<?php echo $mn_num ?>" placeholder="사업자등록번호를 입력해주세요.">
+              <input type="text" name="b_num" class="frm-input w-per100" required value="<?php echo $mn_num ?>" placeholder="사업자등록번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -51,7 +52,7 @@ if($is_member) {
               <p class="title">사업장명<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" value="<?php echo $mn_store ?>" placeholder="사업장명를 입력해주세요.">
+              <input type="text" name="b_name" class="frm-input w-per100" required value="<?php echo $mn_store ?>" placeholder="사업장명를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -61,7 +62,7 @@ if($is_member) {
               <p class="title">대표자명<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" value="<?php echo $mn_ju_name ?>" placeholder="대표자명를 입력해주세요.">
+              <input type="text" name="c_name" class="frm-input w-per100" required value="<?php echo $mn_ju_name ?>" placeholder="대표자명를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -72,15 +73,15 @@ if($is_member) {
             </div>
             <div class="form-body address">
               <label for="reg_mb_zip" class="sound_only">우편번호</label>
-              <input type="tel" name="mb_zip" value="<?php echo $mn_zip ?>" id="reg_mb_zip" required="" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호">
+              <input type="tel" name="b_addr_zip" value="<?php echo $mn_zip ?>" id="reg_mb_zip" required="" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호">
               <button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
-              <input type="text" name="mb_addr1" value="<?php echo $mn_addr1 ?>" id="reg_mb_addr1" required="" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
+              <input type="text" name="b_addr_1" value="<?php echo $mn_addr1 ?>" id="reg_mb_addr1" required="" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
               <label for="reg_mb_addr1" class="sound_only">기본주소</label>
-              <input type="text" name="mb_addr2" value="<?php echo $mn_addr2 ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
+              <input type="text" name="b_addr_2" value="<?php echo $mn_addr2 ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
               <label for="reg_mb_addr2" class="sound_only">상세주소</label>
-              <input type="text" name="mb_addr3" value="<?php echo $mn_addr3 ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
+              <input type="text" name="b_addr_3" value="<?php echo $mn_addr3 ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
               <label for="reg_mb_addr3" class="sound_only">참고항목</label>
-              <input type="hidden" name="mb_addr_jibeon" value="<?php echo $mn_jibeon ?>">
+              <input type="hidden" name="mb_addr_jibeon" value="">
             </div>
           </div>
           <!-- } row -->
@@ -90,11 +91,11 @@ if($is_member) {
               <p class="title">사업장 전화번호</p>
             </div>
             <div class="form-body phone">
-              <input type="text" class="frm-input" value="<?php echo $tele_phone[0] ?>">
+              <input type="text" name="b_tel[]" class="frm-input" value="<?php echo $tele_phone[0] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input" value="<?php echo $tele_phone[1] ?>">
+              <input type="text" name="b_tel[]" class="frm-input" value="<?php echo $tele_phone[1] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input" value="<?php echo $tele_phone[2] ?>">
+              <input type="text" name="b_tel[]" class="frm-input" value="<?php echo $tele_phone[2] ?>">
             </div>
           </div>
           <!-- } row -->
@@ -104,11 +105,11 @@ if($is_member) {
               <p class="title">대표자 휴대전화<b>*</b></p>
             </div>
             <div class="form-body phone">
-              <input type="text" class="frm-input" value="<?php echo $cell_phone[0] ?>">
+              <input type="text" name="b_phone[]" required class="frm-input" value="<?php echo $cell_phone[0] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input" value="<?php echo $cell_phone[1] ?>">
+              <input type="text" name="b_phone[]" required class="frm-input" value="<?php echo $cell_phone[1] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input" value="<?php echo $cell_phone[2] ?>">
+              <input type="text" name="b_phone[]" required class="frm-input" value="<?php echo $cell_phone[2] ?>">
             </div>
           </div>
           <!-- } row -->
@@ -118,7 +119,7 @@ if($is_member) {
               <p class="title">상담내용</p>
             </div>
             <div class="form-body">
-              <textarea name="" id="" class="frm-input" placeholder="상담내용을 입력해주세요."></textarea>
+              <textarea name="b_contents" id="b_contents" class="frm-input" placeholder="상담내용을 입력해주세요."></textarea>
             </div>
           </div>
           <!-- } row -->
@@ -128,7 +129,7 @@ if($is_member) {
               <p class="title">상담(담당) 희망자</p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="상담 희망자를 입력해주세요.">
+              <input type="text" name="b_hope" class="frm-input w-per100" placeholder="상담 희망자를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -138,7 +139,7 @@ if($is_member) {
               <p class="title">비밀번호<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="비밀번호를 입력해주세요.">
+              <input type="text" name="b_pw" required class="frm-input w-per100" placeholder="비밀번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -148,7 +149,7 @@ if($is_member) {
               <p class="title">소개자(직원) 정보<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" value="<?php echo $mn_id ?>" placeholder="소개자를 입력해주세요.">
+              <input type="text" name="b_staff" required class="frm-input w-per100" value="<?php echo $mn_id ?>" placeholder="소개자를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -178,7 +179,7 @@ if($is_member) {
       <div class="apply-write-btn-wr">
         <button class="ui-btn round stBlack" onclick="javascript:alert('신청이 완료 되었습니다.')">신청완료</button>
       </div>
-
+      </form>
     </div>
   </div>
 </div>

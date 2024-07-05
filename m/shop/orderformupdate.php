@@ -499,10 +499,12 @@ $sql = " update {$shop_table}
 sql_query($sql, false);
 
 if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드'))) {
-  $cart_select = " , ct_select = '1' ";
+  $cart_select = " ct_select = '1' ";
+  // $cart_select = " , ct_select = '1' ";
 }
 
 // 장바구니 주문완료 처리 (무통장, 포인트결제)
+// $sql = "update shop_cart set {$cart_select} where index_no IN ({$_POST['ss_cart_id']}) ";
 $sql = "update shop_cart set od_id = '$od_id' {$cart_select} where index_no IN ({$_POST['ss_cart_id']}) ";
 sql_query($sql);
 

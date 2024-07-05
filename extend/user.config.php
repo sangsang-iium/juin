@@ -612,7 +612,7 @@ function mb_basename($path, $suffix = '') {
 function sendFCMMessage($message) {
   global $default;
 
-  $serviceAccountPath = $_SERVER["DOCUMENT_ROOT"] . '/google_server_key.json';
+  $serviceAccountPath = '/home/juin/www/google_server_key.json';
   $projectId = $default['de_fcm_projectID'];
 
   // 현재 시간

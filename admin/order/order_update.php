@@ -48,7 +48,7 @@ else if($_POST['act_button'] == "주문취소")
 		icode_order_sms_send($od['pt_id'], $od['cellphone'], $od_id, 5);
 	}
 }
-else if($_POST['act_button'] == "배송준비")
+else if($_POST['act_button'] == "배송준비" || $_POST['act_button'] == "상품준비중")
 {
 	for($i=0; $i<$count; $i++)
 	{
