@@ -1,6 +1,5 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
-
 $type = isset($_GET['type']) && !empty($_GET['type']) ? $_GET['type'] : '2' ;
 ?>
 <script src="<?php echo BV_JS_URL; ?>/jquery.register_form.js"></script>

@@ -43,8 +43,11 @@ if ($gs_id) {
             </div>
           </div>
           <div class="login-btn">
-            <button type="submit" class="ui-btn round stBlack login-btn">로그인</button></p>
-            <a href="<?php echo BV_MBBS_URL; ?>/password_lost.php" class="search-btn">아이디/비밀번호 찾기</a>
+            <button type="submit" class="ui-btn round stBlack login-btn">로그인</button>
+            <div class="find-wrap">
+              <a href="<?php echo BV_MBBS_URL; ?>/find_id.php?type=3" class="search-btn">아이디 찾기</a>
+              <a href="<?php echo BV_MBBS_URL; ?>/find_password.php?type=3" class="search-btn">비밀번호 찾기</a>
+            </div>
           </div>
         </section>
         <?php if ($default['de_sns_login_use']) { ?>
