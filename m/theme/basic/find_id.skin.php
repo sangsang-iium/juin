@@ -1,14 +1,13 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
-$type = isset($_GET['type']) && !empty($_GET['type']) ? $_GET['type'] : '2' ;
 ?>
+<!-- 본인인증 추가 _20240705_SY -->
 <script src="<?php echo BV_JS_URL; ?>/jquery.register_form.js"></script>
 <?php if ($config['cf_cert_use'] && ($config['cf_cert_ipin'] || $config['cf_cert_hp'])) { ?>
   <script src="<?php echo BV_JS_URL; ?>/certify.js?v=<?php echo BV_JS_VER; ?>"></script>
 <?php } ?>
 
-<!-- form_action_url : https://juinjang.kr/m/bbs/password_lost2.php -->
-<form name="fregisterform" action="/m/bbs/find_id_result.php?type=<?php echo $type ?>" method="post" autocomplete="off" onsubmit="return false">
+<form name="fregisterform" action="<?php echo $form_action_url ?>" method="post" autocomplete="off" onsubmit="return false">
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
 <input type="hidden" name="cert_no" value="">
@@ -57,7 +56,7 @@ $type = isset($_GET['type']) && !empty($_GET['type']) ? $_GET['type'] : '2' ;
 </form>
 
 
-
+<!-- 본인인증 추가 _20240705_SY -->
 <script>
   $(function() {
     <?php if ($config['cf_cert_use'] && $config['cf_cert_hp']) { ?>

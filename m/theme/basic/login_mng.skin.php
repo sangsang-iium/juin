@@ -38,11 +38,11 @@ if ($gs_id) {
                             <input type="checkbox" name="auto_login" id="login_auto_login" class="css-checkbox lrg">
                             <label for="login_auto_login">자동로그인</label>
                         </div>
-                        <div class="find-wrap2">
+                        <!-- <div class="find-wrap2">
                             <a href="<?php echo BV_MBBS_URL; ?>/find_id.php?type=1" class="search-btn">아이디 찾기</a>
                             <span class="bar">/</span>
                             <a href="<?php echo BV_MBBS_URL; ?>/find_password.php?type=1" class="search-btn">비밀번호 찾기</a>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="login-btn">
                         <button type="submit" class="ui-btn round stBlack login-btn">로그인</button>
