@@ -163,7 +163,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	</dl>
 	<?php }
 	else if($pg_title == ADMIN_MENU6) {
-    
+
     // 담당자 정보 추가 _20240619_SY
     if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
       $mn_sql = " SELECT index_no FROM shop_manager WHERE `id` = '{$_SESSION['ss_mn_id']}' ";
@@ -309,6 +309,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	else if($pg_title == ADMIN_MENU12) { ?>
 	<dl>
 		<?php echo printMenu1('j10', '제휴서비스 관리'); ?>
+		<?php echo printMenu2('j10', ADMIN_MENU12_01,  BV_ADMIN_URL.'/service.php?code=list'); ?>
 	</dl>
 	<?php } ?>
 </div>
