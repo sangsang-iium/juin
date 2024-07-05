@@ -23,6 +23,7 @@ if($is_member) {
   <div class="joinDetail-wrap apply-write-wrap">
     <div class="container">
       <form action="./apply_update.php" method="POST" autocomplete="off" enctype="multipart/form-data" onsubmit="return apply_service_submit(this);">
+      <input type="hidden" name="mb_id" value="<?php echo $member['id']?>">
       <input type="hidden" name="b_type" value="1">
       <div class="joinDetail-box">
         <div class="joinDetail-head">
@@ -38,17 +39,17 @@ if($is_member) {
               <p class="title">신청구분</p>
             </div>
             <div class="form-body">
-              <div class="check-wr">
+              <div class="check-wr" data-group="bc_gubun">
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_gubun" id="chk1" value="0">
+                  <input type="checkbox" name="bc_gubun" id="chk1" value="0" class="single-checkbox">
                   <label for="chk1">사업자용</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_gubun" id="chk2" value="1">
+                  <input type="checkbox" name="bc_gubun" id="chk2" value="1" class="single-checkbox">
                   <label for="chk2">종사자용</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_gubun" id="chk3" value="2">
+                  <input type="checkbox" name="bc_gubun" id="chk3" value="2" class="single-checkbox">
                   <label for="chk3">사업자용(사업자등록증 미발급)</label>
                 </div>
               </div>
@@ -61,13 +62,13 @@ if($is_member) {
               <p class="title">신청카드</p>
             </div>
             <div class="form-body">
-              <div class="check-wr">
+              <div class="check-wr" data-group="bc_card">
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_card" id="chk4" value="1">
+                  <input type="checkbox" name="bc_card" id="chk4" value="1" class="single-checkbox">
                   <label for="chk4">VISA</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_card" id="chk5" value="2">
+                  <input type="checkbox" name="bc_card" id="chk5" value="2" class="single-checkbox">
                   <label for="chk5">국내전용</label>
                 </div>
               </div>
@@ -80,17 +81,17 @@ if($is_member) {
               <p class="title">할인유형</p>
             </div>
             <div class="form-body">
-              <div class="check-wr">
+              <div class="check-wr" data-group="bc_sale">
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_sale" id="chk6" value="0">
+                  <input type="checkbox" name="bc_sale" id="chk6" value="0" class="single-checkbox">
                   <label for="chk6">쇼핑</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_sale" id="chk7" value="1">
+                  <input type="checkbox" name="bc_sale" id="chk7" value="1" class="single-checkbox">
                   <label for="chk7">교통</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_sale" id="chk8" value="2">
+                  <input type="checkbox" name="bc_sale" id="chk8" value="2" class="single-checkbox">
                   <label for="chk8">커피</label>
                 </div>
               </div>
@@ -218,6 +219,18 @@ if($is_member) {
   </div>
 </div>
 <script>
+  document.querySelectorAll('.check-wr').forEach(group => {
+    group.addEventListener('change', function(e) {
+      if (e.target.classList.contains('single-checkbox')) {
+        const checkboxes = group.querySelectorAll('.single-checkbox');
+        checkboxes.forEach(checkbox => {
+          if (checkbox !== e.target) {
+            checkbox.checked = false;
+          }
+        });
+      }
+    });
+  });
   function apply_service_submit(f) {
 
     return true;

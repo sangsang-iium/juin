@@ -81,7 +81,7 @@ $up_where       = "WHERE od_id = '{$orderId}'";
 
 $orderModel->update($up_table, $up_data, $up_where);
 
-$cart_select = " ct_select = '1' ";
+$cart_select = ", ct_select = '1' ";
 
 // 장바구니 주문완료 처리 (무통장, 포인트결제)
 // 또그래................................

@@ -205,7 +205,7 @@ if(!defined('_BLUEVATION_')) exit;
             }
           }
 
-          
+
           // 항상 출력되는 부분
           // paytype == 3 | 렌탈 추가 _20240701_SY
           echo '<div class="cp-cart-item">';
@@ -227,7 +227,9 @@ if(!defined('_BLUEVATION_')) exit;
           echo '</div>';
           echo '<div class="cp-cart-body">';
           echo '<div class="thumb round60">';
+          echo '<a href="'.$href.'">';
           echo '<img src="' . get_it_image_url($row['gs_id'], $gs['simg1'], 140, 140) . '" alt="' . get_text($gs['gname']) . '" class="fitCover">';
+          echo '</a>';
           echo '</div>';
           echo '<div class="content">';
           echo '<div class="count">';
@@ -242,7 +244,7 @@ if(!defined('_BLUEVATION_')) exit;
             echo '<div>' . $it_options . '</div>';
           }
           echo '</div>';
-          echo '<p class="price">' . display_price2($sell_price) . '<span class="dc-price">99,999원</span></p>';
+          echo '<p class="price">' . display_price2($sell_price) . '</p>';
           echo '</div>';
           echo '</div>';
           echo '</div>';
