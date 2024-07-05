@@ -1127,4 +1127,18 @@ html.no-overflowscrolling #mod_option_frm {height:auto;max-height:10000px !impor
 .login-wrap section.login_fs {margin-top: 0;}
 .login-wrap h3 {margin-bottom: 2rem;}
 
-/* */
+.user-find_info {display: flex; flex-flow: row wrap; align-items: center; justify-content: center; margin-top: 3.6rem;}
+.user-find_info .search-btn {display: inline-block; font-size: 2.16rem; font-weight: 400; color: var(--color-gray2); border-bottom: 1px solid var(--color-gray2);}
+.user-find_info .bar {margin: 0 1rem; font-size: 2.16rem;}
+
+/* 회원정보찾기(커스텀) */
+.userLost {padding-top: 5rem;}
+
+.userLostResult {padding-top: 5rem;}
+.userLostResult .findComplete-img {margin-bottom: 2rem; text-align: center;}
+.userLostResult .findComplete-img img {width: 9.2rem;}
+.userLostResult #userId {color: var(--color-main)}
+.userLostResult .cp-btnbar__btns {gap: 1rem;}
+.userLostResult .cp-btnbar__btns .ui-btn {display: block; width: calc(50% - 0.5rem); line-height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
+.userLostResult .cp-btnbar__btns .ui-btn.stBlack {display: block; width: calc(50% - 0.5rem); line-height: 6.8rem; font-size: 2.16rem; font-weight: 500;}
+.userLostResult .cp-btnbar__btns .ui-btn.w-per100 {width: 100%;}

@@ -6,7 +6,7 @@ include_once(BV_MPATH."/_head.php"); // 상단
 $mn_id = "";
 $mn_name = "";
 $mn_num = "";
-if($is_member) { 
+if($is_member) {
   $mn_sel = " SELECT mm.*, mn.id AS mn_id FROM shop_member mm
            LEFT JOIN shop_manager mn
                   ON (mm.ju_manager = mn.index_no)
@@ -22,7 +22,8 @@ if($is_member) {
 <div id="contents" class="sub-contents">
   <div class="joinDetail-wrap apply-write-wrap">
     <div class="container">
-
+      <form action="./apply_update.php" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="b_type" value="2">
       <div class="joinDetail-box">
         <div class="joinDetail-head">
           <p class="joinDetail-title center">외식가족공제 신한카드 Hi-Point MyShop</p>
@@ -39,15 +40,15 @@ if($is_member) {
             <div class="form-body">
               <div class="check-wr">
                 <div class="frm-choice">
-                  <input type="checkbox" name="" id="chk1" value="">
+                  <input type="checkbox" name="bc_gubun" id="chk1" value="0">
                   <label for="chk1">사업자용</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="" id="chk2" value="">
+                  <input type="checkbox" name="bc_gubun" id="chk2" value="1">
                   <label for="chk2">종사자용</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="" id="chk3" value="">
+                  <input type="checkbox" name="bc_gubun" id="chk3" value="2">
                   <label for="chk3">사업자용(사업자등록증 미발급)</label>
                 </div>
               </div>
@@ -62,15 +63,15 @@ if($is_member) {
             <div class="form-body">
               <div class="check-wr">
                 <div class="frm-choice">
-                  <input type="checkbox" name="" id="chk4" value="" checked>
+                  <input type="checkbox" name="bc_card" id="chk4" value="0" checked>
                   <label for="chk4">MASTER</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="" id="chk5" value="">
+                  <input type="checkbox" name="bc_card" id="chk5" value="3">
                   <label for="chk5">URS</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="" id="chk6" value="">
+                  <input type="checkbox" name="bc_card" id="chk6" value="1">
                   <label for="chk6">VISA</label>
                 </div>
               </div>
@@ -83,7 +84,7 @@ if($is_member) {
               <p class="title">성명</p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" value="<?php echo $mn_name ?>" placeholder="성명을 입력해주세요.">
+              <input type="text" name="c_name" class="frm-input w-per100" value="<?php echo $mn_name ?>" placeholder="성명을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -93,7 +94,7 @@ if($is_member) {
               <p class="title">생년월일</p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" placeholder="생년월일을 입력해주세요.">
+              <input type="text" name="bc_birth" class="frm-input w-per100" placeholder="생년월일을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -103,7 +104,7 @@ if($is_member) {
               <p class="title">사업자등록번호</p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" value="<?php echo $mn_num ?>" placeholder="사업자등록번호를 입력해주세요.">
+              <input type="text" name="b_num" class="frm-input w-per100" value="<?php echo $mn_num ?>" placeholder="사업자등록번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -113,11 +114,11 @@ if($is_member) {
               <p class="title">휴대폰<b>*</b></p>
             </div>
             <div class="form-body phone">
-              <input type="text" class="frm-input" value="<?php echo $cell_phone[0] ?>">
+              <input type="text" name="b_phone[]" required class="frm-input" value="<?php echo $cell_phone[0] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input" value="<?php echo $cell_phone[1] ?>">
+              <input type="text" name="b_phone[]" required class="frm-input" value="<?php echo $cell_phone[1] ?>">
               <span class="hyphen">-</span>
-              <input type="text" class="frm-input" value="<?php echo $cell_phone[2] ?>">
+              <input type="text" name="b_phone[]" required class="frm-input" value="<?php echo $cell_phone[2] ?>">
             </div>
           </div>
           <!-- } row -->
@@ -127,32 +128,32 @@ if($is_member) {
               <p class="title">통화가능시간</p>
             </div>
             <div class="form-body time">
-              <select name="" id="" class="frm-select">
+              <select name="bc_able[]" id="" class="frm-select">
                 <option value="">선택</option>
-                <option value="">9시</option>
-                <option value="">10시</option>
-                <option value="">11시</option>
-                <option value="">12시</option>
-                <option value="">13시</option>
-                <option value="">14시</option>
-                <option value="">15시</option>
-                <option value="">16시</option>
-                <option value="">17시</option>
-                <option value="">18시</option>
+                <option value="9">9시</option>
+                <option value="10">10시</option>
+                <option value="11">11시</option>
+                <option value="12">12시</option>
+                <option value="13">13시</option>
+                <option value="14">14시</option>
+                <option value="15">15시</option>
+                <option value="16">16시</option>
+                <option value="17">17시</option>
+                <option value="18">18시</option>
               </select>
               <span class="hyphen">~</span>
-              <select name="" id="" class="frm-select">
+              <select name="bc_able[]" id="" class="frm-select">
                 <option value="">선택</option>
-                <option value="">9시</option>
-                <option value="">10시</option>
-                <option value="">11시</option>
-                <option value="">12시</option>
-                <option value="">13시</option>
-                <option value="">14시</option>
-                <option value="">15시</option>
-                <option value="">16시</option>
-                <option value="">17시</option>
-                <option value="">18시</option>
+                <option value="9">9시</option>
+                <option value="10">10시</option>
+                <option value="11">11시</option>
+                <option value="12">12시</option>
+                <option value="13">13시</option>
+                <option value="14">14시</option>
+                <option value="15">15시</option>
+                <option value="16">16시</option>
+                <option value="17">17시</option>
+                <option value="18">18시</option>
               </select>
             </div>
           </div>
@@ -163,7 +164,7 @@ if($is_member) {
               <p class="title">담당직원</p>
             </div>
             <div class="form-body">
-              <input type="text" class="frm-input w-per100" value="<?php echo $mn_id ?>" placeholder="담당직원의 사번을 입력하여주세요.">
+              <input type="text" name="b_staff" class="frm-input w-per100" value="<?php echo $mn_id ?>" placeholder="담당직원의 사번을 입력하여주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -174,8 +175,8 @@ if($is_member) {
         <div class="joinAgree-row">
           <div class="joinAgree-row-head arcodianBtn">
             <div class="joinAgree-check frm-choice">
-              <input name="agree" type="checkbox" value="1" id="agree11" class="css-checkbox">
-              <label for="agree11">개인정보 수집·이용 동의 (필수)</label>
+              <input name="b_agree" type="checkbox" value="0" id="b_agree" class="css-checkbox">
+              <label for="b_agree">개인정보 수집·이용 동의 (필수)</label>
             </div>
           </div>
           <div class="joinAgree-row-body">

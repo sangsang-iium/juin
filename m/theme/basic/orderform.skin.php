@@ -967,12 +967,12 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "<label for=\"de_normal\">일반</label>\n";
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
-              $multi_settle .= "<li>\n";
-              $multi_settle .= "<div class=\"frm-choice\">\n";
-              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"브렌드페이\" id=\"de_brand\">\n";
-              $multi_settle .= "<label for=\"de_brand\">브렌드페이</label>\n";
-              $multi_settle .= "</div>\n";
-              $multi_settle .= "</li>\n";
+              // $multi_settle .= "<li>\n";
+              // $multi_settle .= "<div class=\"frm-choice\">\n";
+              // $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"브렌드페이\" id=\"de_brand\">\n";
+              // $multi_settle .= "<label for=\"de_brand\">브렌드페이</label>\n";
+              // $multi_settle .= "</div>\n";
+              // $multi_settle .= "</li>\n";
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
@@ -1086,9 +1086,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               </div>
             </section>
 
-            <section id="brand_section" style="display:none;">
+            <!-- <section id="brand_section" style="display:none;">
              <div id="payment-methods-widget"></div>
-            </section>
+            </section> -->
 
             <section id="bank_section" style="display:none;">
               <h2 class="anc_tit">입금하실 계좌</h2>
@@ -1848,7 +1848,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       case '무통장':
         orderButton.disabled = false;
         $("#bank_section").show();
-        $("#brand_section").hide();
+        // $("#brand_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
         // $("input[name=use_point]").val(0);
@@ -1867,7 +1867,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         break;
       case '일반':
         paymentButton.disabled = false;
-        $("#brand_section").hide();
+        // $("#brand_section").hide();
         $("#toss_section").show();
         $("#card_section").hide();
         $("#bank_section").hide();
@@ -1888,7 +1888,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         break;
       case '신용카드':
         orderButton.disabled = false;
-        $("#brand_section").hide();
+        // $("#brand_section").hide();
         $("#card_section").show();
         $("#bank_section").hide();
         $("#toss_section").hide();
@@ -1901,7 +1901,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         break;
       case '브렌드페이':
         orderButton.disabled = false;
-        $("#brand_section").show();
+        // $("#brand_section").show();
         $("#card_section").hide();
         $("#bank_section").hide();
         $("#toss_section").hide();
@@ -1915,7 +1915,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
       case '포인트':
         orderButton.disabled = false;
-        $("#brand_section").hide();
+        // $("#brand_section").hide();
         $("#bank_section").hide();
         $("#card_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
@@ -2128,6 +2128,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 </script>
 <script src="https://js.tosspayments.com/v1/payment-widget"></script>
 <script type="text/javascript" src="https://js.tosspayments.com/v1/brandpay"></script>
+ <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 
 

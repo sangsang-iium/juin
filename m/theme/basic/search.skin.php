@@ -27,7 +27,7 @@ for($i=0; $i<count($gw_msort); $i++) {
   <div id="sch-result_sort">
     <div class="container dp-top">
       <div class="txt-board-cnt">총 <span class="cnt"><?php echo number_format($total_count); ?></span>건</div>
-      <div class="cp-sort">  
+      <div class="cp-sort">
         <span class="cp-sort__btn"><?php echo $sort_name; ?></span>
       </div>
     </div>
@@ -43,7 +43,7 @@ for($i=0; $i<count($gw_msort); $i++) {
       for($i=0; $row=sql_fetch_array($result); $i++) {
         $it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
         $it_name = cut_str($row['gname'], 50);
-        $it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], 400, 400);
+        $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], 400, 400);
         $it_price = mobile_price($row['index_no']);
         $it_amount = get_sale_price($row['index_no']);
         $it_point = display_point($row['gpoint']);
@@ -61,7 +61,7 @@ for($i=0; $i<count($gw_msort); $i++) {
         }
 
         item_card($row['index_no'], $it_href, $it_imageurl, $it_name, $it_sprice, $sale, $it_price, 'small');
-        
+
         /*
         echo "<li>";
           echo "<a href=\"{$it_href}\">";
