@@ -22,7 +22,8 @@ if($is_member) {
 <div id="contents" class="sub-contents">
   <div class="joinDetail-wrap apply-write-wrap">
     <div class="container">
-      <form action="./apply_update.php" method="POST" enctype="multipart/form-data">
+      <form action="./apply_update.php" method="POST" autocomplete="off" enctype="multipart/form-data" onsubmit="return apply_service_submit(this);">
+      <input type="hidden" name="mb_id" value="<?php echo $member['id']?>">
       <input type="hidden" name="b_type" value="2">
       <div class="joinDetail-box">
         <div class="joinDetail-head">
@@ -38,17 +39,17 @@ if($is_member) {
               <p class="title">신청구분</p>
             </div>
             <div class="form-body">
-              <div class="check-wr">
+              <div class="check-wr" data-group="bc_gubun">
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_gubun" id="chk1" value="0">
+                  <input type="checkbox" name="bc_gubun" id="chk1" value="0" class="single-checkbox">
                   <label for="chk1">사업자용</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_gubun" id="chk2" value="1">
+                  <input type="checkbox" name="bc_gubun" id="chk2" value="1" class="single-checkbox">
                   <label for="chk2">종사자용</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_gubun" id="chk3" value="2">
+                  <input type="checkbox" name="bc_gubun" id="chk3" value="2" class="single-checkbox">
                   <label for="chk3">사업자용(사업자등록증 미발급)</label>
                 </div>
               </div>
@@ -61,17 +62,17 @@ if($is_member) {
               <p class="title">신청카드</p>
             </div>
             <div class="form-body">
-              <div class="check-wr">
+              <div class="check-wr" data-group="bc_card">
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_card" id="chk4" value="0" checked>
+                  <input type="checkbox" name="bc_card" id="chk4" value="0" checked class="single-checkbox">
                   <label for="chk4">MASTER</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_card" id="chk5" value="3">
+                  <input type="checkbox" name="bc_card" id="chk5" value="3" class="single-checkbox">
                   <label for="chk5">URS</label>
                 </div>
                 <div class="frm-choice">
-                  <input type="checkbox" name="bc_card" id="chk6" value="1">
+                  <input type="checkbox" name="bc_card" id="chk6" value="1" class="single-checkbox">
                   <label for="chk6">VISA</label>
                 </div>
               </div>
@@ -192,12 +193,33 @@ if($is_member) {
       </div>
 
       <div class="apply-write-btn-wr">
-        <button class="ui-btn round stBlack" onclick="javascript:alert('신청이 완료 되었습니다.')">신청완료</button>
+        <button class="ui-btn round stBlack" >신청완료</button>
       </div>
+      </form>
 
     </div>
   </div>
 </div>
+
+<script>
+  document.querySelectorAll('.check-wr').forEach(group => {
+    group.addEventListener('change', function(e) {
+      if (e.target.classList.contains('single-checkbox')) {
+        const checkboxes = group.querySelectorAll('.single-checkbox');
+        checkboxes.forEach(checkbox => {
+          if (checkbox !== e.target) {
+            checkbox.checked = false;
+          }
+        });
+      }
+    });
+  });
+  function apply_service_submit(f) {
+
+    return true;
+  }
+</script>
+
 
 <?php
 include_once(BV_MPATH."/_tail.php"); // 하단

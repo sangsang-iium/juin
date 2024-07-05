@@ -30,6 +30,7 @@ if($is_member) {
   <div class="joinDetail-wrap apply-write-wrap">
     <div class="container">
       <form action="./apply_update.php" method="POST" autocomplete="off" enctype="multipart/form-data" onsubmit="return apply_service_submit(this);">
+      <input type="hidden" name="mb_id" value="<?php echo $member['id']?>">
       <input type="hidden" name="b_type" value="3">
       <div class="joinDetail-box">
         <div class="joinDetail-head">
