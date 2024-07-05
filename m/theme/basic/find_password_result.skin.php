@@ -38,7 +38,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	<div class="userLost-btnbar">
 		<div class="container">
 			<div class="cp-btnbar__btns">
-        <a href="<?php echo BV_MBBS_URL; ?>/login.php" class="ui-btn round stBlack w-per100">로그인</a>
+        <!-- <a href="<?php //echo BV_MBBS_URL; ?>/login.php" class="ui-btn round stBlack w-per100">로그인</a> -->
+        <button type="submit" class="ui-btn round stBlack w-per100">비밀번호 변경</button>
 			</div>
 		</div>
 	</div>

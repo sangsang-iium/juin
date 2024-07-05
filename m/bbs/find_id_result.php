@@ -36,6 +36,14 @@ switch($type) {
     break;
 }
 
+$cnt_sql = " SELECT COUNT(*) AS cnt FROM {$db_table} WHERE cellphone = '{$cellphone}' ";
+$cnt_row = sql_fetch($cnt_sql);
+if($cnt_row['cnt'] > 1) {
+    alert('동일한 휴대전화가 2개 이상 존재합니다.\\n\\n관리자에게 문의하여 주십시오.');
+  exit;
+}
+
+
 $find_sel = " SELECT * FROM {$db_table} WHERE `name` = '{$_POST['find_name']}' AND cellphone = '{$cellphone}' ";
 $find_row = sql_fetch($find_sel);
 
