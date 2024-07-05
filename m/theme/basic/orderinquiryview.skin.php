@@ -454,7 +454,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         if($st_cancel_price == 0 && $custom_cancel) {
         ?>
         <!-- <button type="button" onclick="document.getElementById('sod_fin_cancelfrm').style.display='block';" class="ui-btn round stBlack">주문 취소하기</button> -->
-        <button type="button" class="ui-btn round stBlack order-cancel-btn">주문 취소하기</button>
+        <!-- <button type="button" class="ui-btn round stBlack order-cancel-btn">주문 취소하기</button> -->
       </div>
       <?php } ?>
     </div>

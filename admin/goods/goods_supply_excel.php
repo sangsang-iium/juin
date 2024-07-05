@@ -83,6 +83,11 @@ if(isset($q_supply) && is_numeric($q_supply)) {
 		$sql_search .= " and spl_subject = '' ";
 }
 
+if(isset($selected_ids) && !empty($selected_ids)) {
+	$selected_ids = explode(',', $_GET['selected_ids']);
+	$sql_search .= " AND index_no IN ('" . implode("','", $selected_ids) . "') ";
+}
+
 if(!$orderby) {
     $filed = "index_no";
     $sod = "desc";

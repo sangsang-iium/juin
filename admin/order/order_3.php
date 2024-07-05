@@ -7,7 +7,7 @@ include_once(BV_ADMIN_PATH.'/order/order_query.php');
 $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="운송장번호수정" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
 <a href="#" id="frmOrderPrint" class="btn_lsmall bx-white"><i class="fa fa-print"></i> 거래명세서 출력</a>
-<a href="#" id="frmOrderExcel" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 선택 엑셀저장</a>
+<a href="javascript:void(0);" onclick="downloadExcel();" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 선택 엑셀저장</a>
 <a href="./order/order_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 검색결과 엑셀저장</a>
 <a href="./order.php?code=delivery" class="btn_lsmall bx-white"><i class="fa fa-upload"></i> 엑셀배송처리</a>
 EOF;
@@ -384,5 +384,18 @@ function forderlist_submit(f)
 	}
 
 	return true;
+}
+</script>
+<script>
+function downloadExcel() {
+	var checkedIds = [];
+	$('input[name="chk[]"]:checked').each(function() {
+		var index = $(this).val();
+		var gsId = $('input[name="od_id[' + index + ']"]').val();
+		checkedIds.push(gsId);
+	});
+	
+	var ids = checkedIds.join(',');
+	window.location.href = './order/order_excel.php?<?php echo $q1; ?>&selected_ids=' + ids;
 }
 </script>

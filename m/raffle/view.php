@@ -158,13 +158,13 @@ $raffleEndCheck = raffleEventDateCheck($raffle['event_end_date'],$raffle['prize_
     <div class="dfBox">
       <div class="container">
         <div class="prod-buy__btns">
-          <?php if(!$rafflePrizeCheck) { ?>
-            <button class="ui-btn round stBlack raffle-btn disabled">응모완료</button>
+          <?php if($raffleEndCheck > 1) { ?>
+            <button class="ui-btn round stBlack raffle-btn disabled">응모 종료</button>
           <?php } else { ?>
-            <?php if($raffleEndCheck > 1) { ?>
-              <button class="ui-btn round stBlack raffle-btn disabled">응모 종료</button>
-            <?php } else { ?>
-              <button class="ui-btn round stBlack raffle-btn raffle-submit-btn active">응모하기</button>
+              <?php if(!$rafflePrizeCheck) { ?>
+                <button class="ui-btn round stBlack raffle-btn raffle-submit-btn active">응모취소</button>
+              <?php } else { ?>
+                <button class="ui-btn round stBlack raffle-btn raffle-submit-btn active">응모하기</button>
             <?php } ?>
           <?php } ?>
         </div>
@@ -228,7 +228,7 @@ $sns_share_links .= "<li>".get_sns_share_link('pinterest', $sns_url, $sns_title,
               alert('응모 완료되었습니다.');
               location.reload();
             } else {
-              alert('이미 응모 하셨습니다.');
+              alert('취소가 완료되었습니다.');
               location.reload()
             }
           }
