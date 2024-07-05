@@ -12,7 +12,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         <img src="/src/img/icon-check.svg" alt="회원 정보 찾기 완료">
       </div>
 			<p class="passwordLost-text">
-        회원님의 아이디 찾기가 완료 되었습니다.<br>
+        <?php echo $find_message ?><br>
         회원님의 아이디는 <strong id="userId">kshn****</strong> 입니다.
 			</p>
 		</div>
