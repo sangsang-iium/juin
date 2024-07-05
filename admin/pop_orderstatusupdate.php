@@ -67,6 +67,39 @@ for ($i = 0; $i < $chk_count; $i++) {
 
       change_order_status_2($od_no);
       $od_sms_ipgum_check++;
+
+       // PUSH _20240705_SY
+      $push_od = get_order($od_id);
+      $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od_id}' ";
+      $od_count_row = sql_fetch($od_count_sel);
+      $total_cnt = $od_count_row['cnt'];
+
+      $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+      $token_row = sql_fetch($token_sel);
+      $fcm_token = $token_row['fcm_token'];
+      
+      $gs = unserialize($push_od['od_goods']);
+      $gname = $gs['gname'];
+
+      $amount = get_order_spay($push_od['od_id']);
+      $sodr = get_order_list($push_od, $amount, "and dan IN ('4','5')");
+      $total_price = $sodr['disp_price'];
+
+      if($total_cnt > 1) {
+        $etc_text = $total_cnt -1;
+        $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 주문이 완료 되었습니다. 결제 금액 {$total_price}원";
+      } else {
+        $body = "주문 하신 {$gname} 상품 주문이 완료 되었습니다. 결제 금액 {$total_price}원";
+      };
+      
+      $message = [
+        'token' => $fcm_token, // 수신자의 디바이스 토큰
+        'title' => '입금 완료',
+        'body' => $body
+      ];
+
+      $response = sendFCMMessage($message);
+      
       break;
     case '3': // 배송준비
       if ($current_status != 2) {

@@ -28,10 +28,10 @@ while($unUsedCoupon_row = sql_fetch_array($unUsedCoupon_res)) {
   $cp_inv_type  = $unUsedCoupon_row['cp_inv_type'];
   $expiry_date  = $unUsedCoupon_row['expiration_date'];
   $cp_inv_edate = $unUsedCoupon_row['cp_inv_edate'];
-  // $fcm_token    = $unUsedCoupon_row['fcm_token'];
+  $fcm_token    = $unUsedCoupon_row['fcm_token'];
 
   // 테스트용 토큰
-  $fcm_token = "dSkWHH6bQ5eq5YWrDuTENF:APA91bF_KsOmrAV_RQv8Q4ajRJdFYFHxRu64Bb-eBoZzdzsAOK2Hlt-sotlNC0CO10GbX5Z7QkZW4adsdAL0B5lptT72syieIQGZ7V_WcfG05gLaOvyjY69OLPp3tnT7Cm8UXG9GKQdG";
+  // $fcm_token = "dSkWHH6bQ5eq5YWrDuTENF:APA91bF_KsOmrAV_RQv8Q4ajRJdFYFHxRu64Bb-eBoZzdzsAOK2Hlt-sotlNC0CO10GbX5Z7QkZW4adsdAL0B5lptT72syieIQGZ7V_WcfG05gLaOvyjY69OLPp3tnT7Cm8UXG9GKQdG";
 
   if($cp_inv_type == '1' ||  $expiry_date != '9999999999'){
   
