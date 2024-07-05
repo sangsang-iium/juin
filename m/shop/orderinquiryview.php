@@ -63,7 +63,6 @@ if ($reg_yn == 1) {
 			  where od_id like '%$od_id%'
 				";
 			$row = sql_fetch($sql);
-			print_r($sql);
 	} else {
 		$stotal = get_order_spay2($od_id); // 총계
 	}
