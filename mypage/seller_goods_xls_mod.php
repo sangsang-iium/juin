@@ -18,7 +18,7 @@ include_once("./admin_head.sub.php");
 		<th scope="row">샘플파일 다운</th>
 		<td>
             <div class="btn_wrap tal">
-                <a href="<?php echo BV_LIB_URL; ?>/Excel/itemexcel2.xls" class="fbtn xls"><span>샘플파일 다운로드</span></a>
+                <a href="<?php echo BV_LIB_URL; ?>/Excel/itemexcelsellerv3_mod.xls" class="fbtn xls"><span>샘플파일 다운로드</span></a>
                 <a href="<?php echo BV_ADMIN_URL; ?>/category/category_excel.php" class="fbtn xls"><span>카테고리 다운로드</span></a>
             </div>
 		</td>
