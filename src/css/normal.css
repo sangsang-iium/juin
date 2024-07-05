@@ -1316,3 +1316,16 @@
 
 .intro-btn-title {display: inline-block; position: relative;}
 .intro-btn-title::before {content: ''; width: 2.64rem; height: 2.32rem; background: url('/src/img/intro-bot-icon.png') no-repeat center; position: absolute; top: 50%; left: -3rem; transform: translateY(-50%); background-size: 100%;}
+
+/* === 2024-07-05 추가 === */
+.cp-cart .cp-cart-body {padding-left: 0;}
+.cp-cart .set > div:not(:last-child) {padding-right: 2rem;}
+.cp-cart .set > div:not(:last-child)::after {right: 1rem;}
+.cp-cart .content {padding-left: 2rem;}
+
+#sod_bsk_list .cart-gbox.v .cp-cart-item {padding-top: 2.8rem; padding-left: 0; padding-right: 0;}
+
+.cp-cart .name {word-break: break-all;}
+
+.find-wrap {display: flex; gap: 0 20px;}
+.find-wrap2 {font-size: 20px;}
