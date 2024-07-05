@@ -9,16 +9,16 @@ $token = md5(uniqid(rand(), true));
 set_session("ss_token", $token);
 
 // 본인인증 여부 확인 _20240705_SY
-// if(empty($cert_no)) { 
-//   alert("잘못된 접근입니다.");
-// }
+if(empty($cert_no)) { 
+  alert("잘못된 접근입니다.");
+}
 
 // // 입력값과 본인인증 값 비교 _20240705_SY
 $cellphone = implode("-",$find_hp);
-// if($chk_hp != $cellphone) { 
-//   alert("정보가 일치하지 않습니다."); 
-// exit; 
-// }
+if($chk_hp != $cellphone) { 
+  alert("정보가 일치하지 않습니다."); 
+exit; 
+}
 
 
 // type == 1:담당직원 / 2:일반 / 3:공급사 

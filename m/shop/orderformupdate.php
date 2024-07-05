@@ -499,7 +499,7 @@ $sql = " update {$shop_table}
 sql_query($sql, false);
 
 if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드'))) {
-  $cart_select = " ct_select = '1' ";
+  $cart_select = ", ct_select = '1' ";
   // $cart_select = " , ct_select = '1' ";
 }
 
