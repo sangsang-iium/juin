@@ -34,7 +34,18 @@ include_once("./_common.php");
         ";
         $dan = '7';
     }
+    if($evt=="cancel-order"){
+        $csql = "update shop_order
+        set
+        dan = '9',
+        return_memo='$return_memo'
+        where od_id='$od_id'
+        ";
+        $dan = '9'; 
+    }
     sql_query($csql);
+    
+    
 
 
 

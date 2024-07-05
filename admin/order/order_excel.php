@@ -55,6 +55,11 @@ else if($fr_date && !$to_date)
 else if(!$fr_date && $to_date)
 	$where[] = " left({$sel_field},10) between '$to_date' and '$to_date' ";
 
+if(isset($selected_ids) && !empty($selected_ids)) {
+	$selected_ids = explode(',', $_GET['selected_ids']);
+	$where[] = " od_id IN ('" . implode("','", $selected_ids) . "') ";
+}
+
 if($where) {
     $sql_search = ' where '.implode(' and ', $where);
 }

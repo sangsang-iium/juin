@@ -142,6 +142,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 
 $btn_frmline = <<<EOF
 <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
+<a href="javascript:void(0);" onclick="downloadExcel();" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 선택 엑셀저장</a>
 <a href="./goods/goods_list_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 엑셀저장</a>
 <a href="./goods.php?code=form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 상품등록</a>
 EOF;
@@ -531,4 +532,17 @@ $(function(){
 	// 날짜 검색 : TODAY MAX값으로 인식 (maxDate: "+0d")를 삭제하면 MAX값 해제
 	$("#fr_date,#to_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+0d" });
 });
+</script>
+<script>
+	function downloadExcel() {
+		var checkedIds = [];
+		$('input[name="chk[]"]:checked').each(function() {
+			var index = $(this).val();
+			var gsId = $('input[name="gs_id[' + index + ']"]').val();
+			checkedIds.push(gsId);
+		});
+		
+		var ids = checkedIds.join(',');
+		window.location.href = './goods/goods_list_excel.php?<?php echo $q1; ?>&selected_ids=' + ids;
+	}
 </script>

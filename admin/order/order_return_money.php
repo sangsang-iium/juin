@@ -38,6 +38,7 @@ if($code==8){ //배송후 교환처리
                 set 
                 
                     dan2='12' ,
+                    dan='12', 
                     change_date=now()
                 where od_id='$od_id' ";
         sql_query($sql);

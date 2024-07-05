@@ -39,7 +39,14 @@ if ($gs_id) {
 					<div class="login-btn">
 						<button type="submit" class="ui-btn round stBlack login-btn">로그인</button></p>
 						<a href="<?php echo BV_MBBS_URL; ?>/register_type.php" class="ui-btn round stWhite join-btn">회원가입</a>
-						<a href="<?php echo BV_MBBS_URL; ?>/password_lost.php" class="search-btn">아이디/비밀번호 찾기</a>
+            <div class="user-find_info">
+              <!--
+              회원정보 찾기 솔루션 기본 링크 : <?php //echo BV_MBBS_URL; ?>/password_lost.php
+              -->
+              <a href="<?php echo BV_MBBS_URL; ?>/find_id.php" class="search-btn">아이디 찾기</a>
+              <span class="bar">/</span>
+              <a href="<?php echo BV_MBBS_URL; ?>/find_password.php" class="search-btn">비밀번호 찾기</a>
+            </div>
         	</div>
 				</section>
 				<?php if($default['de_sns_login_use']) { ?>
