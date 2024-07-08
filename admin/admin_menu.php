@@ -156,5 +156,7 @@ define('ADMIN_MENU11_02',	'중고장터 상품 등록/수정');
 define('ADMIN_MENU11_03',	'중고장터 상품 상세');
 
 // 제휴서비스 관리
-define('ADMIN_MENU12',		'제휴 서비스');
+define('ADMIN_MENU12',		'제휴서비스 관리');
+define('ADMIN_MENU12_01',	'제휴서비스 리스트');
+define('ADMIN_MENU12_02',	'제휴서비스 상세');
 ?>

@@ -43,6 +43,8 @@ if($code==8){ //배송후 교환처리
                 where od_id='$od_id' ";
         sql_query($sql);
     }
+    goto_url(BV_ADMIN_URL."/order.php?code=".$code);
+    exit();
 }
 
 

@@ -29,6 +29,7 @@ if($_SESSION['ss_mn_id']) {
                 <?php echo getMenuFunc("ADMIN_MENU8",  "help",     "qa"); ?>
                 <?php echo getMenuFunc("ADMIN_MENU9",  "design",   "mbanner_list"); ?>
                 <?php echo getMenuFunc("ADMIN_MENU11", "used",     "list"); ?>
+                <?php echo getMenuFunc("ADMIN_MENU12", "service",  "list"); ?>
                 <?php echo $member['id'] == "admin" ? getMenuFunc("ADMIN_MENU10", "config",   "default") : getMenuFunc("ADMIN_MENU10", "config",   "manager_list"); ?>
 
 				<!-- <li class="gnb_1dli<?php if($pg_title == ADMIN_MENU1){ ?> active<?php } ?>">
