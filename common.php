@@ -323,7 +323,9 @@ if($_SESSION['ss_mb_id']) { // 로그인중이라면
         if(!empty($appToken)) {
           $chk_token_sel = " SELECT id AS fcm_id FROM shop_member WHERE fcm_token = '{$appToken}' ";
           $chk_token_row = sql_fetch($chk_token_sel);
-          $token_reset = sql_query(" UPDATE shop_member SET fcm_token = '' WHERE id = '{$chk_token_row['fcm_id']}' ");
+          if($member['id'] != $chk_token_row['fcm_id']){
+            $token_reset = sql_query(" UPDATE shop_member SET fcm_token = '' WHERE id = '{$chk_token_row['fcm_id']}' ");
+          }
         }
 
         // 오늘 처음 로그인 이라면
