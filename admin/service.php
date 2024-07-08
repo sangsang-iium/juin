@@ -17,10 +17,10 @@ if($code == "list"){
 } else if($code == "view"){
     if($b_type == 1){
         $pg_title2 = ADMIN_MENU12_01;
-        $pg_title3 = "신한신용";
+        $pg_title3 = "신한체크";
     } else if($b_type == 2){
         $pg_title2 = ADMIN_MENU12_01;
-        $pg_title3 = "신한체크";
+        $pg_title3 = "신한신용";
     } else if($b_type == 3){
         $pg_title2 = ADMIN_MENU12_01;
         $pg_title3 = "노무";
@@ -29,6 +29,23 @@ if($code == "list"){
         $pg_title3 = "상조";
     }
 }
+
+$SIN_GB = array(
+    0 => "사업자용",
+    1 => "종사자용",
+    2 => "사업자용(사업자등록증 미발급)",
+);
+$SIN_CARD = array(
+    0 => "MASTER",
+    1 => "VISA",
+    2 => "국내전용",
+    3 => "URS",
+);
+$SIN_SALE = array(
+    0 => "쇼핑",
+    1 => "교통",
+    2 => "커피",
+);
 
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>

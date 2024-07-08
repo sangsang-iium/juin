@@ -38,8 +38,8 @@ $result = sql_query($sql);
 $colspan  = 12;
 
 $btn_frmline = <<<EOF
-<a href="/admin/service.php?code=list&b_type=1" class="fr btn_lsmall bx-white" style="float:left;">신한신용</a>
-<a href="/admin/service.php?code=list&b_type=2" class="fr btn_lsmall bx-white" style="float:left;">신한체크</a>
+<a href="/admin/service.php?code=list&b_type=1" class="fr btn_lsmall bx-white" style="float:left;">신한체크</a>
+<a href="/admin/service.php?code=list&b_type=2" class="fr btn_lsmall bx-white" style="float:left;">신한신용</a>
 <a href="/admin/service.php?code=list&b_type=3" class="fr btn_lsmall bx-white" style="float:left;">노무</a>
 <a href="/admin/service.php?code=list&b_type=4" class="fr btn_lsmall bx-white" style="float:left;">상조</a>
 EOF;
@@ -80,17 +80,17 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 		<th scope="col">성명</th>
 		<th scope="col">등록자</th>
 		<th scope="col">등록일시</th>
-		<!-- <th scope="col">관리</th> -->
+		<th scope="col">관리</th>
 	</tr>
 	</thead>
 	<?php
 	for ($i = 0; $row = sql_fetch_array($result); $i++) {
 		switch ($b_type) {
 			case '1':
-				$b_type_name = "신한신용";
+				$b_type_name = "신한체크";
 				break;
 			case '2':
-				$b_type_name = "신한체크";
+				$b_type_name = "신한신용";
 				break;
 			case '3':
 				$b_type_name = "상조";
@@ -112,11 +112,11 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 		<td><?php echo $row['c_name']; ?></td>
 		<td><?php echo $row['mb_id']; ?></td>
 		<td><?php echo $row['wdate']; ?></td>
-		<!-- <td>
+		<td>
 			<div class="btn_wrap">
 					<a href="<?php echo BV_ADMIN_URL.'/service.php?code=view&idx='.$row['idx'].$q2; ?>" class="detail color_type"><span>상세보기</span></a>
 			</div>
-		</td> -->
+		</td>
 	</tr>
 	<?php
     }
