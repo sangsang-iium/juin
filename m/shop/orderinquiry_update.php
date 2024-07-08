@@ -2,6 +2,9 @@
 include_once("./_common.php");
     //echo $odId;
     //echo $evt;
+
+    // title, body, push 추가 _20240708_SY
+
     //환불
     $od_id=$odId;
     if($evt=='return-money'){
@@ -43,7 +46,6 @@ include_once("./_common.php");
     }
 
     sql_query($csql);
-
 
 
     if ($dan=='7') {
@@ -273,6 +275,81 @@ include_once("./_common.php");
           $mod_history = BV_TIME_YMDHIS . ' ' . $member['id'] . ' 주문취소 처리' . $pg_cancel_log . "\n";
         }
     }
+
+
+    
+
+    // PUSH _20240708_SY {
+    $push_od = get_order($od_id);
+    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od_id}' AND dan = '{$dan}' ";
+    $od_count_row = sql_fetch($od_count_sel);
+    $total_cnt = $od_count_row['cnt'];
+
+    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+    $token_row = sql_fetch($token_sel);
+    $fcm_token = $token_row['fcm_token'];
+  
+    $gs = unserialize($push_od['od_goods']);
+    $gname = $gs['gname'];
+
+    $push_title = "";
+    $push_body = "";
+
+    switch($dan) {
+      case '9':
+        $push_title = "주문 환불 요청";
+        if($total_cnt > 1) {
+          $etc_text = $total_cnt -1;
+          $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 환불 요청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        } else {
+          $push_body = "주문 하신 {$gname} 상품 환불 요청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        }
+      break;
+
+      case '8':
+        $push_title = "주문 교환 요청";
+        if($total_cnt > 1) {
+          $etc_text = $total_cnt -1;
+          $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 교환 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        } else {
+          $push_body = "주문 하신 {$gname} 교환 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        }
+      break;
+
+      case '7':
+        $push_title = "주문 반품 신청";
+        if($total_cnt > 1) {
+          $etc_text = $total_cnt -1;
+          $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 반품 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        } else {
+          $push_body = "주문 하신 {$gname} 상품 반품 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        }
+      break;
+
+      case '6':
+        $push_title = "주문 취소";
+        if($total_cnt > 1) {
+          $etc_text = $total_cnt -1;
+          $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 주문이 정상적으로 취소되었습니다.";
+        } else {
+          $push_body = "주문 하신 {$gname} 상품 주문이 정상적으로 취소되었습니다.";
+        }
+      break;
+    }
+
+    $message = [
+      'token' => $fcm_token, // 수신자의 디바이스 토큰
+      'title' => $push_title,
+      'body' => $push_body
+    ];
+
+    if(!empty($push_title)) {
+      $response = sendFCMMessage($message);
+    }
+
+    // } PUSH _20240708_SY
+
+
       
     if ($mod_history) { // 주문변경 히스토리 기록
         $sql = " update shop_order
