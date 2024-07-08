@@ -98,9 +98,12 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
   // 부모 창에서 메시지 수신
   // window.addEventListener("message", function(event) {
+  //   const certData = event.data;
+  //   console.log(event.data);
+  //   console.log("Received data from child:", certData.message);
     
-  // //   // const allowedOrigin = "<?php //echo $_SERVER['HTTP_HOST']; ?>";
-  // //   // const eventOrigin = event.origin.replace(/^https?:\/\//, ''); // 프로토콜 제거
+  //   // const allowedOrigin = "<?php echo $_SERVER['HTTP_HOST']; ?>";
+  //   // const eventOrigin = event.origin.replace(/^https?:\/\//, ''); // 프로토콜 제거
 
   // //   // if (eventOrigin !== allowedOrigin) {
   // //   //     // 도메인을 확인하여 보안 유지
@@ -118,7 +121,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   //   }
   // });
 
-
 // 앱 에서 처리 할 필요 없게 수정 _20240708_SY
 $(function() {
     setInterval(function() {
@@ -132,5 +134,4 @@ $(function() {
         }
     }, 1500); // 2초마다 실행
 });
-
 </script> 
