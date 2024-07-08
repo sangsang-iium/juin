@@ -1329,3 +1329,5 @@
 
 .find-wrap {display: flex; gap: 0 20px;}
 .find-wrap2 {font-size: 20px;}
+
+.pop-inner .pop-btm.full-btn-wrap {flex-direction: column; height: auto;}

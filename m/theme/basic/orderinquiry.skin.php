@@ -180,59 +180,56 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 
 <div id="return-popup2" class="popup type01 add-popup">
-      <div class="pop-inner">
-        <div class="pop-top">
-          <p class="tit return-popup2-title1">취소 사유</p>
-        </div>
-        <div class="pop-content">
-          <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
-            <input type="hidden" name="odId" id="order_send"  value="<?php echo $od_id; ?>">
-            <input type="hidden" name="evt" id="evt"  value="<?php echo $od_id; ?>">
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title return-popup2-title2">취소 사유<b>*</b></p>
-              </div>
-              <div class="form-body input-button">
-                <input type="text" name="return_memo" id="return_memo" required class="frm-input" maxlength="100" placeholder="사유를 입력해주세요.">
-                <input type="submit" value="확인" class="ui-btn st3">
-              </div>
-            </div>
-
-          </form>
-        </div>
-        <div class="pop-btm">
-          <button type="button" class="ui-btn round stBlack close">취소</button>
+  <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
+    <div class="pop-inner" style="height: auto;">
+      <div class="pop-top">
+        <p class="tit return-popup2-title1">취소 사유</p>
+      </div>
+      <div class="pop-content">
+        <input type="hidden" name="odId" id="order_send"  value="<?php echo $od_id; ?>">
+        <input type="hidden" name="evt" id="evt"  value="<?php echo $od_id; ?>">
+        <div class="form-row">
+          <div class="form-head">
+            <p class="title return-popup2-title2">취소 사유<b>*</b></p>
+          </div>
+          <div class="form-body">
+            <input type="text" name="return_memo" id="return_memo" required class="frm-input w-per100" maxlength="100" placeholder="사유를 입력해주세요.">
+          </div>
         </div>
       </div>
+      <div class="pop-btm full-btn-wrap">
+        <input type="submit" value="확인" class="ui-btn round stBlack close">
+        <button type="button" class="ui-btn round stWhite close">취소</button>
+      </div>
+    </div>
+  </form>
 </div>
 
 <div id="sod_fin_cancelfrm" class="popup type01 add-popup" style="background-color: transparent;"> 
-      <div class="pop-inner">
-        <div class="pop-top">
-          <p class="tit return-popup2-title1">취소 사유</p>
-        </div>
-        <div class="pop-content">
-          <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
-            <input type="hidden" name="odId" id="order_send" class="order_end_cancel"  value="<?php echo $od_id; ?>">
-            <input type="hidden" name="evt" id="evt"  value="cancel-order">
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title return-popup2-title2">취소 사유<b>*</b></p>
-              </div>
-              <div class="form-body input-button">
-                <input type="text" name="return_memo" id="return_memo" required class="frm-input" maxlength="100" placeholder="사유를 입력해주세요.">
-                <input type="submit" value="확인" class="ui-btn st3">
-              </div>
-            </div>
-
-          </form>
-        </div>
-        <div class="pop-btm">
-          <button type="button" class="ui-btn round stBlack close">취소</button>
-        </div>
+  <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
+    <div class="pop-inner">
+      <div class="pop-top">
+        <p class="tit return-popup2-title1">취소 사유</p>
       </div>
-
+      <div class="pop-content">
+          <input type="hidden" name="odId" id="order_send" class="order_end_cancel"  value="<?php echo $od_id; ?>">
+          <input type="hidden" name="evt" id="evt"  value="cancel-order">
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title return-popup2-title2">취소 사유<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="return_memo" id="return_memo" required class="frm-input w-per100" maxlength="100" placeholder="사유를 입력해주세요.">
+            </div>
+          </div>
+      </div>
+      <div class="pop-btm full-btn-wrap">
+        <input type="submit" value="확인" class="ui-btn round stBlack close">
+        <button type="button" class="ui-btn round stWhite close">취소</button>
+      </div>
     </div>
+  </form>
+</div>
 
 
 
