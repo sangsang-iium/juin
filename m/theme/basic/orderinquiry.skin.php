@@ -11,6 +11,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <div class="order-list-wr">
     <div id="smb_order">
       <?php
+      //echo $sql;
+      //exit();
       for($i=0; $row=sql_fetch_array($result); $i++){
         echo '<div class="bottomBlank cp-orderWrap">'.PHP_EOL;
         echo '<div class="container">'.PHP_EOL;
@@ -92,6 +94,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
         <?php if($ct['raffle'] != 1) { ?>
         <div class="ord-btn-wr">
+          <!-- <button><?=$row['dan']?></button> -->
           <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
           <!-- 상품후기 작성 버튼 조건문 추가 _20240624_SY -->
           <?php if(in_array($dan_process, array('5'))) { ?>
@@ -101,17 +104,27 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
           <?php
             // 환불 버튼 생성  20240527 박원주
-            if($dan_process=='3')
+            if($rw['dan']=='3')
             {
               ?>
                 <button class="ui-btn ord-review__btn iq-wbtn return-money" data-od-id="<?php echo $rw['od_id'];?>">취소신청</button>
               <?php
             }
-          ?>
+          ?> 
+
+          <?php
+            
+            if($rw['dan']=='1')
+            {
+              ?>
+                <button class="ui-btn ord-review__btn iq-wbtn cancel-money" data-od-id="<?php echo $rw['od_id'];?>">취소</button>
+              <?php
+            }
+          ?> 
 
           <?php
             // 환불 버튼 생성  20240527 박원주
-            if($dan_process=='5')
+            if($rw['dan']=='5')
             {
               ?>
                 <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>">반품신청</button>
@@ -120,8 +133,9 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             }
           ?>
           <?php
+          
             // 환불 버튼 생성  20240527 박원주
-            if($dan_process=='2')
+            if($rw['dan']=='2')
             {
               ?> 
                 <button class="ui-btn ord-review__btn iq-wbtn order-cancel-btn" data-od-id="<?php echo $rw['od_id'];?>">취소신청</button> 
@@ -199,7 +213,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         </div>
         <div class="pop-content">
           <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
-            <input type="text" name="odId" id="order_send" class="order_end_cancel"  value="<?php echo $od_id; ?>">
+            <input type="hidden" name="odId" id="order_send" class="order_end_cancel"  value="<?php echo $od_id; ?>">
             <input type="hidden" name="evt" id="evt"  value="cancel-order">
             <div class="form-row">
               <div class="form-head">
@@ -224,6 +238,29 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 <script type="module">
 import * as f from '/src/js/function.js';
+
+
+//1번 입금대시기 취소버튼 기능부여
+document.querySelectorAll(".cancel-money").forEach(btn => {
+  btn.addEventListener("click", function(event) {
+    const odId = event.currentTarget.dataset.odId;
+    console.log(odId)
+    $.ajax({
+      url: "./orderinquiry_update.php",
+        type: "POST",
+        data: { "odId": odId,"evt":"cancel-money" },
+        dataType: "json",
+        async: false,
+        cache: false,
+        success: function(data, textStatus) {
+          document.location.href = "/m/shop/orderinquiry.php";
+          return false;
+        }
+    });
+  });
+});
+
+
 
 // 리뷰 작성 팝업
 document.querySelectorAll(".rv-write-btn").forEach(btn => {

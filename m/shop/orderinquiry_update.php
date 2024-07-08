@@ -30,6 +30,18 @@ include_once("./_common.php");
         ";
         $dan = '7';
     }
+
+
+    //취소
+    if($evt=='cancel-money'){
+        $csql = "update shop_order
+        set
+        dan = '6'
+        where od_id='$od_id'
+        ";
+        $dan = '6';
+    }
+
     sql_query($csql);
 
 
@@ -41,10 +53,18 @@ include_once("./_common.php");
     if ($dan=='9') {
         $change_status = 9;
     }   
+    
+    if ($dan=='6') {
+      $change_status = 6;
+    }   
 
     $od_cancel_change       = 0; 
 
     switch ($change_status) { 
+      case '6': // 취소
+        change_order_status_6($od_no);
+        $od_cancel_change++;
+        break;  
         case '7': // 반품  
         change_order_status_7($od_no);
         $od_cancel_change++;

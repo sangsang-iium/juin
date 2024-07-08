@@ -480,3 +480,270 @@ Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 13
 Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
 
 Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+PHP Notice:  Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+PHP Notice:  Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+PHP Notice:  Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+PHP Notice:  A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+
+Notice: Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+
+Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+
+Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+
+Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+PHP Notice:  Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+PHP Notice:  Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+PHP Notice:  Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+PHP Notice:  Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+PHP Notice:  Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+PHP Notice:  Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+PHP Notice:  Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+PHP Notice:  Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+PHP Notice:  Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+PHP Notice:  A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+PHP Notice:  A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+PHP Notice:  Undefined property: stdClass::$code in /home/juin/www/admin/cron.regpay.php on line 327
+PHP Notice:  Undefined property: stdClass::$mId in /home/juin/www/admin/cron.regpay.php on line 332
+PHP Notice:  Undefined property: stdClass::$lastTransactionKey in /home/juin/www/admin/cron.regpay.php on line 333
+PHP Notice:  Undefined property: stdClass::$paymentKey in /home/juin/www/admin/cron.regpay.php on line 334
+PHP Notice:  Undefined property: stdClass::$orderId in /home/juin/www/admin/cron.regpay.php on line 335
+PHP Notice:  Undefined property: stdClass::$orderName in /home/juin/www/admin/cron.regpay.php on line 336
+PHP Notice:  Undefined property: stdClass::$taxExemptionAmount in /home/juin/www/admin/cron.regpay.php on line 337
+PHP Notice:  Undefined property: stdClass::$status in /home/juin/www/admin/cron.regpay.php on line 338
+PHP Notice:  Undefined property: stdClass::$requestedAt in /home/juin/www/admin/cron.regpay.php on line 339
+PHP Notice:  Undefined property: stdClass::$approvedAt in /home/juin/www/admin/cron.regpay.php on line 340
+PHP Notice:  Undefined property: stdClass::$useEscrow in /home/juin/www/admin/cron.regpay.php on line 341
+PHP Notice:  Undefined property: stdClass::$cultureExpense in /home/juin/www/admin/cron.regpay.php on line 342
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 343
+PHP Notice:  Trying to get property 'issuerCode' of non-object in /home/juin/www/admin/cron.regpay.php on line 343
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 344
+PHP Notice:  Trying to get property 'acquirerCode' of non-object in /home/juin/www/admin/cron.regpay.php on line 344
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 345
+PHP Notice:  Trying to get property 'number' of non-object in /home/juin/www/admin/cron.regpay.php on line 345
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 346
+PHP Notice:  Trying to get property 'installmentPlanMonths' of non-object in /home/juin/www/admin/cron.regpay.php on line 346
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 347
+PHP Notice:  Trying to get property 'isInterestFree' of non-object in /home/juin/www/admin/cron.regpay.php on line 347
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 348
+PHP Notice:  Trying to get property 'interestPayer' of non-object in /home/juin/www/admin/cron.regpay.php on line 348
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 349
+PHP Notice:  Trying to get property 'approveNo' of non-object in /home/juin/www/admin/cron.regpay.php on line 349
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 350
+PHP Notice:  Trying to get property 'useCardPoint' of non-object in /home/juin/www/admin/cron.regpay.php on line 350
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 351
+PHP Notice:  Trying to get property 'cardType' of non-object in /home/juin/www/admin/cron.regpay.php on line 351
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 352
+PHP Notice:  Trying to get property 'ownerType' of non-object in /home/juin/www/admin/cron.regpay.php on line 352
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 353
+PHP Notice:  Trying to get property 'acquireStatus' of non-object in /home/juin/www/admin/cron.regpay.php on line 353
+PHP Notice:  Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 354
+PHP Notice:  Trying to get property 'amount' of non-object in /home/juin/www/admin/cron.regpay.php on line 354
+PHP Notice:  Undefined property: stdClass::$virtualAccount in /home/juin/www/admin/cron.regpay.php on line 355
+PHP Notice:  Undefined property: stdClass::$transfer in /home/juin/www/admin/cron.regpay.php on line 356
+PHP Notice:  Undefined property: stdClass::$mobilePhone in /home/juin/www/admin/cron.regpay.php on line 357
+PHP Notice:  Undefined property: stdClass::$giftCertificate in /home/juin/www/admin/cron.regpay.php on line 358
+PHP Notice:  Undefined property: stdClass::$cashReceipt in /home/juin/www/admin/cron.regpay.php on line 359
+PHP Notice:  Undefined property: stdClass::$cashReceipts in /home/juin/www/admin/cron.regpay.php on line 360
+PHP Notice:  Undefined property: stdClass::$discount in /home/juin/www/admin/cron.regpay.php on line 361
+PHP Notice:  Undefined property: stdClass::$cancels in /home/juin/www/admin/cron.regpay.php on line 362
+PHP Notice:  Undefined property: stdClass::$secret in /home/juin/www/admin/cron.regpay.php on line 363
+PHP Notice:  Undefined property: stdClass::$type in /home/juin/www/admin/cron.regpay.php on line 364
+PHP Notice:  Undefined property: stdClass::$easyPay in /home/juin/www/admin/cron.regpay.php on line 365
+PHP Notice:  Undefined property: stdClass::$country in /home/juin/www/admin/cron.regpay.php on line 366
+PHP Notice:  Undefined property: stdClass::$failure in /home/juin/www/admin/cron.regpay.php on line 367
+PHP Notice:  Undefined property: stdClass::$isPartialCancelable in /home/juin/www/admin/cron.regpay.php on line 368
+PHP Notice:  Undefined property: stdClass::$receipt in /home/juin/www/admin/cron.regpay.php on line 369
+PHP Notice:  Trying to get property 'url' of non-object in /home/juin/www/admin/cron.regpay.php on line 369
+PHP Notice:  Undefined property: stdClass::$checkout in /home/juin/www/admin/cron.regpay.php on line 370
+PHP Notice:  Trying to get property 'url' of non-object in /home/juin/www/admin/cron.regpay.php on line 370
+PHP Notice:  Undefined property: stdClass::$currency in /home/juin/www/admin/cron.regpay.php on line 371
+PHP Notice:  Undefined property: stdClass::$totalAmount in /home/juin/www/admin/cron.regpay.php on line 372
+PHP Notice:  Undefined property: stdClass::$balanceAmount in /home/juin/www/admin/cron.regpay.php on line 373
+PHP Notice:  Undefined property: stdClass::$suppliedAmount in /home/juin/www/admin/cron.regpay.php on line 374
+PHP Notice:  Undefined property: stdClass::$vat in /home/juin/www/admin/cron.regpay.php on line 375
+PHP Notice:  Undefined property: stdClass::$taxFreeAmount in /home/juin/www/admin/cron.regpay.php on line 376
+PHP Notice:  Undefined property: stdClass::$method in /home/juin/www/admin/cron.regpay.php on line 377
+PHP Notice:  Undefined property: stdClass::$version in /home/juin/www/admin/cron.regpay.php on line 378
+
+Notice: Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+
+Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+
+Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+
+Notice: Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+
+Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+
+Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+
+Notice: Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+
+Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+
+Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+
+Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+
+Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+
+Notice: Undefined property: stdClass::$code in /home/juin/www/admin/cron.regpay.php on line 327
+
+Notice: Undefined property: stdClass::$mId in /home/juin/www/admin/cron.regpay.php on line 332
+
+Notice: Undefined property: stdClass::$lastTransactionKey in /home/juin/www/admin/cron.regpay.php on line 333
+
+Notice: Undefined property: stdClass::$paymentKey in /home/juin/www/admin/cron.regpay.php on line 334
+
+Notice: Undefined property: stdClass::$orderId in /home/juin/www/admin/cron.regpay.php on line 335
+
+Notice: Undefined property: stdClass::$orderName in /home/juin/www/admin/cron.regpay.php on line 336
+
+Notice: Undefined property: stdClass::$taxExemptionAmount in /home/juin/www/admin/cron.regpay.php on line 337
+
+Notice: Undefined property: stdClass::$status in /home/juin/www/admin/cron.regpay.php on line 338
+
+Notice: Undefined property: stdClass::$requestedAt in /home/juin/www/admin/cron.regpay.php on line 339
+
+Notice: Undefined property: stdClass::$approvedAt in /home/juin/www/admin/cron.regpay.php on line 340
+
+Notice: Undefined property: stdClass::$useEscrow in /home/juin/www/admin/cron.regpay.php on line 341
+
+Notice: Undefined property: stdClass::$cultureExpense in /home/juin/www/admin/cron.regpay.php on line 342
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 343
+
+Notice: Trying to get property 'issuerCode' of non-object in /home/juin/www/admin/cron.regpay.php on line 343
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 344
+
+Notice: Trying to get property 'acquirerCode' of non-object in /home/juin/www/admin/cron.regpay.php on line 344
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 345
+
+Notice: Trying to get property 'number' of non-object in /home/juin/www/admin/cron.regpay.php on line 345
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 346
+
+Notice: Trying to get property 'installmentPlanMonths' of non-object in /home/juin/www/admin/cron.regpay.php on line 346
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 347
+
+Notice: Trying to get property 'isInterestFree' of non-object in /home/juin/www/admin/cron.regpay.php on line 347
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 348
+
+Notice: Trying to get property 'interestPayer' of non-object in /home/juin/www/admin/cron.regpay.php on line 348
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 349
+
+Notice: Trying to get property 'approveNo' of non-object in /home/juin/www/admin/cron.regpay.php on line 349
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 350
+
+Notice: Trying to get property 'useCardPoint' of non-object in /home/juin/www/admin/cron.regpay.php on line 350
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 351
+
+Notice: Trying to get property 'cardType' of non-object in /home/juin/www/admin/cron.regpay.php on line 351
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 352
+
+Notice: Trying to get property 'ownerType' of non-object in /home/juin/www/admin/cron.regpay.php on line 352
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 353
+
+Notice: Trying to get property 'acquireStatus' of non-object in /home/juin/www/admin/cron.regpay.php on line 353
+
+Notice: Undefined property: stdClass::$card in /home/juin/www/admin/cron.regpay.php on line 354
+
+Notice: Trying to get property 'amount' of non-object in /home/juin/www/admin/cron.regpay.php on line 354
+
+Notice: Undefined property: stdClass::$virtualAccount in /home/juin/www/admin/cron.regpay.php on line 355
+
+Notice: Undefined property: stdClass::$transfer in /home/juin/www/admin/cron.regpay.php on line 356
+
+Notice: Undefined property: stdClass::$mobilePhone in /home/juin/www/admin/cron.regpay.php on line 357
+
+Notice: Undefined property: stdClass::$giftCertificate in /home/juin/www/admin/cron.regpay.php on line 358
+
+Notice: Undefined property: stdClass::$cashReceipt in /home/juin/www/admin/cron.regpay.php on line 359
+
+Notice: Undefined property: stdClass::$cashReceipts in /home/juin/www/admin/cron.regpay.php on line 360
+
+Notice: Undefined property: stdClass::$discount in /home/juin/www/admin/cron.regpay.php on line 361
+
+Notice: Undefined property: stdClass::$cancels in /home/juin/www/admin/cron.regpay.php on line 362
+
+Notice: Undefined property: stdClass::$secret in /home/juin/www/admin/cron.regpay.php on line 363
+
+Notice: Undefined property: stdClass::$type in /home/juin/www/admin/cron.regpay.php on line 364
+
+Notice: Undefined property: stdClass::$easyPay in /home/juin/www/admin/cron.regpay.php on line 365
+
+Notice: Undefined property: stdClass::$country in /home/juin/www/admin/cron.regpay.php on line 366
+
+Notice: Undefined property: stdClass::$failure in /home/juin/www/admin/cron.regpay.php on line 367
+
+Notice: Undefined property: stdClass::$isPartialCancelable in /home/juin/www/admin/cron.regpay.php on line 368
+
+Notice: Undefined property: stdClass::$receipt in /home/juin/www/admin/cron.regpay.php on line 369
+
+Notice: Trying to get property 'url' of non-object in /home/juin/www/admin/cron.regpay.php on line 369
+
+Notice: Undefined property: stdClass::$checkout in /home/juin/www/admin/cron.regpay.php on line 370
+
+Notice: Trying to get property 'url' of non-object in /home/juin/www/admin/cron.regpay.php on line 370
+
+Notice: Undefined property: stdClass::$currency in /home/juin/www/admin/cron.regpay.php on line 371
+
+Notice: Undefined property: stdClass::$totalAmount in /home/juin/www/admin/cron.regpay.php on line 372
+
+Notice: Undefined property: stdClass::$balanceAmount in /home/juin/www/admin/cron.regpay.php on line 373
+
+Notice: Undefined property: stdClass::$suppliedAmount in /home/juin/www/admin/cron.regpay.php on line 374
+
+Notice: Undefined property: stdClass::$vat in /home/juin/www/admin/cron.regpay.php on line 375
+
+Notice: Undefined property: stdClass::$taxFreeAmount in /home/juin/www/admin/cron.regpay.php on line 376
+
+Notice: Undefined property: stdClass::$method in /home/juin/www/admin/cron.regpay.php on line 377
+
+Notice: Undefined property: stdClass::$version in /home/juin/www/admin/cron.regpay.php on line 378
+PHP Notice:  Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+PHP Notice:  Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+PHP Notice:  Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+PHP Notice:  Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+PHP Notice:  Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+PHP Notice:  Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+PHP Notice:  Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+PHP Notice:  Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+PHP Notice:  Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+PHP Notice:  A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+PHP Notice:  A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+PHP Notice:  A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+
+Notice: Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+
+Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+
+Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+
+Notice: Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+
+Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+
+Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+
+Notice: Undefined index: dan2 in /home/juin/www/admin/cron.regpay.php on line 137
+
+Notice: Undefined index: dan3 in /home/juin/www/admin/cron.regpay.php on line 138
+
+Notice: Undefined index: return_memo in /home/juin/www/admin/cron.regpay.php on line 225
+
+Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+
+Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262
+
+Notice: A non well formed numeric value encountered in /home/juin/www/admin/cron.regpay.php on line 262

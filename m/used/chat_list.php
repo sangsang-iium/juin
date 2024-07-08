@@ -27,6 +27,8 @@ if(!$chat_cnt){
             $v_mb_id = $row['mb_id'];
         } else {
             //내가판매자
+            if($row['block']) continue;
+            
             $new = sql_fetch("select a.cnt, b.content from (select count(*) as cnt from shop_used_chatd where pno = '{$row['no']}' and mread = 0) a, (select content from shop_used_chatd where pno = '{$row['no']}' order by no desc limit 1) b");
             $v_mb_id = substr($row['mb_id'],0,3).'***';
         }
