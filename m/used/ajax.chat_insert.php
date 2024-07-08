@@ -26,13 +26,13 @@ $sender = $chat_row['mb_id'];
 $mread  = $chat_row['mread'];
 $uread  = $chat_row['uread'];
 
-if($seller == $sender && $uread != '1') {
+if($seller == $sender) {
   // 판매자가 채팅 보냈을 때
   $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$buyer}' ";
   $token_row = sql_fetch($token_sel);
-  // $fcm_token = $token_row['fcm_token'];
+  $fcm_token = $token_row['fcm_token'];
   // 테스트 토큰
-  $fcm_token = "eQWmi-2FT8eL5C_SPtGi0E:APA91bGUA5K1gYAcmTY1Pz-Yn6BJn65OpmAsCT_RUDLpZ3wNPPzg10qbanZXcAdPOQ42uX7kpVs0Yvx_oQ5wNYay9nxlZSeNgL2ViRpVFefMHjGxCUnPW47rAwvYrxOKG7l9x-ZfESBA";
+  // $fcm_token = "dSkWHH6bQ5eq5YWrDuTENF:APA91bF_KsOmrAV_RQv8Q4ajRJdFYFHxRu64Bb-eBoZzdzsAOK2Hlt-sotlNC0CO10GbX5Z7QkZW4adsdAL0B5lptT72syieIQGZ7V_WcfG05gLaOvyjY69OLPp3tnT7Cm8UXG9GKQdG";
 
   $message = [
     'token' => $fcm_token,
@@ -40,14 +40,15 @@ if($seller == $sender && $uread != '1') {
     'body'  => '주인장 중고장터 메신저가 도착했습니다.'
   ];
   $response = sendFCMMessage($message);
+  log_write("중고장터 채팅 : ". $response);
 
-} else if($buyer == $sender && $mread != '1') {
+} else if($buyer == $sender) {
   // 구매자가 채팅 보냈을 때
   $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$seller}' ";
   $token_row = sql_fetch($token_sel);
-  // $token = $token_row['fcm_token'];
+  $token = $token_row['fcm_token'];
   // 테스트 토큰
-  $fcm_token = "eQWmi-2FT8eL5C_SPtGi0E:APA91bGUA5K1gYAcmTY1Pz-Yn6BJn65OpmAsCT_RUDLpZ3wNPPzg10qbanZXcAdPOQ42uX7kpVs0Yvx_oQ5wNYay9nxlZSeNgL2ViRpVFefMHjGxCUnPW47rAwvYrxOKG7l9x-ZfESBA";
+  // $fcm_token = "dSkWHH6bQ5eq5YWrDuTENF:APA91bF_KsOmrAV_RQv8Q4ajRJdFYFHxRu64Bb-eBoZzdzsAOK2Hlt-sotlNC0CO10GbX5Z7QkZW4adsdAL0B5lptT72syieIQGZ7V_WcfG05gLaOvyjY69OLPp3tnT7Cm8UXG9GKQdG";
 
   $message = [
       'token' => $fcm_token,
@@ -55,6 +56,7 @@ if($seller == $sender && $uread != '1') {
       'body'  => '주인장 중고장터 메신저가 도착했습니다.'
   ];
   $response = sendFCMMessage($message);
+  log_write("중고장터 채팅 : ". $response);
 }
 
 exit;

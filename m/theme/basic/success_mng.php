@@ -10,6 +10,8 @@ $credential = "live_sk_vZnjEJeQVxKlJ066Ep6Y3PmOoBN0";
 $paymentKey = $_GET['paymentKey'];
 $orderId    = $_GET['orderId'];
 $amount     = $_GET['amount'];
+$ss_cart_id = get_session('ss_cart_id');
+
 $TossRun    = new Tosspay();
 $toss_run   = $TossRun->normalPay($paymentKey, $orderId, $amount, $credential);
 
@@ -78,5 +80,21 @@ $up_data['dan'] = 2;
 $up_where       = "WHERE od_id = '{$orderId}'";
 
 $orderModel->update($up_table, $up_data, $up_where);
+
+
+$cart_select = ", ct_select = '1' ";
+
+// 장바구니 주문완료 처리 (무통장, 포인트결제)
+// 또그래................................
+$sql = "update shop_cart set od_id = '$orderId' {$cart_select} where index_no IN ({$ss_cart_id}) ";
+// $sql = "update shop_cart set {$cart_select} where index_no IN ({$ss_cart_id}) ";
+sql_query($sql);
+
+// 주문번호제거
+set_session('ss_order_id', '');
+
+// 장바구니 session 삭제
+set_session('ss_cart_id', '');
+
 
 goto_url(BV_URL . '/mng/shop/orderinquiryview.php?od_id=' . $orderId . '&reg_yn=2&tran_id=' . $tran_id);

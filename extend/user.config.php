@@ -610,8 +610,13 @@ function mb_basename($path, $suffix = '') {
 
 // //fcm _20240701_SY
 function sendFCMMessage($message) {
-  $serviceAccountPath = '/home/juin/www/google_server_key.json';
+  global $default;
 
+  // $serviceAccountPath = $_SERVER["DOCUMENT_ROOT"] . '/google_server_key.json';
+  // $projectId = $default['de_fcm_projectID'];
+
+  $serviceAccountPath = '/home/juin/www/google_server_key.json';
+  
   // 현재 시간
   $now = time();
   // 서비스 계정 키 읽기
@@ -690,11 +695,11 @@ function sendFCMMessage($message) {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
-  $response = curl_exec($ch);
-  if ($response === FALSE) {
+  $response_end = curl_exec($ch);
+  if ($response_end === FALSE) {
       die('Curl failed: ' . curl_error($ch));
   }
 
   curl_close($ch);
-  return $response;
+  return $response_end;
 }

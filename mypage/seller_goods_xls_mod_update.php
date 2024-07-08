@@ -65,7 +65,7 @@ if($_FILES['excelfile']['tmp_name']) {
 	$total_count = 0;
     $succ_count = 0;
 
-	for($i=2; $i<=$data->sheets[0]['numRows']; $i++)
+	for($i=4; $i<=$data->sheets[0]['numRows']; $i++)
 	{
 		if(trim($data->sheets[0]['cells'][$i][1]) == '')
 			continue;
@@ -75,47 +75,51 @@ if($_FILES['excelfile']['tmp_name']) {
         $j = 1;
 
 		$gcode			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 상품코드
-		$ca_id			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 대표분류
-		$ca_id2			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 추가분류2
-		$ca_id3			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 추가분류3
-		$gname			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 상품명
-		$explan			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 짧은설명
-		$keywords		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 검색키워드
-		$model			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 모델명
-		$brand_nm		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 브랜드
-		$notax			= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 과세설정
-		$zone			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 판매가능지역
-		$zone_msg		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 판매가능지역 추가설명
-		$origin			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 원산지
-		$maker			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 제조사
-		$isopen			= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 판매여부
-		$supply_price	= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 공급가격
-		$normal_price	= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 시중가격
-		$goods_price	= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 판매가격
-		$price_msg		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 가격대체문구
-		$stock_mod		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 재고적용타입
-		$stock_qty		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 재고수량
-		$noti_qty		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 재고통보수량
-		$odr_min		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 최소주문한도
-		$odr_max		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 최대주문한도
-		$gpoint			= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 포인트
-		$sb_date		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 판매기간 시작일
-		$eb_date		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 판매기간 종료일
-		$buy_level		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 구매가능레벨
-		$buy_only		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 가격공개
-		$sc_type		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비유형
-		$sc_method		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 배송비결제
-		$sc_amt			= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 기본배송비
-		$sc_minimum		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 조건배송비
-		$simg_type		= addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 이미지등록방식
-		$simg1			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 소이미지
-		$simg2			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지1
-		$simg3			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지2
-		$simg4			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지3
-		$simg5			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지4
-		$simg6			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 중이미지5
-		$memo			= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 상세설명
-		$admin_memo		= addslashes(trim($data->sheets[0]['cells'][$i][$j++])); // 관리자메모
+		$sgcode = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                    // 가맹점상품코드 _20240315_SY
+		$ca_id  = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                    // 대표분류
+		$ca_id2 = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                    // 추가분류2
+		$ca_id3 = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                    // 추가분류3
+		$gname  = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                    // 상품명
+		$keywords = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                  // 검색키워드
+		$model    = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                  // 모델명
+		$brand_nm = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                  // 브랜드
+		$notax    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++])));     // 과세설정
+		$zone_msg     = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 판매가능지역 추가설명
+		$origin       = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 원산지
+		$maker        = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 제조사
+		$isopen       = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 판매여부
+		$supply_price = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 공급가격
+		$goods_price  = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 판매가격
+		$normal_price = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 시중가격
+		$price_msg    = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));              // 가격대체문구
+		$stock_mod    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 재고적용타입
+		$stock_qty    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++]))); // 재고수량
+		$odr_min = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++])));      // 최소주문한도
+		$odr_max = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++])));      // 최대주문한도
+		$sb_date   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                 // 판매기간 시작일
+		$eb_date   = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                 // 판매기간 종료일
+		$buy_level = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++])));    // 구매가능레벨
+		$reg_yn     = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++])));   // 결제구분
+		$sc_type    = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++])));   // 배송비유형
+		$sc_method  = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++])));   // 배송비결제
+		$sc_amt     = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++])));   // 기본배송비
+		$sc_minimum = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++])));   // 조건배송비
+		$simg_type  = addslashes(trim(conv_number($data->sheets[0]['cells'][$i][$j++])));   // 이미지등록방식
+		$simg1      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                // 소이미지
+		$simg2      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                // 중이미지1
+		$simg3      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                // 중이미지2
+		$simg4      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                // 중이미지3
+		$simg5      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                // 중이미지4
+		$simg6      = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                // 중이미지5
+		$memo       = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                // 상세설명
+		$admin_memo = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));                // 관리자메모
+
+		$areanames     = [];
+		$numberOfAreas = 19;
+
+		for ($zz = 0; $zz < $numberOfAreas; $zz++) {
+			$areanames[$zz] = addslashes(trim($data->sheets[0]['cells'][$i][$j++]));
+		}
 
         if(!$gcode || !$gname) {
             $fail_count++;
@@ -124,60 +128,77 @@ if($_FILES['excelfile']['tmp_name']) {
 
         // 상품코드로 상품이 있는지 먼저 검사
 		$sql2 = " select count(*) as cnt from shop_goods where gcode = '$gcode' ";
-        $row2 = sql_fetch($sql2);
-        if(!$row2['cnt']) {
-            $fail_gcode[] = $gcode;
-            $fail_count++;
-            continue;
-        }
+		$row2 = sql_fetch($sql2);
+		if(!$row2['cnt']) {
+				$fail_gcode[] = $gcode;
+				$fail_count++;
+				continue;
+		}
+
+		$zone_all = "";
+
+		$sql_zone = "SELECT areacode, areaname FROM area
+												GROUP BY areacode ";
+		$res_zone = sql_query($sql_zone);
+
+		for ($z = 0; $row = sql_fetch_array($res_zone); $z++) {
+			if ($z == 0) {
+				$zone_all = $row['areaname'] . ',,' . $areanames[$z];
+			} else {
+				$zone_all = $zone_all . "||" . $row['areaname'] . ',,' . $areanames[$z];
+			}
+		}
+
 
 		unset($value);
-		$value['use_aff']		= 0; // 본사상품으로 설정
-		$value['shop_state']	= $config['seller_mod_auto']; //자동승인여부
-		$value['mb_id']			= $seller['seller_code']; // 판매자ID
-		$value['gcode']			= $gcode; // 상품코드
-		$value['ca_id']			= $ca_id; // 대표분류
-		$value['ca_id2']		= $ca_id2; // 추가분류2
-		$value['ca_id3']		= $ca_id3; // 추가분류3
-		$value['gname']			= $gname; // 상품명
-		$value['explan']		= $explan; // 짧은설명
-		$value['keywords']		= $keywords; // 검색키워드
-		$value['model']			= $model; // 모델명
-		$value['brand_uid']		= get_brand_chk($brand_nm); // 브랜드주키
-		$value['brand_nm']		= $brand_nm; // 브랜드명
-		$value['notax']			= $notax; // 과세설정
-		$value['zone']			= $zone; // 판매가능지역
-		$value['zone_msg']		= $zone_msg; // 판매가능지역 추가설명
-		$value['origin']		= $origin; // 원산지
-		$value['maker']			= $maker; // 제조사
-		$value['isopen']		= $isopen; // 판매여부
-		$value['supply_price']	= $supply_price; // 공급가격
-		$value['normal_price']	= $normal_price; // 시중가격
-		$value['goods_price']	= $goods_price; // 판매가격
-		$value['price_msg']		= $price_msg; // 가격대체문구
-		$value['stock_mod']		= $stock_mod; // 재고적용타입
-		$value['stock_qty']		= $stock_qty; // 재고수량
-		$value['noti_qty']		= $noti_qty; // 재고통보수량
-		$value['odr_min']		= $odr_min; // 최소주문한도
-		$value['odr_max']		= $odr_max; // 최대주문한도
-		$value['gpoint']		= $gpoint; // 포인트
-		$value['sb_date']		= $sb_date; // 판매기간 시작일
-		$value['eb_date']		= $eb_date; // 판매기간 종료일
-		$value['buy_level']		= $buy_level; // 구매가능레벨
-		$value['buy_only']		= $buy_only; // 가격공개
-		$value['sc_type']		= $sc_type; // 배송비유형
-		$value['sc_method']		= $sc_method; // 배송비결제
-		$value['sc_amt']		= $sc_amt; // 기본배송비
-		$value['sc_minimum']	= $sc_minimum; // 조건배송비
-		$value['simg_type']		= $simg_type; // 이미지등록방식
-		$value['simg1']			= $simg1; // 소이미지
-		$value['simg2']			= $simg2; // 중이미지1
-		$value['simg3']			= $simg3; // 중이미지2
-		$value['simg4']			= $simg4; // 중이미지3
-		$value['simg5']			= $simg5; // 중이미지4
-		$value['simg6']			= $simg6; // 중이미지5
-		$value['memo']			= $memo; // 상세설명
-		$value['admin_memo']	= $admin_memo; // 관리자메모
+		$value['use_aff']      = 0;                          // 본사상품으로 설정
+		$value['shop_state']   = $config['seller_reg_auto']; //자동승인여부
+		$value['mb_id']        = $seller['seller_code'];     // 판매자ID
+		$value['gcode']        = $gcode;                     // 상품코드
+		$value['ca_id']        = $ca_id;                     // 대표분류
+		$value['ca_id2']       = $ca_id2;                    // 추가분류2
+		$value['ca_id3']       = $ca_id3;                    // 추가분류3
+		$value['gname']        = $gname;                     // 상품명
+		$value['explan']       = '';                         // 짧은설명
+		$value['keywords']     = $keywords;                  // 검색키워드
+		$value['model']        = $model;                     // 모델명
+		$value['brand_uid']    = get_brand_chk($brand_nm);   // 브랜드주키
+		$value['brand_nm']     = $brand_nm;                  // 브랜드명
+		$value['notax']        = $notax;                     // 과세설정
+		$value['zone']         = $zone_all;                  // 판매가능지역
+		$value['zone_msg']     = $zone_msg;                  // 판매가능지역 추가설명
+		$value['origin']       = $origin;                    // 원산지
+		$value['maker']        = $maker;                     // 제조사
+		$value['isopen']       = $isopen;                    // 판매여부
+		$value['supply_price'] = $supply_price;              // 공급가격
+		$value['normal_price'] = $normal_price;              // 시중가격
+		$value['goods_price']  = $goods_price;               // 판매가격
+		$value['price_msg']    = $price_msg;                 // 가격대체문구
+		$value['stock_mod']    = $stock_mod;                 // 재고적용타입
+		$value['stock_qty']    = $stock_qty;                 // 재고수량
+		$value['noti_qty']     = '0';                        // 재고통보수량
+		$value['odr_min']      = $odr_min;                   // 최소주문한도
+		$value['odr_max']      = $odr_max;                   // 최대주문한도
+		$value['gpoint']       = '0';                        // 포인트
+		$value['sb_date']      = $sb_date;                   // 판매기간 시작일
+		$value['eb_date']      = $eb_date;                   // 판매기간 종료일
+		$value['buy_level']    = $buy_level;                 // 구매가능레벨
+		$value['buy_only']     = '0';                        // 가격공개
+		$value['sc_type']      = $sc_type;                   // 배송비유형
+		$value['sc_method']    = $sc_method;                 // 배송비결제
+		$value['sc_amt']       = $sc_amt;                    // 기본배송비
+		$value['sc_minimum']   = $sc_minimum;                // 조건배송비
+		$value['simg_type']    = $simg_type;                 // 이미지등록방식
+		$value['simg1']        = $simg1;                     // 소이미지
+		$value['simg2']        = $simg2;                     // 중이미지1
+		$value['simg3']        = $simg3;                     // 중이미지2
+		$value['simg4']        = $simg4;                     // 중이미지3
+		$value['simg5']        = $simg5;                     // 중이미지4
+		$value['simg6']        = $simg6;                     // 중이미지5
+		$value['memo']         = $memo;                      // 상세설명
+		$value['admin_memo']   = $admin_memo;                // 관리자메모
+		$value['sgcode']       = $sgcode;                    //가맹점상품코드 _20240315_SY
+		$value['reg_yn']       = $reg_yn;                    //결제구분
 		$value['update_time']	= BV_TIME_YMDHIS; //수정일시
 		update("shop_goods", $value," where gcode='$gcode'");
 

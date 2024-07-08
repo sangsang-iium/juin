@@ -181,7 +181,7 @@ $(function() {
     // 인증정보
     $opener.$("input[name=cert_type]").val("<?php echo $cert_type; ?>");
     $opener.$("input[name=mb_name]").val("<?php echo $user_name; ?>").attr("readonly", true);
-    // $opener.$("input[name=mb_hp]").val("<?php echo $phone_no; ?>").attr("readonly", true);
+    $opener.$("input[name=chk_hp]").val("<?php echo $phone_no; ?>").attr("readonly", true);
     $opener.$(".phone_no1").val("<?php echo $phone_num[0]; ?>").attr("readonly", true);
     $opener.$(".phone_no2").val("<?php echo $phone_num[1]; ?>").attr("readonly", true);
     $opener.$(".phone_no3").val("<?php echo $phone_num[2]; ?>").attr("readonly", true);
@@ -192,7 +192,14 @@ $(function() {
         $opener.$("#kcp_cert" ).css("display", "none");
     }
 
-    alert("본인의 휴대폰번호로 확인 되었습니다.");
+    // window.opener.postMessage({ message: "인증완료" }, "<?php echo (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST']; ?>");
+
+    window.addEventListener('beforeunload', function() {
+        window.opener.postMessage({ message: '인증완료' }, '*');
+    });
+    
+    
+    // alert("본인의 휴대폰번호로 확인 되었습니다.");
 
     window.close();
 });

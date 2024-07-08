@@ -25,6 +25,37 @@ if($_POST['act_button'] == "입금완료" || $_POST['act_button'] == "결제완�
 		change_order_status_ipgum($od_id);
 
 		icode_order_sms_send($od['pt_id'], $od['cellphone'], $od_id, 3);
+
+    // PUSH _20240705_SY
+    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od_id}' ";
+    $od_count_row = sql_fetch($od_count_sel);
+    $total_cnt = $od_count_row['cnt'];
+
+    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$od['mb_id']}' ";
+    $token_row = sql_fetch($token_sel);
+    $fcm_token = $token_row['fcm_token'];
+    
+    $gs = unserialize($od['od_goods']);
+    $gname = $gs['gname'];
+
+    $amount = get_order_spay($od['od_id']);
+		$sodr = get_order_list($od, $amount, "and dan IN ('4','5')");
+    $total_price = $sodr['disp_price'];
+
+    if($total_cnt > 1) {
+      $etc_text = $total_cnt -1;
+      $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 주문이 완료 되었습니다. 결제 금액 {$total_price}원";
+    } else {
+      $body = "주문 하신 {$gname} 상품 주문이 완료 되었습니다. 결제 금액 {$total_price}원";
+    };
+    
+    $message = [
+      'token' => $fcm_token, // 수신자의 디바이스 토큰
+      'title' => '입금 완료',
+      'body' => $body
+    ];
+
+    $response = sendFCMMessage($message);
 	}
 }
 else if($_POST['act_button'] == "주문취소")
