@@ -155,7 +155,7 @@ include_once("./_common.php");
                                                                 where a.od_id = '{$od_id}'";
                                         $od = sql_fetch($sql);
 
-                                        if (($od['method'] == '카드' || $od['method'] == '가상계좌' || $od['paymethod'] == '신용카드' || $od['paymethod'] == '간편결제' || $od['paymethod'] == 'KAKAOPAY') || ($od['od_pg'] == 'inicis' && $od['paymethod'] == '삼성페이') || $od['paymethod'] == '일반') {
+                                        if (($od['method'] == '카드' || $od['method'] == '가상계좌' || $od['paymethod'] == '신용카드' || $od['paymethod'] == '간편결제' || $od['paymethod'] == 'KAKAOPAY') || ($od['od_pg'] == 'inicis' && $od['paymethod'] == '삼성페이') || $od['paymethod'] == '일반'|| $od['paymethod'] == '신용카드') {
                                             // 가맹점 PG결제 정보
                                             $default = set_partner_value($od['od_settle_pid']);
 
@@ -343,6 +343,70 @@ include_once("./_common.php");
 
     }
 
+
+
+  // PUSH _20240708_SY {
+    $push_od = get_order($od_id);
+    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od_id}' AND dan = '{$dan}' ";
+    $od_count_row = sql_fetch($od_count_sel);
+    $total_cnt = $od_count_row['cnt'];
+
+    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+    $token_row = sql_fetch($token_sel);
+    $fcm_token = $token_row['fcm_token'];
+  
+    $gs = unserialize($push_od['od_goods']);
+    $gname = $gs['gname'];
+
+    $push_title = "";
+    $push_body = "";
+
+    if($evt=='return-money' && ($dan == '9' || $dan == '17')) {
+        $push_title = "주문 환불 요청";
+        if($total_cnt > 1) {
+          $etc_text = $total_cnt -1;
+          $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 환불 요청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        } else {
+          $push_body = "주문 하신 {$gname} 상품 환불 요청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        }
+    } else if ($evt=='change-product' && $dan == '11') {
+        $push_title = "주문 교환 요청";
+        if($total_cnt > 1) {
+          $etc_text = $total_cnt -1;
+          $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 교환 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        } else {
+          $push_body = "주문 하신 {$gname} 교환 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        }
+     
+    } else if ($evt=='return-product' && ($dan == '10' || $dan == '18')) {
+        $push_title = "주문 반품 신청";
+        if($total_cnt > 1) {
+          $etc_text = $total_cnt -1;
+          $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 반품 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        } else {
+          $push_body = "주문 하신 {$gname} 상품 반품 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+        }
+    } else if ($evt=="cancel-order" && ($dan == '9' || $dan == '17')) {
+        $push_title = "주문 취소";
+        if($total_cnt > 1) {
+          $etc_text = $total_cnt -1;
+          $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 주문이 정상적으로 취소되었습니다.";
+        } else {
+          $push_body = "주문 하신 {$gname} 상품 주문이 정상적으로 취소되었습니다.";
+        }
+    }
+
+    $message = [
+      'token' => $fcm_token, // 수신자의 디바이스 토큰
+      'title' => $push_title,
+      'body' => $push_body
+    ];
+
+    if(!empty($push_title)) {
+      $response = sendFCMMessage($message);
+    }
+
+  // } PUSH _20240708_SY
 
 
     //echo $csql;

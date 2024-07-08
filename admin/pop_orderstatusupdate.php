@@ -278,7 +278,7 @@ if ($od_sms_cancel_check) {
   
   $message = [
     'token' => $fcm_token, // 수신자의 디바이스 토큰
-    'title' => '주문 취소 신청',
+    'title' => '주문 환불 요청',
     'body' => $body
   ];
 
@@ -325,7 +325,7 @@ if ($od_sms_cancel_check) {
     
     $message = [
       'token' => $fcm_token, // 수신자의 디바이스 토큰
-      'title' => '주문 취소 완료',
+      'title' => '주문 환불 완료',
       'body' => $body
     ];
 
