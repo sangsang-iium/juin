@@ -7,10 +7,10 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <script src="<?php echo BV_JS_URL; ?>/certify.js?v=<?php echo BV_JS_VER; ?>"></script>
 <?php } ?>
 
-<form name="fregisterform" action="<?php echo $form_action_url ?>" method="post" autocomplete="off" onsubmit="return false">
+<form name="fregisterform" action="<?php echo $form_action_url ?>" method="post" autocomplete="off">
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
-<input type="hidden" name="cert_no" value="">
+<input type="hidden" name="cert_no" id="cert_no" value="">
 <input type="hidden" name="chk_hp" value="">
 
 <div id="contents" class="sub-contents userLost passwordLost">
@@ -41,6 +41,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             <input type="tel" name="find_hp[]" value="" class="frm-input" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
           </div>
         </div>
+        <div class="form-row" id="cert_chk">
+        </div>
       </form>
 		</div>
 	</div>
@@ -48,7 +50,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		<div class="container">
 			<div class="cp-btnbar__btns">
 				<!-- <input type="submit" value="본인인증" id="btn_submit" class="ui-btn round stBlack"> -->
-        <button type="submit" id="win_hp_cert" class="ui-btn round stBlack">본인인증</button>
+        <button type="button" id="win_hp_cert" class="ui-btn round stBlack">본인인증</button>
 			</div>
 		</div>
 	</div>
@@ -87,28 +89,37 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         ?>
 
         certify_win_open("<?php echo $cert_type; ?>", "<?php echo $cert_url; ?>");
+
+        window.addEventListener("message", function(event) {
+          if (certData.message === "인증완료") {
+            alert("본인인증 완료");
+          }
+        });
         return;
       });
     <?php } ?>
   });
+
+
   // 부모 창에서 메시지 수신
-  window.addEventListener("message", function(event) {
-    const allowedOrigin = "<?php echo $_SERVER['HTTP_HOST']; ?>";
-    const eventOrigin = event.origin.replace(/^https?:\/\//, ''); // 프로토콜 제거
+  // window.addEventListener("message", function(event) {
+    
+  //   // const allowedOrigin = "<?php echo $_SERVER['HTTP_HOST']; ?>";
+  //   // const eventOrigin = event.origin.replace(/^https?:\/\//, ''); // 프로토콜 제거
 
-    if (eventOrigin !== allowedOrigin) {
-        // 도메인을 확인하여 보안 유지
-        return;
-    }
+  //   // if (eventOrigin !== allowedOrigin) {
+  //   //     // 도메인을 확인하여 보안 유지
+  //   //     return;
+  //   // }
 
-    const certData = event.data;
-    console.log("Received data from child:", certData.message);
+  //   const certData = event.data;
+  //   console.log("Received data from child:", certData.message);
 
-    if (certData.message === "인증완료") {
-      const form = document.querySelector('form[name="fregisterform"]');
+  //   if (certData.message === "인증완료") {
+
+  //     const form = document.querySelector('form[name="fregisterform"]');
+  //     form.submit();
       
-      form.submit();
-        
-    }
-  });
+  //   }
+  // });
 </script> 

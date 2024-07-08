@@ -19,6 +19,34 @@ if ($w == '') {
     $sql = "update shop_used set gubun='$gubun', status='$status', price='$price', category='$category', title='$title', content='$content', address='$address', lat='$lat', lng='$lng' where no='$no'";
     sql_query($sql);
 
+    // 위시리스트 판매완료 PUSH _20240705_SY
+    if($status == '2') {
+      $wish_mem_sel = " SELECT a.mb_id, c.fcm_token AS fcm_token, b.* 
+                          FROM shop_used_good a, shop_used b, shop_member c
+                         WHERE a.pno   = b.no
+                           AND a.mb_id = c.id
+                           AND b.`no`  = '{$no}'
+                           AND del_yn  = 'N'
+                      ORDER BY a.no DESC ";
+      $wish_mem_res = sql_query($wish_mem_sel);
+      while($wish_mem_row = sql_fetch_array($wish_mem_res)) {
+        $max_width    = 15;
+        $text_trimmed = mb_strimwidth($wish_mem_row['title'], 0, $max_width, '...', 'utf-8');
+        
+        $fcm_token    = $wish_mem_row['fcm_token'];
+        // $fcm_token    = "dSkWHH6bQ5eq5YWrDuTENF:APA91bF_KsOmrAV_RQv8Q4ajRJdFYFHxRu64Bb-eBoZzdzsAOK2Hlt-sotlNC0CO10GbX5Z7QkZW4adsdAL0B5lptT72syieIQGZ7V_WcfG05gLaOvyjY69OLPp3tnT7Cm8UXG9GKQdG";
+        
+        $message = [
+          'token' => $fcm_token,
+          'title' => '중고장터 상품 판매',
+          'body' => "위시리스트에 등록한 \"{$text_trimmed}\" 중고장터 게시글 판매가 완료되었습니다."
+        ];
+        
+        $response = sendFCMMessage($message);
+      }
+    }
+
+
 } else {
     alert('제대로 된 값이 넘어오지 않았습니다.');
 }
