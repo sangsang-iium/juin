@@ -26,7 +26,7 @@ if($_POST['act_button'] == "입금완료" || $_POST['act_button'] == "결제완�
 
 		icode_order_sms_send($od['pt_id'], $od['cellphone'], $od_id, 3);
 
-    // PUSH _20240705_SY
+    // PUSH _20240705_SY {
     $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od_id}' ";
     $od_count_row = sql_fetch($od_count_sel);
     $total_cnt = $od_count_row['cnt'];
@@ -56,6 +56,7 @@ if($_POST['act_button'] == "입금완료" || $_POST['act_button'] == "결제완�
     ];
 
     $response = sendFCMMessage($message);
+    // } PUSH _20240705_SY
 	}
 }
 else if($_POST['act_button'] == "주문취소")
@@ -77,6 +78,34 @@ else if($_POST['act_button'] == "주문취소")
 		}
 
 		icode_order_sms_send($od['pt_id'], $od['cellphone'], $od_id, 5);
+
+    // PUSH _20240705_SY {
+    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od_id}' ";
+    $od_count_row = sql_fetch($od_count_sel);
+    $total_cnt = $od_count_row['cnt'];
+
+    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$od['mb_id']}' ";
+    $token_row = sql_fetch($token_sel);
+    $fcm_token = $token_row['fcm_token'];
+    
+    $gs = unserialize($od['od_goods']);
+    $gname = $gs['gname'];
+
+    if($total_cnt > 1) {
+      $etc_text = $total_cnt -1;
+      $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 주문이 정상적으로 취소되었습니다.";
+    } else {
+      $body = "주문 하신 {$gname} 상품 주문이 정상적으로 취소되었습니다.";
+    };
+    
+    $message = [
+      'token' => $fcm_token, // 수신자의 디바이스 토큰
+      'title' => '주문 취소',
+      'body' => $body
+    ];
+
+    $response = sendFCMMessage($message);
+    // } PUSH _20240705_SY
 	}
 }
 else if($_POST['act_button'] == "배송준비" || $_POST['act_button'] == "상품준비중")
@@ -115,6 +144,37 @@ else if($_POST['act_button'] == "배송중")
 		$q = get_order($key, 'pt_id');
 		icode_order_sms_send($q['pt_id'], $recv, $key, 4);
 	}
+
+  // PUSH _20240708_SY {
+  foreach($_POST['od_id'] as $key => $val) {
+    $push_od = get_order($val);
+    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$val}' AND dan = '4' ";
+    $od_count_row = sql_fetch($od_count_sel);
+    $total_cnt = $od_count_row['cnt'];
+
+    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+    $token_row = sql_fetch($token_sel);
+    $fcm_token = $token_row['fcm_token'];
+ 
+    $gs = unserialize($push_od['od_goods']);
+    $gname = $gs['gname'];
+
+    if($total_cnt > 1) {
+      $etc_text = $total_cnt -1;
+      $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 배송이 시작되었습니다. 영업일 기준 1~3 배송일이 소요될 수 있습니다.";
+    } else {
+      $body = "주문 하신 {$gname} 상품 배송이 시작되었습니다. 영업일 기준 1~3 배송일이 소요될 수 있습니다.";
+    };
+    
+    $message = [
+      'token' => $fcm_token, // 수신자의 디바이스 토큰
+      'title' => '배송중',
+      'body' => $body
+    ];
+
+    $response = sendFCMMessage($message);
+  }
+  // } PUSH _20240708_SY
 }
 else if($_POST['act_button'] == "배송완료")
 {
@@ -132,12 +192,44 @@ else if($_POST['act_button'] == "배송완료")
 		change_order_status_5($od_no, $delivery, $delivery_no);
 
 		$od_sms_delivered[$od['od_id']] = $od['cellphone'];
+
 	}
 
 	foreach($od_sms_delivered as $key=>$recv) {
 		$q = get_order($key, 'pt_id');
 		icode_order_sms_send($q['pt_id'], $recv, $key, 6);
 	}
+
+  // PUSH _20240708_SY {
+  foreach($_POST['od_id'] as $key => $val) {
+    $push_od = get_order($val);
+    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$val}' AND dan = '5' ";
+    $od_count_row = sql_fetch($od_count_sel);
+    $total_cnt = $od_count_row['cnt'];
+
+    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+    $token_row = sql_fetch($token_sel);
+    $fcm_token = $token_row['fcm_token'];
+  
+    $gs = unserialize($push_od['od_goods']);
+    $gname = $gs['gname'];
+
+    if($total_cnt > 1) {
+      $etc_text = $total_cnt -1;
+      $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 배송이 완료되었습니다.";
+    } else {
+      $body = "주문 하신 {$gname} 상품 배송이 완료되었습니다.";
+    };
+    
+    $message = [
+      'token' => $fcm_token, // 수신자의 디바이스 토큰
+      'title' => '배송 완료',
+      'body' => $body
+    ];
+
+    $response = sendFCMMessage($message);
+  }
+  // } PUSH _20240708_SY
 }
 else if($_POST['act_button'] == "구매확정")
 {
