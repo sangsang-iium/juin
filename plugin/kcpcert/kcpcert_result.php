@@ -192,11 +192,11 @@ $(function() {
         $opener.$("#kcp_cert" ).css("display", "none");
     }
 
-    // window.opener.postMessage({ message: "인증완료" }, "<?php echo (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST']; ?>");
+    // window.opener.postMessage({ message: "인증완료" }, "<?php //echo (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST']; ?>");
 
-    window.addEventListener('beforeunload', function() {
-        window.opener.postMessage({ message: '인증완료' }, '*');
-    });
+    // window.addEventListener('beforeunload', function() {
+    //     window.opener.postMessage({ message: '인증완료' }, '*');
+    // });
     
     
     // alert("본인의 휴대폰번호로 확인 되었습니다.");

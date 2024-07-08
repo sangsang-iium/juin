@@ -10,8 +10,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <form name="fregisterform" action="<?php echo $form_action_url ?>" method="post" autocomplete="off">
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
-<input type="hidden" name="cert_no" id="cert_no" value="">
-<input type="hidden" name="chk_hp" value="">
+<input type="hidden" name="cert_no" value="">
+<input type="hidden" name="chk_hp" id="chk_hp" value="">
 
 <div id="contents" class="sub-contents userLost passwordLost">
 	<div class="passwordLost-wrap">
@@ -90,11 +90,6 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
         certify_win_open("<?php echo $cert_type; ?>", "<?php echo $cert_url; ?>");
 
-        window.addEventListener("message", function(event) {
-          if (certData.message === "인증완료") {
-            alert("본인인증 완료");
-          }
-        });
         return;
       });
     <?php } ?>
@@ -104,13 +99,13 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   // 부모 창에서 메시지 수신
   // window.addEventListener("message", function(event) {
     
-  //   // const allowedOrigin = "<?php echo $_SERVER['HTTP_HOST']; ?>";
-  //   // const eventOrigin = event.origin.replace(/^https?:\/\//, ''); // 프로토콜 제거
+  // //   // const allowedOrigin = "<?php //echo $_SERVER['HTTP_HOST']; ?>";
+  // //   // const eventOrigin = event.origin.replace(/^https?:\/\//, ''); // 프로토콜 제거
 
-  //   // if (eventOrigin !== allowedOrigin) {
-  //   //     // 도메인을 확인하여 보안 유지
-  //   //     return;
-  //   // }
+  // //   // if (eventOrigin !== allowedOrigin) {
+  // //   //     // 도메인을 확인하여 보안 유지
+  // //   //     return;
+  // //   // }
 
   //   const certData = event.data;
   //   console.log("Received data from child:", certData.message);
@@ -122,4 +117,20 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       
   //   }
   // });
+
+
+// 앱 에서 처리 할 필요 없게 수정 _20240708_SY
+$(function() {
+    setInterval(function() {
+        var chkHpValue = $("#chk_hp").val();
+        if (chkHpValue === "") {
+            console.log("chk_hp의 값이 비어 있습니다.");
+        } else {
+          const form = document.querySelector('form[name="fregisterform"]');
+          form.submit();
+          return;
+        }
+    }, 1500); // 2초마다 실행
+});
+
 </script> 
