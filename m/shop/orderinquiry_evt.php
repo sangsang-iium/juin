@@ -361,7 +361,7 @@ include_once("./_common.php");
     $push_title = "";
     $push_body = "";
 
-    if($evt=='return-money' && ($dan == '9' || $dan == '17')) {
+    if($dan == '9' || $dan == '17') {
         $push_title = "주문 환불 요청";
         if($total_cnt > 1) {
           $etc_text = $total_cnt -1;
@@ -369,7 +369,7 @@ include_once("./_common.php");
         } else {
           $push_body = "주문 하신 {$gname} 상품 환불 요청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
         }
-    } else if ($evt=='change-product' && $dan == '11') {
+    } else if ($dan == '11') {
         $push_title = "주문 교환 요청";
         if($total_cnt > 1) {
           $etc_text = $total_cnt -1;
@@ -378,7 +378,7 @@ include_once("./_common.php");
           $push_body = "주문 하신 {$gname} 교환 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
         }
      
-    } else if ($evt=='return-product' && ($dan == '10' || $dan == '18')) {
+    } else if ($dan == '10' || $dan == '18') {
         $push_title = "주문 반품 신청";
         if($total_cnt > 1) {
           $etc_text = $total_cnt -1;
@@ -386,7 +386,7 @@ include_once("./_common.php");
         } else {
           $push_body = "주문 하신 {$gname} 상품 반품 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
         }
-    } else if ($evt=="cancel-order" && ($dan == '9' || $dan == '17')) {
+    } else if ($dan == '6') {
         $push_title = "주문 취소";
         if($total_cnt > 1) {
           $etc_text = $total_cnt -1;
