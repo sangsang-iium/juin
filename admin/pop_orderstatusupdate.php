@@ -148,7 +148,7 @@ for ($i = 0; $i < $chk_count; $i++) {
 if ($od_sms_ipgum_check) {
   icode_order_sms_send($pt_id, $od_hp, $od_id, 3);
 
-   // PUSH _20240705_SY
+   // PUSH _20240705_SY {
    $push_od = get_order($od_id);
    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order WHERE od_id = '{$od_id}' AND dan = '2' ";
    $od_count_row = sql_fetch($od_count_sel);
@@ -179,6 +179,7 @@ if ($od_sms_ipgum_check) {
    ];
 
    $response = sendFCMMessage($message);
+   // } PUSH _20240705_SY
 }
 // 입금완료 문자
 
