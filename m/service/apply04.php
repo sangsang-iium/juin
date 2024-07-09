@@ -305,6 +305,16 @@ if($is_member) {
             <button id="clear" type="button">지우기</button>
           </div>
           <!-- } row -->
+           <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">소개자(직원) 정보<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="b_staff" class="frm-input w-per100" required value="<?php echo $mn_id ?>" placeholder="소개자를 입력해주세요." required>
+            </div>
+          </div>
+          <!-- } row -->
         </div>
       </div>
 
@@ -390,6 +400,20 @@ if($is_member) {
 </div>
 <script src="/js/postcode.v2.js"></script>
 <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const checkboxes = document.querySelectorAll('input[name="b_paymethod"]');
+    const bankInputRow = document.getElementById('bank-input-row');
+
+    checkboxes.forEach(function (checkbox) {
+      checkbox.addEventListener('change', function () {
+        if (checkbox.value === '자동이체' && checkbox.checked) {
+          bankInputRow.classList.remove('hidden');
+        } else if (checkbox.value === '자동이체' && !checkbox.checked) {
+          bankInputRow.classList.add('hidden');
+        }
+      });
+    });
+  });
    document.querySelectorAll('.check-wr').forEach(group => {
     group.addEventListener('change', function(e) {
       if (e.target.classList.contains('single-checkbox')) {

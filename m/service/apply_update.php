@@ -1,5 +1,6 @@
 <?php
 include_once "./_common.php";
+include_once '../../include/crypt.php';
 
 if (empty($b_type)) {
   alert("정상적인 방법으로 접근해주세요.", "./list.php");
@@ -68,9 +69,11 @@ switch ($b_type) {
     $db_input['bc_card_cvc']    = $bc_card_cvc;
     $db_input['bc_acc']         = $bc_acc;
     $db_input['bc_acc_date']    = $bc_acc_date;
+    $db_input['bc_applicant']   = $bc_applicant;
     $db_input['b_sign']         = $sign1;
     $db_input['b_agree']        = $b_agree;
     $db_input['b_agree1']       = $b_agree1;
+    $db_input['b_staff']        = $b_staff;
     break;
 }
 
@@ -78,6 +81,44 @@ $db_input['wdate'] = date("Y-m-d H:i:s");
 
 $serviceModel = new IUD_Model();
 $serviceTable = "iu_service";
-$serviceModel->insert($serviceTable, $db_input);
+$svcIdx = $serviceModel->insert($serviceTable, $db_input);
 
+// 신한카드 데이터 받아오기 ( 안받아오네~ )
+// if ($b_type == 1 || $b_type == 2) {
+//   // 기본값 설정
+//   $P1 = $b_type == 1 ? 1 : "";
+//   $P2 = $b_type == 2 ? 2 : "";
+
+// // 배열 생성 및 문자열 조합
+// // 지회지부 마지막에 5자리 코드로 전달 해야함
+//   $planArr = array(
+//     "0000000000000000", // nonce
+//     date("YmdHis"),     // 현재 시간
+//     $c_name,            // 이름
+//     $b_staff,           // 추천인 번호
+//     $P1,                // P1 값
+//     $P2,                // P2 값
+//   );
+
+//   // 문자열 조합
+//   $plan = implode("||", $planArr);
+
+//   $enc = encryptSin($plan);
+//   $url = "https://food.shinhancard.com/waf/etot00810?P=" . $enc;
+
+//   // cURL로 GET 요청 보내기
+//   $ch = curl_init();
+//   curl_setopt($ch, CURLOPT_URL, $url);
+//   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//   $response = curl_exec($ch);
+//   curl_close($ch);
+
+//   if ($response !== false) {
+//     $response = iconv("EUC-KR", "UTF-8", $response);
+//     echo "Response: " . $response . "\n";
+//   } else {
+//     echo "Failed to get response.\n";
+//   }
+// }
+// $dec = decrypt($response);
 alert("정상 등록되었습니다.", "./list.php");
