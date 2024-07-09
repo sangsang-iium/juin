@@ -27,9 +27,16 @@ if($_POST['act_button'] == "입금완료" || $_POST['act_button'] == "결제완�
 		icode_order_sms_send($od['pt_id'], $od['cellphone'], $od_id, 3);
 
     // PUSH _20240705_SY {
+    $post_cnt = count($_POST['chk']);
+
     $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od_id}' ";
     $od_count_row = sql_fetch($od_count_sel);
-    $total_cnt = $od_count_row['cnt'];
+    $sql_cnt = $od_count_row['cnt'];
+    if($post_cnt == $sql_cnt) {
+      $total_cnt = $post_cnt;
+    } else {
+      $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+    }
 
     $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$od['mb_id']}' ";
     $token_row = sql_fetch($token_sel);
@@ -80,9 +87,16 @@ else if($_POST['act_button'] == "주문취소")
 		icode_order_sms_send($od['pt_id'], $od['cellphone'], $od_id, 5);
 
     // PUSH _20240705_SY {
+    $post_cnt = count($_POST['chk']);
+
     $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od_id}' ";
     $od_count_row = sql_fetch($od_count_sel);
-    $total_cnt = $od_count_row['cnt'];
+    $sql_cnt = $od_count_row['cnt'];
+    if($post_cnt == $sql_cnt) {
+      $total_cnt = $post_cnt;
+    } else {
+      $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+    }
 
     $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$od['mb_id']}' ";
     $token_row = sql_fetch($token_sel);
@@ -90,6 +104,11 @@ else if($_POST['act_button'] == "주문취소")
     
     $gs = unserialize($od['od_goods']);
     $gname = $gs['gname'];
+
+    if($total_cnt == 1 ) {
+      $k			 = $_POST['chk'][0];
+      $push_od = get_order($_POST['od_no'][$k]);
+    }
 
     if($total_cnt > 1) {
       $etc_text = $total_cnt -1;
@@ -146,16 +165,28 @@ else if($_POST['act_button'] == "배송중")
 	}
 
   // PUSH _20240708_SY {
+  $post_cnt = count($_POST['chk']);
+
   foreach($_POST['od_id'] as $key => $val) {
     $push_od = get_order($val);
     $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$val}' AND dan = '4' ";
     $od_count_row = sql_fetch($od_count_sel);
-    $total_cnt = $od_count_row['cnt'];
+    $sql_cnt = $od_count_row['cnt'];
+    if($post_cnt == $sql_cnt) {
+      $total_cnt = $post_cnt;
+    } else {
+      $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+    }
 
     $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
     $token_row = sql_fetch($token_sel);
     $fcm_token = $token_row['fcm_token'];
  
+    if($total_cnt == 1 ) {
+      $k			 = $_POST['chk'][0];
+      $push_od = get_order($_POST['od_no'][$k]);
+    }
+    
     $gs = unserialize($push_od['od_goods']);
     $gname = $gs['gname'];
 
@@ -201,15 +232,27 @@ else if($_POST['act_button'] == "배송완료")
 	}
 
   // PUSH _20240708_SY {
+  $post_cnt = count($_POST['chk']);
+
   foreach($_POST['od_id'] as $key => $val) {
     $push_od = get_order($val);
     $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$val}' AND dan = '5' ";
     $od_count_row = sql_fetch($od_count_sel);
-    $total_cnt = $od_count_row['cnt'];
+    $sql_cnt = $od_count_row['cnt'];
+    if($post_cnt == $sql_cnt) {
+      $total_cnt = $post_cnt;
+    } else {
+      $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+    }
 
     $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
     $token_row = sql_fetch($token_sel);
     $fcm_token = $token_row['fcm_token'];
+
+    if($total_cnt == 1 ) {
+      $k			 = $_POST['chk'][0];
+      $push_od = get_order($_POST['od_no'][$k]);
+    }
   
     $gs = unserialize($push_od['od_goods']);
     $gname = $gs['gname'];
