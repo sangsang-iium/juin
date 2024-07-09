@@ -1,9 +1,9 @@
 <?php
 include_once "./_common.php";
 
-// check_demo();
+check_demo();
 
-// check_admin_token();
+check_admin_token();
 
 $chk_count = count($_POST['chk']);
 if (!$chk_count) {

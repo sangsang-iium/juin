@@ -281,13 +281,25 @@ include_once("./_common.php");
 
     // PUSH _20240708_SY {
     $push_od = get_order($od_id);
+    $post_cnt = count($_POST['chk']);
+    
     $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od_id}' AND dan = '{$dan}' ";
     $od_count_row = sql_fetch($od_count_sel);
-    $total_cnt = $od_count_row['cnt'];
+    $sql_cnt = $od_count_row['cnt'];
+    if($post_cnt == $sql_cnt) {
+      $total_cnt = $post_cnt;
+    } else {
+      $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+    }
 
     $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
     $token_row = sql_fetch($token_sel);
     $fcm_token = $token_row['fcm_token'];
+
+    if($total_cnt == 1 ) {
+      $k			 = $_POST['chk'][0];
+      $push_od = get_order($_POST['od_no'][$k]);
+    }
   
     $gs = unserialize($push_od['od_goods']);
     $gname = $gs['gname'];
