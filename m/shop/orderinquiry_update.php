@@ -7,11 +7,12 @@ include_once("./_common.php");
 
     //환불
     $od_id=$odId;
+    $od_no = $odno;
     if($evt=='return-money'){
         $csql = "update shop_order
                  set
                  dan = '9'
-                 where od_id='$od_id'
+                 where od_id='$od_id' and od_no='$od_no'
         ";
         $dan = '9';
     }
@@ -20,7 +21,7 @@ include_once("./_common.php");
         $csql = "update shop_order
         set
         dan = '8'
-        where od_id='$od_id'
+        where od_id='$od_id' and od_no='$od_no'
         ";
         $dan = '8';
     }
@@ -29,7 +30,7 @@ include_once("./_common.php");
         $csql = "update shop_order
         set
         dan = '7'
-        where od_id='$od_id'
+        where od_id='$od_id' and od_no='$od_no'
         ";
         $dan = '7';
     }
@@ -40,7 +41,7 @@ include_once("./_common.php");
         $csql = "update shop_order
         set
         dan = '6'
-        where od_id='$od_id'
+        where od_id='$od_id' and od_no='$od_no'
         ";
         $dan = '6';
     }
