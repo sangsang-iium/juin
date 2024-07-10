@@ -71,6 +71,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <?php } else { ?>
             <img src="<?php echo get_it_image_url($ct['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>">
           <?php } ?>
+          <?php //echo $rw['od_no'];?>
         </a>
         <div class="content">
           <span class="tag <?php echo $gw_status[$rw['dan']] == '배송중'?'on':'off'; ?>"><?php echo $gw_status[$rw['dan']]; ?></span>
@@ -98,16 +99,16 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
           <!-- 상품후기 작성 버튼 조건문 추가 _20240624_SY -->
           <?php if(in_array($dan_process, array('5'))) { ?>
-          <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
+          <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" odno="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
           <?php } ?>
 
-          <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
+          <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>"  odno="<?php echo $rw['od_no'] ?>">재주문</button>
           <?php
             // 환불 버튼 생성  20240527 박원주
             if($rw['dan']=='3')
             {
               ?>
-                <button class="ui-btn ord-review__btn iq-wbtn return-money" data-od-id="<?php echo $rw['od_id'];?>">취소신청</button>
+                <button class="ui-btn ord-review__btn iq-wbtn return-money" data-od-id="<?php echo $rw['od_id'];?>"  odno="<?php echo $rw['od_no'] ?>" >취소신청</button>
               <?php
             }
           ?> 
@@ -117,7 +118,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             if($rw['dan']=='1')
             {
               ?>
-                <button class="ui-btn ord-review__btn iq-wbtn cancel-money" data-od-id="<?php echo $rw['od_id'];?>">취소</button>
+                <button class="ui-btn ord-review__btn iq-wbtn cancel-money" data-od-id="<?php echo $rw['od_id'];?>" odno="<?php echo $rw['od_no'] ?>">취소</button>
               <?php
             }
           ?> 
@@ -127,8 +128,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             if($rw['dan']=='5')
             {
               ?>
-                <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>">반품신청</button>
-                <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>">교환신청</button>
+                <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>"  odno="<?php echo $rw['od_no'] ?>">반품신청</button>
+                <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>"  odno="<?php echo $rw['od_no'] ?>">교환신청</button>
               <?php
             }
           ?>
@@ -138,7 +139,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             if($rw['dan']=='2')
             {
               ?> 
-                <button class="ui-btn ord-review__btn iq-wbtn order-cancel-btn" data-od-id="<?php echo $rw['od_id'];?>">취소신청</button> 
+                <button class="ui-btn ord-review__btn iq-wbtn order-cancel-btn" data-od-id="<?php echo $rw['od_id'];?>"  odno="<?php echo $rw['od_no'] ?>">취소신청</button> 
               <?php
             }
           ?>
@@ -241,11 +242,13 @@ import * as f from '/src/js/function.js';
 document.querySelectorAll(".cancel-money").forEach(btn => {
   btn.addEventListener("click", function(event) {
     const odId = event.currentTarget.dataset.odId;
-    console.log(odId)
+    const odno = $(this).attr('odno');
+    console.log(odId,odno);
+   // return false;
     $.ajax({
       url: "./orderinquiry_update.php",
         type: "POST",
-        data: { "odId": odId,"evt":"cancel-money" },
+        data: { "odId": odId,"evt":"cancel-money","odno":odno },
         dataType: "json",
         async: false,
         cache: false,
