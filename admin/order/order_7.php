@@ -57,7 +57,7 @@ EOF;
                         <?php echo option_selected('return_date', $sel_field, "반품완료일"); ?>
                     </select>
                 </div>
-			    <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>\
+			    <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
             </div>
 		</td>
 	</tr>

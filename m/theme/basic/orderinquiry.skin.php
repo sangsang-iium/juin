@@ -71,6 +71,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <?php } else { ?>
             <img src="<?php echo get_it_image_url($ct['gs_id'], $gs['simg1'], 140, 140); ?>" alt="<?php echo get_text($gs['gname']); ?>">
           <?php } ?>
+          <?php //echo $rw['od_no'];?>
         </a>
         <div class="content">
           <span class="tag <?php echo $gw_status[$rw['dan']] == '배송중'?'on':'off'; ?>"><?php echo $gw_status[$rw['dan']]; ?></span>
@@ -98,16 +99,16 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           <!-- <a href="" class="ui-btn ord-review__btn iq-wbtn">상품후기 작성</a> -->
           <!-- 상품후기 작성 버튼 조건문 추가 _20240624_SY -->
           <?php if(in_array($dan_process, array('5'))) { ?>
-          <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
+          <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" odno="<?php echo $ct['od_no'] ?>">상품후기 작성</button>
           <?php } ?>
 
-          <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>">재주문</button>
+          <button class="ui-btn ord-review__btn iq-wbtn reoder-btn" data-od-id="<?php echo $rw['od_id'];?>"  odno="<?php echo $rw['od_no'] ?>">재주문</button>
           <?php
             // 환불 버튼 생성  20240527 박원주
             if($rw['dan']=='3')
             {
               ?>
-                <button class="ui-btn ord-review__btn iq-wbtn return-money" data-od-id="<?php echo $rw['od_id'];?>">취소신청</button>
+                <button class="ui-btn ord-review__btn iq-wbtn return-money" data-od-id="<?php echo $rw['od_id'];?>"  odno="<?php echo $rw['od_no'] ?>" >취소신청</button>
               <?php
             }
           ?> 
@@ -117,7 +118,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             if($rw['dan']=='1')
             {
               ?>
-                <button class="ui-btn ord-review__btn iq-wbtn cancel-money" data-od-id="<?php echo $rw['od_id'];?>">취소</button>
+                <button class="ui-btn ord-review__btn iq-wbtn cancel-money" data-od-id="<?php echo $rw['od_id'];?>" odno="<?php echo $rw['od_no'] ?>">취소</button>
               <?php
             }
           ?> 
@@ -127,8 +128,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             if($rw['dan']=='5')
             {
               ?>
-                <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>">반품신청</button>
-                <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>">교환신청</button>
+                <button class="ui-btn ord-review__btn iq-wbtn return-product" data-od-id="<?php echo $rw['od_id'];?>"  odno="<?php echo $rw['od_no'] ?>">반품신청</button>
+                <button class="ui-btn ord-review__btn iq-wbtn change-product" data-od-id="<?php echo $rw['od_id'];?>"  odno="<?php echo $rw['od_no'] ?>">교환신청</button>
               <?php
             }
           ?>
@@ -138,7 +139,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
             if($rw['dan']=='2')
             {
               ?> 
-                <button class="ui-btn ord-review__btn iq-wbtn order-cancel-btn" data-od-id="<?php echo $rw['od_id'];?>">취소신청</button> 
+                <button class="ui-btn ord-review__btn iq-wbtn order-cancel-btn" data-od-id="<?php echo $rw['od_id'];?>"  odno="<?php echo $rw['od_no'] ?>">취소신청</button> 
               <?php
             }
           ?>
@@ -180,59 +181,56 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 
 <div id="return-popup2" class="popup type01 add-popup">
-      <div class="pop-inner">
-        <div class="pop-top">
-          <p class="tit return-popup2-title1">취소 사유</p>
-        </div>
-        <div class="pop-content">
-          <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
-            <input type="hidden" name="odId" id="order_send"  value="<?php echo $od_id; ?>">
-            <input type="hidden" name="evt" id="evt"  value="<?php echo $od_id; ?>">
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title return-popup2-title2">취소 사유<b>*</b></p>
-              </div>
-              <div class="form-body input-button">
-                <input type="text" name="return_memo" id="return_memo" required class="frm-input" maxlength="100" placeholder="사유를 입력해주세요.">
-                <input type="submit" value="확인" class="ui-btn st3">
-              </div>
-            </div>
-
-          </form>
-        </div>
-        <div class="pop-btm">
-          <button type="button" class="ui-btn round stBlack close">취소</button>
+  <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
+    <div class="pop-inner" style="height: auto;">
+      <div class="pop-top">
+        <p class="tit return-popup2-title1">취소 사유</p>
+      </div>
+      <div class="pop-content">
+        <input type="hidden" name="odId" id="order_send"  value="<?php echo $od_id; ?>">
+        <input type="hidden" name="evt" id="evt"  value="<?php echo $od_id; ?>">
+        <div class="form-row">
+          <div class="form-head">
+            <p class="title return-popup2-title2">취소 사유<b>*</b></p>
+          </div>
+          <div class="form-body">
+            <input type="text" name="return_memo" id="return_memo" required class="frm-input w-per100" maxlength="100" placeholder="사유를 입력해주세요.">
+          </div>
         </div>
       </div>
+      <div class="pop-btm full-btn-wrap">
+        <input type="submit" value="확인" class="ui-btn round stBlack close">
+        <button type="button" class="ui-btn round stWhite close">취소</button>
+      </div>
+    </div>
+  </form>
 </div>
 
 <div id="sod_fin_cancelfrm" class="popup type01 add-popup" style="background-color: transparent;"> 
-      <div class="pop-inner">
-        <div class="pop-top">
-          <p class="tit return-popup2-title1">취소 사유</p>
-        </div>
-        <div class="pop-content">
-          <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
-            <input type="hidden" name="odId" id="order_send" class="order_end_cancel"  value="<?php echo $od_id; ?>">
-            <input type="hidden" name="evt" id="evt"  value="cancel-order">
-            <div class="form-row">
-              <div class="form-head">
-                <p class="title return-popup2-title2">취소 사유<b>*</b></p>
-              </div>
-              <div class="form-body input-button">
-                <input type="text" name="return_memo" id="return_memo" required class="frm-input" maxlength="100" placeholder="사유를 입력해주세요.">
-                <input type="submit" value="확인" class="ui-btn st3">
-              </div>
-            </div>
-
-          </form>
-        </div>
-        <div class="pop-btm">
-          <button type="button" class="ui-btn round stBlack close">취소</button>
-        </div>
+  <form method="post" action="<?php echo BV_MSHOP_URL; ?>/orderinquiry_evt.php" onsubmit="return fcancel_check(this);">
+    <div class="pop-inner">
+      <div class="pop-top">
+        <p class="tit return-popup2-title1">취소 사유</p>
       </div>
-
+      <div class="pop-content">
+          <input type="hidden" name="odId" id="order_send" class="order_end_cancel"  value="<?php echo $od_id; ?>">
+          <input type="hidden" name="evt" id="evt"  value="cancel-order">
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title return-popup2-title2">취소 사유<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="return_memo" id="return_memo" required class="frm-input w-per100" maxlength="100" placeholder="사유를 입력해주세요.">
+            </div>
+          </div>
+      </div>
+      <div class="pop-btm full-btn-wrap">
+        <input type="submit" value="확인" class="ui-btn round stBlack close">
+        <button type="button" class="ui-btn round stWhite close">취소</button>
+      </div>
     </div>
+  </form>
+</div>
 
 
 
@@ -244,11 +242,13 @@ import * as f from '/src/js/function.js';
 document.querySelectorAll(".cancel-money").forEach(btn => {
   btn.addEventListener("click", function(event) {
     const odId = event.currentTarget.dataset.odId;
-    console.log(odId)
+    const odno = $(this).attr('odno');
+    console.log(odId,odno);
+   // return false;
     $.ajax({
       url: "./orderinquiry_update.php",
         type: "POST",
-        data: { "odId": odId,"evt":"cancel-money" },
+        data: { "odId": odId,"evt":"cancel-money","odno":odno },
         dataType: "json",
         async: false,
         cache: false,
