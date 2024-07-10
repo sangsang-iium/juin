@@ -1,6 +1,8 @@
 <?php
 include_once("./_common.php");
 
+// dan_code 추가 _20240709_SY
+
 if($code==9||$code==17){ //환불완료처리
     $chk = explode(",",$_REQUEST['od_id']); 
     for($i=0;$i<count($chk);$i++){
@@ -13,6 +15,8 @@ if($code==9||$code==17){ //환불완료처리
                 where od_id='$od_id' ";
         sql_query($sql);
     }
+  
+    $dan_code = '17';
 }
 
 if($code==7||$code==18){ //반품완료처리
@@ -27,6 +31,8 @@ if($code==7||$code==18){ //반품완료처리
                 where od_id='$od_id' ";
         sql_query($sql);
     }
+
+    $dan_code = '10';
 }
 
  
@@ -43,8 +49,11 @@ if($code==8){ //배송후 교환처리
                 where od_id='$od_id' ";
         sql_query($sql);
     }
-    goto_url(BV_ADMIN_URL."/order.php?code=".$code);
-    exit();
+
+    $dan_code = '12';
+
+    // goto_url(BV_ADMIN_URL."/order.php?code=".$code);
+    // exit();
 }
 
 
@@ -275,6 +284,68 @@ if($code==8){ //배송후 교환처리
                     where od_id = '$od_id' ";
         sql_query($sql);
     }
- 
+
+
+    
+
+  // PUSH _20240709_SY {
+    $push_od = get_order($od_id);
+
+    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od_id}' AND dan = '{$dan_code}' ";
+    $od_count_row = sql_fetch($od_count_sel);
+    $total_cnt = $od_count_row['cnt'];
+
+    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+    $token_row = sql_fetch($token_sel);
+    $fcm_token = $token_row['fcm_token'];
+
+    $gs = unserialize($push_od['od_goods']);
+    $gname = $gs['gname'];
+
+    $push_title = "";
+    $push_body = "";
+
+    if($dan_code == '10') {
+        $push_title = "주문 환불 완료";
+        if($total_cnt > 1) {
+          $etc_text = $total_cnt -1;
+          $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 반품 처리가 완료되었습니다.";
+        } else {
+          $push_body = "주문 하신 {$gname} 상품 반품 처리가 완료되었습니다.";
+        }
+    } else if ($dan_code == '12') {
+        $push_title = "주문 교환 완료";
+        if($total_cnt > 1) {
+          $etc_text = $total_cnt -1;
+          $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 교환 처리가 완료되었습니다.";
+        } else {
+          $push_body = "주문 하신 {$gname} 교환 처리가 완료되었습니다.";
+        }
+     
+    } else if ($dan_code == '17') {
+      $push_title = "주문 환불 완료";
+      if($total_cnt > 1) {
+        $etc_text = $total_cnt -1;
+        $push_body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 환불 처리가 완료되었습니다.";
+      } else {
+        $push_body = "주문 하신 {$gname} 상품 환불 처리가 완료되었습니다.";
+      }
+   
+    } 
+
+    $message = [
+      'token' => $fcm_token, // 수신자의 디바이스 토큰
+      'title' => $push_title,
+      'body' => $push_body
+    ];
+
+    if(!empty($push_title)) {
+      $response = sendFCMMessage($message);
+    }
+
+    
+    // } PUSH _20240709_SY
+    
+
 goto_url(BV_ADMIN_URL."/order.php?code=".$code);
 ?>

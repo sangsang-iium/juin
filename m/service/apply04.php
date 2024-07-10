@@ -44,7 +44,7 @@ if($is_member) {
               <p class="title">성명<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="text" name="c_name" class="frm-input w-per100" required value="<?php echo $mn_name ?>" placeholder="성명를 입력해주세요.">
+              <input type="text" name="c_name" class="frm-input w-per100" required value="<?php echo $mn_name ?>" placeholder="성명를 입력해주세요." >
             </div>
           </div>
           <!-- } row -->
@@ -54,7 +54,7 @@ if($is_member) {
               <p class="title">생년월일</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_birth" class="frm-input w-per100" placeholder="생년월일을 입력해주세요.">
+              <input type="text" name="bc_birth" class="frm-input w-per100" placeholder="생년월일을 입력해주세요." required>
             </div>
           </div>
           <!-- } row -->
@@ -65,9 +65,9 @@ if($is_member) {
             </div>
             <div class="form-body address">
               <label for="reg_mb_zip" class="sound_only">우편번호</label>
-              <input type="tel" name="b_addr_zip" value="<?php echo $mn_zip ?>" id="reg_mb_zip" required="" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" readonly>
+              <input type="tel" name="b_addr_zip" value="<?php echo $mn_zip ?>" id="reg_mb_zip" required="required" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" readonly>
               <button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
-              <input type="text" name="b_addr_1" value="<?php echo $mn_addr1 ?>" id="reg_mb_addr1" required="" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off" readonly>
+              <input type="text" name="b_addr_1" value="<?php echo $mn_addr1 ?>" id="reg_mb_addr1" required="required" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off" readonly>
               <label for="reg_mb_addr1" class="sound_only">기본주소</label>
               <input type="text" name="b_addr_2" value="<?php echo $mn_addr2 ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
               <label for="reg_mb_addr2" class="sound_only">상세주소</label>
@@ -84,9 +84,9 @@ if($is_member) {
             </div>
             <div class="form-body address">
               <label for="reg_mb_zip20" class="sound_only">우편번호</label>
-              <input type="tel" name="b_addr_zip20" value="<?php echo $mn_zip ?>" id="reg_mb_zip20" required="" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" readonly>
+              <input type="tel" name="b_addr_zip20" value="<?php echo $mn_zip ?>" id="reg_mb_zip20" required="required" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" readonly>
               <button type="button" class="ui-btn st3" onclick="execDaumPostcode1()">주소검색</button>
-              <input type="text" name="b_addr_21" value="<?php echo $mn_addr1 ?>" id="reg_mb_addr21" required="" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off" readonly>
+              <input type="text" name="b_addr_21" value="<?php echo $mn_addr1 ?>" id="reg_mb_addr21" required="required" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off" readonly>
               <label for="reg_mb_addr21" class="sound_only">기본주소</label>
               <input type="text" name="b_addr_22" value="<?php echo $mn_addr2 ?>" id="reg_mb_addr22" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
               <label for="reg_mb_addr22" class="sound_only">상세주소</label>
@@ -112,11 +112,11 @@ if($is_member) {
               <p class="title">전화번호</p>
             </div>
             <div class="form-body phone">
-              <input type="text" name="b_tel[]" class="frm-input" value="<?php echo $tele_phone[0] ?>">
+              <input type="text" name="b_tel[]" required class="frm-input" value="<?php echo $tele_phone[0] ?>">
               <span class="hyphen">-</span>
-              <input type="text" name="b_tel[]" class="frm-input" value="<?php echo $tele_phone[1] ?>">
+              <input type="text" name="b_tel[]" required class="frm-input" value="<?php echo $tele_phone[1] ?>">
               <span class="hyphen">-</span>
-              <input type="text" name="b_tel[]" class="frm-input" value="<?php echo $tele_phone[2] ?>">
+              <input type="text" name="b_tel[]" required class="frm-input" value="<?php echo $tele_phone[2] ?>">
             </div>
           </div>
           <!-- } row -->
@@ -163,7 +163,7 @@ if($is_member) {
               <p class="title">은행</p>
             </div>
             <div class="form-body">
-              <input type="text" name="b_bank" class="frm-input w-per100" placeholder="은행명을 입력해주세요.">
+              <input type="text" name="b_bank" required class="frm-input w-per100" placeholder="은행명을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -173,7 +173,7 @@ if($is_member) {
               <p class="title">계좌번호</p>
             </div>
             <div class="form-body">
-              <input type="text" name="b_account_num" class="frm-input w-per100" placeholder="계좌번호를 입력해주세요.">
+              <input type="text" name="b_account_num" required class="frm-input w-per100" placeholder="계좌번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -183,7 +183,7 @@ if($is_member) {
               <p class="title">예금주</p>
             </div>
             <div class="form-body">
-              <input type="text" name="b_account_name" class="frm-input w-per100" placeholder="예금주를 입력해주세요.">
+              <input type="text" name="b_account_name" required class="frm-input w-per100" placeholder="예금주를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -194,7 +194,7 @@ if($is_member) {
               <p class="title">생년월일</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_birth2" class="frm-input w-per100" placeholder="생년월일을 입력해주세요.">
+              <input type="text" name="bc_birth2" required class="frm-input w-per100" placeholder="생년월일을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -204,7 +204,7 @@ if($is_member) {
               <p class="title">회원과의 관계</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_relation" class="frm-input w-per100" placeholder="회원과의 관계를 입력해주세요.">
+              <input type="text" name="bc_relation" required class="frm-input w-per100" placeholder="회원과의 관계를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -214,7 +214,7 @@ if($is_member) {
               <p class="title">카드사</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_card_com" class="frm-input w-per100" placeholder="카드사를 입력해주세요.">
+              <input type="text" name="bc_card_com" required class="frm-input w-per100" placeholder="카드사를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -224,7 +224,7 @@ if($is_member) {
               <p class="title">카드번호</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_card_num" class="frm-input w-per100" placeholder="카드번호를 입력해주세요.">
+              <input type="text" name="bc_card_num" required class="frm-input w-per100" placeholder="카드번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -234,7 +234,7 @@ if($is_member) {
               <p class="title">카드유효기간</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_card_cvc" class="frm-input w-per100" placeholder="카드유효기간을 입력해주세요.">
+              <input type="text" name="bc_card_cvc" required class="frm-input w-per100" placeholder="카드유효기간을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -244,7 +244,7 @@ if($is_member) {
               <p class="title">계약구좌</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_acc" class="frm-input w-per100" placeholder="계약구좌를 입력해주세요.">
+              <input type="text" name="bc_acc" required class="frm-input w-per100" placeholder="계약구좌를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -286,7 +286,7 @@ if($is_member) {
               <p class="title">신청인</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_applicant" class="frm-input w-per100" placeholder="신청인을 입력해주세요.">
+              <input type="text" name="bc_applicant" required class="frm-input w-per100" placeholder="신청인을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -305,6 +305,16 @@ if($is_member) {
             <button id="clear" type="button">지우기</button>
           </div>
           <!-- } row -->
+           <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
+              <p class="title">소개자(직원) 정보<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="b_staff" class="frm-input w-per100" required value="<?php echo $mn_id ?>" placeholder="소개자를 입력해주세요." required>
+            </div>
+          </div>
+          <!-- } row -->
         </div>
       </div>
 
@@ -312,7 +322,7 @@ if($is_member) {
         <div class="joinAgree-row">
           <div class="joinAgree-row-head arcodianBtn">
             <div class="joinAgree-check frm-choice">
-              <input name="b_agree" type="checkbox" value="0" id="b_agree" class="css-checkbox">
+              <input name="b_agree" type="checkbox" value="0" id="b_agree" class="css-checkbox" required>
               <label for="b_agree">개인정보제공 동의</label>
             </div>
           </div>
@@ -332,7 +342,7 @@ if($is_member) {
         <div class="joinAgree-row">
           <div class="joinAgree-row-head arcodianBtn">
             <div class="joinAgree-check frm-choice">
-              <input name="b_agree1" type="checkbox" value="0" id="b_agree1" class="css-checkbox">
+              <input name="b_agree1" type="checkbox" value="0" id="b_agree1" class="css-checkbox" required>
               <label for="b_agree1">계약의 주요내용</label>
             </div>
           </div>
@@ -390,6 +400,20 @@ if($is_member) {
 </div>
 <script src="/js/postcode.v2.js"></script>
 <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const checkboxes = document.querySelectorAll('input[name="b_paymethod"]');
+    const bankInputRow = document.getElementById('bank-input-row');
+
+    checkboxes.forEach(function (checkbox) {
+      checkbox.addEventListener('change', function () {
+        if (checkbox.value === '자동이체' && checkbox.checked) {
+          bankInputRow.classList.remove('hidden');
+        } else if (checkbox.value === '자동이체' && !checkbox.checked) {
+          bankInputRow.classList.add('hidden');
+        }
+      });
+    });
+  });
    document.querySelectorAll('.check-wr').forEach(group => {
     group.addEventListener('change', function(e) {
       if (e.target.classList.contains('single-checkbox')) {
@@ -588,6 +612,29 @@ $(function() {
   });
 
   function apply_service_submit(f) {
+    const groups = document.querySelectorAll('.check-wr');
+    let valid = true;
+
+    groups.forEach(group => {
+      const checkboxes = group.querySelectorAll('.single-checkbox');
+      let isChecked = false;
+
+      checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+          isChecked = true;
+        }
+      });
+
+      if (!isChecked) {
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      alert('선택박스를 선택해주세요.');
+      return false;
+    }
+
     if (signature.isEmpty()) {
       alert("서명이 없습니다.");
       return false;

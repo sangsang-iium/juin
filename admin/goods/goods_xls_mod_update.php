@@ -195,7 +195,7 @@ if ($_FILES['excelfile']['tmp_name']) {
     // $value['simg4']        = $simg4;                   // 중이미지3
     // $value['simg5']        = $simg5;                   // 중이미지4
     // $value['simg6']        = $simg6;                   // 중이미지5
-    $value['memo']         = $memo;                    // 상세설명
+    // $value['memo']         = $memo;                    // 상세설명
     $value['admin_memo']   = $admin_memo;              // 관리자메모
     $value['sgcode']       = $sgcode;                  //가맹점상품코드 _20240315_SY
     $value['update_time']  = BV_TIME_YMDHIS;           //수정일시

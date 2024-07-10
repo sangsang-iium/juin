@@ -992,7 +992,8 @@ $row_card = sql_fetch($sql_card);
                 </ul>
             </div>
             <div class="btn_confirm" class="btn_confirm">
-                <input type="submit" id="order-button" value="주문하기" class="btn_medium btn-buy">
+              <input type="submit" id="order-button" value="주문하기" class="btn_medium btn-buy">
+              <button type="button" id="payment-button" class="btn_medium btn-buy" style="display:none;" >주문하기</button>
             </div>
         </div>
 
@@ -1000,9 +1001,9 @@ $row_card = sql_fetch($sql_card);
     </div>
 
     </form>
-     <div id="btn_confirm2" class="btn_confirm" style="">
+     <!-- <div id="btn_confirm2" class="btn_confirm" style="">
       <button class="button" id="payment-button" class="btn_medium btn-buy" style="margin-top: 30px" disabled>결제하기</button>
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -1410,6 +1411,11 @@ $row_card = sql_fetch($sql_card);
 
         $("#refund_section").show();
 
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
+
+
         <?php if (!$config['company_type']) {?>
           $("#taxsave_section").show();
         <?php }?>
@@ -1429,6 +1435,10 @@ $row_card = sql_fetch($sql_card);
 
         $("#refund_section").hide();
 
+                // 버튼처리
+        $('#order-button').hide();
+        $('#payment-button').show();
+
         break;
       case '신용카드':
         orderButton.disabled = false;
@@ -1437,6 +1447,10 @@ $row_card = sql_fetch($sql_card);
         $("#toss_section").hide();
         $("#refund_section").hide();
         $("#taxsave_section").hide();
+
+                // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
         break;
       case '포인트':
         orderButton.disabled = false;
@@ -1446,6 +1460,10 @@ $row_card = sql_fetch($sql_card);
         calculate_order_price();
 
         $("#refund_section").hide();
+
+                // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
 
         <?php if (!$config['company_type']) {?>
           $("#taxsave_section").hide();

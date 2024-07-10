@@ -11,7 +11,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
 <input type="hidden" name="cert_no" value="">
-<input type="hidden" name="chk_hp" value="">
+<input type="hidden" name="chk_hp" id="chk_hp" value="">
 
 <div id="contents" class="sub-contents userLost passwordLost">
 	<div class="passwordLost-wrap">
@@ -98,42 +98,41 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       });
     <?php } ?>
   });
+
   // 부모 창에서 메시지 수신
-  window.addEventListener("message", function(event) {
-    let nowBtn = document.querySelector('#win_hp_cert');
+  // window.addEventListener("message", function(event) {
+  //   let nowBtn = document.querySelector('#win_hp_cert');
 
-    // const allowedOrigin = "<?php echo $_SERVER['HTTP_HOST']; ?>";
-    // const eventOrigin = event.origin.replace(/^https?:\/\//, ''); // 프로토콜 제거
+  //   // const allowedOrigin = "<?php echo $_SERVER['HTTP_HOST']; ?>";
+  //   // const eventOrigin = event.origin.replace(/^https?:\/\//, ''); // 프로토콜 제거
 
-    // if (eventOrigin !== allowedOrigin) {
-    //     // 도메인을 확인하여 보안 유지
-    //     return;
-    // }
+  //   // if (eventOrigin !== allowedOrigin) {
+  //   //     // 도메인을 확인하여 보안 유지
+  //   //     return;
+  //   // }
 
-    const certData = event.data;
-    console.log("Received data from child:", certData.message);
+  //   const certData = event.data;
+  //   console.log("Received data from child:", certData.message);
 
-    if (certData.message === "인증완료") {
-      // 현재 버튼 숨기기
-      nowBtn.style.display = 'none';
+  //   if (certData.message === "인증완료") {
+     
+  //         const form = document.querySelector('form[name="fregisterform"]');
+  //         form.submit();
+  //   }
+  // });
 
-      // 새로운 submit 버튼 생성
-      const newSubmitBtn = document.createElement('button');
-      newSubmitBtn.textContent = '확인하기';
-      newSubmitBtn.type = 'submit';
-      newSubmitBtn.id = 'btn_submit';  // ID 추가
-      newSubmitBtn.className = 'ui-btn round stBlack';  // Class 추가
 
-      // 새로운 submit 버튼을 본인인증 버튼 위치에 추가
-      const btnContainer = document.querySelector('.cp-btnbar__btns');
-      btnContainer.appendChild(newSubmitBtn);
-
-      // 새로운 submit 버튼 클릭 이벤트 처리
-      newSubmitBtn.addEventListener('click', function() {
-          // 필요한 처리 수행
+// 앱 에서 처리 할 필요 없게 수정 _20240708_SY
+$(function() {
+    setInterval(function() {
+        var chkHpValue = $("#chk_hp").val();
+        if (chkHpValue === "") {
+            console.log("chk_hp의 값이 비어 있습니다.");
+        } else {
           const form = document.querySelector('form[name="fregisterform"]');
           form.submit();
-      });
-    }
-  });
+          return;
+        }
+    }, 1500); // 2초마다 실행
+});
 </script> 

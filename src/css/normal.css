@@ -746,7 +746,7 @@
 #sod_fin .prc-tot.wl330 .lt-txt {width: 13.2rem;}
 #sod_fin .prc-tot.wl330 .rt-txt {width: calc(100% - 13.2rem); text-align: left;}
 
-#sod_fin_cancelfrm {margin: 0; padding: 0; background-color: #fff; position: fixed; z-index: 550; height: auto;}
+#sod_fin_cancelfrm {margin: 0; padding: 0; background-color: #fff; position: fixed; height: auto;}
 #sod_fin_cancelfrm .pop-inner {height: auto; max-height: none;}
 
 /* 상품 상세 리뷰 전체보기 */
@@ -1329,3 +1329,5 @@
 
 .find-wrap {display: flex; gap: 0 20px;}
 .find-wrap2 {font-size: 20px;}
+
+.pop-inner .pop-btm.full-btn-wrap {flex-direction: column; height: auto;}

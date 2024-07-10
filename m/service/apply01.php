@@ -22,7 +22,7 @@ if($is_member) {
 <div id="contents" class="sub-contents">
   <div class="joinDetail-wrap apply-write-wrap">
     <div class="container">
-      <form action="./apply_update.php" method="POST" autocomplete="off" enctype="multipart/form-data" onsubmit="return apply_service_submit(this);">
+      <form action="./apply_update.php" method="POST" autocomplete="off" enctype="multipart/form-data" onsubmit="return apply_service_submit(event);">
       <input type="hidden" name="mb_id" value="<?php echo $member['id']?>">
       <input type="hidden" name="b_type" value="2">
       <div class="joinDetail-box">
@@ -85,7 +85,7 @@ if($is_member) {
               <p class="title">성명</p>
             </div>
             <div class="form-body">
-              <input type="text" name="c_name" class="frm-input w-per100" value="<?php echo $mn_name ?>" placeholder="성명을 입력해주세요.">
+              <input type="text" name="c_name" class="frm-input w-per100" value="<?php echo $mn_name ?>" required placeholder="성명을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -95,7 +95,7 @@ if($is_member) {
               <p class="title">생년월일</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_birth" class="frm-input w-per100" placeholder="생년월일을 입력해주세요.">
+              <input type="text" name="bc_birth" class="frm-input w-per100" required placeholder="생년월일을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -105,7 +105,7 @@ if($is_member) {
               <p class="title">사업자등록번호</p>
             </div>
             <div class="form-body">
-              <input type="text" name="b_num" class="frm-input w-per100" value="<?php echo $mn_num ?>" placeholder="사업자등록번호를 입력해주세요.">
+              <input type="text" name="b_num" class="frm-input w-per100" required value="<?php echo $mn_num ?>" placeholder="사업자등록번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -129,7 +129,7 @@ if($is_member) {
               <p class="title">통화가능시간</p>
             </div>
             <div class="form-body time">
-              <select name="bc_able[]" id="" class="frm-select">
+              <select name="bc_able[]" id="" class="frm-select" required>
                 <option value="">선택</option>
                 <option value="9">9시</option>
                 <option value="10">10시</option>
@@ -143,7 +143,7 @@ if($is_member) {
                 <option value="18">18시</option>
               </select>
               <span class="hyphen">~</span>
-              <select name="bc_able[]" id="" class="frm-select">
+              <select name="bc_able[]" id="" class="frm-select" required>
                 <option value="">선택</option>
                 <option value="9">9시</option>
                 <option value="10">10시</option>
@@ -165,7 +165,7 @@ if($is_member) {
               <p class="title">담당직원</p>
             </div>
             <div class="form-body">
-              <input type="text" name="b_staff" class="frm-input w-per100" value="<?php echo $mn_id ?>" placeholder="담당직원의 사번을 입력하여주세요.">
+              <input type="text" name="b_staff" class="frm-input w-per100" value="<?php echo $mn_id ?>" placeholder="담당직원의 사번을 입력하여주세요." required>
             </div>
           </div>
           <!-- } row -->
@@ -193,7 +193,7 @@ if($is_member) {
       </div>
 
       <div class="apply-write-btn-wr">
-        <button class="ui-btn round stBlack" >신청완료</button>
+        <button type="submit" class="ui-btn round stBlack" >신청완료</button>
       </div>
       </form>
 
@@ -214,8 +214,29 @@ if($is_member) {
       }
     });
   });
-  function apply_service_submit(f) {
+  function apply_service_submit(event) {
+    const groups = document.querySelectorAll('.check-wr');
+    let valid = true;
 
+    groups.forEach(group => {
+      const checkboxes = group.querySelectorAll('.single-checkbox');
+      let isChecked = false;
+
+      checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+          isChecked = true;
+        }
+      });
+
+      if (!isChecked) {
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      alert('선택박스를 선택해주세요.');
+      return false;
+    }
     return true;
   }
 </script>
