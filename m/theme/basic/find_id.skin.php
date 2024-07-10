@@ -102,8 +102,8 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   //   console.log(event.data);
   //   console.log("Received data from child:", certData.message);
     
-  //   // const allowedOrigin = "<?php echo $_SERVER['HTTP_HOST']; ?>";
-  //   // const eventOrigin = event.origin.replace(/^https?:\/\//, ''); // 프로토콜 제거
+  // //   // const allowedOrigin = "<?php //echo $_SERVER['HTTP_HOST']; ?>";
+  // //   // const eventOrigin = event.origin.replace(/^https?:\/\//, ''); // 프로토콜 제거
 
   // //   // if (eventOrigin !== allowedOrigin) {
   // //   //     // 도메인을 확인하여 보안 유지
