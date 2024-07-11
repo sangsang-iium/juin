@@ -1,7 +1,6 @@
 <?php
 include_once('../common.php');
 
-
 if (!$is_member) {
   goto_url(BV_MBBS_URL . '/login.php?url=' . $urlencode);
 }
