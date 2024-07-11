@@ -131,9 +131,9 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 
   $result = display_itemtype($pt_id, $type, $rows);
   for ($i = 0; $row = sql_fetch_array($result); $i++) {
-		// if(!memberGoodsAble($member['addr1'], $row['zone'])){
-		// 	continue;
-		// }
+		if(!memberGoodsAble($member['addr1'], $row['zone'])){
+			continue;
+		}
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
     $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
     $it_name     = get_text($row['gname']);
@@ -215,7 +215,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 			// echo "<div class=\"cp-tag-item\">";
 			// echo "<div class=\"cp-tag tag01\">일반</div>";
 			// echo "</div>";
-		} else if ($row['reg_yn'] == 3) { 
+		} else if ($row['reg_yn'] == 3) {
       // reg_yn == 3 | 렌탈 추가 _20240701_SY
       echo "<div class=\"cp-tag-item\">";
 			echo "<div class=\"cp-tag tag03\">렌탈</div>";
@@ -256,9 +256,9 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 	$result = display_itemtype($pt_id, $type, $rows);
 
 	for($i=0; $row=sql_fetch_array($result); $i++) {
-		// if(!memberGoodsAble($member['addr1'], $row['zone'])){
-		// 	continue;
-		// }
+		if(!memberGoodsAble($member['addr1'], $row['zone'])){
+			continue;
+		}
 		$it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
 		$it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
 		$it_name = get_text($row['gname']);
@@ -293,9 +293,9 @@ function mobile_slide_goods_no($type, $rows, $addclass = '', $size = '') {
   $result = display_itemtype_no($type, $pt_id, $rows);
 
   for ($i = 0; $row = sql_fetch_array($result); $i++) {
-    // if(!memberGoodsAble($member['addr1'], $row['zone'])){
-    // 	continue;
-    // }
+    if(!memberGoodsAble($member['addr1'], $row['zone'])){
+    	continue;
+    }
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
     $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
     $it_name     = get_text($row['gname']);
@@ -1305,7 +1305,7 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 		// echo "<div class=\"cp-tag-item\">";
 		// echo "<div class=\"cp-tag tag01\">일반</div>";
 		// echo "</div>";
-	} else if($row['reg_yn'] == 3) { 
+	} else if($row['reg_yn'] == 3) {
     // reg_yn == 3 | 렌탈 추가 _20240701_SY
     echo "<div class=\"cp-tag-item\">";
 		echo "<div class=\"cp-tag tag03\">렌탈</div>";
@@ -1402,6 +1402,12 @@ function coupon_chk($it_idx){
  * $goodsLoca  전국,,홈푸드||대전,,||서울,,홈푸드||~~~
  *  */
 function memberGoodsAble($memberAddr, $goodsLoca) {
+	global $MEMBER_GOODS_ABLE_CHECK;
+
+	if(!$MEMBER_GOODS_ABLE_CHECK){
+		return true;
+	}
+
   $sections = explode('||', $goodsLoca);
   $res_data = array();
 
