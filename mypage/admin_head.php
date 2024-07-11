@@ -23,6 +23,7 @@ if(is_partner($member['id'])) {
 } else {
 	$admin_shop_url = "/";
 }
+
 ?>
 <!doctype html>
 <html lang="ko">

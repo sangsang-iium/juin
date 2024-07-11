@@ -73,10 +73,10 @@ $pg_anchor = <<<EOF
     <li><a href="#anc_sitfrm_ini">기본정보</a></li>
     <li><a href="#anc_sitfrm_cate">카테고리</a></li>
         <li><a href="#anc_sitfrm_option">옵션정보</a></li>
-        <li><a href="#anc_sitfrm_cost">가격 및 재고</a></li>
+        <li><a href="#anc_sitfrm_cost">가격및재고</a></li>
         <!-- <li><a href="#anc_sitfrm_pay">가맹점수수료</a></li> -->
-        <li><a href="#anc_sitfrm_sendcost">배송비</a></li>
-        <li><a href="#anc_sitfrm_compact">요약정보</a></li>
+        <li><a href="#anc_sitfrm_sendcost">배송정보</a></li>
+        <li><a href="#anc_sitfrm_compact">상품정보</a></li>
         <li><a href="#anc_sitfrm_relation">관련상품</a></li>
         <li><a href="#anc_sitfrm_img">상품이미지</a></li>
     </ul>

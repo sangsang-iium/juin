@@ -58,15 +58,25 @@ if($w == "u" && $bak) {
 }
 $frm_submit .= '</div>';
 
+// 임시저장 _20240711_SY
+// frm_submit1 → frm_submit2로 수정 _20240711_SY
+$frm_submit2 = '<div class="btn_confirm">
+    <input type="submit" value="임시저장" class="btn_large" accesskey="s">';
+if($w == "u" && $bak) {
+    $frm_submit2 .= PHP_EOL.'<a href="./page.php?code='.$bak.$qstr.'&page='.$page.'" class="btn_large bx-white">목록</a>';
+	$frm_submit2 .= '<a href="./page.php?code=seller_goods_form" class="btn_large bx-red">추가</a>'.PHP_EOL;
+}
+$frm_submit2 .= '</div>';
+
 $pg_anchor = <<<EOF
 <div class="tap_box mart20 marb20">
     <ul class="taps type3">
-        <li><a href="#anc_sitfrm_cate">카테고리</a></li>
         <li><a href="#anc_sitfrm_ini">기본정보</a></li>
+        <li><a href="#anc_sitfrm_cate">카테고리</a></li>
         <li><a href="#anc_sitfrm_option">옵션정보</a></li>
-        <li><a href="#anc_sitfrm_cost">가격 및 재고</a></li>
-        <li><a href="#anc_sitfrm_sendcost">배송비</a></li>
-        <li><a href="#anc_sitfrm_compact">요약정보</a></li>
+        <li><a href="#anc_sitfrm_cost">가격및재고</a></li>
+        <li><a href="#anc_sitfrm_sendcost">배송정보</a></li>
+        <li><a href="#anc_sitfrm_compact">상품정보</a></li>
         <li><a href="#anc_sitfrm_relation">관련상품</a></li>
         <li><a href="#anc_sitfrm_img">상품이미지</a></li>
     </ul>
@@ -94,6 +104,11 @@ $income_per = ($supply_price / $goods_price) * 100;
 <input type="hidden" name="ca_id" value="">
 <input type="hidden" name="ca_id2" value="">
 <input type="hidden" name="ca_id3" value="">
+<!-- 추가 _20240711_SY -->
+<input type="hidden" name="in_type" value="">
+<input type="hidden" name="in_per_type" value="">
+<input type="hidden" name="in_price" value="">
+<input type="hidden" name="in_per" value="" >
 
 <style>
 	.icon-plus {
@@ -255,12 +270,13 @@ $income_per = ($supply_price / $goods_price) * 100;
 					<td class="w20p bg1">
 						<?php echo get_category_select_3('sel_ca3', '', ' size="10" class="multiple-select"'); ?>
 					</td>
-					<td class="w20p bg1">
+          <!-- 주석_20240711_SY -->
+					<!-- <td class="w20p bg1">
 						<?php echo get_category_select_4('sel_ca4', '', ' size="10" class="multiple-select"'); ?>
 					</td>
 					<td class="w20p bg1">
 						<?php echo get_category_select_5('sel_ca5', '', ' size="10" class="multiple-select"'); ?>
-					</td>
+					</td> -->
 				</tr>
 				</table>
 			</div>
@@ -294,8 +310,9 @@ $income_per = ($supply_price / $goods_price) * 100;
 			?>
 			</select>
 			<div class="btn_confirm02">
-				<button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'prev');">▲ 위로</button>
-				<button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'next');">▼ 아래로</button>
+        <!-- 주석 _20240711_SY -->
+				<!-- <button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'prev');">▲ 위로</button>
+				<button type="button" class="btn_lsmall bx-white" onclick="category_move('sel_ca_id', 'next');">▼ 아래로</button> -->
 				<button type="button" class="btn_lsmall frm_option_del red">카테고리 삭제</button>
 			</div>
 		</td>
@@ -305,7 +322,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 </div>
 </section>
 
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 
 <section id="anc_sitfrm_ini">
 <h5 class="htag_title marb20 mart65">기본정보</h5>
@@ -378,7 +395,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 		<td><input type="text" name="model" value="<?php echo $gs['model']; ?>" class="frm_input"></td>
 	</tr>
 	<tr>
-		<th scope="row">생산국(원산지)</th>
+		<th scope="row">원산지</th>
 		<td><input type="text" name="origin" value="<?php echo $gs['origin']; ?>" class="frm_input"></td>
 	</tr>
 	<tr>
@@ -397,20 +414,24 @@ $income_per = ($supply_price / $goods_price) * 100;
 	<tr>
 		<th scope="row">판매여부</th>
 		<td class="td_label">
-            <div class="radio_group">
-                <?php echo radio_checked('isopen', $gs['isopen'], '1', '진열'); ?>
-                <?php echo radio_checked('isopen', $gs['isopen'], '2', '품절'); ?>
-                <?php echo radio_checked('isopen', $gs['isopen'], '3', '단종'); ?>
-                <?php echo radio_checked('isopen', $gs['isopen'], '4', '중지'); ?>
+      <div class="radio_group">
+              <!-- 단종 주석 및 다른 값 명칭 변경  _20240711_SY -->
+                <?php echo radio_checked('isopen', $gs['isopen'], '1', '공급가능'); ?>
+                <?php echo radio_checked('isopen', $gs['isopen'], '2', '일시중단'); ?>
+                <?php //echo radio_checked('isopen', $gs['isopen'], '3', '단종'); ?>
+                <?php echo radio_checked('isopen', $gs['isopen'], '4', '공급중단'); ?>
             </div>
 		</td>
 	</tr>
 		<tr>
-		<th scope="row">일반/정기배송 구분</th>
+		<!-- <th scope="row">일반/정기배송 구분</th> -->
+    <th scope="row">유형</th>
 		<td class="td_label" colspan="3">
 			<div class="radio_group">
 				<?php echo radio_checked('reg_yn', $gs['reg_yn'], '2', '일반배송'); ?>
 				<?php echo radio_checked('reg_yn', $gs['reg_yn'], '1', '정기배송'); ?>
+        <!-- reg_yn == 3 | 렌탈 추가 _20240711_SY -->
+        <?php echo radio_checked('reg_yn', $gs['reg_yn'], '3', '렌탈'); ?>
 			</div>
 		</td>
 	</tr>
@@ -419,7 +440,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 </div>
 </section>
 
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 
 <section id="anc_sitfrm_option">
 <h5 class="htag_title marb20 mart65">옵션정보</h5>
@@ -834,7 +855,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 </div>
 </section>
 
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 
 <section id="anc_sitfrm_cost">
 <h5 class="htag_title marb20 mart65">가격 및 재고</h5>
@@ -1119,10 +1140,10 @@ $income_per = ($supply_price / $goods_price) * 100;
 
 </script>
 
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 
 <section id="anc_sitfrm_sendcost">
-<h5 class="htag_title marb20 mart65">배송비</h5>
+<h5 class="htag_title marb20 mart65">배송정보</h5>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p>※ <span>참고사항) : 고객이 동일 판매자의 상품을 복수 구매시 배송비는 단 한번만 부과 됩니다. 단! 배송비는 가장 큰값을 산출하여 적용 됩니다.</span></p>
@@ -1217,7 +1238,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 </div>
 </section>
 
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 <style>
 	.area_zone ul {
 		display: flex;
@@ -1242,7 +1263,7 @@ $income_per = ($supply_price / $goods_price) * 100;
 </style>
 
 <section id="anc_sitfrm_compact">
-<h5 class="htag_title marb20 mart65">요약정보</h5>
+<h5 class="htag_title marb20 mart65">상품정보 제공고시</h5>
 <?php echo $pg_anchor; ?>
 <div class="local_desc02 local_desc">
 	<p><strong>전자상거래 등에서의 상품 등의 정보제공에 관한 고시</strong>에 따라 총 35개 상품군에 대해 상품 특성 등을 양식에 따라 입력할 수 있습니다.</p>
@@ -1261,7 +1282,7 @@ $income_per = ($supply_price / $goods_price) * 100;
                 <select name="info_gubun" id="info_gubun">
                     <option value="">상품군 카테고리 선택</option>
                     <?php
-                    if(!$gs['info_gubun']) $gs['info_gubun'] = 'wear';
+                    if(!$gs['info_gubun']) $gs['info_gubun'] = 'food';
                     foreach($item_info as $key=>$value) {
                         $opt_value = $key;
                         $opt_text  = $value['title'];
@@ -1330,7 +1351,7 @@ $(function(){
 </div>
 </section>
 
-<?php echo $frm_submit; ?>
+<?php echo $frm_submit2; ?>
 
 <section id="anc_sitfrm_relation" style="display:none">
 <h5 class="htag_title marb20 mart65">관련상품</h5>
