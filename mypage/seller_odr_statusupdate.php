@@ -114,8 +114,6 @@ if($od_sms_baesong_check) {
   
     $response = sendFCMMessage($message);
     
-    log_write("공급사 PUSH : " . $response . ";" . $body);
-  
     // } PUSH _20240711_SY
 }
 
@@ -161,8 +159,6 @@ if($od_sms_delivered_check) {
   ];
 
   $response = sendFCMMessage($message);
-  
-  log_write("공급사 PUSH : " . $response . ";" . $body);
 
   // } PUSH _20240711_SY
 }
@@ -286,8 +282,6 @@ if($od_sms_cancel_check) {
   
     $response = sendFCMMessage($message);
 
-    log_write("공급사 PUSH : " . $response . ";" . $body);
-  
   // } PUSH _20240711_SY
 }
 //------------------------------------------------------------------------------
@@ -503,9 +497,6 @@ if($od_cancel_change) {
 
     $response = sendFCMMessage($message);
 
-    log_write("공급사 PUSH : " . $response . ";" . $body);
-
-
   // } PUSH _20240711_SY
 }
 
@@ -554,9 +545,6 @@ if($od_replace_change) {
   ];
 
   $response = sendFCMMessage($message);
-
-  log_write("공급사 PUSH : " . $response . ";" . $body);
-
 
 // } PUSH _20240709_SY
 }

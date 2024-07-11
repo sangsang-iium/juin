@@ -1,9 +1,6 @@
 <?php // 래플응모 푸시 크론탭 _20240711_SY
 include_once "/home/juin/www/common.php";
 
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-
 $now = date('Y-m-d H:i');
 
 /*
@@ -33,8 +30,6 @@ for($e=0; $raf_end_row = sql_fetch_array($raf_end_res); $e++) {
     ];
   
     $response = sendFCMMessage($message);
-
-    log_write("PUSH : " . $response . ";" . $body);
   }
 }
 
@@ -68,8 +63,6 @@ for($p=0; $raf_prize_row = sql_fetch_array($raf_prize_res); $p++) {
     
       $response = sendFCMMessage($message);
 
-      log_write("PUSH : " . $response . ";" . $body);
-
     } else if($prize_mem_row['prize'] == 'Y') {
 
       $fcm_token = $prize_mem_row['fcm_token'];
@@ -81,8 +74,6 @@ for($p=0; $raf_prize_row = sql_fetch_array($raf_prize_res); $p++) {
       ];
     
       $response = sendFCMMessage($message);
-
-      log_write("PUSH : " . $response . ";" . $body);
     }
   }
 
