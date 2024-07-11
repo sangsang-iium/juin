@@ -341,6 +341,7 @@ if($code==8){ //배송후 교환처리
 
     if(!empty($push_title)) {
       $response = sendFCMMessage($message);
+      log_write("PUSH : " . $response . ";" . $push_body);
     }
 
     
