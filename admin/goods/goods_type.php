@@ -247,11 +247,12 @@ EOF;
 		<th scope="col" rowspan="2">판매가</th>
 	</tr>
 	<tr class="rows">
-		<th scope="col" class="th_bg"><input type="checkbox" name="chkall1" value="1" onclick="check_all1(this.form);"></th>
+    <!-- 순서 변경 _20240711_SY -->
 		<th scope="col" class="th_bg"><input type="checkbox" name="chkall2" value="1" onclick="check_all2(this.form);"></th>
-		<th scope="col" class="th_bg"><input type="checkbox" name="chkall3" value="1" onclick="check_all3(this.form);"></th>
-		<th scope="col" class="th_bg"><input type="checkbox" name="chkall4" value="1" onclick="check_all4(this.form);"></th>
 		<th scope="col" class="th_bg"><input type="checkbox" name="chkall5" value="1" onclick="check_all5(this.form);"></th>
+		<th scope="col" class="th_bg"><input type="checkbox" name="chkall4" value="1" onclick="check_all4(this.form);"></th>
+		<th scope="col" class="th_bg"><input type="checkbox" name="chkall1" value="1" onclick="check_all1(this.form);"></th>
+		<th scope="col" class="th_bg"><input type="checkbox" name="chkall3" value="1" onclick="check_all3(this.form);"></th>
 	</tr>
 	</thead>
 	<?php
