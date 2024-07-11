@@ -32,9 +32,9 @@ $sqlCnt = " select * $sql_common $sql_order";
 $resCnt = sql_query($sqlCnt);
 $total_count = 0;
 while($rowCntData = sql_fetch_array($resCnt)){
-	// if(!memberGoodsAble($member['addr1'], $rowCntData['zone'])){
-	// 	continue;
-	// }
+	if(!memberGoodsAble($member['addr1'], $rowCntData['zone'])){
+		continue;
+	}
 	$total_count++;
 }
 
