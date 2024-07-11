@@ -117,7 +117,7 @@ else if($_POST['act_button'] == "배송완료")
 		icode_order_sms_send($q['pt_id'], $recv, $key, 6);
 	}
 
-  // PUSH _20240708_SY {
+  // PUSH _20240711_SY {
   $post_cnt = count($_POST['chk']);
 
   foreach($_POST['od_id'] as $key => $val) {
@@ -161,7 +161,7 @@ else if($_POST['act_button'] == "배송완료")
     log_write("공급사 PUSH : " . $response . ";" . $body);
 
   }
-  // } PUSH _20240708_SY
+  // } PUSH _20240711_SY
 }
 else if($_POST['act_button'] == "운송장번호수정")
 {
