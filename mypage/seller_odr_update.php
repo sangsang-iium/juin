@@ -87,8 +87,6 @@ else if($_POST['act_button'] == "배송중")
     ];
 
     $response = sendFCMMessage($message);
-
-    log_write("공급사 PUSH : " . $response . ";" . $body);
     
   }
   // } PUSH _20240711_SY
@@ -157,8 +155,6 @@ else if($_POST['act_button'] == "배송완료")
     ];
 
     $response = sendFCMMessage($message);
-
-    log_write("공급사 PUSH : " . $response . ";" . $body);
 
   }
   // } PUSH _20240711_SY

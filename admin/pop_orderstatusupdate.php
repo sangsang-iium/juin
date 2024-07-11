@@ -708,8 +708,6 @@ if($od_replace_change) {
 
   $response = sendFCMMessage($message);
 
-  log_write("PUSH : " . $response . ";" . $body);
-
 
 // } PUSH _20240709_SY
 }
