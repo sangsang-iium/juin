@@ -10,7 +10,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 				<p>사장이 왕이되는 온라인 플랫폼</p>
 			</div>
 			<div class="joinType-body">
-				<a href="<?php echo BV_MBBS_URL; ?>/register.php?type=1" class="ui-btn stBlack business-icon" style="padding: 5.3rem 0;"> 
+				<a href="<?php echo BV_MBBS_URL; ?>/register.php?type=1" class="ui-btn st1 business-icon" style="padding: 5.3rem 0;"> 
 					<img src="/src/img/icon-home.png" alt="중앙회 아이콘">
 					<p class="joinType-text1">한국외식업중앙회 회원가입</p>
 					<!-- <p class="joinType-text2">외식가족공제회 회원 전용</p> -->
