@@ -2,6 +2,8 @@
 if (!defined('_BLUEVATION_')) {
   exit;
 }
+// true, false   로 온오프 ( 본인 지역에 따른 노출 상품 true는 지역 상품 노출, false는 다 노출 )
+$MEMBER_GOODS_ABLE_CHECK = true;
 // 개별 페이지 접근 불가
 class CallApi {
 
@@ -491,6 +493,8 @@ $BANKS = array(
   "07" => array("bank" => "Sh수협은행", "code" => "07", "en" => "SUHYEOP"),
 );
 
+
+
 function log_write($str) {
   $log_dir = $_SERVER["DOCUMENT_ROOT"] . '/data/log';
   if (!is_dir($log_dir)) {
@@ -616,7 +620,7 @@ function sendFCMMessage($message) {
   // $projectId = $default['de_fcm_projectID'];
 
   $serviceAccountPath = '/home/juin/www/google_server_key.json';
-  
+
   // 현재 시간
   $now = time();
   // 서비스 계정 키 읽기
