@@ -115,6 +115,10 @@ for ($i = 0; $i < $chk_count; $i++) {
       }
 
       change_order_status_8($od_no);
+
+      // replace 추가 _20240711_SY
+      $od_replace_change++;
+
       break;
 
     case '10': // 반품 -> 반품완료 
@@ -192,10 +196,10 @@ if ($od_sms_baesong_check) {
   icode_order_sms_send($pt_id, $od_hp, $od_id, 4);
 
   // PUSH _20240708_SY {
-  $od = get_order($od_no);
+  $push_od = get_order($od_no);
   $post_cnt = count($_POST['chk']);
 
-  $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od['od_id']}' AND dan = '4'";
+  $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$push_od['od_id']}' AND dan = '4'";
   $od_count_row = sql_fetch($od_count_sel);
   $sql_cnt = $od_count_row['cnt'];
   if($post_cnt == $sql_cnt) {
@@ -204,7 +208,7 @@ if ($od_sms_baesong_check) {
     $total_cnt = (int)$sql_cnt - (int)$post_cnt;
   }
 
-  $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$od['mb_id']}' ";
+  $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
   $token_row = sql_fetch($token_sel);
   $fcm_token = $token_row['fcm_token'];
 
@@ -213,7 +217,7 @@ if ($od_sms_baesong_check) {
     $push_od = get_order($_POST['od_no'][$k]);
   }
   
-  $gs = unserialize($od['od_goods']);
+  $gs = unserialize($push_od['od_goods']);
   $gname = $gs['gname'];
 
   if($total_cnt > 1) {
@@ -239,10 +243,10 @@ if ($od_sms_delivered_check) {
   icode_order_sms_send($pt_id, $od_hp, $od_id, 6);
 
   // PUSH _20240708_SY {
-  $od = get_order($od_no);
+  $push_od = get_order($od_no);
   $post_cnt = count($_POST['chk']);
 
-  $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od['od_id']}' AND dan ='5' ";
+  $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$push_od['od_id']}' AND dan ='5' ";
   $od_count_row = sql_fetch($od_count_sel);
   $sql_cnt = $od_count_row['cnt'];
   if($post_cnt == $sql_cnt) {
@@ -251,7 +255,7 @@ if ($od_sms_delivered_check) {
     $total_cnt = (int)$sql_cnt - (int)$post_cnt;
   }
 
-  $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$od['mb_id']}' ";
+  $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
   $token_row = sql_fetch($token_sel);
   $fcm_token = $token_row['fcm_token'];
 
@@ -260,7 +264,7 @@ if ($od_sms_delivered_check) {
     $push_od = get_order($_POST['od_no'][$k]);
   }
   
-  $gs = unserialize($od['od_goods']);
+  $gs = unserialize($push_od['od_goods']);
   $gname = $gs['gname'];
 
   if($total_cnt > 1) {
@@ -657,6 +661,57 @@ if ($od_cancel_change) {
 
 
   // } PUSH _20240709_SY
+}
+
+// 교환 _20240711_SY
+if($od_replace_change) {
+
+  // PUSH _20240711_SY {
+
+  $push_od = get_order($od_id);
+  $post_cnt = count($_POST['chk']);
+
+
+  $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order WHERE od_id = '{$od_id}' AND dan = '8' ";
+  $od_count_row = sql_fetch($od_count_sel);
+  $sql_cnt = $od_count_row['cnt'];
+  if($post_cnt == $sql_cnt) {
+    $total_cnt = $post_cnt;
+  } else {
+    $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+  }
+
+  $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+  $token_row = sql_fetch($token_sel);
+  $fcm_token = $token_row['fcm_token'];
+
+  if($total_cnt == 1 ) {
+    $k			 = $_POST['chk'][0];
+    $push_od = get_order($_POST['od_no'][$k]);
+  }
+
+  $gs = unserialize($push_od['od_goods']);
+  $gname = $gs['gname'];
+  
+  if($total_cnt > 1) {
+    $etc_text = $total_cnt -1;
+    $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 교환 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+  } else {
+    $body = "주문 하신 {$gname} 상품 교환 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+  };
+  
+  $message = [
+    'token' => $fcm_token, // 수신자의 디바이스 토큰
+    'title' => '주문 교환 요청',
+    'body' => $body
+  ];
+
+  $response = sendFCMMessage($message);
+
+  log_write("공급사 PUSH : " . $response . ";" . $body);
+
+
+// } PUSH _20240709_SY
 }
 
 
