@@ -708,7 +708,7 @@ if($od_replace_change) {
 
   $response = sendFCMMessage($message);
 
-  log_write("공급사 PUSH : " . $response . ";" . $body);
+  log_write("PUSH : " . $response . ";" . $body);
 
 
 // } PUSH _20240709_SY
