@@ -25,6 +25,11 @@ if($is_member) {
   $tele_phone = explode("-", $mn_row['telephone']);
 }
 ?>
+<style>
+  .hiddenDiv {
+    display: none;
+  }
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
 <div id="contents" class="sub-contents">
   <div class="joinDetail-wrap apply-write-wrap">
@@ -158,7 +163,7 @@ if($is_member) {
             <p class="joinDetail-title center">납부자 정보</p>
           </div>
           <!-- row { -->
-          <div class="form-row">
+          <div class="form-row hiddenDiv" id="auto-bank-row">
             <div class="form-head">
               <p class="title">은행</p>
             </div>
@@ -168,7 +173,7 @@ if($is_member) {
           </div>
           <!-- } row -->
           <!-- row { -->
-          <div class="form-row">
+          <div class="form-row hiddenDiv" id="auto-acc-row">
             <div class="form-head">
               <p class="title">계좌번호</p>
             </div>
@@ -178,7 +183,7 @@ if($is_member) {
           </div>
           <!-- } row -->
           <!-- row { -->
-          <div class="form-row">
+          <div class="form-row hiddenDiv" id="auto-bankname-row">
             <div class="form-head">
               <p class="title">예금주</p>
             </div>
@@ -189,6 +194,37 @@ if($is_member) {
           <!-- } row -->
 
                     <!-- row { -->
+          <div class="form-row hiddenDiv" id="card-row">
+            <div class="form-head">
+              <p class="title">카드사</p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="bc_card_com" required class="frm-input w-per100" placeholder="카드사를 입력해주세요.">
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row hiddenDiv" id="card-num-row">
+            <div class="form-head">
+              <p class="title">카드번호</p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="bc_card_num" required class="frm-input w-per100" placeholder="카드번호를 입력해주세요.">
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row hiddenDiv" id="card-date-row">
+            <div class="form-head">
+              <p class="title">카드유효기간</p>
+            </div>
+            <div class="form-body">
+              <input type="text" name="bc_card_cvc" required class="frm-input w-per100" placeholder="카드유효기간을 입력해주세요.">
+            </div>
+          </div>
+          <!-- } row -->
+
+          <!-- row { -->
           <div class="form-row">
             <div class="form-head">
               <p class="title">생년월일</p>
@@ -208,36 +244,7 @@ if($is_member) {
             </div>
           </div>
           <!-- } row -->
-          <!-- row { -->
-          <div class="form-row">
-            <div class="form-head">
-              <p class="title">카드사</p>
-            </div>
-            <div class="form-body">
-              <input type="text" name="bc_card_com" required class="frm-input w-per100" placeholder="카드사를 입력해주세요.">
-            </div>
-          </div>
-          <!-- } row -->
-          <!-- row { -->
-          <div class="form-row">
-            <div class="form-head">
-              <p class="title">카드번호</p>
-            </div>
-            <div class="form-body">
-              <input type="text" name="bc_card_num" required class="frm-input w-per100" placeholder="카드번호를 입력해주세요.">
-            </div>
-          </div>
-          <!-- } row -->
-          <!-- row { -->
-          <div class="form-row">
-            <div class="form-head">
-              <p class="title">카드유효기간</p>
-            </div>
-            <div class="form-body">
-              <input type="text" name="bc_card_cvc" required class="frm-input w-per100" placeholder="카드유효기간을 입력해주세요.">
-            </div>
-          </div>
-          <!-- } row -->
+
           <!-- row { -->
           <div class="form-row">
             <div class="form-head">
@@ -402,14 +409,30 @@ if($is_member) {
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const checkboxes = document.querySelectorAll('input[name="b_paymethod"]');
-    const bankInputRow = document.getElementById('bank-input-row');
+    const autoBankRow = document.getElementById('auto-bank-row');
+    const autoAccRow = document.getElementById('auto-acc-row');
+    const autoNameRow = document.getElementById('auto-bankname-row');
+
+    const cardRow = document.getElementById('card-row');
+    const cardNumRow = document.getElementById('card-num-row');
+    const cardDateRow = document.getElementById('card-date-row');
 
     checkboxes.forEach(function (checkbox) {
       checkbox.addEventListener('change', function () {
         if (checkbox.value === '자동이체' && checkbox.checked) {
-          bankInputRow.classList.remove('hidden');
-        } else if (checkbox.value === '자동이체' && !checkbox.checked) {
-          bankInputRow.classList.add('hidden');
+          autoBankRow.classList.remove('hiddenDiv');
+          autoAccRow.classList.remove('hiddenDiv');
+          autoNameRow.classList.remove('hiddenDiv');
+          cardRow.classList.add('hiddenDiv');
+          cardNumRow.classList.add('hiddenDiv');
+          cardDateRow.classList.add('hiddenDiv');
+        } else if (checkbox.value === '카드결제' && checkbox.checked) {
+          autoBankRow.classList.add('hiddenDiv');
+          autoAccRow.classList.add('hiddenDiv');
+          autoNameRow.classList.add('hiddenDiv');
+          cardRow.classList.remove('hiddenDiv');
+          cardNumRow.classList.remove('hiddenDiv');
+          cardDateRow.classList.remove('hiddenDiv');
         }
       });
     });

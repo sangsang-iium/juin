@@ -59,14 +59,17 @@ switch ($b_type) {
     $db_input['b_tel']          = $b_tel;
     $db_input['b_phone']        = $b_phone;
     $db_input['b_paymethod']    = $b_paymethod;
-    $db_input['b_bank']         = $b_bank;
-    $db_input['b_account_num']  = preg_replace('/[^0-9]/', '', $b_account_num);
-    $db_input['b_account_name'] = $b_account_name;
+    if($b_paymethod == '자동이체'){
+      $db_input['b_bank']         = $b_bank;
+      $db_input['b_account_num']  = preg_replace('/[^0-9]/', '', $b_account_num);
+      $db_input['b_account_name'] = $b_account_name;
+    } else {
+      $db_input['bc_card_com']    = $bc_card_com;
+      $db_input['bc_card_num']    = preg_replace('/[^0-9]/', '', $bc_card_num);
+      $db_input['bc_card_cvc']    = $bc_card_cvc;
+    }
     $db_input['bc_birth2']      = preg_replace('/[^0-9]/', '', $bc_birth2);
     $db_input['bc_relation']    = $bc_relation;
-    $db_input['bc_card_com']    = $bc_card_com;
-    $db_input['bc_card_num']    = preg_replace('/[^0-9]/', '', $bc_card_num);
-    $db_input['bc_card_cvc']    = $bc_card_cvc;
     $db_input['bc_acc']         = $bc_acc;
     $db_input['bc_acc_date']    = $bc_acc_date;
     $db_input['bc_applicant']   = $bc_applicant;
