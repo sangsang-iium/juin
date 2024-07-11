@@ -69,14 +69,225 @@ for($i=0; $i<$chk_count; $i++)
 //==============================================================================
 // 문자전송
 //------------------------------------------------------------------------------
-if($od_sms_baesong_check)
+if($od_sms_baesong_check) {
 	icode_order_sms_send($pt_id, $od_hp, $od_id, 4); // 배송중 문자
 
-if($od_sms_delivered_check)
+  // PUSH _20240711_SY {
+    $push_od = get_order($od_no);
+    $post_cnt = count($_POST['chk']);
+  
+    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$push_od['od_id']}' AND dan = '4'";
+    $od_count_row = sql_fetch($od_count_sel);
+    $sql_cnt = $od_count_row['cnt'];
+    if($post_cnt == $sql_cnt) {
+      $total_cnt = $post_cnt;
+    } else {
+      $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+    }
+  
+    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+    $token_row = sql_fetch($token_sel);
+    $fcm_token = $token_row['fcm_token'];
+  
+    if($total_cnt == 1 ) {
+      $k			 = $_POST['chk'][0];
+      $push_od = get_order($_POST['od_no'][$k]);
+    }
+    
+    $gs = unserialize($push_od['od_goods']);
+    $gname = $gs['gname'];
+  
+    if($total_cnt > 1) {
+      $etc_text = $total_cnt -1;
+      $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 배송이 시작되었습니다. 영업일 기준 1~3 배송일이 소요될 수 있습니다.";
+    } else {
+      $body = "주문 하신 {$gname} 상품 배송이 시작되었습니다. 영업일 기준 1~3 배송일이 소요될 수 있습니다.";
+    };
+    
+    $message = [
+      'token' => $fcm_token, // 수신자의 디바이스 토큰
+      'title' => '배송중',
+      'body' => $body
+    ];
+  
+    $response = sendFCMMessage($message);
+    
+    log_write("공급사 PUSH : " . $response . ";" . $body);
+  
+    // } PUSH _20240711_SY
+}
+
+if($od_sms_delivered_check) {
 	icode_order_sms_send($pt_id, $od_hp, $od_id, 6); // 배송완료 문자
 
-if($od_sms_cancel_check)
+  // PUSH _20240711_SY {
+  $push_od = get_order($od_no);
+  $post_cnt = count($_POST['chk']);
+
+  $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$push_od['od_id']}' AND dan ='5' ";
+  $od_count_row = sql_fetch($od_count_sel);
+  $sql_cnt = $od_count_row['cnt'];
+  if($post_cnt == $sql_cnt) {
+    $total_cnt = $post_cnt;
+  } else {
+    $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+  }
+
+  $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+  $token_row = sql_fetch($token_sel);
+  $fcm_token = $token_row['fcm_token'];
+
+  if($total_cnt == 1 ) {
+    $k			 = $_POST['chk'][0];
+    $push_od = get_order($_POST['od_no'][$k]);
+  }
+  
+  $gs = unserialize($push_od['od_goods']);
+  $gname = $gs['gname'];
+
+  if($total_cnt > 1) {
+    $etc_text = $total_cnt -1;
+    $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 배송이 완료되었습니다.";
+  } else {
+    $body = "주문 하신 {$gname} 상품 배송이 완료되었습니다.";
+  };
+  
+  $message = [
+    'token' => $fcm_token, // 수신자의 디바이스 토큰
+    'title' => '배송 완료',
+    'body' => $body
+  ];
+
+  $response = sendFCMMessage($message);
+  
+  log_write("공급사 PUSH : " . $response . ";" . $body);
+
+  // } PUSH _20240711_SY
+}
+
+if($od_sms_cancel_check) {
 	icode_order_sms_send($pt_id, $od_hp, $od_id, 5); // 주문취소 문자
+
+  // PUSH _20240708_SY {
+    $push_od = get_order($od_id);
+    $post_cnt = count($_POST['chk']);
+  
+    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order WHERE od_id = '{$od_id}' AND dan = '9' ";
+    $od_count_row = sql_fetch($od_count_sel);
+    $sql_cnt = $od_count_row['cnt'];
+    if($post_cnt == $sql_cnt) {
+      $total_cnt = $post_cnt;
+    } else {
+      $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+    }
+  
+    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+    $token_row = sql_fetch($token_sel);
+    $fcm_token = $token_row['fcm_token'];
+    
+    if($total_cnt == 1 ) {
+      $k			 = $_POST['chk'][0];
+      $push_od = get_order($_POST['od_no'][$k]);
+    }
+  
+    $gs = unserialize($push_od['od_goods']);
+    $gname = $gs['gname'];
+  
+    
+    if($total_cnt > 1) {
+      $etc_text = $total_cnt -1;
+      $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 환불 요청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+    } else {
+      $body = "주문 하신 {$gname} 상품 환불 요청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+    };
+    
+    $message = [
+      'token' => $fcm_token, // 수신자의 디바이스 토큰
+      'title' => '주문 환불 요청',
+      'body' => $body
+    ];
+  
+    if($_POST['act_button'] == '주문취소') {
+      
+      $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order WHERE od_id = '{$od_id}' AND dan = '6' ";
+      $od_count_row = sql_fetch($od_count_sel);
+      $sql_cnt = $od_count_row['cnt'];
+      if($post_cnt == $sql_cnt) {
+        $total_cnt = $post_cnt;
+      } else {
+        $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+      }
+  
+      $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+      $token_row = sql_fetch($token_sel);
+      $fcm_token = $token_row['fcm_token'];
+  
+      if($total_cnt == 1 ) {
+        $k			 = $_POST['chk'][0];
+        $push_od = get_order($_POST['od_no'][$k]);
+      }
+      
+      $gs = unserialize($od['od_goods']);
+      $gname = $gs['gname'];
+  
+      if($total_cnt > 1) {
+        $etc_text = $total_cnt -1;
+        $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 주문이 정상적으로 취소되었습니다.";
+      } else {
+        $body = "주문 하신 {$gname} 상품 주문이 정상적으로 취소되었습니다.";
+      };
+      
+      $message = [
+        'token' => $fcm_token, // 수신자의 디바이스 토큰
+        'title' => '주문 취소',
+        'body' => $body
+      ];
+  
+    }
+  
+    if ($_POST['act_button'] == '취소완료') {
+      $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order WHERE od_id = '{$od_id}' AND dan = '17' ";
+      $od_count_row = sql_fetch($od_count_sel);
+      $sql_cnt = $od_count_row['cnt'];
+      if($post_cnt == $sql_cnt) {
+        $total_cnt = $post_cnt;
+      } else {
+        $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+      }
+  
+      $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+      $token_row = sql_fetch($token_sel);
+      $fcm_token = $token_row['fcm_token'];
+  
+      if($total_cnt == 1 ) {
+        $k			 = $_POST['chk'][0];
+        $push_od = get_order($_POST['od_no'][$k]);
+      }
+  
+      $gs = unserialize($od['od_goods']);
+      $gname = $gs['gname'];
+      
+      if($total_cnt > 1) {
+        $etc_text = $total_cnt -1;
+        $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 환불 처리가 완료되었습니다.";
+      } else {
+        $body = "주문 하신 {$gname} 상품 환불 처리가 완료되었습니다.";
+      };
+      
+      $message = [
+        'token' => $fcm_token, // 수신자의 디바이스 토큰
+        'title' => '주문 환불 완료',
+        'body' => $body
+      ];
+  
+    }
+  
+    $response = sendFCMMessage($message);
+
+    log_write("공급사 PUSH : " . $response . ";" . $body);
+  
+  // } PUSH _20240708_SY
+}
 //------------------------------------------------------------------------------
 
 // 상품 모두 취소일 경우 주문상태 변경
@@ -245,6 +456,55 @@ if($od_cancel_change) {
 		// 관리자 주문취소 로그
 		$mod_history = BV_TIME_YMDHIS.' '.$member['id'].' 주문취소 처리'.$pg_cancel_log."\n";
     }
+
+
+    
+  // PUSH _20240709_SY {
+
+    $push_od = get_order($od_id);
+    $post_cnt = count($_POST['chk']);
+
+
+    $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order WHERE od_id = '{$od_id}' AND dan = '7' ";
+    $od_count_row = sql_fetch($od_count_sel);
+    $sql_cnt = $od_count_row['cnt'];
+    if($post_cnt == $sql_cnt) {
+      $total_cnt = $post_cnt;
+    } else {
+      $total_cnt = (int)$sql_cnt - (int)$post_cnt;
+    }
+
+    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
+    $token_row = sql_fetch($token_sel);
+    $fcm_token = $token_row['fcm_token'];
+
+    if($total_cnt == 1 ) {
+      $k			 = $_POST['chk'][0];
+      $push_od = get_order($_POST['od_no'][$k]);
+    }
+
+    $gs = unserialize($push_od['od_goods']);
+    $gname = $gs['gname'];
+    
+    if($total_cnt > 1) {
+      $etc_text = $total_cnt -1;
+      $body = "주문 하신 {$gname} 상품 외 {$etc_text}개 상품 반품 요청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+    } else {
+      $body = "주문 하신 {$gname} 상품 반품 요청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
+    };
+    
+    $message = [
+      'token' => $fcm_token, // 수신자의 디바이스 토큰
+      'title' => '주문 반품 요청',
+      'body' => $body
+    ];
+
+    $response = sendFCMMessage($message);
+
+    log_write("공급사 PUSH : " . $response . ";" . $body);
+
+
+  // } PUSH _20240709_SY
 }
 
 if($mod_history) { // 주문변경 히스토리 기록

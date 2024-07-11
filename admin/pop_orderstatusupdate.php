@@ -192,10 +192,10 @@ if ($od_sms_baesong_check) {
   icode_order_sms_send($pt_id, $od_hp, $od_id, 4);
 
   // PUSH _20240708_SY {
-  $od = get_order($od_no);
+  $push_od = get_order($od_no);
   $post_cnt = count($_POST['chk']);
 
-  $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od['od_id']}' AND dan = '4'";
+  $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$push_od['od_id']}' AND dan = '4'";
   $od_count_row = sql_fetch($od_count_sel);
   $sql_cnt = $od_count_row['cnt'];
   if($post_cnt == $sql_cnt) {
@@ -204,7 +204,7 @@ if ($od_sms_baesong_check) {
     $total_cnt = (int)$sql_cnt - (int)$post_cnt;
   }
 
-  $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$od['mb_id']}' ";
+  $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
   $token_row = sql_fetch($token_sel);
   $fcm_token = $token_row['fcm_token'];
 
@@ -213,7 +213,7 @@ if ($od_sms_baesong_check) {
     $push_od = get_order($_POST['od_no'][$k]);
   }
   
-  $gs = unserialize($od['od_goods']);
+  $gs = unserialize($push_od['od_goods']);
   $gname = $gs['gname'];
 
   if($total_cnt > 1) {
@@ -239,10 +239,10 @@ if ($od_sms_delivered_check) {
   icode_order_sms_send($pt_id, $od_hp, $od_id, 6);
 
   // PUSH _20240708_SY {
-  $od = get_order($od_no);
+  $push_od = get_order($od_no);
   $post_cnt = count($_POST['chk']);
 
-  $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$od['od_id']}' AND dan ='5' ";
+  $od_count_sel = "SELECT COUNT(*) AS cnt FROM shop_order where od_id = '{$push_od['od_id']}' AND dan ='5' ";
   $od_count_row = sql_fetch($od_count_sel);
   $sql_cnt = $od_count_row['cnt'];
   if($post_cnt == $sql_cnt) {
@@ -251,7 +251,7 @@ if ($od_sms_delivered_check) {
     $total_cnt = (int)$sql_cnt - (int)$post_cnt;
   }
 
-  $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$od['mb_id']}' ";
+  $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
   $token_row = sql_fetch($token_sel);
   $fcm_token = $token_row['fcm_token'];
 
@@ -260,7 +260,7 @@ if ($od_sms_delivered_check) {
     $push_od = get_order($_POST['od_no'][$k]);
   }
   
-  $gs = unserialize($od['od_goods']);
+  $gs = unserialize($push_od['od_goods']);
   $gname = $gs['gname'];
 
   if($total_cnt > 1) {
