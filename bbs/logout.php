@@ -25,12 +25,13 @@ if($url) {
 
 
 // 로그아웃 링크 _20240711_SY
-if(is_seller($member['id'])) {
-  $link = BV_MBBS_URL . "/login_seller.php";
-}
 
 if($member['id'] != 'admin' && is_admin()) {
   $link = BV_MBBS_URL . "/login_mng.php";
+}
+
+if(is_seller($member['id'])) {
+  $link = BV_MBBS_URL . "/login_seller.php";
 }
 
 
