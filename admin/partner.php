@@ -7,8 +7,8 @@ $pg_title = ADMIN_MENU2;
 $pg_num = 2;
 $snb_icon = "<i class=\"fa fa-handshake-o\"></i>";
 
-if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
-	alert("Á¢±Ù±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
+if($member['grade'] != '1' && !$member['auth_'.$pg_num]) {
+	alert("ì ‘ê·¼ê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤.");
 }
 
 if($code == "pform")		$pg_title2 = ADMIN_MENU2_01;

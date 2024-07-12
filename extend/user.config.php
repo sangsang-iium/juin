@@ -553,7 +553,7 @@ function getMenuFunc($menu, $link, $code) {
 
   $exp_name = constant($menu);
 
-  if($member['id'] != 'admin' && isset($member['id'])) {
+  if($member['grade'] != '1' && isset($member['id'])) {
 
     // 권한체크
     // $auth_sql = " SELECT * FROM authorization WHERE auth_idx = '{$member['auth_idx']}' ";

@@ -7,8 +7,8 @@ $pg_title = ADMIN_MENU3;
 $pg_num = 3;
 $snb_icon = "<i class=\"fa fa-truck\"></i>";
 
-if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
-	alert("���ٱ����� �����ϴ�.");
+if($member['grade'] != '1' && !$member['auth_'.$pg_num]) {
+	alert("접근권한이 없습니다.");
 }
 
 if($code == "list")					$pg_title2 = ADMIN_MENU3_01;

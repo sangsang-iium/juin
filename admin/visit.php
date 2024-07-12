@@ -7,8 +7,8 @@ $pg_title = ADMIN_MENU7;
 $pg_num = 7;
 $snb_icon = "<i class=\"fa fa-bar-chart\"></i>";
 
-if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
-	alert("���ٱ����� �����ϴ�.");
+if($member['grade'] != '1' && !$member['auth_'.$pg_num]) {
+	alert("접근권한이 없습니다.");
 }
 
 if($code == "hour")		$pg_title2 = ADMIN_MENU7_01;
