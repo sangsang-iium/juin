@@ -261,7 +261,7 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 	echo "<div class=\"{$addclass}\">\n";
 	echo "<div class=\"swiper-container\">\n";
 	echo "<div class=\"swiper-wrapper\">\n";
-  
+
   // 기본배송지 추가 _20240712_SY
   $b_address = "";
   $ad_row = getBaddressFun();
@@ -273,7 +273,26 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 
 	$result = display_itemtype($pt_id, $type, $rows);
 
-	for($i=0; $row=sql_fetch_array($result); $i++) {
+	$total_count = 0;
+	$cntIdxArr   = array();
+	while ($rowCntData = sql_fetch_array($result)) {
+		if (!memberGoodsAble($b_address, $rowCntData['zone'])) {
+			continue;
+		}
+		$cntIdxArr[] = $rowCntData['index_no'];
+		$total_count++;
+	}
+
+	$cntIdx = implode(",", $cntIdxArr);
+	if (count($cntIdxArr) > 0) {
+		$sql_search2 = "AND a.index_no in ($cntIdx)";
+	} else {
+		$sql_search2 = "";
+	}
+
+	$result2 = display_itemtype($pt_id, $type, $rows, $sql_search2);
+
+	for($i=0; $row=sql_fetch_array($result2); $i++) {
 		if(!memberGoodsAble($b_address, $row['zone'])){
 			continue;
 		}

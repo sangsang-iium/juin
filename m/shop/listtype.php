@@ -8,7 +8,7 @@ $type = preg_replace("/[\<\>\'\"\\\'\\\"\%\=\(\)\s]/", "", $_REQUEST['type']);
 // else if($type == 4) $tb['title'] = $default['de_pname_5']; // 인기상품
 // else if($type == 5) $tb['title'] = $default['de_pname_6']; // 추천상품
 if($type == 1)      $tb['title'] = $default['de_pname_3']; // 쇼핑특가
-else if($type == 2) $tb['title'] = $default['de_pname_7']; // 베스트
+else if($type == 2) $tb['title'] = $default['de_pname_7']; // pb 상품
 else if($type == 3) $tb['title'] = $default['de_pname_10']; // 신상품
 else if($type == 4) $tb['title'] = $default['de_pname_6']; // 인기상품
 else if($type == 5) $tb['title'] = $default['de_pname_9']; // 추천상품
@@ -37,12 +37,17 @@ else
 $res = query_itemtype($pt_id, $type, $sql_search, $sql_order);
 // $total_count = sql_num_rows($res);
 $total_count = 0;
+$cntIdxArr = array();
 while ($rowCntData = sql_fetch_array($res)) {
   if (!memberGoodsAble($b_address, $rowCntData['zone'])) {
     continue;
   }
+  $cntIdxArr[] = $rowCntData['index_no'];
   $total_count++;
 }
+
+$cntIdx = implode(",", $cntIdxArr);
+$sql_search .= "AND index_no in ($cntIdx)";
 
 $mod = 2; // 가로 출력 수
 $rows = ($mod*9);
