@@ -289,12 +289,12 @@ if(!defined('_BLUEVATION_')) exit;
           <?php } ?>
           <div class="form-row">
             <div class="form-head">
-              <p class="title"><label for="reg_mb_email">이메일</label><b>*</b></p>
+              <p class="title"><label for="reg_mb_email">이메일</label></p>
             </div>
             <div class="form-body">
               <div class="input-button id-confirm">
                 <input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
-                <input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
+                <input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
                 <button type="button" class="ui-btn st3" onclick="chk_email()">중복확인</button>
               </div>
               <!-- <span class="at">@</span>
@@ -402,7 +402,7 @@ if(!defined('_BLUEVATION_')) exit;
           <p class="joinDetail-title">매장정보</p>
         </div>
         <div class="joinDetail-body">
-          <div class="form-row store_info">
+          <div class="form-row">
             <div class="form-head">
               <p class="title">매장 노출 여부<b>*</b></p>
             </div>
@@ -410,20 +410,20 @@ if(!defined('_BLUEVATION_')) exit;
               <ul class="form-inline">
                 <li>
                   <div class="frm-choice">
-                    <input type="radio" name="store_display" id="store_display-y" value="1" <?php echo get_checked($member['ju_mem'], '1'); ?> >
+                    <input type="radio" name="store_display" id="store_display-y" value="1" <?php echo get_checked($member['ju_mem'], '1'); ?> onclick="toggle_store(this.value)">
                     <label for="store_display-y">예</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="radio" name="store_display" id="store_display-n" value="2" <?php echo get_checked($member['ju_mem'], '2'); ?> >
+                    <input type="radio" name="store_display" id="store_display-n" value="2" <?php echo get_checked($member['ju_mem'], '2'); ?> checked onclick="toggle_store(this.value)">
                     <label for="store_display-n">아니오</label>
                   </div>
                 </li>
               </ul>
             </div>
           </div>
-          <div class="form-row">
+          <div class="form-row store_info" >
             <div class="form-head">
               <p class="title">업종</p>
             </div>
@@ -599,7 +599,7 @@ if(!defined('_BLUEVATION_')) exit;
               </ul>
             </div>
           </div>
-          <div class="form-row">
+          <div class="form-row store_info">
             <div class="form-head">
               <p class="title">매장주소</p>
             </div>
@@ -726,10 +726,12 @@ $(document).ready(function(){
   });
 
 
+  
   // 매장정보 hide() _20240604_SY
   if(w == '') {
     $('.store_info').hide(); // 각 요소를 숨깁니다.
   }
+  
 });
 
 /** 우편번호 찾기 */
@@ -1178,6 +1180,16 @@ function chkClosed() {
 }
 
 
+// 매장정보 show/hide _20240712_SY
+function toggle_store(value) {
+  if(value == '1') {
+    $('.store_info').show();
+  } else {
+    $('.store_info').hide();
+  }
+}
+
+
 $(function() {
 	<?php if($config['cf_cert_use'] && $config['cf_cert_ipin']) { ?>
 	// 아이핀인증
@@ -1301,7 +1313,7 @@ function fregisterform_submit(f)
 	// 본인인증 체크
 	if(f.cert_no.value=="") {
 		alert("회원가입을 위해서는 본인인증을 해주셔야 합니다.");
-		return false;
+		// return false;
 	}
 	<?php } ?>
 
@@ -1329,33 +1341,35 @@ function fregisterform_submit(f)
 
 
 	// E-mail 검사
-	if((f.w.value == "") || (f.w.value == "u" && f.mb_email.defaultValue != f.mb_email.value)) {
+	if(f.w.value == "u" && f.mb_email.defaultValue != f.mb_email.value) {
 		var msg = reg_mb_email_check();
 		if(msg) {
 			alert(msg);
 			f.reg_mb_email.select();
 			return false;
 		}
-	}
+	
 
-  // 이메일 중복확인 여부 _20240319_SY
-  let ss_em     = sessionStorage.getItem("Email");
-  let ss_em_chk = sessionStorage.getItem('chkEm');
-  
-  if(f.w.value == "") {
-    if(chkEmRes == false) {
-      alert('이메일 중복을 확인해 주십시오.');
-      f.mb_email.focus();
-      return false;
+    // 이메일 중복확인 여부 _20240319_SY
+    let ss_em     = sessionStorage.getItem("Email");
+    let ss_em_chk = sessionStorage.getItem('chkEm');
+    
+    if(f.w.value == "") {
+      if(chkEmRes == false) {
+        alert('이메일 중복을 확인해 주십시오.');
+        f.mb_email.focus();
+        return false;
+      }
     }
-  }
 
-  if(chkEmRes == true) {
-    if(ss_em != f.reg_mb_email.value) {
-      alert("이메일 중복을 확인해 주십시오.")
-      f.mb_email.focus();
-      return false;
+    if(chkEmRes == true) {
+      if(ss_em != f.reg_mb_email.value) {
+        alert("이메일 중복을 확인해 주십시오.")
+        f.mb_email.focus();
+        return false;
+      }
     }
+
   }
 
   // 중앙회원조회 _20240328_SY

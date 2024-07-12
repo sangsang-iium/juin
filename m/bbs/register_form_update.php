@@ -10,7 +10,7 @@ if(!($w == '' || $w == 'u')) {
 }
 
 if($_SESSION['ss_hash_token'] != BV_HASH_TOKEN) {
-    // alert('잘못된 접근입니다.', BV_MURL);
+    alert('잘못된 접근입니다.', BV_MURL);
 }
 
 if($w == 'u')
@@ -110,12 +110,16 @@ if($w == '' || $w == 'u') {
         alert('비밀번호가 일치하지 않습니다.');
 
     if($msg = empty_mb_name($mb_name))		alert($msg);
-    if($msg = empty_mb_email($mb_email))	alert($msg);
+    // 이메일 필수값 X _20240712_SY
+    // if($msg = empty_mb_email($mb_email))	alert($msg);
     if($msg = reserve_mb_id($mb_id))		alert($msg);
     // 이름에 한글명 체크를 하지 않는다.
     //if($msg = valid_mb_name($mb_name))	alert($msg);
-    if($msg = valid_mb_email($mb_email))	alert($msg);
-    if($msg = prohibit_mb_email($mb_email))	alert($msg);
+    // 이메일 필수값 X _20240712_SY
+    if(!empty($mb_email)) {
+      if($msg = valid_mb_email($mb_email))	alert($msg);
+      if($msg = prohibit_mb_email($mb_email))	alert($msg);
+    }
 
     // 휴대폰 필수입력일 경우 휴대폰번호 유효성 체크
     if(($config['register_use_hp'] || $config['cf_cert_hp']) && $config['register_req_hp']) {
@@ -151,8 +155,10 @@ if($w == '' || $w == 'u') {
 		// 회원정보의 메일을 이전 메일로 옮기고 아래에서 비교함
 		$old_email = $member['email'];
 	}
-
+  // 이메일 필수값 X _20240712_SY
+  if(!empty($mb_email)) {
     if($msg = exist_mb_email($mb_email, $mb_id))   alert($msg);
+  }
 }
 
 //===============================================================
