@@ -1336,3 +1336,9 @@
 .brand-list {display: flex; flex-flow: row wrap; align-items: flex-start; justify-content: flex-start; gap: 2.24rem; margin-top: 2rem;}
 .brand-item {width: calc(100% / 2 - 2.24rem / 2);}
 .brand-box {display: flex; align-items: center; justify-content: center; border-radius: 2rem; border: 0.16rem solid #ddd; overflow: hidden;}
+
+/* === 2024-07-12 추가 === */
+.used-popup {position: fixed; bottom: -350%; left: 50%; transform: translateX(-50%); width: 100%; max-width: 1440px; z-index: 550; transition: 1s ease-in-out;}
+.used-popup.active {bottom: 80px;}
+
+.usedpop-img-wrap {max-height: 60vh; overflow-y: auto; border-radius: 2rem 2rem 0 0;}

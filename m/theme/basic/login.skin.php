@@ -17,7 +17,8 @@ if ($gs_id) {
 	<div class="login-wrap">
 		<div class="container">
 			<div class="login-logo">
-				<img src="/src/img/logo.svg" alt="주인장터 로고">
+				<!-- <img src="/src/img/logo.svg" alt="주인장터 로고"> -->
+				<img src="/src/img/bi.png" alt="주인장 로고">
 			</div>
 			<!-- <div class="mb_login"> -->
 				<form name="flogin" action="<?php echo $login_action_url; ?>" onsubmit="return flogin_submit(this);" method="post">
