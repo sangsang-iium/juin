@@ -44,6 +44,47 @@ $regions = [
 ];
 ?>
 
+<!-- 중고장터 팝업 2024-07-12 { -->
+<?php if(!$_COOKIE["used-popup"]) { ?>
+<div id="used-popup" class="mpb-wrap used-popup active">
+  <div class="usedpop-img-wrap">
+    <img src="/src/img/used/used-pop-img.jpg" alt="">
+  </div>
+  <div class="mpb-btn-wrap">
+    <div class="container">
+      <button type="button" class="hd_pops_reject onlytodayshow">오늘 하루 보지 않기</button>
+      <button type="button" class="hd_pops_close mpb-close-btn">닫기</button>
+    </div>
+  </div>
+</div>
+<?php } ?>
+
+<script>
+$(function() {
+  if($("#used-popup").hasClass('active')) {
+    $(".popDim").show();
+  }
+
+  $(".hd_pops_reject").click(function() {
+    let id = $(this).attr('class').split(' ');
+    let ck_name = "used-popup";
+    let exp_time = 24;
+    let cookie_domain = '';
+
+    $("#used-popup").removeClass('active');
+    $(".popDim").fadeOut(500);
+    set_cookie(ck_name, 1, exp_time, cookie_domain);
+    // console.log(ck_name, 1, exp_time, cookie_domain);
+  });
+
+  $('.hd_pops_close').click(function() {
+      $("#used-popup").removeClass('active');
+      $(".popDim").fadeOut(500);
+  });
+});
+</script>
+<!-- } 중고장터 팝업 2024-07-12 -->
+
 <div id="contents" class="sub-contents usedList">
   <a href="./chat_list.php" class="ui-btn active round chatListBtn">
     <img src="/src/img/used/icon_chat_send.png" alt="">채팅방
