@@ -41,10 +41,6 @@ $sodr7    = admin_order_status_sum("WHERE dan = 7 {$od_and_month} "); // 총 배
 $sodr8    = admin_order_status_sum("WHERE dan = 8 {$od_and_month} "); // 총 배송후 교환
 $sodr9    = admin_order_status_sum("WHERE dan = 9 {$od_and_month} "); // 총 배송전 환불
 $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month} "); // 총 구매미확정
-
-
-if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { 
-}
 ?>
 
 
@@ -324,7 +320,7 @@ if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
                 <dd class="box_contents">
                     <ul class="box_white board_list">
                         <?php
-                            $sql = "select * from shop_member where id <> 'admin' order by index_no desc limit 4";
+                            $sql = "select * from shop_member where id <> 'admin' AND id <> 'iium' order by index_no desc limit 4";
                             $result = sql_query($sql);
                             for($i=0; $row=sql_fetch_array($result); $i++){
                         ?>

@@ -181,7 +181,11 @@ $(document).ready(function () {
   const mainBestTarget = '.main_best-slide .swiper-container';
   const mainBestOptions = {
     slidesPerView: "auto",
-    freeMode: true
+    freeMode: true,
+    grid: {
+      rows: 2,
+      fill: "row",
+    },
   };
   const mainBestSlider = f.slider(mainBestTarget, mainBestOptions);
 

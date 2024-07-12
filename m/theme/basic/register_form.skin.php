@@ -328,6 +328,9 @@ if(!defined('_BLUEVATION_')) exit;
               <input type="text" name="mb_addr3" value="<?php echo ($w == '') ? get_text($doro2) : get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
               <label for="reg_mb_addr3" class="sound_only">참고항목</label>
 
+              <input type="text" name="b_addr_req_base" value="<?php echo get_text($member['b_addr_req_base']); ?>" id="b_addr_req_base" class="frm-input address-input_4 frm_address" size="60" placeholder="배송기본메시지" autocapitalize="off">
+              <label for="b_addr_req_base" class="sound_only">배송기본메시지</label>
+
               <input type="hidden" name="mb_addr_jibeon" value="<?php echo get_text($member['addr_jibeon']); ?>">
             </div>
           </div>
@@ -410,13 +413,13 @@ if(!defined('_BLUEVATION_')) exit;
               <ul class="form-inline">
                 <li>
                   <div class="frm-choice">
-                    <input type="radio" name="store_display" id="store_display-y" value="1" <?php echo get_checked($member['ju_mem'], '1'); ?> onclick="toggle_store(this.value)">
+                    <input type="radio" name="store_display" id="store_display-y" value="1" <?php echo get_checked($member['ju_display'], '1'); ?> onclick="toggle_store(this.value)">
                     <label for="store_display-y">예</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="radio" name="store_display" id="store_display-n" value="2" <?php echo get_checked($member['ju_mem'], '2'); ?> checked onclick="toggle_store(this.value)">
+                    <input type="radio" name="store_display" id="store_display-n" value="2" <?php echo ($w == 'u') ? get_checked($member['ju_display'], '2') : "checked"; ?> onclick="toggle_store(this.value)">
                     <label for="store_display-n">아니오</label>
                   </div>
                 </li>
@@ -446,7 +449,7 @@ if(!defined('_BLUEVATION_')) exit;
           </div>
           <div class="form-row">
             <div class="form-head">
-              <p class="title">업종</p>
+              <p class="title">업종</p>log
             </div>
             <div class="form-body">
               <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
@@ -1313,7 +1316,7 @@ function fregisterform_submit(f)
 	// 본인인증 체크
 	if(f.cert_no.value=="") {
 		alert("회원가입을 위해서는 본인인증을 해주셔야 합니다.");
-		// return false;
+		return false;
 	}
 	<?php } ?>
 

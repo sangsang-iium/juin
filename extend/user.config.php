@@ -553,7 +553,7 @@ function getMenuFunc($menu, $link, $code) {
 
   $exp_name = constant($menu);
 
-  if($member['id'] != 'admin' && isset($member['id'])) {
+  if($member['grade'] != '1' && isset($member['id'])) {
 
     // 권한체크
     // $auth_sql = " SELECT * FROM authorization WHERE auth_idx = '{$member['auth_idx']}' ";
@@ -727,4 +727,16 @@ function getBaddressFun() {
   } else {
     return false;
   }
+}
+
+
+/*
+ * fcm_token 리셋 _20240712_SY
+ */
+function resetFcmToken() {
+  global $member;
+  
+  $mem_sel = "UPDATE shop_member SET fcm_token = '' WHERE id = '{$member['id']}' ";
+  $mem_row = sql_fetch($mem_sel);
+  
 }
