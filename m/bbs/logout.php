@@ -23,6 +23,9 @@ if($url) {
     $link = BV_MURL;
 }
 
+
+resetFcmToken();
+
 // 로그아웃 시 로그인 페이지로 이동 _20240308_SY
 $link = BV_MBBS_URL . "/login.php";
 goto_url($link);
