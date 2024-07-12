@@ -66,6 +66,25 @@ if($is_member) {
           <!-- row { -->
           <div class="form-row">
             <div class="form-head">
+              <p class="title">성별<b>*</b></p>
+            </div>
+            <div class="form-body">
+              <div class="check-wr" data-group="b_sex">
+                <div class="frm-choice">
+                  <input type="checkbox" name="b_sex" id="chk44" value="남자" class="single-checkbox">
+                  <label for="chk44">남자</label>
+                </div>
+                <div class="frm-choice">
+                  <input type="checkbox" name="b_sex" id="chk55" value="여자" class="single-checkbox">
+                  <label for="chk55">여자</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- } row -->
+          <!-- row { -->
+          <div class="form-row">
+            <div class="form-head">
               <p class="title">자택 주소</p>
             </div>
             <div class="form-body address">
@@ -168,7 +187,15 @@ if($is_member) {
               <p class="title">은행</p>
             </div>
             <div class="form-body">
-              <input type="text" name="b_bank" required class="frm-input w-per100" placeholder="은행명을 입력해주세요.">
+              <select name="b_bank" id="b_bank" class="frm-select w-per100">
+                <option value="">은행을 선택해주세요.</option>
+                <?php
+                  $sql_bank = "SELECT * FROM bank_code";
+                  $res_bank = sql_query($sql_bank);
+                  while ($row_bank = sql_fetch_array($res_bank)) { ?>
+                <option value="<?php echo $row_bank['bc_code'] ?>"><?php echo $row_bank['bc_bank'] ?></option>
+                <?php }?>
+              </select>
             </div>
           </div>
           <!-- } row -->
@@ -178,7 +205,7 @@ if($is_member) {
               <p class="title">계좌번호</p>
             </div>
             <div class="form-body">
-              <input type="text" name="b_account_num" required class="frm-input w-per100" placeholder="계좌번호를 입력해주세요.">
+              <input type="text" name="b_account_num"  class="frm-input w-per100" placeholder="계좌번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -188,18 +215,25 @@ if($is_member) {
               <p class="title">예금주</p>
             </div>
             <div class="form-body">
-              <input type="text" name="b_account_name" required class="frm-input w-per100" placeholder="예금주를 입력해주세요.">
+              <input type="text" name="b_account_name"  class="frm-input w-per100" placeholder="예금주를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
-
-                    <!-- row { -->
+        <!-- row { -->
           <div class="form-row hiddenDiv" id="card-row">
             <div class="form-head">
               <p class="title">카드사</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_card_com" required class="frm-input w-per100" placeholder="카드사를 입력해주세요.">
+              <select name="bc_card_com" id="bc_card_com" class="frm-select w-per100">
+                <option value="">카드사를 선택해주세요.</option>
+                <?php
+                  $sql_bank = "SELECT * FROM card_code";
+                  $res_bank = sql_query($sql_bank);
+                  while ($row_bank = sql_fetch_array($res_bank)) { ?>
+                <option value="<?php echo $row_bank['cc_code'] ?>"><?php echo $row_bank['cc_card'] ?></option>
+                <?php }?>
+              </select>
             </div>
           </div>
           <!-- } row -->
@@ -209,7 +243,7 @@ if($is_member) {
               <p class="title">카드번호</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_card_num" required class="frm-input w-per100" placeholder="카드번호를 입력해주세요.">
+              <input type="text" name="bc_card_num"  class="frm-input w-per100" placeholder="카드번호를 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
@@ -219,7 +253,7 @@ if($is_member) {
               <p class="title">카드유효기간</p>
             </div>
             <div class="form-body">
-              <input type="text" name="bc_card_cvc" required class="frm-input w-per100" placeholder="카드유효기간을 입력해주세요.">
+              <input type="text" name="bc_card_cvc"  class="frm-input w-per100" placeholder="카드유효기간을 입력해주세요.">
             </div>
           </div>
           <!-- } row -->
