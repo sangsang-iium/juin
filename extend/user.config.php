@@ -728,3 +728,15 @@ function getBaddressFun() {
     return false;
   }
 }
+
+
+/*
+ * fcm_token 리셋 _20240712_SY
+ */
+function resetFcmToken() {
+  global $member;
+  
+  $mem_sel = "UPDATE shop_member SET fcm_token = '' WHERE id = '{$member['id']}' ";
+  $mem_row = sql_fetch($mem_sel);
+  
+}
