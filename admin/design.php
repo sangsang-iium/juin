@@ -7,8 +7,8 @@ $pg_title = ADMIN_MENU9;
 $pg_num = 9;
 $snb_icon = "<i class=\"ionicons ion-compose\"></i>";
 
-if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
-	alert("ï¿½ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+if($member['grade'] != '1' && !$member['auth_'.$pg_num]) {
+	alert("Á¢±Ù±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
 }
 
 if($code == "banner_list")		$pg_title2 = ADMIN_MENU9_01;

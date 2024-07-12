@@ -449,7 +449,7 @@ if(!defined('_BLUEVATION_')) exit;
           </div>
           <div class="form-row">
             <div class="form-head">
-              <p class="title">업종</p>
+              <p class="title">업종</p>log
             </div>
             <div class="form-body">
               <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >

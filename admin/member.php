@@ -7,7 +7,7 @@ $pg_title = ADMIN_MENU1;
 $pg_num = 1;
 $snb_icon = "<i class=\"ionicons ion-ios-people fs40\"></i>";
 
-if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
+if($member['grade'] != '1' && !$member['auth_'.$pg_num]) {
 	alert("접근권한이 없습니다.");
 }
 

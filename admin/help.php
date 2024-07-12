@@ -7,8 +7,8 @@ $pg_title = ADMIN_MENU8;
 $pg_num = 8;
 $snb_icon = "<i class=\"fa fa-comments-o\"></i>";
 
-if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
-	alert("���ٱ����� �����ϴ�.");
+if($member['grade'] != '1' && !$member['auth_'.$pg_num]) {
+	alert("접근권한이 없습니다.");
 }
 
 if($code == "qa")			$pg_title2 = ADMIN_MENU8_01;
