@@ -3,7 +3,7 @@ if (!defined('_BLUEVATION_')) {
   exit;
 }
 // true, false   로 온오프 ( 본인 지역에 따른 노출 상품 true는 지역 상품 노출, false는 다 노출 )
-$MEMBER_GOODS_ABLE_CHECK = false;
+$MEMBER_GOODS_ABLE_CHECK = true;
 // 개별 페이지 접근 불가
 class CallApi {
 
@@ -706,4 +706,25 @@ function sendFCMMessage($message) {
 
   curl_close($ch);
   return $response_end;
+}
+
+
+/*
+  * SELECT 기본 배송지 _20240712_SY
+*/
+function getBaddressFun() {
+  global $member;
+
+  $ad_sel = " SELECT * FROM b_address 
+               WHERE mb_id = '{$member['id']}'
+                 AND b_base = '1' 
+            ORDER BY wr_id DESC
+               LIMIT 1 ";
+  $ad_row = sql_fetch($ad_sel);
+
+  if($ad_row) {
+    return $ad_row;
+  } else {
+    return false;
+  }
 }

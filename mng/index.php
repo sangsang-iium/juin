@@ -83,8 +83,17 @@ $sqlCnt      = " select * $sql_common";
 $resCnt      = sql_query($sqlCnt);
 $total_count = 0;
 
+// 기본배송지 추가 _20240712_SY
+$b_address = "";
+$ad_row = getBaddressFun();
+if(is_array($ad_row)) {
+  $b_address = $ad_row['b_addr1'];
+} else {
+  $b_address = $member['addr1'];
+}
+
 while ($rowCntData = sql_fetch_array($resCnt)) {
-  if (!memberGoodsAble($member['addr1'], $rowCntData['zone'])) {
+  if (!memberGoodsAble($b_address, $rowCntData['zone'])) {
     continue;
   }
   $total_count++;
