@@ -1331,3 +1331,8 @@
 .find-wrap2 {font-size: 20px;}
 
 .pop-inner .pop-btm.full-btn-wrap {flex-direction: column; height: auto;}
+
+/* === 2024-07-11 추가 === */
+.brand-list {display: flex; flex-flow: row wrap; align-items: flex-start; justify-content: flex-start; gap: 2.24rem; margin-top: 2rem;}
+.brand-item {width: calc(100% / 2 - 2.24rem / 2);}
+.brand-box {display: flex; align-items: center; justify-content: center; border-radius: 2rem; border: 0.16rem solid #ddd; overflow: hidden;}
