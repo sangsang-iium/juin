@@ -82,7 +82,7 @@ $sqlCnt      = " select * $sql_common";
 
 $resCnt      = sql_query($sqlCnt);
 $total_count = 0;
-
+$cntIdxArr = array();
 // 기본배송지 추가 _20240712_SY
 $b_address = "";
 $ad_row = getBaddressFun();
@@ -96,8 +96,17 @@ while ($rowCntData = sql_fetch_array($resCnt)) {
   if (!memberGoodsAble($b_address, $rowCntData['zone'])) {
     continue;
   }
+	$cntIdxArr[] = $rowCntData['index_no'];
+
   $total_count++;
 }
+$cntIdx = implode(",", $cntIdxArr);
+if (count($cntIdxArr) > 0) {
+  $sql_search2 = "AND index_no in ($cntIdx)";
+} else {
+  $sql_search2 = "";
+}
+
 
 $mod = 4; // 가로 출력 수
 $rows = $page_rows ? (int)$page_rows : ($mod*10);
@@ -105,7 +114,7 @@ $total_page = ceil($total_count / $rows); // 전체 페이지 계산
 if($page == "") { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
-$sql = " select * $sql_common $sql_order limit $from_record, $rows ";
+$sql = " select * $sql_common $sql_search2 $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
 include_once(BV_PATH.'/mng/skin/list.skin.php');

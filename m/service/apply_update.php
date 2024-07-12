@@ -47,6 +47,7 @@ switch ($b_type) {
     $db_input['b_type']         = $b_type;
     $db_input['c_name']         = $c_name;
     $db_input['bc_birth']       = preg_replace('/[^0-9]/', '', $bc_birth);
+    $db_input['b_sex']        = $b_sex;
     $db_input['b_addr_zip']     = $b_addr_zip;
     $db_input['b_addr_1']       = $b_addr_1;
     $db_input['b_addr_2']       = $b_addr_2;
@@ -77,15 +78,55 @@ switch ($b_type) {
     $db_input['b_agree']        = $b_agree;
     $db_input['b_agree1']       = $b_agree1;
     $db_input['b_staff']        = $b_staff;
+    $peopleArr = $db_input;
+
     break;
 }
 
 $db_input['wdate'] = date("Y-m-d H:i:s");
 
-$serviceModel = new IUD_Model();
-$serviceTable = "iu_service";
-$svcIdx = $serviceModel->insert($serviceTable, $db_input);
 
+// $serviceModel = new IUD_Model();
+// $serviceTable = "iu_service";
+// $svcIdx = $serviceModel->insert($serviceTable, $db_input);
+
+if($b_type == 4){
+  $peopleLifeReturn = peopleLifeApi($peopleArr);
+  if($peopleLifeReturn->result == 0000){
+    $serviceModel4 = new IUD_Model();
+    $serviceTable4 = "iu_service";
+    $serviceUp4['b_chk'] = 1;
+    $serviceWhere = "WHERE idx = '{$svcIdx}'";
+    $serviceModel4->update($serviceTable4, $serviceUp4, $serviceWhere);
+
+    alert("정상 등록되었습니다.", "./list.php");
+  } else {
+    alert("관리자에게 문의해주세요.", "./list.php");
+  }
+}
+
+function peopleLifeApi($dataArr) {
+  $url  = "https://thepeoplelife.co.kr/api/ri/member/data/";
+  $jsonData = json_encode($dataArr);
+
+  $ch = curl_init();                                             //CURL 세션 초기화
+  curl_setopt($ch, CURLOPT_URL, $url);                           //URL 지정
+  curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);                  //connection timeout 10초
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                //요청 결과를 문자열로 반환
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);               // 원격 서버의 인증서가 유효한지 검사 여부
+  curl_setopt($ch, CURLOPT_POST, true);                          // POST 요청 설정
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData); // POST 데이터 설정
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($jsonData))
+  );
+
+  $response = curl_exec($ch); // 쿼리 실행
+  curl_close($ch);
+
+  return json_decode($response);
+}
+exit;
 // 신한카드 데이터 받아오기 ( 안받아오네~ )
 // if ($b_type == 1 || $b_type == 2) {
 //   // 기본값 설정

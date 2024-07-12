@@ -116,6 +116,8 @@ for($i=0; $i<count($gw_msort); $i++) {
             item_card($row['index_no'], $it_href, $it_imageurl, $it_name, $it_sprice, $sale, $it_price, 'small');
           }
         }
+        echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'] . '?' . $qstr1 . '&page=');
+
         ?>
       </div>
     </div>
