@@ -34,6 +34,7 @@ while ($rowCntData = sql_fetch_array($res)) {
   }
   $total_count++;
 }
+print_r($total_count);
 
 $mod = 2; // 가로 출력 수
 $rows = ($mod*9);
