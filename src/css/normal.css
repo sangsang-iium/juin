@@ -83,7 +83,7 @@
 
 .main_best .cp-title .icon-box:after {width: 2.16rem; height: 3.4rem; background-image: url('../img/icon-best.svg');}
 .main_best-slide {}
-.main_best-slide .cp-item {width: 14rem; margin-right: 1rem;}
+.main_best-slide .cp-item {width: 14rem; margin-right: 1rem; margin-bottom: 2.2rem;}
 .main_best-slide .cp-item .prod-thumb_area .num {display: block;}
 
 .main_recomm .cp-title .icon-box:after {width: 2.92rem; height: 3.6rem; background-image: url('../img/icon-recomm.svg');}
@@ -1167,7 +1167,7 @@
 .main_today-slide, 
 .main_live-slide {padding-left: 0; padding-right: 0;}
 
-.main_best-slide .cp-item:first-child {padding-left: 0.5rem;}
+/* .main_best-slide .cp-item:first-child {padding-left: 0.5rem;} */
 .main_recomm-slide .cp-item:first-child {padding-left: 0.5rem;}
 .main_popular-slide .cp-item:first-child {padding-left: 0.5rem;}
 .main_today-slide .cp-item:first-child {padding-left: 0.5rem;}
@@ -1342,3 +1342,6 @@
 .used-popup.active {bottom: 80px;}
 
 .usedpop-img-wrap {max-height: 60vh; overflow-y: auto; border-radius: 2rem 2rem 0 0;}
+
+.cp-item-half-item.joinDetail-box:not(:first-child) {padding-top: 1rem;}
+.swiper-grid>.swiper-wrapper {padding-left: 0.5rem;}
