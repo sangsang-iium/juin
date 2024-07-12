@@ -17,6 +17,15 @@ else
 
 include_once("./_head.php");
 
+// 기본배송지 추가 _20240712_SY
+$b_address = "";
+$ad_row = getBaddressFun();
+if(is_array($ad_row)) {
+  $b_address = $ad_row['b_addr1'];
+} else {
+  $b_address = $member['addr1'];
+}
+
 $sql_search = "";
 
 // 상품 정렬
@@ -29,12 +38,11 @@ $res = query_itemtype($pt_id, $type, $sql_search, $sql_order);
 // $total_count = sql_num_rows($res);
 $total_count = 0;
 while ($rowCntData = sql_fetch_array($res)) {
-  if (!memberGoodsAble($member['addr1'], $rowCntData['zone'])) {
+  if (!memberGoodsAble($b_address, $rowCntData['zone'])) {
     continue;
   }
   $total_count++;
 }
-print_r($total_count);
 
 $mod = 2; // 가로 출력 수
 $rows = ($mod*9);

@@ -707,3 +707,24 @@ function sendFCMMessage($message) {
   curl_close($ch);
   return $response_end;
 }
+
+
+/*
+  * SELECT 기본 배송지 _20240712_SY
+*/
+function getBaddressFun() {
+  global $member;
+
+  $ad_sel = " SELECT * FROM b_address 
+               WHERE mb_id = '{$member['id']}'
+                 AND b_base = '1' 
+            ORDER BY wr_id DESC
+               LIMIT 1 ";
+  $ad_row = sql_fetch($ad_sel);
+
+  if($ad_row) {
+    return $ad_row;
+  } else {
+    return false;
+  }
+}

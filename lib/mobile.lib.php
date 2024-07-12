@@ -129,9 +129,18 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
   echo "<div class=\"swiper-container\">\n"; // 추가된 부분: 슬라이드 컨테이너 시작
   echo "<div class=\"swiper-wrapper\">\n";   // 추가된 부분: 슬라이드 래퍼 시작
 
+  // 기본배송지 추가 _20240712_SY
+  $b_address = "";
+  $ad_row = getBaddressFun();
+  if(is_array($ad_row)) {
+    $b_address = $ad_row['b_addr1'];
+  } else {
+    $b_address = $member['addr1'];
+  }
+
   $result = display_itemtype($pt_id, $type, $rows);
   for ($i = 0; $row = sql_fetch_array($result); $i++) {
-		if(!memberGoodsAble($member['addr1'], $row['zone'])){
+		if(!memberGoodsAble($b_address, $row['zone'])){
 			continue;
 		}
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
@@ -252,11 +261,20 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 	echo "<div class=\"{$addclass}\">\n";
 	echo "<div class=\"swiper-container\">\n";
 	echo "<div class=\"swiper-wrapper\">\n";
+  
+  // 기본배송지 추가 _20240712_SY
+  $b_address = "";
+  $ad_row = getBaddressFun();
+  if(is_array($ad_row)) {
+    $b_address = $ad_row['b_addr1'];
+  } else {
+    $b_address = $member['addr1'];
+  }
 
 	$result = display_itemtype($pt_id, $type, $rows);
 
 	for($i=0; $row=sql_fetch_array($result); $i++) {
-		if(!memberGoodsAble($member['addr1'], $row['zone'])){
+		if(!memberGoodsAble($b_address, $row['zone'])){
 			continue;
 		}
 		$it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
@@ -290,10 +308,19 @@ function mobile_slide_goods_no($type, $rows, $addclass = '', $size = '') {
   echo "<div class=\"swiper-container\">\n";
   echo "<div class=\"swiper-wrapper\">\n";
 
+  // 기본배송지 추가 _20240712_SY
+  $b_address = "";
+  $ad_row = getBaddressFun();
+  if(is_array($ad_row)) {
+    $b_address = $ad_row['b_addr1'];
+  } else {
+    $b_address = $member['addr1'];
+  }
+
   $result = display_itemtype_no($type, $pt_id, $rows);
 
   for ($i = 0; $row = sql_fetch_array($result); $i++) {
-    if(!memberGoodsAble($member['addr1'], $row['zone'])){
+    if(!memberGoodsAble($b_address, $row['zone'])){
     	continue;
     }
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
