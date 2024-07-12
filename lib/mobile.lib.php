@@ -131,9 +131,9 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 
   $result = display_itemtype($pt_id, $type, $rows);
   for ($i = 0; $row = sql_fetch_array($result); $i++) {
-		// if(!memberGoodsAble($member['addr1'], $row['zone'])){
-		// 	continue;
-		// }
+		if(!memberGoodsAble($member['addr1'], $row['zone'])){
+			continue;
+		}
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
     $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
     $it_name     = get_text($row['gname']);
@@ -215,7 +215,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 			// echo "<div class=\"cp-tag-item\">";
 			// echo "<div class=\"cp-tag tag01\">일반</div>";
 			// echo "</div>";
-		} else if ($row['reg_yn'] == 3) { 
+		} else if ($row['reg_yn'] == 3) {
       // reg_yn == 3 | 렌탈 추가 _20240701_SY
       echo "<div class=\"cp-tag-item\">";
 			echo "<div class=\"cp-tag tag03\">렌탈</div>";
@@ -256,9 +256,9 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 	$result = display_itemtype($pt_id, $type, $rows);
 
 	for($i=0; $row=sql_fetch_array($result); $i++) {
-		// if(!memberGoodsAble($member['addr1'], $row['zone'])){
-		// 	continue;
-		// }
+		if(!memberGoodsAble($member['addr1'], $row['zone'])){
+			continue;
+		}
 		$it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
 		$it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
 		$it_name = get_text($row['gname']);
@@ -293,9 +293,9 @@ function mobile_slide_goods_no($type, $rows, $addclass = '', $size = '') {
   $result = display_itemtype_no($type, $pt_id, $rows);
 
   for ($i = 0; $row = sql_fetch_array($result); $i++) {
-    // if(!memberGoodsAble($member['addr1'], $row['zone'])){
-    // 	continue;
-    // }
+    if(!memberGoodsAble($member['addr1'], $row['zone'])){
+    	continue;
+    }
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
     $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
     $it_name     = get_text($row['gname']);
@@ -1305,7 +1305,7 @@ function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale,
 		// echo "<div class=\"cp-tag-item\">";
 		// echo "<div class=\"cp-tag tag01\">일반</div>";
 		// echo "</div>";
-	} else if($row['reg_yn'] == 3) { 
+	} else if($row['reg_yn'] == 3) {
     // reg_yn == 3 | 렌탈 추가 _20240701_SY
     echo "<div class=\"cp-tag-item\">";
 		echo "<div class=\"cp-tag tag03\">렌탈</div>";
@@ -1399,25 +1399,60 @@ function coupon_chk($it_idx){
 
 /**
  * $memberAddr 서울 강북구 월계로 ~~~
- * $goodsLoca  전국,,홈푸드||대전,,||서울,,홈푸드||~~~
+ * $goodsLoca  전국,,홈푸드||경상남도,,||경상북도,,홈푸드||~~~
+ * 전국,,||서울,,동원홈푸드||인천,,동원홈푸드||대전,,||대구,,||광주,,||부산,,||울산,,||세종시,,||경기북부,,동원홈푸드||
+ * 경기남부,,동원홈푸드||강원도,,||충청북도,,||충청남도,,||경상북도,,||경상남도,,||전라북도,,||전라남도,,동원홈푸드||제주도,,
  *  */
+
+ function standardizeRegionName($region) {
+                                           // 지역명을 표준화하는 함수. 필요에 따라 변환 규칙을 추가할 수 있음.
+  $region = str_replace(' ', '', $region); // 공백 제거
+
+  // 예외 처리: 특정 지역의 경우 앞 두 글자가 아닌 다른 처리가 필요할 때 여기에 추가
+  $mapping = [
+    '전국' => '전국',
+    '전라북도' => '전북',
+    '전라남도' => '전남',
+    '경상북도' => '경북',
+    '경상남도' => '경남',
+    '충청북도' => '충북',
+    '충청남도' => '충남',
+    '경기북부' => '경기',
+    '경기남부' => '경기',
+		'제주도' => '제주특별자치도',
+		'세종시' => '세종특별자치시',
+  ];
+
+  return isset($mapping[$region]) ? $mapping[$region] : $region;
+}
 function memberGoodsAble($memberAddr, $goodsLoca) {
+  global $MEMBER_GOODS_ABLE_CHECK;
+
+  if (!$MEMBER_GOODS_ABLE_CHECK) {
+    return true;
+  }
+  if ($memberAddr == "") {
+    return true;
+  }
+
   $sections = explode('||', $goodsLoca);
   $res_data = array();
 
   foreach ($sections as $section) {
     $parts = explode(',', $section);
-		if (isset($parts[0]) && trim($parts[0]) == "전국" && !empty($parts[2])) {
-			return true;
-		}
+    if (isset($parts[0]) && trim($parts[0]) == "전국" && !empty($parts[2])) {
+      return true;
+    }
     if (isset($parts[2]) && trim($parts[2]) != "") {
-      $region = trim($parts[0]);
-			$res_data[] = mb_substr($region, 0, 2);
+      $region     = trim($parts[0]);
+      $res_data[] = standardizeRegionName($region);
     }
   }
 
+  $standardizedMemberAddr = standardizeRegionName($memberAddr);
+
   foreach ($res_data as $value) {
-    if (strpos($memberAddr, $value) !== false) {
+    if (strpos($standardizedMemberAddr, $value) !== false) {
       return true;
     }
   }

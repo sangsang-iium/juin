@@ -48,7 +48,6 @@ while($unUsedCoupon_row = sql_fetch_array($unUsedCoupon_res)) {
         'body' => "보유하신 \"{$unUsedCoupon_row['cp_subject']}\" 쿠폰 만료일이 1달 남았습니다."
       ];
       $response = sendFCMMessage($message);
-      log_write("쿠폰 만료일이 1달 : ". $response);
     }
 
     // 만료 일주일 전
@@ -59,7 +58,6 @@ while($unUsedCoupon_row = sql_fetch_array($unUsedCoupon_res)) {
         'body' => "보유하신 \"{$unUsedCoupon_row['cp_subject']}\" 쿠폰 만료일이 일주일 남았습니다."
       ];
       $response = sendFCMMessage($message);
-      log_write("쿠폰 만료일이 일주일 : ". $response);
     }
 
     // 만료 하루 전
@@ -70,7 +68,6 @@ while($unUsedCoupon_row = sql_fetch_array($unUsedCoupon_res)) {
         'body' => "보유하신 \"{$unUsedCoupon_row['cp_subject']}\" 쿠폰 만료일이 하루 남았습니다."
       ];
       $response = sendFCMMessage($message);
-      log_write("쿠폰 만료일이 하루 : ". $response);
     }
   } 
   

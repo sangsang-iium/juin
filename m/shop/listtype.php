@@ -29,11 +29,12 @@ $res = query_itemtype($pt_id, $type, $sql_search, $sql_order);
 // $total_count = sql_num_rows($res);
 $total_count = 0;
 while ($rowCntData = sql_fetch_array($res)) {
-  // if (!memberGoodsAble($member['addr1'], $rowCntData['zone'])) {
-  //   continue;
-  // }
+  if (!memberGoodsAble($member['addr1'], $rowCntData['zone'])) {
+    continue;
+  }
   $total_count++;
 }
+print_r($total_count);
 
 $mod = 2; // 가로 출력 수
 $rows = ($mod*9);

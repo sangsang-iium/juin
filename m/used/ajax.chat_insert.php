@@ -40,7 +40,6 @@ if($seller == $sender) {
     'body'  => '주인장 중고장터 메신저가 도착했습니다.'
   ];
   $response = sendFCMMessage($message);
-  log_write("중고장터 채팅 : ". $response);
 
 } else if($buyer == $sender) {
   // 구매자가 채팅 보냈을 때
@@ -56,7 +55,6 @@ if($seller == $sender) {
       'body'  => '주인장 중고장터 메신저가 도착했습니다.'
   ];
   $response = sendFCMMessage($message);
-  log_write("중고장터 채팅 : ". $response);
 }
 
 exit;
