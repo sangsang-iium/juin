@@ -3,7 +3,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 ?>
 <div id="contents">
 
-	<form name="fwrite" id="fwrite" method="post" action="<?php echo $form_action_url; ?>" onsubmit="return fwrite_submit(this);" autocomplete="off">
+	<form name="fwrite" id="fwrite" method="post" action="<?php echo $form_action_url; ?>" onsubmit="return fwrite_submit(this);" autocomplete="off" enctype="MULTIPART/FORM-DATA">
 		<input type="hidden" name="w" value="<?php echo $w; ?>">
 		<input type="hidden" name="boardid" value="<?php echo $boardid; ?>">
 		<input type="hidden" name="index_no" value="<?php echo $index_no; ?>">
@@ -209,6 +209,24 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 					</div>
 				</div>
 
+        <div class="form-row">
+					<div class="form-head">
+						<p class="title">이미지등록</p>
+					</div>
+					<div class="form-body">
+						<div class="img-upload">
+							<div class="img-upload-list">
+								<div class="img-upload-item">
+									<span class="img-upload-delete">삭제</span>
+									<input type="file" name="imgUpload1" id="imgUpload1" class="">
+									<label for="imgUpload1" class="img-upload-view"></label>
+								</div>
+							</div>
+							<p class="img-upload-desc">사진은 10MB이하의 jpg, png, gif 파일만 첨부 가능합니다.</p>
+						</div>
+					</div>
+				</div>
+
 				<div class="cp-btnbar">
 					<div class="container">
 						<div class="cp-btnbar__btns">
@@ -229,6 +247,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 </div>
 
 <script>
+
 function fwrite_submit(f) {
 	<?php if(!$is_member) { ?>
 	if(!f.writer_s.value) {
