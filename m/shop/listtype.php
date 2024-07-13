@@ -46,8 +46,13 @@ while ($rowCntData = sql_fetch_array($res)) {
   $total_count++;
 }
 
-$cntIdx = implode(",", $cntIdxArr);
-$sql_search .= "AND index_no in ($cntIdx)";
+/* ------------------------------------------------------------------------------------- _20240713_SY 
+  * cntIdx 오류 있어서 if(count($cntIdx) > 0) 추가
+/* ------------------------------------------------------------------------------------- */
+if(count($cntIdx) > 0) {
+  $cntIdx = implode(",", $cntIdxArr);
+  $sql_search .= "AND index_no in ($cntIdx)";
+} 
 
 $mod = 2; // 가로 출력 수
 $rows = ($mod*9);
