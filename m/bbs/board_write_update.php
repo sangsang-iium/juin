@@ -56,6 +56,42 @@ if($w == "") {
 					$sql_common ";
 	sql_query($sql);
 
+  /* ------------------------------------------------------------------------------------- _20240713_SY 
+    * 첨부파일 추가
+  /* ------------------------------------------------------------------------------------- */
+  $idx = sql_insert_id();
+  $uploadDir = "../../data/board/{$boardid}/"; // 업로드 디렉토리 경로
+  	
+	$fileName = $_FILES["imgUpload1"]["name"];
+	$fileTmpName = $_FILES["imgUpload1"]["tmp_name"];
+	$fileSize = $_FILES["imgUpload1"]["size"];
+	$allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+	$fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+	if (in_array($fileExtension, $allowedExtensions)) {
+    // 새로운 파일 이름을 생성합니다.
+    $newFileName = uniqid() . "." . $fileExtension;
+    $uploadPath = $uploadDir . $newFileName;
+
+    // 임시 파일의 경로를 UTF-8로 변환합니다.
+    $utf8TmpFileName = mb_convert_encoding($fileTmpName, 'UTF-8', 'auto');
+
+    // 파일을 이동시킵니다.
+    if (move_uploaded_file($utf8TmpFileName, $uploadPath)) {
+    echo "파일 업로드 성공: " . $newFileName;
+    $newFileName1 = $newFileName;		
+    } else {
+    echo "파일 업로드 실패.";
+    }
+	}  
+
+  $imgUp['fileurl1'] = $newFileName1;
+  $imgWhere = " WHERE index_no = {$idx} ";
+  $IMG_UPDATE = new IUD_Model;
+  $IMG_UPDATE->update("shop_board_{$boardid}", $imgUp, $imgWhere);
+
+
+
 	goto_url(BV_MBBS_URL."/board_list.php?boardid=$boardid");
 
 } else if($w == "u") {
