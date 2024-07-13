@@ -1842,8 +1842,9 @@ function calculate_temp_point(val) {
     temp_point = 0;
   }
   if(temp_point > mb_point) {
-    temp_point = 0;
     alert(`보유중인 적립금 : ${mb_point}`);
+    f.use_point.value = mb_point
+    temp_point = mb_point;
   }
 
 

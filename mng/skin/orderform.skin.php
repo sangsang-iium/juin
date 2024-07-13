@@ -1336,30 +1336,81 @@ $row_card = sql_fetch($sql_card);
     return true;
   }
 
-  function calculate_temp_point(val) {
-    var f = document.buyform;
-    var temp_point = parseInt(no_comma(f.use_point.value));
-    var sell_price = parseInt(f.org_price.value);
-    var send_cost2 = parseInt(f.baesong_price2.value);
-    var mb_coupon = parseInt(f.coupon_total.value);
-    var tot_price = sell_price + send_cost2 - mb_coupon;
+  // function calculate_temp_point(val) {
+  //   var f = document.buyform;
+  //   var temp_point = parseInt(no_comma(f.use_point.value));
+  //   var sell_price = parseInt(f.org_price.value);
+  //   var send_cost2 = parseInt(f.baesong_price2.value);
+  //   var mb_coupon = parseInt(f.coupon_total.value);
+  //   var tot_price = sell_price + send_cost2 - mb_coupon;
 
-    if (val == ''){
-      temp_point = 0;
-    }
+  //   if (val == ''){
+  //     temp_point = 0;
+  //   }
 
-    if (!checkNum(no_comma(val))) {
-      alert('포인트 사용액은 숫자이어야 합니다.');
-      f.tot_price.value = number_format(String(tot_price));
-      $("#rst-usePoint").text('0');
-      f.use_point.value = 0;
-      f.use_point.focus();
-      return;
-    } else {
-      f.tot_price.value = number_format(String(tot_price - temp_point));
-      $("#rst-usePoint").text("-"+number_format(String(temp_point))+'원');
-    }
+  //   if (!checkNum(no_comma(val))) {
+  //     alert('포인트 사용액은 숫자이어야 합니다.');
+  //     f.tot_price.value = number_format(String(tot_price));
+  //     $("#rst-usePoint").text('0');
+  //     f.use_point.value = 0;
+  //     f.use_point.focus();
+  //     return;
+  //   } else {
+  //     f.tot_price.value = number_format(String(tot_price - temp_point));
+  //     $("#rst-usePoint").text("-"+number_format(String(temp_point))+'원');
+  //   }
+  // }
+
+function calculate_temp_point(val) {
+ 
+  var f = document.buyform;
+  var temp_point = parseInt(no_comma(f.use_point.value));
+  var sell_price = parseInt(f.org_price.value);
+  var send_cost2 = parseInt(f.baesong_price2.value);
+  var mb_coupon = parseInt(f.coupon_total.value);
+  var tot_price = sell_price + send_cost2 - mb_coupon;
+
+  // 스페이스바 눌렸을 때의 처리
+  if (val == '' || val.trim() == '') {
+    temp_point = 0;
   }
+
+  /* ------------------------------------------------------------------------------------- _20240713_SY 
+    * 포인트 적용
+      * 최소 포인트 값 적용 
+      * 스페이스바 인식 추가
+      * 보유 포인트 이상 입력 시 결제 금액 바뀌는 문제 
+  /* ------------------------------------------------------------------------------------- */
+  const min_point = parseInt("<?php echo $config['usepoint']; ?>");  // 최소사용포인트
+  const mb_point  = parseInt($("input[name=mb_point]").val());       // 보유포인트
+
+  if(temp_point < min_point) {
+    temp_point = 0;
+  }
+  if(temp_point > mb_point) {
+    alert(`보유중인 적립금 : ${mb_point}`);
+    f.use_point.value = mb_point
+    temp_point = mb_point;
+  }
+
+
+  if (!checkNum(no_comma(val))) {
+    alert('포인트 사용액은 숫자이어야 합니다.');
+    f.tot_price.value = number_format(String(tot_price));
+    $("#rst-usePoint").text('0');
+    f.use_point.value = 0;
+    f.use_point.focus();
+    return;
+  } else {
+    f.tot_price.value = number_format(String(tot_price - temp_point));
+    $("#rst-usePoint").text("-" + number_format(String(temp_point)) + '원');
+  }
+} 
+
+  // 적립금 입력 스페이스바를 인식할 수 있도록 변경 _20240713_SY
+  document.querySelector("input[name=use_point]").addEventListener('keyup', function(event) {
+  calculate_temp_point(event.target.value);
+  });
 
   // 결제방법
   // function calculate_paymethod(type) {
