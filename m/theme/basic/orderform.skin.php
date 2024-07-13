@@ -791,7 +791,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             <div class="od-dtn-info">
               <div class="info-item">
                 <p class="tit">배송요청사항</p>
-                <input type="text" name="b_addr_req" value="<?php echo $b_addr_req?>" class="w-per50 frm-input">
+                <input type="text" name="b_addr_req" value="<?php echo $res['b_addr_req']?>" class="w-per50 frm-input">
               </div>
             </div>
           </div>

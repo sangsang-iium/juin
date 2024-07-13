@@ -92,7 +92,8 @@ if($ju_region_code) {
 }
 
 // 추가 _20240712_SY
-$store_display = isset($_POST['store_display']) ? trim($_POST['store_display']) : "2";
+$store_display   = isset($_POST['store_display'])   ? trim($_POST['store_display']) : "2";
+$b_addr_req_base = isset($_POST['b_addr_req_base']) ? $_POST['b_addr_req_base']     : "";
 
 if($w == '' || $w == 'u') {
 
@@ -322,6 +323,28 @@ if($w == '') {
     sql_query(" update shop_member set ju_simg = '$save_img' where id = '$mb_id' ");
   }
   /* 매장 사진 */
+
+
+  /* ------------------------------------------------------------------------------------- _20240713_SY 
+    * 기본배송지 추가
+  /* ------------------------------------------------------------------------------------- */
+    $b_addr_table = "b_address";
+    $b_addr_value['mb_id']        = $mb_id;
+    $b_addr_value['b_cellphone']  = $mb_hp;
+    $b_addr_value['b_telephone']  = $mb_tel;
+    $b_addr_value['b_zip']        = $mb_zip;
+    $b_addr_value['b_addr1']      = $mb_addr1;
+    $b_addr_value['b_addr2']      = $mb_addr2;
+    $b_addr_value['b_addr3']      = $mb_addr3;
+    $b_addr_value['b_addr_jibun'] = $mb_addr_jibeon;
+    $b_addr_value['b_name']       = "기본배송지";
+    $b_addr_value['b_base']       = "1";
+    $b_addr_value['b_addr_jibeon']= $mb_addr_jibeon;
+    $b_addr_value['b_addr_req']   = $b_addr_req_base;
+
+    $INSERT_BADDR = new IUD_Model;
+    $INSERT_BADDR->insert($b_addr_table, $b_addr_value);
+
 
 
     // 회원가입 포인트 부여

@@ -493,7 +493,7 @@ $row_card = sql_fetch($sql_card);
                     <dl class="info-item">
                         <dt class="tit">배송요청사항</dt>
                         <dd class="w90p">
-                            <input type="text" name="b_addr_req" value="<?php echo $b_addr_req ?>" class="w-per50 frm-input">
+                            <input type="text" name="b_addr_req" value="<?php echo $res['b_addr_req'] ?>" class="w-per50 frm-input">
                         </dd>
                     </dl>
                     </div>
