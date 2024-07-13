@@ -731,7 +731,7 @@ $(document).ready(function(){
 
   
   // 매장정보 hide() _20240604_SY
-  if(w == '') {
+  if($('#store_display-n').is(':checked')) {
     $('.store_info').hide(); // 각 요소를 숨깁니다.
   }
   
