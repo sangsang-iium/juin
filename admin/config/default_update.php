@@ -1,6 +1,11 @@
 <?php
 include_once("./_common.php");
 
+/* ------------------------------------------------------------------------------------- _20240713_SY 
+ * 주석처리 목록
+  $value['coupon_yes']
+/* ------------------------------------------------------------------------------------- */
+
 check_demo();
 
 check_admin_token();
@@ -70,7 +75,7 @@ $value['info_email']			= $_POST['info_email']; //정보책임자 e-mail
 $value['shop_intro_yes']		= $_POST['shop_intro_yes']; // 메인인트로 적용
 $value['cert_admin_yes']		= $_POST['cert_admin_yes']; //승인 후 로그인
 $value['cert_partner_yes']		= $_POST['cert_partner_yes']; //회원 승인권한
-$value['coupon_yes']			= $_POST['coupon_yes']; //쿠폰 (온라인) 사용여부
+// $value['coupon_yes']			= $_POST['coupon_yes']; //쿠폰 (온라인) 사용여부
 $value['gift_yes']				= $_POST['gift_yes']; //쿠폰 (인쇄용) 사용여부
 // $value['write_pages']			= $_POST['write_pages']; // 페이지 표시 수
 // $value['mobile_pages']			= $_POST['mobile_pages']; // 모바일 페이지 표시 수

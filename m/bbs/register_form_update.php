@@ -245,7 +245,7 @@ if($w == '') {
     $value['ju_b_num']      = $b_no;                      // 사업자등록번호
     $value['ju_display']    = $store_display;             // 매장 노출 여부 추가 _20240712_SY
     // store_display (매장 노출 여부) 체크 추가 _20240712_SY
-  if($reg_type == 1 && $store_display == '1') {
+  if($reg_type == 1) {
     $value['ju_name']       = $mb_name;                   // 중앙회원 이름
     $value['ju_unique_num'] = $pop_u_no;                  // 중앙회원 고유번호
     $value['ju_closed']     = $chk_cb_res;                // 휴/폐업
@@ -276,7 +276,7 @@ if($w == '') {
 
   // 추가 _20240712_SY
   /* 매장 사진 */
-  if($reg_type == 1 && $store_display == '1') {
+  if($reg_type == 1) {
     $sub_imgs = explode("|", $member['ju_simg']);
     $image_regex = "/(\.(jpg|gif|png))$/i";
     $save_dir = BV_DATA_PATH.'/member/';
