@@ -357,8 +357,8 @@ if(!defined('_BLUEVATION_')) exit;
                     }
                   ?>
               </select>
-              <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
-              <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
+              <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" <?php echo $required; ?> class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
+              <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" <?php echo $required; ?> class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
             </div>
           </div>
 
@@ -1357,13 +1357,13 @@ function fregisterform_submit(f)
     let ss_em     = sessionStorage.getItem("Email");
     let ss_em_chk = sessionStorage.getItem('chkEm');
     
-    if(f.w.value == "") {
+    // if(f.w.value == "") {
       if(chkEmRes == false) {
         alert('이메일 중복을 확인해 주십시오.');
         f.mb_email.focus();
         return false;
       }
-    }
+    // }
 
     if(chkEmRes == true) {
       if(ss_em != f.reg_mb_email.value) {
@@ -1419,6 +1419,13 @@ function fregisterform_submit(f)
 			return false;
 		}
 	}
+
+  // 담당직원 검사 _20240713_SY
+  if(f.pop_nm.value == "" || f.mn_idx.value == "") {
+    alert("담당직원 정보는 필수입니다.");
+    f.pop_nm.focus();
+    return false;
+  }
 
 	document.getElementById("btn_submit").disabled = "disabled";
 

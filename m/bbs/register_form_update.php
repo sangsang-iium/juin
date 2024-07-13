@@ -131,10 +131,11 @@ if($w == '' || $w == 'u') {
 
     if($w == '') {
         if($msg = exist_mb_id($mb_id))		alert($msg);
-
-        if(get_session('ss_check_mb_id') != $mb_id || get_session('ss_check_mb_email') != $mb_email) {
+        
+        // if(get_session('ss_check_mb_id') != $mb_id || get_session('ss_check_mb_email') != $mb_email) {
+        if(get_session('ss_check_mb_id') != $mb_id) {
             set_session('ss_check_mb_id', '');
-            set_session('ss_check_mb_email', '');
+            // set_session('ss_check_mb_email', '');
 
             alert('올바른 방법으로 이용해 주십시오.');
         }
@@ -461,19 +462,45 @@ if($w == '') {
   /* 매장 사진 */
 }
 
-// 신규회원가입 쿠폰발급
-if($w == '' && $config['coupon_yes']) {
-	$cp_used = false;
-	$cp = sql_fetch("select * from shop_coupon where cp_type = '5'");
-	if($cp['cp_id'] && $cp['cp_use']) {
-		if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
-		   ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
-			$cp_used = true;
 
-		if($cp_used)
-			insert_used_coupon($mb_id, $mb_name, $cp);
-	}
+
+/* ------------------------------------------------------------------------------------- _20240713_SY 
+  * 중앙회회원등급 회원 가입시 5천원, 1만원 할인 쿠폰 2장 발급
+  * Type으로 구분하는게 가장 좋을 거 같은데 우선 cp_explane 문구로 구분함
+  ------------------------------------------------------------------------------------- */
+
+if($w == '' && $config['coupon_yes'] && $reg_type == '1') {
+	$cp_used = false;
+	$cp_sel = " SELECT * FROM shop_coupon WHERE cp_type = '5' AND cp_explan = '신규중앙회원가입' ";
+  $cp_res = sql_query($cp_sel);
+  while($cp = sql_fetch_array($cp_res)) {
+    if($cp['cp_id'] && $cp['cp_use']) {
+      if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
+         ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
+        $cp_used = true;
+  
+      if($cp_used)
+        insert_used_coupon($mb_id, $mb_name, $cp);
+    }
+  }
+} else {
+
+  // 신규회원가입 쿠폰발급
+  if($w == '' && $config['coupon_yes']) {
+    $cp_used = false;
+    $cp = sql_fetch("select * from shop_coupon where cp_type = '5' AND cp_explan != '신규중앙회원가입' ");
+    if($cp['cp_id'] && $cp['cp_use']) {
+      if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
+        ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
+        $cp_used = true;
+
+      if($cp_used)
+        insert_used_coupon($mb_id, $mb_name, $cp);
+    }
+  }
+
 }
+
 
 unset($_SESSION['ss_cert_type']);
 unset($_SESSION['ss_cert_no']);
