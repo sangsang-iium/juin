@@ -202,7 +202,8 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   $t_orderid       = $od_id;
   $t_ordername     = $t_turnstr;
   $t_taxfreeamount = 0;
-  $credential      = "test_sk_QbgMGZzorzKD26y2w4728l5E1em4";
+  // $credential      = "test_sk_QbgMGZzorzKD26y2w4728l5E1em4";
+  $credential      = "live_sk_0RnYX2w532Mklgz2ZPY18NeyqApQ";
   $t_name          = $_POST['name'];
   $t_email         = $_POST['email'];
   $TossRun         = new Tosspay();

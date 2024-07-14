@@ -101,10 +101,11 @@ for($i=0; $i<count($gw_msort); $i++) {
             $it_sprice = $sale = '';
             if($type==1){
               if($is_member){
-                $bb        = $it_amount + 2000;
-                $sett      = ($bb - $it_amount) / $bb * 100;
-                $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
-                $it_sprice = number_format($bb);
+                if ($row['normal_price'] > $it_amount && !$is_uncase) {
+                  $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
+                  $sale      = number_format($sett, 0) . '%';
+                  $it_sprice = display_price2($row['normal_price']);
+                }
               }
             } else {
               if($row['normal_price'] > $it_amount && !$is_uncase) {

@@ -138,8 +138,28 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
     $b_address = $member['addr1'];
   }
 
-  $result = display_itemtype($pt_id, $type, $rows);
-  for ($i = 0; $row = sql_fetch_array($result); $i++) {
+  $result = display_itemtype($pt_id, $type);
+
+	$total_count = 0;
+	$cntIdxArr   = array();
+	while ($rowCntData = sql_fetch_array($result)) {
+		if (!memberGoodsAble($b_address, $rowCntData['zone'])) {
+			continue;
+		}
+		$cntIdxArr[] = $rowCntData['index_no'];
+		$total_count++;
+	}
+
+	$cntIdx = implode(",", $cntIdxArr);
+	if (count($cntIdxArr) > 0) {
+		$sql_search2 = "AND a.index_no in ($cntIdx)";
+	} else {
+		$sql_search2 = "";
+	}
+
+	$result2 = display_itemtype($pt_id, $type, $rows, $sql_search2);
+
+  for ($i = 0; $row = sql_fetch_array($result2); $i++) {
 		if(!memberGoodsAble($b_address, $row['zone'])){
 			continue;
 		}
@@ -156,17 +176,17 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 
     $it_sprice = $sale = '';
 
-    // if ($row['normal_price'] > $it_amount) {
-    //   $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
-    //   $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
-    //   $it_sprice = display_price2($row['normal_price']);
-    // }
-		if($is_member){
-		  $bb = $it_amount+2000;
-      $sett      = ($bb - $it_amount) / $bb * 100;
+    if ($row['normal_price'] > $it_amount) {
+      $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
       $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
-			$it_sprice = number_format($bb);
-		}
+      $it_sprice = display_price2($row['normal_price']);
+    }
+		// if($is_member){
+		//   $bb = $it_amount+2000;
+    //   $sett      = ($bb - $it_amount) / $bb * 100;
+    //   $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
+		// 	$it_sprice = number_format($bb);
+		// }
 
 		$it_today = date("Y-m-d 23:59:59");
 
@@ -271,7 +291,7 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
     $b_address = $member['addr1'];
   }
 
-	$result = display_itemtype($pt_id, $type, $rows);
+	$result = display_itemtype($pt_id, $type);
 
 	$total_count = 0;
 	$cntIdxArr   = array();
