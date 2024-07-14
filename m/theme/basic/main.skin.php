@@ -119,11 +119,11 @@ include_once(BV_PATH.'/include/introBtn.php');
           우선 내부에서만 인트로로 이동되도록 해 놓음, 업체에서 인트로로 연결되도록 해 달라고 하면 if문 빼면 됨
           나중에 배너 폴더 따로 만들어서 해당 폴더 이미지 돌아가게 개발 해 놓는게 편할거 같음
           ------------------------------------------------------------------------------------- */
-       if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
+      //  if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
         $brand_href = "/m/brand/brandIntro.php?ca_id=006";
-       } else {
-        $brand_href = "/m/shop/list.php?ca_id=006";
-       }
+      //  } else {
+      //   $brand_href = "/m/shop/list.php?ca_id=006";
+      //  }
        ?>
       <a href="<?php echo $brand_href ?>" class="swiper-slide banner-item">
         <div class="banner-img">
