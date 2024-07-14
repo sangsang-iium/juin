@@ -62,7 +62,7 @@ if(!defined('_BLUEVATION_')) exit;
           }
         }
 
-        echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$qstr1.'&page=');
+        echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$qstr.'&page=');
         ?>
       </div>
     </div>

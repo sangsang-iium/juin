@@ -114,22 +114,25 @@ while ($rowSum = sql_fetch_array($resCartSum)) {
   $totals[] = $rowSum;
 }
 
-$odIdCounters = [];
+// $odIdCounters = array();
 if ($orderNumRows > 0) {
   while ($row = sql_fetch_array($resOdShop)) {
-    $od_id = $row['od_id'];
+    // $od_id = $row['od_id'];
+    $odRegNum = $row['od_reg_num'];
 
-    // od_id가 처음 등장하는 경우 카운터를 초기화
-    if (!isset($odIdCounters[$od_id])) {
-      $odIdCounters[$od_id] = 0;
-    }
+    // // od_id가 처음 등장하는 경우 카운터를 초기화
+    // if (!isset($odIdCounters[$od_id])) {
+    //   $odIdCounters[$od_id] = 0;
+    // }
 
-    // 현재 카운터 값을 사용하고, 이후 카운터 값을 증가시킴
-    $i = $odIdCounters[$od_id];
-    $odIdCounters[$od_id]++;
+    // // 현재 카운터 값을 사용하고, 이후 카운터 값을 증가시킴
+    // $i = $odIdCounters[$od_id];
+    // $odIdCounters[$od_id]++;
 
-    $shopVal['od_id']             = $row['od_id'] . "_" . $i;
-    $shopVal['od_no']             = $row['od_no'] . "_" . $i;
+    $od_id_plus    = sprintf("%02d", $odRegNum);
+
+    $shopVal['od_id']             = $row['od_id'] . "_" . $od_id_plus;
+    $shopVal['od_no']             = $row['od_no'] . "_" . $od_id_plus;
     $shopVal['mb_id']             = $row['mb_id'];
     $shopVal['pt_id']             = $row['pt_id'];
     $shopVal['shop_id']           = $row['shop_id'];
