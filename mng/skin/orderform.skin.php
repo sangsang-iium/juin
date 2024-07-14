@@ -1223,6 +1223,18 @@ $row_card = sql_fetch($sql_card);
       return false;
     }
 
+      /* ------------------------------------------------------------------------------------- _20240714_SY
+        * 포인트 적용
+          * 최소 포인트 값 적용
+      /* ------------------------------------------------------------------------------------- */
+      if(temp_point < min_point){
+          alert(`포인트사용 금액은 최소 ${min_point}입니다..`);
+          f.tot_price.value = number_format(String(tot_price));
+          f.use_point.value = 0;
+          f.use_point.focus();
+          return false;
+        }
+
     if (temp_point > tot_price) {
       alert('포인트사용 금액은 최종결제금액 보다 클수 없습니다.');
       f.tot_price.value = number_format(String(tot_price));
