@@ -86,6 +86,9 @@ EOF;
                 <?php echo radio_checked('od_final', $od_final,  '', '전체'); ?>
                 <?php echo radio_checked('od_final', $od_final, '1', '구매확정'); ?>
                 <?php echo radio_checked('od_final', $od_final, '0', '구매미확정'); ?>
+                <?php echo radio_checked('od_final', $od_final, '15', '강제출고'); ?>
+                <?php echo radio_checked('od_final', $od_final, '16', '강제출고완료'); ?>
+                <?php echo radio_checked('od_final', $od_final, '13', '강제입금'); ?>
             </div>
 		</td>
 	</tr>
