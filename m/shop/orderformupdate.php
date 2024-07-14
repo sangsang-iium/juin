@@ -54,6 +54,8 @@ sql_query(" delete from shop_order where od_id = '$od_id' ");
 $dan = 0;
 if ($_POST['paymethod'] == '무통장') {
   $dan = 1;
+} else if($_POST['paymethod'] == '간편') {
+  $dan = 2;
 }
 // 주문접수 단계로 적용
 
@@ -180,7 +182,7 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
     raffleOrder($gs_first_id, $_POST['raffle_log_index']);
   }
 
-} else if ($_POST['paymethod'] == '신용카드') {
+} else if ($_POST['paymethod'] == '간편') {
   $gs_first_id = $gs_id[0];
   $gs_count    = count($gs_id);
   $sql_gs      = "SELECT * FROM shop_goods WHERE index_no = '{$gs_first_id}'";
@@ -201,7 +203,8 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
   $t_orderid       = $od_id;
   $t_ordername     = $t_turnstr;
   $t_taxfreeamount = 0;
-  $credential      = "test_sk_QbgMGZzorzKD26y2w4728l5E1em4";
+  $credential      = "live_sk_0RnYX2w532Mklgz2ZPY18NeyqApQ";
+  // $credential      = "test_sk_QbgMGZzorzKD26y2w4728l5E1em4";
   $t_name          = $_POST['name'];
   $t_email         = $_POST['email'];
   $TossRun         = new Tosspay();
@@ -498,7 +501,7 @@ $sql = " update {$shop_table}
 		  where od_id = '$od_id'";
 sql_query($sql, false);
 
-if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드'))) {
+if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드', '간편'))) {
   $cart_select = ", ct_select = '1' ";
   // $cart_select = " , ct_select = '1' ";
 }
@@ -647,7 +650,7 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트', '렌탈'))) {
   goto_url(BV_MSHOP_URL . '/orderkakaopay.php?od_id=' . $od_id);
 } else if ($_POST['paymethod'] == '삼성페이') {
   goto_url(BV_MSHOP_URL . '/orderinicis.php?od_id=' . $od_id);
-} else if ($_POST['paymethod'] == '신용카드') {
+} else if ($_POST['paymethod'] == '신용카드' || $_POST['paymethod'] == '간편') {
   if ($resulturl == 'pc') {
     goto_url(BV_URL . '/mng/shop/orderinquiryview.php?od_id=' . $od_id . '&uid=' . $uid . '&tran_id=' . $tran_id.'&reg_yn='.$reg_yn );
   } else {
