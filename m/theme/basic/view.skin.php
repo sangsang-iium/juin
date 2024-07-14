@@ -72,9 +72,9 @@ $row_type = sql_fetch($sql_type);
         <?php } else if ($gs['reg_yn'] == "3") { ?>
         <div class="cp-tag-item">
           <div class="cp-tag tag03">렌탈</div>
-        </div>  
-        <?php } 
-        
+        </div>
+        <?php }
+
         if($gs['sc_type'] == "1"){ ?>
         <div class="cp-tag-item">
           <div class="cp-tag tag04">택배</div>
@@ -93,18 +93,7 @@ $row_type = sql_fetch($sql_type);
         // (시중가 - 할인판매가) / 시중가 X 100 = 할인률%
         $gs_amount = get_sale_price($gs['index_no']);
         $gs_sprice = $gs_sale = '';
-        
-        // 2000원 할인 하드코딩 _20240625_SY
-        $bb = 0;
-        $sett = 0;
 
-         // price_msg 추가 _20240701_SY
-        if($is_member && empty($gs['price_msg'])) {
-          $bb        = $gs_amount + 2000;
-          $sett      = ($bb - $gs_amount) / $bb * 100;
-          $gs_sale   = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
-          $it_sprice = number_format($bb) . "원";
-        } 
 
         if(empty($gs['price_msg']) && $gs['normal_price'] > $gs_amount && !is_uncase($gs['index_no'])) {
           $gs_sett = ($gs['normal_price'] - $gs_amount) / $gs['normal_price'] * 100;
@@ -117,7 +106,7 @@ $row_type = sql_fetch($sql_type);
         <?php if($gs_sprice) { ?>
           <p class="dc-price"><?php echo $gs_sprice; ?></p>
         <?php } ?>
-        <?php if($row_type['gt_no']) { ?> 
+        <?php if($row_type['gt_no']) { ?>
           <p class="dc-price"><?php echo $it_sprice; ?></p>
         <?php } ?>
         <p class="price-box">

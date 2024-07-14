@@ -220,7 +220,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                     </div>
                   <?php } ?>
                 </div>
-                <p class="price"><?php echo number_format($row['ct_price']); ?>원<span class="dc-price"><?php echo number_format('99999'); ?>원</span></p>
+                <p class="price"><?php echo number_format($row['ct_price']); ?>원</p>
+                <!-- <p class="price"><?php echo number_format($row['ct_price']); ?>원<span class="dc-price"><?php echo number_format('99999'); ?>원</span></p> -->
               </div>
             </div>
           </div>
