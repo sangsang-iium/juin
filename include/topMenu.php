@@ -71,6 +71,12 @@
 
 				// 	echo '<a href="' . htmlspecialchars($page_url, ENT_QUOTES, 'UTF-8') . '" data-id="' . htmlspecialchars($menu_id, ENT_QUOTES, 'UTF-8') . '" class="swiper-slide btn">' . htmlspecialchars($menu_name, ENT_QUOTES, 'UTF-8') . '</a>' . PHP_EOL;
 				// }
+
+        
+        /* ------------------------------------------------------------------------------------- _20240713_SY 
+          * 기획전 링크 추가
+        /* ------------------------------------------------------------------------------------- */
+        echo '<a href="/shop/plan.php?menu=exhibition" data-id="" class="swiper-slide btn">상품기획전</a>' . PHP_EOL;
 			?>
     </div>
   </nav>
