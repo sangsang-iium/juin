@@ -3,11 +3,13 @@ include_once("./_common.php");
 
 $url = $_GET['url'];
 
+
 // url 체크
 check_url_host($url);
 
 // 이미 로그인 중이라면
 if($is_member) {
+  $url = BV_URL."/admin/";
     if($url)
         goto_url($url);
     else
