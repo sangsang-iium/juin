@@ -132,12 +132,12 @@ if (!defined('_BLUEVATION_')) exit;
             <?php } ?>
             <div class="form-row">
               <div class="form-head">
-                <p class="title"><label for="reg_mb_email">이메일</label><b>*</b></p>
+                <p class="title"><label for="reg_mb_email">이메일</label></p>
               </div>
               <div class="form-body">
                 <div class="input-button id-confirm">
                   <input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
-                  <input type="email" name="mb_email" value="<?php echo isset($member['email']) ? $member['email'] : ''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
+                  <input type="email" name="mb_email" value="<?php echo isset($member['email']) ? $member['email'] : ''; ?>" id="reg_mb_email" class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
                   <button type="button" class="ui-btn st3" onclick="chk_email()">중복확인</button>
                 </div>
                 <!-- <span class="at">@</span>
@@ -200,8 +200,8 @@ if (!defined('_BLUEVATION_')) exit;
                   }
                   ?>
                 </select>
-                <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
-                <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
+                <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" <?php echo $required; ?> class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
+                <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" <?php echo $required; ?> class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
 
               </div>
             </div>
@@ -527,6 +527,53 @@ if (!defined('_BLUEVATION_')) exit;
     });
   });
 
+  
+  $(function() {
+    <?php if($config['cf_cert_use'] && $config['cf_cert_ipin']) { ?>
+    // 아이핀인증
+    $("#win_ipin_cert").click(function() {
+      if(!cert_confirm())
+        return false;
+
+      var url = "<?php echo BV_OKNAME_URL; ?>/ipin1.php";
+      certify_win_open('kcb-ipin', url);
+      return;
+    });
+
+    <?php } ?>
+    <?php if($config['cf_cert_use'] && $config['cf_cert_hp']) { ?>
+    // 휴대폰인증
+    $("#win_hp_cert").click(function() {
+      if(!cert_confirm())
+        return false;
+
+      <?php
+      switch($config['cf_cert_hp']) {
+        case 'kcb':
+          $cert_url = BV_OKNAME_URL.'/hpcert1.php';
+          $cert_type = 'kcb-hp';
+          break;
+        case 'kcp':
+          $cert_url = BV_KCPCERT_URL.'/kcpcert_form.php';
+          $cert_type = 'kcp-hp';
+          break;
+        case 'lg':
+          $cert_url = BV_LGXPAY_URL.'/AuthOnlyReq.php';
+          $cert_type = 'lg-hp';
+          break;
+        default:
+          echo 'alert("기본환경설정에서 휴대폰 본인인증 설정을 해주십시오");';
+          echo 'return false;';
+          break;
+      }
+      ?>
+
+      certify_win_open("<?php echo $cert_type; ?>", "<?php echo $cert_url; ?>");
+      return;
+    });
+    <?php } ?>
+  });
+
 
   function fregisterform_submit(f) {
     // 회원아이디 검사
@@ -633,33 +680,35 @@ if (!defined('_BLUEVATION_')) exit;
 
 
     // E-mail 검사
-    if ((f.w.value == "") || (f.w.value == "u" && f.mb_email.defaultValue != f.mb_email.value)) {
+    if ((f.w.value == "u" && f.mb_email.defaultValue != f.mb_email.value)) {
       var msg = reg_mb_email_check();
       if (msg) {
         alert(msg);
         f.reg_mb_email.select();
         return false;
       }
-    }
+    
 
-    // 이메일 중복확인 여부 _20240319_SY
-    let ss_em = sessionStorage.getItem("Email");
-    let ss_em_chk = sessionStorage.getItem('chkEm');
+      // 이메일 중복확인 여부 _20240319_SY
+      let ss_em = sessionStorage.getItem("Email");
+      let ss_em_chk = sessionStorage.getItem('chkEm');
 
-    if (f.w.value == "") {
-      if (f.chk_em_res.value == 0) {
-        alert('이메일 중복을 확인해 주십시오.');
-        f.mb_email.focus();
-        return false;
+      // if (f.w.value == "") {
+        if (f.chk_em_res.value == 0) {
+          alert('이메일 중복을 확인해 주십시오.');
+          f.mb_email.focus();
+          return false;
+        }
+      // }
+
+      if (f.chk_em_res.value == 1) {
+        if (ss_em != f.reg_mb_email.value) {
+          alert("이메일 중복을 확인해 주십시오.")
+          f.mb_email.focus();
+          return false;
+        }
       }
-    }
-
-    if (f.chk_em_res.value == 1) {
-      if (ss_em != f.reg_mb_email.value) {
-        alert("이메일 중복을 확인해 주십시오.")
-        f.mb_email.focus();
-        return false;
-      }
+    
     }
 
 

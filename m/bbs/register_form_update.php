@@ -92,7 +92,8 @@ if($ju_region_code) {
 }
 
 // 추가 _20240712_SY
-$store_display = isset($_POST['store_display']) ? trim($_POST['store_display']) : "2";
+$store_display   = isset($_POST['store_display'])   ? trim($_POST['store_display']) : "2";
+$b_addr_req_base = isset($_POST['b_addr_req_base']) ? $_POST['b_addr_req_base']     : "";
 
 if($w == '' || $w == 'u') {
 
@@ -131,10 +132,11 @@ if($w == '' || $w == 'u') {
 
     if($w == '') {
         if($msg = exist_mb_id($mb_id))		alert($msg);
-
-        if(get_session('ss_check_mb_id') != $mb_id || get_session('ss_check_mb_email') != $mb_email) {
+        
+        // if(get_session('ss_check_mb_id') != $mb_id || get_session('ss_check_mb_email') != $mb_email) {
+        if(get_session('ss_check_mb_id') != $mb_id) {
             set_session('ss_check_mb_id', '');
-            set_session('ss_check_mb_email', '');
+            // set_session('ss_check_mb_email', '');
 
             alert('올바른 방법으로 이용해 주십시오.');
         }
@@ -244,7 +246,7 @@ if($w == '') {
     $value['ju_b_num']      = $b_no;                      // 사업자등록번호
     $value['ju_display']    = $store_display;             // 매장 노출 여부 추가 _20240712_SY
     // store_display (매장 노출 여부) 체크 추가 _20240712_SY
-  if($reg_type == 1 && $store_display == '1') {
+  if($reg_type == 1) {
     $value['ju_name']       = $mb_name;                   // 중앙회원 이름
     $value['ju_unique_num'] = $pop_u_no;                  // 중앙회원 고유번호
     $value['ju_closed']     = $chk_cb_res;                // 휴/폐업
@@ -275,7 +277,7 @@ if($w == '') {
 
   // 추가 _20240712_SY
   /* 매장 사진 */
-  if($reg_type == 1 && $store_display == '1') {
+  if($reg_type == 1) {
     $sub_imgs = explode("|", $member['ju_simg']);
     $image_regex = "/(\.(jpg|gif|png))$/i";
     $save_dir = BV_DATA_PATH.'/member/';
@@ -321,6 +323,28 @@ if($w == '') {
     sql_query(" update shop_member set ju_simg = '$save_img' where id = '$mb_id' ");
   }
   /* 매장 사진 */
+
+
+  /* ------------------------------------------------------------------------------------- _20240713_SY 
+    * 기본배송지 추가
+  /* ------------------------------------------------------------------------------------- */
+    $b_addr_table = "b_address";
+    $b_addr_value['mb_id']        = $mb_id;
+    $b_addr_value['b_cellphone']  = $mb_hp;
+    $b_addr_value['b_telephone']  = $mb_tel;
+    $b_addr_value['b_zip']        = $mb_zip;
+    $b_addr_value['b_addr1']      = $mb_addr1;
+    $b_addr_value['b_addr2']      = $mb_addr2;
+    $b_addr_value['b_addr3']      = $mb_addr3;
+    $b_addr_value['b_addr_jibun'] = $mb_addr_jibeon;
+    $b_addr_value['b_name']       = "기본배송지";
+    $b_addr_value['b_base']       = "1";
+    $b_addr_value['b_addr_jibeon']= $mb_addr_jibeon;
+    $b_addr_value['b_addr_req']   = $b_addr_req_base;
+
+    $INSERT_BADDR = new IUD_Model;
+    $INSERT_BADDR->insert($b_addr_table, $b_addr_value);
+
 
 
     // 회원가입 포인트 부여
@@ -461,19 +485,45 @@ if($w == '') {
   /* 매장 사진 */
 }
 
-// 신규회원가입 쿠폰발급
-if($w == '' && $config['coupon_yes']) {
-	$cp_used = false;
-	$cp = sql_fetch("select * from shop_coupon where cp_type = '5'");
-	if($cp['cp_id'] && $cp['cp_use']) {
-		if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
-		   ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
-			$cp_used = true;
 
-		if($cp_used)
-			insert_used_coupon($mb_id, $mb_name, $cp);
-	}
+
+/* ------------------------------------------------------------------------------------- _20240713_SY 
+  * 중앙회회원등급 회원 가입시 5천원, 1만원 할인 쿠폰 2장 발급
+  * Type으로 구분하는게 가장 좋을 거 같은데 우선 cp_explane 문구로 구분함
+  ------------------------------------------------------------------------------------- */
+
+if($w == '' && $config['coupon_yes'] && $reg_type == '1') {
+	$cp_used = false;
+	$cp_sel = " SELECT * FROM shop_coupon WHERE cp_type = '5' AND cp_explan = '신규중앙회원가입' ";
+  $cp_res = sql_query($cp_sel);
+  while($cp = sql_fetch_array($cp_res)) {
+    if($cp['cp_id'] && $cp['cp_use']) {
+      if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
+         ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
+        $cp_used = true;
+  
+      if($cp_used)
+        insert_used_coupon($mb_id, $mb_name, $cp);
+    }
+  }
+} else {
+
+  // 신규회원가입 쿠폰발급
+  if($w == '' && $config['coupon_yes']) {
+    $cp_used = false;
+    $cp = sql_fetch("select * from shop_coupon where cp_type = '5' AND cp_explan != '신규중앙회원가입' ");
+    if($cp['cp_id'] && $cp['cp_use']) {
+      if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
+        ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
+        $cp_used = true;
+
+      if($cp_used)
+        insert_used_coupon($mb_id, $mb_name, $cp);
+    }
+  }
+
 }
+
 
 unset($_SESSION['ss_cert_type']);
 unset($_SESSION['ss_cert_no']);

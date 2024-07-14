@@ -6,6 +6,11 @@ if(!$is_member) {
 }
 $mb_id = $member['id'];
 
+/* ------------------------------------------------------------------------------------- _20240713_SY 
+  * b_addr_req 배송 요청 사항 추가
+  * b_base UPDATE 추가
+/* ------------------------------------------------------------------------------------- */
+
 if($b_wr_id){
 	//update
 	$sql = "
@@ -22,10 +27,19 @@ if($b_wr_id){
 		,b_name = '$b_name'
 		,b_base = '$b_base'
 		,b_addr_jibeon = '$b_addr_jibeon'
+    ,b_addr_req = '$b_addr_req'
 
 		where wr_id = '$b_wr_id'
 	";
 	sql_query($sql);
+
+  if($b_base == '1') {
+    $upd_where = " WHERE mb_id = '{$mb_id}' AND wr_id <> '{$b_wr_id}' ";
+    $upd_val['b_base'] = '0';
+    $UPDATE_BASE = new IUD_Model;
+    $UPDATE_BASE->update("b_address", $upd_val, $upd_where);
+  }
+  
 	echo "updateok";
 }else{
 	//	입력
@@ -38,6 +52,7 @@ if($b_wr_id){
 		,b_addr1 = '$b_addr1'
 		,b_addr2 = '$b_addr2'
 		,b_base = '$b_base'
+    ,b_addr_req = '$b_addr_req'
 	";
 	sql_query($sql);
 	$wr_id = sql_insert_id();
