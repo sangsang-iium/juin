@@ -41,6 +41,10 @@ $sodr7    = admin_order_status_sum("WHERE dan = 7 {$od_and_month} "); // 총 배
 $sodr8    = admin_order_status_sum("WHERE dan = 8 {$od_and_month} "); // 총 배송후 교환
 $sodr9    = admin_order_status_sum("WHERE dan = 9 {$od_and_month} "); // 총 배송전 환불
 $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month} "); // 총 구매미확정
+
+/* ------------------------------------------------------------------------------------- _20240713_SY 
+  * 미연동 데이터에 대한 "준비중" 문구 처리
+/* ------------------------------------------------------------------------------------- */
 ?>
 
 
@@ -155,7 +159,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
             <dd class="box_contents rank_type">
                 <div class="box_white">
                     <p class="content_title color_type2 none_bd">직할지회</p>
-                    <ol>
+                    <!-- <ol>
                         <li>
                             <p class="rank_name">은평구지회</p>
                             <p class="rank_money color_type2">
@@ -183,11 +187,12 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                             <p class="rank_money color_type2">6,050,000
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
-                    </ol>
+                    </ol> -->
+                    <ol>준비중입니다.</ol>
                 </div>       
                 <div class="box_white">
                     <p class="content_title color_type3 none_bd">시도지회</p>
-                    <ol>
+                    <!-- <ol>
                         <li>
                             <p class="rank_name">경기북부지회</p>
                             <p class="rank_money color_type3">20,040,100
@@ -213,7 +218,8 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                             <p class="rank_money color_type3">15,505,000
                                 <span class="cnt_unit_text">원</span></p>
                         </li>
-                    </ol>
+                    </ol> -->
+                    <ol>준비중입니다.</ol>
                 </div>       
             </dd>
         </dl>
@@ -223,7 +229,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
             </dt>
             <dd class="box_contents rank_type new_item_list">
                 <ol class="box_white">
-                    <li>
+                    <!-- <li>
                         <a href="#" class="new_item_name">수미안 들기름(1.8L/3병)_택배_허브</a>
                     </li>
                     <li>
@@ -240,7 +246,8 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                     </li>
                     <li>
                         <a href="#" class="new_item_name">포기김치(강동)10KG</a>
-                    </li>
+                    </li> -->
+                    <li>준비중입니다.</li>
                 </ol>          
             </dd>
         </dl>
@@ -251,7 +258,8 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                 <dt class="box_title">주문실적현황</dt>
                 <dd class="box_contents">
                     <div class="chart_box box_white">
-                        <div id="chart" style="width:100%;"></div>
+                        <div class="">준비중입니다.</div>
+                        <!-- <div id="chart" style="width:100%;"></div> -->
                     </div>
                 </dd>
             </dl>
@@ -265,7 +273,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                 </dt>
                 <dd class="box_contents">
                     <ul class="box_white board_list">
-                        <li>
+                        <!-- <li>
                             <a href="#" class="board_title">(매운_중식용)수미안 중국산 고춧가루(1kg*5개 중국산)_제주 판매종료</a>
                             <span class="board_date">2024-06-12</span>
                         </li>
@@ -280,7 +288,8 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                         <li>
                             <a href="#" class="board_title">환불 규정 안내</a>
                             <span class="board_date">2024-05-15</span>
-                        </li>
+                        </li> -->
+                        <li>준비중입니다.</li>
                     </ul>
                 </dd>
             </dl>
@@ -292,7 +301,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                 </dt>
                 <dd class="box_contents">
                     <ul class="box_white board_list">
-                        <li>
+                        <!-- <li>
                             <a href="#" class="board_title">환불 신청합니다.</a>
                             <span class="board_date">2024-06-22</span>
                         </li>
@@ -307,7 +316,8 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                         <li>
                             <a href="#" class="board_title">배송 기간이 궁금합니다.</a>
                             <span class="board_date">2024-06-21</span>
-                        </li>
+                        </li> -->
+                        <li>준비중입니다.</li>
                     </ul>
                 </dd>
             </dl>
@@ -325,7 +335,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                             for($i=0; $row=sql_fetch_array($result); $i++){
                         ?>
                         <li>
-                            <a href="#" class="board_title"><?php echo $row['name']; ?></a>
+                            <a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=list" class="board_title"><?php echo $row['name']; ?></a>
                             <span class="board_date"><?php echo substr($row['reg_time'],0,16); ?></span>
                         </li>
                         <?php
@@ -344,7 +354,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                 </dt>
                 <dd class="box_contents">
                     <ul class="box_white board_list">
-                        <li>
+                        <!-- <li>
                             <a href="#" class="board_title">제품 정보가 궁급합니다.</a>
                             <span class="board_date">2024-06-23</span>
                         </li>
@@ -359,7 +369,8 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                         <li>
                             <a href="#" class="board_title">제품 교환 요청</a>
                             <span class="board_date">2024-06-21</span>
-                        </li>
+                        </li> -->
+                        <li>준비중입니다.</li>
                     </ul>
                 </dd>
             </dl>
