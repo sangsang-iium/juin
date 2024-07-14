@@ -46,14 +46,13 @@ while ($rowCntData = sql_fetch_array($res)) {
   $total_count++;
 }
 
-/* ------------------------------------------------------------------------------------- _20240713_SY 
+/* ------------------------------------------------------------------------------------- _20240713_SY
   * cntIdx 오류 있어서 if(count($cntIdx) > 0) 추가
 /* ------------------------------------------------------------------------------------- */
-if(count($cntIdx) > 0) {
+if(count($cntIdxArr) > 0) {
   $cntIdx = implode(",", $cntIdxArr);
   $sql_search .= "AND index_no in ($cntIdx)";
-} 
-
+}
 $mod = 2; // 가로 출력 수
 $rows = ($mod*9);
 $total_page = ceil($total_count / $rows); // 전체 페이지 계산

@@ -263,7 +263,8 @@ foreach ($totals as $totalData) {
   $t_bank              = $totalData['bank_code'];
   $t_ordername         = $t_turnstr;
   $t_taxfreeamount     = 0;
-  $credential          = "test_sk_QbgMGZzorzKD26y2w4728l5E1em4";
+  // $credential          = "test_sk_QbgMGZzorzKD26y2w4728l5E1em4";
+  $credential          = "live_sk_0RnYX2w532Mklgz2ZPY18NeyqApQ";
   $t_name              = $totalData['name'];
   $t_email             = $totalData['email'];
   $customerMobilePhone = $row_mem['cellphone'];

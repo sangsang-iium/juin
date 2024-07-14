@@ -54,7 +54,8 @@ include_once("./_head.php");
     // ------ 클라이언트 키로 객체 초기화 ------
 
     // var clientKey = '<?php echo $default['de_toss_ckey'] ?>';
-    var clientKey = 'test_ck_d46qopOB89Np9d6DEa953ZmM75y0';
+    // var clientKey = 'test_ck_d46qopOB89Np9d6DEa953ZmM75y0';
+    var clientKey = 'live_ck_LkKEypNArW2Mv9572AnNVlmeaxYG';
     var tossPayments = TossPayments(clientKey);
 
     function billing(method, requestJson) {

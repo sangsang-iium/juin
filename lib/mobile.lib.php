@@ -271,7 +271,7 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
     $b_address = $member['addr1'];
   }
 
-	$result = display_itemtype($pt_id, $type, $rows);
+	$result = display_itemtype($pt_id, $type);
 
 	$total_count = 0;
 	$cntIdxArr   = array();
