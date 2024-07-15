@@ -2,9 +2,9 @@
 include_once("./_common.php");
 include_once(BV_LIB_PATH."/register.lib.php");
 
-check_demo();
+// check_demo();
 
-check_admin_token();
+// check_admin_token();
 
 $mb_id = trim($_POST['mb_id']);
 
@@ -41,10 +41,12 @@ if($mb['id'])
 	alert('이미 존재하는 회원아이디입니다.\\nＩＤ : '.$mb['id'].'\\n이름 : '.$mb['name'].'\\n메일 : '.$mb['email']);
 
 // 이메일중복체크
-$sql = " select id, name, email from shop_member where email = '{$_POST['mb_email']}' ";
-$row = sql_fetch($sql);
-if($row['id'])
-	alert('이미 존재하는 이메일입니다.\\nＩＤ : '.$row['id'].'\\n이름 : '.$row['name'].'\\n메일 : '.$row['email']);
+if(!empty($_POST['mb_email'])){
+  $sql = " select id, name, email from shop_member where email = '{$_POST['mb_email']}' ";
+  $row = sql_fetch($sql);
+  if($row['id'])
+  	alert('이미 존재하는 이메일입니다.\\nＩＤ : '.$row['id'].'\\n이름 : '.$row['name'].'\\n메일 : '.$row['email']);
+}
 
 unset($value);
 $value['id']			    = $mb_id; //회원아이디

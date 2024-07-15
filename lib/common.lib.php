@@ -1239,8 +1239,16 @@ function get_member_select($name, $selected='', $event='')
 	$str  = "<select id=\"{$name}\" name=\"{$name}\"";
     if($event) $str .= " $event";
     $str .= ">\n";
+  
+  /* ------------------------------------------------------------------------------------- _20240715_SY 
+    * 매니저 계정일 경우 일반/중앙회만 노출
+  /* ------------------------------------------------------------------------------------- */
+    $opt = "";
+  if(isset($_SESSION['ss_mn_id']) && !empty($_SESSION['ss_mn_id'])) {
+    $opt = "AND gb_no >= 8";
+  } 
 
-	$sql= "select * from shop_member_grade where gb_name <> '' order by gb_no desc";
+	$sql= "select * from shop_member_grade where gb_name <> '' {$opt} order by gb_no desc";
 	$result = sql_query($sql);
 	for($i=0; $row=sql_fetch_array($result); $i++)
 	{

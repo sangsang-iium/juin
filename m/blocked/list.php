@@ -23,7 +23,7 @@ $result = sql_query($sql);
         <p class="blocked-date">
           <span>[차단일]</span> <?php echo date("Y.m.d", strtotime($row['blockdate'])); ?>
         </p>
-        <button type="button" class="ui-btn" onclick="memberBlock();">차단해제</button>
+        <button type="button" class="ui-btn" onclick="memberBlock(<?php echo $row['no'] ?>);">차단해제</button>
       </div>
     </div>
   <?php

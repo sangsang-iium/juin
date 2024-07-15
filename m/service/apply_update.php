@@ -2,13 +2,16 @@
 include_once "./_common.php";
 include_once '../../include/crypt.php';
 
-if (empty($b_type)) {
-  alert("정상적인 방법으로 접근해주세요.", "./list.php");
-}
+// if (empty($b_type)) {
+//   alert("정상적인 방법으로 접근해주세요.", "./list.php");
+// }
 
-$bc_able = implode("||", $bc_able);
-$b_tel   = implode("-", $b_tel);
-$b_phone = implode("-", $b_phone);
+/* ------------------------------------------------------------------------------------- _20240714_SY 
+  * isset 추가 & 노무 비밀번호 제거
+/* ------------------------------------------------------------------------------------- */
+$bc_able = isset($bc_able) ? implode("||", $bc_able) : "";
+$b_tel   = isset($b_tel) ? implode("-", $b_tel) : "";
+$b_phone = isset($b_phone) ? implode("-", $b_phone) : "";
 
 $db_input['mb_id'] = $mb_id;
 // 1. 신한체크, 2. 신한신용, 3. 노무, 4, 상조
@@ -40,7 +43,7 @@ switch ($b_type) {
     $db_input['b_phone']    = $b_phone;
     $db_input['b_contents'] = $b_contents;
     $db_input['b_hope']     = $b_hope;
-    $db_input['b_pw']       = $b_pw;
+    // $db_input['b_pw']       = $b_pw;
     $db_input['b_staff']    = $b_staff;
     break;
   case '4':
@@ -86,9 +89,9 @@ switch ($b_type) {
 $db_input['wdate'] = date("Y-m-d H:i:s");
 
 
-// $serviceModel = new IUD_Model();
-// $serviceTable = "iu_service";
-// $svcIdx = $serviceModel->insert($serviceTable, $db_input);
+$serviceModel = new IUD_Model();
+$serviceTable = "iu_service";
+$svcIdx = $serviceModel->insert($serviceTable, $db_input);
 
 if($b_type == 4){
   $peopleLifeReturn = peopleLifeApi($peopleArr);
@@ -126,7 +129,7 @@ function peopleLifeApi($dataArr) {
 
   return json_decode($response);
 }
-exit;
+
 // 신한카드 데이터 받아오기 ( 안받아오네~ )
 // if ($b_type == 1 || $b_type == 2) {
 //   // 기본값 설정

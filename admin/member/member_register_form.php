@@ -70,7 +70,7 @@ $none = "style='display:none;'";
         <tr>
           <th scope="row"><label for="reg_mb_email">E-mail</label></th>
           <td>
-            <input type="text" name="mb_email" id="reg_mb_email" required class="frm_input required w400" size="40" maxlength="100">
+            <input type="text" name="mb_email" id="reg_mb_email" class="frm_input w400" size="40" maxlength="100">
             <div class="checks mart10">
               <label><input type="checkbox" name="mb_mailling" value="Y" id="reg_mb_mailling" checked="checked"> 정보 메일을 받겠습니다.</label>
             </div>
@@ -671,12 +671,12 @@ $none = "style='display:none;'";
     */
 
     // E-mail 검사
-    var msg = reg_mb_email_check();
-    if (msg) {
-      alert(msg);
-      f.reg_mb_email.select();
-      return false;
-    }
+    // var msg = reg_mb_email_check();
+    // if (msg) {
+    //   alert(msg);
+    //   f.reg_mb_email.select();
+    //   return false;
+    // }
 
     if (typeof(f.mb_recommend) != "undefined" && f.mb_recommend.value) {
       if (f.mb_id.value == f.mb_recommend.value) {

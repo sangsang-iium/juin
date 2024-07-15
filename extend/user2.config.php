@@ -511,3 +511,56 @@ function allSearchSqlArr($columns , $stx) {
 
   return $sql;
 }
+
+
+
+
+/* ------------------------------------------------------------------------------------- _20240714_SY 
+  * 관리자 INDEX 데이터 연동 작업
+/* ------------------------------------------------------------------------------------- */
+
+function getIndexDataFunc($table, $orderBy='wdate') {
+  $data = array();
+  
+  $sel = " SELECT * FROM {$table} ORDER BY {$orderBy} DESC LIMIT 5 ";
+  $res = sql_query($sel);
+  $cnt = sql_num_rows($res);
+  
+
+  if($cnt > 0 ) {
+    while ($row = sql_fetch_array($res)) {
+      $data[] = $row;
+    }
+  } else {
+    $data = "";
+  }
+
+  return $data;
+}
+
+
+function getNewGoodsFunc() {
+  $data = array();
+  
+  $sel = " SELECT * FROM shop_goods ORDER BY reg_time DESC LIMIT 5 ";
+  $res = sql_query($sel);
+  $cnt = sql_num_rows($res);
+  
+
+  if($cnt > 0 ) {
+    while ($row = sql_fetch_array($res)) {
+      $data[] = $row;
+    }
+  } else {
+    $data = "";
+  }
+
+  return $data;
+}
+
+function maskingText($text, $maxLength) {
+  if (mb_strlen($text) > $maxLength) {
+      return mb_substr($text, 0, $maxLength) . '...';
+  }
+  return $text;
+}
