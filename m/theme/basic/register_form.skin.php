@@ -218,14 +218,14 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="title"><label for="reg_mb_name">이름</label><b>*</b></p>
             </div>
             <div class="form-body input-button id-confirm">
-              <input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" placeholder="이름을 입력해주세요." autocapitalize="off">
+              <input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" placeholder="이름을 입력해주세요." autocapitalize="off" readonly>
               <?php
               $cert_str = '';
               if($config['cf_cert_use']) {
                 if($config['cf_cert_ipin'])
-                  $cert_str .= '<button type="button" id="win_ipin_cert" class="ui-btn st3">본인인증</button>'.PHP_EOL;
+                  $cert_str .= '<button type="button" id="win_ipin_cert" class="ui-btn st1">본인인증</button>'.PHP_EOL;
                 if($config['cf_cert_hp'])
-                  $cert_str .= '<button type="button" id="win_hp_cert" class="ui-btn st3">본인인증</button>'.PHP_EOL;
+                  $cert_str .= '<button type="button" id="win_hp_cert" class="ui-btn st1">본인인증</button>'.PHP_EOL;
 
                 $cert_str .= '<noscript>본인인증을 위해서는 자바스크립트 사용이 가능해야합니다.</noscript>'.PHP_EOL;
               }
@@ -272,11 +272,11 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="title"><label for="reg_mb_hp">핸드폰번호</label><b>*</b></p>
             </div>
             <div class="form-body phone">
-              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[0]); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?> phone_no1" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[0]); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?> phone_no1" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" readonly>
               <span class="hyphen">-</span>
-              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[1]); ?>" class="frm-input phone_no2" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[1]); ?>" class="frm-input phone_no2" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" readonly>
               <span class="hyphen">-</span>
-              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[2]); ?>" class="frm-input phone_no3" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[2]); ?>" class="frm-input phone_no3" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" readonly>
               <div class="frm-choice">
                 <input type="checkbox" name="mb_sms" id="chk-sms" value="Y"<?php echo ($w=='' || $member['smsser'] == 'Y')?' checked':''; ?>>
                 <label for="chk-sms">핸드폰 문자메세지를 받겠습니다.</label>
