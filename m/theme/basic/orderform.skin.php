@@ -1679,12 +1679,12 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       return false;
     }
 
-    
+
   /* ------------------------------------------------------------------------------------- _20240714_SY
     * 포인트 적용
       * 최소 포인트 값 적용
   /* ------------------------------------------------------------------------------------- */
-    if(temp_point < min_point){
+    if(temp_point < min_point && temp_point > 0){
       alert(`포인트사용 금액은 최소 ${min_point}입니다..`);
       f.tot_price.value = number_format(String(tot_price));
       f.use_point.value = 0;
@@ -1958,6 +1958,7 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
         orderButton.disabled = false;
         $("#bank_section").show();
         // $("#brand_section").hide();
+        $("#auto_card_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
         // $("input[name=use_point]").val(0);

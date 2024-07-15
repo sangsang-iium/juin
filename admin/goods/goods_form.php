@@ -1913,7 +1913,7 @@ $('input[name=reg_yn]').on('click', function() {
     $('input[name=supply_price]').val(0);
     $('input[name=goods_price]').val(0);
     $('input[name=normal_price]').val(0);
-    
+
     $('input[name=price_msg]').prop('readonly', true);
     $('input[name=supply_price]').prop('readonly', true);
     $('input[name=goods_price]').prop('readonly', true);

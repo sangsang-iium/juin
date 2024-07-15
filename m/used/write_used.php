@@ -95,5 +95,10 @@ $sub_imgs = array_values($sub_imgs);
 $save_img = implode("|", $sub_imgs);
 sql_query(" update shop_used set s_img = '$save_img' where no = '$no' ");
 
-goto_url(BV_MURL . "/used/view.php?no=".$no);
+
+if($my_list){
+    goto_url(BV_MURL . "/used/my_list.php");
+} else {
+    goto_url(BV_MURL . "/used/view.php?no=".$no);
+}
 ?>

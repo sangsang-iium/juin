@@ -126,12 +126,14 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 				<li><a href="<?php echo BV_MBBS_URL;?>/qna_list.php">1대1 문의</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/review.php">상품후기</a></li>
 				<li><a href="<?php echo BV_MSHOP_URL;?>/regOrderList.php">정기 결제 내역</a></li>
+				<?php if($member['grade'] <= 8){ ?>
 				<li><a href="<?php echo BV_MSHOP_URL;?>/raffleList.php">레플 응모 내역</a></li>
 				<!-- 2024-06-27 중고장터관리/차단회원관리 추가 { -->
 				<li><a href="/m/used/my_list.php">중고장터 관리</a></li>
 				<li><a href="/m/blocked/list.php">차단회원 관리</a></li>
 				<!-- } 2024-06-27 중고장터관리/차단회원관리 추가 -->
 				<li><a href="<?php echo BV_MBBS_URL;?>/affservice.php">제휴서비스</a></li>
+				<?php } ?>
 				<li><a href="<?php echo BV_MBBS_URL;?>/board_list.php?boardid=13">공지사항</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/faq.php">자주 묻는 질문</a></li>
 				<li><a href="<?php echo BV_MBBS_URL;?>/policy.php">개인정보처리방침</a></li>

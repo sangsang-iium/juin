@@ -9,7 +9,7 @@ if($seller != $member['id']){
     exit;
 }
 
-$sql = "update shop_used_chat set block = 1, blockdate = '".BV_TIME_YMDDHIS."' where no = {$chatno}";
+$sql = "update shop_used_chat set block = 1, blockdate = '".BV_TIME_YMDHIS."' where no = {$chatno}";
 sql_query($sql);
 echo 'Y';
 exit;

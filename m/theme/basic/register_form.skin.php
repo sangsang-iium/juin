@@ -150,7 +150,7 @@ if(!defined('_BLUEVATION_')) exit;
           </div>
           <div class="form-row">
             <div class="form-head">
-              <p class="title">담당직원<b>*</b></p>
+              <p class="title">담당직원</p>
             </div>
             <div class="form-body">
               <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch" style="margin-bottom:0.8rem">담당직원 조회하기</button>

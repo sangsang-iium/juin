@@ -52,7 +52,8 @@ for($i=0; $i<count($gw_msort); $i++) {
             <div class="cp-timer-wrap">
               <i class="cp-timer__icon"></i>
               <span class="cp-timer__text">D-Day</span>
-              <span class="cp-timer__num" data-deadline="<?php echo date("Y-m-d");?> 23:59:59">00:00:00</span>
+               <?php $deadline = date('Y-m-d', strtotime('+6 days')); ?>
+              <span class="cp-timer__num" data-deadline="<?php echo $deadline?> 23:59:59">00:00:00</span>
               <span class="cp-timer__text">남음</span>
             </div>
           </div>
@@ -153,28 +154,35 @@ for($i=0; $i<count($gw_msort); $i++) {
   </div>
 </div>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var timers = document.querySelectorAll('.cp-timer__num');
-  timers.forEach(function(timer) {
-    var deadline = timer.getAttribute('data-deadline');
-    var countdown = new Date(deadline).getTime();
-    var x = setInterval(function() {
-      var now = new Date().getTime();
-      var distance = countdown - now;
-      if (distance <= 0) {
-        clearInterval(x);
-        timer.innerHTML = '만료';
-      } else {
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        hours = String(hours).padStart(2, '0');
-        minutes = String(minutes).padStart(2, '0');
-        seconds = String(seconds).padStart(2, '0');
-        timer.innerHTML = hours + ':' + minutes + ':' + seconds ;
-      }
-    }, 1000);
-  });
-});
+   document.addEventListener('DOMContentLoaded', function() {
+            var timers = document.querySelectorAll('.cp-timer__num');
+            timers.forEach(function(timer) {
+                var deadline = timer.getAttribute('data-deadline');
+                var countdown = new Date(deadline).getTime();
+                var x = setInterval(function() {
+                    var now = new Date().getTime();
+                    var distance = countdown - now;
+                    if (distance <= 0) {
+                        clearInterval(x);
+                        timer.innerHTML = '만료';
+                    } else {
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        // 숫자를 2자리 형식으로 맞추기
+                        days = String(days).padStart(2, '0');
+                        hours = String(hours).padStart(2, '0');
+                        minutes = String(minutes).padStart(2, '0');
+                        seconds = String(seconds).padStart(2, '0');
+
+                        // 결과를 출력
+                        timer.innerHTML = days + '일 ' + hours + ':' + minutes + ':' + seconds;
+                    }
+                }, 1000);
+            });
+        });
 </script>
