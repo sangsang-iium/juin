@@ -30,12 +30,12 @@ include_once "_common.php";
 
 
 /* 비밀번호 암호화 */
-// $mem_sel = " SELECT * FROM shop_manager where index_no = 18 ";
+// $mem_sel = " SELECT * FROM shop_member WHERE index_no >= 49 ";
 // $mem_res = sql_query($mem_sel);
 // while($mem_row = sql_fetch_array($mem_res)) {
 //   $pw = get_encrypt_string($mem_row['passwd']);
 
-//   $update_query = " UPDATE shop_manager SET 
+//   $update_query = " UPDATE shop_member SET 
 //                           passwd = '{$pw}'
 //                      WHERE index_no = '{$mem_row['index_no']}' ";
 //   sql_query($update_query);
@@ -70,18 +70,19 @@ include_once "_common.php";
 
 
 /* grade, reg_time, auth 변경 */
-// $mem_sel = " SELECT * FROM shop_manager where index_no >= 18 ";
+// $mem_sel = " SELECT * FROM shop_manager where index_no >= 1300 ";
 // $mem_res = sql_query($mem_sel);
 // $now = date('Y-m-d H:i:s');
 // while($mem_row = sql_fetch_array($mem_res)) {
-//   $grade = 3;
+//   $grade = 2;
 
 //   $update_query = " UPDATE shop_manager SET 
-//                           grade = '{$grade}',
-//                           reg_time = '{$now}',
-//                           auth_6 = '1',
-//                           auth_7 = '1',
-//                           auth_10 = '1'
+//                           grade = '{$grade}'
+//                           ,reg_time = '{$now}'
+//                           ,auth_1 = '1'
+//                           ,auth_6 = '1'
+//                           ,auth_7 = '1'
+//                           ,auth_10 = '1'
 //                      WHERE index_no = '{$mem_row['index_no']}' ";
 //   sql_query($update_query);
 // }
