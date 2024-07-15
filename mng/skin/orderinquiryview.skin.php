@@ -164,7 +164,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 			<tr>
 				<th scope="row">결제방식</th>
 				<?php // echo ($easy_pay_name ? $easy_pay_name.'('.$od['paymethod'].')' : $od['paymethod']); ?>
-				<td><?php echo ($easy_pay_name ? $easy_pay_name.'('.$od['paymethod'].')' : "정기결제"); ?></td>
+				<td><?php echo ($od['paymethod']); ?></td>
 			</tr>
 			<?php if ($reg_yn == 2){ ?>
 			<tr>
@@ -198,7 +198,9 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 						$bankName = $v['bank'];
 					}
 				}
+				if($od['paymethod'] == '무통장'){
 			?>
+
 			<tr>
 				<th scope="row">가상계좌 입금자명</th>
 				<td><?php echo $od['vaCustomerName']; ?></td>
@@ -207,6 +209,7 @@ include_once(BV_THEME_PATH.'/aside_my.skin.php');
 				<th scope="row">가상계좌</th>
 				<td><?php echo '(' . $bankName . ') ' . $od['vaAccountNumber']; ?></td>
 			</tr>
+			<?php } ?>
 			<!-- 기존 소스 <tr>
 				<th scope="row">입금자명</th>
 				<td><?php echo get_text($od['deposit_name']); ?></td>

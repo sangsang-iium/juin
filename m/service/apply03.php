@@ -135,14 +135,14 @@ if($is_member) {
           </div>
           <!-- } row -->
           <!-- row { -->
-          <div class="form-row">
+          <!-- <div class="form-row">
             <div class="form-head">
               <p class="title">비밀번호<b>*</b></p>
             </div>
             <div class="form-body">
               <input type="text" name="b_pw" required class="frm-input w-per100" required placeholder="비밀번호를 입력해주세요.">
             </div>
-          </div>
+          </div> -->
           <!-- } row -->
           <!-- row { -->
           <div class="form-row">
@@ -190,23 +190,23 @@ if($is_member) {
 </div>
 <script src="/js/postcode.v2.js"></script>
 <script>
-  function apply_service_submit(f) {
+  // function apply_service_submit(f) {
 
-    if(f.b_pw.value.length < 4) {
-      alert("비밀번호를 4글자 이상 입력하십시오.");
-      f.b_pw.focus();
-      return false;
-    }
+  //   if(f.b_pw.value.length < 4) {
+  //     alert("비밀번호를 4글자 이상 입력하십시오.");
+  //     f.b_pw.focus();
+  //     return false;
+  //   }
 
-    if(f.b_pw.value.length > 0) {
-      if(f.b_pw.value.length < 4) {
-        alert("비밀번호를 4글자 이상 입력하십시오.");
-        f.b_pw.focus();
-        return false;
-      }
-    }
-    return true;
-  }
+  //   if(f.b_pw.value.length > 0) {
+  //     if(f.b_pw.value.length < 4) {
+  //       alert("비밀번호를 4글자 이상 입력하십시오.");
+  //       f.b_pw.focus();
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // }
 
 
   /** 우편번호 찾기 */

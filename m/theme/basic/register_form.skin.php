@@ -150,7 +150,7 @@ if(!defined('_BLUEVATION_')) exit;
           </div>
           <div class="form-row">
             <div class="form-head">
-              <p class="title">담당직원<b>*</b></p>
+              <p class="title">담당직원</p>
             </div>
             <div class="form-body">
               <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch" style="margin-bottom:0.8rem">담당직원 조회하기</button>
@@ -1421,11 +1421,11 @@ function fregisterform_submit(f)
 	}
 
   // 담당직원 검사 _20240713_SY
-  if(f.pop_nm.value == "" || f.mn_idx.value == "") {
-    alert("담당직원 정보는 필수입니다.");
-    f.pop_nm.focus();
-    return false;
-  }
+  // if(f.pop_nm.value == "" || f.mn_idx.value == "") {
+  //   alert("담당직원 정보는 필수입니다.");
+  //   f.pop_nm.focus();
+  //   return false;
+  // }
 
 	document.getElementById("btn_submit").disabled = "disabled";
 
