@@ -65,7 +65,7 @@
 /* main */
 /* 메인 팝업 배너 */
 .main-popup {position: fixed; bottom: -150%; left: 50%; transform: translateX(-50%); width: 100%; max-width: 1440px; z-index: 550; transition: 1s ease-in-out;}
-.main-popup.active {bottom: 48.75px;}
+.main-popup.active {bottom: 80px;}
 .main-popup .link {font-size: 0;}
 
 .mtb-wrap {margin-top: 0; max-height: 200px; transition: .6s; overflow: hidden;}
