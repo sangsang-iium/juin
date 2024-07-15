@@ -147,6 +147,18 @@ $gw_star = array(
 	"5"=>"매우만족"
 );
 
+/* ------------------------------------------------------------------------------------- _20240713_SY 
+  회원특별관 인트로 링크 삽입
+  우선 내부에서만 인트로로 이동되도록 해 놓음, 업체에서 인트로로 연결되도록 해 달라고 하면 if문 빼면 됨
+  나중에 배너 폴더 따로 만들어서 해당 폴더 이미지 돌아가게 개발 해 놓는게 편할거 같음
+*/
+// if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
+  $brand_href = "/brand/brandIntro.php?ca_id=006";
+// } else {
+//   $brand_href = "/shop/list.php?ca_id=006";
+// }
+/* ------------------------------------------------------------------------------------- */
+
 // 메뉴바
 // 메뉴바 주석 해제 함 _20240612_SY
 $gw_menu = array(
@@ -159,7 +171,7 @@ $gw_menu = array(
 	array($default['de_pname_5'],	"/shop/listtype.php?type=4&menu=popular", $default['de_pname_use_5']),
 	array($default['de_pname_6'],	"/shop/listtype.php?type=5&menu=recomm", $default['de_pname_use_6']),
 	array($default['de_pname_7'],		"/shop/list.php?ca_id=005", $default['de_pname_use_7']),
-	array($default['de_pname_8'],	"/shop/list.php?ca_id=006", $default['de_pname_use_8']),
+	array($default['de_pname_8'],	$brand_href, $default['de_pname_use_8']),
 	array($default['de_pname_9'],	"/shop/listtype.php?type=5", $default['de_pname_use_9']),
   array($default['de_pname_10'],	"/shop/listtype.php?type=3&menu=new", $default['de_pname_use_10']),
   array($default['de_pname_11'],	"/store/list.php?menu=store", $default['de_pname_use_11']),

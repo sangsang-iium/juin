@@ -278,6 +278,10 @@ if(isset($_REQUEST['orderby'])) {
     $orderby = trim($_REQUEST['orderby']);
     $qstr .= '&orderby=' . urlencode($orderby);
 }
+if(isset($_REQUEST['pl_no'])) {
+    $pl_no = trim($_REQUEST['pl_no']);
+    $qstr .= '&pl_no=' . urlencode($pl_no);
+}
 
 // URL ENCODING
 if(isset($_REQUEST['url'])) {

@@ -150,7 +150,7 @@ if(!defined('_BLUEVATION_')) exit;
           </div>
           <div class="form-row">
             <div class="form-head">
-              <p class="title">담당직원<b>*</b></p>
+              <p class="title">담당직원</p>
             </div>
             <div class="form-body">
               <button type="button" class="ui-btn st3 w-per100 popup-open" data-popupId="popMemberSch" style="margin-bottom:0.8rem">담당직원 조회하기</button>
@@ -289,12 +289,12 @@ if(!defined('_BLUEVATION_')) exit;
           <?php } ?>
           <div class="form-row">
             <div class="form-head">
-              <p class="title"><label for="reg_mb_email">이메일</label><b>*</b></p>
+              <p class="title"><label for="reg_mb_email">이메일</label></p>
             </div>
             <div class="form-body">
               <div class="input-button id-confirm">
                 <input type="hidden" name="old_email" value="<?php echo $member['email']; ?>">
-                <input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" required class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
+                <input type="email" name="mb_email" value="<?php echo isset($member['email'])?$member['email']:''; ?>" id="reg_mb_email" class="frm-input w-per100" size="40" maxlength="100" placeholder="이메일을 입력해주세요." autocapitalize="off">
                 <button type="button" class="ui-btn st3" onclick="chk_email()">중복확인</button>
               </div>
               <!-- <span class="at">@</span>
@@ -328,6 +328,9 @@ if(!defined('_BLUEVATION_')) exit;
               <input type="text" name="mb_addr3" value="<?php echo ($w == '') ? get_text($doro2) : get_text($member['addr3']); ?>" id="reg_mb_addr3" class="frm-input address-input_4 frm_address" size="60" placeholder="참고항목" readonly="readonly" autocapitalize="off">
               <label for="reg_mb_addr3" class="sound_only">참고항목</label>
 
+              <input type="text" name="b_addr_req_base" value="<?php echo get_text($member['b_addr_req_base']); ?>" id="b_addr_req_base" class="frm-input address-input_4 frm_address" size="60" placeholder="배송기본메시지" autocapitalize="off">
+              <label for="b_addr_req_base" class="sound_only">배송기본메시지</label>
+
               <input type="hidden" name="mb_addr_jibeon" value="<?php echo get_text($member['addr_jibeon']); ?>">
             </div>
           </div>
@@ -354,8 +357,8 @@ if(!defined('_BLUEVATION_')) exit;
                     }
                   ?>
               </select>
-              <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
-              <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
+              <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" <?php echo $required; ?> class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
+              <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" <?php echo $required; ?> class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
             </div>
           </div>
 
@@ -402,7 +405,7 @@ if(!defined('_BLUEVATION_')) exit;
           <p class="joinDetail-title">매장정보</p>
         </div>
         <div class="joinDetail-body">
-          <div class="form-row store_info">
+          <div class="form-row">
             <div class="form-head">
               <p class="title">매장 노출 여부<b>*</b></p>
             </div>
@@ -410,20 +413,20 @@ if(!defined('_BLUEVATION_')) exit;
               <ul class="form-inline">
                 <li>
                   <div class="frm-choice">
-                    <input type="radio" name="store_display" id="store_display-y" value="1" <?php echo get_checked($member['ju_mem'], '1'); ?> >
+                    <input type="radio" name="store_display" id="store_display-y" value="1" <?php echo get_checked($member['ju_display'], '1'); ?> onclick="toggle_store(this.value)">
                     <label for="store_display-y">예</label>
                   </div>
                 </li>
                 <li>
                   <div class="frm-choice">
-                    <input type="radio" name="store_display" id="store_display-n" value="2" <?php echo get_checked($member['ju_mem'], '2'); ?> >
+                    <input type="radio" name="store_display" id="store_display-n" value="2" <?php echo ($w == 'u') ? get_checked($member['ju_display'], '2') : "checked"; ?> onclick="toggle_store(this.value)">
                     <label for="store_display-n">아니오</label>
                   </div>
                 </li>
               </ul>
             </div>
           </div>
-          <div class="form-row">
+          <div class="form-row store_info" >
             <div class="form-head">
               <p class="title">업종</p>
             </div>
@@ -446,7 +449,7 @@ if(!defined('_BLUEVATION_')) exit;
           </div>
           <div class="form-row">
             <div class="form-head">
-              <p class="title">업종</p>
+              <p class="title">업종</p>log
             </div>
             <div class="form-body">
               <input type="text" name="ju_sectors" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_sectors'] : "" ?>" >
@@ -599,7 +602,7 @@ if(!defined('_BLUEVATION_')) exit;
               </ul>
             </div>
           </div>
-          <div class="form-row">
+          <div class="form-row store_info">
             <div class="form-head">
               <p class="title">매장주소</p>
             </div>
@@ -726,10 +729,12 @@ $(document).ready(function(){
   });
 
 
+  
   // 매장정보 hide() _20240604_SY
-  if(w == '') {
+  if($('#store_display-n').is(':checked')) {
     $('.store_info').hide(); // 각 요소를 숨깁니다.
   }
+  
 });
 
 /** 우편번호 찾기 */
@@ -1178,6 +1183,16 @@ function chkClosed() {
 }
 
 
+// 매장정보 show/hide _20240712_SY
+function toggle_store(value) {
+  if(value == '1') {
+    $('.store_info').show();
+  } else {
+    $('.store_info').hide();
+  }
+}
+
+
 $(function() {
 	<?php if($config['cf_cert_use'] && $config['cf_cert_ipin']) { ?>
 	// 아이핀인증
@@ -1329,33 +1344,35 @@ function fregisterform_submit(f)
 
 
 	// E-mail 검사
-	if((f.w.value == "") || (f.w.value == "u" && f.mb_email.defaultValue != f.mb_email.value)) {
+	if(f.w.value == "u" && f.mb_email.defaultValue != f.mb_email.value) {
 		var msg = reg_mb_email_check();
 		if(msg) {
 			alert(msg);
 			f.reg_mb_email.select();
 			return false;
 		}
-	}
+	
 
-  // 이메일 중복확인 여부 _20240319_SY
-  let ss_em     = sessionStorage.getItem("Email");
-  let ss_em_chk = sessionStorage.getItem('chkEm');
-  
-  if(f.w.value == "") {
-    if(chkEmRes == false) {
-      alert('이메일 중복을 확인해 주십시오.');
-      f.mb_email.focus();
-      return false;
-    }
-  }
+    // 이메일 중복확인 여부 _20240319_SY
+    let ss_em     = sessionStorage.getItem("Email");
+    let ss_em_chk = sessionStorage.getItem('chkEm');
+    
+    // if(f.w.value == "") {
+      if(chkEmRes == false) {
+        alert('이메일 중복을 확인해 주십시오.');
+        f.mb_email.focus();
+        return false;
+      }
+    // }
 
-  if(chkEmRes == true) {
-    if(ss_em != f.reg_mb_email.value) {
-      alert("이메일 중복을 확인해 주십시오.")
-      f.mb_email.focus();
-      return false;
+    if(chkEmRes == true) {
+      if(ss_em != f.reg_mb_email.value) {
+        alert("이메일 중복을 확인해 주십시오.")
+        f.mb_email.focus();
+        return false;
+      }
     }
+
   }
 
   // 중앙회원조회 _20240328_SY
@@ -1402,6 +1419,13 @@ function fregisterform_submit(f)
 			return false;
 		}
 	}
+
+  // 담당직원 검사 _20240713_SY
+  // if(f.pop_nm.value == "" || f.mn_idx.value == "") {
+  //   alert("담당직원 정보는 필수입니다.");
+  //   f.pop_nm.focus();
+  //   return false;
+  // }
 
 	document.getElementById("btn_submit").disabled = "disabled";
 

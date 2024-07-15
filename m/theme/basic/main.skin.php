@@ -55,7 +55,8 @@ include_once(BV_PATH.'/include/introBtn.php');
         <div class="cp-timer-wrap">
           <i class="cp-timer__icon"></i>
           <span class="cp-timer__text">D-Day</span>
-          <span class="cp-timer__num" data-deadline="<?php echo date("Y-m-d"); ?> 23:59:59">02:37:50</span>
+          <?php $deadline = date('Y-m-d', strtotime('+6 days')); ?>
+          <span class="cp-timer__num" data-deadline="<?php echo $deadline ?> 23:59:59">00:00:00</span>
         </div>
       </div>
       <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=1" class="ui-btn more">전체보기</a>
@@ -113,21 +114,33 @@ include_once(BV_PATH.'/include/introBtn.php');
   <div class="swiper-container">
     <div class="swiper-wrapper">
       <!-- 배너 { -->
-      <a href="/m/shop/list.php?ca_id=006" class="swiper-slide banner-item">
+       <?php
+        /* ------------------------------------------------------------------------------------- _20240713_SY
+          회원특별관 인트로 링크 삽입
+          우선 내부에서만 인트로로 이동되도록 해 놓음, 업체에서 인트로로 연결되도록 해 달라고 하면 if문 빼면 됨
+          나중에 배너 폴더 따로 만들어서 해당 폴더 이미지 돌아가게 개발 해 놓는게 편할거 같음
+          ------------------------------------------------------------------------------------- */
+      //  if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
+        $brand_href = "/m/brand/brandIntro.php?ca_id=006";
+      //  } else {
+      //   $brand_href = "/m/shop/list.php?ca_id=006";
+      //  }
+       ?>
+      <a href="<?php echo $brand_href ?>" class="swiper-slide banner-item">
         <div class="banner-img">
           <img src="/src/img/mainbanner1_samsung.jpg" alt="">
         </div>
       </a>
       <!-- } 배너 -->
       <!-- 배너 { -->
-      <a href="/m/shop/list.php?ca_id=006" class="swiper-slide banner-item">
+      <a href="<?php echo $brand_href ?>" class="swiper-slide banner-item">
         <div class="banner-img">
           <img src="/src/img/mainbanner1_lg.jpg" alt="">
         </div>
       </a>
       <!-- } 배너 -->
       <!-- 배너 { -->
-      <a href="/m/shop/list.php?ca_id=006" class="swiper-slide banner-item">
+      <a href="<?php echo $brand_href ?>" class="swiper-slide banner-item">
         <div class="banner-img">
           <img src="/src/img/mainbanner1_cuckoo.jpg" alt="">
         </div>
@@ -449,27 +462,33 @@ while ($cate_row = sql_fetch_array($cate_res)) {
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var timers = document.querySelectorAll('.cp-timer__num');
-  timers.forEach(function(timer) {
-    var deadline = timer.getAttribute('data-deadline');
-    var countdown = new Date(deadline).getTime();
-    var x = setInterval(function() {
-      var now = new Date().getTime();
-      var distance = countdown - now;
-      if (distance <= 0) {
-        clearInterval(x);
-        timer.innerHTML = '만료';
-      } else {
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        hours = String(hours).padStart(2, '0');
-        minutes = String(minutes).padStart(2, '0');
-        seconds = String(seconds).padStart(2, '0');
-        timer.innerHTML = hours + ':' + minutes + ':' + seconds ;
-      }
-    }, 1000);
-  });
-});
+   document.addEventListener('DOMContentLoaded', function() {
+            var timers = document.querySelectorAll('.cp-timer__num');
+            timers.forEach(function(timer) {
+                var deadline = timer.getAttribute('data-deadline');
+                var countdown = new Date(deadline).getTime();
+                var x = setInterval(function() {
+                    var now = new Date().getTime();
+                    var distance = countdown - now;
+                    if (distance <= 0) {
+                        clearInterval(x);
+                        timer.innerHTML = '만료';
+                    } else {
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        // 숫자를 2자리 형식으로 맞추기
+                        days = String(days).padStart(2, '0');
+                        hours = String(hours).padStart(2, '0');
+                        minutes = String(minutes).padStart(2, '0');
+                        seconds = String(seconds).padStart(2, '0');
+
+                        // 결과를 출력
+                        timer.innerHTML = days + '일 ' + hours + ':' + minutes + ':' + seconds;
+                    }
+                }, 1000);
+            });
+        });
 </script>

@@ -52,7 +52,8 @@ for($i=0; $i<count($gw_msort); $i++) {
             <div class="cp-timer-wrap">
               <i class="cp-timer__icon"></i>
               <span class="cp-timer__text">D-Day</span>
-              <span class="cp-timer__num" data-deadline="<?php echo date("Y-m-d");?> 23:59:59">00:00:00</span>
+               <?php $deadline = date('Y-m-d', strtotime('+6 days')); ?>
+              <span class="cp-timer__num" data-deadline="<?php echo $deadline?> 23:59:59">00:00:00</span>
               <span class="cp-timer__text">남음</span>
             </div>
           </div>
@@ -73,7 +74,16 @@ for($i=0; $i<count($gw_msort); $i++) {
           echo "<p class=\"empty_list\">자료가 없습니다.</p>";
         } else {
           for($i=0; $row=sql_fetch_array($result); $i++) {
-              if(!memberGoodsAble($member['addr1'], $row['zone'])){
+            // 기본배송지 추가 _20240712_SY
+            $b_address = "";
+            $ad_row = getBaddressFun();
+            if(is_array($ad_row)) {
+              $b_address = $ad_row['b_addr1'];
+            } else {
+              $b_address = $member['addr1'];
+            }
+
+            if(!memberGoodsAble($b_address, $row['zone'])){
               continue;
             }
             $it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
@@ -92,10 +102,11 @@ for($i=0; $i<count($gw_msort); $i++) {
             $it_sprice = $sale = '';
             if($type==1){
               if($is_member){
-                $bb        = $it_amount + 2000;
-                $sett      = ($bb - $it_amount) / $bb * 100;
-                $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
-                $it_sprice = number_format($bb);
+                if ($row['normal_price'] > $it_amount && !$is_uncase) {
+                  $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
+                  $sale      = number_format($sett, 0) . '%';
+                  $it_sprice = display_price2($row['normal_price']);
+                }
               }
             } else {
               if($row['normal_price'] > $it_amount && !$is_uncase) {
@@ -107,6 +118,8 @@ for($i=0; $i<count($gw_msort); $i++) {
             item_card($row['index_no'], $it_href, $it_imageurl, $it_name, $it_sprice, $sale, $it_price, 'small');
           }
         }
+        echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'] . '?' . $qstr1 . '&page=');
+
         ?>
       </div>
     </div>
@@ -141,28 +154,35 @@ for($i=0; $i<count($gw_msort); $i++) {
   </div>
 </div>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var timers = document.querySelectorAll('.cp-timer__num');
-  timers.forEach(function(timer) {
-    var deadline = timer.getAttribute('data-deadline');
-    var countdown = new Date(deadline).getTime();
-    var x = setInterval(function() {
-      var now = new Date().getTime();
-      var distance = countdown - now;
-      if (distance <= 0) {
-        clearInterval(x);
-        timer.innerHTML = '만료';
-      } else {
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        hours = String(hours).padStart(2, '0');
-        minutes = String(minutes).padStart(2, '0');
-        seconds = String(seconds).padStart(2, '0');
-        timer.innerHTML = hours + ':' + minutes + ':' + seconds ;
-      }
-    }, 1000);
-  });
-});
+   document.addEventListener('DOMContentLoaded', function() {
+            var timers = document.querySelectorAll('.cp-timer__num');
+            timers.forEach(function(timer) {
+                var deadline = timer.getAttribute('data-deadline');
+                var countdown = new Date(deadline).getTime();
+                var x = setInterval(function() {
+                    var now = new Date().getTime();
+                    var distance = countdown - now;
+                    if (distance <= 0) {
+                        clearInterval(x);
+                        timer.innerHTML = '만료';
+                    } else {
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        // 숫자를 2자리 형식으로 맞추기
+                        days = String(days).padStart(2, '0');
+                        hours = String(hours).padStart(2, '0');
+                        minutes = String(minutes).padStart(2, '0');
+                        seconds = String(seconds).padStart(2, '0');
+
+                        // 결과를 출력
+                        timer.innerHTML = days + '일 ' + hours + ':' + minutes + ':' + seconds;
+                    }
+                }, 1000);
+            });
+        });
 </script>

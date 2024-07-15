@@ -7,7 +7,7 @@ $pg_title = ADMIN_MENU10;
 $pg_num = 10;
 $snb_icon = "<i class=\"fa fa-cogs\"></i>";
 
-if($member['id'] != 'admin' && !$member['auth_'.$pg_num]) {
+if($member['grade'] != '1' && !$member['auth_'.$pg_num]) {
 	alert("접근권한이 없습니다.");
 }
 

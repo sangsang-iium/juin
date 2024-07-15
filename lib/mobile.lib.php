@@ -129,9 +129,38 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
   echo "<div class=\"swiper-container\">\n"; // 추가된 부분: 슬라이드 컨테이너 시작
   echo "<div class=\"swiper-wrapper\">\n";   // 추가된 부분: 슬라이드 래퍼 시작
 
-  $result = display_itemtype($pt_id, $type, $rows);
-  for ($i = 0; $row = sql_fetch_array($result); $i++) {
-		if(!memberGoodsAble($member['addr1'], $row['zone'])){
+  // 기본배송지 추가 _20240712_SY
+  $b_address = "";
+  $ad_row = getBaddressFun();
+  if(is_array($ad_row)) {
+    $b_address = $ad_row['b_addr1'];
+  } else {
+    $b_address = $member['addr1'];
+  }
+
+  $result = display_itemtype($pt_id, $type);
+
+	$total_count = 0;
+	$cntIdxArr   = array();
+	while ($rowCntData = sql_fetch_array($result)) {
+		if (!memberGoodsAble($b_address, $rowCntData['zone'])) {
+			continue;
+		}
+		$cntIdxArr[] = $rowCntData['index_no'];
+		$total_count++;
+	}
+
+	$cntIdx = implode(",", $cntIdxArr);
+	if (count($cntIdxArr) > 0) {
+		$sql_search2 = "AND a.index_no in ($cntIdx)";
+	} else {
+		$sql_search2 = "";
+	}
+
+	$result2 = display_itemtype($pt_id, $type, $rows, $sql_search2);
+
+  for ($i = 0; $row = sql_fetch_array($result2); $i++) {
+		if(!memberGoodsAble($b_address, $row['zone'])){
 			continue;
 		}
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
@@ -147,17 +176,17 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 
     $it_sprice = $sale = '';
 
-    // if ($row['normal_price'] > $it_amount) {
-    //   $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
-    //   $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
-    //   $it_sprice = display_price2($row['normal_price']);
-    // }
-		if($is_member){
-		  $bb = $it_amount+2000;
-      $sett      = ($bb - $it_amount) / $bb * 100;
+    if ($row['normal_price'] > $it_amount) {
+      $sett      = ($row['normal_price'] - $it_amount) / $row['normal_price'] * 100;
       $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
-			$it_sprice = number_format($bb);
-		}
+      $it_sprice = display_price2($row['normal_price']);
+    }
+		// if($is_member){
+		//   $bb = $it_amount+2000;
+    //   $sett      = ($bb - $it_amount) / $bb * 100;
+    //   $sale      = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
+		// 	$it_sprice = number_format($bb);
+		// }
 
 		$it_today = date("Y-m-d 23:59:59");
 
@@ -253,10 +282,38 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
 	echo "<div class=\"swiper-container\">\n";
 	echo "<div class=\"swiper-wrapper\">\n";
 
-	$result = display_itemtype($pt_id, $type, $rows);
+  // 기본배송지 추가 _20240712_SY
+  $b_address = "";
+  $ad_row = getBaddressFun();
+  if(is_array($ad_row)) {
+    $b_address = $ad_row['b_addr1'];
+  } else {
+    $b_address = $member['addr1'];
+  }
 
-	for($i=0; $row=sql_fetch_array($result); $i++) {
-		if(!memberGoodsAble($member['addr1'], $row['zone'])){
+	$result = display_itemtype($pt_id, $type);
+
+	$total_count = 0;
+	$cntIdxArr   = array();
+	while ($rowCntData = sql_fetch_array($result)) {
+		if (!memberGoodsAble($b_address, $rowCntData['zone'])) {
+			continue;
+		}
+		$cntIdxArr[] = $rowCntData['index_no'];
+		$total_count++;
+	}
+
+	$cntIdx = implode(",", $cntIdxArr);
+	if (count($cntIdxArr) > 0) {
+		$sql_search2 = "AND a.index_no in ($cntIdx)";
+	} else {
+		$sql_search2 = "";
+	}
+
+	$result2 = display_itemtype($pt_id, $type, $rows, $sql_search2);
+
+	for($i=0; $row=sql_fetch_array($result2); $i++) {
+		if(!memberGoodsAble($b_address, $row['zone'])){
 			continue;
 		}
 		$it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
@@ -290,10 +347,19 @@ function mobile_slide_goods_no($type, $rows, $addclass = '', $size = '') {
   echo "<div class=\"swiper-container\">\n";
   echo "<div class=\"swiper-wrapper\">\n";
 
+  // 기본배송지 추가 _20240712_SY
+  $b_address = "";
+  $ad_row = getBaddressFun();
+  if(is_array($ad_row)) {
+    $b_address = $ad_row['b_addr1'];
+  } else {
+    $b_address = $member['addr1'];
+  }
+
   $result = display_itemtype_no($type, $pt_id, $rows);
 
   for ($i = 0; $row = sql_fetch_array($result); $i++) {
-    if(!memberGoodsAble($member['addr1'], $row['zone'])){
+    if(!memberGoodsAble($b_address, $row['zone'])){
     	continue;
     }
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];

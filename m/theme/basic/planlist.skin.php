@@ -41,7 +41,7 @@ if(!defined('_BLUEVATION_')) exit;
           for($i=0; $row=sql_fetch_array($result); $i++) {
             $it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];
             $it_name = cut_str($row['gname'], 50);
-            $it_imageurl = get_it_image_url($row['index_no'], $row['simg2'], 400, 400);
+            $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], 400, 400);
             $it_price = mobile_price($row['index_no']);
             $it_amount = get_sale_price($row['index_no']);
             $it_point = display_point($row['gpoint']);
@@ -62,7 +62,7 @@ if(!defined('_BLUEVATION_')) exit;
           }
         }
 
-        echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$qstr1.'&page=');
+        echo get_paging($config['mobile_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$qstr.'&page=');
         ?>
       </div>
     </div>

@@ -22,6 +22,7 @@ if ($od1['paymethod'] == '무통장') {
 } else {
   $JOIN = "JOIN toss_transactions b";
 }
+
 $od = sql_fetch("SELECT * FROM {$shop_table} a
                     $JOIN
                     ON (a.od_id = b.orderId)

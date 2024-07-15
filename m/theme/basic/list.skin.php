@@ -68,7 +68,16 @@ for($i=0; $i<count($gw_msort); $i++) {
         } else {
 
           for($i=0; $row=sql_fetch_array($result); $i++) {
-            if(!memberGoodsAble($member['addr1'], $row['zone'])){
+            // 기본배송지 추가 _20240712_SY
+            $b_address = "";
+            $ad_row = getBaddressFun();
+            if(is_array($ad_row)) {
+              $b_address = $ad_row['b_addr1'];
+            } else {
+              $b_address = $member['addr1'];
+            }
+
+            if(!memberGoodsAble($b_address, $row['zone'])){
               continue;
             }
             $it_href = BV_MSHOP_URL.'/view.php?gs_id='.$row['index_no'];

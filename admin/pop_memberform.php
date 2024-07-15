@@ -415,16 +415,19 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
               <col>
             </colgroup>
             <tbody>
+           <!-- ------------------------------------------------------------------------------------- _20240713_SY 
+                  * 노출여부 ju_display로 name값 변경
+                ------------------------------------------------------------------------------------- -->
               <tr>
                 <th scope="row">노출여부</th>
                 <td>
                   <ul class="radio_group">
                     <li class="radios">
-                      <input type="radio" name="ju_mem" value="1" id="ju_mem_y" <?php echo get_checked($mb['ju_mem'], '1'); ?>>
+                      <input type="radio" name="ju_display" value="1" id="ju_mem_y" <?php echo get_checked($mb['ju_display'], '1'); ?>>
                       <label for="ju_mem_y">예</label>
                     </li>
                     <li class="radios">
-                      <input type="radio" name="ju_mem" value="2" id="ju_mem_n" <?php echo get_checked($mb['ju_mem'], '2'); ?>>
+                      <input type="radio" name="ju_display" value="2" id="ju_mem_n" <?php echo get_checked($mb['ju_display'], '2'); ?>>
                       <label for="ju_mem_n">아니오</label>
                     </li>
                   </ul>

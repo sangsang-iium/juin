@@ -423,7 +423,7 @@ $row_card = sql_fetch($sql_card);
                     </div>
                     <div class="info-item">
                     <p class="tit">연락처</p>
-                    <input type="text" name="cellphone" value="<?php echo $member['cellphone'] ?>" class="w-per50 frm-input">
+                    <input type="text" name="cellphone" id="cellphone" value="<?php echo $member['cellphone'] ?>" class="w-per50 frm-input">
                     <input type="hidden" name="telephone" value="<?php echo $member['cellphone'] ?>">
                     </div>
                 </div>
@@ -493,7 +493,7 @@ $row_card = sql_fetch($sql_card);
                     <dl class="info-item">
                         <dt class="tit">배송요청사항</dt>
                         <dd class="w90p">
-                            <input type="text" name="b_addr_req" value="<?php echo $b_addr_req ?>" class="w-per50 frm-input">
+                            <input type="text" name="b_addr_req" value="<?php echo $res['b_addr_req'] ?>" class="w-per50 frm-input">
                         </dd>
                     </dl>
                     </div>
@@ -573,13 +573,20 @@ $row_card = sql_fetch($sql_card);
                                 $multi_settle .= "<li>\n";
                                 $multi_settle .= "<div class=\"frm-choice\">\n";
                                 $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"일반\" id=\"de_normal\">\n";
-                                $multi_settle .= "<label for=\"de_normal\">일반</label>\n";
+                                $multi_settle .= "<label for=\"de_normal\">카드결제</label>\n";
                                 $multi_settle .= "</div>\n";
                                 $multi_settle .= "</li>\n";
                                 $multi_settle .= "<li>\n";
                                 $multi_settle .= "<div class=\"frm-choice\">\n";
                                 $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
                                 $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
+
+                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"간편\" id=\"de_auto_card\">\n";
+                                $multi_settle .= "<label for=\"de_auto_card\">간편결제</label>\n";
                                 $multi_settle .= "</div>\n";
                                 $multi_settle .= "</li>\n";
                             }
@@ -881,6 +888,8 @@ $row_card = sql_fetch($sql_card);
                                 <?php }?>
 
                             </div>
+
+
                             <script>
                                 function toggleTaxDocument(documentType) {
                                     if (documentType === 'cash_receipt') {
@@ -902,6 +911,26 @@ $row_card = sql_fetch($sql_card);
                                 }
                             </script>
                         </div>
+
+                            <section id="auto_card_section" style="display:none;" >
+                              <h2 class="anc_tit">신용카드 선택</h2>
+                              <div class="odf_tbl">
+                                <?php
+                                  $sqlCard = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+                                  $resCard = sql_query($sqlCard);
+                                  $resNumRow = sql_num_rows($resCard);
+                                  if ($resNumRow > 0) {
+                                ?>
+                                <select name="autocardsel" id="autocardsel" class="frm-select">
+                                  <?php for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) { ?>
+                                    <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use']=="Y"?"selected":"" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
+                                  <?php } ?>
+                                </select>
+                                <?php } else {?>
+                                  <a href="/m/shop/card.php" class="ui-btn st3">카드 등록</a>
+                                <?php }?>
+                              </div>
+                            </section>
                         <?php if (!$is_member) {?>
                         <div id="guest_privacy">
                             <p class="order_title">비회원 구매</p>
@@ -1223,6 +1252,18 @@ $row_card = sql_fetch($sql_card);
       return false;
     }
 
+      /* ------------------------------------------------------------------------------------- _20240714_SY
+        * 포인트 적용
+          * 최소 포인트 값 적용
+      /* ------------------------------------------------------------------------------------- */
+      if(temp_point < min_point && temp_point > 0 ){
+          alert(`포인트사용 금액은 최소 ${min_point}입니다..`);
+          f.tot_price.value = number_format(String(tot_price));
+          f.use_point.value = 0;
+          f.use_point.focus();
+          return false;
+        }
+
     if (temp_point > tot_price) {
       alert('포인트사용 금액은 최종결제금액 보다 클수 없습니다.');
       f.tot_price.value = number_format(String(tot_price));
@@ -1336,35 +1377,87 @@ $row_card = sql_fetch($sql_card);
     return true;
   }
 
-  function calculate_temp_point(val) {
-    var f = document.buyform;
-    var temp_point = parseInt(no_comma(f.use_point.value));
-    var sell_price = parseInt(f.org_price.value);
-    var send_cost2 = parseInt(f.baesong_price2.value);
-    var mb_coupon = parseInt(f.coupon_total.value);
-    var tot_price = sell_price + send_cost2 - mb_coupon;
+  // function calculate_temp_point(val) {
+  //   var f = document.buyform;
+  //   var temp_point = parseInt(no_comma(f.use_point.value));
+  //   var sell_price = parseInt(f.org_price.value);
+  //   var send_cost2 = parseInt(f.baesong_price2.value);
+  //   var mb_coupon = parseInt(f.coupon_total.value);
+  //   var tot_price = sell_price + send_cost2 - mb_coupon;
 
-    if (val == ''){
-      temp_point = 0;
-    }
+  //   if (val == ''){
+  //     temp_point = 0;
+  //   }
 
-    if (!checkNum(no_comma(val))) {
-      alert('포인트 사용액은 숫자이어야 합니다.');
-      f.tot_price.value = number_format(String(tot_price));
-      $("#rst-usePoint").text('0');
-      f.use_point.value = 0;
-      f.use_point.focus();
-      return;
-    } else {
-      f.tot_price.value = number_format(String(tot_price - temp_point));
-      $("#rst-usePoint").text("-"+number_format(String(temp_point))+'원');
-    }
+  //   if (!checkNum(no_comma(val))) {
+  //     alert('포인트 사용액은 숫자이어야 합니다.');
+  //     f.tot_price.value = number_format(String(tot_price));
+  //     $("#rst-usePoint").text('0');
+  //     f.use_point.value = 0;
+  //     f.use_point.focus();
+  //     return;
+  //   } else {
+  //     f.tot_price.value = number_format(String(tot_price - temp_point));
+  //     $("#rst-usePoint").text("-"+number_format(String(temp_point))+'원');
+  //   }
+  // }
+
+function calculate_temp_point(val) {
+
+  var f = document.buyform;
+  var temp_point = parseInt(no_comma(f.use_point.value));
+  var sell_price = parseInt(f.org_price.value);
+  var send_cost2 = parseInt(f.baesong_price2.value);
+  var mb_coupon = parseInt(f.coupon_total.value);
+  var tot_price = sell_price + send_cost2 - mb_coupon;
+
+  // 스페이스바 눌렸을 때의 처리
+  if (val == '' || val.trim() == '') {
+    temp_point = 0;
   }
+
+  /* ------------------------------------------------------------------------------------- _20240713_SY
+    * 포인트 적용
+      * 최소 포인트 값 적용
+      * 스페이스바 인식 추가
+      * 보유 포인트 이상 입력 시 결제 금액 바뀌는 문제
+  /* ------------------------------------------------------------------------------------- */
+  const min_point = parseInt("<?php echo $config['usepoint']; ?>");  // 최소사용포인트
+  const mb_point  = parseInt($("input[name=mb_point]").val());       // 보유포인트
+
+  if(temp_point < min_point) {
+    temp_point = 0;
+  }
+  if(temp_point > mb_point) {
+    alert(`보유중인 적립금 : ${mb_point}`);
+    f.use_point.value = mb_point
+    temp_point = mb_point;
+  }
+
+
+  if (!checkNum(no_comma(val))) {
+    alert('포인트 사용액은 숫자이어야 합니다.');
+    f.tot_price.value = number_format(String(tot_price));
+    $("#rst-usePoint").text('0');
+    f.use_point.value = 0;
+    f.use_point.focus();
+    return;
+  } else {
+    f.tot_price.value = number_format(String(tot_price - temp_point));
+    $("#rst-usePoint").text("-" + number_format(String(temp_point)) + '원');
+  }
+}
+
+  // 적립금 입력 스페이스바를 인식할 수 있도록 변경 _20240713_SY
+  document.querySelector("input[name=use_point]").addEventListener('keyup', function(event) {
+  calculate_temp_point(event.target.value);
+  });
 
   // 결제방법
   // function calculate_paymethod(type) {
   $('input[type=radio][name=paymethod]').on('change', function(){
     let type = $(this).val();
+    console.log(type)
 
     var sell_price = parseInt($("input[name=org_price]").val()); // 합계금액
     var send_cost2 = parseInt($("input[name=baesong_price2]").val()); // 추가배송비
@@ -1403,6 +1496,7 @@ $row_card = sql_fetch($sql_card);
       case '무통장':
         orderButton.disabled = false;
         $("#bank_section").show();
+        $("#auto_card_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
         $("input[name=use_point]").val(0);
@@ -1424,6 +1518,7 @@ $row_card = sql_fetch($sql_card);
         paymentButton.disabled = false;
         $("#toss_section").show();
         $("#card_section").hide();
+        $("#auto_card_section").hide();
         $("#bank_section").hide();
         $("input[name=use_point]").val(0);
         $("input[name=use_point]").attr("readonly", false);
@@ -1445,6 +1540,7 @@ $row_card = sql_fetch($sql_card);
         $("#card_section").show();
         $("#bank_section").hide();
         $("#toss_section").hide();
+        $("#auto_card_section").hide();
         $("#refund_section").hide();
         $("#taxsave_section").hide();
 
@@ -1452,8 +1548,23 @@ $row_card = sql_fetch($sql_card);
         $('#order-button').show();
         $('#payment-button').hide();
         break;
+      case '간편':
+        orderButton.disabled = false;
+        // $("#brand_section").hide();
+        $("#auto_card_section").show();
+        $("#card_section").hide();
+        $("#bank_section").hide();
+        $("#toss_section").hide();
+        $("#refund_section").hide();
+        $("#taxsave_section").hide();
+
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
+        break;
       case '포인트':
         orderButton.disabled = false;
+        $("#auto_card_section").hide();
         $("#bank_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
         $("input[name=use_point]").attr("readonly", true);
@@ -1475,6 +1586,7 @@ $row_card = sql_fetch($sql_card);
       default: // 그외 결제수단
         orderButton.disabled = false;
         $("#bank_section").hide();
+        $("#auto_card_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
         $("input[name=use_point]").val(0);
@@ -1652,6 +1764,8 @@ textarea.od-dtn__contact,	.wfull,input.od-dtn__contact{font-size:2.16rem !import
   // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
   button.addEventListener("click", function () {
     var formSubmitOrder = $("#buyform").serialize();
+    var cellPhone = $("#cellphone").val();
+    var cellPhone = cellPhone.replace(/-/g, '');
     $.ajax({
       type: 'post',
       url: '/m/shop/normalPayment.php',
@@ -1666,10 +1780,10 @@ textarea.od-dtn__contact,	.wfull,input.od-dtn__contact{font-size:2.16rem !import
       orderId: odId,
       orderName: "<?php echo $itName?>",
       successUrl: window.location.origin+"/m/theme/basic/success_mng.php",
-      failUrl: window.location.origin + "/m/theme/basic/fail_mng.php",
+      failUrl: window.location.origin + `/m/theme/basic/fail_mng.php?odId=${odId}&ss_cart_id=<?php echo $ss_cart_id ?>`,
       customerEmail: "<?php echo $member['email'] ?>",
       customerName: "<?php echo $member['name'] ?>",
-      customerMobilePhone: "<?php echo preg_replace('/\D/', '', $member['cellphone']); ?>",
+      customerMobilePhone: cellPhone,
     });
   });
 

@@ -220,7 +220,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                     </div>
                   <?php } ?>
                 </div>
-                <p class="price"><?php echo number_format($row['ct_price']); ?>원<span class="dc-price"><?php echo number_format('99999'); ?>원</span></p>
+                <p class="price"><?php echo number_format($row['ct_price']); ?>원</p>
+                <!-- <p class="price"><?php echo number_format($row['ct_price']); ?>원<span class="dc-price"><?php echo number_format('99999'); ?>원</span></p> -->
               </div>
             </div>
           </div>
@@ -550,7 +551,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </div>
             <div class="info-item">
               <p class="tit">연락처</p>
-              <input type="text" name="cellphone" value="<?php echo $member['cellphone'] ?>" class="w-per100 frm-input">
+              <input type="text" name="cellphone" id="cellphone" value="<?php echo $member['cellphone'] ?>" class="w-per100 frm-input">
               <input type="hidden" name="telephone" value="<?php echo $member['cellphone'] ?>">
             </div>
           </div>
@@ -791,7 +792,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             <div class="od-dtn-info">
               <div class="info-item">
                 <p class="tit">배송요청사항</p>
-                <input type="text" name="b_addr_req" value="<?php echo $b_addr_req?>" class="w-per50 frm-input">
+                <input type="text" name="b_addr_req" value="<?php echo $res['b_addr_req']?>" class="w-per50 frm-input">
               </div>
             </div>
           </div>
@@ -851,7 +852,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                     <p class="title">적립금 사용 <span>(보유적립금 : <?php echo display_point($member['point']); ?>)</span></p>
                   </div>
                   <div class="form-body">
-                    <input type="text" name="use_point" id="use_point" value="0" class="w-per100 frm-input" onkeyup="calculate_temp_point(this.value); this.value=number_format(this.value);">
+                    <input type="tel" name="use_point" id="use_point" value="0" class="w-per100 frm-input" onkeyup="calculate_temp_point(this.value); this.value=number_format(this.value);">
                     <div class="form-itxt">
                       <p><?php echo display_point($config['usepoint']); ?> 부터 사용가능</p>
                     </div>
@@ -964,7 +965,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"일반\" id=\"de_normal\">\n";
-              $multi_settle .= "<label for=\"de_normal\">일반</label>\n";
+              $multi_settle .= "<label for=\"de_normal\">카드결제</label>\n";
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
               // $multi_settle .= "<li>\n";
@@ -977,6 +978,13 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
               $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+
+              $multi_settle .= "<li>\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"간편\" id=\"de_auto_card\">\n";
+              $multi_settle .= "<label for=\"de_auto_card\">간편결제</label>\n";
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
             }
@@ -1112,7 +1120,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                     <p class="title">휴대전화</p>
                   </div>
                   <div class="form-body">
-                    <input type="text" name="customerMobilePhone" value="<?php echo $member['cellphone']?>" class="frm-input w-per100">
+                    <input type="tel" name="customerMobilePhone" value="<?php echo $member['cellphone']?>" class="frm-input w-per100">
                   </div>
                 </div>
                 <!-- <table>
@@ -1344,6 +1352,26 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                   if ($resNumRow > 0) {
                 ?>
                 <select name="cardsel" id="cardsel" class="frm-select">
+                  <?php for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) { ?>
+                    <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use']=="Y"?"selected":"" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
+                  <?php } ?>
+                </select>
+                <?php } else {?>
+                  <a href="/m/shop/card.php" class="ui-btn st3">카드 등록</a>
+                <?php }?>
+              </div>
+            </section>
+
+            <section id="auto_card_section" style="display:none;" >
+              <h2 class="anc_tit">신용카드 선택</h2>
+              <div class="odf_tbl">
+                <?php
+                  $sqlCard = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+                  $resCard = sql_query($sqlCard);
+                  $resNumRow = sql_num_rows($resCard);
+                  if ($resNumRow > 0) {
+                ?>
+                <select name="autocardsel" id="autocardsel" class="frm-select">
                   <?php for ($c = 0; $rowCard = sql_fetch_array($resCard); $c++) { ?>
                     <option value="<?php echo $rowCard['idx'] ?>" <?php echo $rowCard['cr_use']=="Y"?"selected":"" ?>>(<?php echo $rowCard['cr_company'] ?>)<?php echo $rowCard['cr_card'] ?></option>
                   <?php } ?>
@@ -1622,7 +1650,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     var paymethodRadios = f.querySelectorAll('input[name="paymethod"]');
     var selectedPaymentMethod = getSelectVal2(paymethodRadios);
     // 무통장 예외 처리 필요
-    if (getSelectVal(f["paymethod"]) == '신용카드' && card_id === '' || card_id === null) {
+    if (getSelectVal((f["paymethod"]) == '신용카드' || getSelectVal(f["paymethod"]) == '간편') && card_id === '' || card_id === null) {
       var card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록이후 구매 하시겠습니까?");
       if (card_confirm) {
         window.location.href = "/m/shop/card.php";
@@ -1645,6 +1673,19 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
     if (temp_point > mb_point) {
       alert('포인트사용 금액은 현재 보유포인트 보다 클수 없습니다.');
+      f.tot_price.value = number_format(String(tot_price));
+      f.use_point.value = 0;
+      f.use_point.focus();
+      return false;
+    }
+
+
+  /* ------------------------------------------------------------------------------------- _20240714_SY
+    * 포인트 적용
+      * 최소 포인트 값 적용
+  /* ------------------------------------------------------------------------------------- */
+    if(temp_point < min_point && temp_point > 0){
+      alert(`포인트사용 금액은 최소 ${min_point}입니다..`);
       f.tot_price.value = number_format(String(tot_price));
       f.use_point.value = 0;
       f.use_point.focus();
@@ -1737,7 +1778,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       }
     }
 
-    if (getSelectVal2(f["paymethod"]) == '신용카드') {
+    if (getSelectVal2(f["paymethod"]) == '신용카드' ) {
       if (tot_price < 1000) {
         alert("신용카드는 1000원 이상 결제가 가능합니다.");
         return false;
@@ -1755,6 +1796,13 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         alert("첫 배송 시점을 입력하세요.");
         event.preventDefault();
         return;
+      }
+    }
+    if(getSelectVal2(f["paymethod"]) == '간편'){
+      if (tot_price < 1000  ) {
+        alert("간편결제는 1000원 이상 결제가 가능합니다.");
+
+        return false;
       }
     }
 
@@ -1782,31 +1830,92 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     return true;
   }
 
-  function calculate_temp_point(val) {
-    console.log(val)
-    var f = document.buyform;
-    var temp_point = parseInt(no_comma(f.use_point.value));
-    var sell_price = parseInt(f.org_price.value);
-    var send_cost2 = parseInt(f.baesong_price2.value);
-    var mb_coupon = parseInt(f.coupon_total.value);
-    var tot_price = sell_price + send_cost2 - mb_coupon;
+  // function calculate_temp_point(val) {
+  //   var f = document.buyform;
+  //   var temp_point = parseInt(no_comma(f.use_point.value));
+  //   var sell_price = parseInt(f.org_price.value);
+  //   var send_cost2 = parseInt(f.baesong_price2.value);
+  //   var mb_coupon = parseInt(f.coupon_total.value);
+  //   var tot_price = sell_price + send_cost2 - mb_coupon;
 
-    if (val == '') {
-      temp_point = 0;
-    }
+  //   if (val == '') {
+  //     temp_point = 0;
+  //   }
 
-    if (!checkNum(no_comma(val))) {
-      alert('포인트 사용액은 숫자이어야 합니다.');
-      f.tot_price.value = number_format(String(tot_price));
-      $("#rst-usePoint").text('0');
-      f.use_point.value = 0;
-      f.use_point.focus();
-      return;
-    } else {
-      f.tot_price.value = number_format(String(tot_price - temp_point));
-      $("#rst-usePoint").text("-" + number_format(String(temp_point)) + '원');
-    }
+  //   const min_point = parseInt("<?php echo $config['usepoint']; ?>");  // 최소사용포인트
+  //   const mb_point  = parseInt($("input[name=mb_point]").val()); // 보유포인트
+  //   if(val < min_point) {
+  //     console.log(number_format(val))
+  //     temp_point = 0;
+  //   }
+
+  //   if (!checkNum(no_comma(val))) {
+  //     alert('포인트 사용액은 숫자이어야 합니다.');
+  //     f.tot_price.value = number_format(String(tot_price));
+  //     $("#rst-usePoint").text('0');
+  //     f.use_point.value = 0;
+  //     f.use_point.focus();
+  //     return;
+  //   } else {
+  //     f.tot_price.value = number_format(String(tot_price - temp_point));
+  //     $("#rst-usePoint").text("-" + number_format(String(temp_point)) + '원');
+  //   }
+  // }
+
+
+function calculate_temp_point(val) {
+
+  var f = document.buyform;
+  var temp_point = parseInt(no_comma(f.use_point.value));
+  var sell_price = parseInt(f.org_price.value);
+  var send_cost2 = parseInt(f.baesong_price2.value);
+  var mb_coupon = parseInt(f.coupon_total.value);
+  var tot_price = sell_price + send_cost2 - mb_coupon;
+
+  // 스페이스바 눌렸을 때의 처리
+  if (val == '' || val.trim() == '') {
+    temp_point = 0;
   }
+
+  /* ------------------------------------------------------------------------------------- _20240713_SY
+    * 포인트 적용
+      * 최소 포인트 값 적용
+      * 스페이스바 인식 추가
+      * 보유 포인트 이상 입력 시 결제 금액 바뀌는 문제
+  /* ------------------------------------------------------------------------------------- */
+  const min_point = parseInt("<?php echo $config['usepoint']; ?>");  // 최소사용포인트
+  const mb_point  = parseInt($("input[name=mb_point]").val());       // 보유포인트
+
+  if(temp_point < min_point) {
+    temp_point = 0;
+  }
+  if(temp_point > mb_point) {
+    alert(`보유중인 적립금 : ${mb_point}`);
+    f.use_point.value = mb_point
+    temp_point = mb_point;
+  }
+
+
+  if (!checkNum(no_comma(val))) {
+    alert('포인트 사용액은 숫자이어야 합니다.');
+    f.tot_price.value = number_format(String(tot_price));
+    $("#rst-usePoint").text('0');
+    f.use_point.value = 0;
+    f.use_point.focus();
+    return;
+  } else {
+    f.tot_price.value = number_format(String(tot_price - temp_point));
+    $("#rst-usePoint").text("-" + number_format(String(temp_point)) + '원');
+  }
+}
+
+// 적립금 입력 스페이스바를 인식할 수 있도록 변경 _20240713_SY
+document.querySelector("input[name=use_point]").addEventListener('keyup', function(event) {
+  calculate_temp_point(event.target.value);
+});
+
+
+
 
   // 결제방법
   // function calculate_paymethod(type) {
@@ -1849,6 +1958,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         orderButton.disabled = false;
         $("#bank_section").show();
         // $("#brand_section").hide();
+        $("#auto_card_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
         // $("input[name=use_point]").val(0);
@@ -1869,6 +1979,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         paymentButton.disabled = false;
         // $("#brand_section").hide();
         $("#toss_section").show();
+        $("#auto_card_section").hide();
         $("#card_section").hide();
         $("#bank_section").hide();
         $("input[name=use_point]").val(0);
@@ -1890,6 +2001,21 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         orderButton.disabled = false;
         // $("#brand_section").hide();
         $("#card_section").show();
+        $("#auto_card_section").hide();
+        $("#bank_section").hide();
+        $("#toss_section").hide();
+        $("#refund_section").hide();
+        $("#taxsave_section").hide();
+
+        // 버튼처리
+        $('#order-button').show();
+        $('#payment-button').hide();
+        break;
+      case '간편':
+        orderButton.disabled = false;
+        // $("#brand_section").hide();
+        $("#auto_card_section").show();
+        $("#card_section").hide();
         $("#bank_section").hide();
         $("#toss_section").hide();
         $("#refund_section").hide();
@@ -1902,6 +2028,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       case '브렌드페이':
         orderButton.disabled = false;
         // $("#brand_section").show();
+        $("#auto_card_section").hide();
         $("#card_section").hide();
         $("#bank_section").hide();
         $("#toss_section").hide();
@@ -1916,6 +2043,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       case '포인트':
         orderButton.disabled = false;
         // $("#brand_section").hide();
+        $("#auto_card_section").hide();
         $("#bank_section").hide();
         $("#card_section").hide();
         $("input[name=use_point]").val(number_format(String(tot_price)));
@@ -1938,6 +2066,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       default: // 그외 결제수단
         orderButton.disabled = false;
         $("#bank_section").hide();
+        $("#auto_card_section").hide();
         $("#card_section").hide();
         $("#toss_section").hide();
         $("input[name=use_point]").val(0);
@@ -2186,6 +2315,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
   // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
   button.addEventListener("click", function () {
     var formSubmitOrder = $("#buyform").serialize();
+    var cellPhone = $("#cellphone").val();
+    var cellPhone = cellPhone.replace(/-/g, '');
     $.ajax({
       type: 'post',
       url: '/m/shop/normalPayment.php',
@@ -2203,90 +2334,90 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
       failUrl: window.location.origin + `/m/theme/basic/fail.php?odId=${odId}&ss_cart_id=<?php echo $ss_cart_id ?>`,
       customerEmail: "<?php echo $member['email']?>",
       customerName: "<?php echo $member['name'] ?>",
-      customerMobilePhone: "<?php echo preg_replace('/\D/', '', $member['cellphone']);?>",
+      customerMobilePhone: cellPhone,
     });
   });
 
 
   // 브렌드 페이
   // 문서: https://docs.tosspayments.com/guides/brandpay/integration#api-키-설정-및-sdk-준비
-  const br_clientKey = 'test_ck_LkKEypNArWLnNb4bORWa8lmeaxYG';
-  const br_customerKey = 'br_<?php echo $member['id']?>'; //[TODO] 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID로 변경하세요.
+  // const br_clientKey = 'test_ck_LkKEypNArWLnNb4bORWa8lmeaxYG';
+  // const br_customerKey = 'br_<?php echo $member['id']?>'; //[TODO] 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID로 변경하세요.
 
-  // brandpay 초기화
-  const brandpay = BrandPay(br_clientKey, br_customerKey, {
-    redirectUrl: '/',
-  });
+  // // brandpay 초기화
+  // const brandpay = BrandPay(br_clientKey, br_customerKey, {
+  //   redirectUrl: '/',
+  // });
 
-  // 결제 위젯 객체
-  let paymentMethodsWidget = null;
+  // // 결제 위젯 객체
+  // let paymentMethodsWidget = null;
 
-  initialize();
+  // initialize();
 
-  async function initialize() {
-    // 결제 수단 위젯 객체 초기화
-    paymentMethodsWidget = brandpay.createPaymentMethodsWidget({
-      amount: 50000
-    });
+  // async function initialize() {
+  //   // 결제 수단 위젯 객체 초기화
+  //   paymentMethodsWidget = brandpay.createPaymentMethodsWidget({
+  //     amount: 50000
+  //   });
 
-    // 결제 수단 위젯 렌더
-    paymentMethodsWidget.render('#payment-methods-widget', {
-      ui: {
-        promotionSection: {
-          summary: {
-            visible: true,
-          },
-          description: {
-            visible: true,
-            defaultOpen: true,
-          },
-        },
-      },
-    });
-  }
+  //   // 결제 수단 위젯 렌더
+  //   paymentMethodsWidget.render('#payment-methods-widget', {
+  //     ui: {
+  //       promotionSection: {
+  //         summary: {
+  //           visible: true,
+  //         },
+  //         description: {
+  //           visible: true,
+  //           defaultOpen: true,
+  //         },
+  //       },
+  //     },
+  //   });
+  // }
 
-  document
-    .querySelector('#buyform')
-    .addEventListener('#br_submit', handleSubmit);
+  // document
+  //   .querySelector('#buyform')
+  //   .addEventListener('#br_submit', handleSubmit);
 
-  // document.querySelector('#button').addEventListener('click', updateAmount);
+  // // document.querySelector('#button').addEventListener('click', updateAmount);
 
-  // 결제 금액 업데이트
-  async function updateAmount(e) {
-    e.preventDefault();
-    paymentMethodsWidget.updateAmount(45000);
-  }
+  // // 결제 금액 업데이트
+  // async function updateAmount(e) {
+  //   e.preventDefault();
+  //   paymentMethodsWidget.updateAmount(45000);
+  // }
 
-  // 결제 하기
-  async function handleSubmit(e) {
-    e.preventDefault();
+  // // 결제 하기
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
 
-    // 위젯 결제 정보
-    const widgetPaymentParams = paymentMethodsWidget.getPaymentParams();
+  //   // 위젯 결제 정보
+  //   const widgetPaymentParams = paymentMethodsWidget.getPaymentParams();
 
-    await brandpay.requestPayment({
-        orderId: 'ORDER_ID', // 주문에 대한 고유한 ID 값
-        orderName: '생수 외 1건', // 결제에 대한 주문명
+  //   await brandpay.requestPayment({
+  //       orderId: 'ORDER_ID', // 주문에 대한 고유한 ID 값
+  //       orderName: '생수 외 1건', // 결제에 대한 주문명
 
-        ...widgetPaymentParams,
-      }).then((res) => {
-        // 결제 승인 요청
-        res.customerKey = customerKey
-        return axios.post('./confirm_payment.php', res)
-      })
-      .then((res) => {
-        alert("결제 요청 성공 - 결과는 consoloe.log 확인");
-        console.log(res);
-      })
-      .catch((err) => {
-        alert("결제 요청 실패 - 결과는 consoloe.log 확인");
-        if (err.code == 'USER_CANCEL') {
-          console.log('사용자 취소')
-        } else {
-          console.log('기타 에러 상황', err.code, err.message)
-        }
-      });
-  }
+  //       ...widgetPaymentParams,
+  //     }).then((res) => {
+  //       // 결제 승인 요청
+  //       res.customerKey = customerKey
+  //       return axios.post('./confirm_payment.php', res)
+  //     })
+  //     .then((res) => {
+  //       alert("결제 요청 성공 - 결과는 consoloe.log 확인");
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       alert("결제 요청 실패 - 결과는 consoloe.log 확인");
+  //       if (err.code == 'USER_CANCEL') {
+  //         console.log('사용자 취소')
+  //       } else {
+  //         console.log('기타 에러 상황', err.code, err.message)
+  //       }
+  //     });
+  // }
 
 
 </script>

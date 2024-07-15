@@ -21,6 +21,7 @@ if(is_numeric($no)){
 <form name="fqaform" id="fqaform" method="post" action="./write_used.php" onsubmit="return fqaform_submit(this);" autocomplete="off" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="w" value="<?php echo $w ?>">
 <input type="hidden" name="no" value="<?php echo $no ?>">
+<input type="hidden" name="my_list" value="<?php echo $my_list ?>"><!--마이페이지에서왔는지구분-->
 
 		<div class="form-faq-wrap">
 			<div class="container">

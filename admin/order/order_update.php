@@ -348,6 +348,9 @@ else if($_POST['act_button'] == "운송장번호수정")
 }
 else if($_POST['act_button'] == "강제출고")
 {
+  /* ------------------------------------------------------------------------------------- _20240714_SY 
+    * dan = '2' 추가
+  /* ------------------------------------------------------------------------------------- */
 	for($i=0; $i<$count; $i++)
 	{
 		// 실제 번호를 넘김
@@ -355,11 +358,13 @@ else if($_POST['act_button'] == "강제출고")
 
 		$sql = " update shop_order
 					set dan3='15'
+             ,dan = '2'
 				where od_no = '{$_POST['od_no'][$k]}' ";
 		sql_query($sql);
 
 		$sql = " update shop_order
 		 			set dan3='15'
+             ,dan = '2'
 		 		  where od_id = '{$_POST['od_id'][$k]}' ";
 		 sql_query($sql);
 	}

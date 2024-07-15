@@ -35,7 +35,8 @@ $row_type = sql_fetch($sql_type);
           <div class="cp-timer" style="padding: 12px 0;font-size: 16px;background: #656565;text-align: center;">
             <div class="cp-timer-wrap white">
               <i class="cp-timer__icon"></i>
-              <span class="cp-timer__num" data-deadline="<?php echo date("Y-m-d");?> 23:59:59">02:43:47</span>
+              <?php $deadline = date('Y-m-d', strtotime('+6 days'));?>
+              <span class="cp-timer__num" data-deadline="<?php echo $deadline?> 23:59:59">00:00:00</span>
             </div>
           </div>
           <?php } ?>
@@ -56,6 +57,38 @@ $row_type = sql_fetch($sql_type);
     </div>
   </div>
 
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
+            var timers = document.querySelectorAll('.cp-timer__num');
+            timers.forEach(function(timer) {
+                var deadline = timer.getAttribute('data-deadline');
+                var countdown = new Date(deadline).getTime();
+                var x = setInterval(function() {
+                    var now = new Date().getTime();
+                    var distance = countdown - now;
+                    if (distance <= 0) {
+                        clearInterval(x);
+                        timer.innerHTML = '만료';
+                    } else {
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        // 숫자를 2자리 형식으로 맞추기
+                        days = String(days).padStart(2, '0');
+                        hours = String(hours).padStart(2, '0');
+                        minutes = String(minutes).padStart(2, '0');
+                        seconds = String(seconds).padStart(2, '0');
+
+                        // 결과를 출력
+                        timer.innerHTML = days + '일 ' + hours + ':' + minutes + ':' + seconds;
+                    }
+                }, 1000);
+            });
+        });
+</script>
+
   <div class="prod-smInfo">
     <div class="bottomBlank container prod-smInfo__head">
       <div class="prod-tag_area">
@@ -72,9 +105,9 @@ $row_type = sql_fetch($sql_type);
         <?php } else if ($gs['reg_yn'] == "3") { ?>
         <div class="cp-tag-item">
           <div class="cp-tag tag03">렌탈</div>
-        </div>  
-        <?php } 
-        
+        </div>
+        <?php }
+
         if($gs['sc_type'] == "1"){ ?>
         <div class="cp-tag-item">
           <div class="cp-tag tag04">택배</div>
@@ -93,18 +126,7 @@ $row_type = sql_fetch($sql_type);
         // (시중가 - 할인판매가) / 시중가 X 100 = 할인률%
         $gs_amount = get_sale_price($gs['index_no']);
         $gs_sprice = $gs_sale = '';
-        
-        // 2000원 할인 하드코딩 _20240625_SY
-        $bb = 0;
-        $sett = 0;
 
-         // price_msg 추가 _20240701_SY
-        if($is_member && empty($gs['price_msg'])) {
-          $bb        = $gs_amount + 2000;
-          $sett      = ($bb - $gs_amount) / $bb * 100;
-          $gs_sale   = '<span class="dc-percent">' . number_format($sett, 0) . '%</span>';
-          $it_sprice = number_format($bb) . "원";
-        } 
 
         if(empty($gs['price_msg']) && $gs['normal_price'] > $gs_amount && !is_uncase($gs['index_no'])) {
           $gs_sett = ($gs['normal_price'] - $gs_amount) / $gs['normal_price'] * 100;
@@ -117,7 +139,7 @@ $row_type = sql_fetch($sql_type);
         <?php if($gs_sprice) { ?>
           <p class="dc-price"><?php echo $gs_sprice; ?></p>
         <?php } ?>
-        <?php if($row_type['gt_no']) { ?> 
+        <?php if($row_type['gt_no']) { ?>
           <p class="dc-price"><?php echo $it_sprice; ?></p>
         <?php } ?>
         <p class="price-box">
