@@ -1386,4 +1386,11 @@
 .intro-sec03-btn-wrap-right .btn002 {height: 16.6rem; background: url('/src/img/intro-sec03-btn03.png') no-repeat bottom -0.44rem right -0.36rem/8.72rem #FEE67C;}
 .intro-sec03-btn-wrap-right .btn002 .txt01 {color: #395D2F;}
 .intro-sec03-btn-wrap-right .btn002 .txt02 {color: #395D2F; opacity: 0.5;}
+<<<<<<< HEAD
 .intro-sec03-btn-wrap-right .btn002 .baro {background-color: #295F2E; color: #fff;}
+=======
+.intro-sec03-btn-wrap-right .btn002 .baro {background-color: #295F2E; color: #fff;}
+
+.main_today .cp-title .left {width: calc(100% - 30rem);}
+.main_today .cp-title .right {width: 30rem;}
+>>>>>>> jii
