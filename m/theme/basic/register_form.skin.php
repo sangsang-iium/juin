@@ -1315,7 +1315,7 @@ function fregisterform_submit(f)
 	<?php if($w == '' && $config['cf_cert_use'] && $config['cf_cert_req']) { ?>
 	// 본인인증 체크
 	if(f.cert_no.value=="") {
-		alert("회원가입을 위해서는 본인인증을 해주셔야 합니다..");
+		alert("회원가입을 위해서는 본인인증을 해주셔야 합니다...");
 		return false;
 	}
 	<?php } ?>

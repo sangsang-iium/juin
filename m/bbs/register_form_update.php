@@ -75,11 +75,11 @@ $manager_idx    = isset($_POST['mn_idx'])        ? trim($_POST['mn_idx']) : "";
 $ju_restaurant  = isset($_POST['ju_restaurant']) ? trim($_POST['ju_restaurant']) : "";
 $ju_sectors     = isset($_POST['ju_sectors'])    ? trim($_POST['ju_sectors']) : "";
 // 추가 _20240608_SY
-$ju_region2     = isset($_POST['ju_region2']) ? trim($_POST['ju_region2']) : ""; 
-$ju_region3     = isset($_POST['ju_region3']) ? trim($_POST['ju_region3']) : ""; 
+$ju_region2     = isset($_POST['ju_region2']) ? trim($_POST['ju_region2']) : "";
+$ju_region3     = isset($_POST['ju_region3']) ? trim($_POST['ju_region3']) : "";
 // 추가 20240612_SY
-$ju_lat         = isset($_POST['ju_lat']) ? trim($_POST['ju_lat']) : ""; 
-$ju_lng         = isset($_POST['ju_lng']) ? trim($_POST['ju_lng']) : ""; 
+$ju_lat         = isset($_POST['ju_lat']) ? trim($_POST['ju_lat']) : "";
+$ju_lng         = isset($_POST['ju_lng']) ? trim($_POST['ju_lng']) : "";
 
 // 추가 _20240617_SY
 $ju_region1 = "";
@@ -135,7 +135,7 @@ if($w == '' || $w == 'u') {
 
     if($w == '') {
         if($msg = exist_mb_id($mb_id))		alert($msg);
-        
+
         // if(get_session('ss_check_mb_id') != $mb_id || get_session('ss_check_mb_email') != $mb_email) {
         if(get_session('ss_check_mb_id') != $mb_id) {
             set_session('ss_check_mb_id', '');
@@ -146,8 +146,10 @@ if($w == '' || $w == 'u') {
 
         // 본인확인 체크
         if($config['cf_cert_use'] && $config['cf_cert_req']) {
-            if(trim($_POST['cert_no']) != $_SESSION['ss_cert_no'] || !$_SESSION['ss_cert_no'])
-                alert("회원가입을 위해서는 본인확인을 해주셔야 합니다.");
+
+          if(trim($_POST['cert_no']) != $_SESSION['ss_cert_no'] || !$_SESSION['ss_cert_no']){
+            alert("회원가입을 위해서는 본인확인을 해주셔야 합니다.");
+          }
         }
 
         if($mb_recommend) {
@@ -187,6 +189,8 @@ $md5_cert_no = $_SESSION['ss_cert_no'];
 $cert_type = $_SESSION['ss_cert_type'];
 if($config['cf_cert_use'] && $cert_type && $md5_cert_no) {
     // 해시값이 같은 경우에만 본인확인 값을 저장한다.
+    log_write(md5($mb_name.$cert_type.$_SESSION['ss_cert_birth'].$md5_cert_no));
+    log_write($_SESSION['ss_cert_hash']);
     if($_SESSION['ss_cert_hash'] == md5($mb_name.$cert_type.$_SESSION['ss_cert_birth'].$md5_cert_no)) {
         $value['cellphone']		= $mb_hp;
         $value['mb_certify']	= $cert_type;
@@ -195,8 +199,9 @@ if($config['cf_cert_use'] && $cert_type && $md5_cert_no) {
         $value['gender']		  = $_SESSION['ss_cert_sex'];
         $value['mb_dupinfo']	= $_SESSION['ss_cert_dupinfo'];
 		    $value['age']			    = get_birth_age($_SESSION['ss_cert_birth']);
-        if($w == 'u')
-			$value['name'] = $mb_name;
+        if($w == 'u'){
+			    $value['name'] = $mb_name;
+        }
     } else {
         $value['cellphone']		= $mb_hp;
         $value['mb_certify']	= '';
@@ -239,13 +244,13 @@ if($w == '') {
 	$value['mailser']		  = $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 	$value['smsser']		  = $mb_sms ? $mb_sms : 'N'; //SMS를 수신
   $value['ju_mem']      = $reg_type; // 사업자 여부
-  
+
     $value['refund_bank']   =$refund_bank;//환불은행
     $value['refund_num']   =$refund_num;//환불계좌번호
     $value['refund_name']   =$refund_name;//환불계좌주
     $value['b_addr_req_base']   =$b_addr_req_base;//배송기본메시지
-    
-    
+
+
     $value['ju_b_num']      = $b_no;                      // 사업자등록번호
     $value['ju_display']    = $store_display;             // 매장 노출 여부 추가 _20240712_SY
     // store_display (매장 노출 여부) 체크 추가 _20240712_SY
@@ -300,7 +305,7 @@ if($w == '') {
         $dest_path = $save_dir.$save_name;
         move_uploaded_file($_FILES['ju_mimg']['tmp_name'], $dest_path);
         chmod($dest_path, BV_FILE_PERMISSION);
-        
+
         sql_query(" update shop_member set ju_mimg = '$save_name' where id = '$mb_id' ");
       }
     }
@@ -328,7 +333,7 @@ if($w == '') {
   /* 매장 사진 */
 
 
-  /* ------------------------------------------------------------------------------------- _20240713_SY 
+  /* ------------------------------------------------------------------------------------- _20240713_SY
     * 기본배송지 추가
   /* ------------------------------------------------------------------------------------- */
     $b_addr_table = "b_address";
@@ -437,7 +442,7 @@ if($w == '') {
     $value['ju_tel']        = $_POST['ju_tel'];
     $value['ju_hp']         = $_POST['ju_hp'];
   }
-    
+
 	update("shop_member", $value, " where id = '{$member['id']}' ");
 
 
@@ -461,7 +466,7 @@ if($w == '') {
       $dest_path = $save_dir.$save_name;
       move_uploaded_file($_FILES['ju_mimg']['tmp_name'], $dest_path);
       chmod($dest_path, BV_FILE_PERMISSION);
-      
+
       sql_query(" update shop_member set ju_mimg = '$save_name' where id = '$mb_id' ");
     }
   }
@@ -490,7 +495,7 @@ if($w == '') {
 
 
 
-/* ------------------------------------------------------------------------------------- _20240713_SY 
+/* ------------------------------------------------------------------------------------- _20240713_SY
   * 중앙회회원등급 회원 가입시 5천원, 1만원 할인 쿠폰 2장 발급
   * Type으로 구분하는게 가장 좋을 거 같은데 우선 cp_explane 문구로 구분함
   ------------------------------------------------------------------------------------- */
@@ -503,7 +508,7 @@ if($w == '' && $config['coupon_yes'] && $reg_type == 1) {
       if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
          ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
         $cp_used = true;
-  
+
       if($cp_used)
         insert_used_coupon($mb_id, $mb_name, $cp);
     }

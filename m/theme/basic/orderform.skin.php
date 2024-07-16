@@ -156,9 +156,9 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
         );
         $matching = hasMatchingCategory($gs_cate_arr, $gpointFetch['gb_category']);
         // 005004
-        // if($matching == 0){
-        //   $point += $gs['goods_price']*$gpointFetch['gb_get_point'];
-        // }
+        if($matching == 0){
+          $point += $gs['goods_price']*$gpointFetch['gb_get_point'];
+        }
 
         // 합계금액 계산
         $sql = " select SUM(IF(io_type = 1, (io_price * ct_qty), ((io_price + ct_price) * ct_qty))) as price,
