@@ -27,7 +27,7 @@ if ($sfl && $stx) {
     $auth_row = sql_fetch(" SELECT * FROM authorization WHERE auth_idx='$stx' ");
     $stx = $auth_row['auth_title'];
   } else if($sfl == 'all') {
-    $allColumns = array("id","areaname","branch_name","office_name");
+    $allColumns = array("id","areaname","branch_name","office_name","name");
     $sql_search .= allSearchSql($allColumns,$stx);
   }  else {
     $sql_search .= " and $sfl like '%$stx%' ";

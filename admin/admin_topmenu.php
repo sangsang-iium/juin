@@ -79,7 +79,7 @@ if($_SESSION['ss_mn_id']) {
             <!-- <li><?php echo $super['vi_history']; ?></li> -->
             <li><a href="<?php echo BV_ADMIN_URL; ?>/config.php?code=super">관리자정보</a></li>
             <li><a href="<?php echo BV_ADMIN_URL; ?>/">관리자홈</a></li>
-            <li><a href="<?php echo BV_URL; ?>" target="_blank">쇼핑몰</a></li>
+            <!-- <li><a href="<?php echo BV_URL; ?>" target="_blank">쇼핑몰</a></li> -->
             <li id="tnb_logout"><a href="<?php echo BV_BBS_URL; ?>/logout.php<?php echo $url ?>">로그아웃</a></li>
         </ul>
     </div>

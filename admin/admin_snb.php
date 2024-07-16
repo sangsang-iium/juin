@@ -48,7 +48,7 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 		<?php echo printMenu2('m10', ADMIN_MENU1_01, BV_ADMIN_URL.'/member.php?code=list'); ?>
 		<?php echo ($member['grade'] == '1') ? printMenu2('m10', ADMIN_MENU1_02, BV_ADMIN_URL.'/member.php?code=level_form') : ""; ?>
 		<?php echo printMenu2('m10', ADMIN_MENU1_03, BV_ADMIN_URL.'/member.php?code=register_form'); ?>
-		<?php echo printMenu2('m10', ADMIN_MENU1_04, BV_ADMIN_URL.'/member.php?code=xls'); ?>
+		<?php echo ($member['grade'] == '1') ? printMenu2('m10', ADMIN_MENU1_04, BV_ADMIN_URL.'/member.php?code=xls') : ""; ?>
 		<?php echo ($member['grade'] == '1') ? printMenu2('m10', ADMIN_MENU1_10, BV_ADMIN_URL.'/member.php?code=mail_list') : ""; ?>
     <?php echo printMenu2('m10', ADMIN_MENU8_02, BV_ADMIN_URL.'/member.php?code=leave'); ?>
     <?php if ($member['grade'] == '1') { ?>
