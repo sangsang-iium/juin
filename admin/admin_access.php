@@ -2,9 +2,9 @@
 if(!defined('_BLUEVATION_')) exit;
 
 if(!$is_member) {
-	goto_url(BV_MBBS_URL.'/login.php?url='.$urlencode);
+	// goto_url(BV_MBBS_URL.'/login.php?url='.$urlencode);
   // 경로 수정 _20240619_SY
-	// goto_url(BV_MBBS_URL.'/login_mng.php?url='.$urlencode);
+	goto_url(BV_MBBS_URL.'/login_mng.php?url='.$urlencode);
 }
 
 // admin 세션 변수에 등록
