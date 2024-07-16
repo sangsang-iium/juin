@@ -131,10 +131,6 @@ $sql    = " select mm.*, mn.name AS mn_name, mn.id AS mn_id, mn.index_no AS mn_i
 $result = sql_query($sql);
  
 
-if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
-  echo $sql;
-}
-
 $is_intro = false;
 $colspan  = 11;
 if ($config['cert_admin_yes']) {
