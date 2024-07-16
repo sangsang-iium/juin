@@ -185,7 +185,10 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
               <th scope="row">포인트</th>
               <td>
                 <b><?php echo number_format($mb['point']); ?></b> Point
+                <?php
+                if($member['grade']=='1'){ ?>
                 <a href="<?php echo BV_ADMIN_URL; ?>/member/member_point_req.php?mb_id=<?php echo $mb_id; ?>" onclick="win_open(this,'pop_point_req','600','500','yes');return false;" class="btn_small grey marl10 fs14">강제적립</a>
+                <?php } ?>
               </td>
             </tr>
             <!-- 담당자 정보 추가 _20240621_SY -->
@@ -200,8 +203,8 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                 <input type="hidden" name="mn_idx" id="mn_idx" value="<?php echo $mn_row['index_no']; ?>">
                 <a href="<?php echo BV_ADMIN_URL; ?>/member/member_manager_list.php?mb_id=<?php echo $mb_id; ?>" onclick="win_open(this,'pop_manager_list','600','500','yes');return false;" class="btn_small grey marl10 fs14">담당직원 변경</a>
               </td>
-            </tr>            
-            
+            </tr>
+
             <tr class="mb_adm_fld">
               <th scope="row">부운영자 접근허용</th>
               <td colspan="3">
@@ -270,7 +273,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
         <td colspan="3">
           <input type="text" name="ju_settle" value="<?php //echo $sl['settle']
                                                       ?>" class="frm_input" placeholder="정산일">
-          <?php //echo help('매달 입력하신 날짜에 수수료 정산하실 수 있습니다. 숫자만 입력해주세요. ex) 15(◯), 15일(X) 월요일(X)'); 
+          <?php //echo help('매달 입력하신 날짜에 수수료 정산하실 수 있습니다. 숫자만 입력해주세요. ex) 15(◯), 15일(X) 월요일(X)');
           ?>
         </td>
       </tr> -->
@@ -341,7 +344,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
 
           geocoder.addressSearch(address, function(result, status) {
             console.log(result)
-            // 정상적으로 검색이 완료됐으면 
+            // 정상적으로 검색이 완료됐으면
             if (status === kakao.maps.services.Status.OK) {
               //var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
               $("#ju_lat").val(result[0].y);
@@ -361,7 +364,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                     } else { // 사용자가 지번 주소를 선택했을 경우(J)
                         addr = data.jibunAddress;
                     }
-                    
+
                     document.getElementById('ju_addr_full').value = addr;
                     //getPosition();
                 }
@@ -415,7 +418,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
               <col>
             </colgroup>
             <tbody>
-           <!-- ------------------------------------------------------------------------------------- _20240713_SY 
+           <!-- ------------------------------------------------------------------------------------- _20240713_SY
                   * 노출여부 ju_display로 name값 변경
                 ------------------------------------------------------------------------------------- -->
               <tr>
@@ -506,7 +509,7 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
                       <input type="text" class="frm_input" name="breaktime[]" id="break1" value="<?php echo $breaks[0] ?>">
                       <p class="line marr10 marl10">~</p>
                       <input type="text" class="frm_input" name="breaktime[]" id="break2" value="<?php echo $breaks[1] ?>">
-                      
+
                     </div>
                     <div style="margin-top:3px;">
                       <input type="checkbox" id="nobreak"><label for="nobreak">브레이크타임 없음</label>
@@ -757,17 +760,17 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
         $(".pt_pay_fld").show();
       } else if (level == 1) {
         $(".mb_adm_fld").show();
-      } 
+      }
 
       // 중앙회 level 추가 _20240604_SY
       if (level == 8) {
-        $('.kfia_info').show();  
+        $('.kfia_info').show();
       } else {
-        $('.kfia_info').hide();  
+        $('.kfia_info').hide();
       }
     });
 
-   
+
   });
 </script>
 
