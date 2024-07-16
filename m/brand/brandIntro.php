@@ -83,10 +83,11 @@ for($i=0; $i<count($gw_msort); $i++) {
             $k = $i + 1;
             $href = BV_MSHOP_URL.'/list.php?ca_id='.$row['catecode'];
             $img_url = !empty($row['cateimg1']) ? BV_DATA_URL."/category/".$row['cateimg1'] : "";
+            $img_tag = "<img src=\"{$img_url}\" alt=\"\">";
             
             echo "<div class=\"brand-item\">
                     <a href=\"{$href}\" data-id=\"{$row['catecode']}\" class=\"brand-box\">
-                      <img src=\"{$img_url}\" alt=\"\">
+                      {$img_tag}
                     </a>
                   </div>";
           }
