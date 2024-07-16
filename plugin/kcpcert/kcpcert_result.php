@@ -98,7 +98,7 @@ include_once(BV_PATH.'/head.sub.php');
         // 해당 함수는 암호화된 enc_cert_data2 를
         // site_cd 와 cert_no 를 가지고 복화화 하는 함수 입니다.
         // 정상적으로 복호화 된경우에만 인증데이터를 가져올수 있습니다.
-        $opt = "1" ; // 복호화 인코딩 옵션 ( UTF - 8 사용시 "1" ) 
+        $opt = "1" ; // 복호화 인코딩 옵션 ( UTF - 8 사용시 "1" )
         $ct_cert->decrypt_enc_cert( $home_dir , $ENC_KEY , $site_cd , $cert_no , $enc_cert_data2 , $opt );
 
 
@@ -142,10 +142,11 @@ include_once(BV_PATH.'/head.sub.php');
         set_session("ss_cert_adult",   $adult);
         set_session("ss_cert_birth",   $birth_day);
         set_session("ss_cert_sex",     ($sex_code=="01"?"M":"F"));
-        set_session('ss_cert_dupinfo', $mb_dupinfo);     
+        set_session('ss_cert_dupinfo', $mb_dupinfo);
 
-        
+
         $phone_num = explode("-",$phone_no);
+        log_write("인증 값들 → ss_cert_type : {$cert_type}, ss_cert_no : {$md5_cert_no}");
     }
     else if( $res_cd != "0000" )
     {
@@ -163,6 +164,25 @@ $ct_cert->mf_clear();
 
 <script>
 $(function() {
+    $.ajax({
+        type: "POST",
+        url: "/api/kcp.session.php",
+        data: {
+            "ss_cert_type" : "<?php echo $cert_type ?>",
+            "ss_cert_no" : "<?php echo $md5_cert_no ?>",
+            "ss_cert_hash" : "<?php echo $hash_data ?>",
+            "ss_cert_adult" : "<?php echo $adult ?>",
+            "ss_cert_birth" : "<?php echo $birth_day ?>",
+            "ss_cert_sex" : "<?php echo ($sex_code=="01"?"M":"F") ?>",
+            'ss_cert_dupinfo' : "<?php echo $mb_dupinfo ?>"
+        },
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function(response) {
+            //
+        }
+    });
     var $opener;
     var is_mobile = false;
 
@@ -197,8 +217,8 @@ $(function() {
     // window.addEventListener('beforeunload', function() {
     //     window.opener.postMessage({ message: '인증완료' }, '*');
     // });
-    
-    
+
+
     alert("본인의 휴대폰번호로 확인 되었습니다.");
 
     window.close();

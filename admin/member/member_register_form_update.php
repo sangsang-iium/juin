@@ -12,20 +12,20 @@ $mb_id = trim($_POST['mb_id']);
 $chk_b_num = $_POST['chk_b_num'];
 
 // 전화번호 체크 _20240612_SY
-$mb_tel = hyphen_hp_number($_POST['mb_tel']);
-if($mb_tel) {
-    $result = exist_mb_hp($mb_tel, $mb_id);
-    if($result)
-        alert($result);
-}
+// $mb_tel = hyphen_hp_number($_POST['mb_tel']);
+// if($mb_tel) {
+//     $result = exist_mb_hp($mb_tel, $mb_id);
+//     if($result)
+//         alert($result);
+// }
 
 // 휴대폰번호 체크
-$mb_hp = hyphen_hp_number($_POST['mb_hp']);
-if($mb_hp) {
-    $result = exist_mb_hp($mb_hp, $mb_id);
-    if($result)
-        alert($result);
-}
+// $mb_hp = hyphen_hp_number($_POST['mb_hp']);
+// if($mb_hp) {
+//     $result = exist_mb_hp($mb_hp, $mb_id);
+//     if($result)
+//         alert($result);
+// }
 
 // 인증정보처리
 if($_POST['mb_certify_case'] && $_POST['mb_certify']) {
@@ -87,12 +87,12 @@ $store_display   = isset($_POST['store_display'])   ? trim($_POST['store_display
 
 if($chk_b_num == 1) {
   // 매장 대표번호 체크 _20240612_SY
-  $ju_tel = hyphen_hp_number($_POST['ju_tel']);
-  if($ju_tel) {
-    $result = exist_mb_hp($ju_tel, $mb_id);
-    if($result)
-      alert($result);
-  }
+  // $ju_tel = hyphen_hp_number($_POST['ju_tel']);
+  // if($ju_tel) {
+  //   $result = exist_mb_hp($ju_tel, $mb_id);
+  //   if($result)
+  //     alert($result);
+  // }
 
   // 중앙회 매장 정보 _20240612_SY
   $value['ju_restaurant'] = $_POST['ju_restaurant'];

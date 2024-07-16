@@ -81,30 +81,38 @@ if (!$orderby) {
 
 if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
   // 시연용 : 지회 마스터 임시 쿼리 _20240621_SY
-  $mn_sel = " SELECT * FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}' ";
+  $mn_sel = " SELECT * FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}'";
   $mn_row = sql_fetch($mn_sel);
 
   if($mn_row['grade'] < 3) {
     $b_master_sql = " SELECT index_no, id, name, grade, ju_region1, ju_region2, ju_region3
                         FROM shop_manager
-                       WHERE ju_region2 = (SELECT ju_region2 FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}')
-                         AND grade > (SELECT grade FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}')" ;
+                       WHERE ju_region2 = '{$mn_row['ju_region2']}'
+                         AND grade > {$mn_row['grade']}" ;
     $b_master_res = sql_query($b_master_sql);
     $addIn = "";
     while ($b_master_row = sql_fetch_array($b_master_res)) {
-      if (!empty($addIn)) {
-          $addIn .= ", ";
-      }
-      $addIn .= "'" . $b_master_row['id'] . "'";
+      // if (!empty($addIn)) {
+      //   echo $addIn;
+      //     $addIn .= ", ";
+      // }
+      $addIn .= ", '" . $b_master_row['id'] . "'";
     }
-    $sql_search .= " AND mn.id IN ( '{$_SESSION['ss_mn_id']}', $addIn )";
+    $sql_search .= " AND mn.id IN ( '{$_SESSION['ss_mn_id']}' $addIn )";
   } else {
-    $sql_search .= " AND mn.id IN ( '{$_SESSION['ss_mn_id']}' )";
+    $sql_search .= " AND mm.ju_manager = '{$mn_row['index_no']}' " ;
   }
 
+  /* ------------------------------------------------------------------------------------- _20240716_SY 
+    * 임직원 데이터(grade 6) 나오는 문제 있어서 grade 8 이상만 나오도록 수정
+  /* ------------------------------------------------------------------------------------- */
+  $sql_search .= " AND mm.grade >= 8 ";
 }
 
 $sql_order = " order by $filed $sod ";
+
+
+
 
 // 테이블의 전체 레코드수만 얻음
 $sql         = " select count(*) as cnt $sql_common {$sql_join} $sql_search ";
@@ -119,8 +127,13 @@ if ($page == "") {
 $from_record = ($page - 1) * $rows;       // 시작 열을 구함
 $num         = $total_count - (($page - 1) * $rows);
 
-$sql    = " select mm.*, mn.name AS mn_name, mn.id AS mn_id $sql_common {$sql_join} $sql_search $sql_order limit $from_record, $rows ";
+$sql    = " select mm.*, mn.name AS mn_name, mn.id AS mn_id, mn.index_no AS mn_idx $sql_common {$sql_join} $sql_search $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
+ 
+
+if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
+  echo $sql;
+}
 
 $is_intro = false;
 $colspan  = 11;
@@ -223,19 +236,20 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
   <table class="list01">
     <colgroup>
       <col class="w100">
-      <col class="w150">
+      <col class="w250">
       <col class="w200">
-      <col class="w150">
+      <col class="w100">
       <col class="w200">
       <col class="w300">
-      <col class="w300">
+      <col class="w200">
       <col class="w100">
       <col class="w100">
-      <col class="w100">
+      <col class="w50">
+      <col class="w50">
       <?php if ($is_intro) { ?>
         <col class="w40">
       <?php } ?>
-      <col class="w90">
+      <col class="w50">
     </colgroup>
     <thead>
       <tr>
@@ -244,6 +258,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
         <th scope="col"><?php echo subject_sort_link('id', $q2); ?>아이디</a></th>
         <th scope="col"><?php echo subject_sort_link('grade', $q2); ?>회원등급</a></th>
         <th scope="col"><?php echo subject_sort_link('ju_manager', $q2); ?>담당직원</a></th>
+        <th scope="col">지회/지부</a></th>
         <th scope="col">핸드폰</th>
         <th scope="col"><?php echo subject_sort_link('reg_time', $q2); ?>가입일시</a></th>
         <th scope="col">구매건 수</th>
@@ -266,13 +281,35 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
       if(!empty($row['ju_manager'])) {
         $manager_info = $row['mn_name'] . " ({$row['mn_id']}) ";
       }
+
+      /* ------------------------------------------------------------------------------------- _20240716_SY 
+        * 상호명 노출
+      /* ------------------------------------------------------------------------------------- */
+      $ju_resName = "";
+      if(!empty($row['ju_restaurant'])) {
+        $ju_resName =  " ({$row['ju_restaurant']}) ";
+      }
     ?>
       <tr class="<?php echo $bg; ?>">
         <td><?php echo $num--; ?></td>
-        <td><?php echo get_sideview($row['id'], $row['name']); ?></td>
+        <td><?php echo get_sideview($row['id'], $row['name']) . $ju_resName ?></td>
         <td><?php echo $row['id']; ?></td>
         <td><?php echo get_grade($row['grade']); ?></td>
         <td><?php echo $manager_info; ?></td>
+        <?php
+        /* ------------------------------------------------------------------------------------- _20240716_SY 
+          * 지회/지부 데이터 (담당자 기준으로 출력)
+        /* ------------------------------------------------------------------------------------- */
+          $jibu_name = "없음";
+          if(!empty($row['mn_idx'])) {
+            $manager_sel = " SELECT * FROM shop_manager WHERE index_no ='{$row['mn_idx']}' ";
+            $manager_row = sql_fetch($manager_sel);
+            
+            $jibu_row = getRegionFunc("office", " WHERE b.branch_code = '{$manager_row['ju_region2']}' AND a.office_code = '{$manager_row['ju_region3']}'");
+            $jibu_name = $jibu_row[0]['branch_name']. " / " .$jibu_row[0]['office_name'];
+          }
+        ?>
+        <td><?php echo $jibu_name ?></td>
         <td><?php echo replace_tel($row['cellphone']); ?></td>
         <td><?php echo $row['reg_time']; ?></td>
         <td><?php echo number_format(shop_count($row['id'])); ?></td>

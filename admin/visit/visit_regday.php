@@ -2,22 +2,44 @@
 if(!defined('_BLUEVATION_')) exit;
 
 // 담당자 정보 추가 _20240619_SY
+$mn_where = "";
 if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
-  $mn_where = " AND ju_manager IN ( SELECT index_no FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}' ) ";
-} else {
-  $mn_where = "";
-}
+  /* ------------------------------------------------------------------------------------- _20240716_SY 
+    * 지회 통계 추가 grade < 3
+  /* ------------------------------------------------------------------------------------- */
+  $mn_sel = " SELECT * FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}'";
+  $mn_row = sql_fetch($mn_sel);
+
+  if($mn_sel['grade'] < 3) {
+    $b_master_sql = " SELECT index_no, id, name, grade, ju_region1, ju_region2, ju_region3
+                        FROM shop_manager
+                       WHERE ju_region2 = '{$mn_row['ju_region2']}'
+                         AND grade > {$mn_row['grade']}" ;
+    $b_master_res = sql_query($b_master_sql);
+    $addIn = "";
+    while ($b_master_row = sql_fetch_array($b_master_res)) {
+      if (!empty($addIn)) {
+        $addIn .= ", ";
+      }
+      $addIn .= "'" . $b_master_row['index_no'] . "'";
+    }
+      $mn_where = " AND ju_manager IN ( '{$_SESSION['ss_mn_id']}', $addIn )";
+
+  } else {
+    $mn_where = " AND ju_manager IN ( SELECT index_no FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}' )";
+  }
+} 
 
 if(!$year)  $year  = BV_TIME_YEAR;
 if(!$month) $month = BV_TIME_MONTH;
 
-$tot_count1 = sel_count("shop_member", "where grade between 2 and 9 {$mn_where}");
-$tot_count2 = sel_count("shop_member", "where grade between 7 and 9 {$mn_where}");
-$tot_count3 = sel_count("shop_member", "where grade between 2 and 6 {$mn_where}");
+$tot_count1 = sel_count("shop_member", "where grade between 8 and 9 {$mn_where}");
+$tot_count2 = sel_count("shop_member", "where grade = 9 {$mn_where}");
+$tot_count3 = sel_count("shop_member", "where grade = 8 {$mn_where}");
 
 $sql = " select MIN(reg_time) as min_year
 		   from shop_member
-		  where grade between 2 and 9 ";
+		  where grade between 8 and 9 ";
 $row = sql_fetch($sql);
 
 $min_year = substr($row['min_year'],0,4); // 가장작은 년도
@@ -60,7 +82,7 @@ if(!$min_year) $min_year = BV_TIME_YEAR; // 내역이없다면 현재 년도로
 	총 회원수 : <b><?php echo number_format($tot_count1); ?></b>명
 	<span class="ov_a">
 		일반회원 : <b><?php echo number_format($tot_count2); ?></b>명,
-		가맹점회원 : <b><?php echo number_format($tot_count3); ?></b>명
+		중앙회회원 : <b><?php echo number_format($tot_count3); ?></b>명
 	</span>
 </div>
 <div class="board_table">
@@ -80,7 +102,7 @@ if(!$min_year) $min_year = BV_TIME_YEAR; // 내역이없다면 현재 년도로
 		<th scope="col">비율%</th>
 		<th scope="col">전체</th>
 		<th scope="col">일반</th>
-		<th scope="col">가맹점</th>
+		<th scope="col">중앙회</th>
 	</tr>
 	</thead>
 	<tbody class="list">
@@ -91,9 +113,9 @@ if(!$min_year) $min_year = BV_TIME_YEAR; // 내역이없다면 현재 년도로
 		$day = sprintf("%02d", $i);
 		$date = preg_replace("/([0-9]{4})([0-9]{2})([0-9]{2})/", "\\1-\\2-\\3", $year.$month.$day);
 
-		$count1 = sel_count("shop_member", "where left(reg_time,10)='$date' and grade between 2 and 9 {$mn_where}");
-		$count2 = sel_count("shop_member", "where left(reg_time,10)='$date' and grade between 7 and 9 {$mn_where}");
-		$count3 = sel_count("shop_member", "where left(reg_time,10)='$date' and grade between 2 and 6 {$mn_where}");
+		$count1 = sel_count("shop_member", "where left(reg_time,10)='$date' and grade between 8 and 9 {$mn_where}");
+		$count2 = sel_count("shop_member", "where left(reg_time,10)='$date' and grade = 9 {$mn_where}");
+		$count3 = sel_count("shop_member", "where left(reg_time,10)='$date' and grade = 8 {$mn_where}");
 
 		$rate = ($count1 / $tot_count1 * 100);
 		$s_rate = number_format($rate, 1);
