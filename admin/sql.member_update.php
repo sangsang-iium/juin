@@ -30,7 +30,11 @@ include_once "_common.php";
 
 
 /* 비밀번호 암호화 */
+<<<<<<< HEAD
 // $mem_sel = " SELECT * FROM shop_member WHERE index_no >= 49 ";
+=======
+// $mem_sel = " SELECT * FROM shop_member WHERE grade = 6 AND index_no >= 1576 ";
+>>>>>>> origin/main
 // $mem_res = sql_query($mem_sel);
 // while($mem_row = sql_fetch_array($mem_res)) {
 //   $pw = get_encrypt_string($mem_row['passwd']);
@@ -70,7 +74,11 @@ include_once "_common.php";
 
 
 /* grade, reg_time, auth 변경 */
+<<<<<<< HEAD
 // $mem_sel = " SELECT * FROM shop_manager where index_no >= 1300 ";
+=======
+// $mem_sel = " SELECT * FROM shop_manager where index_no >= 1569 ";
+>>>>>>> origin/main
 // $mem_res = sql_query($mem_sel);
 // $now = date('Y-m-d H:i:s');
 // while($mem_row = sql_fetch_array($mem_res)) {

@@ -80,6 +80,11 @@ if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
   $value['ju_region3'] = $ju_region3;
 }
 
+// 추가 _20240715_SY
+$value['ju_mem'] = ($chk_b_num == 1) ? 1 : 2;
+$store_display   = isset($_POST['store_display'])   ? trim($_POST['store_display']) : "2";
+
+
 if($chk_b_num == 1) {
   // 매장 대표번호 체크 _20240612_SY
   $ju_tel = hyphen_hp_number($_POST['ju_tel']);
@@ -91,7 +96,7 @@ if($chk_b_num == 1) {
 
   // 중앙회 매장 정보 _20240612_SY
   $value['ju_restaurant'] = $_POST['ju_restaurant'];
-  $value['ju_mem']        = $_POST['ju_mem'];
+  $value['ju_display']    = $store_display;
   $value['ju_cate']       = $_POST['ju_cate'];
   $value['ju_lat']        = $_POST['ju_lat'];
   $value['ju_lng']        = $_POST['ju_lng'];
