@@ -715,9 +715,9 @@ function sendFCMMessage($message) {
 function getBaddressFun() {
   global $member;
 
-  $ad_sel = " SELECT * FROM b_address 
+  $ad_sel = " SELECT * FROM b_address
                WHERE mb_id = '{$member['id']}'
-                 AND b_base = '1' 
+                 AND b_base = '1'
             ORDER BY wr_id DESC
                LIMIT 1 ";
   $ad_row = sql_fetch($ad_sel);
@@ -735,8 +735,23 @@ function getBaddressFun() {
  */
 function resetFcmToken() {
   global $member;
-  
+
   $mem_sel = "UPDATE shop_member SET fcm_token = '' WHERE id = '{$member['id']}' ";
   $mem_row = sql_fetch($mem_sel);
-  
+
+}
+
+/**
+ * 적립금 카테고리별 제외 처리
+ * */
+function hasMatchingCategory($gs, $gb_cate_string) {
+  $gb_cate = explode(",", $gb_cate_string);
+
+  foreach ($gs as $ca_id) {
+    if (!empty($ca_id) && in_array($ca_id, $gb_cate)) {
+      return true;
+    }
+  }
+
+  return false;
 }

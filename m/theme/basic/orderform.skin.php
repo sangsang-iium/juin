@@ -122,10 +122,12 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
         //포인트 관련 부분 수정  박원주
 
-        $sq = "select * from shop_member_grade where gb_no='{$member['grade']}'";
-        $gpointFetch=sql_fetch($sq);
-        $gpoint = $gpointFetch['gb_point'];
-          //포인트 관련 부분 수정  박원주
+      $sq = "select * from shop_member_grade where gb_no='{$member['grade']}'";
+      $gpointFetch=sql_fetch($sq);
+      $gpoint = $gpointFetch['gb_point'];
+        //포인트 관련 부분 수정  박원주
+
+
 
       for ($i = 0; $row = sql_fetch_array($result); $i++) {
         $raffleCheck = false;
@@ -146,6 +148,17 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
           $point  = 0;
         } else {
         $gs = get_goods($row['gs_id']);
+
+        $gs_cate_arr = array(
+          'ca_id'  => $gs['ca_id'],
+          'ca_id2' => $gs['ca_id2'],
+          'ca_id3' => $gs['ca_id3'],
+        );
+        $matching = hasMatchingCategory($gs_cate_arr, $gpointFetch['gb_category']);
+        // 005004
+        // if($matching == 0){
+        //   $point += $gs['goods_price']*$gpointFetch['gb_get_point'];
+        // }
 
         // 합계금액 계산
         $sql = " select SUM(IF(io_type = 1, (io_price * ct_qty), ((io_price + ct_price) * ct_qty))) as price,
