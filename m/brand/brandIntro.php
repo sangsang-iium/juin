@@ -82,6 +82,13 @@ for($i=0; $i<count($gw_msort); $i++) {
           for($i=0; $row=sql_fetch_array($result); $i++) {
             $k = $i + 1;
             $href = BV_MSHOP_URL.'/list.php?ca_id='.$row['catecode'];
+            if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { 
+              $img_exist = file_exists("/src/img/brand-logo0{$k}.png");
+              if($img_exist) {
+                echo "true";
+              }
+            }
+
             echo "<div class=\"brand-item\">
                     <a href=\"{$href}\" data-id=\"{$row['catecode']}\" class=\"brand-box\">
                       <img src=\"/src/img/brand-logo0{$k}.png\" alt=\"\">
