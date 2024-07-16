@@ -30,7 +30,7 @@ include_once "_common.php";
 
 
 /* 비밀번호 암호화 */
-// $mem_sel = " SELECT * FROM shop_member WHERE grade = 6 AND index_no >= 1576 ";
+// $mem_sel = " SELECT * FROM shop_member WHERE index_no >= 49 ";
 // $mem_res = sql_query($mem_sel);
 // while($mem_row = sql_fetch_array($mem_res)) {
 //   $pw = get_encrypt_string($mem_row['passwd']);
@@ -70,7 +70,7 @@ include_once "_common.php";
 
 
 /* grade, reg_time, auth 변경 */
-// $mem_sel = " SELECT * FROM shop_manager where index_no >= 1569 ";
+// $mem_sel = " SELECT * FROM shop_manager where index_no >= 1300 ";
 // $mem_res = sql_query($mem_sel);
 // $now = date('Y-m-d H:i:s');
 // while($mem_row = sql_fetch_array($mem_res)) {
@@ -88,4 +88,16 @@ include_once "_common.php";
 // }
 
 
+
+/** 지회 레벨 체크 및 수정 */
+// $re_sel = " SELECT * FROM shop_manager WHERE ju_region2 != ju_region3 ";
+// $re_res = sql_query($re_sel);
+// while($re_row = sql_fetch_array($re_res)) {
+// sql_query( " UPDATE shop_manager SET
+//                     grade = '3'
+//               WHERE index_no = '{$re_row['index_no']}'
+//            " 
+//          );
+
+// }
 

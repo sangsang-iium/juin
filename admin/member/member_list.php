@@ -88,21 +88,22 @@ if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
     $b_master_sql = " SELECT index_no, id, name, grade, ju_region1, ju_region2, ju_region3
                         FROM shop_manager
                        WHERE ju_region2 = '{$mn_row['ju_region2']}'
-                         AND grade > (SELECT grade FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}')" ;
+                         AND grade > {$mn_row['grade']}" ;
     $b_master_res = sql_query($b_master_sql);
     $addIn = "";
     while ($b_master_row = sql_fetch_array($b_master_res)) {
-      if (!empty($addIn)) {
-          $addIn .= ", ";
-      }
-      $addIn .= "'" . $b_master_row['id'] . "'";
+      // if (!empty($addIn)) {
+      //   echo $addIn;
+      //     $addIn .= ", ";
+      // }
+      $addIn .= ", '" . $b_master_row['id'] . "'";
     }
-    $sql_search .= " AND mn.id IN ( '{$_SESSION['ss_mn_id']}', $addIn )";
+    $sql_search .= " AND mn.id IN ( '{$_SESSION['ss_mn_id']}' $addIn )";
   } else {
     $sql_search .= " AND mm.ju_manager = '{$mn_row['index_no']}' " ;
   }
 
-  /* ------------------------------------------------------------------------------------- _20240716_SY
+  /* ------------------------------------------------------------------------------------- _20240716_SY 
     * 임직원 데이터(grade 6) 나오는 문제 있어서 grade 8 이상만 나오도록 수정
   /* ------------------------------------------------------------------------------------- */
   $sql_search .= " AND mm.grade >= 8 ";
@@ -126,13 +127,9 @@ if ($page == "") {
 $from_record = ($page - 1) * $rows;       // 시작 열을 구함
 $num         = $total_count - (($page - 1) * $rows);
 
-
 $sql    = " select mm.*, mn.name AS mn_name, mn.id AS mn_id, mn.index_no AS mn_idx $sql_common {$sql_join} $sql_search $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
-
-if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
-  echo $sql;
-}
+ 
 
 $is_intro = false;
 $colspan  = 11;
@@ -281,7 +278,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
         $manager_info = $row['mn_name'] . " ({$row['mn_id']}) ";
       }
 
-      /* ------------------------------------------------------------------------------------- _20240716_SY
+      /* ------------------------------------------------------------------------------------- _20240716_SY 
         * 상호명 노출
       /* ------------------------------------------------------------------------------------- */
       $ju_resName = "";
@@ -296,14 +293,14 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
         <td><?php echo get_grade($row['grade']); ?></td>
         <td><?php echo $manager_info; ?></td>
         <?php
-        /* ------------------------------------------------------------------------------------- _20240716_SY
+        /* ------------------------------------------------------------------------------------- _20240716_SY 
           * 지회/지부 데이터 (담당자 기준으로 출력)
         /* ------------------------------------------------------------------------------------- */
           $jibu_name = "없음";
           if(!empty($row['mn_idx'])) {
             $manager_sel = " SELECT * FROM shop_manager WHERE index_no ='{$row['mn_idx']}' ";
             $manager_row = sql_fetch($manager_sel);
-
+            
             $jibu_row = getRegionFunc("office", " WHERE b.branch_code = '{$manager_row['ju_region2']}' AND a.office_code = '{$manager_row['ju_region3']}'");
             $jibu_name = $jibu_row[0]['branch_name']. " / " .$jibu_row[0]['office_name'];
           }

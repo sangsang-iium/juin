@@ -42,6 +42,9 @@ if(!$orderby) {
 $sql_order = " order by $filed $sod ";
 
 $sql = " select * $sql_common $sql_search $sql_order  ";
+if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { 
+  // echo $sql;
+}
 $result = sql_query($sql);
 $cnt = @sql_num_rows($result);
 if(!$cnt)

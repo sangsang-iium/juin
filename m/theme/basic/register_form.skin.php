@@ -83,6 +83,8 @@ if(!defined('_BLUEVATION_')) exit;
 <input type="hidden" name="ju_lat" value="<?php echo ($w=='') ? $_POST['ju_lat'] : "" ?>">
 <input type="hidden" name="ju_lng" value="<?php echo ($w=='') ? $_POST['ju_lng'] : "" ?>">
 
+
+
 <div id="contents" class="sub-contents joinDetail">
 	<div class="joinDetail-wrap">
 
@@ -366,6 +368,23 @@ if(!defined('_BLUEVATION_')) exit;
       </div>
     </div>
     <!-- } 기본정보 -->
+    <?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+      <div>
+  <input type="text" name="w" value="<?php echo $w; ?>">
+<input type="text" name="agree" value="<?php echo $agree; ?>">
+<input type="text" name="agree2" value="<?php echo $agree2; ?>">
+<input type="text" name="mb_recommend" id="reg_mb_recommend" value="<?php echo $member['pt_id']; ?>">
+<input type="text" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
+<input type="text" name="cert_no" value="">
+
+<input type="text" name="reg_type" value="1">
+<input type="text" name="chk_cb_res" value="<?php echo ($w=='') ? $_POST['chk_cb_res'] : 0?>" id="chk_cb_res">
+<input type="text" name="chk_bn_res" value="<?php echo ($w=='') ? $_POST['chk_bn_res'] : 0?>" id="chk_bn_res">
+<input type="text" name="OFFICE_NAME" value="<?php echo ($w=='') ? $_POST['OFFICE_NAME'] : "" ?>">
+<input type="text" name="ju_lat" value="<?php echo ($w=='') ? $_POST['ju_lat'] : "" ?>">
+<input type="text" name="ju_lng" value="<?php echo ($w=='') ? $_POST['ju_lng'] : "" ?>">
+</div>
+<?php } ?>
 
     <!-- 사업자정보 { -->
     <div class="joinDetail-box" id="b_area">
