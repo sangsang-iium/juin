@@ -61,14 +61,14 @@ if (!defined('_BLUEVATION_')) exit;
                 <p class="title"><label for="reg_mb_name">이름</label><b>*</b></p>
               </div>
               <div class="form-body input-button id-confirm">
-                <input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name" <?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input" size="20" placeholder="이름을 입력해주세요." autocapitalize="off">
+                <input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name" <?php echo $required; ?> class="<?php echo $required; ?> frm-input" size="20" placeholder="이름을 입력해주세요." autocapitalize="off">
                 <?php
                 $cert_str = '';
                 if ($config['cf_cert_use']) {
                   if ($config['cf_cert_ipin'])
-                    $cert_str .= '<button type="button" id="win_ipin_cert" class="ui-btn st3">본인인증</button>' . PHP_EOL;
+                    $cert_str .= '<button type="button" id="win_ipin_cert" class="ui-btn st1">본인인증</button>' . PHP_EOL;
                   if ($config['cf_cert_hp'])
-                    $cert_str .= '<button type="button" id="win_hp_cert" class="ui-btn st3">본인인증</button>' . PHP_EOL;
+                    $cert_str .= '<button type="button" id="win_hp_cert" class="ui-btn st1">본인인증</button>' . PHP_EOL;
 
                   $cert_str .= '<noscript>본인인증을 위해서는 자바스크립트 사용이 가능해야합니다.</noscript>' . PHP_EOL;
                 }
@@ -115,11 +115,11 @@ if (!defined('_BLUEVATION_')) exit;
                   <p class="title"><label for="reg_mb_hp">핸드폰번호</label><b>*</b></p>
                 </div>
                 <div class="form-body phone">
-                  <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[0]); ?>" id="reg_mb_hp" <?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?> phone_no1" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                  <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[0]); ?>" id="reg_mb_hp" <?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?> phone_no1" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
                   <span class="hyphen">-</span>
-                  <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[1]); ?>" class="frm-input phone_no2" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                  <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[1]); ?>" class="frm-input phone_no2" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
                   <span class="hyphen">-</span>
-                  <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[2]); ?>" class="frm-input phone_no3" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                  <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[2]); ?>" class="frm-input phone_no3" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
                   <div class="frm-choice">
                     <input type="checkbox" name="mb_sms" id="chk-sms" value="Y"<?php echo ($w=='' || $member['smsser'] == 'Y')?' checked':''; ?>>
                     <label for="chk-sms">핸드폰 문자메세지를 받겠습니다.</label>
@@ -181,7 +181,7 @@ if (!defined('_BLUEVATION_')) exit;
 
             <div class="form-row">
               <div class="form-head">
-                <p class="title">환불계좌등록<b>*</b></p>
+                <p class="title">환불계좌등록</p>
               </div>
               <div class="form-body bank">
                 <label for="reg_mb_addr2" class="sound_only">은행</label>
@@ -200,8 +200,8 @@ if (!defined('_BLUEVATION_')) exit;
                   }
                   ?>
                 </select>
-                <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" <?php echo $required; ?> class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
-                <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" <?php echo $required; ?> class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
+                <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
+                <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
 
               </div>
             </div>
@@ -213,7 +213,7 @@ if (!defined('_BLUEVATION_')) exit;
               </div>
               <div class="form-body">
                 <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w != '') ? $member['ju_b_num'] : "" ?>" placeholder="숫자만 입력" maxlength="10" <?php echo ($w != '' && !empty($member['ju_b_num'])) ? "readonly" : "" ?> >
-                <!-- <div class="joinDetail-btn-box joinDetail-btn-box3"> 
+                <!-- <div class="joinDetail-btn-box joinDetail-btn-box3">
 								<button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
 								<button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
 							</div> -->
@@ -527,7 +527,7 @@ if (!defined('_BLUEVATION_')) exit;
     });
   });
 
-  
+
   $(function() {
     <?php if($config['cf_cert_use'] && $config['cf_cert_ipin']) { ?>
     // 아이핀인증
@@ -651,7 +651,7 @@ if (!defined('_BLUEVATION_')) exit;
     <?php if ($w == '' && $config['cf_cert_use'] && $config['cf_cert_req']) { ?>
       // 본인인증 체크
       if (f.cert_no.value == "") {
-        alert("회원가입을 위해서는 본인인증을 해주셔야 합니다.");
+        alert("회원가입을 위해서는 본인인증을 해주셔야 합니다..");
         return false;
       }
     <?php } ?>
@@ -687,7 +687,7 @@ if (!defined('_BLUEVATION_')) exit;
         f.reg_mb_email.select();
         return false;
       }
-    
+
 
       // 이메일 중복확인 여부 _20240319_SY
       let ss_em = sessionStorage.getItem("Email");
@@ -708,7 +708,7 @@ if (!defined('_BLUEVATION_')) exit;
           return false;
         }
       }
-    
+
     }
 
 

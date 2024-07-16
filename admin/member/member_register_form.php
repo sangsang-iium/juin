@@ -181,8 +181,8 @@ $none = "style='display:none;'";
             <input type="hidden" name="chk_cb_res" id="chk_cb_res" value="0" alt="휴/폐업조회">
             <div class="joinDetail-btn-box joinDetail-btn-box3" style="margin-top: 8px;">
               <button type="button" class="btn_small grey marl10 fs14" onclick="getKFIAMember()">중앙회 회원 조회</button>
-              <button type="button" class="btn_small grey marl10 fs14" onclick="chkDuBnum()">중복확인</button>
-              <button type="button" class="btn_small grey marl10 fs14" onclick="chkClosed()">휴/폐업조회</button>
+              <!-- <button type="button" class="btn_small grey marl10 fs14" onclick="chkDuBnum()">중복확인</button>
+              <button type="button" class="btn_small grey marl10 fs14" onclick="chkClosed()">휴/폐업조회</button> -->
             </div>
           </td>
         </tr>
@@ -237,11 +237,11 @@ $none = "style='display:none;'";
           <td>
             <ul class="radio_group">
               <li class="radios">
-                <input type="radio" name="ju_mem" value="1" id="ju_mem_y" checked="checked">
+                <input type="radio" name="ju_display" value="1" id="ju_mem_y" checked="checked">
                 <label for="ju_mem_y">예</label>
               </li>
               <li class="radios">
-                <input type="radio" name="ju_mem" value="2" id="ju_mem_n">
+                <input type="radio" name="ju_display" value="2" id="ju_mem_n">
                 <label for="ju_mem_n">아니오</label>
               </li>
             </ul>
@@ -483,19 +483,182 @@ $none = "style='display:none;'";
 
 
   // 외식업중앙회원 조회하기 _20240611_SY
-  var chkKFIA = false;
-  function getKFIAMember() {
-    let inputNum = document.querySelector('#b_no').value;
+  // var chkKFIA = false;
+  // function getKFIAMember() {
+  //   let inputNum = document.querySelector('#b_no').value;
 
-    if(inputNum.length > 0) {
-      $.ajax({
-        url: bv_url+"/m/bbs/ajax.KFIA_info.php",
+  //   if(inputNum.length > 0) {
+  //     $.ajax({
+  //       url: bv_url+"/m/bbs/ajax.KFIA_info.php",
+  //       type: "POST",
+  //       data: { "b_num" : inputNum },
+  //       dataType: "JSON",
+  //       success: function(res) {
+  //         if(res.data == null) {
+  //           alert('사업자 정보 조회 실패')
+
+  //           $('.store_info_sec').hide();
+  //           $('#ju_restaurant').val('');
+  //           $('#reg_mb_zip_st').val('');
+  //           $('#reg_mb_addr1_st').val('');
+  //           $('#chk_b_num').val('0');
+
+  //           chkKFIA = false;
+  //           return false;
+  //         } else {
+  //           alert(`조회 성공 : ${res.data.MEMBER_NAME}`)
+
+  //           $('.store_info_sec').show();
+  //           $('#ju_restaurant').val(res.data.MEMBER_NAME)
+  //           $('#reg_mb_zip_st').val(res.data.ZIP_CODE)
+  //           $('#reg_mb_addr1_st').val(res.data.DORO_ADDRESS)
+  //           $('#chk_b_num').val('1');
+
+  //           // 위도/경도 값 _20240612_SY
+  //           var geocoder = new kakao.maps.services.Geocoder();
+  //           var address = res.data.DORO_ADDRESS;
+  //           address = address.trim();
+  //           geocoder.addressSearch(address, function(result, status) {
+  //             // 정상적으로 검색이 완료됐으면
+  //             if (status === kakao.maps.services.Status.OK) {
+  //               //var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+  //               form.append(`<input type="hidden" name="ju_lat" value="${result[0].y}">`);
+  //               form.append(`<input type="hidden" name="ju_lng" value="${result[0].x}">`);
+  //             }
+  //           });
+
+  //           chkKFIA = true;
+  //         }
+  //       }
+  //     });
+  //   } else {
+  //     return false;
+  //   }
+
+  // }
+
+
+  // 사업자번호 중복체크 _20240611_SY
+  // function chkDuBnum() {
+  //   b_num = document.querySelector('#b_no').value;
+
+  //   if(b_num.length > 0) {
+  //     $.ajax({
+  //         url: bv_url+"/m/bbs/ajax.duplication_check.php",
+  //         type: "POST",
+  //         data: { "b_num" : b_num },
+  //         dataType: "JSON",
+  //         success: function(data) {
+  //           if(data.res > 0 ) {
+  //             alert("이미 등록된 사업자등록번호입니다");
+  //             $('#chk_b_num').val('0');
+  //             $('.store_info_sec').hide();
+
+  //             return false;
+  //           } else {
+  //             alert("가입 가능한 사업자등록번호입니다");
+  //             if(chkKFIA == true) {
+  //               $('#chk_b_num').val('1');
+  //             }
+  //           }
+  //         }
+  //     });
+  //   } else {
+  //     alert("사업자등록번호가 존재하지 않습니다.")
+  //     return false;
+  //   }
+  // }
+
+
+  // 휴/폐업 조회 _20240611_SY
+  // let b_num = '';
+  // function chkClosed() {
+  //   b_num = document.querySelector('#b_no').value;
+
+  //   let b_stt_cd = "";
+  //   let end_dt   = "";
+  //   let msg = "";
+
+  //   if(b_num.length > 0) {
+  //     $.ajax({
+  //         url: bv_url+"/m/bbs/ajax.closed_check.php",
+  //         type: "POST",
+  //         data: { "b_num" : b_num },
+  //         dataType: "JSON",
+  //         success: function(res) {
+  //           // API 값 호출 _20240318_SY
+
+  //           // 휴/폐업 가입불가 _20240612_SY
+  //           // if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
+  //           //   $('#chk_cb_res').val(res.data[0].b_stt_cd);
+  //           //   if(chkKFIA == true) {
+  //           //     $('#chk_b_num').val('1');
+  //           //   }
+  //           //   msg = res.data[0].b_stt;
+  //           //   alert(msg);
+  //           // } else {
+  //           //   switch (res.data[0].b_stt_cd) {
+  //           //   case "" :
+  //           //     msg = res.data[0].tax_type;
+  //           //     $('#chk_cb_res').val('0');
+  //           //     break;
+  //           //     default :
+  //           //     $('#chk_cb_res').val(res.data[0].b_stt_cd);
+  //           //     msg = res.data[0].b_stt;
+  //           //     break;
+  //           // }
+  //           //   $('#chk_b_num').val('0');
+  //           //   $('.store_info_sec').hide();
+  //           //   alert(msg);
+  //           // }
+  //           $('#chk_b_num').val('1');
+  //           $('#chk_cb_res').val(res.data[0].b_stt_cd);
+  //           msg = res.data[0].b_stt;
+  //           alert(msg);
+  //         }
+  //     });
+  //   } else {
+  //     alert("사업자등록번호가 존재하지 않습니다.")
+  //     return false;
+  //   }
+  // }
+
+// 휴/폐업 조회 _20240531_SY
+let b_num = '';
+function chkClosed(kfiaMsg, bNumMsg) {
+  b_num = document.querySelector('#b_no').value;
+
+  let b_stt_cd = "";
+  let end_dt   = "";
+  let mgs = "";
+
+  if(b_num.length > 0) {
+    $.ajax({
+        url: bv_url+"/m/bbs/ajax.closed_check.php",
         type: "POST",
-        data: { "b_num" : inputNum },
+        data: { "b_num" : b_num },
         dataType: "JSON",
         success: function(res) {
-          if(res.data == null) {
-            alert('사업자 정보 조회 실패')
+          console.log(res);
+          // API 값 호출 _20240318_SY
+          // 휴/폐업 가입불가 _20240612_SY
+          if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
+            $('#chk_cb_res').val(res.data[0].b_stt_cd);
+            msg = res.data[0].b_stt;
+            alert(kfiaMsg+"\n"+bNumMsg+"\n"+"휴/폐업 여부 : "+msg);
+
+            chkKFIA = true;
+          } else {
+            switch (res.data[0].b_stt_cd) {
+              case "" :
+                $('#chk_cb_res').val('0');
+                msg = res.data[0].tax_type;
+                break;
+                default : 
+                $('#chk_cb_res').val(res.data[0].b_stt_cd);
+                msg = res.data[0].b_stt;
+                break;
+            } 
 
             $('.store_info_sec').hide();
             $('#ju_restaurant').val('');
@@ -503,18 +666,90 @@ $none = "style='display:none;'";
             $('#reg_mb_addr1_st').val('');
             $('#chk_b_num').val('0');
 
+            alert(kfiaMsg+"\n"+bNumMsg+"\n"+"휴/폐업 여부 : "+msg);
             chkKFIA = false;
             return false;
+          }
+        }
+    });
+  } else {
+    alert("사업자가 존재하지 않습니다.")
+    return false;
+  }
+}
+
+
+
+  // 사업자번호 중복체크 _20240531_SY
+function chkDuBnum(kfiaMsg) {
+  b_num = document.querySelector('#b_no').value;
+
+  if(b_num.length > 0) {
+    $.ajax({
+        url: bv_url+"/m/bbs/ajax.duplication_check.php",
+        type: "POST",
+        data: { "b_num" : b_num },
+        dataType: "JSON",
+        success: function(data) {
+          if(data.res > 0 ) {
+            $('#chk_bn_res').val('0');
+            
+            $('.store_info_sec').hide();
+            $('#ju_restaurant').val('');
+            $('#reg_mb_zip_st').val('');
+            $('#reg_mb_addr1_st').val('');
+            $('#chk_b_num').val('0');
+            
+            alert(kfiaMsg+"\n이미 등록된 사업자입니다");
+            return false;
           } else {
-            alert(`조회 성공 : ${res.data.MEMBER_NAME}`)
+            // alert("가입 가능한 사업자등록번호입니다");
+            $('#chk_bn_res').val('1');
+            chkClosed(kfiaMsg, "가입여부 : 가입 가능한 사업자입니다");
+          }
+        }
+    });
+  } else {
+    alert("사업자가 존재하지 않습니다.")
+    return false;
+  }
+}
 
-            $('.store_info_sec').show();
-            $('#ju_restaurant').val(res.data.MEMBER_NAME)
-            $('#reg_mb_zip_st').val(res.data.ZIP_CODE)
-            $('#reg_mb_addr1_st').val(res.data.DORO_ADDRESS)
-            $('#chk_b_num').val('1');
 
-            // 위도/경도 값 _20240612_SY
+
+
+// 외식업중앙회원 조회하기 _20240531_SY
+var chkKFIA = false;
+function getKFIAMember() {
+  const form = $('#fregisterform');
+  let inputNum = document.querySelector('#b_no').value;
+
+  if(inputNum.length > 0) {
+    $.ajax({
+      url: bv_url + "/m/bbs/ajax.KFIA_info.php",
+      type: "POST",
+      data: { "b_num": inputNum },
+      dataType: "JSON",
+      success: function(res) {
+        if(res.data == null) {
+          
+          $('.store_info_sec').hide();
+          $('#ju_restaurant').val('');
+          $('#reg_mb_zip_st').val('');
+          $('#reg_mb_addr1_st').val('');
+          $('#chk_b_num').val('0');
+
+          alert('사업자 정보 조회 실패');
+          chkKFIA = false;
+          
+          return false;
+        } else {
+          Object.entries(res.data).forEach(([key, value]) => {
+            form.append(`<input type="hidden" name="${key}" value="${value}">`);
+          }); 
+          console.log(res.data)
+
+          // 위도/경도 값 _20240612_SY
             var geocoder = new kakao.maps.services.Geocoder();
             var address = res.data.DORO_ADDRESS;
             address = address.trim();
@@ -527,102 +762,23 @@ $none = "style='display:none;'";
               }
             });
 
-            chkKFIA = true;
-          }
+          $('.store_info_sec').show();
+          $('#ju_restaurant').val(res.data.MEMBER_NAME)
+          $('#reg_mb_zip_st').val(res.data.ZIP_CODE)
+          $('#reg_mb_addr1_st').val(res.data.DORO_ADDRESS)
+          $('#chk_b_num').val('1');
+          
+          chkKFIA = true;
+          chkDuBnum(`조회 성공 : ${res.data.MEMBER_NAME}`);
+
         }
-      });
-    } else {
-      return false;
-    }
-
+      }
+    });
+  } else {
+    alert("사업자 번호를 입력하여 주십시오.");
+    return false;
   }
-
-
-  // 사업자번호 중복체크 _20240611_SY
-  function chkDuBnum() {
-    b_num = document.querySelector('#b_no').value;
-
-    if(b_num.length > 0) {
-      $.ajax({
-          url: bv_url+"/m/bbs/ajax.duplication_check.php",
-          type: "POST",
-          data: { "b_num" : b_num },
-          dataType: "JSON",
-          success: function(data) {
-            if(data.res > 0 ) {
-              alert("이미 등록된 사업자등록번호입니다");
-              $('#chk_b_num').val('0');
-              $('.store_info_sec').hide();
-
-              return false;
-            } else {
-              alert("가입 가능한 사업자등록번호입니다");
-              if(chkKFIA == true) {
-                $('#chk_b_num').val('1');
-              }
-            }
-          }
-      });
-    } else {
-      alert("사업자등록번호가 존재하지 않습니다.")
-      return false;
-    }
-  }
-
-
-  // 휴/폐업 조회 _20240611_SY
-  let b_num = '';
-  function chkClosed() {
-    b_num = document.querySelector('#b_no').value;
-
-    let b_stt_cd = "";
-    let end_dt   = "";
-    let msg = "";
-
-    if(b_num.length > 0) {
-      $.ajax({
-          url: bv_url+"/m/bbs/ajax.closed_check.php",
-          type: "POST",
-          data: { "b_num" : b_num },
-          dataType: "JSON",
-          success: function(res) {
-            // API 값 호출 _20240318_SY
-
-            // 휴/폐업 가입불가 _20240612_SY
-            // if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
-            //   $('#chk_cb_res').val(res.data[0].b_stt_cd);
-            //   if(chkKFIA == true) {
-            //     $('#chk_b_num').val('1');
-            //   }
-            //   msg = res.data[0].b_stt;
-            //   alert(msg);
-            // } else {
-            //   switch (res.data[0].b_stt_cd) {
-            //   case "" :
-            //     msg = res.data[0].tax_type;
-            //     $('#chk_cb_res').val('0');
-            //     break;
-            //     default :
-            //     $('#chk_cb_res').val(res.data[0].b_stt_cd);
-            //     msg = res.data[0].b_stt;
-            //     break;
-            // }
-            //   $('#chk_b_num').val('0');
-            //   $('.store_info_sec').hide();
-            //   alert(msg);
-            // }
-            $('#chk_b_num').val('1');
-            $('#chk_cb_res').val(res.data[0].b_stt_cd);
-            msg = res.data[0].b_stt;
-            alert(msg);
-          }
-      });
-    } else {
-      alert("사업자등록번호가 존재하지 않습니다.")
-      return false;
-    }
-  }
-
+}
 
 
   function fregisterform_submit(f) {

@@ -18,7 +18,7 @@ if(!defined('_BLUEVATION_')) exit;
   // 담당직원 조회 (기본값) 추가 _20240702_SY
   $getManager_cnt = 0;
   if($w == '') {
-    $getManager_sel = " SELECT *, kb.branch_code AS b_code, kb.branch_name AS b_name 
+    $getManager_sel = " SELECT *, kb.branch_code AS b_code, kb.branch_name AS b_name
                           FROM shop_manager AS mn
                      LEFT JOIN kfia_office AS ko
                             ON (mn.ju_region3 = ko.office_code)
@@ -54,8 +54,8 @@ if(!defined('_BLUEVATION_')) exit;
 
 <style>
   /* 타임피커 z-index 추가 _20240621_SY */
-.ui-timepicker-container{ 
-  z-index:10 !important; 
+.ui-timepicker-container{
+  z-index:10 !important;
 }
 </style>
 
@@ -106,7 +106,7 @@ if(!defined('_BLUEVATION_')) exit;
                   <div class="pop-result">
                     <!-- 검색 결과 나올 곳 _20240603_SY -->
                     <!-- 지회/지부에 따른 담당자 데이터 가져오기 _20240702_SY -->
-                     <?php if($w == '') { 
+                     <?php if($w == '') {
                         if($getManager_cnt > 0) {
                         while($getManager_row = sql_fetch_array($getManager_res)) { ?>
                       <div class="pop-result-item">
@@ -218,14 +218,14 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="title"><label for="reg_mb_name">이름</label><b>*</b></p>
             </div>
             <div class="form-body input-button id-confirm">
-              <input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name"<?php echo $required; ?><?php echo $readonly; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" placeholder="이름을 입력해주세요." autocapitalize="off">
+              <input type="text" name="mb_name" value="<?php echo get_text($member['name']); ?>" id="reg_mb_name"<?php echo $required; ?> class="<?php echo $required; ?> frm-input w-per100" size="20" placeholder="이름을 입력해주세요." autocapitalize="off" >
               <?php
               $cert_str = '';
               if($config['cf_cert_use']) {
                 if($config['cf_cert_ipin'])
-                  $cert_str .= '<button type="button" id="win_ipin_cert" class="ui-btn st3">본인인증</button>'.PHP_EOL;
+                  $cert_str .= '<button type="button" id="win_ipin_cert" class="ui-btn st1">본인인증</button>'.PHP_EOL;
                 if($config['cf_cert_hp'])
-                  $cert_str .= '<button type="button" id="win_hp_cert" class="ui-btn st3">본인인증</button>'.PHP_EOL;
+                  $cert_str .= '<button type="button" id="win_hp_cert" class="ui-btn st1">본인인증</button>'.PHP_EOL;
 
                 $cert_str .= '<noscript>본인인증을 위해서는 자바스크립트 사용이 가능해야합니다.</noscript>'.PHP_EOL;
               }
@@ -263,7 +263,7 @@ if(!defined('_BLUEVATION_')) exit;
             </div>
           </div>
           <?php } ?>
-          <?php if($config['register_use_hp'] || $config['cf_cert_hp']) { 
+          <?php if($config['register_use_hp'] || $config['cf_cert_hp']) {
             // 휴대폰 번호 분리 _20240312_SY
             $cell_phone = explode("-", $member['cellphone']);
           ?>
@@ -272,11 +272,11 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="title"><label for="reg_mb_hp">핸드폰번호</label><b>*</b></p>
             </div>
             <div class="form-body phone">
-              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[0]); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?> phone_no1" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[0]); ?>" id="reg_mb_hp"<?php echo $config['register_req_hp']?' required':''; ?> class="frm-input <?php echo $config['register_req_hp']?' required':''; ?> phone_no1" size="20" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
               <span class="hyphen">-</span>
-              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[1]); ?>" class="frm-input phone_no2" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[1]); ?>" class="frm-input phone_no2" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
               <span class="hyphen">-</span>
-              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[2]); ?>" class="frm-input phone_no3" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+              <input type="tel" name="mb_hp[]" value="<?php echo get_text($cell_phone[2]); ?>" class="frm-input phone_no3" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
               <div class="frm-choice">
                 <input type="checkbox" name="mb_sms" id="chk-sms" value="Y"<?php echo ($w=='' || $member['smsser'] == 'Y')?' checked':''; ?>>
                 <label for="chk-sms">핸드폰 문자메세지를 받겠습니다.</label>
@@ -320,7 +320,7 @@ if(!defined('_BLUEVATION_')) exit;
               <label for="reg_mb_zip" class="sound_only">우편번호</label>
               <input type="tel" name="mb_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호" >
               <button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
-              
+
               <input type="text" name="mb_addr1" value="<?php echo ($w == '') ? get_text($doro1) : get_text($member['addr1']); ?>" id="reg_mb_addr1"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_2 <?php echo $config['register_req_addr']?' required':''; ?> frm_address" size="60" placeholder="기본주소" autocapitalize="off">
               <label for="reg_mb_addr1" class="sound_only">기본주소</label>
               <input type="text" name="mb_addr2" value="<?php echo get_text($member['addr2']); ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
@@ -338,27 +338,27 @@ if(!defined('_BLUEVATION_')) exit;
 
           <div class="form-row">
             <div class="form-head">
-              <p class="title">환불계좌등록<b>*</b></p>
+              <p class="title">환불계좌등록</p>
             </div>
-            <div class="form-body bank">	  
-              <label for="reg_mb_addr2" class="sound_only">은행</label> 
-              <?php 
-                
+            <div class="form-body bank">
+              <label for="reg_mb_addr2" class="sound_only">은행</label>
+              <?php
+
               ?>
               <select name="refund_bank" class="frm-select">
                   <option>은행을선택하세요</option>
-                  <?php 
-                  sort($BANKS, SORT_NATURAL | SORT_FLAG_CASE); 
+                  <?php
+                  sort($BANKS, SORT_NATURAL | SORT_FLAG_CASE);
                   //sort($BANKS);
-                    for($a=0;$a<count($BANKS);$a++){   
+                    for($a=0;$a<count($BANKS);$a++){
                       ?>
                       <option value='<? echo $BANKS[$a]['code']; ?>' <?php  if(get_text($member['refund_bank'])==$BANKS[$a]['code']) echo "selected"; ?>><?php echo $BANKS[$a]['bank'];?></option>
                       <?php
                     }
                   ?>
               </select>
-              <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" <?php echo $required; ?> class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
-              <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" <?php echo $required; ?> class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
+              <input type="text" name="refund_num" value="<?php echo get_text($member['refund_num']); ?>" id="refund_num" class="frm-input" size="20" placeholder="계좌번호" autocapitalize="off">
+              <input type="text" name="refund_name" value="<?php echo get_text($member['refund_name']); ?>" id="refund_name" class="frm-input" size="10" placeholder="예금주" autocapitalize="off">
             </div>
           </div>
 
@@ -383,7 +383,7 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="title">사업자등록번호<b>*</b></p>
             </div>
             <div class="form-body">
-              <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w == '') ? formatBno($_POST['IRS_NO']) : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" readonly>              
+              <input type="tel" name="b_no" id="b_no" class="frm-input w-per100" value="<?php echo ($w == '') ? formatBno($_POST['IRS_NO']) : $member['ju_b_num'] ?>" placeholder="***-**-*****" maxlength="12" readonly>
               <!-- <div class="joinDetail-btn-box joinDetail-btn-box3">
                 <button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회원조회</button>
                 <button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
@@ -433,7 +433,7 @@ if(!defined('_BLUEVATION_')) exit;
             <div class="form-body">
               <select name="ju_sectors" id="ju_sectors" class="frm-select w-per100">
                 <option value="">선택</option>
-                <?php foreach($ju_sectors as $key => $val) { ?> 
+                <?php foreach($ju_sectors as $key => $val) { ?>
                   <option value="<?php echo $val ?>" <?php echo (($w=='u') && $val == $member['ju_sectors']) ? "selected" : "" ?> ><?php echo $val ?></option>
                 <?php } ?>
               </select>
@@ -610,7 +610,7 @@ if(!defined('_BLUEVATION_')) exit;
               <label for="store_zip" class="sound_only">우편번호</label>
               <input type="tel" name="store_zip" value="<?php echo ($w == '') ? $_POST['ZIP_CODE'] : $member['zip']; ?>" id="store_zip" class="frm-input address-input_1" size="8" maxlength="5" placeholder="우편번호" >
               <button type="button" class="ui-btn st3" onclick="execDaumPostcode2()">주소검색</button>
-              
+
               <input type="text" name="store_addr1" value="<?php echo ($w == '') ? get_text($doro1) : $member['ju_addr_full'] ?>" id="store_addr1" class="frm-input address-input_2 frm_address" size="60" placeholder="기본주소" autocapitalize="off">
               <label for="store_addr1" class="sound_only">기본주소</label>
               <input type="text" name="store_addr2" value="<?php echo ($w == '') ? get_text($doro2) : "" ?>" id="store_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소" autocapitalize="off">
@@ -644,7 +644,7 @@ if(!defined('_BLUEVATION_')) exit;
 		</div>
 	</div>
 
-  
+
   <?php if($w != '') { ?>
     <div class="joinDetail-box container">
         <div class="joinDetail-body">
@@ -683,7 +683,7 @@ $(document).ready(function(){
   let work2 = document.querySelector('#work2').value;
   let break1 = document.querySelector('#break1').value;
   let break2 = document.querySelector('#break2').value;
-  
+
 
 
   // 시간선택
@@ -717,11 +717,11 @@ $(document).ready(function(){
     // 비밀번호 입력란이 비어 있는지 확인
     if (!password) {
         messageElement.text('비밀번호를 입력하세요.');
-    } 
+    }
     // 비밀번호와 비밀번호 확인 입력란의 값이 일치하는지 확인
-    else if (password !== confirmPassword) { 
+    else if (password !== confirmPassword) {
         messageElement.text('비밀번호가 일치하지 않습니다.');
-    } 
+    }
     // 비밀번호가 일치하는 경우
     else {
         messageElement.text('');
@@ -729,12 +729,12 @@ $(document).ready(function(){
   });
 
 
-  
+
   // 매장정보 hide() _20240604_SY
   if($('#store_display-n').is(':checked')) {
     $('.store_info').hide(); // 각 요소를 숨깁니다.
   }
-  
+
 });
 
 /** 우편번호 찾기 */
@@ -890,7 +890,7 @@ function chk_id() {
           // 세션 추가 _20240228_SY
           sessionStorage.setItem("chkId", data.res );
           sessionStorage.setItem("ID", getId );
-          
+
           if(data.res == 'pass') {
             alert('사용가능한 아이디 입니다.');
             chkId = true;
@@ -913,9 +913,9 @@ var chkEmRes = false;
 function chk_email() {
   let emFocus  = document.querySelector('#reg_mb_email');
   let chkEm    = document.querySelector('#reg_mb_email').value;
-  
+
   // 이메일 유효성 검사
-  let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+  let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   if (re.test(String(chkEm).toLowerCase()) == true) {
     $.ajax({
@@ -926,7 +926,7 @@ function chk_email() {
       success: function(data) {
         sessionStorage.setItem("chkEm", data.res);
         sessionStorage.setItem("Email", chkEm);
-        
+
         if (data.res === 'pass') {
           alert('사용가능한 이메일입니다.');
           chkEmRes = true;
@@ -947,9 +947,9 @@ function chk_email() {
 }
 
 // 전화번호 하이픈(-) _20240226_SY
-const autoHyphen2 = (target) => { 
+const autoHyphen2 = (target) => {
   let phNum = phoneNumber(target.value);
-  
+
   target.value = phNum
 }
 
@@ -994,7 +994,7 @@ function phoneNumber(value) {
 
 
 // 담당자 선택 _20240702_SY
-$('.pop-result').on('click', '.pop-result-item', function() {  
+$('.pop-result').on('click', '.pop-result-item', function() {
   $('.pop-result-item').css("border", "");
   $(this).css("border", "solid");
 
@@ -1009,7 +1009,7 @@ $('.pop-result').on('click', '.pop-result-item', function() {
   let idx    = $(this).find('.pop-result-text:eq(2)').val();
   let full_region = region1 + " / " + region2
   console.log(full_region)
-  
+
   // 팝업 닫기
   $('#info_ok').on('click', function() {
     $('#pop_nm').val(nm);
@@ -1035,14 +1035,14 @@ function getManager() {
   }
 
   let search_resIn = document.querySelector('.pop-result');
-  
+
   if(search_words.length > 0) {
     $.ajax({
       url: bv_url+"/m/bbs/ajax.getManager.php",
       type: "POST",
-      data: { 
+      data: {
         "type" : "search",
-        "mcode" : search_words 
+        "mcode" : search_words
       },
       dataType: "JSON",
       success: function(data) {
@@ -1065,9 +1065,9 @@ function getManager() {
     $.ajax({
       url: bv_url+"/m/bbs/ajax.getManager.php",
       type: "POST",
-      data: { 
+      data: {
         "type" : "reset",
-        "mcode" : reset_words 
+        "mcode" : reset_words
       },
       dataType: "JSON",
       success: function(data) {
@@ -1117,7 +1117,7 @@ function getKFIAMember() {
   } else {
     return false;
   }
-  
+
 }
 
 
@@ -1153,10 +1153,10 @@ function chkDuBnum() {
 let b_num = '';
 function chkClosed() {
   b_num = document.querySelector('#b_no').value;
-  
+
   let b_stt_cd = "";
   let end_dt   = "";
-  
+
   if(b_num.length > 0) {
     $.ajax({
         url: bv_url+"/m/bbs/ajax.closed_check.php",
@@ -1254,7 +1254,7 @@ function fregisterform_submit(f)
   // 회원아이디 중복확인 여부 _20240223_SY
   let ss_Id     = sessionStorage.getItem("ID");
   let ss_Id_chk = sessionStorage.getItem("chkId");
-  
+
   if(f.w.value == "") {
     if(chkId == false) {
       alert("아이디 중복을 확인해 주십시오.");
@@ -1315,7 +1315,7 @@ function fregisterform_submit(f)
 	<?php if($w == '' && $config['cf_cert_use'] && $config['cf_cert_req']) { ?>
 	// 본인인증 체크
 	if(f.cert_no.value=="") {
-		alert("회원가입을 위해서는 본인인증을 해주셔야 합니다.");
+		alert("회원가입을 위해서는 본인인증을 해주셔야 합니다..");
 		return false;
 	}
 	<?php } ?>
@@ -1324,7 +1324,7 @@ function fregisterform_submit(f)
   // 휴대폰 유효성 검사 수정 _20240226_SY
   let chkPhoneNum = [];
   <?php if(($config['register_use_hp'] || $config['cf_cert_hp']) && $config['register_req_hp']) { ?>
-  
+
     let getPhone = document.querySelectorAll("input[name='mb_hp[]']");
     getPhone.forEach(function(key, index) {
       let phoneNumber = key.value;
@@ -1351,12 +1351,12 @@ function fregisterform_submit(f)
 			f.reg_mb_email.select();
 			return false;
 		}
-	
+
 
     // 이메일 중복확인 여부 _20240319_SY
     let ss_em     = sessionStorage.getItem("Email");
     let ss_em_chk = sessionStorage.getItem('chkEm');
-    
+
     // if(f.w.value == "") {
       if(chkEmRes == false) {
         alert('이메일 중복을 확인해 주십시오.');
@@ -1383,7 +1383,7 @@ function fregisterform_submit(f)
   //     return false;
   //   }
   // }
-  
+
   // 사업자번호 중복체크 _20240318_SY
   // if((f.w.value == "") || (f.w.value == "u" && f.chk_bn_res.defaultValue != f.chk_bn_res.value)) {
   //   if(f.chk_bn_res.value == "0") {
@@ -1404,7 +1404,7 @@ function fregisterform_submit(f)
   //   };
   // }
 
-  
+
 	if(typeof(f.mb_recommend) != "undefined" && f.mb_recommend.value) {
 		if(f.mb_id.value == f.mb_recommend.value) {
 			alert("본인을 추천할 수 없습니다.");
