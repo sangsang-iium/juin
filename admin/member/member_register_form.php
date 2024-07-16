@@ -179,10 +179,10 @@ $none = "style='display:none;'";
             <input type="text" name="ju_b_num" id="b_no" class="frm_input" maxlength="10" placeholder="숫자만 입력" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
             <input type="hidden" name="chk_b_num" id="chk_b_num" value="0" alt="사업자여부">
             <input type="hidden" name="chk_cb_res" id="chk_cb_res" value="0" alt="휴/폐업조회">
-            <div class="joinDetail-btn-box joinDetail-btn-box3"> 
-              <button type="button" class="ui-btn st3" onclick="getKFIAMember()">중앙회 회원 조회</button>
-              <button type="button" class="ui-btn st3" onclick="chkDuBnum()">중복확인</button>
-              <button type="button" class="ui-btn st3" onclick="chkClosed()">휴/폐업조회</button>
+            <div class="joinDetail-btn-box joinDetail-btn-box3" style="margin-top: 8px;">
+              <button type="button" class="btn_small grey marl10 fs14" onclick="getKFIAMember()">중앙회 회원 조회</button>
+              <button type="button" class="btn_small grey marl10 fs14" onclick="chkDuBnum()">중복확인</button>
+              <button type="button" class="btn_small grey marl10 fs14" onclick="chkClosed()">휴/폐업조회</button>
             </div>
           </td>
         </tr>
@@ -200,12 +200,12 @@ $none = "style='display:none;'";
             <input type="text" name="ju_tel" id="ju_tel" class="frm_input" size="20" maxlength="20">
           </td>
         </tr>
-        
+
       </tbody>
     </table>
   </div>
 
-  
+
   <!-- 매장정보 _20240611_SY -->
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
@@ -252,7 +252,7 @@ $none = "style='display:none;'";
           <td>
             <div class="chk_select">
               <select name="ju_cate" id="ju_cate">
-                  <?php foreach($cf_food as $key => $val) { ?> 
+                  <?php foreach($cf_food as $key => $val) { ?>
                     <option value="<?php echo $val ?>"><?php echo $val ?></option>
                   <?php } ?>
               </select>
@@ -363,9 +363,9 @@ $none = "style='display:none;'";
       </tbody>
     </table>
   </div>
-  
+
   <!-- 담당자 정보 추가 _20240618_SY -->
-  <?php if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") { 
+  <?php if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
     $mn_sel = " SELECT * FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}'";
     $mn_row = sql_fetch($mn_sel);
     $office_where = " WHERE a.office_code = '{$mn_row['ju_region3']}' ";
@@ -405,7 +405,7 @@ $none = "style='display:none;'";
         <input type="hidden" name="ju_region1" value="<?php echo $ju_region1; ?>" class="frm_input w400" size="20" maxlength="20">
         <input type="hidden" name="ju_region2" value="<?php echo $ju_region2; ?>" class="frm_input w400" size="20" maxlength="20">
         <input type="hidden" name="ju_region3" value="<?php echo $ju_region3; ?>" class="frm_input w400" size="20" maxlength="20">
-        
+
       </tbody>
     </table>
   </div>
@@ -479,9 +479,9 @@ $none = "style='display:none;'";
   });
 
 
-  
 
-  
+
+
   // 외식업중앙회원 조회하기 _20240611_SY
   var chkKFIA = false;
   function getKFIAMember() {
@@ -519,14 +519,14 @@ $none = "style='display:none;'";
             var address = res.data.DORO_ADDRESS;
             address = address.trim();
             geocoder.addressSearch(address, function(result, status) {
-              // 정상적으로 검색이 완료됐으면 
+              // 정상적으로 검색이 완료됐으면
               if (status === kakao.maps.services.Status.OK) {
                 //var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
                 form.append(`<input type="hidden" name="ju_lat" value="${result[0].y}">`);
                 form.append(`<input type="hidden" name="ju_lng" value="${result[0].x}">`);
-              } 
+              }
             });
-            
+
             chkKFIA = true;
           }
         }
@@ -553,7 +553,7 @@ $none = "style='display:none;'";
               alert("이미 등록된 사업자등록번호입니다");
               $('#chk_b_num').val('0');
               $('.store_info_sec').hide();
-              
+
               return false;
             } else {
               alert("가입 가능한 사업자등록번호입니다");
@@ -602,7 +602,7 @@ $none = "style='display:none;'";
             //     msg = res.data[0].tax_type;
             //     $('#chk_cb_res').val('0');
             //     break;
-            //     default : 
+            //     default :
             //     $('#chk_cb_res').val(res.data[0].b_stt_cd);
             //     msg = res.data[0].b_stt;
             //     break;
