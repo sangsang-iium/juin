@@ -34,10 +34,10 @@ if ($gs_id) {
                         <input type="password" name="mb_password" class="frm-input" id="login_pw" maxLength="20" placeholder="비밀번호를 입력하세요." autocapitalize="off">
                     </div>
                     <div class="login-ctrl">
-                        <div class="login-save frm-choice">
+                        <!-- <div class="login-save frm-choice">
                             <input type="checkbox" name="auto_login" id="login_auto_login" class="css-checkbox lrg">
                             <label for="login_auto_login">자동로그인</label>
-                        </div>
+                        </div> -->
                         <!-- <div class="find-wrap2">
                             <a href="<?php echo BV_MBBS_URL; ?>/find_id.php?type=1" class="search-btn">아이디 찾기</a>
                             <span class="bar">/</span>

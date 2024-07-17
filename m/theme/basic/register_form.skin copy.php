@@ -147,7 +147,7 @@ if(!defined('_BLUEVATION_')) exit;
               <label for="reg_mb_zip" class="sound_only">우편번호</label>
 							<input type="text" name="mb_zip" value="<?php echo $member['zip']; ?>" id="reg_mb_zip"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_1 <?php echo $config['register_req_addr']?' required':''; ?>" size="8" maxlength="5" placeholder="우편번호">
 							<button type="button" class="ui-btn st3" onclick="execDaumPostcode()">주소검색</button>
-							
+
 							<input type="text" name="mb_addr1" value="<?php echo get_text($member['addr1']); ?>" id="reg_mb_addr1"<?php echo $config['register_req_addr']?' required':''; ?> class="frm-input address-input_2 <?php echo $config['register_req_addr']?' required':''; ?> frm_address" size="60" placeholder="기본주소">
 							<label for="reg_mb_addr1" class="sound_only">기본주소</label>
 							<input type="text" name="mb_addr2" value="<?php echo get_text($member['addr2']); ?>" id="reg_mb_addr2" class="frm-input address-input_3 frm_address" size="60" placeholder="상세주소">
@@ -162,7 +162,7 @@ if(!defined('_BLUEVATION_')) exit;
 				</div>
 			</div>
 
-      
+
 			<!-- } 기본정보 -->
 			<!-- 중앙회원정보 { -->
 			<div class="joinDetail-box">
@@ -409,7 +409,7 @@ function chk_id() {
           // 세션 추가 _20240228_SY
           sessionStorage.setItem("chkId", data.res );
           sessionStorage.setItem("ID", getId );
-          
+
           if(data.res == 'pass') {
             alert('사용가능한 아이디 입니다.');
             chkId.value = '1';
@@ -428,9 +428,9 @@ function chk_id() {
 }
 
 // 전화번호 하이픈(-) _20240226_SY
-const autoHyphen2 = (target) => { 
+const autoHyphen2 = (target) => {
   let phNum = phoneNumber(target.value);
-  
+
   target.value = phNum
 }
 
@@ -480,7 +480,7 @@ function getKFIAMember() {
   let search_words = search_input.value;
 
   let search_resIn = document.querySelector('.pop-result');
-  
+
   if(search_words.length > 0) {
     $.ajax({
       url: bv_url+"/m/bbs/ajax.KFIA_info.php",
@@ -499,18 +499,18 @@ function getKFIAMember() {
           html += '</div>';
         }
         search_resIn.innerHTML = html;
-        
-        $('.pop-result').on('click', '.pop-result-item', function() {  
+
+        $('.pop-result').on('click', '.pop-result-item', function() {
           let nm   = $(this).find('.pop-result-title').text();
           let u_no = $(this).find('.pop-result-text:eq(0)').text().split(':')[1].trim();
           let b_no = $(this).find('.pop-result-text:eq(1)').text().split(':')[1].trim();
-          
+
           $('#pop_nm').val(nm);
           $('#pop_u_no').val(u_no);
           $('#pop_b_no').val(b_no);
 
           $('#b_no').val(b_no);
-          
+
           // 팝업 닫기 필요
         });
       }
@@ -524,10 +524,10 @@ function getKFIAMember() {
 let b_num = '';
 function chkClosed() {
   b_num = document.querySelector('#b_no').value;
-  
+
   let b_stt_cd = "";
   let end_dt   = "";
-  
+
   if(b_num.length > 0) {
     $.ajax({
         url: bv_url+"/m/bbs/ajax.closed_check.php",
@@ -638,7 +638,7 @@ function fregisterform_submit(f)
   // 회원아이디 중복확인 여부 _20240223_SY
   let ss_Id     = sessionStorage.getItem("ID");
   let ss_Id_chk = sessionStorage.getItem("chkId");
-  
+
   if(f.w.value == "") {
     if(f.chk_id_res.value == 0) {
       alert("아이디 중복을 확인해 주십시오.");
@@ -700,7 +700,7 @@ function fregisterform_submit(f)
 	<?php if($w == '' && $config['cf_cert_use'] && $config['cf_cert_req']) { ?>
 	// 본인인증 체크
 	if(f.cert_no.value=="") {
-		alert("회원가입을 위해서는 본인인증을 해주셔야 합니다.");
+		alert("회원가입을 위해서는 본인인증을 해주셔야 합니다!");
 		return false;
 	}
 	<?php } ?>
@@ -709,7 +709,7 @@ function fregisterform_submit(f)
   // 휴대폰 유효성 검사 수정 _20240226_SY
   let chkPhoneNum = [];
   <?php if(($config['register_use_hp'] || $config['cf_cert_hp']) && $config['register_req_hp']) { ?>
-  
+
     let getPhone = document.querySelectorAll("input[name='mb_hp[]']");
     getPhone.forEach(function(key, index) {
       let phoneNumber = key.value;
@@ -745,7 +745,7 @@ function fregisterform_submit(f)
     };
   }
 
-  
+
 	if(typeof(f.mb_recommend) != "undefined" && f.mb_recommend.value) {
 		if(f.mb_id.value == f.mb_recommend.value) {
 			alert("본인을 추천할 수 없습니다.");
