@@ -55,7 +55,8 @@ include_once(BV_PATH.'/include/introBtn.php');
         <div class="cp-timer-wrap">
           <i class="cp-timer__icon"></i>
           <span class="cp-timer__text">D-Day</span>
-          <?php $deadline = date('Y-m-d', strtotime('+6 days')); ?>
+          <?php // $deadline = date('Y-m-d', strtotime('+6 days')); ?>
+          <?php $deadline = "2024-07-21"; ?>
           <span class="cp-timer__num" data-deadline="<?php echo $deadline ?> 23:59:59">00:00:00</span>
         </div>
       </div>

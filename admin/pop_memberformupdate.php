@@ -34,12 +34,12 @@ if($row['id']) {
 }
 
 // 휴대폰번호 체크
-$mb_hp = hyphen_hp_number($_POST['cellphone']);
-if($mb_hp) {
-    $result = exist_mb_hp($mb_hp, $mb_id);
-    if($result)
-        alert($result);
-}
+// $mb_hp = hyphen_hp_number($_POST['cellphone']);
+// if($mb_hp) {
+//     $result = exist_mb_hp($mb_hp, $mb_id);
+//     if($result)
+//         alert($result);
+// }
 
 // 인증정보처리
 if($_POST['mb_certify_case'] && $_POST['mb_certify']) {
@@ -89,7 +89,7 @@ $mfrm['auth_8']			= $_POST['auth_8'];
 $mfrm['auth_9']			= $_POST['auth_9'];
 $mfrm['auth_10']		= $_POST['auth_10'];
 
-/* ------------------------------------------------------------------------------------- _20240713_SY 
+/* ------------------------------------------------------------------------------------- _20240713_SY
   * 노출여부 ju_display
 /* ------------------------------------------------------------------------------------- */
 $mfrm['ju_display'] = $_POST['ju_display'];
@@ -123,7 +123,7 @@ if($_POST['passwd']) {
 	$mfrm['passwd'] = $_POST['passwd']; // 패스워드
 }
 
-/* ------------------------------------------------------------------------------------- _20240713_SY 
+/* ------------------------------------------------------------------------------------- _20240713_SY
   * 레벨 변경에 다른 중앙회여부 변경
 /* ------------------------------------------------------------------------------------- */
 
@@ -155,7 +155,7 @@ if(is_uploaded_file($_FILES['ju_mimg']['tmp_name'])){
 		$dest_path = $save_dir.$save_name;
 		move_uploaded_file($_FILES['ju_mimg']['tmp_name'], $dest_path);
 		chmod($dest_path, BV_FILE_PERMISSION);
-		
+
 		sql_query(" update shop_member set ju_mimg = '$save_name' where id = '$mb_id' ");
 	}
 }

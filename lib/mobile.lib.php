@@ -132,7 +132,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
   // 기본배송지 추가 _20240712_SY
   $b_address = "";
   $ad_row = getBaddressFun();
-  if(is_array($ad_row)) {
+  if(isset($ad_row['mb_id'])){
     $b_address = $ad_row['b_addr1'];
   } else {
     $b_address = $member['addr1'];
@@ -163,6 +163,7 @@ function mobile_display_today_goods_with_slide($type, $rows, $li_css = '') {
 		if(!memberGoodsAble($b_address, $row['zone'])){
 			continue;
 		}
+
     $it_href     = BV_MSHOP_URL . '/view.php?gs_id=' . $row['index_no'];
     $it_imageurl = get_it_image_url($row['index_no'], $row['simg1'], $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
     $it_name     = get_text($row['gname']);
@@ -285,7 +286,7 @@ function mobile_slide_goods($type, $rows, $addclass='', $size='')
   // 기본배송지 추가 _20240712_SY
   $b_address = "";
   $ad_row = getBaddressFun();
-  if(is_array($ad_row)) {
+  if(isset($ad_row['mb_id'])){
     $b_address = $ad_row['b_addr1'];
   } else {
     $b_address = $member['addr1'];
@@ -350,7 +351,7 @@ function mobile_slide_goods_no($type, $rows, $addclass = '', $size = '') {
   // 기본배송지 추가 _20240712_SY
   $b_address = "";
   $ad_row = getBaddressFun();
-  if(is_array($ad_row)) {
+  if(isset($ad_row['mb_id'])){
     $b_address = $ad_row['b_addr1'];
   } else {
     $b_address = $member['addr1'];
@@ -1473,11 +1474,25 @@ function coupon_chk($it_idx){
 function extractProvince($address) {
   // 주소에서 도 이름을 추출하는 함수
   $provinces = [
-    '서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시', '대전광역시', '울산광역시', '세종특별자치시',
-    '경기도', '강원도', '충청북도', '충북', '충청남도', '충남',
-    '전라북도', '전북', '전라남도', '전남', '경상북도', '경북', '경상남도', '경남',
-    '제주특별자치도', '제주도',
-  ];
+		'서울특별시', '서울시', '서울',
+		'부산광역시', '부산시', '부산',
+		'대구광역시', '대구시', '대구',
+		'인천광역시', '인천시', '인천',
+		'광주광역시', '광주시', '광주',
+		'대전광역시', '대전시', '대전',
+		'울산광역시', '울산시', '울산',
+		'세종특별자치시', '세종시', '세종',
+		'경기도', '경기북부','경기남부', '경기',
+		'강원도', '강원',
+		'충청북도', '충북',
+		'충청남도', '충남',
+		'전라북도', '전북','전북특별자치도',
+		'전라남도', '전남',
+		'경상북도', '경북',
+		'경상남도', '경남',
+		'제주특별자치도', '제주도',
+	];
+
 
   foreach ($provinces as $province) {
     if (strpos($address, $province) !== false) {
@@ -1503,11 +1518,27 @@ function extractProvince($address) {
 		'충청북도'          => '충북',
 		'충청남도'          => '충남',
 		'경기도'             => '경기',
+		'경기북부'             => '경기',
+		'경기남부'             => '경기',
 		'강원도'             => '강원',
 		'제주특별자치도' => '제주특별자치도',
 		'제주도'             => '제주특별자치도',
 		'세종특별자치시' => '세종특별자치시',
 		'세종시'             => '세종특별자치시',
+		'서울특별시'       => '서울',
+		'서울시'             => '서울',
+		'부산광역시'       => '부산',
+		'부산시'             => '부산',
+		'대구광역시'       => '대구',
+		'대구시'             => '대구',
+		'인천광역시'       => '인천',
+		'인천시'             => '인천',
+		'광주광역시'       => '광주',
+		'광주시'             => '광주',
+		'대전광역시'       => '대전',
+		'대전시'             => '대전',
+		'울산광역시'       => '울산',
+		'울산시'             => '울산',
 	];
 
   return isset($mapping[$region]) ? $mapping[$region] : $region;
@@ -1526,14 +1557,14 @@ function memberGoodsAble($memberAddr, $goodsLoca) {
   $res_data = array();
 
   foreach ($sections as $section) {
-    $parts = explode(',', $section);
-    if (isset($parts[0]) && trim($parts[0]) == "전국" && !empty($parts[2])) {
-      return true;
-    }
-    if (isset($parts[2]) && trim($parts[2]) != "") {
-      $region     = trim($parts[0]);
-      $res_data[] = standardizeRegionName($region);
-    }
+    $parts  = explode(',', $section);
+		$region = trim($parts[0]);
+		if ($region == "전국" && isset($parts[2]) && !empty($parts[2])) {
+			return true;
+		}
+		if (isset($parts[2]) && !empty($parts[2])) {
+			$res_data[] = standardizeRegionName($region);
+		}
   }
 
   $standardizedMemberAddr = standardizeRegionName($memberAddr);

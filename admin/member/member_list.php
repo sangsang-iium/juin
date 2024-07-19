@@ -52,6 +52,18 @@ if ($sst) {
   $sql_search .= " AND $gradeColumn = '$sst'";
 }
 
+if($os){
+  if($os == "Windows"){
+    $sql_search .= " AND mb_agent = '{$os}'";
+  } else if($os == 'all') {
+    $sql_search .= "";
+  } else {
+    $sql_search .= " AND mb_agent != 'Windows'";
+  }
+} else {
+  $os = "all";
+}
+
 
 // 기간검색
 $sptColumn = addAliasFunc($spt);
@@ -73,45 +85,27 @@ if ($ssd == '탈퇴') {
 }
 
 if (!$orderby) {
-  $filed = "mm.index_no";
-  $sod   = "desc";
+  $filed = "mm.name";
+  $sod   = "asc";
 } else {
   $sod = $orderby;
 }
 
+
+/* ------------------------------------------------------------------------------------- _20240717_SY
+    * 지회/지부 권한 관려 수정
+   ------------------------------------------------------------------------------------- */
 if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
-  // 시연용 : 지회 마스터 임시 쿼리 _20240621_SY
-  $mn_sel = " SELECT * FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}'";
-  $mn_row = sql_fetch($mn_sel);
-
-  if($mn_row['grade'] < 3) {
-    $b_master_sql = " SELECT index_no, id, name, grade, ju_region1, ju_region2, ju_region3
-                        FROM shop_manager
-                       WHERE ju_region2 = '{$mn_row['ju_region2']}'
-                         AND grade > {$mn_row['grade']}" ;
-    $b_master_res = sql_query($b_master_sql);
-    $addIn = "";
-    while ($b_master_row = sql_fetch_array($b_master_res)) {
-      // if (!empty($addIn)) {
-      //   echo $addIn;
-      //     $addIn .= ", ";
-      // }
-      $addIn .= ", '" . $b_master_row['id'] . "'";
+  if($member['ju_region2'] != "00400") {
+    $belong_list = getBelongList($_SESSION['ss_mn_id'], "mm.ju_manager");
+    $sql_search .= $belong_list;
+    if($member['grade'] > 2) {
+      $sql_search .= " AND mm.grade >= 8 ";
     }
-    $sql_search .= " AND mn.id IN ( '{$_SESSION['ss_mn_id']}' $addIn )";
-  } else {
-    $sql_search .= " AND mm.ju_manager = '{$mn_row['index_no']}' " ;
   }
-
-  /* ------------------------------------------------------------------------------------- _20240716_SY 
-    * 임직원 데이터(grade 6) 나오는 문제 있어서 grade 8 이상만 나오도록 수정
-  /* ------------------------------------------------------------------------------------- */
-  $sql_search .= " AND mm.grade >= 8 ";
 }
 
 $sql_order = " order by $filed $sod ";
-
-
 
 
 // 테이블의 전체 레코드수만 얻음
@@ -125,11 +119,12 @@ if ($page == "") {
   $page = 1;
 }             // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows;       // 시작 열을 구함
-$num         = $total_count - (($page - 1) * $rows);
+// $num         = $total_count - (($page - 1) * $rows);
+$num = (($page - 1) * $rows)+1;
 
 $sql    = " select mm.*, mn.name AS mn_name, mn.id AS mn_id, mn.index_no AS mn_idx $sql_common {$sql_join} $sql_search $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
- 
+
 
 $is_intro = false;
 $colspan  = 11;
@@ -138,10 +133,10 @@ if ($config['cert_admin_yes']) {
   $colspan++;
 }
 
+// <a href="./member/member_list_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 엑셀저장</a>
 $btn_frmline = <<<EOF
 <a href="./member.php?code=mail_list" class="btn_lsmall bx-white">전체메일발송</a>
 <a href="./sms/sms_member.php" onclick="win_open(this,'pop_sms','245','360','no');return false" class="btn_lsmall bx-white">전체문자발송</a>
-<a href="./member/member_list_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 엑셀저장</a>
 <a href="./member.php?code=register_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 회원추가</a>
 EOF;
 
@@ -211,6 +206,16 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 
           </td>
         </tr>
+        <tr>
+          <th scope="row">가입경로</th>
+          <td>
+            <ul class="radio_group">
+              <li class="radios"><input type="radio" name="os" value="all" id="os0" <?php echo $os=="all"?"checked":"" ?>><label for="os0">전체</label></li>
+              <li class="radios"><input type="radio" name="os" value="Mobile" id="os1" <?php echo $os=="Mobile"?"checked":"" ?>><label for="os1">모바일</label></li>
+              <li class="radios"><input type="radio" name="os" value="Windows" id="os2" <?php echo $os=="Windows"?"checked":"" ?>><label for="os2">웹</label></li>
+            </ul>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -227,6 +232,9 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 </div>
 <div class="local_frm01">
   <?php echo $btn_frmline; ?>
+  <?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+    <a href="./member/member_list_excel.php?<?php echo $q1?> " class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 엑셀저장</a>
+  <?php } ?>
 </div>
 <div class="board_list">
   <table class="list01">
@@ -259,7 +267,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
         <th scope="col"><?php echo subject_sort_link('reg_time', $q2); ?>가입일시</a></th>
         <th scope="col">구매건 수</th>
         <th scope="col"><?php echo subject_sort_link('login_sum', $q2); ?>누적 로그인</a></th>
-        <th scope="col"><?php echo subject_sort_link('intercept_date', $q2); ?>접근차단</a></th>
+        <th scope="col"><?php echo subject_sort_link('mb_agent', $q2); ?>접속 OS</a></th>
         <?php if ($is_intro) { ?>
           <th scope="col"><?php echo subject_sort_link('use_app', $q2); ?>인증</a></th>
         <?php } ?>
@@ -278,7 +286,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
         $manager_info = $row['mn_name'] . " ({$row['mn_id']}) ";
       }
 
-      /* ------------------------------------------------------------------------------------- _20240716_SY 
+      /* ------------------------------------------------------------------------------------- _20240716_SY
         * 상호명 노출
       /* ------------------------------------------------------------------------------------- */
       $ju_resName = "";
@@ -287,20 +295,20 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
       }
     ?>
       <tr class="<?php echo $bg; ?>">
-        <td><?php echo $num--; ?></td>
+        <td><?php echo $num++; ?></td>
         <td><?php echo get_sideview($row['id'], $row['name']) . $ju_resName ?></td>
         <td><?php echo $row['id']; ?></td>
         <td><?php echo get_grade($row['grade']); ?></td>
         <td><?php echo $manager_info; ?></td>
         <?php
-        /* ------------------------------------------------------------------------------------- _20240716_SY 
+        /* ------------------------------------------------------------------------------------- _20240716_SY
           * 지회/지부 데이터 (담당자 기준으로 출력)
         /* ------------------------------------------------------------------------------------- */
           $jibu_name = "없음";
           if(!empty($row['mn_idx'])) {
             $manager_sel = " SELECT * FROM shop_manager WHERE index_no ='{$row['mn_idx']}' ";
             $manager_row = sql_fetch($manager_sel);
-            
+
             $jibu_row = getRegionFunc("office", " WHERE b.branch_code = '{$manager_row['ju_region2']}' AND a.office_code = '{$manager_row['ju_region3']}'");
             $jibu_name = $jibu_row[0]['branch_name']. " / " .$jibu_row[0]['office_name'];
           }
@@ -310,7 +318,8 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
         <td><?php echo $row['reg_time']; ?></td>
         <td><?php echo number_format(shop_count($row['id'])); ?></td>
         <td><?php echo number_format($row['login_sum']); ?></td>
-        <td><?php echo substr($row['intercept_date'], 2, 6); ?></td>
+        <!-- <td><?php echo substr($row['intercept_date'], 2, 6); ?></td> -->
+        <td><?php echo $row['mb_agent'] == 'Windows'?"웹":"모바일"; ?></td>
         <?php if ($is_intro) { ?>
           <td><input type="checkbox" name="use_app" value="1" <?php echo ($row['use_app']) ? ' checked' : ''; ?> onclick="chk_use_app('<?php echo $row['id']; ?>');"></td>
         <?php } ?>

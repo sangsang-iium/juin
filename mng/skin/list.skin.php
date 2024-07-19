@@ -1,6 +1,7 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
+
 if(!empty($paytype)){
   $paytypeurl = "&paytype=".$paytype;
 } else {
@@ -283,11 +284,12 @@ function get_move_pc($ca_id)
         // 기본배송지 추가 _20240712_SY
         $b_address = "";
         $ad_row = getBaddressFun();
-        if(is_array($ad_row)) {
+        if(isset($ad_row['mb_id'])){
           $b_address = $ad_row['b_addr1'];
         } else {
           $b_address = $member['addr1'];
         }
+
 
         if(!memberGoodsAble($b_address, $row['zone'])){
           continue;

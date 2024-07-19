@@ -22,7 +22,7 @@ $none = "style='display:none;'";
         <tr>
           <th scope="row"><label for="reg_mb_id">아이디</label></th>
           <td>
-            <input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required w400" size="20" maxlength="20">
+            <input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required w400" size="20" maxlength="20" autocomplete="off" value="">
             <span id="msg_mb_id"></span>
             <?php echo help('영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요.'); ?>
           </td>
@@ -30,7 +30,7 @@ $none = "style='display:none;'";
         <tr>
           <th scope="row"><label for="reg_mb_password">비밀번호</label></th>
           <td>
-            <input type="password" name="mb_password" id="reg_mb_password" required class="frm_input required w400 marr10" size="20" maxlength="20">
+            <input type="password" name="mb_password" id="reg_mb_password" required class="frm_input required w400 marr10" size="20" maxlength="20" autocomplete="off">
             <?php echo help('4자 이상의 영문 및 숫자'); ?>
           </td>
         </tr>
@@ -386,7 +386,7 @@ $none = "style='display:none;'";
       <tr>
         <th scope="row"><label for="reg_mn_id">아이디</label></th>
         <td>
-          <input type="text" name="mn_id" id="reg_mn_id" value="<?php echo $mn_row['id']; ?>" class="frm_input w400" size="20" maxlength="20" readonly>
+          <input type="text" name="mn_id" id="reg_mn_id" value="" class="frm_input w400" size="20" maxlength="20" readonly>
         </td>
         </tr>
         <tr>
@@ -654,11 +654,11 @@ function chkClosed(kfiaMsg, bNumMsg) {
                 $('#chk_cb_res').val('0');
                 msg = res.data[0].tax_type;
                 break;
-                default : 
+                default :
                 $('#chk_cb_res').val(res.data[0].b_stt_cd);
                 msg = res.data[0].b_stt;
                 break;
-            } 
+            }
 
             $('.store_info_sec').hide();
             $('#ju_restaurant').val('');
@@ -693,13 +693,13 @@ function chkDuBnum(kfiaMsg) {
         success: function(data) {
           if(data.res > 0 ) {
             $('#chk_bn_res').val('0');
-            
+
             $('.store_info_sec').hide();
             $('#ju_restaurant').val('');
             $('#reg_mb_zip_st').val('');
             $('#reg_mb_addr1_st').val('');
             $('#chk_b_num').val('0');
-            
+
             alert(kfiaMsg+"\n이미 등록된 사업자입니다");
             return false;
           } else {
@@ -732,7 +732,7 @@ function getKFIAMember() {
       dataType: "JSON",
       success: function(res) {
         if(res.data == null) {
-          
+
           $('.store_info_sec').hide();
           $('#ju_restaurant').val('');
           $('#reg_mb_zip_st').val('');
@@ -741,12 +741,12 @@ function getKFIAMember() {
 
           alert('사업자 정보 조회 실패');
           chkKFIA = false;
-          
+
           return false;
         } else {
           Object.entries(res.data).forEach(([key, value]) => {
             form.append(`<input type="hidden" name="${key}" value="${value}">`);
-          }); 
+          });
           console.log(res.data)
 
           // 위도/경도 값 _20240612_SY
@@ -767,9 +767,9 @@ function getKFIAMember() {
           $('#reg_mb_zip_st').val(res.data.ZIP_CODE)
           $('#reg_mb_addr1_st').val(res.data.DORO_ADDRESS)
           $('#chk_b_num').val('1');
-          
+
           chkKFIA = true;
-          chkDuBnum(`조회 성공 : ${res.data.MEMBER_NAME}`);
+          // chkDuBnum(`조회 성공 : ${res.data.MEMBER_NAME}`);
 
         }
       }

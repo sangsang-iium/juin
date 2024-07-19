@@ -566,9 +566,13 @@ if ($od_cancel_change) {
             setlocale(LC_CTYPE, '');
             break;
           case 'toss':
+            if ($od['paymethod'] == '무통장'|| $od['paymethod'] == '일반') {
+              $sk = "live_sk_vZnjEJeQVxKlJ066Ep6Y3PmOoBN0";
+            } else if ($od['paymethod'] == '간편' || $od['paymethod'] == '신용카드'){
+              $sk = "live_sk_0RnYX2w532Mklgz2ZPY18NeyqApQ";
+            }
             $tossCC  = new Tosspay();
-            $tossRes = $tossCC->cancel($od['paymentKey'], BV_TIME_YMDHIS . ' ' . $member['id'] . ' 주문취소 처리');
-            print_r($tossRes);
+            $tossRes = $tossCC->cancel($od['paymentKey'], BV_TIME_YMDHIS . ' ' . $member['id'] . ' 주문취소 처리', $sk);
 						$cancelData = [
 							'transactionKey'     => $tossRes->cancels->transactionKey,
 							'cancelReason'       => $tossRes->cancels->cancelReason,

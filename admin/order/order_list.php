@@ -213,7 +213,7 @@ EOF;
 			if($raffleCheck === true) {
 				$gs['gname'] = $gs['goods_name'];
 			}
-			
+
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<?php if($k == 0) { ?>
@@ -233,7 +233,7 @@ EOF;
 		</td>
 		<?php } ?>
 		<td class="td_img">
-			<?php if($raffleCheck === true) { 
+			<?php if($raffleCheck === true) {
 				echo "<a href=\"/m/raffle/view.php?index_no=".preg_replace('/000000$/', '', $row2['gs_id'])."\" target=\"_blank\">";
 				echo orderRaffleImg($gs['simg1']);
 				echo "</a>";
@@ -254,7 +254,7 @@ EOF;
 		<td><?php echo number_format($row2['sum_qty']); ?></td>
 		<td class="tar"><?php echo number_format($row2['goods_price']); ?></td>
 		<td class="tar"><?php echo number_format($row2['baesong_price']); ?></td>
-    <?php if($k==0) { ?> 
+    <?php if($k==0) { ?>
     <td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
     <?php } ?>
 		<td><?php echo $gw_status[$row2['dan']]; ?></td>
@@ -331,7 +331,7 @@ function downloadExcel() {
 		var gsId = $('input[name="od_id[' + index + ']"]').val();
 		checkedIds.push(gsId);
 	});
-	
+
 	var ids = checkedIds.join(',');
 	window.location.href = './order/order_excel.php?<?php echo $q1; ?>&selected_ids=' + ids;
 }

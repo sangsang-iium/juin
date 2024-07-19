@@ -24,8 +24,10 @@ function get_sideview($mb_id, $name)
 
 	$str2 = "<span class=\"sv\">\n";
 
+  // admin 에서만 수정 가능하도록 수정 _20240719_SY
+// if($_SESSION['ss_mb_id'] == 'admin'){
 	$str2.= "<a href=\"".BV_ADMIN_URL."/pop_memberform.php?mb_id={$mb_id}\" onclick=\"win_open(this,'win_member','1200','600','yes');return false;\">회원정보수정</a>\n";
-
+// }
 	if(is_seller($mb_id))
 		$str2.= "<a href=\"".BV_ADMIN_URL."/pop_sellerform.php?mb_id={$mb_id}\" onclick=\"win_open(this,'win_seller','1200','600','yes');return false;\">공급사정보수정</a>\n";
 
@@ -1239,14 +1241,14 @@ function get_member_select($name, $selected='', $event='')
 	$str  = "<select id=\"{$name}\" name=\"{$name}\"";
     if($event) $str .= " $event";
     $str .= ">\n";
-  
-  /* ------------------------------------------------------------------------------------- _20240715_SY 
+
+  /* ------------------------------------------------------------------------------------- _20240715_SY
     * 매니저 계정일 경우 일반/중앙회만 노출
   /* ------------------------------------------------------------------------------------- */
     $opt = "";
   if(isset($_SESSION['ss_mn_id']) && !empty($_SESSION['ss_mn_id'])) {
     $opt = "AND gb_no >= 8";
-  } 
+  }
 
 	$sql= "select * from shop_member_grade where gb_name <> '' {$opt} order by gb_no desc";
 	$result = sql_query($sql);

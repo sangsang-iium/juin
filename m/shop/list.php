@@ -10,6 +10,11 @@ $ca = sql_fetch($sql);
 if(!$ca['catecode'])
     alert('등록된 분류가 없습니다.');
 
+// 회원 등급에 따른 카테고리 노출 처리
+if($ca['exposure'] < $member['grade'] && $ca['exposure'] != 0){
+	alert("외식업중앙회 회원 전용 서비스 입니다.");
+}
+
 $tb['title'] = $ca['catename'];
 include_once("./_head.php");
 
@@ -37,7 +42,7 @@ while($rowCntData = sql_fetch_array($resCnt)){
   // 기본배송지 추가 _20240712_SY
   $b_address = "";
   $ad_row = getBaddressFun();
-  if(is_array($ad_row)) {
+	if(isset($ad_row['mb_id'])){
     $b_address = $ad_row['b_addr1'];
   } else {
     $b_address = $member['addr1'];

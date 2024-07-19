@@ -278,9 +278,13 @@ include_once("./_common.php");
                                                 setlocale(LC_CTYPE, '');
                                                 break;
                                             case 'toss':
+                                                if ($od['paymethod'] == '무통장' || $od['paymethod'] == '일반') {
+                                                    $sk = "live_sk_vZnjEJeQVxKlJ066Ep6Y3PmOoBN0";
+                                                } else if ($od['paymethod'] == '간편' || $od['paymethod'] == '신용카드') {
+                                                    $sk = "live_sk_0RnYX2w532Mklgz2ZPY18NeyqApQ";
+                                                }
                                                 $tossCC  = new Tosspay();
-                                                $tossRes = $tossCC->cancel($od['paymentKey'], BV_TIME_YMDHIS . ' ' . $member['id'] . ' 주문취소 처리');
-                                                print_r($tossRes);
+                                                $tossRes = $tossCC->cancel($od['paymentKey'], BV_TIME_YMDHIS . ' ' . $member['id'] . ' 주문취소 처리', $sk);
                                                             $cancelData = [
                                                                 'transactionKey'     => $tossRes->cancels->transactionKey,
                                                                 'cancelReason'       => $tossRes->cancels->cancelReason,
@@ -354,7 +358,7 @@ include_once("./_common.php");
     $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$push_od['mb_id']}' ";
     $token_row = sql_fetch($token_sel);
     $fcm_token = $token_row['fcm_token'];
-  
+
     $gs = unserialize($push_od['od_goods']);
     $gname = $gs['gname'];
 
@@ -377,7 +381,7 @@ include_once("./_common.php");
         } else {
           $push_body = "주문 하신 {$gname} 교환 신청이 완료되었습니다. 검수 기간 영업일 기준 1~3일 정도 소요될 수 있습니다.";
         }
-     
+
     } else if ($dan == '10' || $dan == '18') {
         $push_title = "주문 반품 신청";
         if($total_cnt > 1) {

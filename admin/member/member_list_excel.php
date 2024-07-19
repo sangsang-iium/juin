@@ -1,7 +1,7 @@
 <?php
 include_once("./_common.php");
 
-check_demo();
+// check_demo();
 
 if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fr_date)) $fr_date = '';
 if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $to_date)) $to_date = '';
@@ -41,10 +41,18 @@ if(!$orderby) {
 
 $sql_order = " order by $filed $sod ";
 
-$sql = " select * $sql_common $sql_search $sql_order  ";
-if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { 
-  // echo $sql;
+
+/* ------------------------------------------------------------------------------------- _20240717_SY 
+  * 담당직원 로그인에 다른 데이터 가공
+/* ------------------------------------------------------------------------------------- */
+if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
+  $belong_list = getBelongList($_SESSION['ss_mn_id'], "ju_manager");
+  $sql_search .= $belong_list;
+  $sql_search .= " AND grade >= 8 ";
 }
+
+
+$sql = " select * $sql_common $sql_search $sql_order  ";
 $result = sql_query($sql);
 $cnt = @sql_num_rows($result);
 if(!$cnt)

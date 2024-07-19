@@ -1663,11 +1663,21 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     var paymethodRadios = f.querySelectorAll('input[name="paymethod"]');
     var selectedPaymentMethod = getSelectVal2(paymethodRadios);
     // 무통장 예외 처리 필요
-    if (getSelectVal((f["paymethod"]) == '신용카드' || getSelectVal(f["paymethod"]) == '간편') && card_id === '' || card_id === null) {
+    if (getSelectVal(f["paymethod"]) == '신용카드' && card_id === '' || card_id === null) {
       var card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록이후 구매 하시겠습니까?");
       if (card_confirm) {
         window.location.href = "/m/shop/card.php";
       }
+      return false;
+    }
+    console.log(getSelectVal2(f["paymethod"]));
+    if (getSelectVal2(f["paymethod"]) == '간편' && card_id === '' || card_id === null) {
+      var card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록이후 구매 하시겠습니까?");
+
+      if (card_confirm) {
+        window.location.href = "/m/shop/card.php";
+      }
+      return false;
     }
 
     // zip 주석 _20240503_SY

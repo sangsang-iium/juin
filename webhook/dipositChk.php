@@ -29,7 +29,7 @@ if ($post_data['status'] == 'DONE') {
   } else {
     log_write($post_data . "[db 값 없음]");
   }
-} else if ($post_data['status'] == 'CANCELED') {
+} else if ($post_data['status'] == 'CANCELED' || $post_data['status'] == 'EXPIRED' || $post_data['status'] == 'ABORTED') {
   $sql_secret = "SELECT * FROM toss_virtual_account WHERE `secret` = '{$secret}'";
   $row_secret = sql_fetch($sql_secret);
 

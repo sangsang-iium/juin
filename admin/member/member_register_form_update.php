@@ -71,6 +71,7 @@ $value['smsser']		  = $mb_sms ? $mb_sms : 'N'; //SMS를 수신
 $value['mb_certify']	= $mb_certify;
 $value['mb_adult']		= $mb_adult;
 $value['ju_b_num']    = formatBno($ju_b_num);
+$value['mb_agent']    = getOs(); //os 가져와
 
 // 담당자 추가 _20240618_SY
 if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
@@ -138,7 +139,7 @@ if($mb_no && $chk_b_num == 1) {
       $dest_path = $save_dir.$save_name;
       move_uploaded_file($_FILES['ju_mimg']['tmp_name'], $dest_path);
       chmod($dest_path, BV_FILE_PERMISSION);
-      
+
       sql_query(" update shop_member set ju_mimg = '$save_name' where id = '$mb_id' ");
     }
   }

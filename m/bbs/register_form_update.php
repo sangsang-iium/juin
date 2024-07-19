@@ -253,6 +253,8 @@ if($w == '') {
 
     $value['ju_b_num']      = $b_no;                      // 사업자등록번호
     $value['ju_display']    = $store_display;             // 매장 노출 여부 추가 _20240712_SY
+
+    $value['mb_agent'] = getOs(); //os 가져와
     // store_display (매장 노출 여부) 체크 추가 _20240712_SY
   if($reg_type == 1) {
     $value['ju_name']       = $mb_name;                   // 중앙회원 이름

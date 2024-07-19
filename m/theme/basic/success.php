@@ -15,12 +15,21 @@ $ss_cart_id     = get_session('ss_cart_id');
 $TossRun  = new Tosspay();
 $toss_run = $TossRun->normalPay($paymentKey, $orderId, $amount, $credential);
 
-if ($toss_acc->code) {
+if ($toss_run->code) {
   if ($resulturl == 'pc') {
-    alert("가상계좌 결제 오류 ".$t_amount. $t_orderid .$t_ordername .$t_name. $t_email .$t_bank .$customerMobilePhone, '/mng/shop/cart.php');
+    alert("결제 오류 ".$t_amount. $t_orderid .$t_ordername .$t_name. $t_email .$t_bank .$customerMobilePhone, '/mng/shop/cart.php');
   } else {
-    alert("가상계좌 결제 오류 ".$t_amount .$t_orderid .$t_ordername .$t_name .$t_email .$t_bank.$customerMobilePhone, BV_MSHOP_URL . '/cart.php');
+    alert("결제 오류 ".$t_amount .$t_orderid .$t_ordername .$t_name .$t_email .$t_bank.$customerMobilePhone, BV_MSHOP_URL . '/cart.php');
   }
+}
+
+if(empty($toss_run->mId)){
+  if ($resulturl == 'pc') {
+    alert("결제 오류 " . $t_amount . $t_orderid . $t_ordername . $t_name . $t_email . $t_bank . $customerMobilePhone, '/mng/shop/cart.php');
+  } else {
+    alert("결제 오류 " . $t_amount . $t_orderid . $t_ordername . $t_name . $t_email . $t_bank . $customerMobilePhone, BV_MSHOP_URL . '/cart.php');
+  }
+  exit;
 }
 
 $orderInsert                            = new IUD_Model();

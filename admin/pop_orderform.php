@@ -131,7 +131,7 @@ $pg_anchor = '<div class="tap_box">
 					<td>
 						<a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 40, 40); ?></a>
 					</td>
-					<td class="tal"> 
+					<td class="tal">
 						<a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a>
 						<?php if($row['od_tax_flag'] && !$gs['notax']) echo '[비과세상품]'; ?>
 						<?php echo $it_options; ?>
@@ -141,7 +141,7 @@ $pg_anchor = '<div class="tap_box">
 						if(in_array($row['dan'], array(3,4,5))) {
 							$baesong_run++;
 						?>
-						<div class="frm_info"> 
+						<div class="frm_info">
 							<?php echo get_delivery_select("delivery[".$i."]", $row['delivery']); ?>
 							<input type="text" name="delivery_no[<?php echo $i; ?>]" value="<?php echo $row['delivery_no']; ?>" class="frm_input w130" placeholder="개별 운송장번호">
 							<?php echo get_delivery_inquiry($row['delivery'], $row['delivery_no'], 'btn_ssmall'); ?>
@@ -150,7 +150,7 @@ $pg_anchor = '<div class="tap_box">
 					</td>
 					<td>
 						<?php
-							 
+
 						?>
 						<?php echo get_change_select("change_status[".$i."]", $row['dan']); ?>
 						<?php if(in_array($row['dan'], array(7,9)) && $row['refund_price'] == 0 && in_array($row['paymethod'], array('신용카드', '계좌이체', 'KAKAOPAY'))) { ?>
@@ -166,14 +166,14 @@ $pg_anchor = '<div class="tap_box">
 					<td class="td_price"><?php echo number_format($row['use_price']); ?></td>
 				</tr>
 				<?php
-				
-				$chk_cnt++;				
+
+				$chk_cnt++;
 				if($row['dan'] == 1) $chk_count1++;
 				if($row['dan'] == 2) $chk_count2++;
 				if($row['dan'] == 5) $chk_count5++;
-				if($row['dan'] == 7) $chk_count7++; 
-				if($row['dan'] == 9) $chk_count9++; 
-				if($row['dan'] == 17) $chk_count17++; 
+				if($row['dan'] == 7) $chk_count7++;
+				if($row['dan'] == 9) $chk_count9++;
+				if($row['dan'] == 17) $chk_count17++;
 
 				// 취소.반품.교환.환불 수
 				if(in_array($row['dan'], array(6,7,8,9,10,17))) {
@@ -209,24 +209,24 @@ $pg_anchor = '<div class="tap_box">
 			    <?php if($chk_cnt == $chk_count5) { // 모두 배송완료 상태인가? ?>
                     <input type="submit" name="act_button" value="전체반품" class="btn_lsmall white" onclick="document.pressed=this.value">
                 <?php } ?>
-		    <?php } ?>   
+		    <?php } ?>
             </div>
 		<?php } ?>
-		<?php  
+		<?php
 			if( $chk_count7!=0) { // 반품일 경우에만 ?>
                 <div class="btn_list">
                     <strong class="marr5">선택한 상품을</strong>
                     <input type="submit" name="act_button" value="주문상태저장" class="btn_lsmall red" onclick="document.pressed=this.value">
                 </div>
-		<?php } ?>	
+		<?php } ?>
 
-		<?php  
+		<?php
 			if( $chk_count9!=0||$chk_count17!=0) { // 반품일 경우에만 ?>
                 <div class="btn_list">
                     <strong class="marr5">선택한 상품을</strong>
                     <input type="submit" name="act_button" value="취소완료" class="btn_lsmall red" onclick="document.pressed=this.value">
                 </div>
-		<?php } ?>	
+		<?php } ?>
 
 		</form>
 
@@ -340,11 +340,14 @@ $pg_anchor = '<div class="tap_box">
 					</tr>
 					<tr>
 						<th scope="row">주문채널</th>
-						<td><strong><?php echo $od['shop_id']; ?></strong> <?php echo $od['od_mobile']?'모바일':'PC'; ?> 쇼핑몰에서 주문</td>
+						<td>
+							<!-- <strong><?php echo $od['shop_id']; ?></strong>  -->
+							<?php echo $od['od_mobile']?'모바일':'PC'; ?> 쇼핑몰에서 주문</td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="pt_id">가맹점 ID</label></th>
-						<td><input type="text" name="pt_id" value="<?php echo $od['pt_id']; ?>" id="pt_id" class="frm_input" placeholder="없음"<?php echo $chk_count5 ? ' readonly':''; ?>> (배송완료 후 수정불가)</td>
+						<!-- <td><input type="text" name="pt_id" value="<?php echo $od['pt_id']; ?>" id="pt_id" class="frm_input" placeholder="없음"<?php echo $chk_count5 ? ' readonly':''; ?>> (배송완료 후 수정불가)</td> -->
+						<td><input type="text" name="seller_id" value="<?php echo $od['seller_id']; ?>" id="seller_id" class="frm_input" placeholder="없음"<?php echo $chk_count5 ? ' readonly':''; ?>> (배송완료 후 수정불가)</td>
 					</tr>
 					<tr>
 						<th scope="row">결제방법</th>

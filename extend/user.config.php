@@ -356,14 +356,14 @@ class Tosspay {
    * @param  string   $cancelAmount 빈값은 전체 취소 값이 있으면 부분 취소
    * @return stdClass API 응답
    */
-  function cancel($paymentKey, $cancelReason, $cancelAmount="") {
+  function cancel($paymentKey, $cancelReason, $credential="", $cancelAmount="") {
     $url  = "https://api.tosspayments.com/v1/payments/{$paymentKey}/cancel";
     $data = array(
       'cancelReason' => $cancelReason,
       'cancelAmount' => $cancelAmount,
     );
 
-    return $this->callApi($url, $data);
+    return $this->callApi($url, $data, $credential);
   }
 
   /**
@@ -754,4 +754,26 @@ function hasMatchingCategory($gs, $gb_cate_string) {
   }
 
   return false;
+}
+
+
+// OS 가져오기~
+function getOS() {
+  $userAgent = $_SERVER['HTTP_USER_AGENT'];
+  $osArray   = array(
+    'Windows'   => 'Windows',
+    'Macintosh' => 'Mac OS',
+    'Linux'     => 'Linux',
+    'Android'   => 'Android',
+    'iPhone'    => 'iOS',
+    'iPad'      => 'iOS',
+  );
+
+  foreach ($osArray as $key => $os) {
+    if (strpos($userAgent, $key) !== false) {
+      return $os;
+    }
+  }
+
+  return 'Unknown';
 }
