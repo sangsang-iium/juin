@@ -31,6 +31,9 @@ if($code == "mail_select_update")	$pg_title2 = ADMIN_MENU1_10;
 if($code == "mail_select_update")	$pg_title2 = ADMIN_MENU1_10;
 // 탈퇴 추가 _20240604_SY
 if($code == "leave")		$pg_title2 = ADMIN_MENU8_02;
+// push관리추가_20240719_ONE
+if($code == "push")		$pg_title2 = ADMIN_MENU1_11;
+if($code == "push_form")		$pg_title2 = ADMIN_MENU1_12;
 
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 ?>
