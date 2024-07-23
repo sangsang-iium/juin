@@ -282,8 +282,12 @@ if (!defined('_BLUEVATION_')) exit;
   }
 
   function pushSelectedDelete(type, id) {
+    selectedMember = selectedMember.filter(function(item) {
+      return item !== id;
+    });
+
     $(`.selected_mb_wr #${id}`).remove();
-    console.log(type, id);
+    
     if(type == 'member') {
       $("input[type=checkbox][id='" + id + "']").prop('checked', false);
     }
@@ -298,17 +302,18 @@ if (!defined('_BLUEVATION_')) exit;
       if ($(this).is(':checked')) {
         let selectedText = $(this).siblings('.lev_con').text();
 
-        if(!selectedMember.includes(code)) {
-          selectedMember.push(code);
+        if(!selectedMember.includes(selId)) {
+          selectedMember.push(selId);
           pushSelectedRender('member', selectedText, code, selId);
         }
       } else {
         selectedMember = selectedMember.filter(function(item) {
-          return item !== code;
+          return item !== selId;
         });
 
-        $(`#${code}`).closest('.selected_mb').remove();
+        $(`.selected_mb_wr #${selId}`).closest('.selected_mb').remove();
       }
+      console.log(selectedMember);
     });
 
     //예약발송(일시)
