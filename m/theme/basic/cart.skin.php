@@ -179,7 +179,7 @@ if(!defined('_BLUEVATION_')) exit;
               echo '  </div>';
               echo '  <div class="cart-process-bar-wr"> ';
               echo '    <div class="cart-process-top"> ';
-              echo '      <p class="company">'.$sellerMinInfo['company_name'].'</p> ';
+              // echo '      <p class="company">'.$sellerMinInfo['company_name'].'</p> ';
               echo '      <div class="available-price"> ';
               echo '        <p class="text01 odprice" data-minprice="'.$sellerMinInfo['min_delivery'].'" data-odprice="'.$filteredResults[0]['price'].'">(주문가능 금액 '.number_format($sellerMinInfo['min_delivery']).'원)</p> ';
               echo '        <p class="text02">'.$orderable_txt;
@@ -244,7 +244,7 @@ if(!defined('_BLUEVATION_')) exit;
             echo '<div>' . $it_options . '</div>';
           }
           echo '</div>';
-          echo '<p class="price">' . display_price2($sell_price) . '</p>';
+          echo '<p class="price" data-price="'.$sell_price.'">' . display_price2($sell_price) . '</p>';
           echo '</div>';
           echo '</div>';
           echo '</div>';
@@ -546,5 +546,38 @@ function remove_cartItem(e) {
 
   form.submit();
 }
+
+$(document).ready(function(){
+  // 차량 배송 체크박스 체크 해제시 active bar 변경 2024-07-25 jii
+  let odprice = $('.odprice').data('odprice');
+
+  $('.cart-gbox.v input[name^="ct_chk"]').on('change', function(){
+    let cartItem = $(this).closest('.cp-cart-item');
+    let cartItemPrice = cartItem.find('.price').data('price');
+    
+    if ($(this).is(':checked')) {
+      odprice += cartItemPrice;
+    } else {
+      odprice -= cartItemPrice;
+    }
+
+    let changeData = $('.cart-process-top .available-price .text01');
+    let changeTxt = $('.cart-process-top .available-price .text02');
+    let changeBar = $('.cart-process-bar .active-bar');
+    let orderableAmt = 50000 - odprice;
+    let orderableAmtFm = orderableAmt.toLocaleString();
+    let orderablePer = odprice / 50000 * 100;
+
+    if(odprice < 50000) {
+      changeData.attr('data-odprice',odprice);
+      changeTxt.html(`<span>${orderableAmtFm}</span> 추가시 주문가능`);
+      changeBar.attr('style', `width: ${orderablePer}%`);
+    } else {
+      changeData.attr('data-odprice',odprice);
+      changeTxt.html(`주문가능`);
+      changeBar.attr('style', `width: 100%`);
+    }
+  });
+});
 </script>
 <!-- } 장바구니 끝 -->
