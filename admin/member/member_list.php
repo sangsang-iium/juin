@@ -238,6 +238,10 @@ $btn_frmline = <<<EOF
 <a href="./member.php?code=register_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 회원추가</a>
 EOF;
 
+if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
+  echo $sql;
+ }
+
 include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 ?>
 

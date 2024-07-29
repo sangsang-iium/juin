@@ -45,6 +45,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     // 로그
     document.buyform.coupon_price.value = tmp_dc_amt;
     document.buyform.coupon_lo_id.value = tmp_lo_id;
+    console.log(tmp_lo_id);
     document.buyform.coupon_cp_id.value = tmp_cp_id;
 
     // 총 할인액
