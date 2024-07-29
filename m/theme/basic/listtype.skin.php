@@ -73,10 +73,11 @@ for($i=0; $i<count($gw_msort); $i++) {
         if(!$total_count) {
           echo "<p class=\"empty_list\">자료가 없습니다.</p>";
         } else {
+          // 기본배송지 추가 _20240712_SY
+          $b_address = "";
+          $ad_row = getBaddressFun();
+          
           for($i=0; $row=sql_fetch_array($result); $i++) {
-            // 기본배송지 추가 _20240712_SY
-            $b_address = "";
-            $ad_row = getBaddressFun();
             if(isset($ad_row['mb_id'])){
               $b_address = $ad_row['b_addr1'];
             } else {

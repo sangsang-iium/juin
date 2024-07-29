@@ -7,9 +7,44 @@ if(!$_GET['branch']) {
   $branch = $member['ju_region2'];
 }
 
+$qstr .= "&branch='".urlencode($branch);
+$qstr .= "&office='".urlencode($office);
+
+$query_string = "code=$code$qstr";
+$q1           = $query_string;
+
+
 if($branch != "00400" || $_GET['branch']) {
   $sql_search .= " AND ju_region2 = '{$branch}' ";
 }
+
+
+$stx_and = "";
+$stx_count = true;
+if($stx) {
+  $allColumns = array("id","name");
+  $stx_and = allSearchSql($allColumns,$stx);
+  $belong_add .= $stx_and;
+  if($branch) {
+    $stx_and .= " AND ju_region2 = '{$branch}' ";
+  }
+  if($office) {
+    $stx_and .= " AND ju_region3 = '{$office}' ";
+  }
+  $stx_sql = " SELECT * FROM shop_manager WHERE (1) {$stx_and} ";
+  $stx_res = sql_query($stx_sql);
+
+  while($stx_row = sql_fetch_array($stx_res)) {
+    $values[] = "'" . $stx_row['index_no'] . "'";
+  }
+  if (!empty($values)) {
+    $stxAdd = implode(", ", $values);
+    $sql_search .= " AND ju_manager IN ( $stxAdd ) ";
+  } else {
+    $stx_count = false;
+  }
+}
+
 
 // 담당자 정보 추가 _20240619_SY
 // 수정 _20240717_SY
@@ -45,6 +80,13 @@ if ($member['ju_region3'] != '00400' && $_SESSION['ss_mn_id'] != "admin") {
 } 
 $branch_sel = " SELECT * FROM kfia_branch WHERE (1) {$branch_and} ORDER BY branch_code";
 $branch_res = sql_query($branch_sel);
+
+// 지부관리자인지 지회 관리자인지 체크 _20240718_SY
+$office_add ="";
+if(!empty($member['ju_region3'])) {
+  $ko_chk_sel = " SELECT COUNT(*) as cnt FROM kfia_branch WHERE branch_code = '{$member['ju_region3']}' ";
+  $ko_chk_res = sql_fetch($ko_chk_sel);
+}
 ?>
 
 <h5 class="htag_title">통계검색</h5>
@@ -86,9 +128,16 @@ $branch_res = sql_query($branch_sel);
       </div>
       <div class='chk_select w200'>
           <select name="office" id="office">
-            <option value=''>지부선택</option>
         <?php // 지부 검색 추가 _20240717_SY
-          $office_where  = " WHERE b.branch_code = '{$branch}' ";
+          if ($ko_chk_res['cnt'] < 1 && $member['id'] != "admin") {
+            $office_add .= " AND a.office_code = '{$member['ju_region3']}' ";
+          } elseif ($member['grade'] < 3) {
+            echo "<option value=''>전체</option>";
+          } else {
+            $office_add .= " AND a.office_code = '{$member['ju_region3']}' ";
+          }
+          
+          $office_where  = " WHERE b.branch_code = '{$branch}' {$office_add} ";
           $office_select = getRegionFunc("office", $office_where);
           foreach ($office_select as $key => $val) { ?>
             <option value="<?php echo $val['office_code'] ?>" <?php echo ($val['office_code'] == $office) ? "selected" : "" ?> ><?php echo $val['office_name'] ?></option>
@@ -155,44 +204,29 @@ $branch_res = sql_query($branch_sel);
         }
       }
 
-      $stx_and = "";
-      $stx_count = true;
-      if($stx) {
-        $allColumns = array("id","name");
-        $stx_and = allSearchSql($allColumns,$stx);
-        $belong_add .= $stx_and;
-        if($branch) {
-          $stx_and .= " AND ju_region2 = '{$branch}' ";
-        }
-        if($office) {
-          $stx_and .= " AND ju_region3 = '{$office}' ";
-        }
-        $stx_sql = " SELECT * FROM shop_manager WHERE (1) {$stx_and} ";
-        $stx_res = sql_query($stx_sql);
-
-        while($stx_row = sql_fetch_array($stx_res)) {
-          $values[] = "'" . $stx_row['index_no'] . "'";
-        }
-        if (!empty($values)) {
-          $stxAdd = implode(", ", $values);
-          $sql_search .= " AND ju_manager IN ( $stxAdd ) ";
-        } else {
-          $stx_count = false;
-        }
-      }
-
+      
       if ($_SESSION['ss_mn_id']) {
         if($member['ju_region2'] != "00400"  && $_SESSION['ss_mn_id'] != "admin") {
-          $belong_list = getBelongList($_SESSION['ss_mn_id'], "ju_manager", $belong_add);
+          // $belong_list = getBelongList($_SESSION['ss_mn_id'], "ju_manager", $belong_add);
+          if($ko_chk_res['cnt'] < 1) {
+            $office = $member['ju_region3'];
+          }
+
+          if($member['grade'] < 3) {
+            $belong_list = forStatisticsFunc($branch, $office, $stx);
+          } else {
+            $belong_list = " AND ju_manager = '{$member['index_no']}' ";
+          }
           $mn_where .= $belong_list;
         } else {
           $branch = !empty($_GET['branch']) ? $_GET['branch'] : "";
-          $office = !empty($_GET['office']) ? $_GET['branch'] : "";
-          $belong_list = forStatisticsFunc($branch, $office, $stx_and);
-          $mn_where .= $belong_list;
+          $office = !empty($_GET['office']) ? $_GET['office'] : "";
+          if(!empty($branch) || !empty($office)) {
+            $belong_list = forStatisticsFunc($branch, $office, $stx_and);
+            $mn_where .= $belong_list;
+          }
         }
       } 
-
 
       for ($i = 1; $i <= 31; $i++) {
         $day = sprintf("%02d", $i);
@@ -255,7 +289,7 @@ console.log(e)
 
       let defaultOption = $('<option>');
       defaultOption.val("");
-      defaultOption.text("지부선택");
+      defaultOption.text("전체");
       office.append(defaultOption);
 
       for (var i = 0; i < reg.length; i++) {

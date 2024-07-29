@@ -2286,7 +2286,7 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 
-
+  const OrderButton = document.getElementById("order-button");
 
   const button = document.getElementById("payment-button");
   const coupon = document.getElementById("coupon-box");
@@ -2294,9 +2294,11 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
   var totalPirceStr = $("input[name=tot_price]").val();
   var totalPirce = totalPirceStr.replace(/,/g, '');
 
+
   const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
   const customerKey = '<?php echo $member['id']?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
   var amount = totalPirce;
+
 
   const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
     // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
@@ -2318,17 +2320,21 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
   paymentMethodWidget.on("ready", function () {
     button.disabled = false;
     coupon.disabled = true;
+
   });
 
   // ------  결제 금액 업데이트 ------
   // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
   coupon.addEventListener("change", function () {
+    console.log("eeeeeeee"+coupon)
     if (coupon.checked) {
       paymentMethodWidget.updateAmount(amount - 5000);
     } else {
       paymentMethodWidget.updateAmount(amount);
     }
   });
+
+
   <?php
   $itArrCount = count($it_name_arr);
   if ($itArrCount > 1) {
@@ -2343,6 +2349,13 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
     var formSubmitOrder = $("#buyform").serialize();
     var cellPhone = $("#cellphone").val();
     var cellPhone = cellPhone.replace(/-/g, '');
+
+    // 할인가 적용 _20240725_SY
+    var NewPriceStr = $("input[name=tot_price]").val();
+    var NewPrice = NewPriceStr.replace(/,/g, '');
+    amount = NewPrice
+    paymentMethodWidget.updateAmount(amount);
+
     $.ajax({
       type: 'post',
       url: '/m/shop/normalPayment.php',

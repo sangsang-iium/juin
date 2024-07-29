@@ -160,7 +160,7 @@ if ($sfl && $stx) {
     if (!empty($values)) {
       $b_sql = implode(", ", $values);
       $sql_search .= " AND mm.ju_region2 IN ( $b_sql ) ";
-    } 
+    }
 
     $sql_region = "";
   } else if ($sfl == "office") { 
@@ -191,7 +191,7 @@ if ($sfl && $stx) {
   * 지회/지부 마스터 이상일 경우 본인 소속 사업장도 조회
  ------------------------------------------------------------------------------------- */
  if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
-  if($member['ju_region2'] != "00400" && $member['grade'] < 3 && $sfl != "office" && $sfl != "branch") {
+  if($member['ju_region2'] != "00400" && $member['grade'] < 3 ) {
     $office_chk_sel = " SELECT COUNT(*) as cnt FROM kfia_branch WHERE branch_code = '{$member['ju_region3']}' ";
     $office_chk_res = sql_fetch($office_chk_sel);
     if($office_chk_res['cnt'] < 1) {

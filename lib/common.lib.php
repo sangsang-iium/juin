@@ -1241,14 +1241,14 @@ function get_member_select($name, $selected='', $event='')
 	$str  = "<select id=\"{$name}\" name=\"{$name}\"";
     if($event) $str .= " $event";
     $str .= ">\n";
-
-  /* ------------------------------------------------------------------------------------- _20240715_SY
-    * 매니저 계정일 경우 일반/중앙회만 노출
+  
+  /* ------------------------------------------------------------------------------------- _20240723_SY 
+    * 본인 레벨에 까지만 노출되도록 수정
   /* ------------------------------------------------------------------------------------- */
     $opt = "";
-  if(isset($_SESSION['ss_mn_id']) && !empty($_SESSION['ss_mn_id'])) {
-    $opt = "AND gb_no >= 8";
-  }
+    // if(!empty($selected)) {
+    //   $opt = "AND gb_no >= $selected";
+    // }
 
 	$sql= "select * from shop_member_grade where gb_name <> '' {$opt} order by gb_no desc";
 	$result = sql_query($sql);

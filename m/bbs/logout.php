@@ -23,8 +23,10 @@ if($url) {
     $link = BV_MURL;
 }
 
-
-resetFcmToken();
+$os_type = getOS();
+if($os_type != "Windows" && $os_type != "Macintosh") {
+  resetFcmToken();
+}
 
 // 로그아웃 시 로그인 페이지로 이동 _20240308_SY
 $link = BV_MBBS_URL . "/login.php";

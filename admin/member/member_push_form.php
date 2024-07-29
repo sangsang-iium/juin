@@ -31,12 +31,12 @@ if (!defined('_BLUEVATION_')) exit;
             <div style="display: flex;">
               <div class="radio_group">
                 <label for="push_tm_0"><input type="radio" id="push_tm_0" name="push_tm" value="0" checked="checked">즉시 발송</label>
-                <label for="push_tm_1"><input type="radio" id="push_tm_1" name="push_tm" value="1">예약 발송</label>
+                <!-- <label for="push_tm_1"><input type="radio" id="push_tm_1" name="push_tm" value="1">예약 발송</label> -->
               </div>
-              <div style="margin-left: 5px;">
+              <!-- <div style="margin-left: 5px;">
                 <label for="resv_date" class="sound_only">발송예약일시</label>
                 <input type="text" name="resv_date" value="" id="resv_date" disabled class="frm_input w190 disabled">
-              </div>
+              </div> -->
             </div>
           </td>
         </tr>
@@ -52,12 +52,12 @@ if (!defined('_BLUEVATION_')) exit;
             <textarea name="push_contents" id="push_contents" class="frm_input"></textarea>
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <th scope="row"><label for="push_img">이미지 첨부</label></th>
           <td>
             <input type="file" name="push_img" id="push_img">
           </td>
-        </tr>
+        </tr> -->
         <tr>
           <th scope="row"><label for="push_url">링크 URL</label></th>
           <td>
@@ -99,7 +99,7 @@ if (!defined('_BLUEVATION_')) exit;
         <tr>
           <td>
             <div class="selected_mb_wr">
-              <!-- loop { 
+              <!-- loop {
               <div class="selected_mb">
                 <span class="txt">대전광역시지회 > 대전서구지부 > 임직원 회원</span>
                 <button type="button" class="btn_small mgr5"></button>
@@ -224,7 +224,7 @@ if (!defined('_BLUEVATION_')) exit;
       inputName = String(memberName+'[]');
       btnId = selid;
     }
-    
+
     pushSelectedHtml += `
       <div id="${btnId}" class="selected_mb ${type}">
         <span class="txt">${txt}</span>
@@ -244,7 +244,7 @@ if (!defined('_BLUEVATION_')) exit;
       let codeArray = [];
       let selectedTextArray = [];
       let selectedId = "";
-      
+
       $pushMbSelect.each(function() {
         codeArray.push($(this).find('option:selected').val());
         selectedTextArray.push($(this).find('option:selected').text());
@@ -269,7 +269,7 @@ if (!defined('_BLUEVATION_')) exit;
       //     pushSelectedRender(type, selectedText, code);
       //   }
       // });
-      
+
       // pushSchPopClose();
     }
   }
@@ -280,7 +280,7 @@ if (!defined('_BLUEVATION_')) exit;
     });
 
     $(`.selected_mb_wr #${id}`).remove();
-    
+
     if(type == 'member') {
       $("input[type=checkbox][id='" + id + "']").prop('checked', false);
     }
@@ -313,15 +313,15 @@ if (!defined('_BLUEVATION_')) exit;
 
           if(data.res.length > 0 ) {
             for(let i=0; i<data.res.length; i++) {
-              
+
               if(data.res[i].ju_region2 == "" || data.res[i].ju_region2 == "") {
                 kfia_name = "소속없음 > ";
               } else {
                 kfia_name = `${data.res[i].branch_name} > ${data.res[i].office_name} > `;
               }
-  
+
               res_name = `${data.res[i].name} (${data.res[i].id})`;
-  
+
               html += `<li>`;
               html += `<div class="lev_box">`;
               html += `<input type="checkbox" name="" id="idx_${data.res[i].index_no}" value="${data.res[i].index_no}" class="lev_chk">`;
@@ -369,7 +369,7 @@ if (!defined('_BLUEVATION_')) exit;
     const setToday = new Date();
     setToday.setHours(0, 0, 0, 0);
 
-    $.datetimepicker.setLocale('kr'); 
+    $.datetimepicker.setLocale('kr');
     $("#resv_date").datetimepicker({
       timepicker: true,
       format: 'Y-m-d H:i',
@@ -384,7 +384,7 @@ if (!defined('_BLUEVATION_')) exit;
             '9월','10월','11월','12월',
           ],
           dayOfWeek: [
-            "일", "월", "화", "수", 
+            "일", "월", "화", "수",
             "목", "금", "토",
           ]
         }
@@ -461,12 +461,12 @@ if (!defined('_BLUEVATION_')) exit;
         }
       });
     });
-    
+
   });
 
   //폼 전송
   function fpushform_submit(f)
-  { 
+  {
     //예외처리 필요
 
     return true;

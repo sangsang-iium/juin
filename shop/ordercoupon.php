@@ -42,5 +42,5 @@ $cart_count = sql_num_rows($result2);
 
 include_once(BV_THEME_PATH.'/ordercoupon.skin.php');
 
-include_once(BV_PATH."/tail.sub.php");
+// include_once(BV_PATH."/tail.sub.php");
 ?>

@@ -69,8 +69,9 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<colgroup>
 			<col class="w50">
 			<col class="w150">
-			<col class="w40">
-			<col>
+			<col class="w50">
+			<col class="w50">
+			<col class="w50">
 			<col class="w90">
 			<col class="w50">
 			<col class="w90">
@@ -85,6 +86,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			<th scope="col">번호</th>
 			<th scope="col">주문번호</th>
 			<th scope="col" colspan="2">주문상품</th>
+			<th scope="col">과세설정</th>
 			<th scope="col">주문상태</th>
 			<th scope="col">정산</th>
 			<th scope="col">매입가</th>
@@ -157,6 +159,21 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
               break;
           }
         }
+
+        // 과세 _20240724_SY
+        $notax = "";
+        switch($gs['notax']) {
+          case '1':
+            $notax = "과세";
+            break;
+          case '0':
+            $notax = "면세";
+            break;
+
+          default:
+            $notax = "과세";
+            break;
+        }
 		?>
 		<tr class="<?php echo $bg; ?>">
 			<?php if($k == 0) { ?>
@@ -168,6 +185,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			<?php } ?>
 			<td class="td_img"><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 30, 30); ?></a></td>
 			<td class="td_itname"><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
+			<td><?php echo $notax; ?></td>
 			<td><?php echo $gw_status[$row2['dan']]; ?></td>
 			<td><?php echo $row2['sellerpay_yes']?'완료':'대기'; ?></td>
 			<td class="tar"><?php echo number_format($supply_price); ?></td>
@@ -186,7 +204,7 @@ include_once(BV_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		}
 		sql_free_result($result);
 		if($i==0)
-			echo '<tr><td colspan="10" class="empty_table">자료가 없습니다.</td></tr>';
+			echo '<tr><td colspan="15" class="empty_table">자료가 없습니다.</td></tr>';
 		?>
 		</tbody>
 		</table>

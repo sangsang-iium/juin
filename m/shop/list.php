@@ -37,11 +37,13 @@ $sqlCnt = " select * $sql_common $sql_order";
 $resCnt = sql_query($sqlCnt);
 $total_count = 0;
 $cntIdxArr = array();
+
+// 기본배송지 추가 _20240712_SY
+$b_address = "";
+$ad_row = getBaddressFun();
+
 while($rowCntData = sql_fetch_array($resCnt)){
 
-  // 기본배송지 추가 _20240712_SY
-  $b_address = "";
-  $ad_row = getBaddressFun();
 	if(isset($ad_row['mb_id'])){
     $b_address = $ad_row['b_addr1'];
   } else {

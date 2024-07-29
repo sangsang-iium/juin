@@ -18,7 +18,12 @@ $tb['title'] = "쿠폰적용 및 조회";
 $is_possible = array();
 $cp_tmp = array();
 
-$query = get_cp_precompose($member['id']);
+$mb_id = $member['id'];
+if(isset($_GET['mb_id'])) {
+  $mb_id = $_GET['mb_id'];
+}
+
+$query = get_cp_precompose($mb_id);
 $sql_common  = $query[0];
 $sql_search  = $query[1];
 $sql_order	 = $query[2];

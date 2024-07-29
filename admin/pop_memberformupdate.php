@@ -114,8 +114,8 @@ $mfrm['ju_tel'] = $_POST['ju_tel'];
 $mfrm['ju_hp'] = $_POST['ju_hp'];
 $mfrm['ju_b_num'] = $_POST['ju_b_num'];
 
-// 담당자 정보 추가 _20240621_SY
-if($mb['grade'] == '8') {
+// 담당자 정보 추가 수정 _20240724_SY
+if($mb['grade'] <= '8' || $_POST['mb_grade'] <= '8') {
   $mfrm['ju_manager'] = $_POST['mn_idx'];
 }
 
@@ -127,7 +127,7 @@ if($_POST['passwd']) {
   * 레벨 변경에 다른 중앙회여부 변경
 /* ------------------------------------------------------------------------------------- */
 
-if($_POST['mb_grade'] == '8')
+if($_POST['mb_grade'] <= '8')
 {
   $mfrm['ju_mem'] = 1;
 } else {

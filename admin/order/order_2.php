@@ -136,7 +136,9 @@ EOF;
 		<col class="w20">
 		<col class="">
 		<col class="">
-		<col class="w90">
+		<col class="">
+		<col class="w80">
+		<col class="w120">
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
@@ -153,6 +155,7 @@ EOF;
 		<th scope="col">신청자</th>
 		<th scope="col"><input type="checkbox" id="sit_select_all"></th>
 		<th scope="col" colspan="3">주문상품</th>
+		<th scope="col">과세설정</th>
 		<th scope="col">상품금액</th>
 		<th scope="col">판매자</th>
     <th scope="col">결제방법</th>
@@ -177,6 +180,17 @@ EOF;
 			$gs = unserialize($row2['od_goods']);
 			$sqlMember = "SELECT * FROM shop_member WHERE id = '{$row['mb_id']}'";
 			$rowMember = sql_fetch($sqlMember);
+
+      // 과세 _20240725_SY
+      $notax = "";
+      switch($gs['notax']) {
+        case 1:
+          $notax = "과세";
+          break;
+        case 0:
+          $notax = "비과세";
+          break;
+      }
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<?php if($k == 0) { ?>
@@ -228,9 +242,10 @@ EOF;
 		</td>
 		<td class="td_imgline"><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 30, 30); ?></a></td>
 		<td class="td_itname"><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
+		<td class=""><?php echo $notax; ?></td>
 		<td class="tar"><?php echo number_format($row2['goods_price']); ?></td>
 
-		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
+		<td><?php echo get_order_seller_name($row2['seller_id']); ?></td>
 		<?php if($k == 0) { ?>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>

@@ -112,7 +112,7 @@ EOF;
     총 담당직원수 : <b class="fc_red"><?php echo number_format($total_count); ?></b>명
   </div>
   <div class="local_frm01">
-    <?php echo $btn_frmline; ?>
+    <?php echo $member['id'] == "admin" ? $btn_frmline : ""; ?>
   </div>
   <div class="tbl_head01">
     <table>
@@ -124,7 +124,9 @@ EOF;
         <col>
         <col class="w150">
         <col class="w150">
-        <col class="w300">
+        <?php if($member['id'] == "admin") { ?>
+          <col class="w300">
+        <?php } ?>
       </colgroup>
       <thead>
         <tr>
@@ -135,7 +137,9 @@ EOF;
           <th scope="col"><?php echo subject_sort_link('branch_name',$q2); ?>지회명</a></th>
           <th scope="col"><?php echo subject_sort_link('office_name',$q2); ?>지부명</a></th>
           <th scope="col"><?php echo subject_sort_link('reg_time',   $q2); ?>등록일</th>
-          <th scope="col">관리</th>
+          <?php if($member['id'] == "admin") { ?>
+            <th scope="col">관리</th>
+          <?php } ?>
         </tr>
       </thead>
       <?php
@@ -156,12 +160,14 @@ EOF;
           <td><?php echo $row['branch_name'] ?></td>
           <td><?php echo $row['office_name'] ?></td>
           <td><?php echo substr($row['reg_time'], 0, 10) ?></td>
+          <?php if($member['id'] == "admin") { ?>
           <td>
             <div class="btn_wrap">
                 <a href="/admin/config.php?code=manager_register_form&amp;w=u&amp;idx=<?php echo $row['index_no'] ?>" class="btn_fix bg_type1"><span>수정</span></a>
                 <a href="/admin/config/managerupdate.php?w=d&amp;idx=<?php echo $row['index_no'] ?>" class="btn_del bg_type2" onclick="del_btn(event)"><span>삭제</span></a>
             </div>
           </td>
+          <?php } ?>
         </tr>
       <?php
       }

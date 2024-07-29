@@ -418,9 +418,10 @@ for ($i = 0; $i < count($gs_id); $i++) {
          ";
 
   if ($_POST['taxsave_yes'] == 'Y') {
-    $sql .= " , tax_hp			    = '{$_POST['tax_hp']}'
-              , tax_saupja_no		= '{$_POST['tax_saupja_no']}'
-            ";
+    $sql .= " , tax_hp			    = '{$_POST['tax_hp']}' ";
+  }
+  if ($_POST['taxsave_yes'] == 'S') {
+    $sql .= " , tax_saupja_no		= '{$_POST['tax_saupja_no']}' ";
   }
   if ($_POST['taxbill_yes'] == 'Y') {
     $sql .= " , company_saupja_no = '{$_POST['company_saupja_no']}'

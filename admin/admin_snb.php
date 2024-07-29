@@ -54,6 +54,8 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
     <?php if ($member['grade'] == '1') { ?>
 		<?php echo printMenu1('m20', '포인트관리'); ?>
 		<?php echo printMenu2('m20', ADMIN_MENU1_07, BV_ADMIN_URL.'/member.php?code=point'); ?>
+    <?php echo printMenu1('m20', 'Push 관리'); ?>
+		<?php echo printMenu2('m20', ADMIN_MENU1_11, BV_ADMIN_URL.'/member.php?code=push'); ?>
 		<?php //echo printMenu2('m20', ADMIN_MENU1_08, BV_ADMIN_URL.'/member.php?code=pointxls'); ?>
 		<?php //echo printMenu2('m20', ADMIN_MENU1_09, BV_ADMIN_URL.'/member.php?code=point_select_form'); ?>
 		<?php //echo printMenu1('m30', '가입통계'); ?>

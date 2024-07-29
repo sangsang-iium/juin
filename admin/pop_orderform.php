@@ -763,9 +763,11 @@ $pg_anchor = '<div class="tap_box">
             if($od['taxsave_yes'] == 'S') {
               $taxsave_type = "사업자 지출증빙용";
               $tax_type_title = "사업자번호 ";
+              $tax_num = $od['tax_saupja_no'];
             } else if($od['taxsave_yes'] == 'Y') {
               $taxsave_type = "개인 소득공제용";
               $tax_type_title = "핸드폰";
+              $tax_num = $od['tax_hp'];
             }
           ?>
             <tr>
@@ -778,7 +780,7 @@ $pg_anchor = '<div class="tap_box">
             </tr>
             <tr>
               <th scope="row"><?php echo $tax_type_title; ?></th>
-              <td><?php echo $od['tax_hp'] ?></td>
+              <td><?php echo $tax_num ?></td>
             </tr>
           <?php } ?>
           <?php if($od['taxbill_yes'] == 'Y') { ?>

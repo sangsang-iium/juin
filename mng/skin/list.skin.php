@@ -279,11 +279,12 @@ function get_move_pc($ca_id)
   <div class="cf contents prod_list">
     <div class="prod_list_wrap">
       <ul class="pr_list_ul">
-      <?php
-      for($i=0; $row=sql_fetch_array($result); $i++) {
+        <?php
         // 기본배송지 추가 _20240712_SY
         $b_address = "";
         $ad_row = getBaddressFun();
+        
+      for($i=0; $row=sql_fetch_array($result); $i++) {
         if(isset($ad_row['mb_id'])){
           $b_address = $ad_row['b_addr1'];
         } else {
