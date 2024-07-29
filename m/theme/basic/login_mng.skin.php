@@ -46,7 +46,7 @@ if ($gs_id) {
                     </div>
                     <div class="login-btn">
                         <button type="submit" class="ui-btn round stBlack login-btn">로그인</button>
-                        <a href="<?php echo BV_MBBS_URL; ?>/register_type.php" class="ui-btn round stWhite join-btn">회원가입</a>
+                        <!-- <a href="<?php echo BV_MBBS_URL; ?>/register_type.php" class="ui-btn round stWhite join-btn">회원가입</a> -->
                     </div>
                 </section>
                 <?php if($default['de_sns_login_use']) { ?>

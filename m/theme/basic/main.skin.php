@@ -73,8 +73,8 @@ include_once(BV_PATH.'/include/introBtn.php');
         <div class="cp-timer-wrap">
           <i class="cp-timer__icon"></i>
           <span class="cp-timer__text">D-Day</span>
-          <?php // $deadline = date('Y-m-d', strtotime('+6 days')); ?>
-          <?php $deadline = "2024-07-21"; ?>
+          <?php $deadline = date('Y-m-d', strtotime('+6 days')); ?>
+          <?php //$deadline = "2024-07-21"; ?>
           <span class="cp-timer__num" data-deadline="<?php echo $deadline ?> 23:59:59">00:00:00</span>
         </div>
       </div>
@@ -326,7 +326,7 @@ while ($cate_row = sql_fetch_array($cate_res)) {
 <!-- } 띠 배너 4 -->
 
 <!-- 라이브 { -->
-<div class="section main_live">
+<div class="section main_live" id="main_live_id">
   <div class="container cp-title">
     <div class="left">
       <div class="icon-box">

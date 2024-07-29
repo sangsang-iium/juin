@@ -48,9 +48,23 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
 //     echo "<option value='". $dist_row[$region] ."'".$selected.">".$dist_row[$region]."</option>";
 //   }
 // }
+
+// 레벨 SELECT Custom _20240723_SY
+$level = "";
+switch($member['grade']) {
+  case 2:
+    $level = "6";
+    break;
+  case 3:
+    $level = "8";
+    break;
+  default:
+    $level = "";
+    break;
+}
 ?>
 
-<form name="fmemberform" id="fmemberform" action="./pop_memberformupdate.php" method="post" enctype="MULTIPART/FORM-DATA">
+<form name="fmemberform" id="fmemberform" action="./pop_memberformupdate.php" method="post" autocomplete="off" enctype="MULTIPART/FORM-DATA">
   <input type="hidden" name="mb_id" value="<?php echo $mb_id; ?>">
 
   <div id="memberform_pop" class="new_win">
@@ -179,7 +193,9 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
               <th scope="row">레벨</th>
               <td>
                 <div class="chk_select">
-                  <?php echo get_member_select("mb_grade", $mb['grade']); ?>
+                <select id="mb_grade" name="mb_grade">
+                  <?php echo getLevelCustomFunc($level, $mb['grade']) ?>
+                </select>
                 </div>
               </td>
               <th scope="row">포인트</th>
@@ -280,8 +296,8 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
             <!-- <tr class="pt_pay_fld">
         <th scope="row" class="th_bg fc_00f">본사지정 권한</th>
         <td colspan="3">
-          <input type="checkbox" name="use_pg" value="1" id="use_pg"<?php echo get_checked($mb['use_pg'], '1'); ?>> <label for="use_pg">개별 PG결제 허용</label>
-          <input type="checkbox" name="use_good" value="1" id="use_good"<?php echo get_checked($mb['use_good'], '1'); ?>> <label for="use_good">개별 상품판매 허용</label>
+          <input type="checkbox" name="use_pg" value="1" id="use_pg"<?php //echo get_checked($mb['use_pg'], '1'); ?>> <label for="use_pg">개별 PG결제 허용</label>
+          <input type="checkbox" name="use_good" value="1" id="use_good"<?php //echo get_checked($mb['use_good'], '1'); ?>> <label for="use_good">개별 상품판매 허용</label>
         </td>
       </tr> -->
           </tbody>
@@ -561,11 +577,11 @@ $mb_adult_no  = !$mb['mb_adult']   ? 'checked="checked"' : '';
               <tr>
                 <th scope="row">사업장 연락처</th>
                 <td>
-                  <input type="text" name="" value="<?php echo $mb['telephone']; ?>" class="frm_input">
+                  <input type="text" name="ju_tel" value="<?php echo $mb['ju_tel'] ?>" class="frm_input">
                 </td>
                 <th scope="row">대표자 연락처</th>
                 <td>
-                  <input type="text" name="" value="<?php echo $mb['cellphone']; ?>" class="frm_input">
+                  <input type="text" name="ju_hp" value="<?php echo  (empty($mb['ju_hp'])) ? $mb['cellphone'] : $mb['ju_hp']; ?>" class="frm_input">
                 </td>
               </tr>
               <tr>

@@ -36,7 +36,7 @@ if (!empty($paytype)) {
           }
 
 					$tnb = array();
-					$tnb[] = '<li><a href="'.BV_MNG_SHOP_URL.'/cart.php">장바구니<span class="ic_num">'. get_cart_count().'</span></a></li>';
+					$tnb[] = '<li><a href="'.BV_MNG_SHOP_URL.'/cart.php">장바구니<span class="ic_num">'. get_cart_count_for_mng($member['id']).'</span></a></li>';
 					$tnb[] = '<li><a href="'.BV_MNG_SHOP_URL.'/orderinquiry.php">주문/배송조회</a></li>';
 					$tnb_str = implode(PHP_EOL, $tnb);
 					echo $tnb_str;

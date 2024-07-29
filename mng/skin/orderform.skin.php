@@ -511,7 +511,7 @@ $row_card = sql_fetch($sql_card);
                             <div class="form-head coupon_box">
                                 <p class="title">쿠폰할인</p>
                                 <p id="dc_coupon">
-                                    <a href="javascript:(0)" class="ui-btn st2 couponopen">사용 가능 쿠폰 <span><?php echo $sp_count[3]; ?></span>장</a>
+                                    <a href="javascript:(0)" class="ui-btn st2 couponopen">사용 가능 쿠폰</a>
                                 </p>
                             </div>
                             <div class="form-body">
@@ -1121,9 +1121,10 @@ $row_card = sql_fetch($sql_card);
       //     f.popupOpen(couponpop);
       //   }
       // });
+      const mb_id = "<?php echo $member['id'] ?>";
 
       const popId = "#coupon-popup";
-      const reqPathUrl = "/m/shop/ordercoupon.php";
+      const reqPathUrl = `/m/shop/ordercoupon.php?mb_id=${mb_id}`;
       const reqMethod = "GET";
       const reqData = "";
 
@@ -1766,6 +1767,13 @@ textarea.od-dtn__contact,	.wfull,input.od-dtn__contact{font-size:2.16rem !import
     var formSubmitOrder = $("#buyform").serialize();
     var cellPhone = $("#cellphone").val();
     var cellPhone = cellPhone.replace(/-/g, '');
+    
+    // 할인가 적용 _20240725_SY
+    var NewPriceStr = $("input[name=tot_price]").val();
+    var NewPrice = NewPriceStr.replace(/,/g, '');
+    amount = NewPrice
+    paymentMethodWidget.updateAmount(amount);
+    
     $.ajax({
       type: 'post',
       url: '/m/shop/normalPayment.php',

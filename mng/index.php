@@ -86,7 +86,7 @@ $cntIdxArr = array();
 // 기본배송지 추가 _20240712_SY
 $b_address = "";
 $ad_row = getBaddressFun();
-if(is_array($ad_row)) {
+if(isset($ad_row['mb_id'])){
   $b_address = $ad_row['b_addr1'];
 } else {
   $b_address = $member['addr1'];
@@ -115,6 +115,7 @@ if($page == "") { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
 $sql = " select * $sql_common $sql_search2 $sql_order limit $from_record, $rows ";
+
 $result = sql_query($sql);
 
 include_once(BV_PATH.'/mng/skin/list.skin.php');

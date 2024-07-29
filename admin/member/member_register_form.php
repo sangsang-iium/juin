@@ -1,16 +1,123 @@
 <?php
 if (!defined('_BLUEVATION_')) exit;
 
+
 // 업종 분류 _20240611_SY
 $cf_food = explode("|", $config['cf_food']);
 $none = "style='display:none;'";
+
+// 레벨 SELECT Custom _20240723_SY
+$level = "";
+if($member['grade'] >= '2') {
+  $level = 8;
+}
 ?>
 
 <script src="<?php echo BV_JS_URL; ?>/jquery.register_form.js"></script>
 
 <form name="fregisterform" id="fregisterform" action="./member/member_register_form_update.php" onsubmit="return fregisterform_submit(this);" method="post" autocomplete="off" enctype="MULTIPART/FORM-DATA">
   <input type="hidden" name="token" value="">
+  <input type="hidden" name="ju_region1" id="ju_region1" value="" class="frm_input w400" size="20" maxlength="20">
 
+  <h5 class="htag_title">등급설정</h5>
+  <div class="board_table mart20">
+    <table>
+      <colgroup>
+        <col class="w180">
+        <col>
+      </colgroup>
+      <tbody>
+        <tr>
+          <th scope="row">레벨</th>
+          <td>
+            <div class="chk_select">
+            <select id="mb_grade" name="mb_grade">
+              <?php echo getLevelCustomFunc($level); ?>
+            </select>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 사업자회원조회 _20240611_SY -->
+  <p class="gap70 store_info" <?php echo $none?> ></p>
+  <h5 class="htag_title store_info"  <?php echo $none?> >사업자 회원 조회</h5>
+  <div class="board_table mart20 store_info"  <?php echo $none?> >
+    <table>
+      <colgroup>
+        <col class="w180">
+        <col>
+      </colgroup>
+      <tbody>
+        <tr>
+          <th scope="row"><label for="ju_b_num">사업자등록번호</label></th>
+          <td>
+            <input type="text" name="ju_b_num" id="b_no" class="frm_input" maxlength="10" placeholder="숫자만 입력" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+            <input type="hidden" name="chk_b_num" id="chk_b_num" value="0" alt="사업자여부">
+            <input type="hidden" name="chk_cb_res" id="chk_cb_res" value="0" alt="휴/폐업조회">
+            <div class="joinDetail-btn-box joinDetail-btn-box3" style="margin-top: 8px;">
+              <button type="button" class="btn_small grey marl10 fs14" onclick="getKFIAMember()">중앙회 회원 조회</button>
+              <!-- <button type="button" class="btn_small grey marl10 fs14" onclick="chkDuBnum()">중복확인</button>
+              <button type="button" class="btn_small grey marl10 fs14" onclick="chkClosed()">휴/폐업조회</button> -->
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="ju_restaurant">상호명</label></th>
+          <td><input type="text" name="ju_restaurant" id="ju_restaurant" class="frm_input required" size="20"></td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="ju_member">대표자명</label></th>
+          <td><input type="text" name="ju_member" id="ju_member" class="frm_input" size="20" maxlength="20"></td>
+        </tr>
+        <tr>
+          <th scope="row"><label for="ju_tel">대표번호</label></th>
+          <td>
+            <input type="text" name="ju_tel" id="ju_tel" class="frm_input" size="20" maxlength="20">
+          </td>
+        </tr>
+        <!-- <tr>
+          <th scope="row">지회/지부</th>
+          <td>
+            <div class="chk_select">
+              <select name="ju_region2" id="ju_region2" onchange="getRegion2(this.value)">
+                <option value="">지회 선택</option>
+                <?php
+                // $depth1 = juinGroupInfo(1);
+                // for ($d = 0; $d < count($depth1); $d++) { ?>
+                  <option value="<?php echo $depth1[$d]['code'] ?>" <?php echo $mb['ju_region2'] == $depth1[$d]['code'] ? "selected" : "" ?>><?php echo $depth1[$d]['region'] ?></option>
+                <?php  //}
+                ?>
+              </select>
+            </div>
+            <div class="chk_select">
+              <select name="ju_region3" id="ju_region3">
+                <option value="">지부 선택</option>
+                <?php
+                // $depth1 = juinGroupInfo(4, $mb['ju_region2']);
+                // for ($d = 0; $d < count($depth1); $d++) { ?>
+                  <option value="<?php echo $depth1[$d]['code'] ?>" <?php echo $mb['ju_region3'] == $depth1[$d]['code'] ? "selected" : "" ?>><?php echo $depth1[$d]['region'] ?></option>
+                <?php  //}
+                ?>
+              </select>
+            </div>
+          </td>
+        </tr>
+        <tr class="kfia_info">
+          <th scope="row">담당직원</th>
+          <td>
+            <input type="text" name="mn_name" id="mn_name" value="<?php echo $mn_row['name']; ?>" class="frm_input w200" readonly>
+            <input type="hidden" name="mn_idx" id="mn_idx" value="<?php echo $mn_row['index_no']; ?>">
+            <a href="<?php echo BV_ADMIN_URL; ?>/member/member_manager_list.php?mb_id=<?php echo $mb_id; ?>" onclick="win_open(this,'pop_manager_list','600','500','yes');return false;" class="btn_small grey marl10 fs14">담당직원 변경</a>
+          </td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+
+  <p class="gap70"></p>
   <h5 class="htag_title">사이트 이용정보 입력</h5>
   <div class="board_table mart20">
     <table>
@@ -22,7 +129,7 @@ $none = "style='display:none;'";
         <tr>
           <th scope="row"><label for="reg_mb_id">아이디</label></th>
           <td>
-            <input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required w400" size="20" maxlength="20">
+            <input type="text" name="mb_id" id="reg_mb_id" required class="frm_input required w400" size="20" maxlength="20" autocomplete="off" value="">
             <span id="msg_mb_id"></span>
             <?php echo help('영문자, 숫자, _ 만 입력 가능. 최소 3자이상 입력하세요.'); ?>
           </td>
@@ -30,7 +137,7 @@ $none = "style='display:none;'";
         <tr>
           <th scope="row"><label for="reg_mb_password">비밀번호</label></th>
           <td>
-            <input type="password" name="mb_password" id="reg_mb_password" required class="frm_input required w400 marr10" size="20" maxlength="20">
+            <input type="password" name="mb_password" id="reg_mb_password" required class="frm_input required w400 marr10" size="20" maxlength="20" autocomplete="off">
             <?php echo help('4자 이상의 영문 및 숫자'); ?>
           </td>
         </tr>
@@ -126,14 +233,6 @@ $none = "style='display:none;'";
           </td>
         </tr> -->
         <tr>
-          <th scope="row">레벨</th>
-          <td>
-            <div class="chk_select">
-              <?php echo get_member_select("mb_grade", $mb['grade']); ?>
-            </div>
-          </td>
-        </tr>
-        <tr>
           <th scope="row">주소</th>
           <td>
             <div class="write_address">
@@ -163,47 +262,7 @@ $none = "style='display:none;'";
       </tbody>
     </table>
   </div>
-  <!-- 사업자회원조회 _20240611_SY -->
-  <p class="gap70 store_info" <?php echo $none?> ></p>
-  <h5 class="htag_title store_info"  <?php echo $none?> >사업자 회원 조회</h5>
-  <div class="board_table mart20 store_info"  <?php echo $none?> >
-    <table>
-      <colgroup>
-        <col class="w180">
-        <col>
-      </colgroup>
-      <tbody>
-        <tr>
-          <th scope="row"><label for="ju_b_num">사업자등록번호</label></th>
-          <td>
-            <input type="text" name="ju_b_num" id="b_no" class="frm_input" maxlength="10" placeholder="숫자만 입력" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-            <input type="hidden" name="chk_b_num" id="chk_b_num" value="0" alt="사업자여부">
-            <input type="hidden" name="chk_cb_res" id="chk_cb_res" value="0" alt="휴/폐업조회">
-            <div class="joinDetail-btn-box joinDetail-btn-box3" style="margin-top: 8px;">
-              <button type="button" class="btn_small grey marl10 fs14" onclick="getKFIAMember()">중앙회 회원 조회</button>
-              <!-- <button type="button" class="btn_small grey marl10 fs14" onclick="chkDuBnum()">중복확인</button>
-              <button type="button" class="btn_small grey marl10 fs14" onclick="chkClosed()">휴/폐업조회</button> -->
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row"><label for="ju_restaurant">상호명</label></th>
-          <td><input type="text" name="ju_restaurant" id="ju_restaurant" class="frm_input required" size="20"></td>
-        </tr>
-        <tr>
-          <th scope="row"><label for="ju_member">대표자명</label></th>
-          <td><input type="text" name="ju_member" id="ju_member" class="frm_input" size="20" maxlength="20"></td>
-        </tr>
-        <tr>
-          <th scope="row"><label for="ju_tel">대표번호</label></th>
-          <td>
-            <input type="text" name="ju_tel" id="ju_tel" class="frm_input" size="20" maxlength="20">
-          </td>
-        </tr>
-
-      </tbody>
-    </table>
-  </div>
+  
 
 
   <!-- 매장정보 _20240611_SY -->
@@ -364,6 +423,9 @@ $none = "style='display:none;'";
     </table>
   </div>
 
+
+  
+  
   <!-- 담당자 정보 추가 _20240618_SY -->
   <?php if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
     $mn_sel = " SELECT * FROM shop_manager WHERE id = '{$_SESSION['ss_mn_id']}'";
@@ -386,7 +448,7 @@ $none = "style='display:none;'";
       <tr>
         <th scope="row"><label for="reg_mn_id">아이디</label></th>
         <td>
-          <input type="text" name="mn_id" id="reg_mn_id" value="<?php echo $mn_row['id']; ?>" class="frm_input w400" size="20" maxlength="20" readonly>
+          <input type="text" name="mn_id" id="reg_mn_id" value="<?php echo $mn_row['id'] ?>" class="frm_input w400" size="20" maxlength="20" readonly>
         </td>
         </tr>
         <tr>
@@ -437,191 +499,45 @@ $none = "style='display:none;'";
     }
   })
 
-  $(document).ready(function() {
-    $('#ju_region2').change(function() {
-      var depth2 = $(this).val(); // 선택된 값 가져오기
+  function getRegion2(depth2, office_code="") {
+    // Ajax 요청 보내기
+    $.ajax({
+      url: '/admin/ajax.gruopdepth.php', // 데이터를 처리할 서버 측 파일의 경로
+      type: 'POST', // 요청 방식 (POST 또는 GET)
+      data: {
+        depthNum: '4',
+        depthValue: depth2
+      }, // 서버로 전송할 데이터
+      success: function(res) {
+        var reg = JSON.parse(res); // JSON 형식의 응답을 JavaScript 객체로 파싱
 
-      // Ajax 요청 보내기
-      $.ajax({
-        url: '/admin/ajax.gruopdepth.php', // 데이터를 처리할 서버 측 파일의 경로
-        type: 'POST', // 요청 방식 (POST 또는 GET)
-        data: {
-          depthNum: '2',
-          depthValue: depth2
-        }, // 서버로 전송할 데이터
-        success: function(res) {
-          // var reg = JSON.parse(res); // JSON 형식의 응답을 JavaScript 객체로 파싱
+        var ju_region3 = $("#ju_region3");
+        ju_region3.empty(); // 기존 옵션 모두 제거
 
-          var ju_region3 = $("#ju_region3");
-          ju_region3.empty(); // 기존 옵션 모두 제거
+        var defaultOption = $('<option>'); // 새로운 옵션 요소 생성
+        defaultOption.val(""); // 옵션의 값 설정
+        defaultOption.text("지부 선택"); // 옵션의 텍스트 설정
+        ju_region3.append(defaultOption); // ju_region3에 옵션 추가
 
-          var defaultOption = $('<option>'); // 새로운 옵션 요소 생성
-          defaultOption.val(""); // 옵션의 값 설정
-          defaultOption.text("지부 선택"); // 옵션의 텍스트 설정
-          ju_region3.append(defaultOption); // ju_region3에 옵션 추가
-
-          for (var i = 0; i < reg.length; i++) {
-            var option = $('<option>'); // 새로운 옵션 요소 생성
-            option.val(reg[i].region); // 옵션의 값 설정
-            option.text(reg[i].region); // 옵션의 텍스트 설정
-            ju_region3.append(option); // ju_region3에 옵션 추가
-
-            if (reg[i].region === '<?php echo $mb['ju_region3']; ?>') {
-              option.prop('selected', true); // 선택 상태 설정
-            }
+        for (var i = 0; i < reg.length; i++) {
+          var option = $('<option>'); // 새로운 옵션 요소 생성
+          option.val(reg[i].code); // 옵션의 값 설정
+          option.text(reg[i].region); // 옵션의 텍스트 설정
+          ju_region3.append(option); // ju_region3에 옵션 추가
+          
+          if (office_code != "" && reg[i].code === office_code) {
+            option.prop('selected', true); // 선택 상태 설정
           }
-        },
-        error: function(xhr, status, error) {
-          console.log('요청 실패: ' + error);
         }
-      });
+
+
+      },
+      error: function(xhr, status, error) {
+        console.log('요청 실패: ' + error);
+      }
     });
-  });
 
-
-
-
-
-  // 외식업중앙회원 조회하기 _20240611_SY
-  // var chkKFIA = false;
-  // function getKFIAMember() {
-  //   let inputNum = document.querySelector('#b_no').value;
-
-  //   if(inputNum.length > 0) {
-  //     $.ajax({
-  //       url: bv_url+"/m/bbs/ajax.KFIA_info.php",
-  //       type: "POST",
-  //       data: { "b_num" : inputNum },
-  //       dataType: "JSON",
-  //       success: function(res) {
-  //         if(res.data == null) {
-  //           alert('사업자 정보 조회 실패')
-
-  //           $('.store_info_sec').hide();
-  //           $('#ju_restaurant').val('');
-  //           $('#reg_mb_zip_st').val('');
-  //           $('#reg_mb_addr1_st').val('');
-  //           $('#chk_b_num').val('0');
-
-  //           chkKFIA = false;
-  //           return false;
-  //         } else {
-  //           alert(`조회 성공 : ${res.data.MEMBER_NAME}`)
-
-  //           $('.store_info_sec').show();
-  //           $('#ju_restaurant').val(res.data.MEMBER_NAME)
-  //           $('#reg_mb_zip_st').val(res.data.ZIP_CODE)
-  //           $('#reg_mb_addr1_st').val(res.data.DORO_ADDRESS)
-  //           $('#chk_b_num').val('1');
-
-  //           // 위도/경도 값 _20240612_SY
-  //           var geocoder = new kakao.maps.services.Geocoder();
-  //           var address = res.data.DORO_ADDRESS;
-  //           address = address.trim();
-  //           geocoder.addressSearch(address, function(result, status) {
-  //             // 정상적으로 검색이 완료됐으면
-  //             if (status === kakao.maps.services.Status.OK) {
-  //               //var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-  //               form.append(`<input type="hidden" name="ju_lat" value="${result[0].y}">`);
-  //               form.append(`<input type="hidden" name="ju_lng" value="${result[0].x}">`);
-  //             }
-  //           });
-
-  //           chkKFIA = true;
-  //         }
-  //       }
-  //     });
-  //   } else {
-  //     return false;
-  //   }
-
-  // }
-
-
-  // 사업자번호 중복체크 _20240611_SY
-  // function chkDuBnum() {
-  //   b_num = document.querySelector('#b_no').value;
-
-  //   if(b_num.length > 0) {
-  //     $.ajax({
-  //         url: bv_url+"/m/bbs/ajax.duplication_check.php",
-  //         type: "POST",
-  //         data: { "b_num" : b_num },
-  //         dataType: "JSON",
-  //         success: function(data) {
-  //           if(data.res > 0 ) {
-  //             alert("이미 등록된 사업자등록번호입니다");
-  //             $('#chk_b_num').val('0');
-  //             $('.store_info_sec').hide();
-
-  //             return false;
-  //           } else {
-  //             alert("가입 가능한 사업자등록번호입니다");
-  //             if(chkKFIA == true) {
-  //               $('#chk_b_num').val('1');
-  //             }
-  //           }
-  //         }
-  //     });
-  //   } else {
-  //     alert("사업자등록번호가 존재하지 않습니다.")
-  //     return false;
-  //   }
-  // }
-
-
-  // 휴/폐업 조회 _20240611_SY
-  // let b_num = '';
-  // function chkClosed() {
-  //   b_num = document.querySelector('#b_no').value;
-
-  //   let b_stt_cd = "";
-  //   let end_dt   = "";
-  //   let msg = "";
-
-  //   if(b_num.length > 0) {
-  //     $.ajax({
-  //         url: bv_url+"/m/bbs/ajax.closed_check.php",
-  //         type: "POST",
-  //         data: { "b_num" : b_num },
-  //         dataType: "JSON",
-  //         success: function(res) {
-  //           // API 값 호출 _20240318_SY
-
-  //           // 휴/폐업 가입불가 _20240612_SY
-  //           // if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
-  //           //   $('#chk_cb_res').val(res.data[0].b_stt_cd);
-  //           //   if(chkKFIA == true) {
-  //           //     $('#chk_b_num').val('1');
-  //           //   }
-  //           //   msg = res.data[0].b_stt;
-  //           //   alert(msg);
-  //           // } else {
-  //           //   switch (res.data[0].b_stt_cd) {
-  //           //   case "" :
-  //           //     msg = res.data[0].tax_type;
-  //           //     $('#chk_cb_res').val('0');
-  //           //     break;
-  //           //     default :
-  //           //     $('#chk_cb_res').val(res.data[0].b_stt_cd);
-  //           //     msg = res.data[0].b_stt;
-  //           //     break;
-  //           // }
-  //           //   $('#chk_b_num').val('0');
-  //           //   $('.store_info_sec').hide();
-  //           //   alert(msg);
-  //           // }
-  //           $('#chk_b_num').val('1');
-  //           $('#chk_cb_res').val(res.data[0].b_stt_cd);
-  //           msg = res.data[0].b_stt;
-  //           alert(msg);
-  //         }
-  //     });
-  //   } else {
-  //     alert("사업자등록번호가 존재하지 않습니다.")
-  //     return false;
-  //   }
-  // }
+  }
 
 // 휴/폐업 조회 _20240531_SY
 let b_num = '';
@@ -642,8 +558,10 @@ function chkClosed(kfiaMsg, bNumMsg) {
           console.log(res);
           // API 값 호출 _20240318_SY
           // 휴/폐업 가입불가 _20240612_SY
-          if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
+          // if (res.hasOwnProperty('match_cnt') && res.data[0].b_stt_cd == '01') {
+          if (res.hasOwnProperty('match_cnt')) {
             $('#chk_cb_res').val(res.data[0].b_stt_cd);
+            console.log($('#chk_cb_res').val());
             msg = res.data[0].b_stt;
             alert(kfiaMsg+"\n"+bNumMsg+"\n"+"휴/폐업 여부 : "+msg);
 
@@ -654,19 +572,20 @@ function chkClosed(kfiaMsg, bNumMsg) {
                 $('#chk_cb_res').val('0');
                 msg = res.data[0].tax_type;
                 break;
-                default : 
+                default :
                 $('#chk_cb_res').val(res.data[0].b_stt_cd);
                 msg = res.data[0].b_stt;
                 break;
-            } 
+            }
 
             $('.store_info_sec').hide();
             $('#ju_restaurant').val('');
             $('#reg_mb_zip_st').val('');
             $('#reg_mb_addr1_st').val('');
-            $('#chk_b_num').val('0');
+            // $('#chk_b_num').val('0');
 
             alert(kfiaMsg+"\n"+bNumMsg+"\n"+"휴/폐업 여부 : "+msg);
+
             chkKFIA = false;
             return false;
           }
@@ -693,13 +612,13 @@ function chkDuBnum(kfiaMsg) {
         success: function(data) {
           if(data.res > 0 ) {
             $('#chk_bn_res').val('0');
-            
+
             $('.store_info_sec').hide();
             $('#ju_restaurant').val('');
             $('#reg_mb_zip_st').val('');
             $('#reg_mb_addr1_st').val('');
             $('#chk_b_num').val('0');
-            
+
             alert(kfiaMsg+"\n이미 등록된 사업자입니다");
             return false;
           } else {
@@ -731,22 +650,23 @@ function getKFIAMember() {
       data: { "b_num": inputNum },
       dataType: "JSON",
       success: function(res) {
+        console.log(res);
         if(res.data == null) {
-          
+
           $('.store_info_sec').hide();
           $('#ju_restaurant').val('');
           $('#reg_mb_zip_st').val('');
           $('#reg_mb_addr1_st').val('');
           $('#chk_b_num').val('0');
 
-          alert('사업자 정보 조회 실패');
+          alert('중앙회 회원으로 등록되지 않은 회원입니다.');
           chkKFIA = false;
-          
+
           return false;
         } else {
           Object.entries(res.data).forEach(([key, value]) => {
             form.append(`<input type="hidden" name="${key}" value="${value}">`);
-          }); 
+          });
           console.log(res.data)
 
           // 위도/경도 값 _20240612_SY
@@ -767,9 +687,21 @@ function getKFIAMember() {
           $('#reg_mb_zip_st').val(res.data.ZIP_CODE)
           $('#reg_mb_addr1_st').val(res.data.DORO_ADDRESS)
           $('#chk_b_num').val('1');
+
+          // // 지회/지부 정보 추가 _20240723_SY
+          // $('#ju_region1').val(res.data.AREA_IDX)
+          // $('#ju_region2').val(res.data.BRANCH_CODE)
+          // $('#ju_region3').val(res.data.OFFICE_CODE)
+
+          // depth2 = res.data.BRANCH_CODE; // 선택된 값 가져오기
+          // let office_code = res.data.OFFICE_CODE;
+
+          // getRegion2(depth2, office_code);
           
+
           chkKFIA = true;
-          chkDuBnum(`조회 성공 : ${res.data.MEMBER_NAME}`);
+          // chkDuBnum(`조회 성공 : ${res.data.MEMBER_NAME}`);
+          chkClosed(`조회 성공 : ${res.data.MEMBER_NAME}`, "가입여부 : 가입 가능한 사업자입니다")
 
         }
       }

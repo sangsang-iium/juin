@@ -2,7 +2,7 @@
 include_once("./_common.php");
 include_once(BV_MPATH."/_head.php"); // 상단
 
-/* ------------------------------------------------------------------------------------- _20240713_SY 
+/* ------------------------------------------------------------------------------------- _20240713_SY
   * 미개발 상태이므로 강제로 ca_id 값 넣어 놓음
   * 이미지 이후에 DB 넣어줘야 함 → 그에 따른 쿼리 및 img태그 수정 필요
   * mobile_horizon_category() 함수 기용함
@@ -16,16 +16,16 @@ include_once(BV_MPATH."/_head.php"); // 상단
           and cateuse = '0'
         and find_in_set('$pt_id', catehide) = '0' ";
   $ca = sql_fetch($sql);
-  if(!$ca['catecode'])
+  if(!$ca['catecode']){
     alert('등록된 분류가 없습니다.');
-
+  }
 
 	$sql_common = " from shop_category ";
 	$sql_where  = " where cateuse = '0' and find_in_set('$pt_id', catehide) = '0' ";
 	$sql_order  = " order by caterank, catecode ";
 
 	$sql = "select * {$sql_common} {$sql_where} and upcate = '$ca_id' {$sql_order} ";
-  
+
 	$result = sql_query($sql);
 
 /* ------------------------------------------------------------------------------------- */
@@ -83,8 +83,12 @@ for($i=0; $i<count($gw_msort); $i++) {
             $k = $i + 1;
             $href = BV_MSHOP_URL.'/list.php?ca_id='.$row['catecode'];
             $img_url = !empty($row['cateimg1']) ? BV_DATA_URL."/category/".$row['cateimg1'] : "";
-            $img_tag = "<img src=\"{$img_url}\" alt=\"\">";
-            
+            if(!empty($img_url)){
+              $img_tag = "<img src=\"{$img_url}\" alt=\"\">";
+            } else {
+              $img_tag = "<p>{$row['catename']}</p>";
+            }
+
             echo "<div class=\"brand-item\">
                     <a href=\"{$href}\" data-id=\"{$row['catecode']}\" class=\"brand-box\">
                       {$img_tag}

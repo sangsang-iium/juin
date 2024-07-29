@@ -129,21 +129,21 @@ if ($code == 'list' || $code == 'reg_list') // 전체주문내역
 {
   $where[] = " dan != 0 ";
 } else {
-  
+
   if($code=="7"){
-    $where[] = " (dan = '$code' or dan='10' or dan='18' )";  
+    $where[] = " (dan = '$code' or dan='10' or dan='18' )";
   }else{
     if($code=='9')
     {
       $where[] = " (dan = '$code' or dan='17' )";
     }else{
       if($code=="8"){
-        $where[] = "( dan = '$code'  or dan='11' or dan='12' )";  
+        $where[] = "( dan = '$code'  or dan='11' or dan='12' )";
       }else{
-        $where[] = " dan = '$code' ";  
-      } 
-    } 
-  } 
+        $where[] = " dan = '$code' ";
+      }
+    }
+  }
 }
 
 if ($sfl && $stx) {
@@ -177,11 +177,11 @@ if ($od_begin_date) {
 }
 
 if (is_numeric($od_status)) {
-  $where[] = " dan = '$od_status' "; 
+  $where[] = " dan = '$od_status' ";
 }
 
 if (is_numeric($od_final)) {
-  /* ------------------------------------------------------------------------------------- _20240714_SY 
+  /* ------------------------------------------------------------------------------------- _20240714_SY
     * 강제출고, 강제출고완료, 강제입금 추가
   /* ------------------------------------------------------------------------------------- */
   if(in_array($od_final, ['15', '16', '13'])) {
@@ -260,7 +260,6 @@ $num         = $total_count - (($page - 1) * $rows);
 
 $sql    = " select * {$sql_common} {$sql_search} {$sql_group} {$sql_order} limit {$from_record}, {$rows} ";
 $result = sql_query($sql);
-//echo $sql;
 
 $tot_orderprice = 0; // 총주문액
 $sql            = " select od_id {$sql_common} {$sql_search} {$sql_group} {$sql_order} ";
@@ -299,7 +298,7 @@ function addTag($tagName){
       $class = 't4';
     break;
   }
-  
+
   echo '<span class="admin-tag '.$class.'">'.$text.'</span>';
 }
 

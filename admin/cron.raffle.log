@@ -1,0 +1,6 @@
+PHP Warning:  mysqli_connect(): (HY000/1040): Too many connections in /home/juin/www/lib/global.lib.php on line 1414
+Connect Error: Too many connectionsPHP Fatal error:  Uncaught Error: Call to undefined function log_write() in /home/juin/www/common.php:305
+Stack trace:
+#0 /home/juin/www/admin/cron.raffle.php(2): include_once()
+#1 {main}
+  thrown in /home/juin/www/common.php on line 305

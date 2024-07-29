@@ -128,7 +128,7 @@ function chkDuBnum(kfiaMsg) {
         }
     });
   } else {
-    alert("사업자가 존재하지 않습니다.")
+    alert("중앙회 회원으로 등록되지 않은 회원입니다.")
     return false;
   }
 }
@@ -207,8 +207,9 @@ function getKFIAMember() {
       data: { "b_num": inputNum },
       dataType: "JSON",
       success: function(res) {
+        console.log(res);
         if(res.data == null) {
-          alert('사업자 정보 조회 실패');
+          alert('중앙회 회원으로 등록되지 않은 회원입니다.');
           chkKFIA = false;
           return false;
         } else {
@@ -218,21 +219,23 @@ function getKFIAMember() {
           console.log(res.data)
 
           // 위도/경도 값 & Kakao맵 Api 로드 _20240612_SY
-          if (typeof kakao !== 'undefined' && kakao.maps && kakao.maps.services && kakao.maps.services.Geocoder) {
-            var geocoder = new kakao.maps.services.Geocoder();
-            var address = res.data.DORO_ADDRESS.trim();
-            
-            geocoder.addressSearch(address, function(result, status) {
-              if (status === kakao.maps.services.Status.OK) {
-                form.append(`<input type="hidden" name="ju_lat" value="${result[0].y}">`);
-                form.append(`<input type="hidden" name="ju_lng" value="${result[0].x}">`);
-              } else {
-                console.error('Geocoder failed due to: ' + status);
-              }
-            });
-          } else {
-            console.error('Kakao maps script not loaded properly.');
-          }
+          // if(res.data.DORO_ADDRESS) {
+            if (typeof kakao !== 'undefined' && kakao.maps && kakao.maps.services && kakao.maps.services.Geocoder) {
+              var geocoder = new kakao.maps.services.Geocoder();
+              var address = res.data.DORO_ADDRESS.trim();
+              
+              geocoder.addressSearch(address, function(result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                  form.append(`<input type="hidden" name="ju_lat" value="${result[0].y}">`);
+                  form.append(`<input type="hidden" name="ju_lng" value="${result[0].x}">`);
+                } else {
+                  console.error('Geocoder failed due to: ' + status);
+                }
+              });
+            } else {
+              console.error('Kakao maps script not loaded properly.');
+            }
+          // }
 
           chkKFIA = true;
           chkDuBnum(`조회 성공 : ${res.data.MEMBER_NAME}`);

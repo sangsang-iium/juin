@@ -328,7 +328,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
             </dl>
             <dl>
                 <dt class="box_title">
-                    <a href="/">
+                    <a href="/admin">
                         상품 문의
                     </a>
                 </dt>
@@ -337,10 +337,17 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                       <?php 
                         $iq_data = getIndexDataFunc("shop_goods_qa", "iq_time");
                         if(is_array($iq_data)) {
-                          foreach($iq_data as $entry) { ?>
+                          foreach($iq_data as $entry) { 
+                        // 공급사 계정 조회 _20240724_ SY
+                        $sellerInfo_sel = " SELECT * FROM shop_seller AS ss
+                                         LEFT JOIN shop_member AS mm
+                                                ON (ss.index_no = mm.id) 
+                                             WHERE seller_code = '{$entry['seller_id']}' ";
+                        $sellerInfo_row = sql_fetch($sellerInfo_sel);
+                      ?>
                             <li>
-                                <a href="/" class="board_title"><?php echo $entry['iq_subject']?></a>
-                                <span class="board_date"><?php echo substr($entry['iq_time'], 0, 10); ?></span>
+                              <a href="/admin/admin_ss_login.php?mb_id=<?php echo $sellerInfo_row['mb_id']."&amp;lg_type=S"; ?>" class="board_title" target="_blank"><?php echo $entry['iq_subject']?></a>
+                              <span class="board_date"><?php echo substr($entry['iq_time'], 0, 10); ?></span>
                             </li>
                       <?php }} else {
                         echo "<li>자료가 없습니다.</li>";

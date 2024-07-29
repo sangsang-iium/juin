@@ -779,6 +779,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                     $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
                   }
                 }
+
+
               ?>
               <p class="od-dtn__name">
                 <span class="nm"><?php echo $member['name']; ?></span>
@@ -788,11 +790,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </div>
 
             <input type="hidden" name="email" value="<?php echo $member['email']; ?>" >
-            <input type="hidden" name="zip"   value="<?php echo !empty($addr1) ? "" : $member['zip']; ?>" >
-            <input type="hidden" name="addr1" value="<?php echo $addr1; ?>" >
-            <input type="hidden" name="addr2" value="<?php echo !empty($addr1) ? "" : $member['addr2']; ?>" >
-            <input type="hidden" name="addr3" value="<?php echo !empty($addr1) ? "" : $member['addr3']; ?>" >
-            <input type="hidden" name="addr_jibeon" value="<?php echo !empty($addr1) ? "" : $member['addr_jibeon']; ?>">
+            <input type="hidden" name="zip"   value="<?php echo !empty($addr1) ? $res['b_zip'] : $member['zip']; ?>" >
+            <input type="hidden" name="addr1" value="<?php echo !empty($addr1) ? $res['b_addr1'] : $member['zip'];?>" >
+            <input type="hidden" name="addr2" value="<?php echo !empty($addr1) ? $res['b_addr2'] : $member['addr2']; ?>" >
+            <input type="hidden" name="addr3" value="<?php echo !empty($addr1) ? $res['b_addr3'] : $member['addr3']; ?>" >
+            <input type="hidden" name="addr_jibeon" value="<?php echo !empty($addr1) ? $res['b_addr_jibeon'] : $member['addr_jibeon']; ?>">
 
             <div class="od-dtn-btns">
               <button type="button" class="ui-btn st3 od-dtn__change">변경</button>
@@ -1663,11 +1665,21 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     var paymethodRadios = f.querySelectorAll('input[name="paymethod"]');
     var selectedPaymentMethod = getSelectVal2(paymethodRadios);
     // 무통장 예외 처리 필요
-    if (getSelectVal((f["paymethod"]) == '신용카드' || getSelectVal(f["paymethod"]) == '간편') && card_id === '' || card_id === null) {
+    if (getSelectVal(f["paymethod"]) == '신용카드' && card_id === '' || card_id === null) {
       var card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록이후 구매 하시겠습니까?");
       if (card_confirm) {
         window.location.href = "/m/shop/card.php";
       }
+      return false;
+    }
+    console.log(getSelectVal2(f["paymethod"]));
+    if (getSelectVal2(f["paymethod"]) == '간편' && card_id === '' || card_id === null) {
+      var card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록이후 구매 하시겠습니까?");
+
+      if (card_confirm) {
+        window.location.href = "/m/shop/card.php";
+      }
+      return false;
     }
 
     // zip 주석 _20240503_SY
@@ -2273,7 +2285,7 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
 
-
+  const OrderButton = document.getElementById("order-button");
 
   const button = document.getElementById("payment-button");
   const coupon = document.getElementById("coupon-box");
@@ -2281,9 +2293,11 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
   var totalPirceStr = $("input[name=tot_price]").val();
   var totalPirce = totalPirceStr.replace(/,/g, '');
 
+
   const clientKey = 'live_ck_yL0qZ4G1VO5bLkJzDP7Y8oWb2MQY';
   const customerKey = '<?php echo $member['id']?>'; // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
   var amount = totalPirce;
+
 
   const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
     // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
@@ -2305,17 +2319,21 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
   paymentMethodWidget.on("ready", function () {
     button.disabled = false;
     coupon.disabled = true;
+
   });
 
   // ------  결제 금액 업데이트 ------
   // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
   coupon.addEventListener("change", function () {
+    console.log("eeeeeeee"+coupon)
     if (coupon.checked) {
       paymentMethodWidget.updateAmount(amount - 5000);
     } else {
       paymentMethodWidget.updateAmount(amount);
     }
   });
+
+
   <?php
   $itArrCount = count($it_name_arr);
   if ($itArrCount > 1) {
@@ -2330,6 +2348,13 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
     var formSubmitOrder = $("#buyform").serialize();
     var cellPhone = $("#cellphone").val();
     var cellPhone = cellPhone.replace(/-/g, '');
+
+    // 할인가 적용 _20240725_SY
+    var NewPriceStr = $("input[name=tot_price]").val();
+    var NewPrice = NewPriceStr.replace(/,/g, '');
+    amount = NewPrice
+    paymentMethodWidget.updateAmount(amount);
+
     $.ajax({
       type: 'post',
       url: '/m/shop/normalPayment.php',

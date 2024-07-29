@@ -153,7 +153,7 @@ function mainLiveList() {
     $liveListArr[$i]['live'] = json_decode($row['live_time'],true);
     $i ++;
   }
-  
+
   return $liveListArr;
 }
 
@@ -161,23 +161,23 @@ function mainLiveList() {
 // 메인화면 라이브존 시간 표시
 function liveTime($liveTime, $liveDate) {
   $currentDate = time();
-  
+
   $liveDayMap = ['sun' => 0, 'mon' => 1, 'tues' => 2, 'wednes' => 3, 'thurs' => 4, 'fri' => 5, 'satur' => 6];
   $currentDayOfWeek = date('w', $currentDate);
   $liveDayOfWeek = $liveDayMap[$liveDate];
-  
+
   $dayDiff = $currentDayOfWeek - $liveDayOfWeek;
   if ($dayDiff < 0) {
       $dayDiff += 7;
   }
-  
+
   $liveDate = strtotime("-{$dayDiff} days", $currentDate);
-  
+
   $timeHour = (int)substr($liveTime, 0, 2);
   $timeMinute = substr($liveTime, 3, 2);
-  
+
   $ampm = ($timeHour < 12) ? "오전" : "오후";
-  
+
   if ($timeHour >= 1 && $timeHour < 12) {
       $liveStartTime = $timeHour . ':' . $timeMinute;
   } elseif ($timeHour >= 12) {
@@ -515,17 +515,17 @@ function allSearchSqlArr($columns , $stx) {
 
 
 
-/* ------------------------------------------------------------------------------------- _20240714_SY 
+/* ------------------------------------------------------------------------------------- _20240714_SY
   * 관리자 INDEX 데이터 연동 작업
 /* ------------------------------------------------------------------------------------- */
 
 function getIndexDataFunc($table, $orderBy='wdate') {
   $data = array();
-  
+
   $sel = " SELECT * FROM {$table} ORDER BY {$orderBy} DESC LIMIT 5 ";
   $res = sql_query($sel);
   $cnt = sql_num_rows($res);
-  
+
 
   if($cnt > 0 ) {
     while ($row = sql_fetch_array($res)) {
@@ -541,11 +541,11 @@ function getIndexDataFunc($table, $orderBy='wdate') {
 
 function getNewGoodsFunc() {
   $data = array();
-  
+
   $sel = " SELECT * FROM shop_goods ORDER BY reg_time DESC LIMIT 5 ";
   $res = sql_query($sel);
   $cnt = sql_num_rows($res);
-  
+
 
   if($cnt > 0 ) {
     while ($row = sql_fetch_array($res)) {
@@ -567,6 +567,139 @@ function maskingText($text, $maxLength) {
 
 
 
-/* ------------------------------------------------------------------------------------- _20240716_SY 
-  * 지회 지부 데이터 Function
-/* ------------------------------------------------------------------------------------- */
+/**
+ * *지회 지부 데이터 Function
+ * Parameter
+ * @param string $managerInfo managerID
+ * @param string $alias       mn.ju_manager 정보
+ */
+function getBelongList($managerInfo, $alias, $addWhere="") {
+
+  $sql_search = "";
+
+  $mn_sel = " SELECT * FROM shop_manager WHERE id = '{$managerInfo}' ";
+  $mn_row = sql_fetch($mn_sel);
+
+  $andQuery = "";
+  $office_chk_sel = " SELECT COUNT(*) as cnt FROM kfia_branch WHERE branch_code = '{$mn_row['ju_region3']}' ";
+  $office_chk_res = sql_fetch($office_chk_sel);
+  if($office_chk_res['cnt'] < 1) {
+    $andQuery = " AND ju_region3 = '{$mn_row['ju_region3']}' ";
+  } 
+
+
+  if($mn_row['grade'] < 3) {
+    $b_master_sql = " SELECT index_no, id, `name`, grade, ju_region1, ju_region2, ju_region3
+                        FROM shop_manager
+                        WHERE ju_region2 = '{$mn_row['ju_region2']}'
+                        {$andQuery}
+                        {$addWhere}
+                          AND grade > {$mn_row['grade']}
+                    ";
+    $b_master_res = sql_query($b_master_sql);
+    $addIn = "";
+    while($b_master_row = sql_fetch_array($b_master_res)) {
+      $addIn .= ", '" . $b_master_row['index_no'] . "'";
+    }
+    $sql_search .= " AND {$alias} IN ('{$mn_row['index_no']}' $addIn ) ";
+  } else {
+    $sql_search .= " AND {$alias} = '{$mn_row['index_no']}' ";
+  }
+
+  return $sql_search;
+}
+
+
+
+/**
+ * *외식가족 공제회 직원 및 admin 용 통계 Function
+ * Parameter
+ * @param string $branch    branch_code
+ * @param string $office    office_code
+ * @param string $addQuery  추가 WHERE절
+ */
+function forStatisticsFunc($branch, $office, $addQuery="") {
+
+  $sql_search = "";
+
+  $andQuery = "";
+  if(!empty($branch)) {
+    $andQuery .= " AND ju_region2 = '{$branch}' ";
+  }
+  if(!empty($office)) {
+    $office_chk_sel = " SELECT COUNT(*) as cnt FROM kfia_branch WHERE branch_code = '{$office}' ";
+    $office_chk_res = sql_fetch($office_chk_sel);
+    // if($office_chk_res['cnt'] < 1) {
+      $andQuery .= " AND ju_region3 = '{$office}' ";
+    // }
+  }
+    $b_master_sql = " SELECT index_no, id, `name`, grade, ju_region1, ju_region2, ju_region3
+                        FROM shop_manager
+                        WHERE (1)
+                        AND grade > 1
+                        {$andQuery}
+                        {$addQuery}
+                    ";
+    $b_master_res = sql_query($b_master_sql);
+    $addIn = "";
+    while($b_master_row = sql_fetch_array($b_master_res)) {
+      $values[] = "'" . $b_master_row['index_no'] . "'";
+    }
+    if (!empty($values)) {
+      $addIn = implode(", ", $values);
+      $sql_search .= " AND ju_manager IN ( $addIn ) ";
+    } 
+  
+
+  return $sql_search;
+}
+
+
+/** Grade SELECT Custom _20240723_SY */
+function getLevelCustomFunc($grade="", $selected="") {
+  $grade_str = "";
+  $opt = ""; 
+  if(!empty($grade)) {
+    $opt .= " AND gb_no >= '$grade' ";
+  }
+  $grade_sel = " SELECT * FROM shop_member_grade WHERE gb_name <> '' {$opt} ORDER BY gb_no DESC ";
+  $grade_res = sql_query($grade_sel);
+  for($i=0; $grade_row=sql_fetch_array($grade_res); $i++)
+    {
+      $grade_str .= "<option value='{$grade_row['gb_no']}'";
+      if($grade_row['gb_no'] == $selected)
+			$grade_str .= " selected";
+      $grade_str .= ">{$grade_row['gb_name']}</option>\n";
+    }
+
+  return $grade_str;
+}
+
+
+/** 주문관리 판매자 이름 _20240725_SY */
+function get_order_seller_name($seller_id)
+{
+	if($seller_id == 'admin') {
+		$disp_sr_id = '본사';
+	} else if(substr($seller_id,0,3) == 'AP-') {
+		$sr = get_seller_cd($seller_id);
+		$disp_sr_id = get_sideview($sr['mb_id'], $sr['company_name']);
+	} else {
+		$disp_sr_id = get_sideview($seller_id, $seller_id);
+	}
+
+	return $disp_sr_id;
+}
+
+
+/** mng 장바구니 숫자 _20240725_SY */
+function get_cart_count_for_mng($mb_id)
+{
+	global $set_cart_id;
+
+	$sql = " SELECT * FROM shop_cart WHERE ct_direct='$set_cart_id' AND ct_select='0' AND mb_id = '{$mb_id}' GROUP BY gs_id ";
+	$result = sql_query($sql);
+	$cart_count = sql_num_rows($result);
+
+	return (int)$cart_count;
+}

@@ -31,37 +31,37 @@ if (!defined('_BLUEVATION_')) exit;
             <div style="display: flex;">
               <div class="radio_group">
                 <label for="push_tm_0"><input type="radio" id="push_tm_0" name="push_tm" value="0" checked="checked">즉시 발송</label>
-                <label for="push_tm_1"><input type="radio" id="push_tm_1" name="push_tm" value="1">예약 발송</label>
+                <!-- <label for="push_tm_1"><input type="radio" id="push_tm_1" name="push_tm" value="1">예약 발송</label> -->
               </div>
-              <div style="margin-left: 5px;">
+              <!-- <div style="margin-left: 5px;">
                 <label for="resv_date" class="sound_only">발송예약일시</label>
                 <input type="text" name="resv_date" value="" id="resv_date" disabled class="frm_input w190 disabled">
-              </div>
+              </div> -->
             </div>
           </td>
         </tr>
         <tr>
           <th scope="row"><label for="push_subject">제목</label></th>
           <td>
-            <input type="text" name="" id="push_subject" class="frm_input w400">
+            <input type="text" name="push_subject" id="push_subject" class="frm_input w400">
           </td>
         </tr>
         <tr>
           <th scope="row"><label for="push_contents">내용</label></th>
           <td>
-            <textarea name="" id="push_contents" class="frm_input"></textarea>
+            <textarea name="push_contents" id="push_contents" class="frm_input"></textarea>
           </td>
         </tr>
-        <tr>
+        <!-- <tr>
           <th scope="row"><label for="push_img">이미지 첨부</label></th>
           <td>
-            <input type="file" name="" id="push_img">
+            <input type="file" name="push_img" id="push_img">
           </td>
-        </tr>
+        </tr> -->
         <tr>
           <th scope="row"><label for="push_url">링크 URL</label></th>
           <td>
-            <input type="text" name="" id="push_url" class="frm_input w400">
+            <input type="text" name="push_url" id="push_url" class="frm_input w400">
           </td>
         </tr>
         <tr>
@@ -69,28 +69,24 @@ if (!defined('_BLUEVATION_')) exit;
           <td>
             <div class="push_mb_select_wr">
               <span class="sb-text">그룹별선택</span>
-              <select name="" id="push_mb_select1" class="push_mb_select">
+              <select name="push_region2" id="push_mb_select1" class="push_mb_select">
                 <option value="">==지회선택==</option>
-                <option value="region2_all">전체지회</option>
-                <option value="region2_1">외식가족공제회</option>
-                <option value="region2_2">부산광역시지회</option>
-                <option value="region2_3">대전광역시지회</option>
+                <!-- <option value="none">소속없음</option> -->
+                <?php $depth1 = juinGroupInfo(1);
+                  for ($d = 0; $d < count($depth1); $d++) { ?>
+                    <option value="<?php echo $depth1[$d]['code'] ?>" <?php echo $mb['ju_region2'] == $depth1[$d]['code'] ? "selected" : "" ?>><?php echo $depth1[$d]['region'] ?></option>
+                <?php } ?>
               </select>
-              <select name="" id="push_mb_select2" class="push_mb_select">
+              <select name="push_region3" id="push_mb_select2" class="push_mb_select">
                 <option value="">==지부선택==</option>
-                <option value="region3_all">전체지부</option>
-                <option value="region3_1">대전동구지부</option>
-                <option value="region3_2">대전중구지부</option>
-                <option value="region3_3">대전서구지부</option>
-                <option value="region3_4">대전유성구지부</option>
-                <option value="region3_5">대전대덕구지부</option>
+                <?php $depth1 = juinGroupInfo(4, $mb['ju_region2']);
+                  for ($d = 0; $d < count($depth1); $d++) { ?>
+                    <option value="<?php echo $depth1[$d]['code'] ?>" <?php echo $mb['ju_region3'] == $depth1[$d]['code'] ? "selected" : "" ?>><?php echo $depth1[$d]['region'] ?></option>
+                <?php } ?>
               </select>
-              <select name="" id="push_mb_select3" class="push_mb_select">
+              <select name="push_grade" id="push_mb_select3" class="push_mb_select">
                 <option value="">==등급선택==</option>
-                <option value="grade_all">전체회원</option>
-                <option value="grade_1">일반회원</option>
-                <option value="grade_2">중앙회원</option>
-                <option value="grade_3">임직원 회원</option>
+                <?php echo getLevelCustomFunc(); ?>
               </select>
               <button type="button" id="push_mb_btn" class="btn_small disabled" disabled onclick="pushSelectedApply('group');">적용하기</button>
             </div>
@@ -103,7 +99,7 @@ if (!defined('_BLUEVATION_')) exit;
         <tr>
           <td>
             <div class="selected_mb_wr">
-              <!-- loop { 
+              <!-- loop {
               <div class="selected_mb">
                 <span class="txt">대전광역시지회 > 대전서구지부 > 임직원 회원</span>
                 <button type="button" class="btn_small mgr5"></button>
@@ -121,6 +117,7 @@ if (!defined('_BLUEVATION_')) exit;
   </div>
 </form>
 
+<!-- 회원선택 팝업 -->
 <div id="pushSchMbPop">
   <div class="pop_wrap">
     <div class="pop_top">
@@ -129,31 +126,27 @@ if (!defined('_BLUEVATION_')) exit;
     </div>
     <div class="pop_con">
       <div class="pushSchMbForm">
-        <select name="" id="" class="pushSchMb_sel" title="검색구분">
-          <option value="" selected>회원명</option>
+        <select name="" id="search_keywords" class="pushSchMb_sel" title="검색구분">
+          <option value="key_name" selected>회원명</option>
+          <!-- <option value="key_id" >아이디</option> -->
         </select>
-        <input type="text" name="" id="" class="pushSchMb_keyword" title="검색어">
-        <button type="button" class="pushSchMb_submit" title="검색"></button>
+        <input type="text" name="" id="pushSearch_wrods" class="pushSchMb_keyword" title="검색어">
+        <button type="button" class="pushSchMb_submit" onclick="searchMember()" title="검색"></button>
       </div>
       <div class="pushSchMbView">
-        <p class="pushSchMbView_txt">선택된 회원 (<em>00</em>)</p>
+        <p class="pushSchMbView_txt">검색된 회원 (<em id="search_cnt">00</em>)</p>
         <div class="pushSchMbView_inner">
           <div class="lev_datas">
-            <ul class="lev lev1">
+            <ul class="lev lev1" id="pushSearch_result">
               <!-- loop { -->
               <li>
                 <div class="lev_box">
-                  <input type="checkbox" name="" id="id001" value="001" class="lev_chk">
-                  <label for="id001" class="lev_con">대전광역시지회 > 대전동구지부 > 홍길동</label>
+                  회원을 검색하여 주십시오.
+                  <!-- <input type="checkbox" name="" id="id001" value="001" class="lev_chk">
+                  <label for="id001" class="lev_con">대전광역시지회 > 대전동구지부 > 홍길동</label> -->
                 </div>
               </li>
               <!-- } loop -->
-              <li>
-                <div class="lev_box">
-                  <input type="checkbox" name="" id="id002" value="002" class="lev_chk">
-                  <label for="id002" class="lev_con">대전광역시지회 > 대전서구지부 > 김철수</label>
-                </div>
-              </li>
             </ul>
           </div>
         </div>
@@ -173,7 +166,7 @@ if (!defined('_BLUEVATION_')) exit;
   const $pushMbSelect2 = $("#push_mb_select2"); //[그룹별선택]발송대상 지부
   const $pushMbSelect3 = $("#push_mb_select3"); //[그룹별선택]발송대상 등급
   const $pushMbSelectBtn = $("#push_mb_btn"); //[그룹별선택]발송대상 적용버튼
-  const $pushMbSelectChk = $(".lev_chk"); //[그룹별선택]발송대상 적용버튼
+  const pushMbSelectChk = ".lev_chk"; //[그룹별선택]발송대상 적용버튼
 
   const $pushSchPop = $("#pushSchMbPop"); //[개별선텍]회원선택 팝업
 
@@ -231,7 +224,7 @@ if (!defined('_BLUEVATION_')) exit;
       inputName = String(memberName+'[]');
       btnId = selid;
     }
-    
+
     pushSelectedHtml += `
       <div id="${btnId}" class="selected_mb ${type}">
         <span class="txt">${txt}</span>
@@ -251,7 +244,7 @@ if (!defined('_BLUEVATION_')) exit;
       let codeArray = [];
       let selectedTextArray = [];
       let selectedId = "";
-      
+
       $pushMbSelect.each(function() {
         codeArray.push($(this).find('option:selected').val());
         selectedTextArray.push($(this).find('option:selected').text());
@@ -276,7 +269,7 @@ if (!defined('_BLUEVATION_')) exit;
       //     pushSelectedRender(type, selectedText, code);
       //   }
       // });
-      
+
       // pushSchPopClose();
     }
   }
@@ -287,15 +280,71 @@ if (!defined('_BLUEVATION_')) exit;
     });
 
     $(`.selected_mb_wr #${id}`).remove();
-    
+
     if(type == 'member') {
       $("input[type=checkbox][id='" + id + "']").prop('checked', false);
     }
   }
 
+
+  // 회원 검색 _20240723_SY
+  function searchMember() {
+    let search_words = document.querySelector('#pushSearch_wrods').value;
+    let search_resIn = document.querySelector('#pushSearch_result');
+    let search_count = document.querySelector('#search_cnt');
+    let search_key   = document.querySelector('#search_keywords').value;
+
+    if(search_words.length > 0) {
+      $.ajax({
+        url: bv_url+"/admin/member/ajax.pushSearchMember.php",
+        type: "POST",
+        data: {
+          "type" : search_key,
+          "words" : search_words
+        },
+        dataType: "JSON",
+        success: function(data) {
+          console.log(data)
+          search_count.innerHTML = data.res.length;
+
+          let html      = '';
+          let kfia_name = String
+          let res_name  = String
+
+          if(data.res.length > 0 ) {
+            for(let i=0; i<data.res.length; i++) {
+
+              if(data.res[i].ju_region2 == "" || data.res[i].ju_region2 == "") {
+                kfia_name = "소속없음 > ";
+              } else {
+                kfia_name = `${data.res[i].branch_name} > ${data.res[i].office_name} > `;
+              }
+
+              res_name = `${data.res[i].name} (${data.res[i].id})`;
+
+              html += `<li>`;
+              html += `<div class="lev_box">`;
+              html += `<input type="checkbox" name="" id="idx_${data.res[i].index_no}" value="${data.res[i].index_no}" class="lev_chk">`;
+              html += `<label for="idx_${data.res[i].index_no}" class="lev_con">${kfia_name} ${res_name}</label>`;
+              html += `</div>`;
+              html += `</li>`;
+            }
+          } else {
+            html += `<li>`;
+            html += `<div class="">${data.msg}</div>`;
+            html += `</li>`;
+          }
+          search_resIn.innerHTML = html;
+        }
+      });
+    }
+  }
+
+
+
   $(document).ready(function(){
     $pushMbSelect.on('change', checkPushMbSelects);
-    $pushMbSelectChk.on('change', function() {
+    $pushSchPop.on('change', pushMbSelectChk, function() {
       let code = $(this).val();
       let selId = $(this).attr("id");
 
@@ -320,7 +369,7 @@ if (!defined('_BLUEVATION_')) exit;
     const setToday = new Date();
     setToday.setHours(0, 0, 0, 0);
 
-    $.datetimepicker.setLocale('kr'); 
+    $.datetimepicker.setLocale('kr');
     $("#resv_date").datetimepicker({
       timepicker: true,
       format: 'Y-m-d H:i',
@@ -335,7 +384,7 @@ if (!defined('_BLUEVATION_')) exit;
             '9월','10월','11월','12월',
           ],
           dayOfWeek: [
-            "일", "월", "화", "수", 
+            "일", "월", "화", "수",
             "목", "금", "토",
           ]
         }
@@ -365,11 +414,59 @@ if (!defined('_BLUEVATION_')) exit;
         $("#resv_date").attr('disabled', false).removeClass('disabled').focus();
       }
     });
+
+
+
+    // 지부 SELECT BOX _20240723_SY
+    $('#push_mb_select1').change(function() {
+      var depth2 = $(this).val(); // 선택된 값 가져오기
+
+      // Ajax 요청 보내기
+      $.ajax({
+        url: '/admin/ajax.gruopdepth.php', // 데이터를 처리할 서버 측 파일의 경로
+        type: 'POST', // 요청 방식 (POST 또는 GET)
+        data: {
+          depthNum: '4',
+          depthValue: depth2
+        }, // 서버로 전송할 데이터
+        success: function(res) {
+          var reg = JSON.parse(res); // JSON 형식의 응답을 JavaScript 객체로 파싱
+
+          var ju_region3 = $("#push_mb_select2");
+          ju_region3.empty(); // 기존 옵션 모두 제거
+
+          var defaultOption = $('<option>'); // 새로운 옵션 요소 생성
+          defaultOption.val(""); // 옵션의 값 설정
+          defaultOption.text("==지부선택=="); // 옵션의 텍스트 설정
+          ju_region3.append(defaultOption); // ju_region3에 옵션 추가
+
+          var allOption = $('<option>'); // 새로운 옵션 요소 생성
+          allOption.val("all"); // 옵션의 값 설정
+          allOption.text("전체"); // 옵션의 텍스트 설정
+          ju_region3.append(allOption); // ju_region3에 옵션 추가
+
+          for (var i = 0; i < reg.length; i++) {
+            var option = $('<option>'); // 새로운 옵션 요소 생성
+            option.val(reg[i].code); // 옵션의 값 설정
+            option.text(reg[i].region); // 옵션의 텍스트 설정
+            ju_region3.append(option); // ju_region3에 옵션 추가
+
+            if (reg[i].region === '<?php echo $mb['ju_region3']; ?>') {
+              option.prop('selected', true); // 선택 상태 설정
+            }
+          }
+        },
+        error: function(xhr, status, error) {
+          console.log('요청 실패: ' + error);
+        }
+      });
+    });
+
   });
 
   //폼 전송
   function fpushform_submit(f)
-  { 
+  {
     //예외처리 필요
 
     return true;

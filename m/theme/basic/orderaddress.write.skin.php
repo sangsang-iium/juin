@@ -124,10 +124,13 @@ if ($wr_id) {
         var addr = ''; // 주소 변수
         var extraAddr = ''; // 참고항목 변수
 
+        // 프레임 display:none 추가 _20240725_SY
         if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
           addr = data.roadAddress;
+          element_layer.style.display = 'none';
         } else { // 사용자가 지번 주소를 선택했을 경우(J)
           addr = data.jibunAddress;
+          element_layer.style.display = 'none';
         }
         document.getElementById('b_zip_save').value = data.zonecode;
         document.getElementById("b_addr1_save").value = addr;
