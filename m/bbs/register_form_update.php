@@ -82,9 +82,11 @@ $ju_lat         = isset($_POST['ju_lat']) ? trim($_POST['ju_lat']) : "";
 $ju_lng         = isset($_POST['ju_lng']) ? trim($_POST['ju_lng']) : "";
 
 // 추가 _20240617_SY
-$ju_region1 = "";
 $ju_region_code = isset($_POST['ju_region_code']) ? trim($_POST['ju_region_code']) : "";
 $ju_region_code = trim(explode("/", $ju_region_code)[1]);
+
+// 추가 _20240723_SY
+$ju_region1     = isset($_POST['ju_region1']) ? trim($_POST['ju_region1']) : "";
 
 if($ju_region_code) {
   $office_where = " WHERE a.office_name = '{$ju_region_code}' ";
@@ -253,6 +255,8 @@ if($w == '') {
 
     $value['ju_b_num']      = $b_no;                      // 사업자등록번호
     $value['ju_display']    = $store_display;             // 매장 노출 여부 추가 _20240712_SY
+
+    $value['mb_agent'] = getOs(); //os 가져와
     // store_display (매장 노출 여부) 체크 추가 _20240712_SY
   if($reg_type == 1) {
     $value['ju_name']       = $mb_name;                   // 중앙회원 이름

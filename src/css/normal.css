@@ -1393,3 +1393,6 @@
 
 .input-button .ui-btn.st1 {height: 5.6rem; padding: 0 2.8rem; background: var(--color-gray8); border: 1px solid var(--color-gray5); font-size: 2.16rem; font-weight: 500; color: var(--color-black3); border-radius: 0.8rem; color: var(--color-white); background-color: var(--color-main);}
 .input-button .ui-btn.st1 {margin-left: 0.52rem;}
+
+.cart-process-top {justify-content: flex-end;}
+.cart-process-bar .active-bar {transition: .3s;}

@@ -17,7 +17,8 @@ $value['addr_jibeon']	= $_POST['addr_jibeon'];
 $value['mailser']		= $_POST['mailser'];
 $value['smsser']		= $_POST['smsser'];
 if($_POST['passwd'])  $value['passwd'] = $_POST['passwd'];
-update("shop_member", $value, "where id='admin'");
+// update("shop_member", $value, "where id='admin'");
+update("shop_manager", $value, "where id='{$_POST['id']}'");
 
 goto_url(BV_ADMIN_URL.'/config.php?code=super');
 ?>

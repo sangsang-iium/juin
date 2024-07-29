@@ -12,7 +12,9 @@ $sql_common = " from shop_manager ";
 $sql_search = " WHERE (1) ";
 
 if($sfl) {
-    $sql_search .= " and id LIKE '%$sfl%' ";
+    // $sql_search .= " and id LIKE '%$sfl%' ";
+    $allColumns = array("id", "name");
+    $sql_search .= allSearchSql($allColumns,$sfl);
 }
 
 if(!$orderby) {
@@ -25,21 +27,23 @@ if(!$orderby) {
 $sql_order = " order by $filed $sod ";
 
 // 테이블의 전체 레코드수만 얻음
-$sql = " select count(*) as cnt $sql_common $sql_search ";
+$sql = " select count(*) as cnt $sql_common $sql_search";
 $row = sql_fetch($sql);
-$total_count = 0;
+$total_count = $row['cnt'];
 
 $rows = 30;
 $total_page = ceil($total_count / $rows); // 전체 페이지 계산
 if($page == "") { $page = 1; } // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
-$num = $total_count - (($page-1)*$rows);
+// $num = $total_count - (($page-1)*$rows);
+$num = (($page - 1) * $rows)+1;
 
 // if(!empty($sfl)) {
   $sql = " select * $sql_common $sql_search $sql_order limit $from_record, $rows ";
   $result = sql_query($sql);
   $total_count = $row['cnt'];
 // }
+
 
 ?>
 
@@ -106,8 +110,28 @@ function yes(data) {
   if (typeof data === 'string') {
     data = JSON.parse(data);
   }
-  opener.document.fmemberform.mn_name.value = data.name;
-  opener.document.fmemberform.mn_idx.value = data.index_no;
+  
+  // opener.document.fmemberform.mn_name.value = data.name;
+  // opener.document.fmemberform.mn_idx.value = data.index_no;
+
+  // form 이름 달라서 수정 _20240723_SY
+  let forms = opener.document.forms;
+  let targetForm = null;
+
+  for (let i = 0; i < forms.length; i++) {
+    if (forms[i].elements['mn_name'] && forms[i].elements['mn_idx']) {
+        targetForm = forms[i];
+        break;
+    }
+  }
+
+  if (targetForm) {
+      targetForm.mn_name.value = data.name;
+      targetForm.mn_idx.value = data.index_no;
+  } else {
+      console.error('적절한 form을 찾을 수 없습니다.');
+  }
+
 
   self.close();
 }

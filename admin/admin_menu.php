@@ -12,6 +12,8 @@ define('ADMIN_MENU1_07',	'포인트 관리');
 define('ADMIN_MENU1_08',	'포인트 엑셀일괄등록');
 define('ADMIN_MENU1_09',	'포인트 일괄지급&차감');
 define('ADMIN_MENU1_10',	'회원 일괄메일발송');
+define('ADMIN_MENU1_11',	'Push 관리');
+define('ADMIN_MENU1_12',	'Push 메세지');
 
 define('ADMIN_MENU2',		'가맹점관리');
 define('ADMIN_MENU2_01',	'가맹점 환경설정');
@@ -148,6 +150,7 @@ define('ADMIN_MENU10_18',	'지회/지부관리');
 define('ADMIN_MENU10_19',	'지회/지부관리');
 define('ADMIN_MENU10_20',	'담당직원관리');
 define('ADMIN_MENU10_21',	'권한관리');
+define('ADMIN_MENU10_22',	'관리자 정보수정');
 
 // 중고장터관리
 define('ADMIN_MENU11',		'중고장터관리');

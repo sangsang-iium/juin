@@ -145,8 +145,9 @@ if(!defined('_BLUEVATION_')) exit;
               <p class="title">담당 조직</p>
             </div>
             <div class="form-body">
-              <input type="hidden" name="ju_region2" value="<?php echo ($w=='') ? (int)$_POST['BRANCH_CODE'] : $member['ju_region2'] ?>" class="frm-input w-per100" >
-              <input type="hidden" name="ju_region3" value="<?php echo ($w=='') ? (int)$_POST['OFFICE_CODE'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
+              <input type="hidden" name="ju_region1" value="<?php echo ($w=='') ? $_POST['AREA_IDX']    : $member['ju_region1'] ?>" class="frm-input w-per100" >
+              <input type="hidden" name="ju_region2" value="<?php echo ($w=='') ? $_POST['BRANCH_CODE'] : $member['ju_region2'] ?>" class="frm-input w-per100" >
+              <input type="hidden" name="ju_region3" value="<?php echo ($w=='') ? $_POST['OFFICE_CODE'] : $member['ju_region3'] ?>" class="frm-input w-per100" >
               <input type="text" name="ju_region_code" value="<?php echo ($w=='u') ? $jibu_name : $_POST['OFFICE_NAME'] ?>" class="frm-input w-per100" readonly>
             </div>
           </div>
@@ -368,23 +369,6 @@ if(!defined('_BLUEVATION_')) exit;
       </div>
     </div>
     <!-- } 기본정보 -->
-    <?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
-      <div>
-  <input type="text" name="w" value="<?php echo $w; ?>">
-<input type="text" name="agree" value="<?php echo $agree; ?>">
-<input type="text" name="agree2" value="<?php echo $agree2; ?>">
-<input type="text" name="mb_recommend" id="reg_mb_recommend" value="<?php echo $member['pt_id']; ?>">
-<input type="text" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
-<input type="text" name="cert_no" value="">
-
-<input type="text" name="reg_type" value="1">
-<input type="text" name="chk_cb_res" value="<?php echo ($w=='') ? $_POST['chk_cb_res'] : 0?>" id="chk_cb_res">
-<input type="text" name="chk_bn_res" value="<?php echo ($w=='') ? $_POST['chk_bn_res'] : 0?>" id="chk_bn_res">
-<input type="text" name="OFFICE_NAME" value="<?php echo ($w=='') ? $_POST['OFFICE_NAME'] : "" ?>">
-<input type="text" name="ju_lat" value="<?php echo ($w=='') ? $_POST['ju_lat'] : "" ?>">
-<input type="text" name="ju_lng" value="<?php echo ($w=='') ? $_POST['ju_lng'] : "" ?>">
-</div>
-<?php } ?>
 
     <!-- 사업자정보 { -->
     <div class="joinDetail-box" id="b_area">

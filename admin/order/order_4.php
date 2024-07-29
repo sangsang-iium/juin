@@ -136,6 +136,7 @@ EOF;
 		<col class="w40">
 		<col class="w30">
 		<col>
+		<col class="w80">
 		<col class="w120">
 		<col>
 		<col>
@@ -152,6 +153,7 @@ EOF;
 		<th scope="col">주문번호</th>
 		<th scope="col"><input type="checkbox" id="sit_select_all"></th>
 		<th scope="col" colspan="3">주문상품</th>
+		<th scope="col">과세설정</th>
 		<th scope="col">판매자</th>
 		<th scope="col">배송회사</th>
 		<th scope="col">운송장번호</th>
@@ -176,6 +178,17 @@ EOF;
 		$rowspan = sql_num_rows($res);
 		for($k=0; $row2=sql_fetch_array($res); $k++) {
 			$gs = unserialize($row2['od_goods']);
+
+      // 과세 _20240725_SY
+      $notax = "";
+      switch($gs['notax']) {
+        case 1:
+          $notax = "과세";
+          break;
+        case 0:
+          $notax = "비과세";
+          break;
+      }
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<?php if($k == 0) { ?>
@@ -202,7 +215,8 @@ EOF;
 		</td>
 		<td class="td_imgline"><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 30, 30); ?></a></td>
 		<td class="td_itname"><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
-		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
+		<td><?php echo $notax; ?></td>
+		<td><?php echo get_order_seller_name($row2['seller_id']); ?></td>
 		<td>
             <div class="chk_select">
                 <?php echo get_delivery_select("delivery[".$chk_cnt."]", $row2['delivery']); ?>

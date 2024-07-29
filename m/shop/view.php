@@ -3,6 +3,9 @@ include_once("./_common.php");
 
 $is_seometa = 'it'; // SEO 메타태그
 
+if(empty($member['id'])){
+	goto_url('/m/bbs/login.php');
+}
 
 // 상품의 정보를 얻음
 $sql = " select a.*, b.cateuse
@@ -12,6 +15,17 @@ $sql = " select a.*, b.cateuse
 			and find_in_set('$pt_id', a.use_hide) = '0'
 			and find_in_set('$pt_id', b.catehide) = '0' ";
 $gs = sql_fetch($sql);
+
+$b_address = "";
+$ad_row    = getBaddressFun();
+if (isset($ad_row['mb_id'])) {
+	$b_address = $ad_row['b_addr1'];
+} else {
+	$b_address = $member['addr1'];
+}
+if(!memberGoodsAble($b_address, $gs['zone'])){
+	alert("구매 불가 지역 입니다.","/");
+}
 
 if(!$gs['index_no'])
 	alert('등록된 상품이 없습니다');

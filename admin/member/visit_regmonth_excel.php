@@ -1,7 +1,7 @@
 <?php
 include_once("./_common.php");
 
-// check_demo();
+check_demo();
 
 if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fr_date)) $fr_date = '';
 if(!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $to_date)) $to_date = '';
@@ -10,32 +10,7 @@ $sql_common = " from shop_member ";
 $sql_search = " where id <> 'admin' ";
 
 if($sfl && $stx) {
-
-  if ($sfl == "branch") { 
-    $branch_where = " WHERE (1) AND b.branch_name LIKE '%$stx%' ";
-    $branch_data = getRegionFunc("branch",$branch_where);
-    $b_sql = "";
-    for($i=0; $i<count($branch_data); $i++) {
-      $values[] = "'" . $branch_data[$i]['branch_code'] . "'";
-    }
-    if (!empty($values)) {
-      $b_sql = implode(", ", $values);
-      $sql_search .= " AND ju_region2 IN ( $b_sql ) ";
-    } 
-  } elseif ($sfl == "office") { 
-    $office_where = " WHERE (1) AND a.office_name LIKE '%$stx%' ";
-    $office_data = getRegionFunc("office",$office_where);
-    $s_sql = "";
-    for($i=0; $i<count($office_data); $i++) {
-      $values[] = "'" . $office_data[$i]['office_code'] . "'";
-    }
-    if (!empty($values)) {
-      $s_sql = implode(", ", $values);
-      $sql_search .= " AND ju_region3 IN ( $s_sql ) ";
-    } else {
-      $sql_search .= " and $sfl like '%$stx%' ";
-    }
-  }
+    $sql_search .= " and $sfl like '%$stx%' ";
 }
 
 if($sst) {
@@ -82,6 +57,8 @@ if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
 
 
 $sql = " select * $sql_common $sql_search $sql_order  ";
+echo $sql;
+exit;
 $result = sql_query($sql);
 $cnt = @sql_num_rows($result);
 if(!$cnt)
@@ -97,13 +74,10 @@ $excel = new PHPExcel();
 $char = 'A';
 $excel->setActiveSheetIndex(0)
 	->setCellValue($char++.'1', '회원명')
-	->setCellValue($char++.'1', '업소명')
 	->setCellValue($char++.'1', '아이디')
 	->setCellValue($char++.'1', '성별')
-	->setCellValue($char++.'1', '등급')
-	->setCellValue($char++.'1', '담당자')
-	->setCellValue($char++.'1', '지회')
-	->setCellValue($char++.'1', '지부')
+	->setCellValue($char++.'1', '레벨')
+	->setCellValue($char++.'1', '추천인')
 	->setCellValue($char++.'1', '전화번호')
 	->setCellValue($char++.'1', '핸드폰')
 	->setCellValue($char++.'1', '우편번호')
@@ -111,40 +85,21 @@ $excel->setActiveSheetIndex(0)
 	->setCellValue($char++.'1', '이메일')
 	->setCellValue($char++.'1', '회원가입일')
 	->setCellValue($char++.'1', '로그인횟수')
+	->setCellValue($char++.'1', '메일수신')
+	->setCellValue($char++.'1', 'SMS수신')
+	->setCellValue($char++.'1', '최근아이피')
+	->setCellValue($char++.'1', 'IP')
 	->setCellValue($char++.'1', '포인트');
 
 for($i=2; $row=sql_fetch_array($result); $i++)
 {
-  $grade_name_sql = " SELECT gb_name FROM shop_member AS mm
-                   LEFT JOIN shop_member_grade AS mg
-                          ON mm.grade = mg.gb_no
-                       WHERE mm.id = '{$row['id']}' ";
-  $grade_name_row = sql_fetch($grade_name_sql);
-
-  $manager_sel = " SELECT mn.id AS managerId, mn.name AS managerName FROM shop_manager AS mn
-                LEFT JOIN shop_member AS mm
-                       ON (mn.index_no = mm.ju_manager)
-                    WHERE mm.id = '{$row['id']}' ";
-  $manager_row = sql_fetch($manager_sel);
-  $managerText = $manager_row ? "{$manager_row['managerName']} ({$manager_row['managerId']})" : "없음";
-
-  $officeData = getRegionFunc("office"," WHERE b.branch_code = '{$row['ju_region2']}' AND a.office_code = '{$row['ju_region3']}' ");
-  $genderText = "";
-  if($row['gender'] == "M") {
-    $genderText = "남성";
-  } else if($row['gender'] == "F")
-  $genderText = "여성";
-
 	$char = 'A';
 	$excel->setActiveSheetIndex(0)
 		->setCellValueExplicit($char++.$i, $row['name'], PHPExcel_Cell_DataType::TYPE_STRING)
-		->setCellValueExplicit($char++.$i, $row['ju_restaurant'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['id'], PHPExcel_Cell_DataType::TYPE_STRING)
-		->setCellValueExplicit($char++.$i, $genderText, PHPExcel_Cell_DataType::TYPE_STRING)
-		->setCellValueExplicit($char++.$i, $grade_name_row['gb_name'], PHPExcel_Cell_DataType::TYPE_STRING)
-		->setCellValueExplicit($char++.$i, $managerText, PHPExcel_Cell_DataType::TYPE_STRING)
-		->setCellValueExplicit($char++.$i, $officeData[0]['branch_name'], PHPExcel_Cell_DataType::TYPE_STRING)
-		->setCellValueExplicit($char++.$i, $officeData[0]['office_name'], PHPExcel_Cell_DataType::TYPE_STRING)
+		->setCellValueExplicit($char++.$i, $row['gender'], PHPExcel_Cell_DataType::TYPE_STRING)
+		->setCellValueExplicit($char++.$i, $row['grade'], PHPExcel_Cell_DataType::TYPE_NUMERIC)
+		->setCellValueExplicit($char++.$i, $row['pt_id'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['telephone'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['cellphone'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['zip'], PHPExcel_Cell_DataType::TYPE_STRING)
@@ -152,6 +107,10 @@ for($i=2; $row=sql_fetch_array($result); $i++)
 		->setCellValueExplicit($char++.$i, $row['email'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['reg_time'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['login_sum'], PHPExcel_Cell_DataType::TYPE_NUMERIC)
+		->setCellValueExplicit($char++.$i, $row['mailser'], PHPExcel_Cell_DataType::TYPE_STRING)
+		->setCellValueExplicit($char++.$i, $row['smsser'], PHPExcel_Cell_DataType::TYPE_STRING)
+		->setCellValueExplicit($char++.$i, $row['login_ip'], PHPExcel_Cell_DataType::TYPE_STRING)
+		->setCellValueExplicit($char++.$i, $row['mb_ip'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['point'], PHPExcel_Cell_DataType::TYPE_NUMERIC);
 }
 

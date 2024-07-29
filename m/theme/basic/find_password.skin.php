@@ -115,7 +115,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   //   console.log("Received data from child:", certData.message);
 
   //   if (certData.message === "인증완료") {
-     
+
   //         const form = document.querySelector('form[name="fregisterform"]');
   //         form.submit();
   //   }
@@ -135,4 +135,4 @@ $(function() {
         }
     }, 1500); // 2초마다 실행
 });
-</script> 
+</script>

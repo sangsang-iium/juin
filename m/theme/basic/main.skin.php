@@ -40,6 +40,24 @@ include_once(BV_PATH.'/include/introBtn.php');
 <!-- } 비주얼 배너 -->
 <?php }?>
 
+<!-- 추천 상품 { -->
+<div class="section main_best bgColor1" style="margin-top: 0;">
+  <div class="container right cp-title">
+    <div class="left">
+      <div class="icon-box"></div>
+      <div class="text-box">
+        <h3>추천상품</h3>
+        <p class="tp-expl">주인장에서 제일 잘 나가요!</p>
+      </div>
+    </div>
+    <div class="right">
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=5" class="ui-btn more">전체보기</a>
+    </div>
+  </div>
+  <?php echo mobile_slide_goods('5', '20', 'container left main_best-slide'); ?>
+</div>
+<!-- } 추천 상품 -->
+
 <!-- 오늘만 특가상품 { -->
 <div class="section main_today">
   <div class="container right cp-title">
@@ -56,6 +74,7 @@ include_once(BV_PATH.'/include/introBtn.php');
           <i class="cp-timer__icon"></i>
           <span class="cp-timer__text">D-Day</span>
           <?php $deadline = date('Y-m-d', strtotime('+6 days')); ?>
+          <?php //$deadline = "2024-07-21"; ?>
           <span class="cp-timer__num" data-deadline="<?php echo $deadline ?> 23:59:59">00:00:00</span>
         </div>
       </div>
@@ -81,25 +100,6 @@ include_once(BV_PATH.'/include/introBtn.php');
   </div> -->
 </div>
 <!-- } 오늘만 특가상품 -->
-
-
-<!-- pb 상품 { -->
-<div class="section main_best bgColor1">
-  <div class="container right cp-title">
-    <div class="left">
-      <div class="icon-box"></div>
-      <div class="text-box">
-        <h3>회원 PB상품</h3>
-        <p class="tp-expl">회원만을 위해 준비된 상품이에요</p>
-      </div>
-    </div>
-    <div class="right">
-      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=2&menu=best" class="ui-btn more">전체보기</a>
-    </div>
-  </div>
-  <?php echo mobile_slide_goods('2', '20', 'container left main_best-slide'); ?>
-</div>
-<!-- } pb 상품 -->
 
 <!-- 띠 배너 1 { -->
 <div class="line-banner-section line-banner01">
@@ -151,24 +151,23 @@ include_once(BV_PATH.'/include/introBtn.php');
 </div>
 <!-- } 띠 배너 1 -->
 
-
-<!-- 추천 상품 { -->
-<div class="section main_best bgColor1" style="margin-top: 0;">
+<!-- pb 상품 { -->
+<div class="section main_best bgColor1">
   <div class="container right cp-title">
     <div class="left">
       <div class="icon-box"></div>
       <div class="text-box">
-        <h3>추천상품</h3>
-        <p class="tp-expl">주인장에서 제일 잘 나가요!</p>
+        <h3>회원 PB상품</h3>
+        <p class="tp-expl">회원만을 위해 준비된 상품이에요</p>
       </div>
     </div>
     <div class="right">
-      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=5" class="ui-btn more">전체보기</a>
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=2&menu=best" class="ui-btn more">전체보기</a>
     </div>
   </div>
-  <?php echo mobile_slide_goods('5', '20', 'container left main_best-slide'); ?>
+  <?php echo mobile_slide_goods('2', '20', 'container left main_best-slide'); ?>
 </div>
-<!-- } 추천 상품 -->
+<!-- } pb 상품 -->
 
 
 <!-- 띠 배너 2 { -->
@@ -327,7 +326,7 @@ while ($cate_row = sql_fetch_array($cate_res)) {
 <!-- } 띠 배너 4 -->
 
 <!-- 라이브 { -->
-<div class="section main_live">
+<div class="section main_live" id="main_live_id">
   <div class="container cp-title">
     <div class="left">
       <div class="icon-box">

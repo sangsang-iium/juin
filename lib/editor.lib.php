@@ -22,7 +22,7 @@ function editor_html($id, $content, $is_dhtml_editor=true)
     }
 
     $smarteditor_class = $is_dhtml_editor ? "smarteditor2" : "";
-    $html .= "\n<textarea id=\"$id\" name=\"$id\" class=\"$smarteditor_class\" maxlength=\"65536\" style=\"width:100%\">$content</textarea>";
+    $html .= "\n<textarea id=\"$id\" name=\"$id\" class=\"$smarteditor_class\" maxlength=\"6553600\" style=\"width:100%\">$content</textarea>";
     $html .= "\n<span class=\"sound_only\">웹 에디터 끝</span>";
     return $html;
 }

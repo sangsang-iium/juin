@@ -10,35 +10,36 @@ if(!defined('_BLUEVATION_')) exit;
 <div class="tbl_head01">
 	<table>
 	<colgroup>
+		<col width="50px">
 		<col width="100px">
+		<col width="200px">
+		<col width="300px">
 		<col width="70px">
-		<col width="200px">
-		<col width="200px">
-		<col>
 	</colgroup>
 	<thead>
 	<tr>
-		<th>구분</th>
+		<th>번호</th>
 		<th>노출</th>
 		<th>메뉴</th>
-		<th>기본</th>
 		<th>URL</th>
+		<th>순서</th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php
-	for($i=0; $i<count($gw_menu); $i++) {
-		$seq = ($i+1);
-    if($seq != 2 && $seq != 4 && $seq != 5 && $seq != 6 ) {
+
+	$sql = "SELECT * FROM shop_menu ORDER BY m_idx ASC";
+	$res = sql_query($sql);
+	for($i=0; $row = sql_fetch_array($res); $i++) {
 	?>
 	<tr>
-		<td class="list1">메뉴<?php echo $seq; ?></td>
-		<td><input type="checkbox" name="de_pname_use_<?php echo $seq; ?>" value="1"<?php echo $default['de_pname_use_'.$seq]?' checked':''; ?>></td>
-		<td><input type="text" name="de_pname_<?php echo $seq; ?>" value="<?php echo $default['de_pname_'.$seq]; ?>" class="frm_input" placeholder="메뉴명"></td>
-		<td class="tal"><?php echo $gw_menu[$i][0]; ?></td>
-		<td class="tal"><?php echo $gw_menu[$i][1]; ?></td>
+		<td class="list1"><?php echo $row['m_idx'] ?><input type="hidden" name="m_idx[]" value="<?php echo $row['m_idx'] ?>"></td>
+		<td><input type="checkbox" name="m_yn[<?php echo $i?>]" value="Y" <?php echo $row['m_yn'] == "Y"?' checked':''; ?>></td>
+		<td><input type="text" name="m_name[<?php echo $i?>]" value="<?php echo $row['m_name']; ?>" class="frm_input" placeholder="메뉴명"></td>
+		<td><input type="text" name="m_url[<?php echo $i?>]" value="<?php echo $row['m_url']; ?>" class="frm_input" placeholder="url"></td>
+		<td><input type="number" name="m_seq[<?php echo $i?>]" value="<?php echo $row['m_seq']?>"></td>
 	</tr>
-	<?php } } ?>
+	<?php } ?>
 	</tbody>
 	</table>
 </div>

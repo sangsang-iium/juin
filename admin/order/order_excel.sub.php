@@ -15,10 +15,13 @@ $excel->setActiveSheetIndex(0)
 	->setCellValue($char++.'1', '가맹점ID')
 	->setCellValue($char++.'1', '판매자ID')
 	->setCellValue($char++.'1', '회원ID')
+	->setCellValue($char++.'1', '업소명')
+	->setCellValue($char++.'1', '사업자번호')
 	->setCellValue($char++.'1', '주문번호')
 	->setCellValue($char++.'1', '일련번호')
 	->setCellValue($char++.'1', '상품코드')
 	->setCellValue($char++.'1', '상품명')
+	->setCellValue($char++.'1', '제조사')
 	->setCellValue($char++.'1', '옵션')
 	->setCellValue($char++.'1', '공급가')
 	->setCellValue($char++.'1', '판매가')
@@ -60,15 +63,24 @@ for($i=2; $row=sql_fetch_array($result); $i++)
 	$amount = get_order_spay($row['od_id']);
 	$sodr = excel_order_list($row, $amount);
 
+// 회원 정보 _20240719_SY
+  $orderMemInfo_sel = " SELECT * FROM shop_member WHERE id = '{$sodr['od_mb_id']}' ";
+  $orderMemInfo_row = sql_fetch($orderMemInfo_sel);
+  $storeName = $orderMemInfo_row['ju_restaurant'];
+  $storeNum = $orderMemInfo_row['ju_b_num'];
+
 	$char = 'A';
 	$excel->setActiveSheetIndex(0)
 		->setCellValueExplicit($char++.$i, $sodr['od_pt_id'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $sodr['od_seller_id'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $sodr['od_mb_id'], PHPExcel_Cell_DataType::TYPE_STRING)
+		->setCellValueExplicit($char++.$i, $storeName, PHPExcel_Cell_DataType::TYPE_STRING)
+		->setCellValueExplicit($char++.$i, $storeNum, PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['od_id'].$sodr['od_test'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['od_no'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $gs['gcode'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $gs['gname'], PHPExcel_Cell_DataType::TYPE_STRING)
+		->setCellValueExplicit($char++.$i, $gs['maker'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $sodr['it_options'], PHPExcel_Cell_DataType::TYPE_STRING)
 		->setCellValueExplicit($char++.$i, $row['supply_price'], PHPExcel_Cell_DataType::TYPE_NUMERIC)
 		->setCellValueExplicit($char++.$i, $row['goods_price'], PHPExcel_Cell_DataType::TYPE_NUMERIC)

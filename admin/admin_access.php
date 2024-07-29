@@ -26,6 +26,7 @@ if($admin_id) {
 }
 
 if(!is_admin()) {
-	alert('관리자 권한이 없습니다.', BV_URL);
+	// alert('관리자 권한이 없습니다.', BV_URL);
+	alert('관리자 권한이 없습니다.', "/m/bbs/logout2.php");
 }
 ?>
