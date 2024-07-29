@@ -6,7 +6,7 @@ include_once(BV_MYPAGE_PATH."/admin_menu.php");
 //   echo $member['id'];
 // }
 if(!is_seller($member['id'])) {
-	alert('공급사 회원만 접속 가능합니다.', '/m/bbs/login_seller.php');
+	alert('공급사 회원만 접속 가능합니다..', '/m/bbs/login_seller.php');
 }
 
 if(!$is_member) {

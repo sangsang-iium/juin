@@ -45,6 +45,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     // 로그
     document.buyform.coupon_price.value = tmp_dc_amt;
     document.buyform.coupon_lo_id.value = tmp_lo_id;
+    console.log(tmp_lo_id);
     document.buyform.coupon_cp_id.value = tmp_cp_id;
 
     // 총 할인액
@@ -779,6 +780,8 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                     $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
                   }
                 }
+
+
               ?>
               <p class="od-dtn__name">
                 <span class="nm"><?php echo $member['name']; ?></span>
@@ -788,11 +791,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </div>
 
             <input type="hidden" name="email" value="<?php echo $member['email']; ?>" >
-            <input type="hidden" name="zip"   value="<?php echo !empty($addr1) ? "" : $member['zip']; ?>" >
-            <input type="hidden" name="addr1" value="<?php echo $addr1; ?>" >
-            <input type="hidden" name="addr2" value="<?php echo !empty($addr1) ? "" : $member['addr2']; ?>" >
-            <input type="hidden" name="addr3" value="<?php echo !empty($addr1) ? "" : $member['addr3']; ?>" >
-            <input type="hidden" name="addr_jibeon" value="<?php echo !empty($addr1) ? "" : $member['addr_jibeon']; ?>">
+            <input type="hidden" name="zip"   value="<?php echo !empty($addr1) ? $res['b_zip'] : $member['zip']; ?>" >
+            <input type="hidden" name="addr1" value="<?php echo !empty($addr1) ? $res['b_addr1'] : $member['zip'];?>" >
+            <input type="hidden" name="addr2" value="<?php echo !empty($addr1) ? $res['b_addr2'] : $member['addr2']; ?>" >
+            <input type="hidden" name="addr3" value="<?php echo !empty($addr1) ? $res['b_addr3'] : $member['addr3']; ?>" >
+            <input type="hidden" name="addr_jibeon" value="<?php echo !empty($addr1) ? $res['b_addr_jibeon'] : $member['addr_jibeon']; ?>">
 
             <div class="od-dtn-btns">
               <button type="button" class="ui-btn st3 od-dtn__change">변경</button>

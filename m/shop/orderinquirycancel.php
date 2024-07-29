@@ -154,7 +154,7 @@ if ($od['od_tno'] || $od['paymentKey']) {
       setlocale(LC_CTYPE, '');
       break;
     case 'toss':
-      if ($od['paymethod'] == '무통장' || $od['paymethod'] == '일반') {
+      if ($od['paymethod'] == '무통장' || $od['paymethod'] == '일반' || $od['paymethod'] == '계좌이체') {
         $sk = "live_sk_vZnjEJeQVxKlJ066Ep6Y3PmOoBN0";
       } else if ($od['paymethod'] == '간편' || $od['paymethod'] == '신용카드') {
         $sk = "live_sk_0RnYX2w532Mklgz2ZPY18NeyqApQ";
@@ -163,6 +163,8 @@ if ($od['od_tno'] || $od['paymentKey']) {
       $tossCC = new Tosspay();
       // $credential = "test_sk_DpexMgkW36ZvQYYo5Rx93GbR5ozO";
       $tossRes = $tossCC->cancel($od['paymentKey'], $_POST['cancel_memo'], $sk);
+
+      print_r2($tossRes);
       $cancelData = [
         'transactionKey'     => $tossRes->cancels->transactionKey,
         'cancelReason'       => $tossRes->cancels->cancelReason,
@@ -201,6 +203,8 @@ $sql = " update {$shop_table}
 			set shop_memo = CONCAT(shop_memo,\"\\n주문자 본인 직접 취소 - " . BV_TIME_YMDHIS . " (취소이유 : {$cancel_memo})\")
 		 where od_id = '$od_id' ";
 sql_query($sql);
+
+exit;
 
 // 주문취소 문자전송
 icode_order_sms_send($od['pt_id'], $od['cellphone'], $od_id, 5);

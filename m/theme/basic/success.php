@@ -1,7 +1,6 @@
 <?php
 
 include_once "../../../common.php";
-
 if (!$is_member) {
   goto_url(BV_MBBS_URL . '/login.php?url=' . $urlencode);
 }
@@ -14,6 +13,7 @@ $amount     = $_GET['amount'];
 $ss_cart_id     = get_session('ss_cart_id');
 $TossRun  = new Tosspay();
 $toss_run = $TossRun->normalPay($paymentKey, $orderId, $amount, $credential);
+
 
 if ($toss_run->code) {
   if ($resulturl == 'pc') {
@@ -31,6 +31,40 @@ if(empty($toss_run->mId)){
   }
   exit;
 }
+
+if($toss_run->method == "계좌이체"){
+  $tossCashReceipt = array(
+    'type' => $toss_run->cashReceipt->type,
+    'receiptKey' => $toss_run->cashReceipt->receiptKey,
+    'issueNumber' => $toss_run->cashReceipt->issueNumber,
+    'receiptUrl' => $toss_run->cashReceipt->receiptUrl,
+    'amount' => $toss_run->cashReceipt->amount,
+    'taxFreeAmount' => $toss_run->cashReceipt->taxFreeAmount,
+  );
+  $tossCashReceipts = array(
+    'receiptKey' => $toss_run->cashReceipts->receiptKey,
+    'orderId' => $toss_run->cashReceipts->orderId,
+    'orderName' => $toss_run->cashReceipts->orderName,
+    'type' => $toss_run->cashReceipts->type,
+    'issueNumber' => $toss_run->cashReceipts->issueNumber,
+    'receiptUrl' => $toss_run->cashReceipts->receiptUrl,
+    'businessNumber' => $toss_run->cashReceipts->businessNumber,
+    'transactionType' => $toss_run->cashReceipts->transactionType,
+    'amount' => $toss_run->cashReceipts->amount,
+    'taxFreeAmount' => $toss_run->cashReceipts->taxFreeAmount,
+    'issueStatus' => $toss_run->cashReceipts->issueStatus,
+    'failure' => $toss_run->cashReceipts->failure,
+    'customerIdentityNumber' => $toss_run->cashReceipts->customerIdentityNumber,
+    'requestedAt' => $toss_run->cashReceipts->requestedAt,
+  );
+  $tossCashReceipt = json_encode($tossCashReceipt);
+  $tossCashReceipts = json_encode($tossCashReceipts);
+  $up_data['paymethod'] = '계좌이체';
+} else {
+  $tossCashReceipt = $toss_run->cashReceipt;
+  $tossCashReceipts = $toss_run->cashReceipts;
+}
+
 
 $orderInsert                            = new IUD_Model();
 $or_insert['mId']                       = $toss_run->mId;
@@ -57,11 +91,11 @@ $or_insert['cardOwnerType']             = $toss_run->card->ownerType;
 $or_insert['cardAcquireStatus']         = $toss_run->card->acquireStatus;
 $or_insert['cardAmount']                = $toss_run->card->amount;
 $or_insert['virtualAccount']            = $toss_run->virtualAccount;
-$or_insert['transfer']                  = $toss_run->transfer;
+$or_insert['transfer']                  = $toss_run->transfer->bankCode."||".$toss_run->transfer->settlementStatus;
 $or_insert['mobilePhone']               = $toss_run->mobilePhone;
 $or_insert['giftCertificate']           = $toss_run->giftCertificate;
-$or_insert['cashReceipt']               = $toss_run->cashReceipt;
-$or_insert['cashReceipts']              = $toss_run->cashReceipts;
+$or_insert['cashReceipt']               = $tossCashReceipt;
+$or_insert['cashReceipts']              = $tossCashReceipts;
 $or_insert['discount']                  = $toss_run->discount;
 $or_insert['cancels']                   = $toss_run->cancels;
 $or_insert['secret']                    = $toss_run->secret;

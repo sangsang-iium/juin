@@ -1310,7 +1310,7 @@ function mobile_banner_rows($code, $mb_id)
 
 function item_card($it_idx, $it_href, $it_imageurl, $it_name, $it_sprice, $sale, $it_price, $it_size, $eb_date = "") {
 
-	$coupon_chk = coupon_chk($it_idx);
+	// $coupon_chk = coupon_chk($it_idx);
 	$sql = "SELECT * FROM shop_goods WHERE index_no = '{$it_idx}'";
 	$row = sql_fetch($sql);
 

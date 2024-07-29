@@ -12,7 +12,7 @@ $mb_id = trim($_POST['mb_id']);
 $chk_b_num = $_POST['chk_b_num'];
 
 // 전화번호 체크 _20240612_SY
-// $mb_tel = hyphen_hp_number($_POST['mb_tel']);
+$mb_tel = hyphen_hp_number($_POST['mb_tel']);
 // if($mb_tel) {
 //     $result = exist_mb_hp($mb_tel, $mb_id);
 //     if($result)
@@ -20,7 +20,7 @@ $chk_b_num = $_POST['chk_b_num'];
 // }
 
 // 휴대폰번호 체크
-// $mb_hp = hyphen_hp_number($_POST['mb_hp']);
+$mb_hp = hyphen_hp_number($_POST['mb_hp']);
 // if($mb_hp) {
 //     $result = exist_mb_hp($mb_hp, $mb_id);
 //     if($result)
@@ -74,7 +74,11 @@ $value['ju_b_num']    = formatBno($ju_b_num);
 $value['mb_agent']    = getOs(); //os 가져와
 
 // 담당자 추가 _20240618_SY
-if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
+if($mb_grade < 9 ) {
+  // $value['ju_manager'] = $mn_idx;
+  // $value['ju_region1'] = $AREA_IDX;
+  // $value['ju_region2'] = $OFFICE_CODE;
+  // $value['ju_region3'] = $BRANCH_CODE;
   $value['ju_manager'] = $ju_manager;
   $value['ju_region1'] = $ju_region1;
   $value['ju_region2'] = $ju_region2;
@@ -85,10 +89,12 @@ if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
 $value['ju_mem'] = ($chk_b_num == 1) ? 1 : 2;
 $store_display   = isset($_POST['store_display'])   ? trim($_POST['store_display']) : "2";
 
+// 추가 _20240723_SY
+$value['ju_closed']  = $_POST['chk_cb_res']; //os 가져와
 
 if($chk_b_num == 1) {
   // 매장 대표번호 체크 _20240612_SY
-  // $ju_tel = hyphen_hp_number($_POST['ju_tel']);
+  $ju_tel = hyphen_hp_number($_POST['ju_tel']);
   // if($ju_tel) {
   //   $result = exist_mb_hp($ju_tel, $mb_id);
   //   if($result)
@@ -165,6 +171,63 @@ if($mb_no && $chk_b_num == 1) {
   sql_query(" update shop_member set ju_simg = '$save_img' where id = '$mb_id' ");
   /* 매장 사진 */
 }
+
+
+/* ------------------------------------------------------------------------------------- _20240725_SY
+  * 중앙회회원등급 회원 가입시 5천원, 1만원 할인 쿠폰 2장 발급
+  ------------------------------------------------------------------------------------- */
+  if($w == '' && $config['coupon_yes'] && $mb_grade = 8) {
+    $cp_used = false;
+    $cp_sel = " SELECT * FROM shop_coupon WHERE cp_type = '5' AND cp_id < 3 ";
+    $cp_res = sql_query($cp_sel);
+    while($cp = sql_fetch_array($cp_res)) {
+      if($cp['cp_id'] && $cp['cp_use']) {
+        if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
+           ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
+          $cp_used = true;
+  
+        if($cp_used)
+          insert_used_coupon($mb_id, $mb_name, $cp);
+      }
+    }
+  } else {
+  
+    // 신규회원가입 쿠폰발급
+    if($config['coupon_yes']) {
+      $cp_used = false;
+      $cp = sql_fetch("select * from shop_coupon where cp_type = '5' AND cp_id >= 3 ");
+      if($cp['cp_id'] && $cp['cp_use']) {
+        if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
+          ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
+          $cp_used = true;
+  
+        if($cp_used)
+          insert_used_coupon($mb_id, $mb_name, $cp);
+      }
+    }
+  
+  }
+  
+
+
+// 기본 배송지 _20240723_SY
+$b_addr_table = "b_address";
+$b_addr_value['mb_id']        = $mb_id;
+$b_addr_value['b_cellphone']  = $mb_hp;
+$b_addr_value['b_telephone']  = $mb_tel;
+$b_addr_value['b_zip']        = $mb_zip;
+$b_addr_value['b_addr1']      = $mb_addr1;
+$b_addr_value['b_addr2']      = $mb_addr2;
+$b_addr_value['b_addr3']      = $mb_addr3;
+$b_addr_value['b_addr_jibun'] = $mb_addr_jibeon;
+$b_addr_value['b_name']       = "기본배송지";
+$b_addr_value['b_base']       = "1";
+$b_addr_value['b_addr_jibeon']= $mb_addr_jibeon;
+$b_addr_value['b_addr_req']   = "";
+
+$INSERT_BADDR = new IUD_Model;
+$INSERT_BADDR->insert($b_addr_table, $b_addr_value);
+
 
 alert("회원가입이 완료 되었습니다.", BV_ADMIN_URL."/member.php?code=register_form");
 ?>

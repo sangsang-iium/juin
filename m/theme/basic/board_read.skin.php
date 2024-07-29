@@ -8,7 +8,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 		<div class="txt-board-view" id="notice">
 			<div class="tb-view-title">
 				<p class="tit">
-          <?php 
+          <?php
           if($write['btype'] != '1') {
             echo $bo_subject;
           } else {
@@ -34,12 +34,12 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 					?>
 					<img src="<?php echo $file2; ?>" class="img_fix">
 					<?php } ?>
-					<?php echo conv_content($write['memo'], 1); ?>
+					<?php echo conv_content($write['memo'], 2); ?>
 				</p>
 			</div>
 			<!-- 이전글 / 다음글 개발 필요 { -->
 			<div class="tb-nb">
-      <?php 
+      <?php
         $sql = "SELECT * FROM shop_board_{$boardid} WHERE wdate > '{$write['wdate']}' {$sql_search2}";
         if($sfl && $stx)
           $sql .= " and $sfl like '%$stx%'";
@@ -58,7 +58,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 						<?php echo $prev_subject; ?>
 					</a>
 				</div>
-      <?php } 
+      <?php }
         $sql = "select * from shop_board_{$boardid} where wdate < '{$write['wdate']}' {$sql_search2}";
         if($sfl && $stx)
           $sql .= " and $sfl like '%$stx%'";

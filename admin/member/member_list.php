@@ -3,6 +3,9 @@ if (!defined('_BLUEVATION_')) {
   exit;
 }
 
+$ao = " OR ";
+$sql_region = "";
+$sql_extra = "";
 
 if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fr_date)) {
   $fr_date = '';
@@ -37,15 +40,6 @@ function addAliasFunc($column)
   return "$alias";
 }
 
-if ($sfl && $stx) {
-  if($sfl == 'all') {
-    $allColumns = array("mm.ju_restaurant" , "mm.ju_b_num" , "mm.name" , "mm.cellphone" , "mm.id" , "mn.name");
-    $sql_search .= allSearchSql($allColumns,$stx);
-  } else {
-    $sflColumn = addAliasFunc($sfl);
-    $sql_search .= " AND {$sflColumn} like '%$stx%' ";
-  }
-}
 
 if ($sst) {
   $gradeColumn = addAliasFunc("grade");
@@ -76,12 +70,25 @@ if ($fr_date && $to_date) {
 }
 
 // 탈퇴 검색
-if ($ssd == '탈퇴') {
-  $sql_search .= " and mm.intercept_date <> '' ";
-} else if ($ssd == '폐업') {
-  $sql_search .= " and mm.ju_closed = '03'";
-} else if ($ssd == "휴업") {
-  $sql_search .= " and mm.ju_closed = '02'";
+
+if($ssd) {
+  switch($ssd) {
+    case "휴업":
+      $ssd_code = "02";
+      break;
+    case "폐업":
+      $ssd_code = "03";
+      break;
+  }
+  if($ssd == '탈퇴') {
+    $sql_search .= " and mm.intercept_date <> '' ";  
+  } else if($ssd == 'all') {
+    $sql_search .= "";
+  } else {
+    $sql_search .= " and mm.ju_closed = '{$ssd_code}' ";  
+  }
+} else {
+  $ssd = "all";
 }
 
 if (!$orderby) {
@@ -91,25 +98,116 @@ if (!$orderby) {
   $sod = $orderby;
 }
 
-
 /* ------------------------------------------------------------------------------------- _20240717_SY
     * 지회/지부 권한 관려 수정
    ------------------------------------------------------------------------------------- */
 if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
   if($member['ju_region2'] != "00400") {
     $belong_list = getBelongList($_SESSION['ss_mn_id'], "mm.ju_manager");
-    $sql_search .= $belong_list;
+    $sql_region .= $belong_list;
     if($member['grade'] > 2) {
-      $sql_search .= " AND mm.grade >= 8 ";
+      $sql_region .= " AND mm.grade >= 8 ";
     }
   }
 }
+
+
+
+if ($sfl && $stx) {
+  if($sfl == 'all') {
+
+    $allColumns = array("mm.ju_restaurant" , "mm.ju_b_num" , "mm.name" , "mm.cellphone" , "mm.id" , "mn.name");
+    $i = 0;
+    $sql_search .= " AND (";
+    foreach ($allColumns as $columnVal) {
+      if($i != 0) $sql_search .= " OR ";
+      $sql_search .= " INSTR( LOWER($columnVal) , LOWER('$stx') ) ";
+      $i++;
+    }
+
+    $branch_where = " WHERE (1) AND b.branch_name LIKE '%$stx%' ";
+    $branch_data = getRegionFunc("branch",$branch_where);
+    $b_sql = "";
+    for($i=0; $i<count($branch_data); $i++) {
+      $values[] = "'" . $branch_data[$i]['branch_code'] . "'";
+    }
+    if (!empty($values)) {
+      $b_sql = implode(", ", $values);
+      $sql_search .= " OR mm.ju_region2 IN ( $b_sql ) ";
+    } 
+
+    $office_where = " WHERE (1) AND a.office_name LIKE '%$stx%' ";
+    $office_data = getRegionFunc("office",$office_where);
+    $s_sql = "";
+    for($i=0; $i<count($office_data); $i++) {
+      $values[] = "'" . $office_data[$i]['office_code'] . "'";
+    }
+    if (!empty($values)) {
+      $s_sql = implode(", ", $values);
+      $sql_search .= " OR mm.ju_region3 IN ( $s_sql ) ";
+    } 
+
+    $sql_search .= ") ";
+    $sql_region = "";
+
+  } else if ($sfl == "branch") { 
+    $branch_where = " WHERE (1) AND b.branch_name LIKE '%$stx%' ";
+    $branch_data = getRegionFunc("branch",$branch_where);
+    $b_sql = "";
+    for($i=0; $i<count($branch_data); $i++) {
+      $values[] = "'" . $branch_data[$i]['branch_code'] . "'";
+    }
+    if (!empty($values)) {
+      $b_sql = implode(", ", $values);
+      $sql_search .= " AND mm.ju_region2 IN ( $b_sql ) ";
+    } 
+
+    $sql_region = "";
+  } else if ($sfl == "office") { 
+    $office_where = " WHERE (1) AND a.office_name LIKE '%$stx%' ";
+    $office_data = getRegionFunc("office",$office_where);
+    $s_sql = "";
+    for($i=0; $i<count($office_data); $i++) {
+      $values[] = "'" . $office_data[$i]['office_code'] . "'";
+    }
+    if (!empty($values)) {
+      $s_sql = implode(", ", $values);
+      $sql_search .= " AND mm.ju_region3 IN ( $s_sql ) ";
+    } 
+    
+    $sql_region = "";
+
+  } else {
+    $sflColumn = addAliasFunc($sfl);
+    $sql_search .= " AND {$sflColumn} like '%$stx%' ";
+    $sql_region = "";
+  }
+
+  $ao = " AND ";
+}
+
+
+/* ------------------------------------------------------------------------------------- _20240726_SY
+  * 지회/지부 마스터 이상일 경우 본인 소속 사업장도 조회
+ ------------------------------------------------------------------------------------- */
+ if ($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
+  if($member['ju_region2'] != "00400" && $member['grade'] < 3 && $sfl != "office" && $sfl != "branch") {
+    $office_chk_sel = " SELECT COUNT(*) as cnt FROM kfia_branch WHERE branch_code = '{$member['ju_region3']}' ";
+    $office_chk_res = sql_fetch($office_chk_sel);
+    if($office_chk_res['cnt'] < 1) {
+      $sql_extra .= " {$ao} mm.ju_region3 = '{$member['ju_region3']}' ";
+    } else {
+      $sql_extra .= " {$ao} mm.ju_region2 = '{$member['ju_region2']}' ";
+    }
+  }
+}
+
 
 $sql_order = " order by $filed $sod ";
 
 
 // 테이블의 전체 레코드수만 얻음
-$sql         = " select count(*) as cnt $sql_common {$sql_join} $sql_search ";
+$sql         = " select count(*) as cnt $sql_common {$sql_join} $sql_search {$sql_region} {$sql_extra} ";
 $row         = sql_fetch($sql);
 $total_count = $row['cnt'];
 
@@ -122,7 +220,7 @@ $from_record = ($page - 1) * $rows;       // 시작 열을 구함
 // $num         = $total_count - (($page - 1) * $rows);
 $num = (($page - 1) * $rows)+1;
 
-$sql    = " select mm.*, mn.name AS mn_name, mn.id AS mn_id, mn.index_no AS mn_idx $sql_common {$sql_join} $sql_search $sql_order limit $from_record, $rows ";
+$sql    = " select mm.*, mn.name AS mn_name, mn.id AS mn_id, mn.index_no AS mn_idx $sql_common {$sql_join} $sql_search {$sql_region} {$sql_extra} $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
 
@@ -133,19 +231,23 @@ if ($config['cert_admin_yes']) {
   $colspan++;
 }
 
-// <a href="./member/member_list_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 엑셀저장</a>
 $btn_frmline = <<<EOF
 <a href="./member.php?code=mail_list" class="btn_lsmall bx-white">전체메일발송</a>
 <a href="./sms/sms_member.php" onclick="win_open(this,'pop_sms','245','360','no');return false" class="btn_lsmall bx-white">전체문자발송</a>
+<a href="./member/member_list_excel.php?$q1" class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 엑셀저장</a>
 <a href="./member.php?code=register_form" class="fr btn_lsmall red"><i class="ionicons ion-android-add"></i> 회원추가</a>
 EOF;
+
+if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
+  echo $sql;
+ }
 
 include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 ?>
 
 <h5 class="htag_title">기본검색</h5>
 <p class="gap20"></p>
-<form name="fsearch" id="fsearch" method="get">
+<form name="fsearch" id="fsearch" method="get" autocomplete=off>
   <input type="hidden" name="code" value="<?php echo $code; ?>">
   <div class="board_table">
     <table>
@@ -167,6 +269,8 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
                   <?php echo option_selected('cellphone', $sfl, '연락처'); ?>
                   <?php echo option_selected('id', $sfl, '아이디'); ?>
                   <?php echo option_selected('ju_manager', $sfl, '담당직원'); ?>
+                  <?php echo option_selected('branch', $sfl, '지회'); ?>
+                  <?php echo option_selected('office', $sfl, '지부'); ?>
                 </select>
               </div>
               <input type="text" name="stx" value="<?php echo $stx; ?>" class="frm_input" size="30">
@@ -174,7 +278,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
           </td>
         </tr>
         <tr>
-          <th scope="row">기간검색</th>
+          <th scope="row" >기간검색</th>
           <td>
             <div class="tel_input">
               <div class="chk_select w200">
@@ -199,9 +303,10 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
           <th scope="row">휴/폐업,탈퇴 검색</th>
           <td>
             <ul class="radio_group">
-              <li class="radios"><input type="radio" name="ssd" value="휴업" id="ssd3"><label for="ssd3">휴업</label></li>
-              <li class="radios"><input type="radio" name="ssd" value="폐업" id="ssd2"><label for="ssd2">폐업</label></li>
-              <li class="radios"><input type="radio" name="ssd" value="탈퇴" id="ssd1"><label for="ssd1">탈퇴</label></li>
+              <li class="radios"><input type="radio" name="ssd" value="all" id="ssd0" <?php echo $ssd=="all"?"checked":"" ?> ><label for="ssd0">전체</label></li>
+              <li class="radios"><input type="radio" name="ssd" value="휴업" id="ssd3" <?php echo $ssd=="휴업"?"checked":"" ?> ><label for="ssd3">휴업</label></li>
+              <li class="radios"><input type="radio" name="ssd" value="폐업" id="ssd2" <?php echo $ssd=="폐업"?"checked":"" ?> ><label for="ssd2">폐업</label></li>
+              <li class="radios"><input type="radio" name="ssd" value="탈퇴" id="ssd1" <?php echo $ssd=="탈퇴"?"checked":"" ?> ><label for="ssd1">탈퇴</label></li>
             </ul>
 
           </td>
@@ -232,9 +337,6 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 </div>
 <div class="local_frm01">
   <?php echo $btn_frmline; ?>
-  <?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
-    <a href="./member/member_list_excel.php?<?php echo $q1?> " class="btn_lsmall bx-white"><i class="fa fa-file-excel-o"></i> 엑셀저장</a>
-  <?php } ?>
 </div>
 <div class="board_list">
   <table class="list01">
@@ -305,13 +407,20 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
           * 지회/지부 데이터 (담당자 기준으로 출력)
         /* ------------------------------------------------------------------------------------- */
           $jibu_name = "없음";
-          if(!empty($row['mn_idx'])) {
-            $manager_sel = " SELECT * FROM shop_manager WHERE index_no ='{$row['mn_idx']}' ";
-            $manager_row = sql_fetch($manager_sel);
+          // if(!empty($row['mn_idx'])) {
+          //   $manager_sel = " SELECT * FROM shop_manager WHERE index_no ='{$row['mn_idx']}' ";
+          //   $manager_row = sql_fetch($manager_sel);
 
-            $jibu_row = getRegionFunc("office", " WHERE b.branch_code = '{$manager_row['ju_region2']}' AND a.office_code = '{$manager_row['ju_region3']}'");
+          //   $jibu_row = getRegionFunc("office", " WHERE b.branch_code = '{$manager_row['ju_region2']}' AND a.office_code = '{$manager_row['ju_region3']}'");
+          //   $jibu_name = $jibu_row[0]['branch_name']. " / " .$jibu_row[0]['office_name'];
+          // }
+
+          // 사업자한테 붙은 지회/지부로 노출되도록 수정 _20240724_SY
+          if(!empty($row['ju_region2']) && !empty($row['ju_region3']) ) {
+            $jibu_row = getRegionFunc("office", " WHERE b.branch_code = '{$row['ju_region2']}' AND a.office_code = '{$row['ju_region3']}'");
             $jibu_name = $jibu_row[0]['branch_name']. " / " .$jibu_row[0]['office_name'];
           }
+          
         ?>
         <td><?php echo $jibu_name ?></td>
         <td><?php echo replace_tel($row['cellphone']); ?></td>

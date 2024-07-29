@@ -163,14 +163,15 @@ EOF;
 		<col class="w50">
 		<col class="w150">
 		<col class="w170">
-		<col class="w100">
+		<col class="w40">
+		<col class="w40">
+		<col>
+		<col class="w60">
 		<col class="w80">
 		<col class="w80">
-		<col class="w80">
-		<col class="w100">
-		<col class="w20">
-		<col class="w20">
-		<col class="">
+		<col class="w90">
+		<col class="w90">
+		<col class="w90">
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
@@ -181,23 +182,22 @@ EOF;
 		<th scope="col">번호</th>
 		<th scope="col">주문일시</th>
 		<th scope="col">주문번호</th>
-		<th scope="col">업소명</th>
-		<th scope="col">대표자</th>
-		<th scope="col">연락처</th>
-		<th scope="col">담당지부</th>
-		<th scope="col">신청자</th>
 		<th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
 		<th scope="col" colspan="2">주문상품</th>
+		<th scope="col">수량</th>
 		<th scope="col">상품금액</th>
-		<th scope="col">판매자</th>
+		<th scope="col">배송비</th>
     <th scope="col">결제방법</th>
-		<th scope="col">총주문액</th>
 		<th scope="col">주문상태</th>
+		<th scope="col">판매자</th>
+		<th scope="col">주문자</th>
+		<th scope="col">수령자</th>
+		<th scope="col">총주문액</th>
+		<th scope="col">가맹점</th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php
-
 	for($i=0; $row=sql_fetch_array($result); $i++) {
 		$bg = 'list'.($i%2);
 
@@ -214,9 +214,6 @@ EOF;
 				$gs['gname'] = $gs['goods_name'];
 			}
 
-			$sqlMember = "SELECT * FROM shop_member WHERE id = '{$row['mb_id']}'";
-			$rowMember = sql_fetch($sqlMember);
-
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<?php if($k == 0) { ?>
@@ -228,31 +225,6 @@ EOF;
 		<td rowspan="<?php echo $rowspan; ?>">
 			<a href="<?php echo BV_ADMIN_URL; ?>/pop_orderform.php?od_id=<?php echo $row['od_id']; ?>" onclick="win_open(this,'pop_orderform','1200','800','yes');return false;" class="fc_197"><?php echo $row['od_id']; ?></a>
 			<?php echo $sodr['disp_mobile']; ?>
-		</td>
-		<td rowspan="<?php echo $rowspan; ?>">
-			<?php echo $rowMember['ju_restaurant'] ?>
-		</td>
-		<td rowspan="<?php echo $rowspan; ?>">
-			<?php echo $rowMember['name'] ?>
-		</td>
-		<td rowspan="<?php echo $rowspan; ?>">
-			<?php echo $rowMember['cellphone'] ?>
-		</td>
-		<td rowspan="<?php echo $rowspan; ?>">
-			<?php
-				// 공제회, 중앙회 왜 예외?
-				$sqlJu = "SELECT * FROM kfia_office WHERE branch_code = '{$rowMember['ju_region2']}' AND office_code = '{$rowMember['ju_region3']}'";
-				$rowJu = sql_fetch($sqlJu);
-				if($rowJu['office_idx']){
-					echo $rowJu['office_name'];
-				} else {
-					echo '-';
-				}
-			?>
-		</td>
-		<td rowspan="<?php echo $rowspan; ?>">
-			<?php echo $sodr['disp_od_name']; ?>
-			<?php echo $sodr['disp_mb_id']; ?>
 		</td>
 		<td rowspan="<?php echo $rowspan; ?>">
 			<input type="hidden" name="od_id[<?php echo $i; ?>]" value="<?php echo $row['od_id']; ?>">
@@ -279,17 +251,23 @@ EOF;
 				<a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a>
 			<?php } ?>
 		</td>
+		<td><?php echo number_format($row2['sum_qty']); ?></td>
 		<td class="tar"><?php echo number_format($row2['goods_price']); ?></td>
-		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
-
+		<td class="tar"><?php echo number_format($row2['baesong_price']); ?></td>
     <?php if($k==0) { ?>
     <td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
     <?php } ?>
-		<?php if($k == 0) { ?>
-		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
-		<?php } ?>
 		<td><?php echo $gw_status[$row2['dan']]; ?></td>
-
+		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
+		<?php if($k == 0) { ?>
+		<td rowspan="<?php echo $rowspan; ?>">
+			<?php echo $sodr['disp_od_name']; ?>
+			<?php echo $sodr['disp_mb_id']; ?>
+		</td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row['b_name']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_pt_id']; ?></td>
+		<?php } ?>
 	<?php
 		}
 	}

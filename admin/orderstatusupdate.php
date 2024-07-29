@@ -81,7 +81,7 @@ if ($od_cancel_change) {
 							where a.od_id = '{$od_id}'";
       $od = sql_fetch($sql);
 
-      if (($od['method'] == '카드' || $od['method'] == '가상계좌' || $od['paymethod'] == '신용카드' || $od['paymethod'] == '간편결제' || $od['paymethod'] == 'KAKAOPAY') || ($od['od_pg'] == 'inicis' && $od['paymethod'] == '삼성페이')) {
+      if ($od['method'] == '카드' || $od['method'] == '가상계좌' || $od['paymethod'] == '신용카드' || $od['paymethod'] == '간편결제' || $od['paymethod'] == '간편' || $od['paymethod'] == '계좌이체'  || $od['paymethod'] == '일반') {
         // 가맹점 PG결제 정보
         $default = set_partner_value($od['od_settle_pid']);
 
@@ -204,7 +204,7 @@ if ($od_cancel_change) {
             setlocale(LC_CTYPE, '');
             break;
           case 'toss':
-            if ($od['paymethod'] == '무통장' || $od['paymethod'] == '일반') {
+            if ($od['paymethod'] == '무통장' || $od['paymethod'] == '일반' || $od['paymethod'] == '계좌이체' ) {
               $sk = "live_sk_vZnjEJeQVxKlJ066Ep6Y3PmOoBN0";
             } else if ($od['paymethod'] == '간편' || $od['paymethod'] == '신용카드') {
               $sk = "live_sk_0RnYX2w532Mklgz2ZPY18NeyqApQ";

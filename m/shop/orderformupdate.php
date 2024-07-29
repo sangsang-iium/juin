@@ -450,7 +450,7 @@ for ($i = 0; $i < count($gs_id); $i++) {
     save_goods_data($gs_id[$i], $insert_id, $od_id, $shop_table);
   }
   // 쿠폰 사용함으로 변경 (무통장, 포인트결제일 경우만)
-  if ($coupon_lo_id[$i] && $is_member && in_array($_POST['paymethod'], array('무통장', '포인트'))) {
+  if ($coupon_lo_id[$i] && $is_member && in_array($_POST['paymethod'], array('무통장', '포인트', '일반', '계좌이체', '신용', '신용카드'))) {
     sql_query("update shop_coupon_log set mb_use='1',od_no='$od_no',cp_udate='" . BV_TIME_YMDHIS . "' where lo_id='$coupon_lo_id[$i]'");
   }
 
@@ -501,7 +501,7 @@ $sql = " update {$shop_table}
 		  where od_id = '$od_id'";
 sql_query($sql, false);
 
-if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드', '간편'))) {
+if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드', '간편', '계좌이체'))) {
   $cart_select = ", ct_select = '1' ";
   // $cart_select = " , ct_select = '1' ";
 }
@@ -532,7 +532,7 @@ for ($i = 0; $i < count($ss_cart_id); $i++) {
   }
 }
 
-if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
+if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드', '계좌이체', '카드', '일반', '신용'))) {
   // 회원이면서 포인트를 사용했다면 테이블에 사용을 추가
   if ($is_member && $use_point) {
     insert_point($member['id'], (-1) * $use_point, "주문번호 $od_id 결제");

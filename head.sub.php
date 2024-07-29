@@ -34,6 +34,7 @@ header("Pragma: no-cache"); // HTTP/1.0
 <meta charset="utf-8">
 <meta http-equiv="imagetoolbar" content="no">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="robots" content="noindex">
 <?php
 include_once(BV_LIB_PATH.'/seometa.lib.php');
 
