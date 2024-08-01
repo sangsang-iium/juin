@@ -7,7 +7,28 @@ if (!defined("_BLUEVATION_")) {
 include_once(BV_PATH.'/include/introBtn.php');
 
 // echo sendPushNotification($member['fcm_token'], "로그인", "로그인성공");
+$getAppData = get_session('myLocation');
+$getAppData = trim($getAppData, '\"');
+$appDataArr = explode(",", $getAppData);
+$appToken   = trim(end($appDataArr));
+if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
+  print_r2($appToken);
+}
+if (empty($appToken) || $appToken == 'null' || $appToken == '') {
+  $appToken = '';
+}
 
+if (!empty($appToken)) {
+  $chk_token_sel = " SELECT id AS fcm_id FROM shop_member WHERE fcm_token = '{$appToken}' ";
+  $chk_token_row = sql_fetch($chk_token_sel);
+  if ($chk_token_row['fcm_token'] == $appToken && $chk_token_row['id'] != $member['id'] ) {
+    $sql = " update shop_member set fcm_token = '' where id = '{$chk_token_row['id']}' ";
+    sql_query($sql);
+  } else {
+    $sql = " update shop_member set login_ip = '{$_SERVER['REMOTE_ADDR']}', fcm_token = '{$appToken}' where id = '{$member['id']}' ";
+    sql_query($sql);
+  }
+}
 ?>
 
 <!-- contents { -->
@@ -151,6 +172,40 @@ include_once(BV_PATH.'/include/introBtn.php');
 </div>
 <!-- } 띠 배너 1 -->
 
+<!-- 인기상품 { -->
+<div class="section main_popular">
+  <div class="container right cp-title">
+    <div class="left">
+      <div class="icon-box"></div>
+      <div class="text-box">
+        <h3>인기상품</h3>
+        <p class="tp-expl">주인장의 인기상품을 만나보세요!</p>
+      </div>
+    </div>
+    <div class="right">
+      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=4" class="ui-btn more">전체보기</a>
+    </div>
+  </div>
+  <?php echo mobile_slide_goods('4', '20', 'container left main_popular-slide', 'small'); ?>
+</div>
+<!-- } 인기상품 -->
+
+<!-- 띠 배너 2 { -->
+<div class="line-banner-section line-banner02">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <!-- 배너 { -->
+      <a href="/m/service/list.php?menu=service" class="swiper-slide banner-item">
+        <div class="banner-img">
+          <img src="/src/img/mainbanner2_signup.jpg" alt="">
+        </div>
+      </a>
+      <!-- } 배너 -->
+    </div>
+  </div>
+</div>
+<!-- } 띠 배너 2 -->
+
 <!-- pb 상품 { -->
 <div class="section main_best bgColor1">
   <div class="container right cp-title">
@@ -169,47 +224,83 @@ include_once(BV_PATH.'/include/introBtn.php');
 </div>
 <!-- } pb 상품 -->
 
-
-<!-- 띠 배너 2 { -->
-<div class="line-banner-section line-banner02">
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      <!-- 배너 { -->
-      <a href="/m/service/list.php?menu=service" class="swiper-slide banner-item">
-        <div class="banner-img">
-          <img src="/src/img/mainbanner2_signup.jpg" alt="">
-        </div>
-      </a>
-      <!-- } 배너 -->
-    </div>
-  </div>
-</div>
-<!-- } 띠 배너 2 -->
-
 <!-- 상품 카테고리 바로가기 { -->
 <div class="container section main_category">
   <div class="cp-quick-category">
     <?php
-$cate_sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = 3 AND cateuse = 0 ORDER BY caterank asc";
-$cate_res = sql_query($cate_sql);
+    $cate_sql = "SELECT * FROM shop_category WHERE LENGTH(catecode) = 3 AND cateuse = 0 ORDER BY caterank asc";
+    $cate_res = sql_query($cate_sql);
 
-while ($cate_row = sql_fetch_array($cate_res)) {
-  // 회원특별관 예외 처리
-  if($cate_row['catecode']== '006'){
-    continue;
-  }
-  ?>
-    <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=' . $cate_row["catecode"]; ?>" class="ui-btn">
-      <i class="icon">
-        <img src="/data/category/<?php echo $cate_row['cateimg1'] ?>" alt="<?php echo $cate_row['catename'] ?>">
-      </i>
-      <p class="name"><?php echo $cate_row['catename'] ?></p>
-    </a>
-    <?php
-}?>
+    while ($cate_row = sql_fetch_array($cate_res)) {
+      // 회원특별관 예외 처리
+      if($cate_row['catecode']== '006'){
+        continue;
+      }
+      ?>
+        <a href="<?php echo BV_MSHOP_URL . '/list.php?ca_id=' . $cate_row["catecode"]; ?>" class="ui-btn">
+          <i class="icon">
+            <img src="/data/category/<?php echo $cate_row['cateimg1'] ?>" alt="<?php echo $cate_row['catename'] ?>">
+          </i>
+          <p class="name"><?php echo $cate_row['catename'] ?></p>
+        </a>
+        <?php
+    }?>
   </div>
 </div>
 <!-- } 상품 카테고리 바로가기 -->
+
+<!-- 래플응모 { -->
+<?php if($_SERVER['REMOTE_ADDR']=="106.247.231.170"){ ?>
+<div class="section main_raffle">
+  <div class="container right cp-title">
+    <div class="left">
+      <div class="icon-box"></div>
+      <div class="text-box">
+        <h3>래플응모</h3>
+        <p class="tp-expl">주인장의 래플상품을 만나보세요!</p>
+      </div>
+    </div>
+    <div class="right">
+      <a href="<?php echo BV_MSHOP_URL; ?>/raffle/list.php?menu=raffle" class="ui-btn more">전체보기</a>
+    </div>
+  </div>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <!-- item { -->
+      <?php for($i=0; $i<10; $i++){ ?>
+      <div class="cp-item time swiper-slide">
+        <div class="round50 prod-thumb_area">
+          <a href="" class="thumb">
+            <img src="/src/img/t-product1.jpg" alt="">
+          </a>
+          <div class="cp-timer">
+            <div class="cp-timer-wrap white">
+              <i class="cp-timer__icon"></i>
+              <span class="cp-timer__num" data-deadline="2024-08-01 23:59:59">00:00:00</span>
+              <span class="cp-timer__text">남음</span>
+            </div>
+          </div>
+        </div>
+        <a href="" class="prod-info_area">
+          <p class="tRow2 name">(타임)한끼으뜸쌀 20kg</p>
+          <p class="dc-price">30,000원</p>
+          <p class="price-box">
+            <span class="dc-percent">10%</span>
+            <span class="sale-price">27,000원</span>
+          </p>
+        </a>
+        <div class="prod-tag_area">
+          <span class="tag coupon">쿠폰</span>
+          <span class="tag freeDelivery">무료배송</span>
+        </div>
+      </div>
+      <?php } ?>
+      <!-- } item -->
+    </div>
+  </div>
+</div>
+<?php } ?>
+<!-- } 래플응모 -->
 
 <!-- 관련 서비스 바로가기 { -->
 <!-- <div class="container section main_service">
@@ -276,24 +367,6 @@ while ($cate_row = sql_fetch_array($cate_res)) {
   <?php echo mobile_slide_goods('5', '20', 'container left main_recomm-slide', 'small'); ?>
 </div> -->
 <!-- } 추천상품 -->
-
-<!-- 인기상품 { -->
-<!-- <div class="section main_popular">
-  <div class="container right cp-title">
-    <div class="left">
-      <div class="icon-box"></div>
-      <div class="text-box">
-        <h3>인기상품</h3>
-        <p class="tp-expl">주인장의 인기상품을 만나보세요!</p>
-      </div>
-    </div>
-    <div class="right">
-      <a href="<?php echo BV_MSHOP_URL; ?>/listtype.php?type=4" class="ui-btn more">전체보기</a>
-    </div>
-  </div>
-  <?php echo mobile_slide_goods('4', '20', 'container left main_popular-slide', 'small'); ?>
-</div>
-} 인기상품 -->
 
 <!-- 띠 배너 3 { -->
 <div class="line-banner-section line-banner03">
