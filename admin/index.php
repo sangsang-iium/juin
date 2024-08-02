@@ -52,7 +52,16 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
 <div id="main_dashboard">
     <div class="dashboard_boxs">
         <dl>
-            <dt class="box_title">금일 주문현황</dt>
+            <dt class="box_title select_type">
+                금일 주문현황
+                <div class="chk_select">
+                    <select name="" id="order_month">
+                      <?php foreach($monthText as $key => $val) { 
+                        echo "<option value='{$key}'".($currentMonth == substr($val, 5) ? 'selected' : '') ." >".substr($val, 5)."월</option>";
+                      } ?>
+                    </select>
+                </div>
+            </dt>
             <dd class="box_contents">
                 <div class="box_white">
                     <p class="content_title">주문</p>
@@ -82,16 +91,9 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                 </div>       
             </dd>
         </dl>
-        <dl>
-            <dt class="box_title select_type">
+        <dl class="w-300">
+            <dt class="box_title">
                 매출현황(당월)
-                <div class="chk_select">
-                    <select name="" id="order_month">
-                      <?php foreach($monthText as $key => $val) { 
-                        echo "<option value='{$key}'".($currentMonth == substr($val, 5) ? 'selected' : '') ." >".substr($val, 5)."월</option>";
-                      } ?>
-                    </select>
-                </div>
             </dt>
             <dd class="box_contents line_box">
                 <div class="order_line_cnt box_white">
@@ -154,6 +156,112 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
             </dd>
         </dl>
         <dl class="flex_fixed">
+            <dt class="box_title link_type">
+                <a href="#">회원통계</a>
+            </dt>
+            <dd class="box_contents">
+                <div class="box_white">
+                    <div class="mem-statics-wrap">
+                        <div class="col2 mem-statics-col">
+                            <div class="box-wrap">
+                                <div class="box">
+                                    <p class="t1 c1">가입회원</p>
+                                    <p class="t2">
+                                        <span class="num c1">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="i-col-2 box-wrap">
+                                <div class="box">
+                                    <p class="t1 c2">설치</p>
+                                    <p class="t2">
+                                        <span class="num c2">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                                <div class="box">
+                                    <p class="t1 c3">미설치</p>
+                                    <p class="t2">
+                                        <span class="num c3">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mem-statics-col">
+                            <div class="row6 box-wrap">
+                                <div class="box">
+                                    <p class="t1 cb">일반 회원</p>
+                                    <p class="t2">
+                                        <span class="num">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                                <div class="box">
+                                    <p class="t1 cb">중앙회 회원</p>
+                                    <p class="t2">
+                                        <span class="num">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                                <div class="box">
+                                    <p class="t1 cb">임직원 회원</p>
+                                    <p class="t2">
+                                        <span class="num">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                                <div class="box">
+                                    <p class="t1 cb">휴업 회원</p>
+                                    <p class="t2">
+                                        <span class="num">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                                <div class="box">
+                                    <p class="t1 cb">폐업 회원</p>
+                                    <p class="t2">
+                                        <span class="num">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                                <div class="box">
+                                    <p class="t1 cb">탈퇴 회원</p>
+                                    <p class="t2">
+                                        <span class="num">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col2 mem-statics-col">
+                            <div class="box-wrap">
+                                <div class="box">
+                                    <p class="t1 c1">WEB</p>
+                                    <p class="t2">
+                                        <span class="num c1">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="box-wrap">
+                                <div class="box">
+                                    <p class="t1 c2">APP</p>
+                                    <p class="t2">
+                                        <span class="num c2">00</span>
+                                        <span class="unit">명</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+    </div>
+    <div class="dashboard_boxs">
+    <dl class="flex_fixed">
             <dt class="box_title link_type">
                 <a href="#">매출순위(당월)</a>
             </dt>
@@ -224,27 +332,6 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                 </div>       
             </dd>
         </dl>
-        <dl>
-            <dt class="box_title link_type">
-                <a href="/admin/goods.php?code=list">최근 등록된 상품</a>
-            </dt>
-            <dd class="box_contents rank_type new_item_list">
-                <ol class="box_white">
-                <?php 
-                  $goods_data = getNewGoodsFunc();
-                  if(is_array($goods_data)) {
-                    foreach($goods_data as $entry) { ?>
-                      <li>
-                          <a href="/admin/goods.php?code=form&w=u&gs_id=<?php echo $entry['index_no']?>" class="board_title"><?php echo maskingText($entry['gname'], 20)?></a>
-                      </li>
-                <?php }} else {
-                  echo "<li>자료가 없습니다.</li>";
-                } ?>
-                </ol>          
-            </dd>
-        </dl>
-    </div>
-    <div class="dashboard_boxs">
         <div class="dashboard_graph">
             <dl>
                 <dt class="box_title">주문실적현황</dt>
@@ -256,8 +343,29 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                 </dd>
             </dl>
         </div>
+    </div>
+    <div class="dashboard_boxs">
+        <!-- <div class="recent-regi-box">
+            <dt class="box_title link_type">
+                <a href="/admin/goods.php?code=list">최근 등록된 상품</a>
+            </dt>
+            <dd class="box_contents rank_type new_item_list">
+                <ol class="box_white">
+                <?php 
+                  $goods_data = getNewGoodsFunc();
+                  if(is_array($goods_data)) {
+                    foreach($goods_data as $entry) { ?>
+                      <li>
+                          <a href="/admin/goods.php?code=form&w=u&gs_id=<?php echo $entry['index_no']?>" class="board_title"><?php echo maskingText($entry['gname'], 30)?></a>
+                      </li>
+                <?php }} else {
+                  echo "<li>자료가 없습니다.</li>";
+                } ?>
+                </ol>
+            </dd>
+        </div> -->
         <div class="dashboard_boards">
-            <dl>
+            <dl class="w-30per">
                 <dt class="box_title link_type">
                     <a href="/m/bbs/board_list.php?boardid=13">
                         공지사항
@@ -279,7 +387,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                     </ul>
                 </dd>
             </dl>
-            <dl>
+            <dl class="w-30per">
                 <dt class="box_title link_type">
                     <a href="/admin/help.php?code=qa">
                         1대1 문의
@@ -301,32 +409,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                     </ul>
                 </dd>
             </dl>
-            <dl>
-                <dt class="box_title link_type">
-                    <a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=list">
-                        신규 회원가입
-                    </a>
-                </dt>
-                <dd class="box_contents">
-                    <ul class="box_white board_list">
-                      <?php
-                          $sql = "select * from shop_member where id <> 'admin' AND id <> 'iium' order by index_no desc limit 4";
-                          $result = sql_query($sql);
-                          for($i=0; $row=sql_fetch_array($result); $i++){
-                      ?>
-                      <li>
-                          <a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=list" class="board_title"><?php echo $row['name']; ?></a>
-                          <span class="board_date"><?php echo substr($row['reg_time'],0,16); ?></span>
-                      </li>
-                      <?php
-                          }
-                          if($i==0)
-                            echo "<li>자료가 없습니다.</li>";
-                      ?>
-                    </ul>
-                </dd>
-            </dl>
-            <dl>
+            <dl class="w-30per">
                 <dt class="box_title">
                     <a href="/admin">
                         상품 문의
@@ -352,6 +435,50 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                       <?php }} else {
                         echo "<li>자료가 없습니다.</li>";
                       } ?>
+                    </ul>
+                </dd>
+            </dl>
+            <dl>
+                <dt class="box_title link_type">
+                    <a href="/admin/goods.php?code=list">최근 등록된 상품</a>
+                </dt>
+                <dd class="box_contents rank_type new_item_list">
+                    <ol class="box_white">
+                    <?php 
+                    $goods_data = getNewGoodsFunc();
+                    if(is_array($goods_data)) {
+                        foreach($goods_data as $entry) { ?>
+                        <li>
+                            <a href="/admin/goods.php?code=form&w=u&gs_id=<?php echo $entry['index_no']?>" class="board_title"><?php echo maskingText($entry['gname'], 30)?></a>
+                        </li>
+                    <?php }} else {
+                    echo "<li>자료가 없습니다.</li>";
+                    } ?>
+                    </ol>
+                </dd>
+            </dl>
+            <dl>
+                <dt class="box_title link_type">
+                    <a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=list">
+                        신규 회원가입
+                    </a>
+                </dt>
+                <dd class="box_contents">
+                    <ul class="box_white board_list">
+                      <?php
+                          $sql = "select * from shop_member where id <> 'admin' AND id <> 'iium' order by index_no desc limit 5";
+                          $result = sql_query($sql);
+                          for($i=0; $row=sql_fetch_array($result); $i++){
+                      ?>
+                      <li>
+                          <a href="<?php echo BV_ADMIN_URL; ?>/member.php?code=list" class="board_title"><?php echo $row['name']; ?></a>
+                          <span class="board_date"><?php echo substr($row['reg_time'],0,16); ?></span>
+                      </li>
+                      <?php
+                          }
+                          if($i==0)
+                            echo "<li>자료가 없습니다.</li>";
+                      ?>
                     </ul>
                 </dd>
             </dl>
