@@ -1408,3 +1408,21 @@
 .main_raffle .cp-timer__icon {width: 2rem; height: 2rem; margin-right: .5rem;}
 .main_raffle .cp-timer__num {font-size: 2rem;}
 .main_raffle .cp-timer__text {font-size: 2rem;}
+
+/* === 2024-08-02 메인 배너변경 및 인트로 버튼추가 === */
+.mtb-wrap {padding-top: 1.8rem;}
+
+.intro-join-btn-box {display: flex; align-items: center; justify-content: space-between; gap: 0 1.12rem; padding-top: 1.2rem; padding-bottom: 8rem;}
+.intro-join-btn-box .join-btn {width: 100%; display: flex; align-items: center; justify-content: center; border-radius: 0.96rem; height: 5.6rem; border: 0.16rem solid #eee; gap: 0.8rem; font-weight: 500; font-size: 1.6rem; color: #333;}
+.intro-join-btn-box .join-btn .icon {width: 2.24rem;}
+
+.general-pay-btn-wrap {padding-top: 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; display: none;}
+.general-pay-btn-wrap .ui-btn {width: 100%;}
+.general-pay-btn-wrap .ui-btn.active {color: var(--color-white); background-color: var(--color-main);}
+
+.main_raffle {background: url('/src/img/main-raffle-bg.png') no-repeat center/cover; padding: 4.8rem 0;}
+.main_raffle .text-box h3 {color: #fff;}
+.main_raffle .cp-title .tp-expl {color: rgba(255,255,255,.75);}
+.main_raffle .prod-info_area .name {color: #fff;}
+.main_raffle .prod-info_area .dc-price {color: #fff;}
+.main_raffle .prod-info_area .sale-price {color: #fff;}

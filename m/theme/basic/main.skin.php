@@ -122,6 +122,66 @@ if (!empty($appToken)) {
 </div>
 <!-- } 오늘만 특가상품 -->
 
+<!-- 래플응모 { -->
+<?php $raffleList = raffleList(); 
+if(sizeof($raffleList) > 0) { ?>
+<div class="section main_raffle">
+  <div class="container right cp-title">
+    <div class="left">
+      <div class="icon-box"></div>
+      <div class="text-box">
+        <h3>래플응모</h3>
+        <p class="tp-expl">주인장의 래플상품을 만나보세요!</p>
+      </div>
+    </div>
+    <div class="right">
+      <a href="<?php echo BV_MURL; ?>/raffle/list.php?menu=raffle" class="ui-btn more">전체보기</a>
+    </div>
+  </div>
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <!-- item { -->
+      <?php foreach ($raffleList as $raffleVal) {
+        $per = round((($raffleVal['market_price'] - $raffleVal['raffle_price']) / $raffleVal['market_price']) * 100);
+      ?>
+      <div class="cp-item time swiper-slide">
+        <div class="round50 prod-thumb_area">
+          <a href="./raffle/view.php?index_no=<?php echo $raffleVal['index_no'] ?>" class="thumb">
+            <?php echo get_raffle_img($raffleVal['simg1']) ?>
+          </a>
+          <div class="cp-timer">
+            <div class="cp-timer-wrap white">
+              <?php if($raffleEnd) { ?>
+                <span class="cp-timer__text">종료</span>
+              <?php } else { ?>
+                <i class="cp-timer__icon"></i>
+                <span class="cp-timer__num" data-deadline="<?php echo $raffleVal['event_end_date'] ?>">00:00:00</span>
+                <span class="cp-timer__text">남음</span>
+              <?php } ?>
+            </div>
+          </div>
+        </div>
+        <a href="./raffle/view.php" class="prod-info_area">
+          <p class="tRow2 name"><?php echo $raffleVal['goods_name'] ?></p>
+          <p class="dc-price"><?php echo number_format($raffleVal['market_price']) ?>원</p>
+          <p class="price-box">
+            <span class="dc-percent"><?php echo $per ?>%</span>
+            <span class="sale-price"><?php echo number_format($raffleVal['raffle_price']) ?>원</span>
+          </p>
+        </a>
+        <!-- <div class="prod-tag_area">
+          <span class="tag coupon">쿠폰</span>
+          <span class="tag freeDelivery">무료배송</span>
+        </div> -->
+      </div>
+      <?php } ?>
+      <!-- } item -->
+    </div>
+  </div>
+</div>
+<?php } ?>
+<!-- } 래플응모 -->
+
 <!-- 띠 배너 1 { -->
 <div class="line-banner-section line-banner01">
   <div class="container right cp-title">
@@ -248,59 +308,6 @@ if (!empty($appToken)) {
   </div>
 </div>
 <!-- } 상품 카테고리 바로가기 -->
-
-<!-- 래플응모 { -->
-<?php if($_SERVER['REMOTE_ADDR']=="106.247.231.170"){ ?>
-<div class="section main_raffle">
-  <div class="container right cp-title">
-    <div class="left">
-      <div class="icon-box"></div>
-      <div class="text-box">
-        <h3>래플응모</h3>
-        <p class="tp-expl">주인장의 래플상품을 만나보세요!</p>
-      </div>
-    </div>
-    <div class="right">
-      <a href="<?php echo BV_MSHOP_URL; ?>/raffle/list.php?menu=raffle" class="ui-btn more">전체보기</a>
-    </div>
-  </div>
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      <!-- item { -->
-      <?php for($i=0; $i<10; $i++){ ?>
-      <div class="cp-item time swiper-slide">
-        <div class="round50 prod-thumb_area">
-          <a href="" class="thumb">
-            <img src="/src/img/t-product1.jpg" alt="">
-          </a>
-          <div class="cp-timer">
-            <div class="cp-timer-wrap white">
-              <i class="cp-timer__icon"></i>
-              <span class="cp-timer__num" data-deadline="2024-08-01 23:59:59">00:00:00</span>
-              <span class="cp-timer__text">남음</span>
-            </div>
-          </div>
-        </div>
-        <a href="" class="prod-info_area">
-          <p class="tRow2 name">(타임)한끼으뜸쌀 20kg</p>
-          <p class="dc-price">30,000원</p>
-          <p class="price-box">
-            <span class="dc-percent">10%</span>
-            <span class="sale-price">27,000원</span>
-          </p>
-        </a>
-        <div class="prod-tag_area">
-          <span class="tag coupon">쿠폰</span>
-          <span class="tag freeDelivery">무료배송</span>
-        </div>
-      </div>
-      <?php } ?>
-      <!-- } item -->
-    </div>
-  </div>
-</div>
-<?php } ?>
-<!-- } 래플응모 -->
 
 <!-- 관련 서비스 바로가기 { -->
 <!-- <div class="container section main_service">

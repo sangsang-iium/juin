@@ -70,6 +70,7 @@ $(document).ready(function () {
 
   mtbCloseBtn?.addEventListener('click', function() {
     mtbWrap.style.maxHeight = '0';
+    mtbWrap.style.paddingTop = '0';
   });
 
   //Main Popup Banner
