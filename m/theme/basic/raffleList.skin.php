@@ -44,7 +44,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         <!-- <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn" data-gs-id="<?php echo $ct['gs_id'];?>" data-od-no="<?php echo $ct['od_no'] ?>">상품후기 작성</button> -->
       </div>
       <!-- 2024-06-27 응모 취소 버튼 추가 { -->
-      <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn rf-order-btn">응모취소</button>
+      <button class="ui-btn ord-review__btn iq-wbtn rv-write-btn rf-order-btn" data-index-no="<?php echo $row['raffle_index'];?>" data-gs-name="<?php echo $row['goods_name'];?>"  data-type="cancle">응모취소</button>
       <!-- } 2024-06-27 응모 취소 버튼 추가 -->
       <?php if ($raffleEndCheck == 3) { ?>
         <?php if($row['prize'] == 'Y') { 
@@ -113,16 +113,27 @@ import * as f from '/src/js/function.js';
 document.querySelectorAll(".rf-order-btn").forEach(btn => {
   btn.addEventListener("click", function(event) {
     const index_no = event.currentTarget.dataset.indexNo;
+    const gs_name = event.currentTarget.dataset.gsName;
+    const type = event.currentTarget.dataset.type;
     $.ajax({
       url: "./raffleOrder.php",
         type: "POST",
-        data: { "index_no": index_no },
+        data: { "index_no": index_no, "gs_name": gs_name, "type" : type },
         dataType: "json",
         async: false,
         cache: false,
-        success: function(data, textStatus) {
-          document.location.href = data.url;
-          return false;
+        success: function(data) {
+          if(data.res == 'N') {
+            Swal.fire({
+              icon: 'warning',
+              text: '취소가 완료되었습니다.',	
+            }).then(function(){
+              location.reload()
+            })          
+          }
+          // document.location.href = data.url;
+          // return false;
+
         }
     });
 
