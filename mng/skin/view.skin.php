@@ -22,7 +22,7 @@ if(!defined('_BLUEVATION_')) exit;
 		</div> -->
 		<div class="simg_li">
             <?php
-            for($i=2; $i<=6; $i++) {
+            for($i=1; $i<=6; $i++) {
                 $it_image = $gs['simg'.$i];
                 if(!$it_image) continue;
 

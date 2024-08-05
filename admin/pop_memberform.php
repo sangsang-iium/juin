@@ -589,7 +589,9 @@ switch($member['grade']) {
                 <td>
                   <div class="write_address">
                     <div class="file_wrap address">
-                      <input type="text" name="ju_addr_full" id="ju_addr_full" value="<?php echo $mb['ju_addr_full']; ?>" class="frm_input w200" size="50">
+                      <input type="text" name="ju_addr_full" id="ju_addr_full" value="<?php echo $mb['ju_addr_full']; ?>" class="frm_input" style="display:block;max-width:none" >
+                    </div>
+                    <div class="file_wrap address">
                       <a href="#none" onclick="daumAddress();" class="btn_file">주소검색</a>
                       <a href="#none" onclick="getPosition();" class="btn_file">좌표가져오기</a>
                     </div>

@@ -3,6 +3,12 @@ if (!defined('_BLUEVATION_')) {
   exit;
 }
 
+$query_string = "code=$code$qstr";
+$q1 = $query_string;
+$q2 = $query_string . "&page=$page";
+
+$sql_search = "";
+
 if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fr_date)) {
   $fr_date = '';
 }
@@ -10,6 +16,40 @@ if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $fr_d
 if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $to_date)) {
   $to_date = '';
 }
+
+// 기간검색
+if ($fr_date && $to_date) {
+  $sql_search .= " AND senddate BETWEEN '$fr_date 00:00:00' AND '$to_date 23:59:59' ";
+} else if ($fr_date && !$to_date) {
+  $sql_search .= " AND senddate BETWEEN '$fr_date 00:00:00' AND '$fr_date 23:59:59' ";
+} else if (!$fr_date && $to_date) {
+  $sql_search .= " AND senddate BETWEEN '$to_date 00:00:00' AND '$to_date 23:59:59' ";
+}
+
+if ($sfl && $stx) {
+  if($sfl == "all") {
+    $allColumns = array("p_title");
+    $sql_search .= allSearchSql($allColumns, $stx);
+  }
+}
+
+
+// 테이블의 전체 레코드수만 얻음
+$cnt_sql     = " SELECT COUNT(*) AS cnt FROM iu_push WHERE (1) {$sql_search} ";
+$cnt_row     = sql_fetch($cnt_sql);
+$total_count = $cnt_row['cnt'];
+$rows       = 30;
+$total_page = ceil($total_count / $rows); // 전체 페이지 계산
+if ($page == "") {
+  $page = 1;
+}             // 페이지가 없으면 첫 페이지 (1 페이지)
+$from_record = ($page - 1) * $rows;       // 시작 열을 구함
+// $num         = $total_count - (($page - 1) * $rows);
+$num = (($page - 1) * $rows)+1;
+
+$push_sel = " SELECT * FROM iu_push WHERE (1) {$sql_search} limit $from_record, $rows";
+$push_res = sql_query($push_sel);
+
 
 include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 ?>
@@ -62,7 +102,9 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
   </div>
 </form>
 
-<form name="pushlist" id="pushlist" method="post" action="./member/member_push_update.php" onsubmit="return fpushlist_submit(this);">
+<form name="pushlist" id="pushlist" method="post" action="./member/member_push_list_update.php" onsubmit="return fpushlist_submit(this);">
+  <input type="hidden" name="q1" value="<?php echo $q1; ?>">
+  <input type="hidden" name="page" value="<?php echo $page; ?>">
   <div class="local_frm01 mart30">
     <?php //echo $btn_frmline; ?>
     <input type="submit" name="act_button" value="선택삭제" class="btn_lsmall bx-white" onclick="document.pressed=this.value">
@@ -78,7 +120,7 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
         <col class="w150">
         <col class="w200">
         <col class="w200">
-        <col class="w150">
+        <!-- <col class="w150"> -->
       </colgroup>
       <thead>
         <tr>
@@ -91,29 +133,37 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
           <th scope="col">발송자</th>
           <th scope="col">등록일시</th>
           <th scope="col">발송일시</th>
-          <th scope="col">관리</th>
+          <!-- <th scope="col">관리</th> -->
         </tr>
       </thead>
       <tbody class="list">
+        <?php for($i=0; $push_row=sql_fetch_array($push_res); $i++) { 
+          $sender_info = get_member($push_row['p_sender']);
+          $sender = "";
+          if(!empty($push_row['p_sender'])) {
+            $sender = "{$sender_info['name']} ({$sender_info['id']})";
+          }
+        ?>
         <tr class="">
           <td>
-            <input type="hidden" name="push_id[0]" value="5413">
-            <input type="checkbox" name="chk[]" value="0">
+            <input type="hidden" name="push_id[<?php echo $i ?>]" value="<?php echo $push_row['idx'] ?>">
+            <input type="checkbox" name="chk[]" value="<?php echo $i; ?>">
           </td>
-          <td>1</td>
-          <td>Push 알람 제목이 나타납니다.</td>
-          <td>00</td>
-          <td>관리자 A</td>
-          <td>2024-04-01 00:00:00</td>
-          <td>2024-04-01 00:00:00</td>
-          <td>
+          <td><?php echo $num ?></td>
+          <td><?php echo $push_row['p_title'] ?></td>
+          <td><?php echo (int)$push_row['p_cnt'] ?></td>
+          <td><?php echo $sender ?></td>
+          <td><?php echo substr($push_row['wdate'], 0, 16) ?></td>
+          <td><?php echo substr($push_row['senddate'], 0, 16) ?></td>
+          <!-- <td>
             <div class="btn_wrap">
               <a href="./member.php?code=push_form" class="btn_fix bg_type2">
                 <span>수정</span>
               </a>
             </div>
-          </td>
+          </td> -->
         </tr>
+        <?php $num++; } ?>
       </tbody>
     </table>
   </div>

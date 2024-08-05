@@ -182,7 +182,7 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
     raffleOrder($gs_first_id, $_POST['raffle_log_index']);
   }
 
-} else if ($_POST['paymethod'] == '간편') {
+} else if ($_POST['paymethod'] == '간편' || $_POST['paymethod'] == '신용카드') {
   $gs_first_id = $gs_id[0];
   $gs_count    = count($gs_id);
   $sql_gs      = "SELECT * FROM shop_goods WHERE index_no = '{$gs_first_id}'";

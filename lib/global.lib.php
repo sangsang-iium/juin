@@ -4616,14 +4616,14 @@ function get_sale_price($gs_id)
 
 	$price = $gs['goods_price'];
 
-	if($gb['gb_sale'] > 0 && $member['id'] && !$gs['use_aff']) {
+	if($gb['gb_sale'] != 0 && $member['id'] && !$gs['use_aff']) {
 		if($gb['gb_sale_rate'] == 1) // 금액으로 할인
 			$price = $gs['goods_price'] - $gb['gb_sale'];
 		else // 퍼센트로 할인
 			$price = $gs['goods_price'] - (($gs['goods_price'] / 100) * $gb['gb_sale']);
 
 		if(strlen($price) > 1 && $gb['gb_sale_unit'])
-			$price = floor((int)$price/(int)$gb['gb_sale_unit']) * (int)$gb['gb_sale_unit'];
+			$price = round((int)$price/(int)$gb['gb_sale_unit']) * (int)$gb['gb_sale_unit'];
 	}
 
 	return (int)$price;

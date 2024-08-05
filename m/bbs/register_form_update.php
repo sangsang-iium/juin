@@ -182,7 +182,7 @@ if($config['cf_cert_use'] && $_SESSION['ss_cert_type'] && $_SESSION['ss_cert_dup
     $sql = " select id from shop_member where id <> '{$member['id']}' and mb_dupinfo = '{$_SESSION['ss_cert_dupinfo']}' ";
     $row = sql_fetch($sql);
     if($row['id']) {
-        alert("입력하신 본인확인 정보로 가입된 내역이 존재합니다.\\n회원아이디 : ".$row['id']);
+        alert("입력하신 본인확인 정보로 가입된 내역이 존재합니다..\\n회원아이디 : ".$row['id']);
     }
 }
 
@@ -237,7 +237,7 @@ if($w == '') {
 	$value['addr2']			  = $mb_addr2; //상세주소
 	$value['addr3']			  = $mb_addr3; //참고항목
 	$value['addr_jibeon']	= $mb_addr_jibeon; //지번주소
-	$value['today_login']	= BV_TIME_YMDHIS; //최근 로그인일시
+	$value['today_login']	= "0000-00-00 00:00:00"; //최근 로그인일시
 	$value['reg_time']		= BV_TIME_YMDHIS; //가입일시
 	$value['mb_ip']			  = $_SERVER['REMOTE_ADDR']; //IP
 	$value['grade']			  = ($reg_type == 1) ? 8 : 9; //레벨
@@ -257,6 +257,9 @@ if($w == '') {
     $value['ju_display']    = $store_display;             // 매장 노출 여부 추가 _20240712_SY
 
     $value['mb_agent'] = getOs(); //os 가져와
+    if ($value['mb_agent'] != "Windows") {
+      $value['login_sum'] = 1;
+    }
     // store_display (매장 노출 여부) 체크 추가 _20240712_SY
   if($reg_type == 1) {
     $value['ju_name']       = $mb_name;                   // 중앙회원 이름
