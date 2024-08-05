@@ -1,6 +1,11 @@
 <?php
 include_once("./_common.php");
 
+// mng > member GET으로 받도록 수정 _20240802_SY
+if(isset($_GET['mb_id']) && !empty($_GET['mb_id'])) {
+  $member['id'] = $_GET['mb_id'];
+}
+
 if(!$is_member) {
 	alert_close("회원 전용 서비스입니다.");
 }

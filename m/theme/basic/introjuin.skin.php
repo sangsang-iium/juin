@@ -9,7 +9,9 @@ header('Access-Control-Allow-Origin: *');
 
 $myLocation = json_encode($_SERVER['HTTP_MYLOCATION']);
 $myLocation2 = json_encode($_SERVER);
-set_session('myLocation', $myLocation);
+if(isset($_SERVER['HTTP_MYLOCATION']) && !empty($_SERVER['HTTP_MYLOCATION'])) {
+  set_session('myLocation', $myLocation);
+}
 // print_r2($myLocation);
 // echo "<br>";
 // print_r2($myLocation2);
@@ -41,62 +43,6 @@ set_session('myLocation', $myLocation);
 </style>
 
 <div class="intro">
-
-	<!-- <div class="container intro-top">
-		<div class="intro-top-text-box">
-			<p class="intro-top-title">언제나 <b>사장님과 함께!</b></p>
-			<p class="intro-top-title intro-top-title2">
-        <span class="img"><img src="/src/img/intro-top-title.png" alt="주인장"></span>
-        <span>입니다</span>
-      </p>
-      <p class="intro-top-text">식당 운영 원스탑 솔루션!</p>
-		</div>
-	</div> -->
-
-  <!-- <div class="container intro-btn-top-wrap">
-    <div class="intro-btn-list">
-      <a href="/" class="intro-btn left-btn intro-btn01">
-        <div class="text-box">
-          <p class="text01">식자재 <br>마트</p>
-        </div>
-        <div class="icon">
-          <img src="/src/img/intro-icon01.png" alt="">
-        </div>
-      </a>
-    </div>
-  </div> -->
-
-	<!-- <div class="container intro-btn-wrap">
-    <div class="intro-btn-color-box">
-      <p class="intro-btn-title">한국외식업중앙회 <span class="img"><img src="/src/img/intro-bot-title.png" alt=""></span></p>
-      <div class="intro-btn-list">
-        <a href="/m/store/list.php?menu=store" class="intro-btn left-btn intro-btn03">
-          <div class="text-box">
-            <p class="text01">회원사 <br>현황</p>
-          </div>
-          <div class="icon">
-            <img src="/src/img/intro-icon02.png" alt="">
-          </div>
-        </a>
-        <a href="/m/service/list.php?menu=service" class="intro-btn right-btn intro-btn04">
-          <div class="text-box">
-            <p class="text01">제휴<br>서비스</p>
-          </div>
-          <div class="icon">
-            <img src="/src/img/intro-icon03.png" alt="">
-          </div>
-        </a>
-        <a href="/m/used/list.php?menu=used" class="intro-btn right-btn intro-btn02">
-          <div class="text-box">
-            <p class="text01">중고장터</p>
-          </div>
-          <div class="icon">
-            <img src="/src/img/intro-icon04.png" alt="">
-          </div>
-        </a>
-      </div>
-    </div>
-	</div> -->
 
   <div class="container intro-sec intro-sec01">
     <p class="intro-txt01">언제나 사장님과 함께!</p>
@@ -151,16 +97,28 @@ set_session('myLocation', $myLocation);
 
 
   <div class="container intro-bottom-wrap">
-    <!-- <div class="intro-bottom-btn-box">
-      <a href="/" class="home-btn">
+    <?php if(!$is_member) { ?>
+    <div class="intro-bottom-btn-box">
+      <!-- <a href="/" class="home-btn">
         <img src="/src/img/intro-home-btn.png" alt="">
-      </a>
-      <a href="<?php echo BV_MBBS_URL;?>/login.php" class="login-btn">
+      </a> -->
+      <a href="<?php echo BV_MBBS_URL;?>/login.php" class="login-btn" style="width:100%;">
         <span><img src="/src/img/intro-login-icon.png" alt=""></span>
         <span>로그인</span>
       </a>
-    </div> -->
-    <p class="intro-bottom-text">아직 주인장 계정이 없으신가요? <a href="<?php echo BV_MBBS_URL;?>/register_type.php">회원가입</a></p>
+    </div>
+    <div class="intro-join-btn-box">
+      <a href="<?php echo BV_MBBS_URL;?>/register.php?type=1" class="join-btn">
+        <span class="icon"><img src="/src/img/intro-join-icon01.png" alt=""></span>
+        <span>한국외식업중앙회 회원가입</span>
+      </a>
+      <a href="<?php echo BV_MBBS_URL;?>/register.php?type=2" class="join-btn">
+        <span class="icon"><img src="/src/img/intro-join-icon02.png" alt=""></span>
+        <span>개인/사업자 회원가입</span>
+      </a>
+    </div>
+    <!-- <p class="intro-bottom-text">아직 주인장 계정이 없으신가요? <a href="<?php echo BV_MBBS_URL;?>/register_type.php">회원가입</a></p> -->
+    <?php } ?>
   </div>
 
 </div>

@@ -41,7 +41,8 @@ if(!$raffleEnd) {
         <!-- 자료 없을때 -->
         <?php } else {
           foreach ($raffleList as $raffleVal) {
-            $per = round(($raffleVal['raffle_price'] / $raffleVal['market_price']) * 100);
+            // $per = round(($raffleVal['raffle_price'] / $raffleVal['market_price']) * 100);
+            $per = round((($raffleVal['market_price'] - $raffleVal['raffle_price']) / $raffleVal['market_price']) * 100);
           ?>
           <div class="cp-item raffle">
             <div class="round50 prod-thumb_area">

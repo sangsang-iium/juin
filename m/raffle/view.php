@@ -7,7 +7,7 @@ if(!$raffle) {
   goto_url('/m/raffle/list.php?menu=raffle');
 }
 
-$per = round(($raffle['raffle_price'] / $raffle['market_price']) * 100);
+$per = round((($raffle['market_price'] - $raffle['raffle_price']) / $raffle['market_price']) * 100);
 
 $raffleLimit = raffleEntryCheck($index_no,$raffle['entry'],$raffle['entry_number']);
 $rafflePrizeCheck = rafflePrizeCheck($index_no);
@@ -206,14 +206,27 @@ $sns_share_links .= "<li>".get_sns_share_link('pinterest', $sns_url, $sns_title,
 </div>
 
 <script>
+  // alert 확인도 전에 location 실행되는 문제 수정 _20240802_SY
   $('.raffle-submit-btn').on('click', function() {
     <?php if(!$member['id']) { ?>
-      alert('로그인 이후 응모 가능합니다.');
-      location.href="/m/bbs/login.php";
+      Swal.fire({
+        icon: 'warning',
+        text: '로그인 이후 응모 가능합니다.',	
+      }).then(function(){
+        location.href="/m/bbs/login.php";
+      })
+      // alert('로그인 이후 응모 가능합니다.');
+      // location.href="/m/bbs/login.php";
     <?php } else {
       if($member['grade'] > 8 ) { ?>
-        alert('중앙회 회원 이상만 응모 가능합니다.');
-        return false;
+        Swal.fire({
+          icon: 'warning',
+          text: '중앙회 회원 이상만 응모 가능합니다.',	
+        }).then(function(){
+          return false;
+        })
+        // alert('중앙회 회원 이상만 응모 가능합니다.');
+        // return false;
     <?php }
       if($raffleLimit) { ?>
       var indexno = '<?php echo $index_no ?>'
@@ -229,11 +242,23 @@ $sns_share_links .= "<li>".get_sns_share_link('pinterest', $sns_url, $sns_title,
           dataType: "json",
           success: function(data) {
             if(data.res == 'Y') {
-              alert('응모 완료되었습니다.');
-              location.reload();
+              Swal.fire({
+                icon: 'warning',
+                text: '응모 완료되었습니다.',	
+              }).then(function(){
+                location.reload()
+              })
+              // alert('응모 완료되었습니다.');
+              // location.reload();
             } else {
-              alert('취소가 완료되었습니다.');
-              location.reload()
+              Swal.fire({
+                icon: 'warning',
+                text: '취소가 완료되었습니다.',	
+              }).then(function(){
+                location.reload()
+              })
+              // alert('취소가 완료되었습니다.');
+              // location.reload()
             }
           }
         });

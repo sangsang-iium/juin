@@ -3,7 +3,6 @@ if(!defined('_BLUEVATION_')) exit;
 
 $pg_title = "업체 배송정책";
 include_once("./admin_head.sub.php");
-print_r($member);
 ?>
 
 <form name="fregform" method="post" action="./seller_baesong_update.php" onsubmit="return fregform_submit(this);">
