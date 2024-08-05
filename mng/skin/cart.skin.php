@@ -438,7 +438,7 @@ if(!defined('_BLUEVATION_')) exit;
 	<input type="hidden" name="records" value="<?php echo $i; ?>">
 	<input type="hidden" name="act" value="">
 	<input type="hidden" name="paytype" value="<?php echo $paytype ?>">
-	<button type="button" onclick="return form_check('buy');" class="btn_large wset btn-buy">선택상품주문</button>
+	<button type="button"   class="btn_large wset btn-buy btn-disabled">선택상품주문</button>
 	<a href="<?php echo BV_URL; ?>/mng/" class="btn_large bx-white">쇼핑계속하기</a>
 	<?php if($naverpay_button_js) { ?>
 	<div class="cart-naverpay"><?php echo $naverpay_request_js.$naverpay_button_js; ?></div>
@@ -448,6 +448,35 @@ if(!defined('_BLUEVATION_')) exit;
 </form>
 
 <script>
+$(document).ready(function() {
+    var button = $('.btn-buy');
+    var isButtonEnabled = false;
+
+    $('.odprice').each(function() {
+      var minprice = parseInt($(this).data('minprice'));
+      var odprice = parseInt($(this).data('odprice'));
+
+      if (odprice < minprice) {
+        isButtonEnabled = true;
+        return false; // 조건이 만족되면 더 이상 반복하지 않음
+      }
+    });
+
+    if (isButtonEnabled) {
+        button.addClass('btn-disabled');
+    } else {
+        button.removeClass('btn-disabled');
+    }
+
+    button.click(function () {
+        if (!isButtonEnabled) {
+            return form_check('buy');
+        } else {
+            alert("최소 주문금액이 맞지 않습니다.");
+            return false;
+        }
+    });
+});
 $(function() {
 	var close_btn_idx;
 

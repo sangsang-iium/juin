@@ -172,7 +172,7 @@ if($w == '') {
 	$value['addr2']			= $mb_addr2; //상세주소
 	$value['addr3']			= $mb_addr3; //참고항목
 	$value['addr_jibeon']	= $mb_addr_jibeon; //지번주소
-	$value['today_login']	= BV_TIME_YMDHIS; //최근 로그인일시
+	$value['today_login']	= "0000-00-00 00:00:00"; //최근 로그인일시
 	$value['reg_time']		= BV_TIME_YMDHIS; //가입일시
 	$value['mb_ip']			= $_SERVER['REMOTE_ADDR']; //IP
 	$value['grade']			= '9'; //레벨
@@ -180,9 +180,10 @@ if($w == '') {
 	$value['login_ip']		= $_SERVER['REMOTE_ADDR']; //최근 로그인IP
 	$value['mailser']		= $mb_mailling ? $mb_mailling : 'N'; //E-Mail을 수신
 	$value['smsser']		= $mb_sms ? $mb_sms : 'N'; //SMS를 수신
-    
-    
-    
+
+	$value['mb_agent']      = getOs(); //os 가져와
+
+
 
 
     // 관리자인증을 사용하지 않는다면 인증으로 간주함.

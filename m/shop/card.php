@@ -6,6 +6,9 @@ if(!$is_member)
 
 $tb['title'] = "카드관리";
 include_once("./_head.php");
+if(isset($_GET['mb_id'])){
+  $member['id'] = $_GET['mb_id'];
+}
 ?>
 
 <div id="contents" class="sub-contents cardMngList">
@@ -17,7 +20,7 @@ include_once("./_head.php");
         loop {
         -->
         <?php
-        $sql = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}'";
+        $sql = "SELECT * FROM iu_card_reg WHERE mb_id = '{$member['id']}' and mb_id != '' ";
         $res = sql_query($sql);
           while ($row = sql_fetch_array($res)) {
             $use_card = "";

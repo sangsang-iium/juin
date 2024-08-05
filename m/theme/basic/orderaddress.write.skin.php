@@ -3,6 +3,12 @@ if (!defined('_BLUEVATION_')) exit;
 //echo test;
 //echo SEND GIT TEST5
 
+// member 추가 _20240802_SY
+if(!$member) {
+  $member = get_member($_SESSION['ss_mb_id']);
+  $mb_id = $member['id'];
+}
+
 if ($wr_id) {
   $sql = "select * from b_address where wr_id='$wr_id' ";
   $res = sql_fetch($sql);
@@ -21,7 +27,6 @@ if ($wr_id) {
   $b_addr_jibeon = $res['b_addr_jibeon'];
   $b_addr_req = $res['b_addr_req'];
 }
-
 
 ?>
 
@@ -98,7 +103,7 @@ if ($wr_id) {
     </div>
 
     <div class="pop-btm">
-      <button type="button" class="ui-btn round stBlack od-dtn__add">배송지 등록하기</button>
+      <button type="button" class="ui-btn round stBlack od-dtn__add add_addr">배송지 등록하기</button>
     </div>
   </div>
 </form>
@@ -124,10 +129,13 @@ if ($wr_id) {
         var addr = ''; // 주소 변수
         var extraAddr = ''; // 참고항목 변수
 
+        // 프레임 display:none 추가 _20240725_SY
         if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
           addr = data.roadAddress;
+          element_layer.style.display = 'none';
         } else { // 사용자가 지번 주소를 선택했을 경우(J)
           addr = data.jibunAddress;
+          element_layer.style.display = 'none';
         }
         document.getElementById('b_zip_save').value = data.zonecode;
         document.getElementById("b_addr1_save").value = addr;
@@ -161,11 +169,14 @@ if ($wr_id) {
     element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height) / 2 - borderWidth) + 'px';
   }
 
-  $(".od-dtn__add").click(function() {
+  // class 수정 _20240802_SY
+  $(".add_addr").click(function() {
     var frm = $("#b_saveform").serialize();
+    let mb_id = "<?php echo $mb_id ?>";
+    console.log(mb_id)
     $.ajax({
       type: "POST",
-      url: "/m/shop/orderaddress.save.php",
+      url: `/m/shop/orderaddress.save.php?mb_id=${mb_id}`,
       data: {
         'b_name': $("#b_name_save").prop('value'),
         'b_cellphone': $("#b_cellphone1_save").prop('value') + "-" + $("#b_cellphone2_save").prop('value') + "-" + $("#b_cellphone3_save").prop('value'),
@@ -183,9 +194,17 @@ if ($wr_id) {
         console.log(result);
         if (result != "fail") {
           //console.log(result);
-          alert("기본 배송지가 등록되었습니다.");
+          // alert("기본 배송지가 등록되었습니다.");
           //cupondownladbtnevt();
+          // location.reload();
+          
+          // alert 수정 _20240802_SY
+          Swal.fire({
+            icon: 'warning',
+            text: '기본 배송지가 등록되었습니다.',	
+          }).then(function(){
           location.reload();
+          })
           return false;
         }
 

@@ -6,7 +6,7 @@ include_once '../../include/crypt.php';
 //   alert("정상적인 방법으로 접근해주세요.", "./list.php");
 // }
 
-/* ------------------------------------------------------------------------------------- _20240714_SY 
+/* ------------------------------------------------------------------------------------- _20240714_SY
   * isset 추가 & 노무 비밀번호 제거
 /* ------------------------------------------------------------------------------------- */
 $bc_able = isset($bc_able) ? implode("||", $bc_able) : "";
@@ -81,7 +81,6 @@ switch ($b_type) {
     $db_input['b_agree']        = $b_agree;
     $db_input['b_agree1']       = $b_agree1;
     $db_input['b_staff']        = $b_staff;
-    $peopleArr = $db_input;
 
     break;
 }
@@ -94,6 +93,9 @@ $serviceTable = "iu_service";
 $svcIdx = $serviceModel->insert($serviceTable, $db_input);
 
 if($b_type == 4){
+
+  $db_input['b_staff'] = str_replace('E', '', $b_staff);
+  $peopleArr           = $db_input;
   $peopleLifeReturn = peopleLifeApi($peopleArr);
   if($peopleLifeReturn->result == 0000){
     $serviceModel4 = new IUD_Model();
@@ -138,13 +140,17 @@ function peopleLifeApi($dataArr) {
 
 // // 배열 생성 및 문자열 조합
 // // 지회지부 마지막에 5자리 코드로 전달 해야함
+// 20240719 코드 추가 되었어 이거 주석  풀때 꼭 처리해서 보내자~~~
 //   $planArr = array(
 //     "0000000000000000", // nonce
 //     date("YmdHis"),     // 현재 시간
 //     $c_name,            // 이름
+//     $b_staff,           // 생년월일
+//     $b_staff,           // 사업자번호
 //     $b_staff,           // 추천인 번호
-//     $P1,                // P1 값
-//     $P2,                // P2 값
+//     $P1,                // P1 값 신용1 채크2
+//     $P2,                // 지회지부코드  office code
+//     $P2,                // 지회지부명   한글로
 //   );
 
 //   // 문자열 조합

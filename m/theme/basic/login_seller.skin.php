@@ -23,7 +23,7 @@ if ($gs_id) {
           <img src="/src/img/logo_white.png" alt="주인장터 로고">
           <p>사장이 왕이되는 식자재 장터</p>
         </div>
-        <a href="<?php echo BV_MBBS_URL; ?>/register_type.php" class="ui-btn round stWhite join-btn">회원가입</a>
+        <!-- <a href="<?php echo BV_MBBS_URL; ?>/register_type.php" class="ui-btn round stWhite join-btn">회원가입</a> -->
       </div>
       <form name="flogin" action="<?php echo $login_action_url; ?>" onsubmit="return flogin_submit(this);" method="post">
         <input type="hidden" name="url" value="/mypage/page.php?code=seller_main">
@@ -37,17 +37,17 @@ if ($gs_id) {
             <input type="password" name="mb_password" class="frm-input" id="login_pw" maxLength="20" placeholder="비밀번호를 입력하세요." autocapitalize="off">
           </div>
           <div class="login-ctrl">
-            <div class="login-save frm-choice">
+            <!-- <div class="login-save frm-choice">
               <input type="checkbox" name="auto_login" id="login_auto_login" class="css-checkbox lrg">
               <label for="login_auto_login">자동로그인</label>
-            </div>
+            </div> -->
           </div>
           <div class="login-btn">
             <button type="submit" class="ui-btn round stBlack login-btn">로그인</button>
-            <div class="find-wrap">
+            <!-- <div class="find-wrap">
               <a href="<?php echo BV_MBBS_URL; ?>/find_id.php?type=3" class="search-btn">아이디 찾기</a>
               <a href="<?php echo BV_MBBS_URL; ?>/find_password.php?type=3" class="search-btn">비밀번호 찾기</a>
-            </div>
+            </div> -->
           </div>
         </section>
         <?php if ($default['de_sns_login_use']) { ?>

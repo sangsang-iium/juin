@@ -18,11 +18,11 @@ $od_cancel_change       = 0;
 for ($i = 0; $i < $chk_count; $i++) {
   // 실제 번호를 넘김
   $k              = $_POST['chk'][$i];
-  $od_no          = $_POST['od_no'][$k];  
+  $od_no          = $_POST['od_no'][$k];
 
 //   echo $_POST['act_button'];
 //   echo "<br/>";
-//   echo $od_no; 
+//   echo $od_no;
 //   echo "<br/>";
   if ($_POST['act_button'] == '전체반품') {
     $change_status = 7;
@@ -32,19 +32,19 @@ for ($i = 0; $i < $chk_count; $i++) {
     $change_status = 9;
   }
 
-  switch ($change_status) { 
+  switch ($change_status) {
     case '7': // 반품
       change_order_status_7($od_no);
       $od_cancel_change++;
-      break; 
-    case '9': // 환불 
+      break;
+    case '9': // 환불
       change_order_status_9($od_no);
       $od_sms_cancel_check++;
       $od_cancel_change++;
       break;
   }
 }
- 
+
 // 주문취소 문자
 //------------------------------------------------------------------------------
 
@@ -81,7 +81,7 @@ if ($od_cancel_change) {
 							where a.od_id = '{$od_id}'";
       $od = sql_fetch($sql);
 
-      if (($od['method'] == '카드' || $od['method'] == '가상계좌' || $od['paymethod'] == '신용카드' || $od['paymethod'] == '간편결제' || $od['paymethod'] == 'KAKAOPAY') || ($od['od_pg'] == 'inicis' && $od['paymethod'] == '삼성페이')) {
+      if ($od['method'] == '카드' || $od['method'] == '가상계좌' || $od['paymethod'] == '신용카드' || $od['paymethod'] == '간편결제' || $od['paymethod'] == '간편' || $od['paymethod'] == '계좌이체'  || $od['paymethod'] == '일반') {
         // 가맹점 PG결제 정보
         $default = set_partner_value($od['od_settle_pid']);
 
@@ -204,9 +204,13 @@ if ($od_cancel_change) {
             setlocale(LC_CTYPE, '');
             break;
           case 'toss':
+            if ($od['paymethod'] == '무통장' || $od['paymethod'] == '일반' || $od['paymethod'] == '계좌이체' ) {
+              $sk = "live_sk_vZnjEJeQVxKlJ066Ep6Y3PmOoBN0";
+            } else if ($od['paymethod'] == '간편' || $od['paymethod'] == '신용카드') {
+              $sk = "live_sk_0RnYX2w532Mklgz2ZPY18NeyqApQ";
+            }
             $tossCC  = new Tosspay();
-            $tossRes = $tossCC->cancel($od['paymentKey'], BV_TIME_YMDHIS . ' ' . $member['id'] . ' 주문취소 처리');
-            print_r($tossRes);
+            $tossRes = $tossCC->cancel($od['paymentKey'], BV_TIME_YMDHIS . ' ' . $member['id'] . ' 주문취소 처리', $sk);
 						$cancelData = [
 							'transactionKey'     => $tossRes->cancels->transactionKey,
 							'cancelReason'       => $tossRes->cancels->cancelReason,
@@ -255,7 +259,7 @@ if ($od_cancel_change) {
 
 if ($mod_history) { // 주문변경 히스토리 기록
   $sql = " update shop_order
-				set 
+				set
           od_mod_history = CONCAT(od_mod_history,'$mod_history')
 			  where od_id = '$od_id' ";
   sql_query($sql);

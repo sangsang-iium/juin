@@ -298,13 +298,13 @@ if(isset($_REQUEST['url'])) {
 //===================================
 
 // APP 토큰 _20240701_SY
-$getAppData = get_session('myLocation');
-$getAppData = trim($getAppData, '\"');
-$appDataArr = explode(",",$getAppData);
-$appToken = trim(end($appDataArr));
-if(empty($appToken) || $appToken == 'null' || $appToken == '') {
-  $appToken = '';
-}
+// $getAppData = get_session('myLocation');
+// $getAppData = trim($getAppData, '\"');
+// $appDataArr = explode(",",$getAppData);
+// $appToken = trim(end($appDataArr));
+// if(empty($appToken) || $appToken == 'null' || $appToken == '') {
+//   $appToken = '';
+// }
 
 // 자동로그인 부분에서 첫로그인에 포인트 부여하던것을 로그인중일때로 변경하면서 코드도 대폭 수정하였습니다.
 if($_SESSION['ss_mb_id']) { // 로그인중이라면
@@ -324,13 +324,13 @@ if($_SESSION['ss_mb_id']) { // 로그인중이라면
 		}
     } else {
         // fcm_token 추가 _20240701_SY
-        if(!empty($appToken)) {
-          $chk_token_sel = " SELECT id AS fcm_id FROM shop_member WHERE fcm_token = '{$appToken}' ";
-          $chk_token_row = sql_fetch($chk_token_sel);
-          if($member['id'] != $chk_token_row['fcm_id']){
-            $token_reset = sql_query(" UPDATE shop_member SET fcm_token = '' WHERE id = '{$chk_token_row['fcm_id']}' ");
-          }
-        }
+        // if(!empty($appToken)) {
+        //   $chk_token_sel = " SELECT id AS fcm_id FROM shop_member WHERE fcm_token = '{$appToken}' ";
+        //   $chk_token_row = sql_fetch($chk_token_sel);
+        //   if($member['id'] != $chk_token_row['fcm_id']){
+        //     $token_reset = sql_query(" UPDATE shop_member SET fcm_token = '' WHERE id = '{$chk_token_row['fcm_id']}' ");
+        //   }
+        // }
 
         // 오늘 처음 로그인 이라면
         if(substr($member['today_login'], 0, 10) != BV_TIME_YMD) {
@@ -340,20 +340,15 @@ if($_SESSION['ss_mb_id']) { // 로그인중이라면
             // 오늘의 로그인이 될 수도 있으며 마지막 로그인일 수도 있음
             // 해당 회원의 접근일시와 IP 를 저장
 
-            // fcm_token 추가 _20240701_SY
-            $token_opt = "";
-            if(!empty($appToken)) {
-              $token_opt = " , fcm_token = '{$appToken}' ";
-            }
-            $sql = " update shop_member set login_sum = login_sum + 1, today_login = '".BV_TIME_YMDHIS."', login_ip = '{$_SERVER['REMOTE_ADDR']}' {$token_opt} where id = '{$member['id']}' ";
+            $sql = " update shop_member set login_sum = login_sum + 1, today_login = '".BV_TIME_YMDHIS."', login_ip = '{$_SERVER['REMOTE_ADDR']}' where id = '{$member['id']}' ";
             sql_query($sql);
         } else {
 
           // fcm_token 추가 _20240701_SY
-          if(!empty($appToken)) {
-            $sql = " update shop_member set login_ip = '{$_SERVER['REMOTE_ADDR']}', fcm_token = '{$appToken}' where id = '{$member['id']}' ";
-            sql_query($sql);
-          }
+        //   if(!empty($appToken)) {
+        //     $sql = " update shop_member set login_ip = '{$_SERVER['REMOTE_ADDR']}', fcm_token = '{$appToken}' where id = '{$member['id']}' ";
+        //     sql_query($sql);
+        //   }
         }
     }
 } else {

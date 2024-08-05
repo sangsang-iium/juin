@@ -19,6 +19,7 @@ if($code == "sendmail_test")                $pg_title2 = ADMIN_MENU10_05;
 if($code == "sms")			  	                $pg_title2 = ADMIN_MENU10_06;
 if($code == "supply")			                  $pg_title2 = ADMIN_MENU10_07;
 if($code == "super")			                  $pg_title2 = ADMIN_MENU10_08;
+if($code == "managerinfo")                  $pg_title2 = ADMIN_MENU10_22;
 if($code == "pg")				                    $pg_title2 = ADMIN_MENU10_09;
 if($code == "kakaopay")			                $pg_title2 = ADMIN_MENU10_10;
 if($code == "naverpay")			                $pg_title2 = ADMIN_MENU10_11;

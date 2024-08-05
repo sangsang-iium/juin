@@ -1,13 +1,17 @@
 <?php // 래플응모 푸시 크론탭 _20240711_SY
 include_once "/home/juin/www/common.php";
 
-$now = date('Y-m-d H:i');
+$now = date('Y-m-d H');
 
 /*
 * 래플 응모 기간 종료 PUSH
 */
 
-$raf_end_sel = " SELECT * FROM shop_goods_raffle WHERE DATE_FORMAT(event_end_date, '%Y-%m-%d %H:%i') = '{$now}' ";
+// 조회 시간 수정 ( 현재 시간 기준으로 이전 1시간 동안의 row 조회 )_20240802_SY
+// $raf_end_sel = " SELECT * FROM shop_goods_raffle WHERE DATE_FORMAT(event_end_date, '%Y-%m-%d %H:%i') = '{$now}' ";
+$raf_end_sel = " SELECT * FROM shop_goods_raffle 
+                  WHERE event_end_date >= DATE_SUB('{$now}', INTERVAL 1 HOUR)
+                    AND event_end_date < '{$now}' ";
 $raf_end_res = sql_query($raf_end_sel);
 
 for($e=0; $raf_end_row = sql_fetch_array($raf_end_res); $e++) {
@@ -37,7 +41,11 @@ for($e=0; $raf_end_row = sql_fetch_array($raf_end_res); $e++) {
 * 래플 응모 당첨자 발표 PUSH
 */
 
-$raf_prize_sel = " SELECT * FROM shop_goods_raffle WHERE DATE_FORMAT(prize_date, '%Y-%m-%d %H:%i') = '{$now}' ";
+// 조회 시간 수정 ( 현재 시간 기준으로 이전 1시간 동안의 row 조회 )_20240802_SY
+// $raf_prize_sel = " SELECT * FROM shop_goods_raffle WHERE DATE_FORMAT(prize_date, '%Y-%m-%d %H:%i') = '{$now}' ";
+$raf_prize_sel = " SELECT * FROM shop_goods_raffle 
+                    WHERE prize_date >= DATE_SUB('{$now}', INTERVAL 1 HOUR)
+                      AND prize_date < '{$now}' ";
 $raf_prize_res = sql_query($raf_prize_sel);
 
 for($p=0; $raf_prize_row = sql_fetch_array($raf_prize_res); $p++) {

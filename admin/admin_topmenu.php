@@ -25,7 +25,7 @@ if($_SESSION['ss_mn_id']) {
                 <?php echo getMenuFunc("ADMIN_MENU4",  "category", "list"); ?>
                 <?php echo getMenuFunc("ADMIN_MENU5",  "goods",    "list"); ?>
                 <?php echo getMenuFunc("ADMIN_MENU6",  "order",    "list"); ?>
-                <?php echo getMenuFunc("ADMIN_MENU7",  "visit",    "regmonth"); ?>
+                <?php echo getMenuFunc("ADMIN_MENU7",  "visit",    "regmonth")?>
                 <?php echo getMenuFunc("ADMIN_MENU8",  "help",     "qa"); ?>
                 <?php echo getMenuFunc("ADMIN_MENU9",  "design",   "mbanner_list"); ?>
                 <?php echo getMenuFunc("ADMIN_MENU11", "used",     "list"); ?>

@@ -7,7 +7,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
   <script src="<?php echo BV_JS_URL; ?>/certify.js?v=<?php echo BV_JS_VER; ?>"></script>
 <?php } ?>
 
-<form name="fregisterform" action="<?php echo $form_action_url ?>" method="post" autocomplete="off">
+<form name="fregisterform" id="findIdForm" method="post" autocomplete="off"  onsubmit="return false">
 <input type="hidden" name="token" value="<?php echo $token; ?>">
 <input type="hidden" name="cert_type" value="<?php echo $member['mb_certify']; ?>">
 <input type="hidden" name="cert_no" value="">
@@ -120,17 +120,51 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 
 
 // 앱 에서 처리 할 필요 없게 수정 _20240708_SY
+// $(function() {
+//     setInterval(function() {
+//         var chkHpValue = $("#chk_hp").val();
+//         if (chkHpValue === "") {
+//             console.log("chk_hp의 값이 비어 있습니다.");
+//         } else {
+//           // const form = document.querySelector('form[name="fregisterform"]');
+//           const form = document.querySelector('#findIdForm');
+//           form.action = "<?php echo $form_action_url ?>";
+//           console.log(form.action)
+//           form.submit();
+//           return;
+//         }
+//     }, 1500); // 2초마다 실행
+// });
+
+// MutationObserver > 속도 개선 _20240726_SY
 $(function() {
-    setInterval(function() {
-        var chkHpValue = $("#chk_hp").val();
-        if (chkHpValue === "") {
-            console.log("chk_hp의 값이 비어 있습니다.");
-        } else {
-          const form = document.querySelector('form[name="fregisterform"]');
-          form.submit();
-          return;
+    const targetNode = document.getElementById('chk_hp');
+    const observerOptions = {
+      attributes: true,
+      childList: true,
+      subtree: true,
+      characterData: true
+    };
+
+    const observerCallback = function(mutationsList, observer) {
+      for(let mutation of mutationsList) {
+        if (mutation.type === 'characterData' || mutation.type === 'attributes' || mutation.type === 'childList') {
+          var chkHpValue = $("#chk_hp").val();
+          if (chkHpValue !== "") {
+            observer.disconnect(); // 값이 변경되면 더 이상 감시하지 않음
+            // const form = document.querySelector('form[name="fregisterform"]');
+            const form = document.querySelector('#findIdForm');
+            form.action = "<?php echo $form_action_url ?>";
+            console.log(form.action);
+            form.submit();
+            return;
+          }
         }
-    }, 1500); // 2초마다 실행
-});
+      }
+    };
+
+    const observer = new MutationObserver(observerCallback);
+    observer.observe(targetNode, observerOptions);
+  });
 
 </script> 

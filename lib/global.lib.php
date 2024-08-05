@@ -74,7 +74,7 @@ function get_paging($write_pages, $cur_page, $total_page, $url, $add="")
 	// }
 
   // 수정 _20240314_SY
-  if($start_page < $cur_page) {
+  if($start_page <= $cur_page) {
 		$str .= '<a href="'.$url.($cur_page-1).$add.'" class="pg_page pg_prev">이전</a>'.PHP_EOL;
 	} else {
 		$str .= '<span class="pg_prev">이전</span>'.PHP_EOL;
@@ -3291,7 +3291,7 @@ function display_itemtype($mb_id, $type, $rows='', $sql_search='')
 				and find_in_set('$mb_id', a.use_hide) = '0'
 				and b.it_type{$type} = '1'
 				$sql_search
-			  order by b.it_type2_order, a.index_no desc ";
+				order by RAND() ";
 	if($rows) $sql .= " limit $rows ";
 	$result = sql_query($sql);
 	$type_count = sql_num_rows($result);
@@ -3304,7 +3304,7 @@ function display_itemtype($mb_id, $type, $rows='', $sql_search='')
 					and find_in_set('$mb_id', a.use_hide) = '0'
 					and b.it_type{$type} = '1'
 					$sql_search
-				  order by b.it_type2_order, a.index_no desc ";
+					order by RAND() ";
 		if($rows) $sql .= " limit $rows ";
 		$result = sql_query($sql);
 	}
@@ -3573,6 +3573,10 @@ function is_admin($grade='')
 			break;
     // Manager level 추가 _20240621_SY
 		case '3' :
+			return true;
+			break;
+    // Manager level 추가 _20240717_SY
+		case '4' :
 			return true;
 			break;
 		default :
@@ -4612,14 +4616,14 @@ function get_sale_price($gs_id)
 
 	$price = $gs['goods_price'];
 
-	if($gb['gb_sale'] > 0 && $member['id'] && !$gs['use_aff']) {
+	if($gb['gb_sale'] != 0 && $member['id'] && !$gs['use_aff']) {
 		if($gb['gb_sale_rate'] == 1) // 금액으로 할인
 			$price = $gs['goods_price'] - $gb['gb_sale'];
 		else // 퍼센트로 할인
 			$price = $gs['goods_price'] - (($gs['goods_price'] / 100) * $gb['gb_sale']);
 
 		if(strlen($price) > 1 && $gb['gb_sale_unit'])
-			$price = floor((int)$price/(int)$gb['gb_sale_unit']) * (int)$gb['gb_sale_unit'];
+			$price = round((int)$price/(int)$gb['gb_sale_unit']) * (int)$gb['gb_sale_unit'];
 	}
 
 	return (int)$price;

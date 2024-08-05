@@ -181,7 +181,7 @@ if (in_array($_POST['paymethod'], array('무통장', '포인트'))) {
     raffleOrder($gs_first_id, $_POST['raffle_log_index']);
   }
 
-} else if ($_POST['paymethod'] == '신용카드') {
+} else if ($_POST['paymethod'] == '간편' || $_POST['paymethod'] == '신용카드' ) {
   $gs_first_id = $gs_id[0];
   $gs_count    = count($gs_id);
   $sql_gs      = "SELECT * FROM shop_goods WHERE index_no = '{$gs_first_id}'";
@@ -280,6 +280,7 @@ for ($i = 0; $i < count($gs_id); $i++) {
 
   // 주문 일련번호
   $od_no = $cart_id[$i];
+  log_write("od_id :".$od_id."#".$od_no.'count : '.$i);
 
   if ($i == 0) {
     $t_point = $use_point; // 포인트 결제금액
@@ -356,6 +357,9 @@ for ($i = 0; $i < count($gs_id); $i++) {
       , od_begin_date = '{$od_begin_date}'
     ";
   } else if ($reg_yn == 2) {
+    $shop_table      = "shop_order";
+    $reg_order_query = "";
+  } else {
     $shop_table      = "shop_order";
     $reg_order_query = "";
   }
@@ -502,13 +506,13 @@ $sql = " update {$shop_table}
 		  where od_id = '$od_id'";
 sql_query($sql, false);
 
-// if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드','일반'))) {
-//   $cart_select = " , ct_select = '1' ";
-// }
+if (in_array($_POST['paymethod'], array('무통장', '포인트', '신용카드','일반'))) {
+  $cart_select = " , ct_select = '1' ";
+}
 
 // // 장바구니 주문완료 처리 (무통장, 포인트결제)
-// $sql = "update shop_cart set od_id = '$od_id' {$cart_select} where index_no IN ({$_POST['ss_cart_id']}) ";
-// sql_query($sql);
+$sql = "update shop_cart set od_id = '$od_id' {$cart_select} where index_no IN ({$_POST['ss_cart_id']}) ";
+sql_query($sql);
 
 // 재고수량 감소
 for ($i = 0; $i < count($ss_cart_id); $i++) {

@@ -54,7 +54,7 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sfl">
-						<?php echo option_selected('all', $sfl, '전체'); ?>
+						            <?php echo option_selected('all', $sfl, '전체'); ?>
                         <?php echo option_selected('mb_id', $sfl, '작성자'); ?>
                         <?php echo option_selected('subject', $sfl, '제목'); ?>
                     </select>

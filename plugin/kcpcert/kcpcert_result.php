@@ -116,16 +116,17 @@ include_once(BV_PATH.'/head.sub.php');
         $dec_mes_msg    = $ct_cert->mf_get_key_value("res_msg"    );                // 암호화된 결과메시지
 
         if(!$phone_no)
-            alert_close("정상적인 인증이 아닙니다. 올바른 방법으로 이용해 주세요.");
+            alert("정상적인 인증이 아닙니다. 올바른 방법으로 이용해 주세요.");
 
         $phone_no = hyphen_hp_number($phone_no);
         $mb_dupinfo = $di;
 
-        $sql = " select id from shop_member where id <> '{$member['id']}' and mb_dupinfo = '{$mb_dupinfo}' ";
-        $row = sql_fetch($sql);
-        if($row['id']) {
-            alert_close("입력하신 본인확인 정보로 가입된 내역이 존재합니다.\\n회원아이디 : ".$row['id']);
-        }
+        // mb_dupinfo 떄문에 아이디/비밀번호 찾기 정상적으로 안 됨 _20240726_SY
+        // $sql = " select id from shop_member where id <> '{$member['id']}' and mb_dupinfo = '{$mb_dupinfo}' ";
+        // $row = sql_fetch($sql);
+        // if($row['id']) {
+        //     alert_close("입력하신 본인확인 정보로 가입된 내역이 존재합니다.\\n회원아이디 : ".$row['id']);
+        // }
 
         // hash 데이터
         $cert_type = 'hp';
@@ -151,8 +152,11 @@ include_once(BV_PATH.'/head.sub.php');
     else if( $res_cd != "0000" )
     {
         // 인증실패
-        alert_close('코드 : '.$_POST['res_cd'].'  '.urldecode($_POST['res_msg']));
-        exit;
+        // alert('코드 : '.$_POST['res_cd'].'  '.urldecode($_POST['res_msg']));
+        // exit;
+        // 취소누르면 화면 못 빠져나오는 문제 있어서 수정 _20240802_SY
+        $fail_code = "[{$_POST['res_cd']}] " . urldecode($_POST['res_msg']);
+        log_write("인증실패 코드 : {$fail_code} ");
     }
 
 $ct_cert->mf_clear();
@@ -195,7 +199,8 @@ $(function() {
 
     // up_hash 검증
     if( document.form_auth.up_hash.value != $opener.$("input[name=veri_up_hash]").val() ) {
-        alert("up_hash 변조 위험있음");
+        // alert("up_hash 변조 위험있음");
+        alert("인증실패");
     }
 
     // 인증정보
@@ -219,7 +224,7 @@ $(function() {
     // });
 
 
-    alert("본인의 휴대폰번호로 확인 되었습니다.");
+    // alert("본인의 휴대폰번호로 확인 되었습니다.");
 
     window.close();
 });

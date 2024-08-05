@@ -511,7 +511,7 @@ $row_card = sql_fetch($sql_card);
                             <div class="form-head coupon_box">
                                 <p class="title">쿠폰할인</p>
                                 <p id="dc_coupon">
-                                    <a href="javascript:(0)" class="ui-btn st2 couponopen">사용 가능 쿠폰 <span><?php echo $sp_count[3]; ?></span>장</a>
+                                    <a href="javascript:(0)" class="ui-btn st2 couponopen">사용 가능 쿠폰</a>
                                 </p>
                             </div>
                             <div class="form-body">
@@ -572,18 +572,26 @@ $row_card = sql_fetch($sql_card);
                                 // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
                                 $multi_settle .= "<li>\n";
                                 $multi_settle .= "<div class=\"frm-choice\">\n";
+                                $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"탭버튼\" id=\"de_tab\">\n";
+                                $multi_settle .= "<label for=\"de_tab\">카드결제</label>\n";
+                                $multi_settle .= "</div>\n";
+                                $multi_settle .= "</li>\n";
+
+                                $multi_settle .= "<li style=\"display:none\">\n";
+                                $multi_settle .= "<div class=\"frm-choice\">\n";
                                 $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"일반\" id=\"de_normal\">\n";
                                 $multi_settle .= "<label for=\"de_normal\">카드결제</label>\n";
                                 $multi_settle .= "</div>\n";
                                 $multi_settle .= "</li>\n";
+
                                 $multi_settle .= "<li>\n";
                                 $multi_settle .= "<div class=\"frm-choice\">\n";
                                 $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
-                                $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+                                $multi_settle .= "<label for=\"de_bank\">무통장입금(가상계좌)</label>\n";
                                 $multi_settle .= "</div>\n";
                                 $multi_settle .= "</li>\n";
 
-                                $multi_settle .= "<li>\n";
+                                $multi_settle .= "<li style=\"display:none\">\n";
                                 $multi_settle .= "<div class=\"frm-choice\">\n";
                                 $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"간편\" id=\"de_auto_card\">\n";
                                 $multi_settle .= "<label for=\"de_auto_card\">간편결제</label>\n";
@@ -595,7 +603,7 @@ $row_card = sql_fetch($sql_card);
                                 $multi_settle .= "<li>\n";
                                 $multi_settle .= "<div class=\"frm-choice\">\n";
                                 $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
-                                $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+                                $multi_settle .= "<label for=\"de_bank\">무통장입금(가상계좌)</label>\n";
                                 $multi_settle .= "</div>\n";
                                 $multi_settle .= "</li>\n";
                                 $multi_settle .= "<li>\n";
@@ -668,8 +676,12 @@ $row_card = sql_fetch($sql_card);
                         ?>
                         <div id="sod_frm_pay">
                             <ul class="sod_frm_pay_ul">
-                                <?php echo $multi_settle; ?>
+                              <?php echo $multi_settle; ?>
                             </ul>
+                            <div class="general-pay-btn-wrap">
+                              <button type="button" class="ui-btn st2 sizeM payTabBtn" id="payTabBtn1">일반</button>
+                              <button type="button" class="ui-btn st2 sizeM payTabBtn" id="payTabBtn2">등록카드</button>
+                            </div>
                         </div>
 
                         <section id="toss_section" style="display:none;">
@@ -692,7 +704,7 @@ $row_card = sql_fetch($sql_card);
                                         <select id="bank_code" name="bank_code" class="">
                                             <option value="">은행 선택</option>
                                             <?php
-                                                foreach ($BANKS as $bkCode => $v) {?>
+                                                foreach ($VBANKS as $bkCode => $v) {?>
                                                 <option value="<?php echo $v['code'] ?>"><?php echo $v['bank'] ?></option>
                                             <?php }?>
                                         </select>
@@ -927,7 +939,7 @@ $row_card = sql_fetch($sql_card);
                                   <?php } ?>
                                 </select>
                                 <?php } else {?>
-                                  <a href="/m/shop/card.php" class="ui-btn st3">카드 등록</a>
+                                  <a href="/mng/shop/card.php?mb_id=<?php echo $member['id']?>" class="ui-btn st3">카드 등록</a>
                                 <?php }?>
                               </div>
                             </section>
@@ -1085,10 +1097,11 @@ $row_card = sql_fetch($sql_card);
     const delvPopId = "delv-popup";
 
     $(".od-dtn__change").on("click", function () {
+      let mb_id = "<?php echo $member['id'] ?>";
       // win_open('./orderaddress.php','win_address');
 
       $.ajax({
-        url: '/m/shop/orderaddress.php',
+        url: `/m/shop/orderaddress.php?mb_id=${mb_id}`,
         success: function (data) {
           $(`#${delvPopId}`).find(".pop-content-in").html(data);
           $(".popDim").show();
@@ -1121,9 +1134,10 @@ $row_card = sql_fetch($sql_card);
       //     f.popupOpen(couponpop);
       //   }
       // });
+      const mb_id = "<?php echo $member['id'] ?>";
 
       const popId = "#coupon-popup";
-      const reqPathUrl = "/m/shop/ordercoupon.php";
+      const reqPathUrl = `/m/shop/ordercoupon.php?mb_id=${mb_id}`;
       const reqMethod = "GET";
       const reqData = "";
 
@@ -1132,6 +1146,17 @@ $row_card = sql_fetch($sql_card);
     // win_open('./orderaddress.php','win_address');
 
 
+  });
+
+  // 2024-08-02 카드결제 탭 노출
+  $('.general-pay-btn-wrap .ui-btn').on('click',function(){
+    $('.general-pay-btn-wrap .ui-btn').removeClass('active');
+    $(this).addClass('active');
+    if($('#payTabBtn1').hasClass('active')){
+      $('#de_normal').trigger('click');
+    }else{
+      $('#de_auto_card').trigger('click');
+    }
   });
 </script>
 
@@ -1217,9 +1242,18 @@ $row_card = sql_fetch($sql_card);
         // 카드 등록 여부 확인
         const card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록 후 구매하시겠습니까?");
         if (card_confirm) {
-            window.location.href = "/m/shop/card.php";
+            window.location.href = "/mng/shop/card.php";
             return false;
         }
+    }
+    console.log(getSelectVal(f["paymethod"]));
+    if (getSelectVal(f["paymethod"]) == '간편' && card_id === '' || card_id === null) {
+      var card_confirm = confirm("등록된 카드가 없습니다.\n카드 등록이후 구매 하시겠습니까?");
+
+      if (card_confirm) {
+        window.location.href = "/mng/shop/card.php";
+      }
+      return false;
     }
 
     if(f.b_addr1.value==''){
@@ -1493,6 +1527,22 @@ function calculate_temp_point(val) {
     paymentButton.classList.add('btn-disabled');
 
     switch (type) {
+      case '탭버튼':
+        $('.general-pay-btn-wrap').css({'display':'flex'});
+        $('.payTabBtn').removeClass('active');
+
+        $("#bank_section").hide();
+        $("#auto_card_section").hide();
+        $("#card_section").hide();
+        $("#toss_section").hide();
+        $("input[name=use_point]").val(0);
+        $("input[name=use_point]").attr("readonly", false);
+        calculate_order_price();
+        $("#taxsave_section").hide();
+
+        $("#refund_section").hide();
+
+        break;
       case '무통장':
         orderButton.disabled = false;
         $("#bank_section").show();
@@ -1504,6 +1554,8 @@ function calculate_temp_point(val) {
         calculate_order_price();
 
         $("#refund_section").show();
+
+        $('.general-pay-btn-wrap').hide();
 
         // 버튼처리
         $('#order-button').show();
@@ -1530,7 +1582,7 @@ function calculate_temp_point(val) {
 
         $("#refund_section").hide();
 
-                // 버튼처리
+        // 버튼처리
         $('#order-button').hide();
         $('#payment-button').show();
 
@@ -1543,6 +1595,8 @@ function calculate_temp_point(val) {
         $("#auto_card_section").hide();
         $("#refund_section").hide();
         $("#taxsave_section").hide();
+
+        $('.general-pay-btn-wrap').hide();
 
                 // 버튼처리
         $('#order-button').show();
@@ -1572,6 +1626,8 @@ function calculate_temp_point(val) {
 
         $("#refund_section").hide();
 
+        $('.general-pay-btn-wrap').hide();
+
                 // 버튼처리
         $('#order-button').show();
         $('#payment-button').hide();
@@ -1594,6 +1650,8 @@ function calculate_temp_point(val) {
         calculate_order_price();
 
         $("#refund_section").hide();
+
+        $('.general-pay-btn-wrap').hide();
 
         <?php if (!$config['company_type']) {?>
           $("#taxsave_section").hide();
@@ -1766,6 +1824,13 @@ textarea.od-dtn__contact,	.wfull,input.od-dtn__contact{font-size:2.16rem !import
     var formSubmitOrder = $("#buyform").serialize();
     var cellPhone = $("#cellphone").val();
     var cellPhone = cellPhone.replace(/-/g, '');
+
+    // 할인가 적용 _20240725_SY
+    var NewPriceStr = $("input[name=tot_price]").val();
+    var NewPrice = NewPriceStr.replace(/,/g, '');
+    amount = NewPrice
+    paymentMethodWidget.updateAmount(amount);
+
     $.ajax({
       type: 'post',
       url: '/m/shop/normalPayment.php',

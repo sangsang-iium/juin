@@ -114,15 +114,17 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
 	</div>
 
 	<div class="btn_confirm">
-			<button type="button" onclick="cp_submit2();return false;" class="btn_medium btn-buy">쿠폰적용하기</button>
+			<button type="button" id="useCoupon" onclick="cp_submit2();return false;" class="btn_medium btn-buy">쿠폰적용하기</button>
 	</div>
 </div>
 
 <?php
 for($i=0; $row=sql_fetch_array($result); $i++) {
+  
 	$lo_id = $row['lo_id'];
 
 	//$str = mobile_cp_contents();
+  $cp_low_amt = $row['cp_low_amt'];
 
 	for($j=0; $j<$cart_count; $j++) {
 
@@ -165,17 +167,24 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
 
 		// 적용여부 && 가맹점상품제외 && 최대금액 <= 상품금액
 		$seq = array();
-		if($is_coupon && !$is_gubun[3] && ($row['cp_low_amt'] <= (int)$is_gubun[0])) {
-			// 할인해택 검사
-			$amt =  get_cp_sale_amt((int)$is_gubun[0]);
-			$seq[] = $is_gubun[1];
-			$seq[] = $lo_id;
-			$seq[] = $row['cp_subject'];
-			$seq[] = $row['cp_dups'];
-			$seq[] = $amt[1];
-			$seq[] = $amt[0];
-			$is_possible[] = implode("|", $seq);
-		}
+
+    // 회원가입 쿠폰 강제 적용 _20240724_SY
+    if($row['cp_id'] == "1" || $row['cp_id'] == "2") {
+      $is_gubun[0] = $tot_price;
+    } 
+
+    if($is_coupon && !$is_gubun[3] && ($row['cp_low_amt'] <= (int)$is_gubun[0])) {
+      // 할인해택 검사
+      $amt =  get_cp_sale_amt((int)$is_gubun[0]);
+      $seq[] = $is_gubun[1];
+      $seq[] = $lo_id;
+      $seq[] = $row['cp_subject'];
+      $seq[] = $row['cp_dups'];
+      $seq[] = $amt[1];
+      $seq[] = $amt[0];
+      $seq[] = $row['cp_low_amt'];
+      $is_possible[] = implode("|", $seq);
+    }
 	}
 }
 
@@ -191,7 +200,7 @@ for($i=0; $row=sql_fetch_array($result2); $i++) {
     <div class="pop-content line">
       <div class="pop-content-in">
         <div class="cp-list">
-          <?php
+          <?php 
           //5|1|8|0|10%|37496
           // 상품주키|쿠폰주키|쿠폰번호|동시사용 여부|할인금액(율)|할인가
           $chk = 0;
@@ -207,6 +216,9 @@ for($i=0; $row=sql_fetch_array($result2); $i++) {
               <?php echo $arr[4]; ?>
             </p>
             <p class="text01">할인금액 : <?php echo display_price($arr[5]); ?></p>
+            <?php if(!empty($arr[6])) {
+                echo "<div class='form-itxt'><p>".number_format($arr[6])."원 이상 구매시 사용 가능</p></div>";
+            } ?>
           </label>
           <!-- <tr>
             <td class="tac">

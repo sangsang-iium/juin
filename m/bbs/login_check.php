@@ -43,6 +43,10 @@ set_session('ss_mb_id', $mb['id']);
 // FLASH XSS 공격에 대응하기 위하여 회원의 고유키를 생성해 놓는다. 관리자에서 검사함 - 110106
 set_session('ss_mb_key', md5($mb['reg_time'] . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']));
 
+// 지역 정보 및 fcm
+// $myLocation  = json_encode($_SERVER['HTTP_MYLOCATION']);
+// set_session('myLocation', $myLocation);
+
 // 포인트 체크
 $sum_point = get_point_sum($mb['id']);
 
@@ -50,15 +54,16 @@ $sql= " update shop_member set point = '$sum_point' where id = '{$mb['id']}' ";
 sql_query($sql);
 
 // 자동로그인 : 아이디 쿠키에 한달간 저장
-if($auto_login) {
+// 모든 회원 자동로그인 jjh 20240802
+// if($auto_login) {
     // 쿠키 한달간 저장
     $key = md5($_SERVER['SERVER_ADDR'] . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . $mb['passwd']);
-    set_cookie('ck_mb_id', $mb['id'], 86400 * 31);
-    set_cookie('ck_auto', $key, 86400 * 31);
-} else {
-    set_cookie('ck_mb_id', '', 0);
-    set_cookie('ck_auto', '', 0);
-}
+    set_cookie('ck_mb_id', $mb['id'], 86400 * 180);
+    set_cookie('ck_auto', $key, 86400 * 180);
+// } else {
+//     set_cookie('ck_mb_id', '', 0);
+//     set_cookie('ck_auto', '', 0);
+// }
 
 if($url) {
     // url 체크

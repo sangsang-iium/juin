@@ -2,12 +2,16 @@
 include_once("./_common.php");
 include_once(BV_MYPAGE_PATH."/admin_menu.php");
 
+// mng로그인 시 $member 사용 불가 _20240723_SY
+$member = $member2;
+
 if(!is_seller($member['id'])) {
-	alert('공급사 회원만 접속 가능합니다.', BV_URL);
+	alert('공급사 회원만 접속 가능합니다..', '/m/bbs/login_seller.php');
 }
 
 if(!$is_member) {
-	alert('로그인 후 이용하세요.', BV_MBBS_URL.'/login.php');
+	// alert('로그인 후 이용하세요.', BV_MBBS_URL.'/login.php');
+	alert('로그인 후 이용하세요.', '/m/bbs/login_seller.php');
 }
 
 if(is_partner($member['id'])) {

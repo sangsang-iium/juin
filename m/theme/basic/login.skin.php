@@ -38,7 +38,7 @@ if ($gs_id) {
 						</div>
         	</div>
 					<div class="login-btn">
-						<button type="submit" class="ui-btn round stBlack login-btn">로그인</button></p>
+						<button type="submit" class="ui-btn round st1 login-btn">로그인</button></p>
 						<a href="<?php echo BV_MBBS_URL; ?>/register_type.php" class="ui-btn round stWhite join-btn">회원가입</a>
             <div class="user-find_info">
               <!--

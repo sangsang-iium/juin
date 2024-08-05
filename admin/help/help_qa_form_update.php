@@ -9,7 +9,7 @@ check_admin_token();
 if($w == "u") {
 	// $qa = sql_fetch("select * from shop_qa where index_no='$index_no'");
   // sql 수정 _20240703_SY
-  $qa_sql = " SELECT a.*, b.fcm_token FROM shop_qa AS qa
+  $qa_sql = " SELECT qa.*, mm.fcm_token FROM shop_qa AS qa
            LEFT JOIN shop_member AS mm
                   ON (qa.mb_id = mm.id)
                WHERE qa.index_no = '{$index_no}' ";

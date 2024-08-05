@@ -9,7 +9,8 @@ check_admin_token();
 if($_POST['mod_type'] == 'receipt') {
 	unset($value);
 	$value['bank']			= $_POST['bank'];
-	$value['pt_id']			= $_POST['pt_id'];
+	// $value['pt_id']			= $_POST['pt_id'];
+	$value['seller_id']			= $_POST['seller_id'];
 	$value['deposit_name']	= $_POST['deposit_name'];
 	update("shop_order", $value, "where od_id='$od_id'");
 }

@@ -7,6 +7,7 @@ include_once("./admin_head.sub.php");
 
 <form name="fregform" method="post" action="./seller_baesong_update.php" onsubmit="return fregform_submit(this);">
 <input type="hidden" name="token" value="">
+<input type="hidden" name="mb_id" value="<?php echo $member['id'] ?>">
 
 <h5 class="htag_title marb20">배송정책 설정</h5>
 <div class="tbl_frm01">
