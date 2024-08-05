@@ -11,6 +11,7 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
       <div class="findComplete-img">
         <img src="/src/img/icon-check.svg" alt="회원 정보 찾기 완료">
       </div>
+      <?php if($find_row) { ?>
 			<p class="passwordLost-text">
         회원님의 계정정보가 정상적으로 조회되었습니다. <br>
         회원님의 안전한 계정 보호를 위해 비밀번호를 재설정해주시기 바랍니다.
@@ -33,13 +34,24 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
           </div>
         </div>
       </form>
+      <?php } else { ?>
+        <div class="form-row">
+          <p class="passwordLost-text">
+            <strong>가입된 정보가 없습니다</strong>
+          </p>
+        </div>
+      <?php } ?>
 		</div>
 	</div>
 	<div class="userLost-btnbar">
 		<div class="container">
 			<div class="cp-btnbar__btns">
         <!-- <a href="<?php //echo BV_MBBS_URL; ?>/login.php" class="ui-btn round stBlack w-per100">로그인</a> -->
+        <?php if($find_row) { ?>
         <button type="submit" class="ui-btn round stBlack w-per100">비밀번호 변경</button>
+        <?php } else { ?>
+          <a href="<?php echo BV_MBBS_URL; ?>/find_id.php" class="ui-btn round stBlack w-per100">아이디 찾기</a>
+        <?php } ?>
 			</div>
 		</div>
 	</div>

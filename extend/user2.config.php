@@ -335,6 +335,9 @@ function raffleEntryCheck($index_no,$entry,$entry_number) {
     if($limitNum >= $nowNum) {
       $raffleLimit = true;
     }
+  } else {
+    // else 추가 _20240805_SY
+    $raffleLimit = true;
   }
 
   return $raffleLimit;
@@ -705,4 +708,59 @@ function get_cart_count_for_mng($mb_id)
 	$cart_count = sql_num_rows($result);
 
 	return (int)$cart_count;
+}
+
+
+/** 가입 통계 _20240805_SY */
+function reg_statistics($add) {
+  $sql = " SELECT 
+              (SELECT kb.branch_code
+                 FROM kfia_branch kb
+                WHERE kb.branch_code = sm.ju_region2) AS branch,
+              (SELECT ko.office_code 
+                 FROM kfia_office ko 
+                WHERE ko.office_code = sm.ju_region3) AS office,
+                  COUNT(*) AS total,
+                  COUNT(CASE WHEN sm.grade = 6 THEN 1 END) AS six,
+                  COUNT(CASE WHEN sm.grade = 8 THEN 1 END) AS eight,
+                  COUNT(CASE WHEN sm.grade = 9 THEN 1 END) AS nine,
+                  COUNT(CASE WHEN sm.mb_agent = 'Windows' THEN 1 ELSE NULL END) AS web,
+                  COUNT(CASE WHEN sm.mb_agent <> 'Windows' AND sm.mb_agent IS NOT NULL THEN 1 ELSE NULL END) AS app,
+                  COUNT(CASE WHEN sm.mb_agent IS NULL THEN 1 ELSE NULL END) AS `undefined`,
+                  COUNT(CASE WHEN sm.login_sum > 0 THEN 1 ELSE NULL END) AS `install`,
+                  COUNT(CASE WHEN sm.login_sum = 0 THEN 1 ELSE NULL END) AS `uninstall`,
+                  COUNT(CASE WHEN sm.ju_closed = '02' THEN 1 ELSE NULL END) AS `closing`,
+                  COUNT(CASE WHEN sm.ju_closed = '03' THEN 1 ELSE NULL END) AS `closed`
+             FROM shop_member sm 
+            WHERE grade >= 6
+              {$add}
+         GROUP BY ju_region3 
+         ORDER BY ju_region3; ";
+  $res = sql_query($sql);
+
+  $data['total_count']     = 0;
+  $data['six_count']       = 0;
+  $data['eight_count']     = 0;
+  $data['nine_count']      = 0;
+  $data['web_count']       = 0;
+  $data['app_count']       = 0;
+  $data['install_count']   = 0;
+  $data['uninstall_count'] = 0;
+  $data['closing_count']   = 0;
+  $data['closed_count']    = 0;
+
+  while($row = sql_fetch_array($res)) {
+    $data['total_count']     += $row['total'];
+    $data['six_count']       += $row['six'];
+    $data['eight_count']     += $row['eight'];
+    $data['nine_count']      += $row['nine'];
+    $data['web_count']       += $row['web'];
+    $data['app_count']       += $row['app'];
+    $data['install_count']   += $row['install'];
+    $data['uninstall_count'] += $row['uninstall'];
+    $data['closing_count']   += $row['closing'];
+    $data['closed_count']    += $row['closed'];
+  }
+
+  return $data;
 }

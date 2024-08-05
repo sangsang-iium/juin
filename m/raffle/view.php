@@ -12,6 +12,7 @@ $per = round((($raffle['market_price'] - $raffle['raffle_price']) / $raffle['mar
 $raffleLimit = raffleEntryCheck($index_no,$raffle['entry'],$raffle['entry_number']);
 $rafflePrizeCheck = rafflePrizeCheck($index_no);
 $raffleEndCheck = raffleEventDateCheck($raffle['event_end_date'],$raffle['prize_date']);
+
 ?>
 
 <div id="contents" class="sub-contents flView raffleView">

@@ -6,18 +6,27 @@ include_once(BV_ADMIN_PATH."/admin_head.php");
 include_once(BV_ADMIN_PATH."/admin_topmenu.php");
 
 
+
 // Month _20240703_SY
 $currentYear = date("Y");
-$currentMonth = date("n");
-for ($month = 1; $month <= $currentMonth; $month++) {
-    $monthData[] = sprintf("%d-%02d", $currentYear, $month);
-    $monthText[] = $currentYear . '-' . $month;
+$currentMonth = date("m");
+
+// get Month 추가 _20240805_SY
+if(isset($_GET['month']) && !empty($_GET['month'])) {
+  $getMonth = $_GET['month'];
+} else {
+  $getMonth = $currentMonth;
 }
 
+for ($month = 1; $month <= $currentMonth; $month++) {
+  $monthText[] = $currentYear . '-' . $month;
+}
+$monthData = sprintf("%d-%02d-%02d", $currentYear, $getMonth, "01");
+
 // 당월 OrderDate 조회 _20240703_SY
-$od_and_month = " AND od_time BETWEEN DATE_FORMAT(NOW() ,'%Y-%m-01') AND LAST_DAY(NOW()) ";
+$od_and_month = " AND od_time BETWEEN DATE_FORMAT('{$monthData}' ,'%Y-%m-01') AND LAST_DAY('{$monthData}') ";
 // 금일 OrderDate 조회 _20240703_SY
-$od_and_day   = " AND od_time LIKE DATE_FORMAT(NOW() ,'%Y-%m-%d') ";
+$od_and_day   = " AND od_time > CURRENT_DATE() ";
 // 일반 배송 _20240703_SY
 $od_basic     = " AND od_id REGEXP '^[0-9]+$'";
 // 정규 배송 _20240703_SY
@@ -26,27 +35,80 @@ $od_monthly   = " AND od_id REGEXP '^[0-9]+(_0)'";
 $od_all       = " AND od_id REGEXP '^[0-9]+(_0)?$'";
 
 
-$sodrr    = admin_order_status_sum("WHERE dan > 0 {$od_and_month} {$od_all} "); // 총 주문내역
-$sodrr_1  = admin_order_status_sum("WHERE dan > 0 {$od_and_day} {$od_all} ");   // 금일 총 주문내역
-$sodr1    = admin_order_status_sum("WHERE dan = 1 {$od_and_month} "); // 총 입금대기
-$sodr1_1  = admin_order_status_sum("WHERE dan = 1 {$od_and_month} {$od_basic} ");   // 당월 일반 입금대기
-$sodr1_2  = admin_order_status_sum("WHERE dan = 1 {$od_and_month} {$od_monthly} "); // 당월 정기 입금대기
-$sodr2    = admin_order_status_sum("WHERE dan = 2 {$od_and_month} {$od_all} "); // 총 입금완료
-$sodr3    = admin_order_status_sum("WHERE dan = 3 {$od_and_month} "); // 총 배송준비
-$sodr4    = admin_order_status_sum("WHERE dan = 4 {$od_and_month} "); // 총 배송중
-$sodr5    = admin_order_status_sum("WHERE dan = 5 {$od_and_month} "); // 총 배송완료
-$sodr6    = admin_order_status_sum("WHERE dan = 6 {$od_and_month} "); // 총 입금전 취소
-$sodr6_1  = admin_order_status_sum("WHERE dan = 6 {$od_and_day} ");   // 금일 입금전 취소
-$sodr7    = admin_order_status_sum("WHERE dan = 7 {$od_and_month} "); // 총 배송후 반품
-$sodr8    = admin_order_status_sum("WHERE dan = 8 {$od_and_month} "); // 총 배송후 교환
-$sodr9    = admin_order_status_sum("WHERE dan = 9 {$od_and_month} "); // 총 배송전 환불
-$final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month} "); // 총 구매미확정
+$od_add = "";
+$mb_add = "";
+// 지회/지부 조건 추가 _20240805_SY
+if ($member['grade'] <= 2) {
+  // 지회/지부 인지 확인 (이거 점검 좀 해야 겠다) 
+  $branch_chk = " SELECT COUNT(*) as cnt FROM kfia_branch WHERE branch_code = '{$member['ju_region3']}' ";
+  $branch_res = sql_fetch($branch_chk);
+  if($branch_res['cnt'] > 0 ){
+    $od_add = " AND mb_id IN (SELECT id FROM shop_member WHERE ju_region2 = '{$member['ju_region2']}' ) ";
+    $mb_add = " AND sm.ju_region2 = '{$member['ju_region2']}' ";
+  } else {
+    $od_add = " AND mb_id IN (SELECT id FROM shop_member WHERE ju_region3 = '{$member['ju_region3']}' ) ";
+    $mb_add = " AND sm.ju_region3 = '{$member['ju_region3']}' ";
+  }
+} else {
+  $od_add = " AND mb_id IN (SELECT id FROM shop_member WHERE ju_manager = '{$member['index_no']}' ) ";
+  $mb_add = " AND sm.ju_manager = '{$member['index_no']}' ";
+}
+
+if ($member['id'] == "admin" || $member['ju_region2'] == "00400") {
+  $od_add = "";
+  $mb_add = "";
+}
+
+
+/** dan 옵션
+ * 0 : 조회되면 안되는 데이터
+ * 1 : 입금 대기
+ * 2 : 결제 완료
+ * 3 : 준비 중
+ * 4 : 배송 중
+ * 5 : 배송 완료
+ * 6 : 취소
+ */
+
+
+$sodrr    = admin_order_status_sum("WHERE dan > 0 {$od_and_month} {$od_all} {$od_add} "); // 총 주문내역
+$sodrr_1  = admin_order_status_sum("WHERE dan > 0 {$od_and_day} {$od_all} {$od_add} ");   // 금일 총 주문내역
+$sodr1    = admin_order_status_sum("WHERE dan = 1 {$od_and_month} {$od_add} "); // 총 입금대기
+$sodr1_1  = admin_order_status_sum("WHERE dan = 1 {$od_and_month} {$od_basic} {$od_add} ");   // 당월 일반 입금대기
+$sodr1_2  = admin_order_status_sum("WHERE dan = 1 {$od_and_month} {$od_monthly} {$od_add} "); // 당월 정기 입금대기
+// $sodr2    = admin_order_status_sum("WHERE dan = 2 {$od_and_month} {$od_all} {$od_add} "); // 총 입금완료
+$sodr2    = admin_order_status_sum("WHERE dan IN (2, 3, 4, 5) {$od_and_month} {$od_all} {$od_add} "); // 총 결제 완료건
+$sodr3    = admin_order_status_sum("WHERE dan = 3 {$od_and_month} {$od_add} "); // 총 배송준비
+$sodr4    = admin_order_status_sum("WHERE dan = 4 {$od_and_month} {$od_add} "); // 총 배송중
+$sodr5    = admin_order_status_sum("WHERE dan = 5 {$od_and_month} {$od_add} "); // 총 배송완료
+$sodr6    = admin_order_status_sum("WHERE dan = 6 {$od_and_month} {$od_add} "); // 총 입금전 취소
+$sodr6_1  = admin_order_status_sum("WHERE dan = 6 {$od_and_day} {$od_add} ");   // 금일 입금전 취소
+$sodr7    = admin_order_status_sum("WHERE dan = 7 {$od_and_month} {$od_add} "); // 총 배송후 반품
+$sodr8    = admin_order_status_sum("WHERE dan = 8 {$od_and_month} {$od_add} "); // 총 배송후 교환
+$sodr9    = admin_order_status_sum("WHERE dan = 9 {$od_and_month} {$od_add} "); // 총 배송전 환불
+$final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month} {$od_add} "); // 총 구매미확정
 
 /* ------------------------------------------------------------------------------------- _20240714_SY 
   * 미연동 데이터에 대한 "준비중" 문구 처리
   * 게시판 연동 작업
 /* ------------------------------------------------------------------------------------- */
+
+
+// 매출현황 > 합계 _20240805_SY
+$pay_total_cnt    = $sodr2['cnt'] + $sodr1_1['cnt'] + $sodr1_2['cnt'];
+$pay_total_amount = $sodr2['price'] + $sodr1_1['price'] + $sodr1_2['price'];
+
+
+// 회원 통계 _20240805_SY
+$reg_month = " AND reg_time BETWEEN DATE_FORMAT('{$monthData}' ,'%Y-%m-01') AND LAST_DAY('{$monthData}') ";
+$reg_total = reg_statistics($reg_month . $mb_add);
+
+// 탈퇴 회원 _ 20240805_SY
+$leave_sel = " SELECT COUNT(*) AS cnt FROM shop_member_leave WHERE (1) {$reg_month}";
+$leave_res = sql_fetch($leave_sel);
+
 ?>
+
 
 
 <div id="main_dashboard">
@@ -55,9 +117,10 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
             <dt class="box_title select_type">
                 금일 주문현황
                 <div class="chk_select">
-                    <select name="" id="order_month">
+                    <select name="" id="order_month" onchange="window.open(value,'_self');">
                       <?php foreach($monthText as $key => $val) { 
-                        echo "<option value='{$key}'".($currentMonth == substr($val, 5) ? 'selected' : '') ." >".substr($val, 5)."월</option>";
+                        $selectMonth = substr($val, 5);
+                        echo "<option value='?month={$selectMonth}'".($getMonth == $selectMonth ? 'selected' : '') ." >".$selectMonth."월</option>";
                       } ?>
                     </select>
                 </div>
@@ -144,11 +207,11 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                     <p class="content_title color_type2">합계</p>
                     <div class="approval_box">
                         <p class="order_line_num color_type2">
-                            <span id="order_data_check4"><?php echo number_format($sodr2['cnt']); ?></span>
+                            <span id="order_data_check4"><?php echo number_format($pay_total_cnt); ?></span>
                             <span>건</span>
                         </p>
                         <p class="order_line_money">
-                            <span id="order_data_money4"><?php echo number_format($sodr2['price']); ?></span>
+                            <span id="order_data_money4"><?php echo number_format($pay_total_amount); ?></span>
                             <span class="cnt_unit_text">원</span>
                         </p>
                     </div>
@@ -167,7 +230,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                                 <div class="box">
                                     <p class="t1 c1">가입회원</p>
                                     <p class="t2">
-                                        <span class="num c1">00</span>
+                                        <span class="num c1"><?php echo number_format($reg_total['total_count'])?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
@@ -176,14 +239,14 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                                 <div class="box">
                                     <p class="t1 c2">설치</p>
                                     <p class="t2">
-                                        <span class="num c2">00</span>
+                                        <span class="num c2"><?php echo number_format($reg_total['install_count'])?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
                                 <div class="box">
                                     <p class="t1 c3">미설치</p>
                                     <p class="t2">
-                                        <span class="num c3">00</span>
+                                        <span class="num c3"><?php echo number_format($reg_total['uninstall_count'])?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
@@ -194,53 +257,53 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                                 <div class="box">
                                     <p class="t1 cb">일반 회원</p>
                                     <p class="t2">
-                                        <span class="num">00</span>
+                                        <span class="num"><?php echo number_format($reg_total['eight_count'])?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
                                 <div class="box">
                                     <p class="t1 cb">중앙회 회원</p>
                                     <p class="t2">
-                                        <span class="num">00</span>
+                                        <span class="num"><?php echo number_format($reg_total['nine_count'])?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
                                 <div class="box">
                                     <p class="t1 cb">임직원 회원</p>
                                     <p class="t2">
-                                        <span class="num">00</span>
+                                        <span class="num"><?php echo number_format($reg_total['six_count'])?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
                                 <div class="box">
                                     <p class="t1 cb">휴업 회원</p>
                                     <p class="t2">
-                                        <span class="num">00</span>
+                                        <span class="num"><?php echo number_format($reg_total['closing_count'])?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
                                 <div class="box">
                                     <p class="t1 cb">폐업 회원</p>
                                     <p class="t2">
-                                        <span class="num">00</span>
+                                        <span class="num"><?php echo number_format($reg_total['closed_count'])?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
                                 <div class="box">
                                     <p class="t1 cb">탈퇴 회원</p>
                                     <p class="t2">
-                                        <span class="num">00</span>
+                                        <span class="num"><?php echo number_format($leave_res['cnt']) ?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col2 mem-statics-col">
+                        <!-- <div class="col2 mem-statics-col">
                             <div class="box-wrap">
                                 <div class="box">
                                     <p class="t1 c1">WEB</p>
                                     <p class="t2">
-                                        <span class="num c1">00</span>
+                                        <span class="num c1"><?php echo number_format($reg_total['web_count']) ?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
@@ -249,12 +312,12 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
                                 <div class="box">
                                     <p class="t1 c2">APP</p>
                                     <p class="t2">
-                                        <span class="num c2">00</span>
+                                        <span class="num c2"><?php echo number_format($reg_total['app_count']) ?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </dd>
