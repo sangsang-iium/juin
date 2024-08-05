@@ -20,7 +20,7 @@ if(empty($cert_no)) {
 // 입력값과 본인인증 값 비교 _20240705_SY
 $cellphone = implode("-",$find_hp);
 if($chk_hp != $cellphone) { 
-    alert("입력하신 정보가 본인인증 정보와 일치하지 않습니다."); 
+  alert("입력하신 정보가 본인인증 정보와 일치하지 않습니다."); 
   exit; 
 }
 

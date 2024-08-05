@@ -124,6 +124,7 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
 	$lo_id = $row['lo_id'];
 
 	//$str = mobile_cp_contents();
+  $cp_low_amt = $row['cp_low_amt'];
 
 	for($j=0; $j<$cart_count; $j++) {
 
@@ -181,6 +182,7 @@ for($i=0; $row=sql_fetch_array($result); $i++) {
       $seq[] = $row['cp_dups'];
       $seq[] = $amt[1];
       $seq[] = $amt[0];
+      $seq[] = $row['cp_low_amt'];
       $is_possible[] = implode("|", $seq);
     }
 	}
@@ -214,6 +216,9 @@ for($i=0; $row=sql_fetch_array($result2); $i++) {
               <?php echo $arr[4]; ?>
             </p>
             <p class="text01">할인금액 : <?php echo display_price($arr[5]); ?></p>
+            <?php if(!empty($arr[6])) {
+                echo "<div class='form-itxt'><p>".number_format($arr[6])."원 이상 구매시 사용 가능</p></div>";
+            } ?>
           </label>
           <!-- <tr>
             <td class="tac">

@@ -70,6 +70,7 @@ $(document).ready(function () {
 
   mtbCloseBtn?.addEventListener('click', function() {
     mtbWrap.style.maxHeight = '0';
+    mtbWrap.style.paddingTop = '0';
   });
 
   //Main Popup Banner
@@ -201,9 +202,24 @@ $(document).ready(function () {
   const mainNewTarget = '.main_popular-slide .swiper-container';
   const mainNewOptions = {
     slidesPerView: "auto",
-    freeMode: true
+    freeMode: true,
+    grid: {
+      rows: 2,
+      fill: "row",
+    },
   };
   const mainNewSlider = f.slider(mainNewTarget, mainNewOptions);
+
+  //Main raffle Slide
+  const mainRaffTarget = '.main_raffle .swiper-container';
+  const mainRaffOptions = {
+    slidesPerView: "auto",
+    freeMode: true,
+  };
+  const mainRaffSlider = f.slider(mainRaffTarget, mainRaffOptions);
+
+  //Main Time Sale
+  f.timeSale('.main_raffle .cp-timer__num');
 
   //Main Today Slide
   const mainTodayTarget = '.main_today-slide .swiper-container';

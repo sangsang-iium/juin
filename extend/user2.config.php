@@ -498,7 +498,8 @@ function allSearchSql($columns , $stx) {
   return $sql;
 }
 
-function allSearchSqlArr($columns , $stx) {
+// $etc 추가 _20240801_SY
+function allSearchSqlArr($columns , $stx, $etc="") {
   $i = 0;
   $sql = " (";
   foreach ($columns as $columnVal) {
@@ -506,6 +507,8 @@ function allSearchSqlArr($columns , $stx) {
     $sql .= " INSTR( LOWER($columnVal) , LOWER('$stx') ) ";
     $i++;
   }
+
+  $sql .= $etc;
 
   $sql .= ") ";
 

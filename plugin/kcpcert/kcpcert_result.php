@@ -152,8 +152,11 @@ include_once(BV_PATH.'/head.sub.php');
     else if( $res_cd != "0000" )
     {
         // 인증실패
-        alert('코드 : '.$_POST['res_cd'].'  '.urldecode($_POST['res_msg']));
-        exit;
+        // alert('코드 : '.$_POST['res_cd'].'  '.urldecode($_POST['res_msg']));
+        // exit;
+        // 취소누르면 화면 못 빠져나오는 문제 있어서 수정 _20240802_SY
+        $fail_code = "[{$_POST['res_cd']}] " . urldecode($_POST['res_msg']);
+        log_write("인증실패 코드 : {$fail_code} ");
     }
 
 $ct_cert->mf_clear();
@@ -196,7 +199,8 @@ $(function() {
 
     // up_hash 검증
     if( document.form_auth.up_hash.value != $opener.$("input[name=veri_up_hash]").val() ) {
-        alert("up_hash 변조 위험있음");
+        // alert("up_hash 변조 위험있음");
+        alert("인증실패");
     }
 
     // 인증정보
@@ -220,7 +224,7 @@ $(function() {
     // });
 
 
-    alert("본인의 휴대폰번호로 확인 되었습니다.");
+    // alert("본인의 휴대폰번호로 확인 되었습니다.");
 
     window.close();
 });

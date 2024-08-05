@@ -6031,3 +6031,14 @@ input.qty-input {
     gap:20px;
     text-align: left;
 }
+
+/* 2024-08-01 카드 */
+.smb-card-wrap {display: flex; flex-flow: row wrap; gap: 10px; width: 100%;}
+.smb-card__li {border: 1px dashed #00908d; border-radius: 5px; box-shadow: 3px 0 24px rgba(0, 0, 0, 0.17); width: calc((100% - 20px) / 3); padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;}
+.smb-card__li .lt {padding-right: 10px;}
+.smb-card__li .lt .name {font-weight: 500; font-size: 18px;}
+.smb-card__li .lt .tag {font-size: 16px; padding: 2px 15px; background-color: #00908d; color: #fff; border-radius: 5px; margin-left: 8px;}
+.smb-card__li .lt .number {font-weight: 700; font-size: 18px; color: #333; padding-top: 20px;}
+.smb-card__li .delete {width: 40px; height: 40px; border: 1px solid #ddd; border-radius: 50%; background: url("/src/img/icon-trash.png") no-repeat center/20px auto, #FAFAFA; font-size: 0;}
+
+[class*="btn_confirm"] a.add-btn {min-width: 87px; text-align: center; min-height: 40px; padding: 0; margin: 0; border-radius: 5px; padding: 17px 25px; background-color: #00908d; color: #fff; display: inline-block; height: initial;}

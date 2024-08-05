@@ -5,8 +5,6 @@ check_demo();
 
 check_admin_token();
 
-print_r2($_POST);
-
 $delivery_company = '';
 $delivery_count   = count($_POST['spl_name']);
 if ($delivery_count) {

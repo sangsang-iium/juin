@@ -995,6 +995,13 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               // $multi_settle .= "<option value='무통장'>무통장입금</option>\n";
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
+              $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"탭버튼\" id=\"de_tab\">\n";
+              $multi_settle .= "<label for=\"de_tab\">카드결제</label>\n";
+              $multi_settle .= "</div>\n";
+              $multi_settle .= "</li>\n";
+
+              $multi_settle .= "<li style=\"display:none\">\n";
+              $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"일반\" id=\"de_normal\">\n";
               $multi_settle .= "<label for=\"de_normal\">카드결제</label>\n";
               $multi_settle .= "</div>\n";
@@ -1008,11 +1015,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
-              $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+              $multi_settle .= "<label for=\"de_bank\">무통장입금(가상계좌)</label>\n";
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
 
-              $multi_settle .= "<li>\n";
+              $multi_settle .= "<li style=\"display:none\">\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"간편\" id=\"de_auto_card\">\n";
               $multi_settle .= "<label for=\"de_auto_card\">간편결제</label>\n";
@@ -1025,7 +1032,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"무통장\" id=\"de_bank\">\n";
-              $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+              $multi_settle .= "<label for=\"de_bank\">무통장입금(가상계좌)</label>\n";
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
 
@@ -1042,7 +1049,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               $multi_settle .= "<li>\n";
               $multi_settle .= "<div class=\"frm-choice\">\n";
               $multi_settle .= "<input type=\"radio\" name=\"paymethod\" value=\"렌탈\" id=\"de_bank\" checked>\n";
-              $multi_settle .= "<label for=\"de_bank\">무통장입금</label>\n";
+              $multi_settle .= "<label for=\"de_bank\">무통장입금(가상계좌)</label>\n";
               $multi_settle .= "</div>\n";
               $multi_settle .= "</li>\n";
             }
@@ -1111,6 +1118,10 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
               <ul class="sod_frm_pay_ul">
                 <?php echo $multi_settle; ?>
               </ul>
+              <div class="general-pay-btn-wrap">
+                <button type="button" class="ui-btn st2 sizeM payTabBtn" id="payTabBtn1">일반</button>
+                <button type="button" class="ui-btn st2 sizeM payTabBtn" id="payTabBtn2">등록카드</button>
+              </div>
             </section>
 
 
@@ -1604,6 +1615,17 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
 
 
   });
+
+  // 2024-08-02 카드결제 탭 노출
+  $('.general-pay-btn-wrap .ui-btn').on('click',function(){
+    $('.general-pay-btn-wrap .ui-btn').removeClass('active');
+    $(this).addClass('active');
+    if($('#payTabBtn1').hasClass('active')){
+      $('#de_normal').trigger('click');
+    }else{
+      $('#de_auto_card').trigger('click');
+    }
+  });
 </script>
 <script>
   $(function() {
@@ -1995,6 +2017,22 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
     paymentButton.classList.add('btn-disabled');
 
     switch (type) {
+      case '탭버튼':
+        $('.general-pay-btn-wrap').css({'display':'flex'});
+        $('.payTabBtn').removeClass('active');
+
+        $("#bank_section").hide();
+        $("#auto_card_section").hide();
+        $("#card_section").hide();
+        $("#toss_section").hide();
+        $("input[name=use_point]").val(0);
+        $("input[name=use_point]").attr("readonly", false);
+        calculate_order_price();
+        $("#taxsave_section").hide();
+
+        $("#refund_section").hide();
+
+        break;
       case '무통장':
         orderButton.disabled = false;
         $("#bank_section").show();
@@ -2007,6 +2045,8 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
         calculate_order_price();
 
         $("#refund_section").show();
+
+        $('.general-pay-btn-wrap').hide();
 
         // 버튼처리
         $('#order-button').show();
@@ -2048,6 +2088,8 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
         $("#refund_section").hide();
         $("#taxsave_section").hide();
 
+        $('.general-pay-btn-wrap').hide();
+
         // 버튼처리
         $('#order-button').show();
         $('#payment-button').hide();
@@ -2076,6 +2118,8 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
         $("#refund_section").hide();
         $("#taxsave_section").hide();
 
+        $('.general-pay-btn-wrap').hide();
+
         // 버튼처리
         $('#order-button').show();
         $('#payment-button').hide();
@@ -2092,6 +2136,8 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
         calculate_order_price();
 
         $("#refund_section").hide();
+
+        $('.general-pay-btn-wrap').hide();
 
         // 버튼처리
         $('#order-button').show();
@@ -2115,6 +2161,8 @@ document.querySelector("input[name=use_point]").addEventListener('keyup', functi
         calculate_order_price();
 
         $("#refund_section").hide();
+
+        $('.general-pay-btn-wrap').hide();
 
         // 버튼처리
         $('#order-button').show();

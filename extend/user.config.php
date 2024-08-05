@@ -630,7 +630,7 @@ function mb_basename($path, $suffix = '') {
 
 
 // //fcm _20240701_SY
-function sendFCMMessage($message, $target="") {
+function sendFCMMessage($message) {
   global $default;
 
   // $serviceAccountPath = $_SERVER["DOCUMENT_ROOT"] . '/google_server_key.json';
@@ -725,7 +725,7 @@ function sendFCMMessage($message, $target="") {
   return $response_end;
 }
 
-function sendFCMMessage2($messages, $target = "") {
+function sendFCMMessage2($messages) {
   // 서비스 계정 키 경로
   $serviceAccountPath = '/home/juin/www/google_server_key.json';
 
@@ -803,7 +803,11 @@ function sendFCMMessage2($messages, $target = "") {
         'notification' => [
           'title' => $message['title'],
           'body'  => $message['body'],
+          'image' => $message['image'],
         ],
+        'data' => [
+          'link' => $message['link'],
+        ]
       ],
     ];
 

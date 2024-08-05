@@ -88,10 +88,10 @@
 .main_best-slide .cp-item .prod-thumb_area .num {display: block;}
 
 .main_recomm .cp-title .icon-box:after {width: 2.92rem; height: 3.6rem; background-image: url('../img/icon-recomm.svg');}
-.main_recomm-slide .cp-item {width: 16rem; margin-right: 1rem;}
+.main_recomm-slide .cp-item {width: 14rem; margin-right: 1rem;}
 
 .main_popular .cp-title .icon-box:after {width: 2.88rem; height: 2.6rem; background-image: url('../img/icon-heart.svg');}
-.main_popular-slide .cp-item {width: 16rem; margin-right: 1rem;}
+.main_popular-slide .cp-item {width: 14rem; margin-right: 1rem;}
 
 .main_today .cp-title .icon-box:after {width: 3.48rem; height: 3.12rem; background-image: url('../img/icon-time.svg');}
 .main_today-slide .cp-item {width: 14rem; margin-right: 1rem;}
@@ -519,6 +519,8 @@
 .coupon-in-popup .cp-list input[type='radio']:checked + .cp-list-item .cp-name {color: var(--color-main);}
 .coupon-in-popup .cp-list input[type='radio']:checked + .cp-list-item .rate {color: var(--color-main);}
 .coupon-in-popup .cp-list input[type='radio']:checked + .cp-list-item .text01 {color: var(--color-main);}
+/* 쿠폰 추가 설명 CSS 추가 _20240801_SY */
+.coupon-in-popup .cp-list input[type='radio']:checked + .cp-list-item .form-itxt p {color: var(--color-main);}
 
 /* 주문 완료 */
 #orderComplete {padding: 8rem 0 4rem;}
@@ -1396,3 +1398,31 @@
 
 .cart-process-top {justify-content: flex-end;}
 .cart-process-bar .active-bar {transition: .3s;}
+
+/* === 2024-08-01 메인 순서 변경 === */
+.line-banner-section.line-banner02 {margin-top: 8rem;}
+.main_popular-slide .cp-item {margin-bottom: 2.2rem;}
+
+.main_raffle .swiper-wrapper {padding-left: .5rem;}
+.main_raffle .cp-item {width: 30rem; margin-right: 1rem; margin-bottom: 2.2rem;}
+.main_raffle .cp-timer__icon {width: 2rem; height: 2rem; margin-right: .5rem;}
+.main_raffle .cp-timer__num {font-size: 2rem;}
+.main_raffle .cp-timer__text {font-size: 2rem;}
+
+/* === 2024-08-02 메인 배너변경 및 인트로 버튼추가 === */
+.mtb-wrap {padding-top: 1.8rem;}
+
+.intro-join-btn-box {display: flex; align-items: center; justify-content: space-between; gap: 0 1.12rem; padding-top: 1.2rem; padding-bottom: 8rem;}
+.intro-join-btn-box .join-btn {width: 100%; display: flex; align-items: center; justify-content: center; border-radius: 0.96rem; height: 5.6rem; border: 0.16rem solid #eee; gap: 0.8rem; font-weight: 500; font-size: 1.6rem; color: #333;}
+.intro-join-btn-box .join-btn .icon {width: 2.24rem;}
+
+.general-pay-btn-wrap {padding-top: 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; display: none;}
+.general-pay-btn-wrap .ui-btn {width: 100%;}
+.general-pay-btn-wrap .ui-btn.active {color: var(--color-white); background-color: var(--color-main);}
+
+.main_raffle {background: url('/src/img/main-raffle-bg.png') no-repeat center/cover; padding: 4.8rem 0;}
+.main_raffle .text-box h3 {color: #fff;}
+.main_raffle .cp-title .tp-expl {color: rgba(255,255,255,.75);}
+.main_raffle .prod-info_area .name {color: #fff;}
+.main_raffle .prod-info_area .dc-price {color: #fff;}
+.main_raffle .prod-info_area .sale-price {color: #fff;}
