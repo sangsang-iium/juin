@@ -146,10 +146,13 @@ if ($code == 'list' || $code == 'reg_list') // 전체주문내역
   }
 }
 
+// $search_company_name 판매자 이름 검색 추가 _20240801_SY
+$search_company_name = "";
 if ($sfl && $stx) {
   if($sfl == 'all') {
     $allColumns = array("od_id","od_no","mb_id","name","deposit_name","bank","b_name","b_telephone","b_cellphone","delivery_no","seller_id","pt_id");
-    $where[] = allSearchSqlArr($allColumns,$stx);
+    $search_company_name = " OR seller_id IN (SELECT seller_code FROM shop_seller WHERE INSTR( LOWER(company_name) , LOWER('{$stx}') )) ";
+    $where[] = allSearchSqlArr($allColumns,$stx,$search_company_name);
   } else {
     $where[] = " $sfl like '%$stx%' ";
   }
@@ -228,7 +231,8 @@ if ($fr_date && $to_date) {
 }
 
 // 담당자 정보 추가 _20240619_SY
-if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
+// 외식가족공제회 예외 추가 _20240731_SY
+if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin" && $member['ju_region2'] != "00400") {
   $mn_sql = " SELECT index_no FROM shop_manager WHERE `id` = '{$_SESSION['ss_mn_id']}' ";
   $mn_row = sql_fetch($mn_sql);
   $where[] = " mb_id IN ( SELECT id FROM shop_member WHERE ju_manager = '{$mn_row['index_no']}' ) ";

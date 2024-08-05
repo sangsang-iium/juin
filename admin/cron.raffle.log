@@ -4,3 +4,4 @@ Stack trace:
 #0 /home/juin/www/admin/cron.raffle.php(2): include_once()
 #1 {main}
   thrown in /home/juin/www/common.php on line 305
+<p>select * from shop_member where id = TRIM('admin')<p>1053 : Server shutdown in progress<p>error file : /home/juin/www/admin/cron.raffle.php

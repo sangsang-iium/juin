@@ -60,7 +60,7 @@ if($w == '') {
 
     // 기본값 설정
     $upd_data = [];
-    foreach (range(1, 10) as $i) {
+    foreach (range(1, 12) as $i) {
         $upd_data["auth_{$i}"] = 0;
     }
 

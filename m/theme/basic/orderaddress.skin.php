@@ -28,6 +28,9 @@ if (!defined('_BLUEVATION_')) exit;
           $info[] = $row['b_addr1'];
           $info[] = $row['b_addr2'];
           $info[] = $row['b_addr3'];
+          // 배송요청사항 & 기본배송지 추가 _20240802_SY
+          $info[] = $row['b_addr_req'];
+          $info[] = $row['b_base'];
 
 
           $addr = implode($sep, $info);
@@ -116,6 +119,7 @@ if (!defined('_BLUEVATION_')) exit;
 
       // var f = window.opener.buyform;
       var f = buyform;
+      console.log(addr)
 
       f.b_name.value = addr[0];
       f.b_cellphone.value = addr[1];
@@ -124,11 +128,23 @@ if (!defined('_BLUEVATION_')) exit;
       f.b_addr1.value = addr[4];
       f.b_addr2.value = addr[5];
       f.b_addr3.value = addr[6];
-      f.b_addr_jibeon.value = addr[7];
+      f.b_addr_req.value = addr[7];
 
       $("#od-dtn .od-dtn__name .nm").text(addr[0]);
       $("#od-dtn .od-dtn__addr").text(addr[4] + ", " + addr[5] + " " + addr[6]);
       $("#od-dtn .od-dtn__contact").text(addr[1]);
+
+      // 기본배송지 tag _20240802_SY
+      if(addr[8] == 1) {
+        if ($("#od-dtn .od-dtn__name .tag").length === 0) {
+          var newTag = $("<span class='tag'>기본배송지</span>");
+          $("#od-dtn .od-dtn__name").append(newTag);
+        } else {
+          $("#od-dtn .od-dtn__name .tag").text("기본배송지");
+        }
+      } else {
+        $("#od-dtn .od-dtn__name .tag").remove();
+      }
 
       var zip = addr[3].replace(/[^0-9]/g, "");
       if (zip != "") {
@@ -269,7 +285,6 @@ if (!defined('_BLUEVATION_')) exit;
   }
 
   function fn_b_addr_req_list() {
-    console.log("aaa")
     var msg = $("#b_addr_req_save").prop('value');
     $.ajax({
       type: 'post',

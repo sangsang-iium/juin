@@ -6,6 +6,19 @@ $lng = trim($_POST['lng']);
 $category = trim($_POST['cate']);
 $km = 2; //지름2Km
 
+function maskPhoneNumber($phone_number) {
+  // 하이픈이 포함된 전화번호인지 확인
+  if (strpos($phone_number, '-') !== false) {
+    // 하이픈 포함 전화번호
+    $masked_number = preg_replace('/(\d{3})-\d{4}-(\d{4})/', '$1-****-$2', $phone_number);
+  } else {
+    // 하이픈 미포함 전화번호
+    $masked_number = preg_replace('/(\d{3})\d{4}(\d{4})/', '$1****$2', $phone_number);
+  }
+
+  return $masked_number;
+}
+
 
 if($category=='all'){
     $sql = "SELECT *, ( 6371 * acos( cos( radians({$lat}) ) * cos( radians( ju_lat ) ) * cos( radians( ju_lng ) - radians({$lng}) ) + sin( radians({$lat}) ) * sin( radians( ju_lat ) ) ) ) AS distance ";
@@ -18,7 +31,7 @@ $result = sql_query($sql);
 $rows = sql_num_rows($result);
 
 $slist = '';
-$positions = []; //마커를 표시할 상호명/위치/이미지/키 객체 배열입니다 
+$positions = []; //마커를 표시할 상호명/위치/이미지/키 객체 배열입니다
 
 if($rows == 0){
     $slist .= '<p class="empty_list">자료가 없습니다.</p>';
@@ -29,15 +42,15 @@ if($rows == 0){
         } else {
             $thumb = '/src/img/store/t-store_nothumb.jpg'; //등록된 이미지 없을경우
         }
-        
+
         $goodyn = getStoreGoodRegister($row['index_no'], $member['id']);
-        
+
         $slist .= '<div class="store-item">';
         $slist .= '<a href="./view.php?no='.$row['index_no'].'" class="store-item_thumbBox"><img src="'.$thumb.'" class="fitCover" alt="'.$row['ju_restaurant'].'"></a>';
         $slist .= '<div class="store-item_txtBox">';
         $slist .= '<a href="./view.php?no='.$row['index_no'].'" class="tRow2 title"><span class="cate">['.$row['ju_cate'].']</span><span class="subj">'.$row['ju_restaurant'].'</span></a>';
         $slist .= '<p class="address">'.$row['ju_addr_full'].'</p>';
-        $slist .= '<a href="tel:'.$row['ju_tel'].'" class="tel">'.$row['ju_tel'].'</a>';
+        // $slist .= '<a href="tel:'.$row['ju_tel'].'" class="tel">'.maskPhoneNumber($row['ju_tel']).'</a>';
         $slist .= '<ul class="extra">';
         $slist .= '<li class="hit"><span class="icon"><img src="/src/img/store/icon_hit.png" alt="조회수"></span><span class="text">'.$row['ju_hit'].'</span></li>';
         $slist .= '<li class="like"><span class="icon"><img src="/src/img/store/icon_like.png" alt="좋아요수"></span><span class="text">'.getStoreGoodCount($row['index_no']).'</span></li>';
@@ -48,7 +61,7 @@ if($rows == 0){
             $slist .= '<button type="button" class="ui-btn wish-btn" data-no="'.$row['index_no'].'" title="관심상품 등록하기"></button>';
         }
         $slist .= '</div></div>';
-        
+
         array_push($positions, ['title'=>$row['ju_restaurant'], 'lat'=>$row['ju_lat'], 'lng'=>$row['ju_lng'], 'img'=>'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', 'no'=>$row['index_no']]);
     }
 }

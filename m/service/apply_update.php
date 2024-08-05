@@ -81,7 +81,6 @@ switch ($b_type) {
     $db_input['b_agree']        = $b_agree;
     $db_input['b_agree1']       = $b_agree1;
     $db_input['b_staff']        = $b_staff;
-    $peopleArr = $db_input;
 
     break;
 }
@@ -94,6 +93,9 @@ $serviceTable = "iu_service";
 $svcIdx = $serviceModel->insert($serviceTable, $db_input);
 
 if($b_type == 4){
+
+  $db_input['b_staff'] = str_replace('E', '', $b_staff);
+  $peopleArr           = $db_input;
   $peopleLifeReturn = peopleLifeApi($peopleArr);
   if($peopleLifeReturn->result == 0000){
     $serviceModel4 = new IUD_Model();

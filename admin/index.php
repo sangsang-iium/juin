@@ -93,7 +93,7 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
         </dl>
         <dl class="w-300">
             <dt class="box_title">
-                매출현황(당월)
+                매출현황
             </dt>
             <dd class="box_contents line_box">
                 <div class="order_line_cnt box_white">
@@ -334,11 +334,14 @@ $final    = admin_order_status_sum("WHERE dan = 5 AND user_ok = 0 {$od_and_month
         </dl>
         <div class="dashboard_graph">
             <dl>
-                <dt class="box_title">주문실적현황</dt>
+                <dt class="box_title">주문실적현황(당월)</dt>
                 <dd class="box_contents">
                     <div class="chart_box box_white">
+                      <?php if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { ?>
+                        <div id="chart" style="width:100%;"></div>
+                      <?php } else { ?>
                         <div class="">준비중입니다.</div>
-                        <!-- <div id="chart" style="width:100%;"></div> -->
+                      <?php } ?>
                     </div>
                 </dd>
             </dl>

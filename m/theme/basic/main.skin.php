@@ -11,9 +11,7 @@ $getAppData = get_session('myLocation');
 $getAppData = trim($getAppData, '\"');
 $appDataArr = explode(",", $getAppData);
 $appToken   = trim(end($appDataArr));
-if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
-  print_r2($appToken);
-}
+
 if (empty($appToken) || $appToken == 'null' || $appToken == '') {
   $appToken = '';
 }
@@ -123,7 +121,7 @@ if (!empty($appToken)) {
 <!-- } 오늘만 특가상품 -->
 
 <!-- 래플응모 { -->
-<?php $raffleList = raffleList(); 
+<?php $raffleList = raffleList();
 if(sizeof($raffleList) > 0) { ?>
 <div class="section main_raffle">
   <div class="container right cp-title">

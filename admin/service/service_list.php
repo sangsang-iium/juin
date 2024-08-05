@@ -93,10 +93,10 @@ include_once BV_PLUGIN_PATH . '/jquery-ui/datepicker.php';
 				$b_type_name = "신한신용";
 				break;
 			case '3':
-				$b_type_name = "상조";
+				$b_type_name = "노무";
 				break;
 			case '4':
-				$b_type_name = "노무";
+				$b_type_name = "상조";
 				break;
 		}
 		if ($i == 0) {

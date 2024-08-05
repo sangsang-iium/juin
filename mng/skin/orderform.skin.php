@@ -1097,10 +1097,11 @@ $row_card = sql_fetch($sql_card);
     const delvPopId = "delv-popup";
 
     $(".od-dtn__change").on("click", function () {
+      let mb_id = "<?php echo $member['id'] ?>";
       // win_open('./orderaddress.php','win_address');
 
       $.ajax({
-        url: '/m/shop/orderaddress.php',
+        url: `/m/shop/orderaddress.php?mb_id=${mb_id}`,
         success: function (data) {
           $(`#${delvPopId}`).find(".pop-content-in").html(data);
           $(".popDim").show();

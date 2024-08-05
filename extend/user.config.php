@@ -493,6 +493,23 @@ $BANKS = array(
   "07" => array("bank" => "Sh수협은행", "code" => "07", "en" => "SUHYEOP"),
 );
 
+//가상계좌은행 정보
+$VBANKS = array(
+  "39" => array("bank" => "경남은행", "code" => "39", "en" => "KYONGNAMBANK"),
+  "34" => array("bank" => "광주은행", "code" => "34", "en" => "GWANGJUBANK"),
+  "32" => array("bank" => "부산은행", "code" => "32", "en" => "BUSANBANK"),
+  "45" => array("bank" => "새마을금고", "code" => "45", "en" => "SAEMAUL"),
+  "88" => array("bank" => "신한은행", "code" => "88", "en" => "SHINHAN"),
+  "20" => array("bank" => "우리은행", "code" => "20", "en" => "WOORI"),
+  "71" => array("bank" => "우체국예금보험", "code" => "71", "en" => "POST"),
+  "81" => array("bank" => "하나은행", "code" => "81", "en" => "HANA"),
+  "03" => array("bank" => "IBK기업은행", "code" => "03", "en" => "IBK"),
+  "04" => array("bank" => "KB국민은행", "code" => "06", "en" => "KOOKMIN"),
+  "31" => array("bank" => "DGB대구은행", "code" => "31", "en" => "DAEGUBANK"),
+  "11" => array("bank" => "NH농협은행", "code" => "11", "en" => "NONGHYEOP"),
+  "07" => array("bank" => "Sh수협은행", "code" => "07", "en" => "SUHYEOP"),
+);
+
 
 
 function log_write($str) {
@@ -613,7 +630,7 @@ function mb_basename($path, $suffix = '') {
 
 
 // //fcm _20240701_SY
-function sendFCMMessage($message, $target="") {
+function sendFCMMessage($message) {
   global $default;
 
   // $serviceAccountPath = $_SERVER["DOCUMENT_ROOT"] . '/google_server_key.json';
@@ -708,7 +725,7 @@ function sendFCMMessage($message, $target="") {
   return $response_end;
 }
 
-function sendFCMMessage2($messages, $target = "") {
+function sendFCMMessage2($messages) {
   // 서비스 계정 키 경로
   $serviceAccountPath = '/home/juin/www/google_server_key.json';
 
@@ -786,7 +803,11 @@ function sendFCMMessage2($messages, $target = "") {
         'notification' => [
           'title' => $message['title'],
           'body'  => $message['body'],
+          'image' => $message['image'],
         ],
+        'data' => [
+          'link' => $message['link'],
+        ]
       ],
     ];
 

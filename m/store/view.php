@@ -60,7 +60,7 @@ $offs = str_replace(['|','요일'],[',',''],$row['ju_off']);
       <span class="subj"><?php echo $row['ju_restaurant'] ?></span>
     </a>
     <p class="address"><?php echo $row['ju_addr_full'] ?></p>
-    <a href="" class="tel"><?php echo $row['ju_tel'] ?></a>
+    <!-- <a href="" class="tel"><?php echo $row['ju_tel'] ?></a> -->
     <ul class="extra">
       <li class="hit">
         <span class="icon">
