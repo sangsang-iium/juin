@@ -18,5 +18,12 @@ $type = isset($_GET['type']) && !empty($_GET['type']) ? $_GET['type'] : '2' ;
 $form_action_url = BV_HTTPS_MBBS_URL."/find_id_result.php?type=".$type;
 include_once(BV_MTHEME_PATH.'/find_id.skin.php');
 
+// 본인인증 테스트용 _20240805_SY
+// if($_SERVER['REMOTE_ADDR'] == '106.247.231.170') { 
+//   include_once(BV_MTHEME_PATH.'/find_id.skin_forTest.php');
+// } else {
+//   include_once(BV_MTHEME_PATH.'/find_id.skin.php');
+// }
+
 include_once("./_tail.php");
 ?>

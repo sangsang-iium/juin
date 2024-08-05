@@ -223,6 +223,7 @@ $(function() {
     //     window.opener.postMessage({ message: '인증완료' }, '*');
     // });
 
+    $opener.postMessage({ message: "인증완료" }, "*");
 
     // alert("본인의 휴대폰번호로 확인 되었습니다.");
 

@@ -2531,7 +2531,7 @@ input[type=file] {
 #main_dashboard .dashboard_boxs .dashboard_boards dl.w-30per {width: 32.33%;}
 
 .mem-statics-wrap {display: flex; justify-content: space-between; height: 100%; gap: 10px; align-items: center;}
-.mem-statics-col {min-width: 350px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; width: calc((100% - 20px) / 3);}
+.mem-statics-col {min-width: 350px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; width: calc((100% - 10px) / 2);}
 .mem-statics-col:last-child {min-width: 200px;}
 .mem-statics-col .box-wrap {display: flex; justify-content: space-between; height: 100%;}
 .mem-statics-col .box-wrap.row3 {flex-direction: column;}

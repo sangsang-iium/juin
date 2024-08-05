@@ -1,6 +1,7 @@
 <?php
 if(!defined('_BLUEVATION_')) exit;
 
+
 // 주문서 query 공통
 include_once(BV_ADMIN_PATH.'/order/order_query.php');
 

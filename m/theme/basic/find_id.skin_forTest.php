@@ -1,5 +1,6 @@
 <?php
 if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
+echo $form_action_url;
 ?>
 <!-- 본인인증 추가 _20240705_SY -->
 <script src="<?php echo BV_JS_URL; ?>/jquery.register_form.js"></script>
@@ -88,7 +89,52 @@ if(!defined("_BLUEVATION_")) exit; // 개별 페이지 접근 불가
         }
         ?>
 
-        certify_win_open("<?php echo $cert_type; ?>", "<?php echo $cert_url; ?>");
+        let kcpWindow  = certify_win_open("<?php echo $cert_type; ?>", "<?php echo $cert_url; ?>");
+        console.log(kcpWindow);
+
+       // 팝업 창 감시
+       const interval = setInterval(function() {
+            if (kcpWindow && kcpWindow.closed) {
+                clearInterval(interval);
+
+                // KCP 인증 창이 닫힌 후 chk_hp 필드 값을 감시
+                const targetNode = document.querySelector('#chk_hp');
+                if (!targetNode) {
+                    console.error('chk_hp element not found.');
+                    return;
+                }
+
+                const observerOptions = {
+                    attributes: true,
+                    childList: true,
+                    subtree: true,
+                    characterData: true
+                };
+
+                const observerCallback = function(mutationsList, observer) {
+                    for(let mutation of mutationsList) {
+                        if (mutation.type === 'characterData' || mutation.type === 'attributes' || mutation.type === 'childList') {
+                            var chkHpValue = $("#chk_hp").val();
+                            if (chkHpValue !== "") {
+                                observer.disconnect(); // 값이 변경되면 더 이상 감시하지 않음
+                                const form = document.querySelector('#findIdForm');
+                                if (!form) {
+                                    console.error('findIdForm element not found.');
+                                    return;
+                                }
+                                form.action = "<?php echo $form_action_url ?>";
+                                console.log(form.action);
+                                form.submit();
+                                return;
+                            }
+                        }
+                    }
+                };
+
+                const observer = new MutationObserver(observerCallback);
+                observer.observe(targetNode, observerOptions);
+            }
+        }, 1000); // 1초마다 확인
 
         return;
       });

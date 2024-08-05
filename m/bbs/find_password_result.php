@@ -6,6 +6,12 @@ if($is_member) {
 }
 
 $token = md5(uniqid(rand(), true));
+
+set_session("ss_cert_no",   "");
+set_session("ss_cert_hash", "");
+set_session("ss_cert_type", "");
+set_session("ss_hash_token", BV_HASH_TOKEN);
+
 set_session("ss_token", $token);
 
 // 본인인증 여부 확인 _20240705_SY
@@ -20,6 +26,9 @@ if($chk_hp != $cellphone) {
 exit; 
 }
 
+
+$db_table = "shop_member";
+$login_link = BV_MBBS_URL."/login.php";
 
 // type == 1:담당직원 / 2:일반 / 3:공급사 
 switch($type) {
@@ -47,19 +56,23 @@ if($cnt_row['cnt'] > 1) {
 $find_sel = " SELECT * FROM {$db_table} WHERE id = '{$find_id}' AND cellphone = '{$cellphone}' AND `name` = '$find_name' ";
 $find_row = sql_fetch($find_sel);
 
-// 임시비밀번호 발급
-$change_password = rand(100000, 999999);
-$lost_certify = get_encrypt_string($change_password);
+// find_row 조건문 추가 _20240805_SY
+if($find_row) {
 
-// 어떠한 회원정보도 포함되지 않은 일회용 난수를 생성하여 인증에 사용
-$mb_nonce = md5(pack('V*', rand(), rand(), rand(), rand()));
+  // 임시비밀번호 발급
+  $change_password = rand(100000, 999999);
+  $lost_certify = get_encrypt_string($change_password);
 
-// 임시비밀번호와 난수를 lost_certify 필드에 저장
-$sql = " UPDATE {$db_table} set lost_certify = '$mb_nonce $lost_certify' where id = '{$find_row['id']}' ";
-sql_query($sql);
+  // 어떠한 회원정보도 포함되지 않은 일회용 난수를 생성하여 인증에 사용
+  $mb_nonce = md5(pack('V*', rand(), rand(), rand(), rand()));
 
-$form_action_url = BV_BBS_URL.'/password_lost_certify.php?type='.$type.'&mb_no='.$find_row['index_no'].'&mb_nonce='.$mb_nonce;
+  // 임시비밀번호와 난수를 lost_certify 필드에 저장
+  $sql = " UPDATE {$db_table} set lost_certify = '$mb_nonce $lost_certify' where id = '{$find_row['id']}' ";
+  sql_query($sql);
 
+  
+  $form_action_url = BV_BBS_URL.'/password_lost_certify.php?type='.$type.'&mb_no='.$find_row['index_no'].'&mb_nonce='.$mb_nonce;
+}
 
 
 $tb['title'] = '비밀번호 찾기 결과';
