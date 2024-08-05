@@ -219,6 +219,7 @@ $num = (($page - 1) * $rows)+1;
 $sql    = " select mm.*, mn.name AS mn_name, mn.id AS mn_id, mn.index_no AS mn_idx $sql_common {$sql_join} $sql_search {$sql_region} {$sql_extra} $sql_order limit $from_record, $rows ";
 $result = sql_query($sql);
 
+
 $is_intro = false;
 $colspan  = 11;
 if ($config['cert_admin_yes']) {
