@@ -14,6 +14,25 @@ set_session('myLocation', $myLocation);
 // echo "<br>";
 // print_r2($myLocation2);
 // set_session('myLocation', $myLocation);
+// $getAppData = get_session('myLocation');
+// if ($_SERVER['REMOTE_ADDR'] == '106.247.231.170') {
+//   print_r2($getAppData);
+// }
+// $getAppData = trim($getAppData, '\"');
+// $appDataArr = explode(",", $getAppData);
+// $appToken   = trim(end($appDataArr));
+// if (empty($appToken) || $appToken == 'null' || $appToken == '') {
+//   $appToken = '';
+// }
+
+// if (!empty($appToken)) {
+//   $chk_token_sel = " SELECT id AS fcm_id FROM shop_member WHERE fcm_token = '{$appToken}' ";
+//   $chk_token_row = sql_fetch($chk_token_sel);
+//   if(!empty($appToken)) {
+//     $sql = " update shop_member set login_ip = '{$_SERVER['REMOTE_ADDR']}', fcm_token = '{$appToken}' where id = '{$member['id']}' ";
+//     sql_query($sql);
+//   }
+// }
 ?>
 
 <style>
@@ -130,7 +149,7 @@ set_session('myLocation', $myLocation);
     </div>
   </div>
 
-  
+
   <div class="container intro-bottom-wrap">
     <!-- <div class="intro-bottom-btn-box">
       <a href="/" class="home-btn">

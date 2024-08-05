@@ -27,7 +27,7 @@ $row_type = sql_fetch($sql_type);
     <div class="swiper-container">
       <div class="swiper-wrapper">
         <?php
-        for($i = 2; $i <= 6; $i++) {
+        for($i = 1; $i <= 6; $i++) {
           if($gs['simg'.$i]) {
         ?>
         <div class="swiper-slide item">

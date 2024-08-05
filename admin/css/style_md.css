@@ -2520,3 +2520,38 @@ input[type=file] {
 
 
 /* E.메인페이지 작업_김민규 */
+
+/* === 2024-08-02 관리자 메인 레이아웃 수정 === */
+#main_dashboard .dashboard_boxs > dl.w-300 {min-width: 300px;}
+[class^="order_line_cnt"] .order_line_wrap {padding-left: 20px;}
+[class^="order_line_cnt"] .approval_box .order_line_money {font-size: 18px; width: 130px;}
+
+#main_dashboard .dashboard_boxs .dashboard_boards {width: 100%;}
+#main_dashboard .dashboard_boxs .dashboard_boards dl {width: 49%;}
+#main_dashboard .dashboard_boxs .dashboard_boards dl.w-30per {width: 32.33%;}
+
+.mem-statics-wrap {display: flex; justify-content: space-between; height: 100%; gap: 10px; align-items: center;}
+.mem-statics-col {min-width: 350px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; width: calc((100% - 20px) / 3);}
+.mem-statics-col:last-child {min-width: 200px;}
+.mem-statics-col .box-wrap {display: flex; justify-content: space-between; height: 100%;}
+.mem-statics-col .box-wrap.row3 {flex-direction: column;}
+.mem-statics-col .box-wrap.row6 {flex-direction: column; justify-content: space-between; border-left: 1px dashed #999; border-right: 1px dashed #999;}
+.mem-statics-col.col2 .box-wrap {height: calc((100% - 10px) / 2);}
+.mem-statics-col .box-wrap .box {width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; flex-direction: column;}
+.mem-statics-col .box-wrap.i-col-2 .box {width: calc((100% - 10px) / 2);}
+.mem-statics-col .box-wrap.row3 .box {height: calc((100% - 20px) / 3); display: flex; flex-direction: row; align-items: center;}
+.mem-statics-col .box-wrap.row6 .box {display: flex; flex-direction: row; align-items: center; justify-content: space-between;}
+.mem-statics-col .box-wrap .box .t1 {font-weight: 600; font-size: 20px; color: var(--color_5); display: inline-block; padding: 3px 5px; box-sizing: border-box; width: 120px; letter-spacing: -1px; border-radius: 50px; text-align: center; border: 2px solid #333;}
+.mem-statics-col .box-wrap .box .t2 {}
+.mem-statics-col .box-wrap .box .num {font-size: 36px; font-weight: 700; color: #000;}
+.mem-statics-col .box-wrap .box .unit {font-size: 18px; color: var(--color_8);}
+
+.mem-statics-col .box-wrap .c1 {color: #C20606!important; border-color: #C20606!important;}
+.mem-statics-col .box-wrap .c2 {color: #038A19!important; border-color: #038A19!important;}
+.mem-statics-col .box-wrap .c3 {color: #7b0086!important; border-color: #7b0086!important;}
+
+.mem-statics-col .box-wrap .t1.cb {color: var(--color_3); border: none;}
+.mem-statics-col .box-wrap.row6 .box .t1 {text-align: left; padding-left: 20px; font-size: 18px;}
+.mem-statics-col .box-wrap.row6 .box .t2 { padding-right: 20px;}
+.mem-statics-col .box-wrap.row6 .box .unit {font-size: 16px;}
+.mem-statics-col .box-wrap.row6 .box .num {font-size: 24px; color: #888;}

@@ -129,13 +129,19 @@ EOF;
 		<col class="w150">
 		<col class="w150">
 		<col class="w170">
+    <col class="w100">
+    <col class="w80">
+		<col class="w80">
+		<col class="w80">
+		<col class="w100">
 		<col class="w40">
 		<col class="w80">
 		<col>
 		<col class="w80">
+		<col class="w80">
 		<col class="w120">
-		<col class="w90">
-		<col class="w90">
+		<!-- <col class="w90">
+		<col class="w90"> -->
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
@@ -147,12 +153,18 @@ EOF;
 		<th scope="col">주문일시</th>
 		<th scope="col">반품일시</th>
 		<th scope="col">주문번호</th>
+    <th scope="col">업소명</th>
+    <th scope="col">대표자</th>
+		<th scope="col">연락처</th>
+		<th scope="col">담당지부</th>
+		<th scope="col">신청자</th>
 		<th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
 		<th scope="col" colspan="2">주문상품</th>
 		<th scope="col">과세상품</th>
+    <th scope="col">상품금액</th>
 		<th scope="col">판매자</th>
-		<th scope="col">가맹점</th>
-		<th scope="col">주문자</th>
+		<!-- <th scope="col">가맹점</th>
+		<th scope="col">주문자</th> -->
 		<th scope="col">총주문액</th>
 		<th scope="col">결제방법</th>
 		<th scope="col">반품상태</th>
@@ -172,6 +184,9 @@ EOF;
 		$rowspan = sql_num_rows($res);
 		for($k=0; $row2=sql_fetch_array($res); $k++) {
 			$gs = unserialize($row2['od_goods']);
+
+      $sqlMember = "SELECT * FROM shop_member WHERE id = '{$row['mb_id']}'";
+			$rowMember = sql_fetch($sqlMember);
 
       // 과세 _20240725_SY
       $notax = "";
@@ -196,6 +211,31 @@ EOF;
 			<a href="<?php echo BV_ADMIN_URL; ?>/pop_orderform.php?od_id=<?php echo $row['od_id']; ?>" onclick="win_open(this,'pop_orderform','1200','800','yes');return false;" class="fc_197"><?php echo $row['od_id']; ?></a>
 			<?php echo $sodr['disp_mobile']; ?>
 		</td>
+    <td rowspan="<?php echo $rowspan; ?>">
+			<?php echo $rowMember['ju_restaurant'] ?>
+		</td>
+    <td rowspan="<?php echo $rowspan; ?>">
+			<?php echo $rowMember['name'] ?>
+		</td>
+		<td rowspan="<?php echo $rowspan; ?>">
+			<?php echo $rowMember['cellphone'] ?>
+		</td>
+		<td rowspan="<?php echo $rowspan; ?>">
+			<?php
+				// 공제회, 중앙회 왜 예외?
+				$sqlJu = "SELECT * FROM kfia_office WHERE branch_code = '{$rowMember['ju_region2']}' AND office_code = '{$rowMember['ju_region3']}'";
+				$rowJu = sql_fetch($sqlJu);
+				if($rowJu['office_idx']){
+					echo $rowJu['office_name'];
+				} else {
+					echo '-';
+				}
+			?>
+		</td>
+		<td rowspan="<?php echo $rowspan; ?>">
+			<?php echo $sodr['disp_od_name']; ?>
+			<?php echo $sodr['disp_mb_id']; ?>
+		</td>
 		<td rowspan="<?php echo $rowspan; ?>">
 			<input type="hidden" name="od_id[<?php echo $i; ?>]" value="<?php echo $row['od_id']; ?>">
 			<label for="chk_<?php echo $i; ?>" class="sound_only">주문번호 <?php echo $row['od_id']; ?></label>
@@ -205,13 +245,14 @@ EOF;
 		<td class="td_img"><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 30, 30); ?></a></td>
 		<td class="td_itname"><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
 		<td><?php echo $notax; ?></td>
+    <td class="tar"><?php echo number_format($row2['goods_price']); ?></td>
 		<td><?php echo get_order_seller_name($row2['seller_id']); ?></td>
 		<?php if($k == 0) { ?>
-		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_pt_id']; ?></td>
+		<!-- <td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_pt_id']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>">
 			<?php echo $sodr['disp_od_name']; ?>
 			<?php echo $sodr['disp_mb_id']; ?>
-		</td>
+		</td> -->
 		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>">
@@ -224,7 +265,7 @@ EOF;
 	}
 	sql_free_result($result);
 	if($i==0)
-		echo '<tr><td colspan="20" class="empty_table">자료가 없습니다.</td></tr>';
+		echo '<tr><td colspan="22" class="empty_table">자료가 없습니다.</td></tr>';
 	?>
 	</tbody>
 	</table>

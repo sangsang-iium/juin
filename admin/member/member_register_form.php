@@ -168,7 +168,7 @@ if($member['grade'] >= '2') {
         <tr>
           <th scope="row"><label for="reg_mb_hp">휴대폰번호</label></th>
           <td>
-            <input type="text" name="mb_hp" id="reg_mb_hp" class="frm_input w400" size="20" maxlength="20">
+            <input type="text" name="mb_hp" id="reg_mb_hp" class="frm_input w400 required" size="20" maxlength="20" required>
             <div class="checks mart10">
               <label><input type="checkbox" name="mb_sms" value="Y" checked="checked"> 휴대폰 문자메세지를 받겠습니다.</label>
             </div>
@@ -238,11 +238,11 @@ if($member['grade'] >= '2') {
             <div class="write_address">
               <div class="file_wrap address">
                 <label for="reg_mb_zip" class="sound_only">우편번호</label>
-                <input type="text" name="mb_zip" id="reg_mb_zip" class="frm_input" size="8" maxlength="5" placeholder="우편번호">
+                <input type="text" name="mb_zip" id="reg_mb_zip" class="frm_input required" size="8" maxlength="5" placeholder="우편번호" required>
                 <button type="button" class="btn_file" onclick="win_zip('fregisterform', 'mb_zip', 'mb_addr1', 'mb_addr2', 'mb_addr3', 'mb_addr_jibeon');">주소검색</button>
               </div>
               <div class="">
-                <input type="text" name="mb_addr1" id="reg_mb_addr1" class="frm_input frm_address" size="60" placeholder="기본주소">
+                <input type="text" name="mb_addr1" id="reg_mb_addr1" class="frm_input frm_address required" size="60" placeholder="기본주소" required>
                 <label for="reg_mb_addr1" class="hide">기본주소</label>
                 <input type="text" name="mb_addr2" id="reg_mb_addr2" class="frm_input frm_address" size="60" placeholder="상세주소">
                 <label for="reg_mb_addr2" class="hide">상세주소</label>

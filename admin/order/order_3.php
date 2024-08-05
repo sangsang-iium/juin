@@ -128,18 +128,24 @@ EOF;
 	<colgroup>
 		<col class="w50">
 		<col class="w150">
-		<col class="w200">
+		<col class="w170">
+    <col class="w100">
+    <col class="w80">
+		<col class="w80">
+		<col class="w80">
+		<col class="w100">
 		<col class="w40">
 		<col class="w40">
 		<col class="w30">
 		<col class="w300">
 		<col class="w80">
+		<col class="w80">
 		<col class="w120">
 		<col>
 		<col>
+		<!-- <col class="w90">
 		<col class="w90">
-		<col class="w90">
-		<col class="w90">
+		<col class="w90"> -->
 		<col class="w90">
 	</colgroup>
 	<thead>
@@ -147,15 +153,21 @@ EOF;
 		<th scope="col">번호</th>
 		<th scope="col">주문일시</th>
 		<th scope="col">주문번호</th>
+    <th scope="col">업소명</th>
+    <th scope="col">대표자</th>
+		<th scope="col">연락처</th>
+		<th scope="col">담당지부</th>
+		<th scope="col">신청자</th>
 		<th scope="col"><input type="checkbox" id="sit_select_all"></th>
 		<th scope="col" colspan="3">주문상품</th>
 		<th scope="col">과세설정</th>
+    <th scope="col">상품금액</th>
 		<th scope="col">판매자</th>
 		<th scope="col">배송회사</th>
 		<th scope="col">운송장번호</th>
-		<th scope="col">가맹점</th>
+		<!-- <th scope="col">가맹점</th>
 		<th scope="col">주문자</th>
-		<th scope="col">수령자</th>
+		<th scope="col">수령자</th> -->
 		<th scope="col">총주문액</th>
 	</tr>
 	</thead>
@@ -173,6 +185,9 @@ EOF;
 		$rowspan = sql_num_rows($res);
 		for($k=0; $row2=sql_fetch_array($res); $k++) {
 			$gs = unserialize($row2['od_goods']);
+
+      $sqlMember = "SELECT * FROM shop_member WHERE id = '{$row['mb_id']}'";
+			$rowMember = sql_fetch($sqlMember);
 
       // 과세 _20240725_SY
       $notax = "";
@@ -197,6 +212,31 @@ EOF;
 			<?php echo $sodr['disp_mobile']; ?>
 			<?php echo $sodr['disp_baesong']; ?>
 		</td>
+    <td rowspan="<?php echo $rowspan; ?>">
+			<?php echo $rowMember['ju_restaurant'] ?>
+		</td>
+    <td rowspan="<?php echo $rowspan; ?>">
+			<?php echo $rowMember['name'] ?>
+		</td>
+		<td rowspan="<?php echo $rowspan; ?>">
+			<?php echo $rowMember['cellphone'] ?>
+		</td>
+		<td rowspan="<?php echo $rowspan; ?>">
+			<?php
+				// 공제회, 중앙회 왜 예외?
+				$sqlJu = "SELECT * FROM kfia_office WHERE branch_code = '{$rowMember['ju_region2']}' AND office_code = '{$rowMember['ju_region3']}'";
+				$rowJu = sql_fetch($sqlJu);
+				if($rowJu['office_idx']){
+					echo $rowJu['office_name'];
+				} else {
+					echo '-';
+				}
+			?>
+		</td>
+		<td rowspan="<?php echo $rowspan; ?>">
+			<?php echo $sodr['disp_od_name']; ?>
+			<?php echo $sodr['disp_mb_id']; ?>
+		</td>
 		<td rowspan="<?php echo $rowspan; ?>">
 			<input type="hidden" name="od_id[<?php echo $i; ?>]" value="<?php echo $row['od_id']; ?>">
 			<label for="sit_sel_<?php echo $i; ?>" class="sound_only">전체선택</label>
@@ -211,6 +251,7 @@ EOF;
 		<td class="td_imgline"><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 30, 30); ?></a></td>
 		<td class="td_itname"><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
 		<td><?php echo $notax ?></td>
+    <td class="tar"><?php echo number_format($row2['goods_price']); ?></td>
     <td><?php echo get_order_seller_name($row2['seller_id']); ?></td>
 		<td>
             <div class="chk_select">
@@ -221,12 +262,12 @@ EOF;
 		</td>
 		<td><input type="text" name="delivery_no[<?php echo $chk_cnt; ?>]" value="<?php echo $row2['delivery_no']; ?>" class="frm_input" placeholder="개별 운송장번호"></td>
 		<?php if($k == 0) { ?>
-		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_pt_id']; ?></td>
+		<!-- <td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_pt_id']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>">
 			<?php echo $sodr['disp_od_name']; ?>
 			<?php echo $sodr['disp_mb_id']; ?>
 		</td>
-		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row['b_name']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row['b_name']; ?></td> -->
 		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
 		<?php } ?>
 	<?php

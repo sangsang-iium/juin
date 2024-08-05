@@ -53,8 +53,15 @@ EOF;
             <div class="tel_input">
                 <div class="chk_select w200">
                     <select name="sel_field">
-                        <?php echo option_selected('od_time', $sel_field, "주문일"); ?>
-                        <?php echo option_selected('refund_date', $sel_field, "환불완료일"); ?>
+                    <?php echo option_selected('od_time', $sel_field, "주문일"); ?>
+                    <?php echo option_selected('receipt_time', $sel_field, "입금완료일"); ?>
+                    <?php echo option_selected('delivery_date', $sel_field, "배송일"); ?>
+                    <?php echo option_selected('invoice_date', $sel_field, "배송완료일"); ?>
+                    <?php echo option_selected('user_date', $sel_field, "구매확정일"); ?>
+                    <?php echo option_selected('cancel_date', $sel_field, "주문취소일"); ?>
+                    <?php echo option_selected('refund_date', $sel_field, "환불완료일"); ?>
+                    <?php echo option_selected('return_date', $sel_field, "반품완료일"); ?>
+                    <?php echo option_selected('change_date', $sel_field, "교환완료일"); ?>
                     </select>
                 </div>
 			    <?php echo get_search_date("fr_date", "to_date", $fr_date, $to_date); ?>
@@ -73,6 +80,34 @@ EOF;
                 <?php echo radio_checked('od_settle_case', $od_settle_case, '신용카드', '신용카드'); ?>
                 <?php echo radio_checked('od_settle_case', $od_settle_case, '간편결제', 'PG간편결제'); ?>
                 <?php echo radio_checked('od_settle_case', $od_settle_case, 'KAKAOPAY', 'KAKAOPAY'); ?>
+                <?php echo radio_checked('od_settle_case', $od_settle_case, '렌탈', '렌탈'); ?>
+            </div>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">주문상태</th>
+		<td>
+            <div class="radio_group">
+                <?php echo radio_checked('od_status', $od_status,  '', '전체'); ?>
+                <?php echo radio_checked('od_status', $od_status, '1', $gw_status[1]); ?>
+                <?php echo radio_checked('od_status', $od_status, '2', $gw_status[2]); ?>
+                <?php echo radio_checked('od_status', $od_status, '3', $gw_status[3]); ?>
+                <?php echo radio_checked('od_status', $od_status, '4', $gw_status[4]); ?>
+                <?php echo radio_checked('od_status', $od_status, '5', $gw_status[5]); ?>
+                <?php echo radio_checked('od_status', $od_status, '6', $gw_status[6]); ?>
+                <?php echo radio_checked('od_status', $od_status, '9', $gw_status[9]); ?>
+                <?php echo radio_checked('od_status', $od_status, '7', $gw_status[7]); ?>
+                <?php echo radio_checked('od_status', $od_status, '8', $gw_status[8]); ?>
+            </div>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row">구매확정</th>
+		<td>
+            <div class="radio_group">
+                <?php echo radio_checked('od_final', $od_final,  '', '전체'); ?>
+                <?php echo radio_checked('od_final', $od_final, '1', '구매확정'); ?>
+                <?php echo radio_checked('od_final', $od_final, '0', '구매미확정'); ?>
             </div>
 		</td>
 	</tr>
@@ -104,7 +139,7 @@ EOF;
 <div class="local_ov mart30 fs18 line_search">
     <p>전체 : <b class="fc_red"><?php echo number_format($total_count); ?></b> 건 조회</p>
     <div class="chk_select">
-        <select id="page_rows" onchange="location='<?php echo "{$_SERVER['SCRIPT_NAME']}?{$q1}&page=1"; ?>&page_rows='+this.value;">
+        <select id="page_rows" onchange="location='<?php echo "{$_SERVER['SCRIPT_NAME']}?{$q1}&page=1"; ?>&page_rows='+this.value;" class="marl5">
             <?php echo option_selected('30',  $page_rows, '30줄 정렬'); ?>
             <?php echo option_selected('50',  $page_rows, '50줄 정렬'); ?>
             <?php echo option_selected('100', $page_rows, '100줄 정렬'); ?>
@@ -127,21 +162,16 @@ EOF;
 	<colgroup>
 		<col class="w50">
 		<col class="w150">
-		<col class="w150">
 		<col class="w170">
-    <col class="w100">
-    <col class="w80">
-		<col class="w80">
-		<col class="w80">
-		<col class="w100">
 		<col class="w40">
-		<col class="w80">
+		<col class="w40">
 		<col>
+		<col class="w60">
 		<col class="w80">
 		<col class="w80">
-		<col class="w120">
-		<!-- <col class="w90">
-		<col class="w120"> -->
+		<col class="w90">
+		<col class="w90">
+		<col class="w90">
 		<col class="w90">
 		<col class="w90">
 		<col class="w90">
@@ -151,24 +181,19 @@ EOF;
 	<tr>
 		<th scope="col">번호</th>
 		<th scope="col">주문일시</th>
-		<th scope="col">환불일시</th>
 		<th scope="col">주문번호</th>
-    <th scope="col">업소명</th>
-    <th scope="col">대표자</th>
-		<th scope="col">연락처</th>
-		<th scope="col">담당지부</th>
-		<th scope="col">신청자</th>
 		<th scope="col"><input type="checkbox" name="chkall" value="1" onclick="check_all(this.form);"></th>
 		<th scope="col" colspan="2">주문상품</th>
-		<th scope="col">과세설정</th>
-    <th scope="col">상품금액</th>
+		<th scope="col">수량</th>
+		<th scope="col">상품금액</th>
+		<th scope="col">배송비</th>
+    <th scope="col">결제방법</th>
+		<th scope="col">주문상태</th>
 		<th scope="col">판매자</th>
-		<!-- <th scope="col">가맹점</th>
-		<th scope="col">주문자</th> -->
+		<th scope="col">주문자</th>
+		<th scope="col">수령자</th>
 		<th scope="col">총주문액</th>
-		<th scope="col">결제방법</th>
-		<th scope="col">환불상태</th>
-		<th scope="col">환불사유</th>
+		<th scope="col">가맹점</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -184,20 +209,11 @@ EOF;
 		$rowspan = sql_num_rows($res);
 		for($k=0; $row2=sql_fetch_array($res); $k++) {
 			$gs = unserialize($row2['od_goods']);
+			$raffleCheck = orderRaffleCheck($row2['od_id']);
+			if($raffleCheck === true) {
+				$gs['gname'] = $gs['goods_name'];
+			}
 
-      $sqlMember = "SELECT * FROM shop_member WHERE id = '{$row['mb_id']}'";
-			$rowMember = sql_fetch($sqlMember);
-
-      // 과세 _20240725_SY
-      $notax = "";
-      switch($gs['notax']) {
-        case 1:
-          $notax = "과세";
-          break;
-        case 0:
-          $notax = "비과세";
-          break;
-      }
 	?>
 	<tr class="<?php echo $bg; ?>">
 		<?php if($k == 0) { ?>
@@ -206,35 +222,9 @@ EOF;
 			<?php echo substr($row['od_time'],2,14); ?>
 			<?php echo $sodr['disp_test']; ?>
 		</td>
-		<td rowspan="<?php echo $rowspan; ?>"><?php echo substr($row['refund_date'],2,14); ?></td>
 		<td rowspan="<?php echo $rowspan; ?>">
 			<a href="<?php echo BV_ADMIN_URL; ?>/pop_orderform.php?od_id=<?php echo $row['od_id']; ?>" onclick="win_open(this,'pop_orderform','1200','800','yes');return false;" class="fc_197"><?php echo $row['od_id']; ?></a>
 			<?php echo $sodr['disp_mobile']; ?>
-		</td>
-    <td rowspan="<?php echo $rowspan; ?>">
-			<?php echo $rowMember['ju_restaurant'] ?>
-		</td>
-    <td rowspan="<?php echo $rowspan; ?>">
-			<?php echo $rowMember['name'] ?>
-		</td>
-		<td rowspan="<?php echo $rowspan; ?>">
-			<?php echo $rowMember['cellphone'] ?>
-		</td>
-		<td rowspan="<?php echo $rowspan; ?>">
-			<?php
-				// 공제회, 중앙회 왜 예외?
-				$sqlJu = "SELECT * FROM kfia_office WHERE branch_code = '{$rowMember['ju_region2']}' AND office_code = '{$rowMember['ju_region3']}'";
-				$rowJu = sql_fetch($sqlJu);
-				if($rowJu['office_idx']){
-					echo $rowJu['office_name'];
-				} else {
-					echo '-';
-				}
-			?>
-		</td>
-		<td rowspan="<?php echo $rowspan; ?>">
-			<?php echo $sodr['disp_od_name']; ?>
-			<?php echo $sodr['disp_mb_id']; ?>
 		</td>
 		<td rowspan="<?php echo $rowspan; ?>">
 			<input type="hidden" name="od_id[<?php echo $i; ?>]" value="<?php echo $row['od_id']; ?>">
@@ -242,30 +232,48 @@ EOF;
 			<input type="checkbox" name="chk[]" value="<?php echo $i; ?>" id="chk_<?php echo $i; ?>">
 		</td>
 		<?php } ?>
-		<td class="td_img"><a href="<?php echo BV_SHOP_URL; ?>/view.php?index_no=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_od_image($row['od_id'], $gs['simg1'], 30, 30); ?></a></td>
-		<td class="td_itname"><a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a></td>
-		<td><?php echo $notax; ?></td>
-    <td class="tar"><?php echo number_format($row2['goods_price']); ?></td>
-		<td><?php echo get_order_seller_name($row2['seller_id']); ?></td>
+		<td class="td_img">
+			<?php if($raffleCheck === true) {
+				echo "<a href=\"/m/raffle/view.php?index_no=".preg_replace('/000000$/', '', $row2['gs_id'])."\" target=\"_blank\">";
+				echo orderRaffleImg($gs['simg1']);
+				echo "</a>";
+			} else {
+				echo "<a href=\"".BV_SHOP_URL."/view.php?index_no=".$row2['gs_id']."\" target=\"_blank\">";
+					echo get_od_image($row['od_id'], $gs['simg1'], 30, 30);
+				echo "</a>";
+				}
+			?>
+		</td>
+		<td class="td_itname">
+			<?php if($raffleCheck === true) { ?>
+				<a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=raffle_detail&w=u&index_no=<?php echo preg_replace('/000000$/', '', $row2['gs_id']); ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a>
+			<?php } else { ?>
+				<a href="<?php echo BV_ADMIN_URL; ?>/goods.php?code=form&w=u&gs_id=<?php echo $row2['gs_id']; ?>" target="_blank"><?php echo get_text($gs['gname']); ?></a>
+			<?php } ?>
+		</td>
+		<td><?php echo number_format($row2['sum_qty']); ?></td>
+		<td class="tar"><?php echo number_format($row2['goods_price']); ?></td>
+		<td class="tar"><?php echo number_format($row2['baesong_price']); ?></td>
+    <?php if($k==0) { ?>
+    <td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
+    <?php } ?>
+		<td><?php echo $gw_status[$row2['dan']]; ?></td>
+		<td><?php echo get_order_seller_id($row2['seller_id']); ?></td>
 		<?php if($k == 0) { ?>
-		<!-- <td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_pt_id']; ?></td>
 		<td rowspan="<?php echo $rowspan; ?>">
 			<?php echo $sodr['disp_od_name']; ?>
 			<?php echo $sodr['disp_mb_id']; ?>
-		</td> -->
-		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
-		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_paytype']; ?></td>
-		<td rowspan="<?php echo $rowspan; ?>">
-			<?php echo $row['dan2']!='0'? $gw_status[$row2['dan2']]:""; ?>
 		</td>
-		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row2['return_memo'] ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $row['b_name']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>" class="td_price"><?php echo $sodr['disp_price']; ?></td>
+		<td rowspan="<?php echo $rowspan; ?>"><?php echo $sodr['disp_pt_id']; ?></td>
 		<?php } ?>
 	<?php
 		}
 	}
 	sql_free_result($result);
 	if($i==0)
-		echo '<tr><td colspan="12" class="empty_table">자료가 없습니다.</td></tr>';
+		echo '<tr><td colspan="16" class="empty_table">자료가 없습니다.</td></tr>';
 	?>
 	</tbody>
 	</table>
@@ -273,60 +281,11 @@ EOF;
 <div class="local_frm02">
 	<?php echo $btn_frmline; ?>
 </div>
-
-<!-- admin만 노출 _2040624_SY -->
-<?php if($_SESSION['ss_mb_id'] == 'admin') { ?>
-<p class="gap50"></p>
-<h5 class="htag_title">주문 일괄처리</h5>
-<p class="gap20"></p>
-<div class="tbl_frm01">
-	<table>
-	<colgroup>
-		<col width="220px">
-		<col>
-	</colgroup>
-	<tbody>
-	<tr>
-		<th scope="row">선택한 주문을</th>
-		<td>
-			<input type="button"  id="return_money"  name="act_button" value="취소완료 처리" class="btn_medium red">
-			<!-- <input type="submit" name="act_button" value="전체환불" class="btn_lsmall white" onclick="document.pressed=this.value">
-			
-			<input type="submit" name="act_button" value="전체반품" class="btn_lsmall white" onclick="document.pressed=this.value"> -->
-			
-		</td>
-	</tr>
-	</tbody>
-	</table>
-</div>
-<?php } ?>
-
 </form>
 
 <?php
 echo get_paging($config['write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$q1.'&page=');
 ?>
-
-<div class="text_box btn_type mart50">
-    <h5 class="tit">도움말</h5>
-    <ul class="cnt_list step01">
-        <li>주문상태를 변경할 수 있나요?
-            <ul class="cnt_list step02">
-                <li>환불 리스트 내 주문은 상태변경 및 원복이 불가능하며, 삭제도 하실 수 없습니다.</li>
-            </ul>
-        </li>
-    </ul>
-</div>
-
-<!-- <div class="information">
-	<h4>도움말</h4>
-	<div class="content">
-		<div class="hd">ㆍ주문상태를 변경할 수 있나요?</div>
-		<div class="desc01 accent">
-			<p>ㆍ환불 리스트 내 주문은 상태변경 및 원복이 불가능하며, 삭제도 하실 수 없습니다.</p>
-		</div>
-	 </div>
-</div> -->
 
 <script>
 $(function(){
@@ -363,42 +322,8 @@ $(function(){
 			}
 		}
 	});
-
-		// 주문서출력
-	$("#return_money").on("click", function() {
-		console.log("return_goods")
-		var type = $(this).attr("id");
-		var od_chk = new Array();
-		var od_id = "";
-		var $el_chk = $("input[name='chk[]']");
-		
-
-		$el_chk.each(function(index) {
-			if($(this).is(":checked")) {
-				od_chk.push($("input[name='od_id["+index+"]']").val());
-			}
-		});
-
-		console.log(type,od_chk,od_id);
-
-		if(od_chk.length > 0) {
-			od_id = od_chk.join();
-		}
-
-		if(od_id == "") {
-			alert("처리할 자료를 하나 이상 선택해 주십시오.");
-			return false;
-		} else {
-			if(type == 'return_money') {
-				var url = "./order/order_return_money.php?code=9&od_id="+od_id; 
-				window.location.href=url;
-				return false;
-			}  
-		}
-	});
 });
-</script>
-<script>
+
 function downloadExcel() {
 	var checkedIds = [];
 	$('input[name="chk[]"]:checked').each(function() {
@@ -406,7 +331,7 @@ function downloadExcel() {
 		var gsId = $('input[name="od_id[' + index + ']"]').val();
 		checkedIds.push(gsId);
 	});
-	
+
 	var ids = checkedIds.join(',');
 	window.location.href = './order/order_excel.php?<?php echo $q1; ?>&selected_ids=' + ids;
 }

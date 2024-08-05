@@ -60,7 +60,7 @@ $value['addr1']			  = $mb_addr1; //주소
 $value['addr2']			  = $mb_addr2; //상세주소
 $value['addr3']			  = $mb_addr3; //참고항목
 $value['addr_jibeon']	= $mb_addr_jibeon; //지번주소
-$value['today_login']	= BV_TIME_YMDHIS; //최근 로그인일시
+$value['today_login']	= "0000-00-00 00:00:00"; //최근 로그인일시
 $value['reg_time']		= BV_TIME_YMDHIS; //가입일시
 $value['mb_ip']			  = $_SERVER['REMOTE_ADDR']; //IP
 $value['grade']			  = $mb_grade; //레벨
@@ -176,7 +176,7 @@ if($mb_no && $chk_b_num == 1) {
 /* ------------------------------------------------------------------------------------- _20240725_SY
   * 중앙회회원등급 회원 가입시 5천원, 1만원 할인 쿠폰 2장 발급
   ------------------------------------------------------------------------------------- */
-  if($w == '' && $config['coupon_yes'] && $mb_grade = 8) {
+  if($w == '' && $config['coupon_yes'] && $mb_grade == 8) {
     $cp_used = false;
     $cp_sel = " SELECT * FROM shop_coupon WHERE cp_type = '5' AND cp_id < 3 ";
     $cp_res = sql_query($cp_sel);
@@ -185,13 +185,13 @@ if($mb_no && $chk_b_num == 1) {
         if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
            ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
           $cp_used = true;
-  
+
         if($cp_used)
           insert_used_coupon($mb_id, $mb_name, $cp);
       }
     }
   } else {
-  
+
     // 신규회원가입 쿠폰발급
     if($config['coupon_yes']) {
       $cp_used = false;
@@ -200,14 +200,14 @@ if($mb_no && $chk_b_num == 1) {
         if(($cp['cp_pub_sdate'] <= BV_TIME_YMD || $cp['cp_pub_sdate'] == '9999999999') &&
           ($cp['cp_pub_edate'] >= BV_TIME_YMD || $cp['cp_pub_edate'] == '9999999999'))
           $cp_used = true;
-  
+
         if($cp_used)
           insert_used_coupon($mb_id, $mb_name, $cp);
       }
     }
-  
+
   }
-  
+
 
 
 // 기본 배송지 _20240723_SY

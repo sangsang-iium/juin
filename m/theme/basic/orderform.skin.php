@@ -45,6 +45,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
     // 로그
     document.buyform.coupon_price.value = tmp_dc_amt;
     document.buyform.coupon_lo_id.value = tmp_lo_id;
+    console.log(tmp_lo_id);
     document.buyform.coupon_cp_id.value = tmp_cp_id;
 
     // 총 할인액
@@ -765,6 +766,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                 if($res['b_base'] == '1'){
                   $msg = "<span class='tag'>기본배송지</span></p>";
                   $addr1 = print_address($res['b_addr1'], $res['b_addr2'], $res['b_addr3'], $res['b_addr_jibeon']);
+                  $addr_zip = $res['zip'];
+                  $addr_data1 = $res['b_addr1'];
+                  $addr_data2 = $res['b_addr2'];
+                  $addr_data3 = $res['b_addr3'];
+                  $addr_data4 = $res['b_addr_jibeon'];
                   $cellphone = $res['b_cellphone'];
                 } else if($res['b_base'] == '0') {
                   $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
@@ -772,8 +778,18 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                   if(!empty($member['addr1'])) {
                     $addr1 = print_address($member['addr1'], $member['addr2'], $member['addr3'], '');
                     $cellphone = $member['cellphone'];
+                    $addr_zip = $member['zip'];
+                    $addr_data1 = $member['addr1'];
+                    $addr_data2 = $member['addr2'];
+                    $addr_data3 = $member['addr3'];
+                    $addr_data4 = '';
                   } else if(!empty($member['ju_addr_full'])) {
                     $addr1 = $member['ju_addr_full'];
+                    $addr_zip = "";
+                    $addr_data1 = $member['ju_addr_full'];
+                    $addr_data2 = '';
+                    $addr_data3 = '';
+                    $addr_data4 = '';
                     $cellphone = $member['cellphone'];
                   } else {
                     $msg = "<br/>변경 버튼을 눌러 기본 배송지를 설정해 주십시요";
@@ -790,11 +806,11 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
             </div>
 
             <input type="hidden" name="email" value="<?php echo $member['email']; ?>" >
-            <input type="hidden" name="zip"   value="<?php echo !empty($addr1) ? $res['b_zip'] : $member['zip']; ?>" >
-            <input type="hidden" name="addr1" value="<?php echo !empty($addr1) ? $res['b_addr1'] : $member['zip'];?>" >
-            <input type="hidden" name="addr2" value="<?php echo !empty($addr1) ? $res['b_addr2'] : $member['addr2']; ?>" >
-            <input type="hidden" name="addr3" value="<?php echo !empty($addr1) ? $res['b_addr3'] : $member['addr3']; ?>" >
-            <input type="hidden" name="addr_jibeon" value="<?php echo !empty($addr1) ? $res['b_addr_jibeon'] : $member['addr_jibeon']; ?>">
+            <input type="hidden" name="zip"   value="<?php echo $addr_zip ?>" >
+            <input type="hidden" name="addr1" value="<?php echo $addr_data1 ?>" >
+            <input type="hidden" name="addr2" value="<?php echo $addr_data2 ?>" >
+            <input type="hidden" name="addr3" value="<?php echo $addr_data3 ?>" >
+            <input type="hidden" name="addr_jibeon" value="<?php echo $addr_data4 ?>">
 
             <div class="od-dtn-btns">
               <button type="button" class="ui-btn st3 od-dtn__change">변경</button>
@@ -1124,7 +1140,7 @@ require_once(BV_SHOP_PATH . '/settle_kakaopay.inc.php');
                     <select id="bank_code" name="bank_code" class="frm-select w-per100">
                       <option value="">은행 선택</option>
                       <?php
-                        foreach($BANKS as $bkCode => $v ) { ?>
+                        foreach($VBANKS as $bkCode => $v ) { ?>
                           <option value="<?php echo $v['code'] ?>"><?php echo $v['bank'] ?></option>
                       <?php } ?>
                     </select>

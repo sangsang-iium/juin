@@ -24,8 +24,10 @@ function get_sideview($mb_id, $name)
 
 	$str2 = "<span class=\"sv\">\n";
 
+  // admin 에서만 수정 가능하도록 수정 _20240719_SY
+// if($_SESSION['ss_mb_id'] == 'admin'){
 	$str2.= "<a href=\"".BV_ADMIN_URL."/pop_memberform.php?mb_id={$mb_id}\" onclick=\"win_open(this,'win_member','1200','600','yes');return false;\">회원정보수정</a>\n";
-
+// }
 	if(is_seller($mb_id))
 		$str2.= "<a href=\"".BV_ADMIN_URL."/pop_sellerform.php?mb_id={$mb_id}\" onclick=\"win_open(this,'win_seller','1200','600','yes');return false;\">공급사정보수정</a>\n";
 

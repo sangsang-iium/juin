@@ -73,8 +73,8 @@ if(isset($_GET['mb_id'])){
         });
     }
 
-    var successUrl = window.location.origin + "/m/shop/success.php";
-    var failUrl = window.location.origin + "/m/shop/fail.php";
+    var successUrl = window.location.origin + "/mng/shop/success.php";
+    var failUrl = window.location.origin + "/mng/shop/fail.php";
 
     var jsons = {
       "card": {
@@ -97,7 +97,7 @@ $(document).ready(function(){
     if(!$(this).hasClass('default-card')) {
       if(confirm('결제 카드를 변경하시겠습니까?')) {
         $.ajax({
-          url: '/m/shop/ajax.card.php',
+          url: '/mng/shop/ajax.card.php',
           type: 'POST',
           dataType: 'json',
           data: { numberIdx: numberIdx },
@@ -127,7 +127,7 @@ function cardDel(idx, yn){
   }
   if(confirm(msg)){
     $.ajax({
-      url: '/m/shop/ajax.card.del.php',
+      url: '/mng/shop/ajax.card.del.php',
       type: 'POST',
       dataType: 'json',
       data: { idx: idx },
