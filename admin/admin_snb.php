@@ -167,13 +167,29 @@ function printMenu2($svc_class, $subject, $url, $menu_cnt='')
 	else if($pg_title == ADMIN_MENU6) {
 
     // 담당자 정보 추가 _20240619_SY
-    if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin") {
-      $mn_sql = " SELECT index_no FROM shop_manager WHERE `id` = '{$_SESSION['ss_mn_id']}' ";
-      $mn_row = sql_fetch($mn_sql);
-      $mn_where = " AND mb_id IN ( SELECT id FROM shop_member WHERE ju_manager = '{$mn_row['index_no']}' ) ";
+    // 수정 _20240806_SY
+    $mn_where = "";
+    if ($member['grade'] <= 2) {
+      // 지회/지부 인지 확인 (이거 점검 좀 해야 겠다) 
+      $branch_chk = " SELECT COUNT(*) as cnt FROM kfia_branch WHERE branch_code = '{$member['ju_region3']}' ";
+      $branch_res = sql_fetch($branch_chk);
+      if($branch_res['cnt'] > 0 ){
+        $mn_where = " AND mb_id IN (SELECT id FROM shop_member WHERE ju_region2 = '{$member['ju_region2']}' ) ";
+      } else {
+        $mn_where = " AND mb_id IN (SELECT id FROM shop_member WHERE ju_region3 = '{$member['ju_region3']}' ) ";
+      }
     } else {
+      $mn_where = " AND mb_id IN (SELECT id FROM shop_member WHERE ju_manager = '{$member['index_no']}' ) ";
+    }
+    
+    if ($member['id'] == "admin" || $member['ju_region2'] == "00400") {
       $mn_where = "";
     }
+
+    // $mn_sql = " SELECT index_no FROM shop_manager WHERE `id` = '{$_SESSION['ss_mn_id']}' ";
+    // $mn_row = sql_fetch($mn_sql);
+    // $mn_where = " AND mb_id IN ( SELECT id FROM shop_member WHERE ju_manager = '{$mn_row['index_no']}' ) ";
+    
 
 		$sodrr = admin_order_status_sum("where dan > 0 {$mn_where}"); // 총 주문내역
 		$sodr1 = admin_order_status_sum("where dan = 1 {$mn_where}"); // 총 입금대기
