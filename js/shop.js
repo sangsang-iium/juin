@@ -195,11 +195,10 @@ $(function() {
         }
         
         if(isEmpty(maxQty)) {
-          maxQty = 999999999;
+          maxQty = 9999;
         } else {
           maxQty = parseInt(maxQty)
         }
-        console.log(minQty, maxQty)
         var this_qty, max_qty = maxQty, min_qty = minQty;
 
 		switch(mode) {
@@ -262,15 +261,30 @@ $(function() {
 	$(document).on("keyup", "input[name^=ct_qty]", function() {
         var val= $(this).val();
 
+        // 최대/최소 주문 수량 _20240806_SY
+        var minQty = $(this).closest("li").find("input.io_minqty").val();
+        var maxQty = $(this).closest("li").find("input.io_maxqty").val();
+        if(isEmpty(minQty)) {
+          minQty = 1;
+        } else {
+          minQty = parseInt(minQty)
+        }
+        
+        if(isEmpty(maxQty)) {
+          maxQty = 9999;
+        } else {
+          maxQty = parseInt(maxQty)
+        }
+
         if(val != "") {
             if(val.replace(/[0-9]/g, "").length > 0) {
                 alert("수량은 숫자만 입력해 주십시오.");
-                $(this).val(1);
+                $(this).val(minQty);
             } else {
                 var d_val = parseInt(val);
-                if(d_val < 1 || d_val > 9999) {
-                    alert("수량은 1에서 9999 사이의 값으로 입력해 주십시오.");
-                    $(this).val(1);
+                if(d_val < minQty || d_val > maxQty) {
+                    alert("수량은 "+minQty+"에서 "+maxQty+" 사이의 값으로 입력해 주십시오.");
+                    $(this).val(minQty);
                 } else {
                     var stock = parseInt($(this).closest("li").find("input.io_stock").val());
                     if(d_val > stock) {
