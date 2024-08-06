@@ -257,14 +257,14 @@ $leave_res = sql_fetch($leave_sel);
                                 <div class="box">
                                     <p class="t1 cb">일반 회원</p>
                                     <p class="t2">
-                                        <span class="num"><?php echo number_format($reg_total['eight_count'])?></span>
+                                        <span class="num"><?php echo number_format($reg_total['nine_count'])?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
                                 <div class="box">
                                     <p class="t1 cb">중앙회 회원</p>
                                     <p class="t2">
-                                        <span class="num"><?php echo number_format($reg_total['nine_count'])?></span>
+                                        <span class="num"><?php echo number_format($reg_total['eight_count'])?></span>
                                         <span class="unit">명</span>
                                     </p>
                                 </div>
