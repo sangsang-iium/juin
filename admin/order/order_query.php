@@ -231,11 +231,29 @@ if ($fr_date && $to_date) {
 }
 
 // 담당자 정보 추가 _20240619_SY
-// 외식가족공제회 예외 추가 _20240731_SY
+// 수정 _20240806_SY
+$od_add = "";
 if($_SESSION['ss_mn_id'] && $_SESSION['ss_mn_id'] != "admin" && $member['ju_region2'] != "00400") {
-  $mn_sql = " SELECT index_no FROM shop_manager WHERE `id` = '{$_SESSION['ss_mn_id']}' ";
-  $mn_row = sql_fetch($mn_sql);
-  $where[] = " mb_id IN ( SELECT id FROM shop_member WHERE ju_manager = '{$mn_row['index_no']}' ) ";
+  if ($member['grade'] <= 2) {
+    // 지회/지부 인지 확인 (이거 점검 좀 해야 겠다) 
+    $branch_chk = " SELECT COUNT(*) as cnt FROM kfia_branch WHERE branch_code = '{$member['ju_region3']}' ";
+    $branch_res = sql_fetch($branch_chk);
+    if($branch_res['cnt'] > 0 ){
+      $od_add = " mb_id IN (SELECT id FROM shop_member WHERE ju_region2 = '{$member['ju_region2']}' ) ";
+    } else {
+      $od_add = " mb_id IN (SELECT id FROM shop_member WHERE ju_region3 = '{$member['ju_region3']}' ) ";
+    }
+  } else {
+    $od_add = " mb_id IN (SELECT id FROM shop_member WHERE ju_manager = '{$member['index_no']}' ) ";
+  }
+  
+  if ($member['id'] == "admin" || $member['ju_region2'] == "00400") {
+    $od_add = "";
+  }
+  $where[] = $od_add;
+  // $mn_sql = " SELECT index_no FROM shop_manager WHERE `id` = '{$_SESSION['ss_mn_id']}' ";
+  // $mn_row = sql_fetch($mn_sql);
+  // $where[] = " mb_id IN ( SELECT id FROM shop_member WHERE ju_manager = '{$mn_row['index_no']}' ) ";
 }
 
 if ($where) {
@@ -264,6 +282,9 @@ $num         = $total_count - (($page - 1) * $rows);
 
 $sql    = " select * {$sql_common} {$sql_search} {$sql_group} {$sql_order} limit {$from_record}, {$rows} ";
 $result = sql_query($sql);
+if ($_SERVER["REMOTE_ADDR"] == '106.247.231.170') {
+  print_r($sql);
+}
 
 $tot_orderprice = 0; // 총주문액
 $sql            = " select od_id {$sql_common} {$sql_search} {$sql_group} {$sql_order} ";
