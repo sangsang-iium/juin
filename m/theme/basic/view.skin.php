@@ -546,6 +546,9 @@ $row_type = sql_fetch($sql_type);
                   <input type="hidden" name="io_value[<?php echo $gs_id; ?>][]" value="<?php echo $gs['gname']; ?>">
                   <input type="hidden" class="io_price" value="0">
                   <input type="hidden" class="io_stock" value="<?php echo $gs['stock_qty']; ?>">
+                  <!-- 최대/최소 추가 _20240806_SY -->
+                  <input type="hidden" class="io_minqty" value="<?php echo $gs['odr_min']; ?>">
+                  <input type="hidden" class="io_maxqty" value="<?php echo $gs['odr_max']; ?>">
                     <ul class="opt-list">
                       <!--
                       <li class="it_name">

@@ -324,7 +324,7 @@ function get_move_pc($ca_id)
         if($row['odr_min'] > 0 ) {
           $odr_min = $row['odr_min'];
         }
-        $odr_max = 999999999;
+        $odr_max = 9999;
         if($row['odr_max'] > 0 ) {
           $odr_max = $row['odr_max'];
         }
@@ -423,7 +423,7 @@ function get_move_pc($ca_id)
   }
 
   // 인자값 min, max 추가 _20240806_SY
-  const qtyPlus = (v,min=1,max=999999999) => {
+  const qtyPlus = (v,min=1,max=9999) => {
     if(v >= max) {
       alert("최대판매수량보다 많습니다.");
       return max;
@@ -467,7 +467,7 @@ function get_move_pc($ca_id)
   }
 
   // itemMinQty/itemMaxQty 추가 _20240806_SY
-  const addItem = (itid, name, qty, stock, price, optval, optid, opt=null, itemMinQty=1, itemMaxQty=999999999) => {
+  const addItem = (itid, name, qty, stock, price, optval, optid, opt=null, itemMinQty=1, itemMaxQty=9999) => {
     const selectedItemBox = $(".sct_cart_wrap .sct_cart_ct_ul");
     let selectedItemPrice;
 
@@ -621,6 +621,22 @@ function get_move_pc($ca_id)
     const qtyPlusBtn = ".qty-btn.plus";
     const qtyInputs = ".qty-input";
 
+     // isEmpty _20240806_SY
+     const isEmpty = (input) => {
+      if(
+        typeof input === "undefined" ||
+        input === null ||
+        input === "" ||
+        input === "null" ||
+        input.length === 0 ||
+        (typeof input === "object" && !Object.keys(input).length)
+      )
+      {
+        return true;
+      } 
+      else return false; 
+    }
+
     // 수량 감소
     $(".prod_list").on('click', qtyMinusBtn, function(){
       let $tgItem = $(this).closest(".pr_item");
@@ -752,6 +768,67 @@ function get_move_pc($ca_id)
       chValue();
 
     });
+
+
+    // 수량직접입력 _20240806_SY
+    $(".prod_list").on('keyup', qtyInputs, function(){
+      var val= $(this).val();
+
+      let minQty = $(this).data('minQty');
+      let maxQty = $(this).data('maxQty');
+      
+      if(isEmpty(minQty)) {
+        minQty = 1;
+      } else {
+        minQty = parseInt(minQty)
+      }
+      
+      if(isEmpty(maxQty)) {
+        maxQty = 9999;
+      } else {
+        maxQty = parseInt(maxQty)
+      }
+      
+      console.log(minQty, maxQty)
+      if(val != "") {
+        if(val.replace(/[0-9]/g, "").length > 0) {
+          alert("수량은 숫자만 입력해 주십시오.");
+          $(this).val(minQty);
+        } else {
+          var d_val = parseInt(val);
+          if(d_val < minQty || d_val > maxQty) {
+            alert("수량은 "+minQty+"에서 "+maxQty+" 사이의 값으로 입력해 주십시오.");
+            $(this).val(minQty);
+          } else {
+            var stock = parseInt($(this).closest("li").find("input.io_stock").val());
+            if(d_val > stock) {
+                alert("재고수량 보다 많은 수량을 구매할 수 없습니다.");
+                $(this).val(stock);
+            }
+          }
+        }
+        
+        //선택된 상품이라면 가격까지 계산
+        if($(this).closest("li").hasClass("sct_add_goods")) {
+          let itemPrice = parseInt($(this).closest(".sct_add_goods").find('.gs_price').val());
+          let itemQty = parseInt($(this).closest(".sct_add_goods").find('.qty-input').val());
+          let $itemPriceEl = $(this).closest(".sct_add_goods").find('.goods_price');
+          let itemSubTotal = itemPrice * itemQty;
+
+          $itemPriceEl.text(addCommas(itemSubTotal));
+
+          let totalPrice = totalCalc('.sct_add_goods', '.goods_price');
+          let $totalEl = $(".sct_cart_wrap .sct_cart_ct_total-pri strong.price");
+
+          $totalEl.text(addCommas(totalPrice));
+        }
+
+        chValue();
+      }
+      
+    });
+
+
 
     // 담긴 상품 삭제하기
     const removeListBtn = ".sct_add_goods .remove";

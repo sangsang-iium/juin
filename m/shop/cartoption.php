@@ -104,6 +104,9 @@ if(!sql_num_rows($result))
 						<input type="hidden" name="io_value[<?php echo $gs_id;?>][]" value="<?php echo $row['ct_option'];?>">
 						<input type="hidden" class="io_price" value="<?php echo $row['io_price'];?>">
 						<input type="hidden" class="io_stock" value="<?php echo $it_stock_qty;?>">
+            <!-- 최대/최소 추가 _20240806_SY -->
+            <input type="hidden" class="io_minqty" value="<?php echo $gs['odr_min']; ?>">
+            <input type="hidden" class="io_maxqty" value="<?php echo $gs['odr_max']; ?>">
 							<ul class="opt-list">
 								<li class="it_name">
                   <span class="sit_opt_subj"><?php //echo $row['ct_option'];?></span>

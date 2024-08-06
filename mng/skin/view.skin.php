@@ -171,6 +171,7 @@ if(!defined('_BLUEVATION_')) exit;
 						<input type="hidden" name="io_value[<?php echo $index_no; ?>][]" value="<?php echo $gs['gname']; ?>">
 						<input type="hidden" class="io_price" value="0">
 						<input type="hidden" class="io_stock" value="<?php echo $gs['stock_qty']; ?>">
+            <!-- 최대/최소 추가 _20240806_SY -->
 						<input type="hidden" class="io_minqty" value="<?php echo $gs['odr_min']; ?>">
 						<input type="hidden" class="io_maxqty" value="<?php echo $gs['odr_max']; ?>">
 						<dt>
@@ -189,32 +190,6 @@ if(!defined('_BLUEVATION_')) exit;
 			<script>
 			$(function() {
 				price_calculate();
-
-        const qtyMinus = (v, m=1) => {
-          if(v <= m) {
-            alert("최소판매수량보다 작습니다.");
-            return m;
-          }
-
-          // v--;
-          v -= m;
-
-          return v;
-        }
-
-        const qtyPlus = (v, min=1, max=999999999) => {
-          if(v >= max) {
-            alert("최대판매수량보다 많습니다.");
-            return max;
-          }
-
-          // v++;
-          v += min;
-
-          return v;
-        }
-        
-
 			});
 			</script>
 			<?php } ?>

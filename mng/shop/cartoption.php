@@ -95,6 +95,9 @@ if($option_2) {
 				<input type="hidden" name="io_value[<?php echo $gs_id; ?>][]" value="<?php echo $row['ct_option']; ?>">
 				<input type="hidden" class="io_price" value="<?php echo $row['io_price']; ?>">
 				<input type="hidden" class="io_stock" value="<?php echo $it_stock_qty; ?>">
+        <!-- 최대/최소 추가 _20240806_SY -->
+        <input type="hidden" class="io_minqty" value="<?php echo $gs['odr_min']; ?>">
+        <input type="hidden" class="io_maxqty" value="<?php echo $gs['odr_max']; ?>">
 				<dt class="op_vi_tit"><span class="sit_opt_subj"><?php echo $row['ct_option']; ?></span></dt>
 				<dd class="op_vi_txt">
 					<button type="button" class="defbtn_minus">감소</button><input type="text" name="ct_qty[<?php echo $gs_id; ?>][]" value="<?php echo $row['ct_qty']; ?>" class="inp_opt" size="2"><button type="button" class="defbtn_plus">증가</button>
