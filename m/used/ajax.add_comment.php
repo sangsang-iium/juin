@@ -1,10 +1,10 @@
 <?php
 include_once "./_common.php";
 
-$edit_no = trim($_POST['edit_no']); //¼öÁ¤
-$pno = trim($_POST['pno']);
+$edit_no = trim($_POST['edit_no']); //ìˆ˜ì •
+$pno     = trim($_POST['pno']);
 $comment = trim($_POST['comment']);
-$mb_id = trim($_POST['mb_id']);
+$mb_id   = trim($_POST['mb_id']);
 
 if(is_numeric($pno)){
     $row = sql_fetch("select * from shop_used where no = '$pno'");
@@ -20,21 +20,38 @@ if($edit_no){
 } else {
     $sql = "insert into shop_used_comment set pno='$pno', mb_id='$mb_id', comment='$comment', regdate='".BV_TIME_YMDHIS."'";
 
-    // ´ñ±Û µî·Ï PUSH _20240705_SY
+    // ëŒ“ê¸€ ë“±ë¡ PUSH _20240705_SY
     $max_width    = 15;
     $text_trimmed = mb_strimwidth($row['title'], 0, $max_width, '...', 'utf-8');
 
-    $token_sel = " SELECT fcm_token FROM shop_member WHERE id = '{$row['mb_id']}' ";
+    $token_sel = " SELECT index_no, fcm_token FROM shop_member WHERE id = '{$row['mb_id']}' ";
     $token_row = sql_fetch($token_sel);
     $fcm_token = $token_row['fcm_token'];
     
     $message = [
-        'token' => $fcm_token, // ¼ö½ÅÀÚÀÇ µð¹ÙÀÌ½º ÅäÅ«
-        'title' => 'Áß°íÀåÅÍ ´ñ±Û',
-        'body' => "\"$text_trimmed\" Áß°íÀåÅÍ °Ô½Ã±Û¿¡ ´ñ±ÛÀÌ µî·ÏµÇ¾ú½À´Ï´Ù."
+      'token' => $fcm_token, // ìˆ˜ì‹ ìžì˜ ë””ë°”ì´ìŠ¤ í† í°
+      'title' => 'ì¤‘ê³ ìž¥í„° ëŒ“ê¸€',
+      'body' => "\"$text_trimmed\" ì¤‘ê³ ìž¥í„° ê²Œì‹œê¸€ì— ëŒ“ê¸€ì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤."
     ];
-    
-    $response = sendFCMMessage($message);
+
+    if(!empty($fcm_token)) {
+      $response = sendFCMMessage($message);
+    } else {
+      $response = "í† í° ì—†ìŒ";
+    }
+
+    // logInsert _20240806_SY
+    $log_table = "iu_push_log";
+    $log_ins['p_mb_id'] = $fcm_token['index_no'];
+    $log_ins['p_type'] = "ì¤‘ê³ ìž¥í„°";
+    $log_ins['p_title'] = $message['title'];
+    $log_ins['p_contents'] = $message['body'];
+    $log_ins['p_response'] = $response;
+    $log_ins['wdate'] = date('Y-m-d H:i:s');
+
+    $LOG = new IUD_Model;
+    $LOG->insert($log_table, $log_ins);
+
 }
 sql_query($sql);
 echo 'Y';

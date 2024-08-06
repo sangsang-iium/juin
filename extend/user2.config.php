@@ -735,7 +735,7 @@ function reg_statistics($add) {
             WHERE grade >= 6
               {$add}
          GROUP BY ju_region3 
-         ORDER BY ju_region3; ";
+         ORDER BY ju_region3 ";
   $res = sql_query($sql);
 
   $data['total_count']     = 0;
