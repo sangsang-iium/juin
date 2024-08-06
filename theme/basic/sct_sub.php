@@ -17,6 +17,7 @@
       $arrKeyQty  = array_keys($myCart['ct_qty']);
 
       // HTML 뷰 생성
+      // io_minqty/io_maxqty 추가 _20240806_SY
       $htmlView .= '<li id="sct_add_goods' . $myCart['gs_id'][$i] . '" class="sct_add_goods" data-goods-id="' . $myCart['gs_id'][$i] . '">';
       $htmlView .= '    <input type="hidden" name="gs_id[]" value="' . $myCart['gs_id'][$i] . '">';
       $htmlView .= '    <input type="hidden" name="gs_price[]" class="gs_price" value="' . $myCart['gs_price'][$i] . '">';
@@ -26,6 +27,8 @@
       $htmlView .= '    <input type="hidden" name="io_value[' . $arrKeyVal[$i] . '][]" value="' . $myCart['io_value'][$arrKeyVal[$i]][0] . '">';
       $htmlView .= '    <input type="hidden" name="io_price[]" class="io_price" value="' . $myCart['io_price'][$i] . '">';
       $htmlView .= '    <input type="hidden" name="io_stock[]" class="io_stock" value="' . $myCart['io_stock'][$i] . '">';
+      $htmlView .= '    <input type="hidden" name="io_minqty[]" class="io_minqty" value="' . $myCart['io_minqty'][$i] . '">';
+      $htmlView .= '    <input type="hidden" name="io_maxqty[]" class="io_maxqty" value="' . $myCart['io_maxqty'][$i] . '">';
       $htmlView .= '    <div class="info">';
       $htmlView .= '       <p class="subject">' . $myCart['gs_name'][$arrKeyName[$i]][0] . '</p>';
       if(!empty($myCart['io_id'][$arrKeyId[$i]][0] )){
@@ -37,7 +40,7 @@
       $htmlView .= '    <div class="lot">';
       $htmlView .= '        <div class="it_li_add">';
       $htmlView .= '            <button type="button" class="qty-btn minus"></button>';
-      $htmlView .= '            <input type="text" name="ct_qty[' . $arrKeyQty[$i] . '][]" value="' . $myCart['ct_qty'][$arrKeyQty[$i]][0] . '" class="qty-input">';
+      $htmlView .= '            <input type="text" name="ct_qty[' . $arrKeyQty[$i] . '][]" id="min_qty" data-min-qty="'.$myCart['io_minqty'][$i].'" data-max-qty="'.$myCart['io_maxqty'][$i].'"  value="' . $myCart['ct_qty'][$arrKeyQty[$i]][0] . '" class="qty-input">';
       $htmlView .= '            <button type="button" class="qty-btn plus"></button>';
       $htmlView .= '        </div>';
       $htmlView .= '        <p class="goods_price">' . number_format($myCart['gs_price'][$i]*$myCart['ct_qty'][$arrKeyQty[$i]][0]) . '</p>';
@@ -80,7 +83,7 @@
       </div>
     </div>
     <div class="sct_cart_bottom">
-      <button type="button" class="sct_cart_bottom-button sct_cart-order" onclick="fbuyform_submit('buy');">바로 주문하기</button>
+      <!-- <button type="button" class="sct_cart_bottom-button sct_cart-order" onclick="fbuyform_submit('buy');">바로 주문하기</button> -->
       <button type="button" class="sct_cart_bottom-button sct_cart-add" onclick="fbuyform_submit('cart');">장바구니 담기</button>
       <?php // echo get_buy_button($script_msg, $index_no); ?>
     </div>

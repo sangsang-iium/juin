@@ -319,12 +319,24 @@ function get_move_pc($ca_id)
           $row['stock_qty'] = 999999999;
         }
 
+        // 최대/최소 주문수량 체크 _20240806_SY
+        $odr_min = 1;
+        if($row['odr_min'] > 0 ) {
+          $odr_min = $row['odr_min'];
+        }
+        $odr_max = 999999999;
+        if($row['odr_max'] > 0 ) {
+          $odr_max = $row['odr_max'];
+        }
+
         // 필수 옵션
         $option_item = get_item_options2($row['index_no'], $row['opt_subject']);
       ?>
         <li id="pr_item<?php echo $row['index_no'];?>" class="pr_item">
           <input type="hidden" name="pr_id" value="<?php echo $row['index_no'];?>">
           <input type="hidden" class="io_stock" value="<?php echo $row['stock_qty']; ?>">
+          <input type="hidden" name="io_minqty" class="io_minqty" value="<?php echo $odr_min ?>">
+          <input type="hidden" name="io_maxqty" class="io_maxqty" value="<?php echo $odr_max ?>">
 
           <a href="<?php echo $it_href;?>" class="it_li_top">
             <dl>
@@ -362,7 +374,7 @@ function get_move_pc($ca_id)
 
           <div class="it_li_add">
             <button type="button" class="qty-btn minus"></button>
-            <input type="text" name="" id="" value="1" class="qty-input">
+            <input type="text" name="" id="min_qty" data-min-qty="<?php echo $odr_min ?>" data-max-qty="<?php echo $odr_max ?>" value="<?php echo $odr_min ?>" class="qty-input">
             <button type="button" class="qty-btn plus"></button>
             <button type="button" class="add-list-btn"></button>
           </div>
@@ -397,24 +409,28 @@ function get_move_pc($ca_id)
     return result;
   }
 
-  const qtyMinus = (v) => {
-    if(v <= 1) {
+  // 인자값 m 추가 _20240806_SY
+  const qtyMinus = (v,m=1) => {
+    if(v <= m) {
       alert("최소판매수량보다 작습니다.");
-      return 1;
+      return m;
     }
 
-    v--;
+    // v--;
+    v -= m;
 
     return v;
   }
 
-  const qtyPlus = (v) => {
-    // if(v <= 1) {
-    //   alert("최대판매수량보다 많습니다.");
-    //   return false;
-    // }
+  // 인자값 min, max 추가 _20240806_SY
+  const qtyPlus = (v,min=1,max=999999999) => {
+    if(v >= max) {
+      alert("최대판매수량보다 많습니다.");
+      return max;
+    }
 
-    v++;
+    // v++;
+    v += min;
 
     return v;
   }
@@ -450,7 +466,8 @@ function get_move_pc($ca_id)
     }
   }
 
-  const addItem = (itid, name, qty, stock, price, optval, optid, opt=null) => {
+  // itemMinQty/itemMaxQty 추가 _20240806_SY
+  const addItem = (itid, name, qty, stock, price, optval, optid, opt=null, itemMinQty=1, itemMaxQty=999999999) => {
     const selectedItemBox = $(".sct_cart_wrap .sct_cart_ct_ul");
     let selectedItemPrice;
 
@@ -472,6 +489,8 @@ function get_move_pc($ca_id)
           <input type="hidden" name="io_value[${itid}][]" value="${name}">
           <input type="hidden" name="io_price[]" class="io_price" value="0">
           <input type="hidden" name="io_stoce[]" class="io_stock" value="${stock}">
+          <input type="hidden" name="io_minqty[]" class="io_minqty" value="${itemMinQty}">
+          <input type="hidden" name="io_maxqty[]" class="io_maxqty" value="${itemMaxQty}">
 
           <div class="info">
             <p class="subject">${name}</p>
@@ -479,7 +498,7 @@ function get_move_pc($ca_id)
           <div class="lot">
             <div class="it_li_add">
               <button type="button" class="qty-btn minus"></button>
-              <input type="text" name="ct_qty[${itid}][]" id="" value="${qty}" class="qty-input">
+              <input type="text" name="ct_qty[${itid}][]" id="min_qty" data-min-qty="${itemMinQty}" data-max-qty="${itemMaxQty}" value="${qty}" class="qty-input">
               <button type="button" class="qty-btn plus"></button>
             </div>
             <p class="goods_price">${addCommas(selectedItemPrice)}</p>
@@ -504,6 +523,8 @@ function get_move_pc($ca_id)
           <input type="hidden" name="io_value[${itid}][]" value="${optval}" class="gs_optInfo">
           <input type="hidden" name="io_price[]" class="io_price" value="${opt.io_price}">
           <input type="hidden" name="io_stock[]" class="io_stock" value="${opt.io_stock}">
+          <input type="hidden" name="io_minqty[]" class="io_minqty" value="${itemMinQty}">
+          <input type="hidden" name="io_maxqty[]" class="io_maxqty" value="${itemMaxQty}">
 
           <div class="info">
             <p class="subject">${name}</p>
@@ -514,7 +535,7 @@ function get_move_pc($ca_id)
           <div class="lot">
             <div class="it_li_add">
               <button type="button" class="qty-btn minus"></button>
-              <input type="text" name="ct_qty[${itid}][]" id="" value="${qty}" class="qty-input">
+              <input type="text" name="ct_qty[${itid}][]" id="min_qty" data-min-qty="${itemMinQty}" data-max-qty="${itemMaxQty}" value="${qty}" class="qty-input">
               <button type="button" class="qty-btn plus"></button>
             </div>
             <p class="goods_price">${addCommas(selectedItemPrice)}</p>
@@ -568,6 +589,8 @@ function get_move_pc($ca_id)
             <input type="hidden" name="io_value[${itid}][]" value="${optval}" class="gs_optInfo">
             <input type="hidden" name-"io_price[]" class="io_price" value="${opt.io_price}">
             <input type="hidden" name="io_stock[]" class="io_stock" value="${opt.io_stock}">
+            <input type="hidden" name="io_minqty[]" class="io_minqty" value="${itemMinQty}">
+            <input type="hidden" name="io_maxqty[]" class="io_maxqty" value="${itemMaxQty}">
 
             <div class="info">
               <p class="subject">${name}</p>
@@ -578,7 +601,7 @@ function get_move_pc($ca_id)
             <div class="lot">
               <div class="it_li_add">
                 <button type="button" class="qty-btn minus"></button>
-                <input type="text" name="ct_qty[${itid}][]" id="" value="${qty}" class="qty-input">
+                <input type="text" name="ct_qty[${itid}][]" id="min_qty" data-min-qty="${itemMinQty}" data-max-qty="${itemMaxQty}" value="${qty}" class="qty-input">
                 <button type="button" class="qty-btn plus"></button>
               </div>
               <p class="goods_price">${addCommas(selectedItemPrice)}</p>
@@ -622,6 +645,9 @@ function get_move_pc($ca_id)
 
       let qtyInput = $(this).siblings(".qty-input");
       let curQty = qtyInput.val();
+      
+      // 기본 최소 수량 값 _20240806_SY
+      let minQty = qtyInput.data('minQty');
 
       // 담긴 상품의 재고량 체크
       if($sctItem) {
@@ -634,7 +660,7 @@ function get_move_pc($ca_id)
         }
       }
 
-      let chgQty = qtyMinus(curQty);
+      let chgQty = qtyMinus(curQty, minQty);
 
       qtyInput.val(chgQty);
 
@@ -683,6 +709,10 @@ function get_move_pc($ca_id)
       let curQty = qtyInput.val();
       let stock = 0;
 
+      // 기본 최소/최대 수량 값 _20240806_SY
+      let minQty = qtyInput.data('minQty');
+      let maxQty = qtyInput.data('maxQty');
+
       // 담긴 상품의 재고량 체크
       if($sctItem.length > 0) {
         stock = parseInt($sctItem.find('.io_stock').val());
@@ -698,7 +728,9 @@ function get_move_pc($ca_id)
         return false;
       }
 
-      let chgQty = qtyPlus(curQty);
+      // 최소 주문 수량 만큼 더하기 _20240806_SY
+      // let chgQty = qtyPlus(curQty, minQty);
+      let chgQty  = qtyPlus(parseInt(curQty), parseInt(minQty), parseInt(maxQty));
 
       qtyInput.val(chgQty);
 
@@ -765,6 +797,9 @@ function get_move_pc($ca_id)
       let itemOpt = "";
       let itemValue = "";
       let optId = "";
+      // 최대/최소 주문 수량 추가 _20240806_SY
+      let itemMinQty = $tgItem.find('#min_qty').data('minQty');
+      let itemMaxQty = $tgItem.find('#min_qty').data('maxQty');
 
       let price, stock, amt = 0;
 
@@ -847,7 +882,7 @@ function get_move_pc($ca_id)
       }
 
       emptyEl.hide();
-      addItem(itemId, itemName, itemQty, itemStock, itemPrice, itemValue, optId, itemOpt);
+      addItem(itemId, itemName, itemQty, itemStock, itemPrice, itemValue, optId, itemOpt, itemMinQty, itemMaxQty);
 
       // 총 가격
       let totalPrice = totalCalc('.sct_add_goods', '.goods_price');
