@@ -28,7 +28,9 @@ if(!defined('_BLUEVATION_')) exit;
 
                 $thumbnails = get_it_image_url($index_no, $it_image, $default['de_item_medium_wpx'], $default['de_item_medium_hpx']);
             ?>
-            <div><img src="<?php echo $thumbnails; ?>" onmouseover="document.all['big'].src='<?php echo $thumbnails; ?>'"></div>
+            <!-- all['big'] 에러 나서 일단 이거 주석 함 _20240806_SY
+            <div><img src="<?php echo $thumbnails; ?>" onmouseover="document.all['big'].src='<?php echo $thumbnails; ?>'"></div> -->
+            <div><img src="<?php echo $thumbnails; ?>"></div>
             <?php } ?>
 		</div>
 	</div>
@@ -169,6 +171,8 @@ if(!defined('_BLUEVATION_')) exit;
 						<input type="hidden" name="io_value[<?php echo $index_no; ?>][]" value="<?php echo $gs['gname']; ?>">
 						<input type="hidden" class="io_price" value="0">
 						<input type="hidden" class="io_stock" value="<?php echo $gs['stock_qty']; ?>">
+						<input type="hidden" class="io_minqty" value="<?php echo $gs['odr_min']; ?>">
+						<input type="hidden" class="io_maxqty" value="<?php echo $gs['odr_max']; ?>">
 						<dt>
 							<span class="sit_opt_subj">수량</span>
 							<span class="sit_opt_prc"></span>
@@ -185,6 +189,32 @@ if(!defined('_BLUEVATION_')) exit;
 			<script>
 			$(function() {
 				price_calculate();
+
+        const qtyMinus = (v, m=1) => {
+          if(v <= m) {
+            alert("최소판매수량보다 작습니다.");
+            return m;
+          }
+
+          // v--;
+          v -= m;
+
+          return v;
+        }
+
+        const qtyPlus = (v, min=1, max=999999999) => {
+          if(v >= max) {
+            alert("최대판매수량보다 많습니다.");
+            return max;
+          }
+
+          // v++;
+          v += min;
+
+          return v;
+        }
+        
+
 			});
 			</script>
 			<?php } ?>
@@ -197,7 +227,9 @@ if(!defined('_BLUEVATION_')) exit;
 		<?php } ?>
 		<?php if(!$is_pr_msg) { ?>
 		<div class="vi_btn">
-			<?php echo get_buy_button($script_msg, $index_no); ?>
+			<span><a href="javascript:fbuyform_submit('cart');" class="btn_large grey">장바구니</a></span>
+			<a href="javascript:item_wish(document.fbuyform);" class="btn_large bx-white">찜하기</a>
+			<?php //echo get_buy_button($script_msg, $index_no); ?>
 		</div>
 		<?php if($naverpay_button_js) { ?>
 		<div class="naverpay-item"><?php echo $naverpay_request_js.$naverpay_button_js; ?></div>
